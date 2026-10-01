@@ -1,0 +1,100 @@
+import { useAhora } from "./datos/useAhora.js";
+import { useDatosLol } from "./datos/useDatosLol.js";
+import { isoAMs } from "./logica/formato.js";
+import { useAmigosAbiertos } from "./rutas/useAmigosAbiertos.js";
+import { Encabezado } from "./componentes/Encabezado.jsx";
+import { Cargando, EstadoError, EstadoVacio } from "./componentes/Estados.jsx";
+import { FilaAmigo } from "./componentes/FilaAmigo.jsx";
+import { Ranking } from "./componentes/Ranking.jsx";
+import { SeccionEnPartida } from "./componentes/SeccionEnPartida.jsx";
+
+export default function App({ fetchFn }) {
+  const { datos, cargando, error, actualizar } = useDatosLol(fetchFn);
+  const ahora = useAhora();
+  const { abiertos, alternar, abrir, enfocar } = useAmigosAbiertos();
+
+  return (
+    <div className="flex min-h-screen flex-col">
+      <a
+        href="#contenido"
+        onClick={(e) => {
+          e.preventDefault();
+          document.getElementById("contenido")?.focus();
+        }}
+        className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-10 focus:rounded focus:bg-superficie focus:px-3 focus:py-2"
+      >
+        Saltar al contenido
+      </a>
+      <Encabezado actualizado={datos?.actualizado} ahora={ahora} cargando={cargando} onActualizar={actualizar} />
+
+      <main id="contenido" tabIndex={-1} className="mx-auto w-full max-w-6xl flex-1 space-y-6 px-4 py-5 focus:outline-none">
+        {error && (
+          <EstadoError
+            titulo={datos ? "No se pudo actualizar. Se muestran los datos anteriores." : "No se pudieron leer los datos."}
+            accion={
+              !datos && (
+                <button
+                  type="button"
+                  onClick={actualizar}
+                  className="rounded-md border border-sapo/60 px-3 py-1.5 font-semibold text-sapo"
+                >
+                  Reintentar
+                </button>
+              )
+            }
+          >
+            {error} Revisa que el script de datos haya generado datos/lol.json y presiona Actualizar.
+          </EstadoError>
+        )}
+
+        {!datos && cargando && <Cargando />}
+
+        {datos && (
+          <>
+            <SeccionEnPartida
+              enVivo={datos.en_vivo}
+              ddragon={datos.ddragon}
+              actualizadoMs={isoAMs(datos.actualizado)}
+              ahora={ahora}
+            />
+
+            <div className="grid gap-6 lg:grid-cols-[18rem_minmax(0,1fr)] lg:items-start">
+              <Ranking ranking={datos.ranking} amigos={datos.amigos} onElegir={abrir} />
+
+              <section aria-labelledby="titulo-amigos" className="min-w-0 space-y-3">
+                <h2 id="titulo-amigos" className="font-titulo text-lg font-bold">
+                  Amigos
+                </h2>
+                {datos.amigos.length === 0 ? (
+                  <EstadoVacio>
+                    No hay amigos configurados. Agrégalos en el archivo de configuración y ejecuta el script de datos.
+                  </EstadoVacio>
+                ) : (
+                  <ul className="space-y-3">
+                    {datos.amigos.map((amigo) => (
+                      <FilaAmigo
+                        key={amigo.slug}
+                        amigo={amigo}
+                        ddragon={datos.ddragon}
+                        ahora={ahora}
+                        abierto={abiertos.has(amigo.slug)}
+                        onAlternar={alternar}
+                        enfocar={enfocar?.slug === amigo.slug ? enfocar : null}
+                      />
+                    ))}
+                  </ul>
+                )}
+              </section>
+            </div>
+          </>
+        )}
+      </main>
+
+      <footer className="border-t border-borde px-4 py-4 text-center text-xs text-texto-suave">
+        LOLSapo no está respaldado por Riot Games y no refleja las opiniones de Riot Games ni de nadie
+        involucrado oficialmente en la producción o gestión de League of Legends. League of Legends y Riot Games
+        son marcas registradas de Riot Games, Inc.
+      </footer>
+    </div>
+  );
+}
