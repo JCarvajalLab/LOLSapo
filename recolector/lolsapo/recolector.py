@@ -70,8 +70,11 @@ def procesar_amigo(
     dir_registro: Path,
     cantidad: int,
     ahora_ms: int,
-) -> dict:
-    """Actualiza el registro de un amigo y devuelve su entrada para lol.json.
+) -> tuple[dict, str | None, dict | None]:
+    """Actualiza el registro de un amigo.
+
+    Devuelve (entrada para lol.json, PUUID, partida activa). La entrada aún trae los PUUID de
+    los participantes: `ejecutar` los reemplaza antes de publicar.
 
     Si algo falla con este amigo, se marca con estado "error" y se muestran sus últimos datos
     conocidos, sin romper al resto. Solo un error de autenticación detiene toda la ejecución.
@@ -82,7 +85,8 @@ def procesar_amigo(
     except ValueError as error:
         # Registro dañado: no se toca (para no perder historial) y se marca solo a este amigo.
         log.error("%s: %s", amigo.riot_id, error)
-        return _entrada(amigo, mapa, registro_vacio(amigo.riot_id, ahora_ms), None, MENSAJE_ERROR)
+        vacio = registro_vacio(amigo.riot_id, ahora_ms)
+        return _entrada(amigo, mapa, vacio, None, MENSAJE_ERROR), None, None
     mensaje_error, jugando = None, None
 
     try:
@@ -108,7 +112,8 @@ def procesar_amigo(
         log.error("%s: %s (%s)", amigo.riot_id, error, type(error).__name__)
 
     escribir_json_atomico(ruta_registro, registro)
-    return _entrada(amigo, mapa, registro, jugando, mensaje_error)
+    entrada = _entrada(amigo, mapa, registro, jugando, mensaje_error)
+    return entrada, registro.get("puuid"), jugando
 
 
 def _entrada(
@@ -117,7 +122,15 @@ def _entrada(
     """Arma la entrada de un amigo para lol.json a partir de su registro."""
     if jugando is not None:
         modo = mapa.obtener(jugando["queue_id"])
-        jugando = {**jugando, "modo": modo.nombre, "categoria": modo.categoria}
+        jugando = {
+            "partida_id": jugando["id"],
+            "campeon_id": jugando["campeon_id"],
+            "queue_id": jugando["queue_id"],
+            "inicio": jugando["inicio"],
+            "duracion": jugando["duracion"],
+            "modo": modo.nombre,
+            "categoria": modo.categoria,
+        }
 
     partidas = []
     for partida in ultimas_partidas(registro, PARTIDAS_VISIBLES):
@@ -140,6 +153,67 @@ def _entrada(
     }
 
 
+def _publicar_participantes(participantes: list[dict], slug_por_puuid: dict) -> list[dict]:
+    """Quita los PUUID y marca con el slug a los jugadores que son del grupo."""
+    return [
+        {
+            "campeon_id": p["campeon_id"],
+            "equipo": p["equipo"],
+            "nombre": p["nombre"],
+            "amigo": slug_por_puuid.get(p["puuid"]) if p["puuid"] else None,
+        }
+        for p in participantes
+    ]
+
+
+def _partidas_en_vivo(activas: list[dict], mapa: MapaModos, slug_por_puuid: dict) -> list[dict]:
+    """Una entrada por partida en curso, aunque haya varios amigos en ella."""
+    por_id: dict[int, dict] = {}
+    for activa in activas:
+        if activa["id"] in por_id:
+            continue
+        modo = mapa.obtener(activa["queue_id"])
+        jugadores = _publicar_participantes(activa["participantes"], slug_por_puuid)
+        equipos = sorted({j["equipo"] for j in jugadores})
+        por_id[activa["id"]] = {
+            "id": activa["id"],
+            "queue_id": activa["queue_id"],
+            "modo": modo.nombre,
+            "categoria": modo.categoria,
+            "inicio": activa["inicio"],
+            "duracion": activa["duracion"],
+            "amigos": sorted({j["amigo"] for j in jugadores if j["amigo"]}),
+            "equipos": [
+                {"equipo": e, "jugadores": [j for j in jugadores if j["equipo"] == e]}
+                for e in equipos
+            ],
+        }
+    return list(por_id.values())
+
+
+def _elementos_usados(entradas: list[dict], en_vivo: list[dict]) -> dict[str, set[int]]:
+    usados: dict[str, set[int]] = {
+        "campeones": set(),
+        "hechizos": set(),
+        "items": set(),
+        "runas": set(),
+    }
+    for entrada in entradas:
+        if entrada["jugando"] and entrada["jugando"]["campeon_id"] is not None:
+            usados["campeones"].add(entrada["jugando"]["campeon_id"])
+        for partida in entrada["partidas"]:
+            usados["campeones"].add(partida["campeon_id"])
+            usados["campeones"].update(p["campeon_id"] for p in partida.get("participantes", []))
+            usados["hechizos"].update(h for h in partida.get("hechizos", []) if h)
+            usados["items"].update(i for i in partida.get("items", []) if i)
+            runas = partida.get("runas") or {}
+            usados["runas"].update(r for r in runas.values() if r)
+    for partida in en_vivo:
+        for equipo in partida["equipos"]:
+            usados["campeones"].update(j["campeon_id"] for j in equipo["jugadores"])
+    return usados
+
+
 def ejecutar(
     cliente: ClienteRiot,
     api_key: str,
@@ -155,17 +229,27 @@ def ejecutar(
     ahora_ms = int(ahora.timestamp() * 1000)
     inicio = time.monotonic()
 
-    entradas = [
+    resultados = [
         procesar_amigo(cliente, amigo, mapa, Path(dir_datos) / "registro", cantidad, ahora_ms)
         for amigo in amigos
     ]
-    campeones_usados = {p["campeon_id"] for a in entradas for p in a["partidas"]} | {
-        a["jugando"]["campeon_id"] for a in entradas if a["jugando"]
-    }
+    slug_por_puuid = {puuid: entrada["slug"] for entrada, puuid, _ in resultados if puuid}
+    entradas = [entrada for entrada, _, _ in resultados]
+    for entrada in entradas:
+        for partida in entrada["partidas"]:
+            if "participantes" in partida:
+                partida["participantes"] = _publicar_participantes(
+                    partida["participantes"], slug_por_puuid
+                )
+    en_vivo = _partidas_en_vivo(
+        [activa for _, _, activa in resultados if activa], mapa, slug_por_puuid
+    )
+
     salida = {
         "version": VERSION_SALIDA,
         "actualizado": ahora.isoformat(timespec="seconds").replace("+00:00", "Z"),
-        "ddragon": datos_ddragon.para_salida(ddragon, campeones_usados),
+        "ddragon": datos_ddragon.para_salida(ddragon, _elementos_usados(entradas, en_vivo)),
+        "en_vivo": en_vivo,
         "amigos": entradas,
         "ranking": calcular_ranking(entradas),
     }

@@ -86,16 +86,18 @@ def test_genera_lol_json_completo(cliente, mapa, tmp_path):
 
 
 @responses.activate
-def test_incluye_data_dragon_solo_con_los_campeones_usados(cliente, mapa, tmp_path):
+def test_incluye_data_dragon_solo_con_lo_usado(cliente, mapa, tmp_path):
     simular_amigo("Johnadis", P_JOHN, ["LA2_1"], jugando=partida_activa(P_JOHN, 450, 62))
-    simular_partida("LA2_1", P_JOHN)  # Ahri (103)
+    simular_partida("LA2_1", P_JOHN)
     ddragon = {
         "version": "16.19.1",
-        "campeones": {
-            "62": {"id": "MonkeyKing", "nombre": "Wukong"},
-            "103": {"id": "Ahri", "nombre": "Ahri"},
-            "1": {"id": "Annie", "nombre": "Annie"},
+        "campeones": {str(i): {"id": f"C{i}", "nombre": f"C{i}"} for i in (1, 2, 62, 86, 103)},
+        "hechizos": {
+            "4": {"id": "SummonerFlash", "nombre": "Destello"},
+            "3": {"id": "X", "nombre": "X"},
         },
+        "items": {"3031": {"nombre": "Filo"}, "1001": {"nombre": "Botas"}},
+        "runas": {"8112": {"nombre": "Electrocutar", "icono": "perk-images/a.png"}},
     }
     salida = ejecutar(
         cliente,
@@ -108,7 +110,53 @@ def test_incluye_data_dragon_solo_con_los_campeones_usados(cliente, mapa, tmp_pa
         ddragon=ddragon,
     )
     assert salida["ddragon"]["version"] == "16.19.1"
-    assert set(salida["ddragon"]["campeones"]) == {"62", "103"}
+    assert set(salida["ddragon"]["campeones"]) == {"1", "62", "86", "103"}  # sin el 2
+    assert set(salida["ddragon"]["hechizos"]) == {"4"}
+    assert set(salida["ddragon"]["items"]) == {"3031"}
+    assert set(salida["ddragon"]["runas"]) == {"8112"}
+
+
+@responses.activate
+def test_dos_amigos_en_la_misma_partida_en_vivo(cliente, mapa, tmp_path):
+    en_vivo = partida_activa(P_JOHN, 450, 103, id_partida=99, companeros=(P_GATO,))
+    simular_amigo("Johnadis", P_JOHN, [], jugando=en_vivo)
+    simular_amigo("Big Gato", P_GATO, [], jugando=en_vivo)
+
+    salida = ejecutar(
+        cliente, KEY_FALSA, [JOHN, GATO], mapa, tmp_path, tmp_path / "lol.json", ahora=AHORA
+    )
+
+    assert len(salida["en_vivo"]) == 1  # una sola partida, aunque haya dos amigos
+    partida_vivo = salida["en_vivo"][0]
+    assert partida_vivo["id"] == 99
+    assert partida_vivo["modo"] == "ARAM"
+    assert partida_vivo["amigos"] == ["big-gato-las", "johnadis-las"]
+    azul, rojo = partida_vivo["equipos"]
+    assert azul["equipo"] == 100
+    assert [j["amigo"] for j in azul["jugadores"]] == ["johnadis-las", "big-gato-las"]
+    assert rojo["jugadores"][1] == {"campeon_id": 1, "equipo": 200, "nombre": None, "amigo": None}
+    assert [a["jugando"]["partida_id"] for a in salida["amigos"]] == [99, 99]
+
+
+@responses.activate
+def test_partidas_marcan_a_los_amigos_y_no_publican_puuid(cliente, mapa, tmp_path):
+    simular_amigo("Johnadis", P_JOHN, ["LA2_1"])
+    simular_amigo("Big Gato", P_GATO, [])
+    simular_partida("LA2_1", P_JOHN, companeros=(P_GATO,))
+
+    salida = ejecutar(
+        cliente, KEY_FALSA, [JOHN, GATO], mapa, tmp_path, tmp_path / "lol.json", ahora=AHORA
+    )
+
+    participantes = salida["amigos"][0]["partidas"][0]["participantes"]
+    assert [p["amigo"] for p in participantes] == ["johnadis-las", None, "big-gato-las", None, None]
+    assert all("puuid" not in p for p in participantes)
+    texto = (tmp_path / "lol.json").read_text(encoding="utf-8")
+    for puuid in (P_JOHN, P_GATO, "aliado".ljust(78, "a"), "rival1".ljust(78, "r")):
+        assert puuid not in texto
+    # El registro local sí guarda los PUUID (para reconocer amigos en ejecuciones futuras).
+    registro = (tmp_path / "registro" / "johnadis-las.json").read_text(encoding="utf-8")
+    assert P_GATO in registro
 
 
 @responses.activate
