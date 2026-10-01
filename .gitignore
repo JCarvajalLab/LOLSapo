@@ -30,9 +30,9 @@ coverage/
 .vite/
 
 # --- Datos locales generados por el script (registro acumulado y JSON) ---
-datos/
-data/
-frontend/public/datos/
+/datos/
+/data/
+/frontend/public/datos/
 
 # --- Editor y sistema ---
 .vscode/*
