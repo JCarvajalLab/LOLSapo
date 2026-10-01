@@ -2,7 +2,7 @@
 
 Web estilo op.gg para un grupo cerrado de amigos del servidor **LAS**. Muestra quién está jugando ahora, rango, victorias y derrotas en todos los modos de juego y las últimas 10 partidas de cada uno. Primero League of Legends; Teamfight Tactics después.
 
-> 🚧 Proyecto en desarrollo (fase 0: preparación). Por ahora funciona solo en local.
+> 🚧 Proyecto en desarrollo (fase 2: datos de LoL). Por ahora funciona solo en local.
 
 El detalle completo del proyecto está en [docs/REQUERIMIENTOS.md](docs/REQUERIMIENTOS.md).
 
@@ -35,7 +35,8 @@ cp .env.example .env   # luego pega tu RIOT_API_KEY dentro de .env
 ```powershell
 py -3.14 -m venv .venv
 .venv\Scripts\Activate.ps1
-pip install -r requirements-dev.txt
+pip install --require-hashes -r recolector/requirements-dev.txt
+pip install --no-deps --no-build-isolation -e recolector
 pre-commit install
 ```
 
@@ -47,15 +48,53 @@ pre-commit run --all-files
 
 ## Correr el proyecto
 
-Se completará en las fases 2 (script de datos) y 3 (frontend).
+### Recolector de datos
+
+Con el entorno virtual activado y la key en `.env`:
+
+```powershell
+python -m lolsapo
+```
+
+Consulta la API de Riot y genera `frontend/public/datos/lol.json`. Por cada amigo revisa las últimas 20 partidas (`--cantidad N` para cambiarlo, máximo 100) y descarga solo las que aún no están guardadas. La primera ejecución tarda unos minutos por los límites de la dev key; las siguientes, segundos.
+
+El registro acumulado de partidas queda en `datos/registro/` (ignorado por git). Las estadísticas de victorias y derrotas por modo se calculan a partir de ese registro, así que cuentan desde que LOLSapo empezó a seguir a cada amigo.
+
+Códigos de salida: `0` bien · `1` configuración inválida o falta la key · `2` Riot rechazó la key (la dev key caduca cada 24 h) · `3` la key apareció en la salida (no se escribe nada).
+
+### Tests y chequeos del recolector
+
+```powershell
+cd recolector
+python -m pytest            # tests (nunca llaman a la API real)
+ruff check . ; ruff format --check .
+bandit -c pyproject.toml -r lolsapo
+pip-audit --strict --require-hashes -r requirements-dev.txt
+```
+
+### Frontend
+
+Se completará en la fase 3.
 
 ## Agregar o quitar un amigo
 
-Se completará en la fase 2, cuando exista el archivo de configuración de amigos.
+Edita [config/amigos.json](config/amigos.json) y agrega o quita su Riot ID con el formato `nombre#tag`:
+
+```json
+{ "amigos": ["Johnadis#LAS", "Nuevo Amigo#LAS"] }
+```
+
+En la siguiente ejecución del recolector aparece el amigo nuevo (con sus últimas partidas como carga inicial). Al quitar a alguien, su registro queda en `datos/registro/` por si vuelve.
+
+## Modos de juego
+
+[config/modos.json](config/modos.json) traduce el `queueId` de Riot a un nombre en español y una categoría (`ranked`, `normal`, `aram`, `otros`). Si Riot saca un modo nuevo, aparece como "Modo especial" hasta que se agregue a ese archivo.
 
 ## Estructura del repositorio
 
 ```text
+config/      Lista de amigos y mapa de modos de juego
+recolector/  Script de Python que consulta a Riot (paquete lolsapo) y sus tests
 docs/        Documentación y requerimientos
 .github/     Workflows de CI y configuración de Dependabot
 .claude/     Configuración y subagentes de Claude Code

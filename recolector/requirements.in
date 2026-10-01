@@ -1,0 +1,4 @@
+# Dependencias del recolector de datos. Compilar con:
+#   pip-compile --generate-hashes --allow-unsafe requirements.in
+requests
+python-dotenv

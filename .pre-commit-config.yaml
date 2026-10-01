@@ -21,3 +21,18 @@ repos:
         args: [--markdown-linebreak-ext=md]
       - id: mixed-line-ending
         args: [--fix=lf]
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: f12be1ebaa5351c1fc76472de98db2c3446c8253 # frozen: v0.16.10
+    hooks:
+      - id: ruff-check
+      - id: ruff-format
+
+  # Caracteres invisibles o bidireccionales ("Trojan Source") en cualquier archivo de texto.
+  - repo: local
+    hooks:
+      - id: sin-caracteres-invisibles
+        name: sin caracteres invisibles
+        language: pygrep
+        entry: '\xe2\x80[\x8b-\x8f\xaa-\xae]|\xe2\x81[\xa0-\xa4\xa6-\xa9]|\xef\xbb\xbf|\xd8\x9c|\xe1\xa0\x8e'
+        types: [text]
