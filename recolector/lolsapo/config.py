@@ -1,8 +1,10 @@
 """Configuración del recolector: rutas, lista de amigos y API key."""
 
+import hashlib
 import json
 import os
 import re
+import unicodedata
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -17,9 +19,9 @@ RUTA_SALIDA = RAIZ / "frontend" / "public" / "datos" / "lol.json"
 
 MAX_AMIGOS = 10
 
-# Riot ID = nombre (3 a 16 caracteres, sin '#' ni caracteres de control) + '#' + tag (3 a 5
-# letras o números). Ej: "Big Gato#LAS".
-_PATRON_RIOT_ID = re.compile(r"^(?P<nombre>[^#\x00-\x1f\x7f]{3,16})#(?P<tag>[^\W_]{3,5})$")
+# Riot ID = nombre (3 a 16 caracteres, sin '#') + '#' + tag (3 a 5 letras o números).
+# Ej: "Big Gato#LAS". Los caracteres invisibles se rechazan aparte (ver tiene_invisibles).
+_PATRON_RIOT_ID = re.compile(r"^(?P<nombre>[^#]{3,16})#(?P<tag>[^\W_]{3,5})$")
 _PATRON_API_KEY = re.compile(r"^RGAPI-[0-9a-fA-F-]{36}$")
 
 
@@ -38,13 +40,29 @@ class Amigo:
 
     @property
     def slug(self) -> str:
-        """Identificador seguro para nombres de archivo y URLs (ej. 'big-gato-las')."""
-        return re.sub(r"\W+", "-", self.riot_id.casefold()).strip("-")
+        """Identificador ASCII seguro para nombres de archivo y URLs (ej. 'big-gato-las')."""
+        return f"{_ascii(self.nombre)}-{_ascii(self.tag)}"
+
+
+def _ascii(texto: str) -> str:
+    """'Nicø' -> 'nic', 'Big Gato' -> 'big-gato'. Si no queda nada ASCII, usa un hash corto."""
+    base = unicodedata.normalize("NFKD", texto).encode("ascii", "ignore").decode().casefold()
+    limpio = re.sub(r"[^a-z0-9]+", "-", base).strip("-")
+    if limpio:
+        return limpio
+    return "j" + hashlib.sha256(texto.encode()).hexdigest()[:8]
+
+
+def tiene_invisibles(texto: str) -> bool:
+    """Caracteres de control (Cc) o de formato invisibles (Cf), como los bidireccionales."""
+    return any(unicodedata.category(c) in ("Cc", "Cf") for c in texto)
 
 
 def parsear_riot_id(texto: str) -> Amigo:
     if not isinstance(texto, str):
         raise ErrorConfiguracion(f"Riot ID inválido (no es texto): {texto!r}")
+    if tiene_invisibles(texto):
+        raise ErrorConfiguracion(f"Riot ID con caracteres invisibles: {texto!r}")
     coincidencia = _PATRON_RIOT_ID.match(texto.strip())
     if not coincidencia or not coincidencia["nombre"].strip():
         raise ErrorConfiguracion(f"Riot ID inválido, se espera 'nombre#tag': {texto!r}")

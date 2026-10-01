@@ -46,10 +46,25 @@ def test_parsear_riot_id_invalido(texto):
         parsear_riot_id(texto)
 
 
-def test_slug_es_seguro_para_archivos():
+def test_slug_es_ascii_y_seguro_para_archivos():
     assert Amigo("Big Gato", "LAS").slug == "big-gato-las"
-    assert Amigo("Nicø", "LAS").slug == "nicø-las"
-    assert "/" not in Amigo("a/../b", "LAS").slug
+    assert Amigo("Nicø", "LAS").slug == "nic-las"
+    assert Amigo("José", "LAS").slug == "jose-las"
+    assert Amigo("a/../b", "LAS").slug == "a-b-las"
+    assert Amigo("Ñandú", "LAS").slug.isascii()
+
+
+def test_slug_sin_letras_ascii_usa_un_hash_estable():
+    slug = Amigo("ㅎㅎㅎ", "KR1").slug
+    assert slug.isascii() and slug.endswith("-kr1") and len(slug) > 5
+    assert slug == Amigo("ㅎㅎㅎ", "KR1").slug
+    assert slug != Amigo("ㄱㄱㄱ", "KR1").slug
+
+
+@pytest.mark.parametrize("invisible", [0x200B, 0x202E, 0x2066, 0xFEFF, 0x061C, 0x0007])
+def test_riot_id_con_caracteres_invisibles_se_rechaza(invisible):
+    with pytest.raises(ErrorConfiguracion, match="invisibles"):
+        parsear_riot_id("John" + chr(invisible) + "adis#LAS")
 
 
 def test_cargar_amigos_del_repo():
