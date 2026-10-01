@@ -1,0 +1,11 @@
+# Configuración de gitleaks: reglas por defecto + regla para keys de Riot.
+title = "LOLSapo"
+
+[extend]
+useDefault = true
+
+[[rules]]
+id = "riot-api-key"
+description = "API key de Riot Games"
+regex = '''RGAPI-[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}\b'''
+keywords = ["rgapi-"]

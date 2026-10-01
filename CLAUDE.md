@@ -81,3 +81,9 @@ Web tipo op.gg privada para un grupo de 5 a 6 amigos del servidor LAS. Muestra q
 ## Comandos útiles
 
 Completar esta sección a medida que se creen (instalar dependencias, correr el script, levantar el frontend, correr tests).
+
+- Entorno Python (3.14; el `python` del sistema es 3.11, no usarlo): `py -3.14 -m venv .venv` y luego `.venv\Scripts\pip install -r requirements-dev.txt`
+- Activar hooks de git: `.venv\Scripts\pre-commit install`
+- Correr todos los chequeos (gitleaks + formato): `.venv\Scripts\pre-commit run --all-files`
+- GitHub CLI: `gh` (si la terminal no lo encuentra: `"C:\Program Files\GitHub CLI\gh.exe"`)
+- CI: `.github/workflows/ci.yml` (gitleaks sobre todo el historial + pre-commit). Ver ejecuciones: `gh run list` / `gh run watch`

@@ -173,6 +173,16 @@ Aunque sea un proyecto personal, el repo es público y maneja una API key. El ob
 - **En cada push / pull request (GitHub Actions):** tests de Python y frontend, Bandit, pip-audit, npm audit y CodeQL.
 - **Regla:** si algo falla, no se hace merge a `main`.
 
+### 7.4 Ajuste mientras el repo sea privado (decisión del 2026-10-01)
+
+El repo se mantiene **privado** por ahora. En el plan gratuito eso significa:
+
+- No hay *secret scanning* ni *push protection* de GitHub, ni CodeQL. La defensa contra filtraciones es gitleaks en pre-commit (local) más gitleaks sobre todo el historial en CI.
+- No se puede exigir por configuración que el CI pase antes del merge a `main`. La regla RNF-10 se cumple a mano: revisar `gh pr checks` antes de cada merge.
+- Sí están activados Dependabot (alertas, actualizaciones de seguridad y versiones).
+
+Al hacer público el repo (a más tardar en la fase 5, por GitHub Pages) hay que activar secret scanning, push protection, CodeQL y la protección de rama de `main` con el CI como requisito.
+
 ## 8. Entorno de desarrollo (qué instalar)
 
 ### 8.1 Programas base
@@ -285,7 +295,7 @@ Los tests y chequeos de seguridad no son una fase aparte: cada fase desde la 2 e
 
 ## 14. Organización del repositorio
 
-- Repo **público** desde el inicio (necesario para GitHub Pages gratis y para CodeQL y secret scanning gratuitos).
+- Repo **público** (necesario para GitHub Pages gratis y para CodeQL y secret scanning gratuitos). Por ahora es privado; ver sección 7.4.
 - Rama `main` siempre funcional; una rama por fase (`feat/fase-1-datos-lol`).
 - Conventional Commits (`feat:`, `fix:`, `docs:`, `chore:`, `ci:`).
 - Carpetas separadas para script de datos, frontend, workflows y documentación.

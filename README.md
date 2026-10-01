@@ -30,6 +30,21 @@ cp .env.example .env   # luego pega tu RIOT_API_KEY dentro de .env
 
 `.env` está ignorado por git. Nunca subas la key al repositorio.
 
+### Entorno de desarrollo y chequeos de seguridad
+
+```powershell
+py -3.14 -m venv .venv
+.venv\Scripts\Activate.ps1
+pip install -r requirements-dev.txt
+pre-commit install
+```
+
+Desde ahí, cada `git commit` corre automáticamente [gitleaks](https://github.com/gitleaks/gitleaks), que bloquea el commit si detecta una key o un secreto, junto con algunos chequeos de formato. Para correrlos a mano sobre todo el repo:
+
+```powershell
+pre-commit run --all-files
+```
+
 ## Correr el proyecto
 
 Se completará en las fases 2 (script de datos) y 3 (frontend).
@@ -42,6 +57,7 @@ Se completará en la fase 2, cuando exista el archivo de configuración de amigo
 
 ```text
 docs/        Documentación y requerimientos
+.github/     Workflows de CI y configuración de Dependabot
 .claude/     Configuración y subagentes de Claude Code
 ```
 
