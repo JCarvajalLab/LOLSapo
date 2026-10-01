@@ -1,0 +1,17 @@
+# Dependabot revisa cada semana si hay versiones nuevas o con vulnerabilidades.
+# pip del script de datos se agrega en la fase 2 y npm del frontend en la fase 3.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: ci
+
+  - package-ecosystem: pip
+    directory: /
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: chore
