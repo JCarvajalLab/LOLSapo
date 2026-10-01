@@ -1,0 +1,32 @@
+{
+  "_info": "Mapa queueId de Riot -> nombre en español y categoría (ranked, normal, aram, otros). Fuente: https://static.developer.riotgames.com/docs/lol/queues.json. Un queueId que no esté aquí se muestra como 'Modo especial' en la categoría 'otros'.",
+  "modos": {
+    "0": { "nombre": "Personalizada", "categoria": "otros" },
+    "400": { "nombre": "Normal (Reclutamiento)", "categoria": "normal" },
+    "420": { "nombre": "Clasificatoria Solo/Dúo", "categoria": "ranked" },
+    "430": { "nombre": "Normal (A ciegas)", "categoria": "normal" },
+    "440": { "nombre": "Clasificatoria Flexible", "categoria": "ranked" },
+    "450": { "nombre": "ARAM", "categoria": "aram" },
+    "480": { "nombre": "Partida veloz", "categoria": "normal" },
+    "490": { "nombre": "Normal (Partida rápida)", "categoria": "normal" },
+    "700": { "nombre": "Clash", "categoria": "otros" },
+    "720": { "nombre": "Clash ARAM", "categoria": "aram" },
+    "870": { "nombre": "Coop vs IA (Intro)", "categoria": "otros" },
+    "880": { "nombre": "Coop vs IA (Principiante)", "categoria": "otros" },
+    "890": { "nombre": "Coop vs IA (Intermedio)", "categoria": "otros" },
+    "900": { "nombre": "URF (ARURF)", "categoria": "otros" },
+    "920": { "nombre": "Rey Poro", "categoria": "otros" },
+    "1020": { "nombre": "Uno para todos", "categoria": "otros" },
+    "1300": { "nombre": "Nexus Blitz", "categoria": "otros" },
+    "1400": { "nombre": "Hechizos Definitivos", "categoria": "otros" },
+    "1700": { "nombre": "Arena", "categoria": "otros" },
+    "1710": { "nombre": "Arena (16 jugadores)", "categoria": "otros" },
+    "1810": { "nombre": "Enjambre", "categoria": "otros" },
+    "1820": { "nombre": "Enjambre", "categoria": "otros" },
+    "1830": { "nombre": "Enjambre", "categoria": "otros" },
+    "1840": { "nombre": "Enjambre", "categoria": "otros" },
+    "1900": { "nombre": "URF", "categoria": "otros" },
+    "2300": { "nombre": "Brawl", "categoria": "otros" },
+    "2400": { "nombre": "ARAM Caos", "categoria": "aram" }
+  }
+}
