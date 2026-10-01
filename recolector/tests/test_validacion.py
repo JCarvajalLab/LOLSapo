@@ -5,6 +5,7 @@ from lolsapo.validacion import (
     DatoInvalido,
     resumir_partida,
     validar_cuenta,
+    validar_ids_partidas,
     validar_invocador,
     validar_ligas,
     validar_partida_activa,
@@ -70,6 +71,47 @@ def test_partida_invalida(romper):
     romper(datos)
     with pytest.raises(DatoInvalido):
         resumir_partida(datos, PUUID)
+
+
+def test_partida_distinta_a_la_pedida_se_rechaza():
+    with pytest.raises(DatoInvalido, match="se pidió"):
+        resumir_partida(partida("LA2_2", PUUID), PUUID, id_esperado="LA2_1")
+    assert resumir_partida(partida("LA2_1", PUUID), PUUID, id_esperado="LA2_1")["id"] == "LA2_1"
+
+
+def test_ids_de_partidas_validos():
+    assert validar_ids_partidas(["LA2_1", "LA1_99", "NA1_5"]) == ["LA2_1", "LA1_99", "NA1_5"]
+    assert validar_ids_partidas([]) == []
+
+
+@pytest.mark.parametrize(
+    "ids",
+    [
+        None,
+        "LA2_1",
+        [123],
+        ["LA2_1\n"],  # salto de línea al final (inyección en logs)
+        ["LA2_1/../x"],
+        ["la2_1"],
+        ["LA2_" + chr(0x0663)],  # dígito árabe: \d lo aceptaría
+    ],
+)
+def test_ids_de_partidas_invalidos(ids):
+    with pytest.raises(DatoInvalido):
+        validar_ids_partidas(ids)
+
+
+def test_ligas_con_queue_type_de_tipo_raro_se_ignora():
+    entrada = liga()
+    entrada["queueType"] = ["RANKED_SOLO_5x5"]
+    assert validar_ligas([entrada]) == {"solo": None, "flex": None}
+
+
+@pytest.mark.parametrize("invisible", [0x200B, 0x202E, 0x2066, 0xFEFF, 0x061C, 0x2060, 0x180E])
+def test_textos_sin_caracteres_invisibles(invisible):
+    datos = cuenta("Johnadis")
+    datos["gameName"] = "John" + chr(invisible) + "adis"
+    assert validar_cuenta(datos)["nombre"] == "Johnadis"
 
 
 def test_cuenta_limpia_caracteres_de_control():

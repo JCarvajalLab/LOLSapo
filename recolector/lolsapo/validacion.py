@@ -5,6 +5,7 @@ caracteres de control y se recortan; React se encarga de escaparlos al mostrarlo
 """
 
 import re
+import unicodedata
 
 TIERS = (
     "IRON",
@@ -21,10 +22,9 @@ TIERS = (
 DIVISIONES = ("IV", "III", "II", "I")
 COLAS_RANKED = {"RANKED_SOLO_5x5": "solo", "RANKED_FLEX_SR": "flex"}
 
-_PATRON_PUUID = re.compile(r"^[A-Za-z0-9_-]{20,100}$")
-_PATRON_ID_PARTIDA = re.compile(r"^[A-Z0-9]{2,6}_\d{1,20}$")
-_PATRON_CAMPEON = re.compile(r"^[A-Za-z0-9]{1,30}$")
-_CONTROL = re.compile(r"[\x00-\x1f\x7f-\x9f\u200b-\u200f\u2028-\u202e\u2066-\u2069]")
+_PATRON_PUUID = re.compile(r"[A-Za-z0-9_-]{20,100}")
+_PATRON_ID_PARTIDA = re.compile(r"[A-Z0-9]{2,6}_[0-9]{1,20}")
+_PATRON_CAMPEON = re.compile(r"[A-Za-z0-9]{1,30}")
 
 
 class DatoInvalido(ValueError):
@@ -46,14 +46,16 @@ def _entero(valor, campo: str, minimo: int = 0) -> int:
 def _texto(valor, campo: str, max_largo: int) -> str:
     if not isinstance(valor, str):
         raise DatoInvalido(f"'{campo}' debería ser texto")
-    limpio = _CONTROL.sub("", valor).strip()[:max_largo]
+    # Quita caracteres de control (Cc) y de formato invisibles (Cf), como los bidi.
+    sin_invisibles = "".join(c for c in valor if unicodedata.category(c) not in ("Cc", "Cf"))
+    limpio = sin_invisibles.strip()[:max_largo]
     if not limpio:
         raise DatoInvalido(f"'{campo}' está vacío")
     return limpio
 
 
 def _puuid(valor) -> str:
-    if not isinstance(valor, str) or not _PATRON_PUUID.match(valor):
+    if not isinstance(valor, str) or not _PATRON_PUUID.fullmatch(valor):
         raise DatoInvalido("PUUID con formato inesperado")
     return valor
 
@@ -84,7 +86,8 @@ def validar_ligas(datos) -> dict:
     rangos = {"solo": None, "flex": None}
     for entrada in datos:
         entrada = _dict(entrada, "liga")
-        clave = COLAS_RANKED.get(entrada.get("queueType"))
+        cola = entrada.get("queueType")
+        clave = COLAS_RANKED.get(cola) if isinstance(cola, str) else None
         if clave is None:
             continue
         tier = entrada.get("tier")
@@ -106,15 +109,27 @@ def validar_ligas(datos) -> dict:
     return rangos
 
 
-def resumir_partida(datos, puuid: str) -> dict:
+def validar_ids_partidas(datos) -> list[str]:
+    """match-v5 ids -> lista de ids con formato válido (ej. "LA2_1604993040")."""
+    if not isinstance(datos, list):
+        raise DatoInvalido("'ids de partidas' debería ser una lista")
+    for id_partida in datos:
+        if not isinstance(id_partida, str) or not _PATRON_ID_PARTIDA.fullmatch(id_partida):
+            raise DatoInvalido(f"id de partida con formato inesperado: {id_partida!r}")
+    return datos
+
+
+def resumir_partida(datos, puuid: str, id_esperado: str | None = None) -> dict:
     """match-v5 -> resumen mínimo de la partida desde el punto de vista de `puuid`."""
     datos = _dict(datos, "partida")
     metadata = _dict(datos.get("metadata"), "metadata")
     info = _dict(datos.get("info"), "info")
 
     id_partida = metadata.get("matchId")
-    if not isinstance(id_partida, str) or not _PATRON_ID_PARTIDA.match(id_partida):
+    if not isinstance(id_partida, str) or not _PATRON_ID_PARTIDA.fullmatch(id_partida):
         raise DatoInvalido(f"matchId con formato inesperado: {id_partida!r}")
+    if id_esperado is not None and id_partida != id_esperado:
+        raise DatoInvalido(f"se pidió {id_esperado} y llegó {id_partida}")
 
     participantes = info.get("participants")
     if not isinstance(participantes, list):
@@ -134,7 +149,7 @@ def resumir_partida(datos, puuid: str) -> dict:
         fecha = _entero(info.get("gameStartTimestamp"), "gameStartTimestamp") + duracion * 1000
 
     campeon = jugador.get("championName")
-    if not isinstance(campeon, str) or not _PATRON_CAMPEON.match(campeon):
+    if not isinstance(campeon, str) or not _PATRON_CAMPEON.fullmatch(campeon):
         raise DatoInvalido(f"championName con formato inesperado: {campeon!r}")
 
     if jugador.get("gameEndedInEarlySurrender") is True:
