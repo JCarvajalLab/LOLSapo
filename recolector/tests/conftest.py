@@ -53,37 +53,82 @@ def partida(
     fin: int = 1_790_000_000_000,
     duracion: int = 1800,
     kda=(5, 2, 7),
+    companeros: tuple[str, ...] = (),
 ) -> dict:
-    jugador = {
-        "puuid": puuid,
-        "championName": campeon,
-        "championId": 103,
-        "kills": kda[0],
-        "deaths": kda[1],
-        "assists": kda[2],
-        "win": win,
-        "gameEndedInEarlySurrender": remake,
-    }
-    otro = {**jugador, "puuid": "otro".ljust(78, "y"), "win": not win}
+    """Partida de 4 jugadores: el jugador y un aliado (equipo 100) contra 2 rivales (200).
+
+    `companeros` agrega más PUUID al equipo del jugador (para probar amigos en la misma partida).
+    """
+
+    def participante(puuid_p, equipo, campeon_id, nombre, kills, gano):
+        return {
+            "puuid": puuid_p,
+            "teamId": equipo,
+            "championName": campeon if puuid_p == puuid else "Garen",
+            "championId": campeon_id,
+            "riotIdGameName": nombre,
+            "riotIdTagline": "LAS",
+            "kills": kills,
+            "deaths": kda[1],
+            "assists": kda[2],
+            "win": gano,
+            "gameEndedInEarlySurrender": remake,
+            "champLevel": 16,
+            "totalMinionsKilled": 150,
+            "neutralMinionsKilled": 27,
+            **{f"item{i}": item for i, item in enumerate([3031, 3006, 0, 0, 0, 0, 3340])},
+            "summoner1Id": 4,
+            "summoner2Id": 14,
+            "perks": {
+                "statPerks": {},
+                "styles": [
+                    {"style": 8100, "selections": [{"perk": 8112}], "description": "primaryStyle"},
+                    {"style": 8000, "selections": [], "description": "subStyle"},
+                ],
+            },
+        }
+
+    participantes = [
+        participante(puuid, 100, 103, "Yo", kda[0], win),
+        participante("aliado".ljust(78, "a"), 100, 86, "Aliado", 10, win),
+        *[participante(c, 100, 86, "Amigo", 0, win) for c in companeros],
+        participante("rival1".ljust(78, "r"), 200, 62, "Rival1", 4, not win),
+        participante("rival2".ljust(78, "r"), 200, 1, "Rival2", 3, not win),
+    ]
     return {
-        "metadata": {"matchId": id_partida, "participants": [puuid, otro["puuid"]]},
+        "metadata": {"matchId": id_partida, "participants": [p["puuid"] for p in participantes]},
         "info": {
             "queueId": queue_id,
             "gameDuration": duracion,
             "gameStartTimestamp": fin - duracion * 1000,
             "gameEndTimestamp": fin,
-            "participants": [otro, jugador],
+            "participants": participantes,
         },
     }
 
 
-def partida_activa(puuid: str, queue_id: int = 450, campeon_id: int = 103) -> dict:
+def partida_activa(
+    puuid: str,
+    queue_id: int = 450,
+    campeon_id: int = 103,
+    *,
+    id_partida: int = 1,
+    companeros: tuple[str, ...] = (),
+) -> dict:
+    """Partida en curso: el jugador, sus `companeros` y rivales (uno en modo streamer)."""
+    participantes = [
+        {"puuid": puuid, "championId": campeon_id, "teamId": 100, "riotId": "Yo#LAS"},
+        *[{"puuid": c, "championId": 86, "teamId": 100, "riotId": "Amigo#LAS"} for c in companeros],
+        {"puuid": "rival1".ljust(78, "r"), "championId": 62, "teamId": 200, "riotId": "Rival#LAS"},
+        # Modo streamer: sin PUUID ni nombre, solo el campeón.
+        {"championId": 1, "teamId": 200, "bot": False},
+    ]
     return {
-        "gameId": 1,
+        "gameId": id_partida,
         "gameQueueConfigId": queue_id,
         "gameStartTime": 1_790_000_000_000,
         "gameLength": 300,
-        "participants": [{"puuid": puuid, "championId": campeon_id}],
+        "participants": participantes,
     }
 
 

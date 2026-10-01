@@ -119,8 +119,56 @@ def validar_ids_partidas(datos) -> list[str]:
     return datos
 
 
+def _entero_opcional(valor, campo: str) -> int | None:
+    return None if valor is None else _entero(valor, campo)
+
+
+def _nombre_visible(nombre, tag) -> str | None:
+    """Riot ID visible de otro jugador ("Nombre#TAG"), o None si no viene (modo streamer)."""
+    try:
+        limpio = texto_limpio(nombre, "nombre", 16)
+    except DatoInvalido:
+        return None
+    try:
+        return f"{limpio}#{texto_limpio(tag, 'tag', 5)}"
+    except DatoInvalido:
+        return limpio
+
+
+def _puuid_opcional(valor) -> str | None:
+    if valor in (None, ""):
+        return None
+    return _puuid(valor)
+
+
+def _equipo(participante: dict) -> int:
+    """Equipo del jugador. En Arena se usa el subequipo (parejas o tríos)."""
+    subequipo = participante.get("playerSubteamId")
+    if isinstance(subequipo, int) and not isinstance(subequipo, bool) and subequipo > 0:
+        return subequipo
+    return _entero(participante.get("teamId"), "teamId")
+
+
+def _runas(perks) -> dict:
+    """Runa principal (keystone) y estilo secundario. Si no vienen, quedan en None."""
+    principal = secundaria = None
+    estilos = perks.get("styles") if isinstance(perks, dict) else None
+    if isinstance(estilos, list) and estilos:
+        primero = estilos[0] if isinstance(estilos[0], dict) else {}
+        selecciones = primero.get("selections")
+        if isinstance(selecciones, list) and selecciones and isinstance(selecciones[0], dict):
+            principal = _entero_opcional(selecciones[0].get("perk"), "perk")
+        if len(estilos) > 1 and isinstance(estilos[1], dict):
+            secundaria = _entero_opcional(estilos[1].get("style"), "style")
+    return {"principal": principal, "secundaria": secundaria}
+
+
 def resumir_partida(datos, puuid: str, id_esperado: str | None = None) -> dict:
-    """match-v5 -> resumen mínimo de la partida desde el punto de vista de `puuid`."""
+    """match-v5 -> resumen de la partida desde el punto de vista de `puuid`.
+
+    Incluye lo que muestra la fila de partida: KDA, CS, participación en asesinatos, ítems,
+    hechizos, runas y los participantes (campeón, equipo y nombre visible).
+    """
     datos = _dict(datos, "partida")
     metadata = _dict(datos.get("metadata"), "metadata")
     info = _dict(datos.get("info"), "info")
@@ -132,11 +180,9 @@ def resumir_partida(datos, puuid: str, id_esperado: str | None = None) -> dict:
         raise DatoInvalido(f"se pidió {id_esperado} y llegó {id_partida}")
 
     participantes = info.get("participants")
-    if not isinstance(participantes, list):
-        raise DatoInvalido("'participants' debería ser una lista")
-    jugador = next(
-        (p for p in participantes if isinstance(p, dict) and p.get("puuid") == puuid), None
-    )
+    if not isinstance(participantes, list) or not all(isinstance(p, dict) for p in participantes):
+        raise DatoInvalido("'participants' debería ser una lista de objetos")
+    jugador = next((p for p in participantes if p.get("puuid") == puuid), None)
     if jugador is None:
         raise DatoInvalido(f"el jugador no aparece en la partida {id_partida}")
 
@@ -159,42 +205,92 @@ def resumir_partida(datos, puuid: str, id_esperado: str | None = None) -> dict:
     else:
         raise DatoInvalido("'win' debería ser true o false")
 
+    asesinatos = _entero(jugador.get("kills"), "kills")
+    asistencias = _entero(jugador.get("assists"), "assists")
+    equipo = _equipo(jugador)
+    asesinatos_equipo = sum(
+        _entero(p.get("kills"), "kills") for p in participantes if _equipo(p) == equipo
+    )
+    participacion = (
+        round((asesinatos + asistencias) * 100 / asesinatos_equipo) if asesinatos_equipo else None
+    )
+
     queue_id = info.get("queueId")
     return {
         "id": id_partida,
         "fecha": fecha,
-        "queue_id": _entero(queue_id, "queueId") if queue_id is not None else None,
+        "queue_id": _entero_opcional(queue_id, "queueId"),
         "campeon": campeon,
         "campeon_id": _entero(jugador.get("championId"), "championId"),
         "resultado": resultado,
-        "asesinatos": _entero(jugador.get("kills"), "kills"),
+        "asesinatos": asesinatos,
         "muertes": _entero(jugador.get("deaths"), "deaths"),
-        "asistencias": _entero(jugador.get("assists"), "assists"),
+        "asistencias": asistencias,
         "duracion": duracion,
+        "nivel": _entero(jugador.get("champLevel", 0), "champLevel"),
+        "cs": _entero(jugador.get("totalMinionsKilled", 0), "totalMinionsKilled")
+        + _entero(jugador.get("neutralMinionsKilled", 0), "neutralMinionsKilled"),
+        "participacion": participacion,
+        "equipo": equipo,
+        "items": [_entero(jugador.get(f"item{i}", 0), f"item{i}") for i in range(7)],
+        "hechizos": [
+            _entero(jugador.get("summoner1Id", 0), "summoner1Id"),
+            _entero(jugador.get("summoner2Id", 0), "summoner2Id"),
+        ],
+        "runas": _runas(jugador.get("perks")),
+        "participantes": [
+            {
+                "puuid": _puuid_opcional(p.get("puuid")),
+                "campeon_id": _entero(p.get("championId"), "championId"),
+                "equipo": _equipo(p),
+                "nombre": _nombre_visible(p.get("riotIdGameName"), p.get("riotIdTagline")),
+            }
+            for p in participantes
+        ],
     }
 
 
 def validar_partida_activa(datos, puuid: str) -> dict:
-    """spectator-v5 -> {campeon_id, queue_id, inicio, duracion} del jugador `puuid`."""
+    """spectator-v5 -> partida en curso con los equipos completos.
+
+    Con el modo streamer, Riot puede omitir el PUUID y el nombre de algunos jugadores: en ese
+    caso solo se conoce su campeón.
+    """
     datos = _dict(datos, "partida activa")
     participantes = datos.get("participants")
-    if not isinstance(participantes, list):
-        raise DatoInvalido("'participants' debería ser una lista")
-    jugador = next(
-        (p for p in participantes if isinstance(p, dict) and p.get("puuid") == puuid), None
-    )
-    if jugador is None:
-        raise DatoInvalido("el jugador no aparece en la partida activa")
+    if not isinstance(participantes, list) or not all(isinstance(p, dict) for p in participantes):
+        raise DatoInvalido("'participants' debería ser una lista de objetos")
+    jugador = next((p for p in participantes if p.get("puuid") == puuid), None)
     queue_id = datos.get("gameQueueConfigId")
     inicio = datos.get("gameStartTime")
     duracion = datos.get("gameLength", 0)
     if isinstance(duracion, bool) or not isinstance(duracion, int):
         raise DatoInvalido(f"'gameLength' debería ser un entero: {duracion!r}")
+
+    jugadores = []
+    for p in participantes:
+        riot_id = p.get("riotId")
+        try:
+            nombre = texto_limpio(riot_id, "riotId", 22)
+        except DatoInvalido:
+            nombre = None
+        jugadores.append(
+            {
+                "puuid": _puuid_opcional(p.get("puuid")),
+                "campeon_id": _entero(p.get("championId"), "championId"),
+                "equipo": _entero(p.get("teamId"), "teamId"),
+                "nombre": nombre,
+            }
+        )
+
     return {
-        "campeon_id": _entero(jugador.get("championId"), "championId"),
-        "queue_id": _entero(queue_id, "gameQueueConfigId") if queue_id is not None else None,
+        "id": _entero(datos.get("gameId"), "gameId"),
+        # Si el propio amigo usa modo streamer, puede que no se sepa su campeón.
+        "campeon_id": _entero(jugador.get("championId"), "championId") if jugador else None,
+        "queue_id": _entero_opcional(queue_id, "gameQueueConfigId"),
         # gameStartTime vale 0 mientras la partida está cargando.
         "inicio": _entero(inicio, "gameStartTime") if inicio else None,
         # gameLength puede ser negativo en los primeros segundos (pantalla de carga).
         "duracion": max(duracion, 0),
+        "participantes": jugadores,
     }
