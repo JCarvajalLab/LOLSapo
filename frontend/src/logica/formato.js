@@ -1,0 +1,130 @@
+// Funciones puras de formato. No dependen de React.
+
+const TIERS = {
+  IRON: "Hierro",
+  BRONZE: "Bronce",
+  SILVER: "Plata",
+  GOLD: "Oro",
+  PLATINUM: "Platino",
+  EMERALD: "Esmeralda",
+  DIAMOND: "Diamante",
+  MASTER: "Maestro",
+  GRANDMASTER: "Gran Maestro",
+  CHALLENGER: "Retador",
+};
+
+export function esNumero(valor) {
+  return typeof valor === "number" && Number.isFinite(valor);
+}
+
+/** "Platino IV" o null si no hay rango. */
+export function nombreRango(rango) {
+  if (!rango || typeof rango.tier !== "string") return null;
+  const tier = TIERS[rango.tier.toUpperCase()] ?? rango.tier;
+  return rango.division ? `${tier} ${rango.division}` : tier;
+}
+
+/** Winrate de un rango oficial (victorias y derrotas de Riot). */
+export function winrateRango(rango) {
+  if (!rango) return null;
+  return calcularWinrate(rango.victorias, rango.derrotas);
+}
+
+export function calcularWinrate(victorias, derrotas) {
+  if (!esNumero(victorias) || !esNumero(derrotas)) return null;
+  const total = victorias + derrotas;
+  if (total === 0) return null;
+  return Math.round((victorias / total) * 1000) / 10;
+}
+
+/** "57%" o "—". Redondea a entero para leerlo rápido. */
+export function formatearWinrate(winrate) {
+  return esNumero(winrate) ? `${Math.round(winrate)}%` : "—";
+}
+
+/** Ratio KDA: (asesinatos + asistencias) / muertes. Sin muertes es "Perfecto". */
+export function ratioKda(asesinatos, muertes, asistencias) {
+  if (![asesinatos, muertes, asistencias].every(esNumero)) return null;
+  if (muertes === 0) return "Perfecto";
+  return ((asesinatos + asistencias) / muertes).toFixed(2);
+}
+
+/** "31 min" a partir de segundos. */
+export function formatearDuracion(segundos) {
+  if (!esNumero(segundos) || segundos < 0) return "—";
+  const minutos = Math.floor(segundos / 60);
+  if (minutos < 1) return `${Math.round(segundos)} s`;
+  return `${minutos} min`;
+}
+
+/** CS por minuto con un decimal, o null. */
+export function csPorMinuto(cs, segundos) {
+  if (!esNumero(cs) || !esNumero(segundos) || segundos < 60) return null;
+  return (cs / (segundos / 60)).toFixed(1);
+}
+
+const relativo = new Intl.RelativeTimeFormat("es", { numeric: "auto" });
+
+const UNIDADES = [
+  ["year", 365 * 24 * 3600],
+  ["month", 30 * 24 * 3600],
+  ["week", 7 * 24 * 3600],
+  ["day", 24 * 3600],
+  ["hour", 3600],
+  ["minute", 60],
+];
+
+/** "hace 18 horas", "hace 5 minutos", "ahora". */
+export function haceCuanto(fechaMs, ahoraMs) {
+  if (!esNumero(fechaMs) || !esNumero(ahoraMs)) return "—";
+  const segundos = Math.max(0, (ahoraMs - fechaMs) / 1000);
+  if (segundos < 60) return "ahora";
+  for (const [unidad, tamaño] of UNIDADES) {
+    if (segundos >= tamaño) {
+      return relativo.format(-Math.floor(segundos / tamaño), unidad);
+    }
+  }
+  return "ahora";
+}
+
+const fechaCortaFmt = new Intl.DateTimeFormat("es", {
+  day: "numeric",
+  month: "short",
+  year: "numeric",
+});
+
+const fechaCompletaFmt = new Intl.DateTimeFormat("es", {
+  dateStyle: "long",
+  timeStyle: "short",
+});
+
+/** "1 oct 2026" */
+export function fechaCorta(fechaMs) {
+  if (!esNumero(fechaMs)) return "—";
+  return fechaCortaFmt.format(new Date(fechaMs));
+}
+
+/** "1 de octubre de 2026, 14:32" en la zona horaria del navegador. */
+export function fechaCompleta(fechaMs) {
+  if (!esNumero(fechaMs)) return "—";
+  return fechaCompletaFmt.format(new Date(fechaMs));
+}
+
+/** Convierte el ISO de "actualizado" a milisegundos, o null. */
+export function isoAMs(iso) {
+  if (typeof iso !== "string") return null;
+  const ms = Date.parse(iso);
+  return Number.isNaN(ms) ? null : ms;
+}
+
+/** Iniciales para respaldos de imagen: "Miss Fortune" -> "MF". */
+export function iniciales(texto) {
+  if (typeof texto !== "string" || !texto.trim()) return "?";
+  return texto
+    .replace(/#.*$/, "")
+    .trim()
+    .split(/\s+/)
+    .slice(0, 2)
+    .map((p) => p[0].toUpperCase())
+    .join("");
+}
