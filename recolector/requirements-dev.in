@@ -1,0 +1,10 @@
+# Herramientas de desarrollo (incluye las dependencias del recolector). Compilar con:
+#   pip-compile --generate-hashes --allow-unsafe requirements-dev.in
+-r requirements.in
+pre-commit
+pytest
+responses
+ruff
+bandit
+pip-audit
+pip-tools

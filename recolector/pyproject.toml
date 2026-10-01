@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=80"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lolsapo"
+version = "0.1.0"
+description = "Recolector de datos de LOLSapo: consulta la API de Riot y genera los JSON de la web."
+requires-python = ">=3.12"
+# Las versiones exactas (con hashes) están en requirements.txt.
+dependencies = ["requests", "python-dotenv"]
+
+[project.scripts]
+lolsapo = "lolsapo.__main__:main"
+
+[tool.setuptools.packages.find]
+include = ["lolsapo*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-ra --strict-markers"
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+# E/F: errores básicos · I: orden de imports · B: bugs comunes · UP: sintaxis moderna · S: seguridad
+# PLE2502: caracteres bidireccionales invisibles en el código ("Trojan Source").
+select = ["E", "F", "I", "B", "UP", "S", "PLE2502"]
+
+[tool.ruff.lint.per-file-ignores]
+# En los tests se permite assert (S101) y datos falsos que parecen secretos (S105/S106).
+"tests/**" = ["S101", "S105", "S106"]
+
+[tool.bandit]
+exclude_dirs = ["tests"]
