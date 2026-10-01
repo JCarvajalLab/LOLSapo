@@ -75,9 +75,27 @@ describe("FilaPartida", () => {
 });
 
 describe("SeccionEnPartida", () => {
-  it("dice que nadie está en partida", () => {
+  it("dice que nadie está en partida dentro de un panel de alto fijo", () => {
     render(<SeccionEnPartida enVivo={[]} ddragon={ddragon} actualizadoMs={AHORA} ahora={AHORA} />);
-    expect(screen.getByText("Nadie en partida.")).toBeInTheDocument();
+    const texto = screen.getByText("Nadie en partida.");
+    expect(texto.parentElement).toHaveClass("min-h-32");
+  });
+
+  it("agrupa equipos de Arena en columnas", () => {
+    const arena = {
+      id: "a",
+      modo: "Arena",
+      categoria: "otros",
+      inicio: AHORA - 60000,
+      equipos: [1, 2, 3, 4].map((n) => ({ equipo: n, jugadores: [{ campeon_id: 1, equipo: n, nombre: null, amigo: null }] })),
+    };
+    render(<SeccionEnPartida enVivo={[arena]} ddragon={ddragon} actualizadoMs={AHORA} ahora={AHORA} />);
+    expect(screen.getAllByRole("heading", { level: 3 }).map((h) => h.textContent)).toEqual([
+      "Equipo 1",
+      "Equipo 2",
+      "Equipo 3",
+      "Equipo 4",
+    ]);
   });
 
   it("muestra una partida con varios amigos una sola vez", () => {
@@ -134,7 +152,10 @@ describe("FilaAmigo (acordeón)", () => {
     expect(screen.getByText("Nivel 312")).toBeInTheDocument();
     expect(screen.getByText("Platino IV")).toBeInTheDocument();
     expect(screen.getByText("Sin clasificar")).toBeInTheDocument();
-    expect(screen.getByText("50%")).toBeInTheDocument();
+    expect(screen.getByText(/45 LP/)).toBeInTheDocument();
+    expect(screen.getByText("55%")).toBeInTheDocument(); // Solo/Dúo 30V 25D
+    expect(screen.getByText("50%")).toBeInTheDocument(); // Total
+    expect(screen.getByText("3 partidas")).toBeInTheDocument();
   });
 
   it("no renderiza partidas hasta abrir y avisa al presionar", async () => {
@@ -172,7 +193,7 @@ describe("FilaAmigo (acordeón)", () => {
 
   it("muestra el estado vacío de un amigo sin partidas", () => {
     renderFila(sapito, { abierto: true });
-    expect(screen.getByText("Sin partidas registradas")).toBeInTheDocument();
+    expect(screen.getByText("Sin partidas")).toBeInTheDocument();
     expect(screen.getByText("Todavía no hay partidas registradas.")).toBeInTheDocument();
   });
 
@@ -213,18 +234,18 @@ describe("Ranking", () => {
 });
 
 describe("Encabezado e imágenes", () => {
-  it("muestra la última actualización y el botón", async () => {
-    const onActualizar = vi.fn();
+  it("muestra hace cuánto se consultó a Riot", () => {
     const iso = new Date(AHORA - 12 * 60 * 1000).toISOString();
-    render(<Encabezado actualizado={iso} ahora={AHORA} cargando={false} onActualizar={onActualizar} />);
-    expect(screen.getByText("hace 12 minutos")).toBeInTheDocument();
-    await userEvent.click(screen.getByRole("button", { name: "Actualizar" }));
-    expect(onActualizar).toHaveBeenCalled();
+    render(<Encabezado actualizado={iso} ahora={AHORA} falloActualizar={false} />);
+    expect(screen.getByText(/Datos de Riot:/)).toHaveTextContent("Datos de Riot: hace 12 minutos");
+    expect(screen.queryByRole("button")).not.toBeInTheDocument();
+    expect(screen.queryByRole("status")).not.toBeInTheDocument();
   });
 
-  it("mientras carga dice Actualizando… y desactiva el botón", () => {
-    render(<Encabezado actualizado={null} ahora={AHORA} cargando onActualizar={() => {}} />);
-    expect(screen.getByRole("button", { name: "Actualizando…" })).toBeDisabled();
+  it("avisa de forma discreta si falló la actualización", () => {
+    render(<Encabezado actualizado={null} ahora={AHORA} falloActualizar />);
+    expect(screen.getByText("Datos de Riot: sin fecha")).toBeInTheDocument();
+    expect(screen.getByRole("status")).toHaveTextContent("No se pudo actualizar, se reintentará en 2 minutos.");
   });
 
   it("cambia a iniciales si la imagen falla", () => {
