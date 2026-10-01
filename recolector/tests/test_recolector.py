@@ -217,6 +217,59 @@ def test_si_la_key_aparece_en_los_datos_no_se_escribe_nada(cliente, mapa, tmp_pa
     assert not (tmp_path / "lol.json").exists()
 
 
+@responses.activate
+def test_ids_invalidos_marcan_error_solo_a_ese_amigo(cliente, mapa, tmp_path):
+    simular_amigo("Johnadis", P_JOHN, ["LA2_1", None])
+    simular_amigo("Big Gato", P_GATO, [])
+    salida = ejecutar(
+        cliente, KEY_FALSA, [JOHN, GATO], mapa, tmp_path, tmp_path / "lol.json", ahora=AHORA
+    )
+    assert [a["estado"] for a in salida["amigos"]] == ["error", "ok"]
+    assert llamadas_a("/matches/LA2_") == 0
+
+
+@responses.activate
+def test_respuesta_con_forma_inesperada_no_rompe_la_ejecucion(cliente, mapa, tmp_path):
+    simular_amigo("Johnadis", P_JOHN, [])
+    responses.replace(
+        responses.GET,
+        f"{URL_PLATAFORMA}/lol/summoner/v4/summoners/by-puuid/{P_JOHN}",
+        json=["no", "es", "un", "objeto"],
+    )
+    salida = ejecutar(
+        cliente, KEY_FALSA, [JOHN], mapa, tmp_path, tmp_path / "lol.json", ahora=AHORA
+    )
+    assert salida["amigos"][0]["estado"] == "error"
+
+
+@responses.activate
+def test_registro_danado_marca_error_y_no_se_pisa(cliente, mapa, tmp_path):
+    ruta = tmp_path / "registro" / "johnadis-las.json"
+    ruta.parent.mkdir(parents=True)
+    ruta.write_text("{roto", encoding="utf-8")
+    simular_amigo("Big Gato", P_GATO, [])
+
+    salida = ejecutar(
+        cliente, KEY_FALSA, [JOHN, GATO], mapa, tmp_path, tmp_path / "lol.json", ahora=AHORA
+    )
+
+    assert [a["estado"] for a in salida["amigos"]] == ["error", "ok"]
+    assert ruta.read_text(encoding="utf-8") == "{roto"
+    assert llamadas_a("Johnadis") == 0
+
+
+@responses.activate
+def test_cualquier_key_de_riot_en_la_salida_bloquea_la_escritura(
+    cliente, mapa, tmp_path, monkeypatch
+):
+    otra_key = "rgapi-" + "-".join(["1" * 8, "2" * 4, "3" * 4, "4" * 4, "5" * 12])
+    simular_amigo("Johnadis", P_JOHN, [])
+    monkeypatch.setattr("lolsapo.recolector.calcular_ranking", lambda _: [{"x": otra_key}])
+    with pytest.raises(SecretoEnSalida):
+        ejecutar(cliente, KEY_FALSA, [JOHN], mapa, tmp_path, tmp_path / "lol.json", ahora=AHORA)
+    assert not (tmp_path / "lol.json").exists()
+
+
 def test_main_sin_key_termina_con_error_de_configuracion(monkeypatch, tmp_path, caplog):
     monkeypatch.setenv("RIOT_API_KEY", "")
     monkeypatch.setattr("lolsapo.__main__.RUTA_ENV", tmp_path / "no-existe.env")

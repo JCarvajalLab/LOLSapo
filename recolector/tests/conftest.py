@@ -14,7 +14,8 @@ KEY_FALSA = "RGAPI-" + "-".join(["f" * 8, "e" * 4, "d" * 4, "c" * 4, "b" * 12])
 
 
 def puuid_de(nombre: str) -> str:
-    return f"puuid-{nombre}".ljust(78, "x")
+    """PUUID falso con el formato real (78 caracteres de [A-Za-z0-9_-])."""
+    return ("puuid-" + "".join(c for c in nombre if c.isascii() and c.isalnum())).ljust(78, "x")
 
 
 def cuenta(nombre: str, tag: str = "LAS") -> dict:
