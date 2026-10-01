@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import App from "./App.jsx";
-import { crearDatos, partidaEnVivo } from "./test/fixtures/lol.js";
+import { crearDatos } from "./test/fixtures/lol.js";
 
 function respuestaOk(json) {
   return Promise.resolve({ ok: true, json: async () => json });
@@ -22,6 +22,7 @@ describe("App", () => {
     expect(screen.getByRole("status")).toHaveTextContent("Cargando datos…");
     expect(await screen.findByRole("heading", { name: "Amigos" })).toBeInTheDocument();
     expect(screen.getByText("Nadie en partida.")).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /Actualizar/ })).not.toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Ranking" })).toBeInTheDocument();
     expect(screen.getByText(/no está respaldado por Riot Games/)).toBeInTheDocument();
     expect(fetchFn).toHaveBeenCalledWith("./datos/lol.json", { cache: "no-store" });
@@ -32,35 +33,7 @@ describe("App", () => {
     render(<App fetchFn={fetchFn} />);
     expect(await screen.findByRole("alert")).toHaveTextContent("No se pudieron leer los datos.");
     expect(screen.getByRole("alert")).toHaveTextContent("No existe datos/lol.json");
-    expect(screen.getByRole("button", { name: "Reintentar" })).toBeInTheDocument();
-  });
-
-  it("si la actualización falla conserva los datos anteriores", async () => {
-    const fetchFn = vi
-      .fn()
-      .mockImplementationOnce(() => respuestaOk(crearDatos()))
-      .mockImplementationOnce(() => Promise.reject(new TypeError("sin red")));
-    render(<App fetchFn={fetchFn} />);
-    await screen.findByRole("heading", { name: "Amigos" });
-
-    await userEvent.click(screen.getByRole("button", { name: "Actualizar" }));
-    expect(await screen.findByText("No se pudo actualizar. Se muestran los datos anteriores.")).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /Rana Azul#LAS/ })).toBeInTheDocument();
-    expect(fetchFn).toHaveBeenCalledTimes(2);
-  });
-
-  it("muestra Actualizando… mientras pide el JSON", async () => {
-    let resolver;
-    const fetchFn = vi
-      .fn()
-      .mockImplementationOnce(() => respuestaOk(crearDatos()))
-      .mockImplementationOnce(() => new Promise((r) => (resolver = r)));
-    render(<App fetchFn={fetchFn} />);
-    await screen.findByRole("heading", { name: "Amigos" });
-    await userEvent.click(screen.getByRole("button", { name: "Actualizar" }));
-    expect(screen.getByRole("button", { name: "Actualizando…" })).toBeDisabled();
-    resolver({ ok: true, json: async () => crearDatos({ en_vivo: [{ ...partidaEnVivo, inicio: Date.now() - 14 * 60 * 1000 - 5000 }] }) });
-    expect(await screen.findByText("14 min de partida", { exact: false })).toBeInTheDocument();
+    expect(screen.getByRole("alert")).toHaveTextContent("reintenta sola cada 2 minutos");
   });
 
   it("abre el amigo indicado en el hash y alterna el acordeón", async () => {

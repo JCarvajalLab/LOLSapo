@@ -7,9 +7,10 @@ import { Cargando, EstadoError, EstadoVacio } from "./componentes/Estados.jsx";
 import { FilaAmigo } from "./componentes/FilaAmigo.jsx";
 import { Ranking } from "./componentes/Ranking.jsx";
 import { SeccionEnPartida } from "./componentes/SeccionEnPartida.jsx";
+import { TituloSeccion } from "./componentes/TituloSeccion.jsx";
 
 export default function App({ fetchFn }) {
-  const { datos, cargando, error, actualizar } = useDatosLol(fetchFn);
+  const { datos, cargando, error } = useDatosLol(fetchFn);
   const ahora = useAhora();
   const { abiertos, alternar, abrir, enfocar } = useAmigosAbiertos();
 
@@ -25,25 +26,13 @@ export default function App({ fetchFn }) {
       >
         Saltar al contenido
       </a>
-      <Encabezado actualizado={datos?.actualizado} ahora={ahora} cargando={cargando} onActualizar={actualizar} />
+      <Encabezado actualizado={datos?.actualizado} ahora={ahora} falloActualizar={Boolean(error && datos)} />
 
-      <main id="contenido" tabIndex={-1} className="mx-auto w-full max-w-6xl flex-1 space-y-6 px-4 py-5 focus:outline-none">
-        {error && (
-          <EstadoError
-            titulo={datos ? "No se pudo actualizar. Se muestran los datos anteriores." : "No se pudieron leer los datos."}
-            accion={
-              !datos && (
-                <button
-                  type="button"
-                  onClick={actualizar}
-                  className="rounded-md border border-sapo/60 px-3 py-1.5 font-semibold text-sapo"
-                >
-                  Reintentar
-                </button>
-              )
-            }
-          >
-            {error} Revisa que el script de datos haya generado datos/lol.json y presiona Actualizar.
+      <main id="contenido" tabIndex={-1} aria-busy={cargando} className="mx-auto w-full max-w-6xl flex-1 space-y-6 px-4 py-5 focus:outline-none">
+        {error && !datos && (
+          <EstadoError titulo="No se pudieron leer los datos.">
+            {error} Revisa que el script de datos haya generado datos/lol.json. La página reintenta sola cada 2
+            minutos.
           </EstadoError>
         )}
 
@@ -61,10 +50,8 @@ export default function App({ fetchFn }) {
             <div className="grid gap-6 lg:grid-cols-[18rem_minmax(0,1fr)] lg:items-start">
               <Ranking ranking={datos.ranking} amigos={datos.amigos} onElegir={abrir} />
 
-              <section aria-labelledby="titulo-amigos" className="min-w-0 space-y-3">
-                <h2 id="titulo-amigos" className="font-titulo text-lg font-bold">
-                  Amigos
-                </h2>
+              <section aria-labelledby="titulo-amigos" className="min-w-0">
+                <TituloSeccion id="titulo-amigos">Amigos</TituloSeccion>
                 {datos.amigos.length === 0 ? (
                   <EstadoVacio>
                     No hay amigos configurados. Agrégalos en el archivo de configuración y ejecuta el script de datos.
