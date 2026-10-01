@@ -43,7 +43,7 @@ def _entero(valor, campo: str, minimo: int = 0) -> int:
     return valor
 
 
-def _texto(valor, campo: str, max_largo: int) -> str:
+def texto_limpio(valor, campo: str, max_largo: int) -> str:
     if not isinstance(valor, str):
         raise DatoInvalido(f"'{campo}' debería ser texto")
     # Quita caracteres de control (Cc) y de formato invisibles (Cf), como los bidi.
@@ -65,8 +65,8 @@ def validar_cuenta(datos) -> dict:
     datos = _dict(datos, "cuenta")
     return {
         "puuid": _puuid(datos.get("puuid")),
-        "nombre": _texto(datos.get("gameName"), "gameName", 16),
-        "tag": _texto(datos.get("tagLine"), "tagLine", 5),
+        "nombre": texto_limpio(datos.get("gameName"), "gameName", 16),
+        "tag": texto_limpio(datos.get("tagLine"), "tagLine", 5),
     }
 
 

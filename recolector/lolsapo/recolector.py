@@ -6,6 +6,7 @@ import time
 from datetime import UTC, datetime
 from pathlib import Path
 
+from . import ddragon as datos_ddragon
 from .config import Amigo
 from .modos import MapaModos
 from .ranking import calcular_ranking
@@ -148,6 +149,7 @@ def ejecutar(
     ruta_salida: Path,
     cantidad: int = 20,
     ahora: datetime | None = None,
+    ddragon: dict | None = None,
 ) -> dict:
     ahora = ahora or datetime.now(UTC)
     ahora_ms = int(ahora.timestamp() * 1000)
@@ -157,9 +159,13 @@ def ejecutar(
         procesar_amigo(cliente, amigo, mapa, Path(dir_datos) / "registro", cantidad, ahora_ms)
         for amigo in amigos
     ]
+    campeones_usados = {p["campeon_id"] for a in entradas for p in a["partidas"]} | {
+        a["jugando"]["campeon_id"] for a in entradas if a["jugando"]
+    }
     salida = {
         "version": VERSION_SALIDA,
         "actualizado": ahora.isoformat(timespec="seconds").replace("+00:00", "Z"),
+        "ddragon": datos_ddragon.para_salida(ddragon, campeones_usados),
         "amigos": entradas,
         "ranking": calcular_ranking(entradas),
     }

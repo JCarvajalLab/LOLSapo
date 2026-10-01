@@ -86,6 +86,32 @@ def test_genera_lol_json_completo(cliente, mapa, tmp_path):
 
 
 @responses.activate
+def test_incluye_data_dragon_solo_con_los_campeones_usados(cliente, mapa, tmp_path):
+    simular_amigo("Johnadis", P_JOHN, ["LA2_1"], jugando=partida_activa(P_JOHN, 450, 62))
+    simular_partida("LA2_1", P_JOHN)  # Ahri (103)
+    ddragon = {
+        "version": "16.19.1",
+        "campeones": {
+            "62": {"id": "MonkeyKing", "nombre": "Wukong"},
+            "103": {"id": "Ahri", "nombre": "Ahri"},
+            "1": {"id": "Annie", "nombre": "Annie"},
+        },
+    }
+    salida = ejecutar(
+        cliente,
+        KEY_FALSA,
+        [JOHN],
+        mapa,
+        tmp_path,
+        tmp_path / "lol.json",
+        ahora=AHORA,
+        ddragon=ddragon,
+    )
+    assert salida["ddragon"]["version"] == "16.19.1"
+    assert set(salida["ddragon"]["campeones"]) == {"62", "103"}
+
+
+@responses.activate
 def test_segunda_ejecucion_solo_descarga_partidas_nuevas(cliente, mapa, tmp_path):
     simular_amigo("Johnadis", P_JOHN, ["LA2_2", "LA2_1"])
     simular_partida("LA2_2", P_JOHN, fin=2_000)

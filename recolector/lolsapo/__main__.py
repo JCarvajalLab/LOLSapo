@@ -5,6 +5,7 @@ import logging
 import sys
 from pathlib import Path
 
+from . import ddragon as datos_ddragon
 from .config import (
     DIR_DATOS,
     RUTA_AMIGOS,
@@ -61,7 +62,17 @@ def main(argv: list[str] | None = None) -> int:
         amigos = cargar_amigos(args.amigos)
         mapa = MapaModos.desde_archivo(args.modos)
         cliente = ClienteRiot(api_key)
-        salida = ejecutar(cliente, api_key, amigos, mapa, args.datos, args.salida, args.cantidad)
+        ddragon = datos_ddragon.obtener(args.datos / "ddragon.json")
+        salida = ejecutar(
+            cliente,
+            api_key,
+            amigos,
+            mapa,
+            args.datos,
+            args.salida,
+            args.cantidad,
+            ddragon=ddragon,
+        )
     except ErrorConfiguracion as error:
         log.error("Configuración: %s", error)
         return 1
