@@ -36,7 +36,7 @@ cp .env.example .env   # luego pega tu RIOT_API_KEY dentro de .env
 py -3.14 -m venv .venv
 .venv\Scripts\Activate.ps1
 pip install --require-hashes -r recolector/requirements-dev.txt
-pip install --no-deps -e recolector
+pip install --no-deps --no-build-isolation -e recolector
 pre-commit install
 ```
 

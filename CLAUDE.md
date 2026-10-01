@@ -82,11 +82,11 @@ Web tipo op.gg privada para un grupo de 5 a 6 amigos del servidor LAS. Muestra q
 
 Completar esta sección a medida que se creen (instalar dependencias, correr el script, levantar el frontend, correr tests).
 
-- Entorno Python (3.14; el `python` del sistema es 3.11, no usarlo): `py -3.14 -m venv .venv`, luego `.venv\Scripts\pip install --require-hashes -r recolector/requirements-dev.txt` y `.venv\Scripts\pip install --no-deps -e recolector`
+- Entorno Python (3.14; el `python` del sistema es 3.11, no usarlo): `py -3.14 -m venv .venv`, luego `.venv\Scripts\pip install --require-hashes -r recolector/requirements-dev.txt` y `.venv\Scripts\pip install --no-deps --no-build-isolation -e recolector`
 - Recolector (consulta Riot y genera `frontend/public/datos/lol.json`): `.venv\Scripts\python -m lolsapo` (opcional `--cantidad N`, `-v`)
 - Tests del recolector: `cd recolector` y `..\.venv\Scripts\python -m pytest`. Lint: `ruff check .` y `ruff format --check .`. Seguridad: `bandit -c pyproject.toml -r lolsapo` (en Windows con `PYTHONUTF8=1`) y `pip-audit --strict --require-hashes -r requirements-dev.txt`
 - Actualizar dependencias de Python: editar `recolector/requirements*.in` y en `recolector/` correr `pip-compile --generate-hashes --allow-unsafe --strip-extras <archivo>.in`
-- Al escribir regex o textos con caracteres invisibles (`​`, `‮`, etc.) usar siempre escapes o `chr()`, nunca el carácter literal (lo detectan ruff PLE2502 y Bandit B613)
+- Al escribir regex o textos con caracteres invisibles (`U+200B`, `U+202E`, etc.) usar siempre escapes o `chr()`, nunca el carácter literal (lo detectan ruff PLE2502 y Bandit B613)
 - Activar hooks de git: `.venv\Scripts\pre-commit install`
 - Correr todos los chequeos (gitleaks + formato): `.venv\Scripts\pre-commit run --all-files`
 - GitHub CLI: `gh` (si la terminal no lo encuentra: `"C:\Program Files\GitHub CLI\gh.exe"`)
