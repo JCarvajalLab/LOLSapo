@@ -1,5 +1,6 @@
 # Dependabot revisa cada semana si hay versiones nuevas o con vulnerabilidades.
-# pip del script de datos se agrega en la fase 2 y npm del frontend en la fase 3.
+# npm del frontend se agrega en la fase 3. Los rev de .pre-commit-config.yaml se
+# actualizan a mano con: pre-commit autoupdate --freeze
 version: 2
 updates:
   - package-ecosystem: github-actions
