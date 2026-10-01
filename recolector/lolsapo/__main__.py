@@ -3,6 +3,8 @@
 import argparse
 import logging
 import sys
+import time
+from collections.abc import Callable
 from pathlib import Path
 
 from . import ddragon as datos_ddragon
@@ -28,7 +30,14 @@ def _cantidad(valor: str) -> int:
     return numero
 
 
-def main(argv: list[str] | None = None) -> int:
+def _minutos(valor: str) -> int:
+    numero = int(valor)
+    if not 1 <= numero <= 60:
+        raise argparse.ArgumentTypeError("debe estar entre 1 y 60 minutos")
+    return numero
+
+
+def main(argv: list[str] | None = None, dormir: Callable[[float], None] = time.sleep) -> int:
     parser = argparse.ArgumentParser(
         prog="lolsapo", description="Consulta la API de Riot y genera lol.json para la web."
     )
@@ -42,6 +51,12 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--modos", type=Path, default=RUTA_MODOS)
     parser.add_argument("--datos", type=Path, default=DIR_DATOS, help="carpeta del registro")
     parser.add_argument("--salida", type=Path, default=RUTA_SALIDA)
+    parser.add_argument(
+        "--cada",
+        type=_minutos,
+        metavar="MIN",
+        help="repetir cada MIN minutos (1-60) hasta presionar Ctrl+C; útil en local",
+    )
     parser.add_argument("-v", "--verbose", action="store_true")
     args = parser.parse_args(argv)
 
@@ -57,6 +72,25 @@ def main(argv: list[str] | None = None) -> int:
     logging.getLogger("urllib3").setLevel(logging.WARNING)
     log = logging.getLogger("lolsapo")
 
+    if not args.cada:
+        return _una_vez(args, log)
+
+    try:
+        while True:
+            codigo = _una_vez(args, log)
+            if codigo != 0:
+                # Configuración, key rechazada o key en la salida: reintentar no lo arregla.
+                log.error("Se detiene la repetición (código %d).", codigo)
+                return codigo
+            log.info("Próxima consulta en %d min. Ctrl+C para detener.", args.cada)
+            dormir(args.cada * 60)
+    except KeyboardInterrupt:
+        log.info("Detenido.")
+        return 0
+
+
+def _una_vez(args: argparse.Namespace, log: logging.Logger) -> int:
+    """Una consulta completa a Riot. Devuelve el código de salida."""
     try:
         api_key = cargar_api_key(RUTA_ENV)
         amigos = cargar_amigos(args.amigos)

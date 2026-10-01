@@ -60,6 +60,8 @@ Consulta la API de Riot y genera `frontend/public/datos/lol.json`. Por cada amig
 
 El registro acumulado de partidas queda en `datos/registro/` (ignorado por git). Las estadísticas de victorias y derrotas por modo se calculan a partir de ese registro, así que cuentan desde que LOLSapo empezó a seguir a cada amigo.
 
+Para que se repita solo (útil en local para ver "En partida"): `python -m lolsapo --cada 3` repite cada 3 minutos hasta presionar `Ctrl + C`.
+
 Códigos de salida: `0` bien · `1` configuración inválida o falta la key · `2` Riot rechazó la key (la dev key caduca cada 24 h) · `3` la key apareció en la salida (no se escribe nada).
 
 ### Tests y chequeos del recolector

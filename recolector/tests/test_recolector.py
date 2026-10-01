@@ -351,6 +351,34 @@ def test_main_sin_key_termina_con_error_de_configuracion(monkeypatch, tmp_path, 
     assert "Falta RIOT_API_KEY" in caplog.text
 
 
+@pytest.mark.parametrize("minutos", ["0", "61", "x"])
+def test_main_rechaza_cada_fuera_de_rango(minutos):
+    with pytest.raises(SystemExit):
+        main(["--cada", minutos])
+
+
+def test_main_cada_repite_hasta_ctrl_c(monkeypatch):
+    llamadas = []
+    monkeypatch.setattr("lolsapo.__main__._una_vez", lambda args, log: llamadas.append(1) or 0)
+    esperas = []
+
+    def dormir(segundos):
+        esperas.append(segundos)
+        if len(esperas) == 3:
+            raise KeyboardInterrupt
+
+    assert main(["--cada", "3"], dormir=dormir) == 0
+    assert len(llamadas) == 3
+    assert esperas == [180, 180, 180]
+
+
+def test_main_cada_se_detiene_si_la_key_es_rechazada(monkeypatch):
+    monkeypatch.setattr("lolsapo.__main__._una_vez", lambda args, log: 2)
+    esperas = []
+    assert main(["--cada", "3"], dormir=esperas.append) == 2
+    assert esperas == []
+
+
 def test_main_rechaza_cantidad_fuera_de_rango():
     with pytest.raises(SystemExit):
         main(["--cantidad", "500"])
