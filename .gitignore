@@ -1,0 +1,40 @@
+# --- Secretos (nunca subir) ---
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# --- Python ---
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# --- Node / frontend ---
+node_modules/
+dist/
+coverage/
+*.log
+.vite/
+
+# --- Datos locales generados por el script (registro acumulado y JSON) ---
+datos/
+data/
+frontend/public/datos/
+
+# --- Editor y sistema ---
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+
+# --- Claude Code: configuración personal local ---
+.claude/settings.local.json
