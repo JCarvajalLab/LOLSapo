@@ -6,6 +6,7 @@
 """
 
 import logging
+import re
 import time
 from collections import deque
 from collections.abc import Callable
@@ -22,6 +23,9 @@ URL_REGION = f"https://{REGION}.api.riotgames.com"
 
 # Límites de la development key: 20 llamadas/1 s y 100 llamadas/2 min. Usamos un margen.
 VENTANAS_DEV_KEY = ((18, 1.0), (95, 120.0))
+
+# Segmentos de URL con datos de jugadores (PUUID o Riot ID) que se ocultan en los logs.
+_SEGMENTO_PRIVADO = re.compile(r"(by-puuid|by-summoner|by-riot-id)/.*?(?=/ids$|$)")
 
 log = logging.getLogger(__name__)
 
@@ -109,12 +113,15 @@ class ClienteRiot:
         return "ClienteRiot(api_key=***)"
 
     def _get(self, url: str, params: dict | None = None, *, permitir_404: bool = False):
-        ruta = urlsplit(url).path
+        ruta = _ruta_para_logs(url)
         ultimo_estado = None
         for intento in range(self._max_reintentos + 1):
             self._limitador.esperar_turno()
             try:
-                respuesta = self._sesion.get(url, params=params, timeout=self._timeout)
+                # Sin redirecciones: requests reenviaría X-Riot-Token al host de destino.
+                respuesta = self._sesion.get(
+                    url, params=params, timeout=self._timeout, allow_redirects=False
+                )
             except requests.RequestException as error:
                 ultimo_estado = None
                 log.warning(
@@ -131,6 +138,8 @@ class ClienteRiot:
                     raise ErrorRiot(
                         f"Riot devolvió una respuesta que no es JSON en {ruta}", estado
                     ) from None
+            if 300 <= estado < 400:
+                raise ErrorRiot(f"Riot respondió una redirección ({estado}) en {ruta}", estado)
             if estado == 404:
                 if permitir_404:
                     return None
@@ -188,6 +197,12 @@ class ClienteRiot:
         """spectator-v5: partida en curso, o None si no está jugando (404)."""
         url = f"{URL_PLATAFORMA}/lol/spectator/v5/active-games/by-summoner/{_segmento(puuid)}"
         return self._get(url, permitir_404=True)
+
+
+def _ruta_para_logs(url: str) -> str:
+    """Ruta de la URL sin PUUID ni Riot ID, para que no queden en logs ni mensajes de error."""
+    ruta = urlsplit(url).path
+    return _SEGMENTO_PRIVADO.sub(r"\1/***", ruta)
 
 
 def _retry_after(respuesta: requests.Response) -> float:

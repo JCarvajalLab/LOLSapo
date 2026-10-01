@@ -116,6 +116,37 @@ def test_ids_partidas_pide_todos_los_modos(cliente):
     assert "type=" not in consulta and "queue=" not in consulta
 
 
+@pytest.mark.parametrize("estado", [301, 302, 307])
+@responses.activate
+def test_no_sigue_redirecciones_para_no_filtrar_la_key(cliente, estado):
+    responses.get(URL_CUENTA, status=estado, headers={"Location": "https://malicioso.example/x"})
+    responses.get("https://malicioso.example/x", json={})
+    with pytest.raises(ErrorRiot, match="redirección"):
+        cliente.cuenta_por_riot_id("Johnadis", "LAS")
+    assert [c.request.url for c in responses.calls] == [URL_CUENTA]
+
+
+@responses.activate
+def test_los_errores_no_muestran_puuid_ni_riot_id(cliente):
+    puuid = "PUUIDSECRETO".ljust(78, "x")
+    responses.get(f"{URL_PLATAFORMA}/lol/summoner/v4/summoners/by-puuid/{puuid}", status=418)
+    responses.get(f"{URL_REGION}/lol/match/v5/matches/by-puuid/{puuid}/ids", status=503)
+    responses.get(URL_CUENTA, status=404)
+    errores = []
+    for llamada in (
+        lambda: cliente.invocador(puuid),
+        lambda: cliente.ids_partidas(puuid, 5),
+        lambda: cliente.cuenta_por_riot_id("Johnadis", "LAS"),
+    ):
+        with pytest.raises(ErrorRiot) as error:
+            llamada()
+        errores.append(str(error.value))
+    assert "by-puuid/***" in errores[0]
+    assert "by-puuid/***/ids" in errores[1]
+    assert "by-riot-id/***" in errores[2]
+    assert not any(puuid in e or "Johnadis" in e for e in errores)
+
+
 def test_repr_no_muestra_la_key(cliente):
     assert KEY_FALSA not in repr(cliente)
 
