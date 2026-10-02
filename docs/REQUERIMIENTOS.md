@@ -183,6 +183,8 @@ El repo se mantiene **privado** por ahora. En el plan gratuito eso significa:
 
 Al hacer público el repo (a más tardar en la fase 5, por GitHub Pages) hay que activar secret scanning, push protection, CodeQL y la protección de rama de `main` con el CI como requisito.
 
+**Actualización 2026-10-02 (fase 5):** el repo ya es **público**. Están activos secret scanning, push protection, CodeQL (configuración por defecto), aprobación obligatoria de workflows para contribuidores externos y dos rulesets: `main` (PR obligatorio con los 3 checks del CI, sin force push ni borrado) y `datos` (sin force push ni borrado). La publicación usa la *Personal API Key* como secret `RIOT_API_KEY_LOL` del environment `produccion`, limitado a `main`, y se enciende con la variable `PUBLICAR_ACTIVO`.
+
 ## 8. Entorno de desarrollo (qué instalar)
 
 ### 8.1 Programas base
@@ -285,7 +287,7 @@ Verificar cada endpoint en el portal oficial antes de implementarlo.
 | 2 | Datos LoL (local) | Script Python que genera JSON con dev key, registro acumulado, mapa de modos, tests con pytest. |
 | 3 | Interfaz LoL (local) | Frontend React en localhost: tarjetas, detalle, historial de 10 partidas, filtros por modo, ranking, tests con Vitest. |
 | 4 | Pulido local | Estados de error y carga, modo oscuro, responsive, aviso legal, CSP. |
-| 5 | Publicación | Solicitud de Personal Key, GitHub Actions programado, rama `data`, deploy a GitHub Pages o alternativa. |
+| 5 | Publicación | Solicitud de Personal Key, GitHub Actions programado, rama `datos`, deploy a GitHub Pages o alternativa. ✅ Completa (2026-10-02). |
 | 6 | TFT | Datos e interfaz de TFT, selector LoL/TFT, sus tests. |
 | 7 | Extras | Highlights, gráficos de LP, dúos, evaluar proxy para tiempo real. |
 
@@ -295,7 +297,7 @@ Los tests y chequeos de seguridad no son una fase aparte: cada fase desde la 2 e
 
 ## 14. Organización del repositorio
 
-- Repo **público** (necesario para GitHub Pages gratis y para CodeQL y secret scanning gratuitos). Por ahora es privado; ver sección 7.4.
+- Repo **público** (necesario para GitHub Pages gratis y para CodeQL y secret scanning gratuitos). Público desde el 2026-10-02; ver sección 7.4.
 - Rama `main` siempre funcional; una rama por fase (`feat/fase-1-datos-lol`).
 - Conventional Commits (`feat:`, `fix:`, `docs:`, `chore:`, `ci:`).
 - Carpetas separadas para script de datos, frontend, workflows y documentación.
