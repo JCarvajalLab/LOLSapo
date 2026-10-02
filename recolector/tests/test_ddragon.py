@@ -84,6 +84,13 @@ def test_validar_hechizos_items_y_runas():
     assert runas["8112"]["icono"].endswith("Electrocute.png")
 
 
+@pytest.mark.parametrize("slots", ["texto", ["fila"], [{"runes": "x"}]])
+def test_runas_con_slots_raros_son_dato_invalido(slots):
+    estilo = {**RUNAS[0], "slots": slots}
+    with pytest.raises(DatoInvalido):
+        ddragon.validar_runas([estilo])
+
+
 def test_items_sin_nombre_se_omiten():
     items = {"data": {"3031": {"name": "Filo del Infinito"}, "9999": {"name": ""}}}
     assert ddragon.validar_items(items) == {"3031": {"nombre": "Filo del Infinito"}}

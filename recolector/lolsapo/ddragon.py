@@ -112,8 +112,14 @@ def validar_runas(datos) -> dict[str, dict]:
     for estilo in datos:
         clave, valor = _runa(estilo)
         runas[clave] = valor
-        for fila in estilo.get("slots") or []:
-            for runa in (fila or {}).get("runes") or []:
+        filas = estilo.get("slots") or []
+        if not isinstance(filas, list):
+            raise DatoInvalido("'slots' de runas debería ser una lista")
+        for fila in filas:
+            lista = fila.get("runes") if isinstance(fila, dict) else None
+            if not isinstance(lista, list):
+                raise DatoInvalido("fila de runas con formato inesperado")
+            for runa in lista:
                 clave, valor = _runa(runa)
                 runas[clave] = valor
     return runas

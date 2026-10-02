@@ -32,8 +32,9 @@ def _cantidad(valor: str) -> int:
 
 def _minutos(valor: str) -> int:
     numero = int(valor)
-    if not 1 <= numero <= 60:
-        raise argparse.ArgumentTypeError("debe estar entre 1 y 60 minutos")
+    # Mínimo 2: con partidas en vivo cada pasada usa más llamadas (rango y maestría).
+    if not 2 <= numero <= 60:
+        raise argparse.ArgumentTypeError("debe estar entre 2 y 60 minutos")
     return numero
 
 
@@ -55,7 +56,7 @@ def main(argv: list[str] | None = None, dormir: Callable[[float], None] = time.s
         "--cada",
         type=_minutos,
         metavar="MIN",
-        help="repetir cada MIN minutos (1-60) hasta presionar Ctrl+C; útil en local",
+        help="repetir cada MIN minutos (2-60) hasta presionar Ctrl+C; útil en local",
     )
     parser.add_argument("-v", "--verbose", action="store_true")
     args = parser.parse_args(argv)

@@ -40,7 +40,7 @@ log = logging.getLogger(__name__)
 
 
 class SecretoEnSalida(Exception):
-    """La API key apareció en el JSON de salida: no se escribe nada."""
+    """La API key o un PUUID apareció en el JSON de salida: no se escribe nada."""
 
 
 def _resolver_puuid(cliente: ClienteRiot, amigo: Amigo) -> str:
@@ -358,6 +358,12 @@ def ejecutar(
     texto = json.dumps(salida, ensure_ascii=False)
     if (api_key and api_key in texto) or "RGAPI-" in texto.upper():
         raise SecretoEnSalida("La API key apareció en los datos de salida; no se escribió nada.")
+    # Los PUUID solo viven en el registro local: la web identifica a los amigos por su slug.
+    puuids = set(slug_por_puuid) | {
+        j["puuid"] for activa in activas for j in activa["participantes"] if j["puuid"]
+    }
+    if any(puuid in texto for puuid in puuids):
+        raise SecretoEnSalida("Un PUUID apareció en los datos de salida; no se escribió nada.")
 
     escribir_json_atomico(ruta_salida, salida)
     log.info("lol.json generado en %.1f s: %s", time.monotonic() - inicio, ruta_salida)

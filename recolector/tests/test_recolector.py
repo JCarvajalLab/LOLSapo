@@ -380,6 +380,15 @@ def test_cualquier_key_de_riot_en_la_salida_bloquea_la_escritura(
     assert not (tmp_path / "lol.json").exists()
 
 
+@responses.activate
+def test_un_puuid_en_la_salida_bloquea_la_escritura(cliente, mapa, tmp_path, monkeypatch):
+    simular_amigo("Johnadis", P_JOHN, [])
+    monkeypatch.setattr("lolsapo.recolector.calcular_ranking", lambda _: [{"x": P_JOHN}])
+    with pytest.raises(SecretoEnSalida, match="PUUID"):
+        ejecutar(cliente, KEY_FALSA, [JOHN], mapa, tmp_path, tmp_path / "lol.json", ahora=AHORA)
+    assert not (tmp_path / "lol.json").exists()
+
+
 def test_main_sin_key_termina_con_error_de_configuracion(monkeypatch, tmp_path, caplog):
     monkeypatch.setenv("RIOT_API_KEY", "")
     monkeypatch.setattr("lolsapo.__main__.RUTA_ENV", tmp_path / "no-existe.env")
@@ -387,7 +396,7 @@ def test_main_sin_key_termina_con_error_de_configuracion(monkeypatch, tmp_path, 
     assert "Falta RIOT_API_KEY" in caplog.text
 
 
-@pytest.mark.parametrize("minutos", ["0", "61", "x"])
+@pytest.mark.parametrize("minutos", ["0", "1", "61", "x"])
 def test_main_rechaza_cada_fuera_de_rango(minutos):
     with pytest.raises(SystemExit):
         main(["--cada", minutos])
