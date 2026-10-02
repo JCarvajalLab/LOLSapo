@@ -98,6 +98,21 @@ npm audit
 
 Los colores están como variables en `frontend/src/estilos/index.css` (por ejemplo, `--color-victoria`).
 
+## Publicación (GitHub Pages)
+
+Sitio: **https://jcarvajallab.github.io/LOLSapo/**
+
+El workflow [`.github/workflows/publicar.yml`](.github/workflows/publicar.yml) corre cada ~10 minutos (y al mergear en `main`, o a mano desde **Actions → Publicar → Run workflow**):
+
+1. **Consultar Riot:** trae el registro desde la rama `datos`, corre el recolector con la key guardada en el environment `produccion` y, si el registro cambió, lo guarda de vuelta en `datos`. `main` nunca recibe commits automáticos.
+2. **Publicar:** construye la web con el `lol.json` nuevo, corre `verificar:build` (sin keys, sin PUUID y con CSP) y la publica en GitHub Pages.
+
+La rama `datos` solo la escribe el workflow: no la borres, ahí vive el registro acumulado de partidas. Los registros no guardan PUUID.
+
+### Renovar la API key
+
+La key vive como secret en **Settings → Environments → produccion → `RIOT_API_KEY`**. Para cambiarla, edita ese secret y pega la nueva (nadie puede ver la anterior, solo reemplazarla). La *development key* caduca cada 24 horas; cuando caduca, el workflow falla y la web avisa que los datos están viejos. Con la *Personal API Key* no caduca.
+
 ## Agregar o quitar un amigo
 
 Edita [config/amigos.json](config/amigos.json) y agrega o quita su Riot ID con el formato `nombre#tag`:
