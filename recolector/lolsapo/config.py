@@ -16,6 +16,8 @@ RUTA_MODOS = RAIZ / "config" / "modos.json"
 RUTA_ENV = RAIZ / ".env"
 DIR_DATOS = RAIZ / "datos"
 RUTA_SALIDA = RAIZ / "frontend" / "public" / "datos" / "lol.json"
+RUTA_MODOS_TFT = RAIZ / "config" / "modos_tft.json"
+RUTA_SALIDA_TFT = RAIZ / "frontend" / "public" / "datos" / "tft.json"
 
 MAX_AMIGOS = 10
 
@@ -101,4 +103,15 @@ def cargar_api_key(ruta_env: Path = RUTA_ENV) -> str:
         )
     if not _PATRON_API_KEY.match(api_key):
         raise ErrorConfiguracion("RIOT_API_KEY no tiene el formato esperado (RGAPI-...).")
+    return api_key
+
+
+def cargar_api_key_tft(ruta_env: Path = RUTA_ENV) -> str | None:
+    """Lee RIOT_API_KEY_TFT (opcional). Si no está, TFT usa la misma key que LoL (None)."""
+    load_dotenv(ruta_env, override=False)
+    api_key = os.environ.get("RIOT_API_KEY_TFT", "").strip()
+    if not api_key:
+        return None
+    if not _PATRON_API_KEY.match(api_key):
+        raise ErrorConfiguracion("RIOT_API_KEY_TFT no tiene el formato esperado (RGAPI-...).")
     return api_key

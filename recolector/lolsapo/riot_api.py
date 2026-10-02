@@ -206,6 +206,26 @@ class ClienteRiot:
         url = f"{URL_PLATAFORMA}/lol/spectator/v5/active-games/by-summoner/{_segmento(puuid)}"
         return self._get(url, permitir_404=True)
 
+    # --- Endpoints de TFT ----------------------------------------------------------
+
+    def ligas_tft(self, puuid: str) -> list:
+        """tft-league-v1: rango en Ranked, Double Up e Hyper Roll."""
+        return self._get(f"{URL_PLATAFORMA}/tft/league/v1/by-puuid/{_segmento(puuid)}")
+
+    def ids_partidas_tft(self, puuid: str, cantidad: int) -> list:
+        """tft-match-v1: ids de las últimas partidas de TFT (cualquier modo)."""
+        url = f"{URL_REGION}/tft/match/v1/matches/by-puuid/{_segmento(puuid)}/ids"
+        return self._get(url, params={"start": 0, "count": cantidad})
+
+    def partida_tft(self, id_partida: str) -> dict:
+        """tft-match-v1: detalle de una partida de TFT."""
+        return self._get(f"{URL_REGION}/tft/match/v1/matches/{_segmento(id_partida)}")
+
+    def partida_activa_tft(self, puuid: str) -> dict | None:
+        """spectator-tft-v5: partida de TFT en curso, o None si no está jugando (404)."""
+        url = f"{URL_PLATAFORMA}/lol/spectator/tft/v5/active-games/by-puuid/{_segmento(puuid)}"
+        return self._get(url, permitir_404=True)
+
 
 def _ruta_para_logs(url: str) -> str:
     """Ruta de la URL sin PUUID ni Riot ID, para que no queden en logs ni mensajes de error."""

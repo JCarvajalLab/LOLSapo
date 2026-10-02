@@ -1,0 +1,18 @@
+{
+  "_info": "Mapa queueId de TFT -> nombre en español y categoría (ranked, normal, otros). Fuente: tft-queues.json de Data Dragon. Un queueId que no esté aquí se muestra como 'Modo especial' en la categoría 'otros'.",
+  "modos": {
+    "0": { "nombre": "Personalizada", "categoria": "otros" },
+    "1090": { "nombre": "Normal", "categoria": "normal" },
+    "1100": { "nombre": "Clasificatoria", "categoria": "ranked" },
+    "1110": { "nombre": "Tutorial", "categoria": "otros" },
+    "1130": { "nombre": "Hyper Roll", "categoria": "ranked" },
+    "1160": { "nombre": "Dúo dinámico", "categoria": "ranked" },
+    "1170": { "nombre": "Favor de la fortuna", "categoria": "normal" },
+    "1210": { "nombre": "El tesoro de Pachonc", "categoria": "otros" },
+    "1220": { "nombre": "Pruebas de Tictoco", "categoria": "otros" },
+    "6000": { "nombre": "Festival de las bestias", "categoria": "otros" },
+    "6100": { "nombre": "K.O. Pachoncoliseo", "categoria": "otros" },
+    "6120": { "nombre": "Fiesta de Pengu", "categoria": "otros" },
+    "6130": { "nombre": "Ao Shin asciende", "categoria": "otros" }
+  }
+}
