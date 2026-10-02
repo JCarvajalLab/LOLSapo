@@ -31,9 +31,9 @@ describe("App", () => {
   it("muestra un error claro si no hay datos", async () => {
     const fetchFn = vi.fn(() => Promise.resolve({ ok: false, status: 404 }));
     render(<App fetchFn={fetchFn} />);
-    expect(await screen.findByRole("alert")).toHaveTextContent("No se pudieron leer los datos.");
-    expect(screen.getByRole("alert")).toHaveTextContent("No existe datos/lol.json");
-    expect(screen.getByRole("alert")).toHaveTextContent("reintenta sola cada 2 minutos");
+    expect(await screen.findByRole("alert")).toHaveTextContent("Todavía no hay datos.");
+    expect(screen.getByRole("alert")).toHaveTextContent("Corre el recolector: python -m lolsapo");
+    expect(screen.queryByRole("status")).not.toBeInTheDocument();
   });
 
   it("abre el amigo indicado en el hash y alterna el acordeón", async () => {

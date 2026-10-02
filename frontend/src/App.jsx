@@ -3,7 +3,8 @@ import { useDatosLol } from "./datos/useDatosLol.js";
 import { isoAMs } from "./logica/formato.js";
 import { useAmigosAbiertos } from "./rutas/useAmigosAbiertos.js";
 import { Encabezado } from "./componentes/Encabezado.jsx";
-import { Cargando, EstadoError, EstadoVacio } from "./componentes/Estados.jsx";
+import { EsqueletoPagina } from "./componentes/Esqueleto.jsx";
+import { ErrorCarga, EstadoVacio } from "./componentes/Estados.jsx";
 import { FilaAmigo } from "./componentes/FilaAmigo.jsx";
 import { Ranking } from "./componentes/Ranking.jsx";
 import { SeccionEnPartida } from "./componentes/SeccionEnPartida.jsx";
@@ -29,14 +30,9 @@ export default function App({ fetchFn }) {
       <Encabezado actualizado={datos?.actualizado} ahora={ahora} falloActualizar={Boolean(error && datos)} />
 
       <main id="contenido" tabIndex={-1} aria-busy={cargando} className="mx-auto w-full max-w-6xl flex-1 space-y-6 px-4 py-5 focus:outline-none">
-        {error && !datos && (
-          <EstadoError titulo="No se pudieron leer los datos.">
-            {error} Revisa que el script de datos haya generado datos/lol.json. La página reintenta sola cada 2
-            minutos.
-          </EstadoError>
-        )}
+        {error && !datos && <ErrorCarga error={error} />}
 
-        {!datos && cargando && <Cargando />}
+        {!datos && !error && <EsqueletoPagina />}
 
         {datos && (
           <>

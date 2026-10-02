@@ -3,12 +3,23 @@
 /** Ruta del JSON relativa a la página (funciona en localhost y en GitHub Pages). */
 export const RUTA_DATOS = "./datos/lol.json";
 
-export class ErrorDatos extends Error {}
+/**
+ * Error al leer los datos. `tipo` permite mostrar un mensaje accionable:
+ * - "sin-datos": todavía no existe lol.json (hay que correr el recolector).
+ * - "red": no se pudo conectar o el servidor falló; se reintenta solo.
+ * - "formato": el archivo existe pero está dañado o no tiene la forma esperada.
+ */
+export class ErrorDatos extends Error {
+  constructor(mensaje, tipo = "red") {
+    super(mensaje);
+    this.tipo = tipo;
+  }
+}
 
 /** Comprueba la forma mínima y rellena lo que falte para no romper la interfaz. */
 export function validarDatos(json) {
   if (!json || typeof json !== "object" || !Array.isArray(json.amigos)) {
-    throw new ErrorDatos("El archivo de datos no tiene el formato esperado.");
+    throw new ErrorDatos("El archivo de datos no tiene el formato esperado.", "formato");
   }
   return {
     version: json.version ?? null,
@@ -20,26 +31,29 @@ export function validarDatos(json) {
   };
 }
 
+const SIN_DATOS = "Todavía no hay datos.";
+
 /** Pide lol.json sin caché y lo valida. `fetchFn` se inyecta en los tests. */
 export async function cargarDatos(fetchFn = fetch) {
   let respuesta;
   try {
     respuesta = await fetchFn(RUTA_DATOS, { cache: "no-store" });
   } catch {
-    throw new ErrorDatos("No se pudo conectar con el servidor local.");
+    throw new ErrorDatos("No se pudo conectar con el servidor.", "red");
   }
+  if (respuesta.status === 404) throw new ErrorDatos(SIN_DATOS, "sin-datos");
   if (!respuesta.ok) {
-    throw new ErrorDatos(
-      respuesta.status === 404
-        ? "No existe datos/lol.json. Ejecuta el script de datos."
-        : `El servidor respondió con el código ${respuesta.status}.`,
-    );
+    throw new ErrorDatos(`El servidor respondió con el código ${respuesta.status}.`, "red");
   }
+  // En desarrollo, Vite responde index.html cuando el archivo no existe.
+  const tipoContenido = respuesta.headers?.get?.("content-type") ?? "";
+  if (tipoContenido.includes("text/html")) throw new ErrorDatos(SIN_DATOS, "sin-datos");
+
   let json;
   try {
     json = await respuesta.json();
   } catch {
-    throw new ErrorDatos("El archivo de datos está dañado. Ejecuta de nuevo el script de datos.");
+    throw new ErrorDatos("El archivo de datos está dañado.", "formato");
   }
   return validarDatos(json);
 }
