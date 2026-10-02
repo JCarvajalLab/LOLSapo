@@ -107,6 +107,8 @@ El workflow [`.github/workflows/publicar.yml`](.github/workflows/publicar.yml) c
 1. **Consultar Riot:** trae el registro desde la rama `datos`, corre el recolector con la key guardada en el environment `produccion` y, si el registro cambió, lo guarda de vuelta en `datos`. `main` nunca recibe commits automáticos.
 2. **Publicar:** construye la web con el `lol.json` nuevo, corre `verificar:build` (sin keys, sin PUUID y con CSP) y la publica en GitHub Pages.
 
+**Interruptor:** el workflow no hace nada hasta que exista la variable `PUBLICAR_ACTIVO` con valor `true` (**Settings → Secrets and variables → Actions → pestaña Variables**). Se activa cuando la key del environment es una *Personal API Key*: las políticas de Riot no permiten usar la *development key* en un sitio público. Para pausar la publicación, cambia la variable a `false`.
+
 La rama `datos` solo la escribe el workflow: no la borres, ahí vive el registro acumulado de partidas. Los registros no guardan PUUID.
 
 ### Renovar la API key
