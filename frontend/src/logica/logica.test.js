@@ -108,6 +108,13 @@ describe("Data Dragon", () => {
     expect(urlCampeon({ ...ddragon, campeones: { 5: { id: "x/../y" } } }, 5)).toBeNull();
     expect(urlRuna({ runas: { 1: { icono: "../../otro.png" } } }, 1)).toBeNull();
     expect(urlRuna({ runas: { 1: { icono: "https://malo.com/a.png" } } }, 1)).toBeNull();
+    // Igual que el recolector: solo rutas dentro de perk-images/.
+    expect(urlRuna({ runas: { 1: { icono: "otra-carpeta/Runa.png" } } }, 1)).toBeNull();
+    expect(urlRuna({ runas: { 1: { icono: "perk-images/a-b/Runa.png" } } }, 1)).toBeNull();
+    expect(urlRuna({ runas: { 1: { icono: "perk-images.png" } } }, 1)).toBeNull();
+    expect(urlRuna({ runas: { 1: { icono: "perk-images/Styles/7201_Precision.png" } } }, 1)).toBe(
+      "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/7201_Precision.png",
+    );
   });
 
   it("usa el id de la partida si falta el campeón en Data Dragon", () => {
@@ -194,13 +201,26 @@ describe("datos y rutas", () => {
   });
 
   it("explica los errores de carga", async () => {
-    await expect(cargarDatos(async () => ({ ok: false, status: 404 }))).rejects.toThrow("No existe datos/lol.json");
+    await expect(cargarDatos(async () => ({ ok: false, status: 404 }))).rejects.toMatchObject({
+      tipo: "sin-datos",
+      message: "Todavía no hay datos.",
+    });
+    await expect(cargarDatos(async () => ({ ok: false, status: 500 }))).rejects.toMatchObject({ tipo: "red" });
     await expect(cargarDatos(async () => ({ ok: false, status: 500 }))).rejects.toThrow("código 500");
+    // En desarrollo, Vite responde index.html (200) cuando el archivo no existe.
+    await expect(
+      cargarDatos(async () => ({
+        ok: true,
+        status: 200,
+        headers: new Headers({ "content-type": "text/html" }),
+        json: async () => ({}),
+      })),
+    ).rejects.toMatchObject({ tipo: "sin-datos" });
     await expect(
       cargarDatos(async () => {
         throw new TypeError("red");
       }),
-    ).rejects.toThrow("No se pudo conectar");
+    ).rejects.toMatchObject({ tipo: "red", message: "No se pudo conectar con el servidor." });
     await expect(
       cargarDatos(async () => ({
         ok: true,
@@ -208,7 +228,10 @@ describe("datos y rutas", () => {
           throw new SyntaxError("x");
         },
       })),
-    ).rejects.toThrow("dañado");
+    ).rejects.toMatchObject({ tipo: "formato" });
+    await expect(cargarDatos(async () => ({ ok: true, json: async () => ({}) }))).rejects.toMatchObject({
+      tipo: "formato",
+    });
   });
 
   it("lee el slug del hash y rechaza valores raros", () => {
