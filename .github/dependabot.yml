@@ -1,5 +1,5 @@
 # Dependabot revisa cada semana si hay versiones nuevas o con vulnerabilidades.
-# npm del frontend se agrega en la fase 3. Los rev de .pre-commit-config.yaml se
+# Los rev de .pre-commit-config.yaml se
 # actualizan a mano con: pre-commit autoupdate --freeze
 version: 2
 updates:
@@ -9,6 +9,17 @@ updates:
       interval: weekly
     commit-message:
       prefix: ci
+
+  - package-ecosystem: npm
+    directory: /frontend
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: chore
+    groups:
+      # Un solo PR semanal para las dependencias de desarrollo (tests, lint, build).
+      desarrollo:
+        dependency-type: development
 
   - package-ecosystem: pip
     directory: /recolector

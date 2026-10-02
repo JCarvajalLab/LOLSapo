@@ -15,7 +15,29 @@ from lolsapo.registro import (
 
 
 def resumen(id_partida: str, resultado="victoria", queue_id=420, fecha=1) -> dict:
-    return {"id": id_partida, "resultado": resultado, "queue_id": queue_id, "fecha": fecha}
+    return {
+        "id": id_partida,
+        "resultado": resultado,
+        "queue_id": queue_id,
+        "fecha": fecha,
+        "participantes": [],
+    }
+
+
+def test_partidas_sin_detalle_se_completan_una_vez():
+    registro = registro_vacio("A#LAS", 0)
+    vieja = {"id": "LA2_1", "resultado": "victoria", "queue_id": 420, "fecha": 1}
+    registro["partidas"]["LA2_1"] = vieja
+    assert ids_nuevos(["LA2_1"], registro) == ["LA2_1"]
+    assert agregar_partidas(registro, [resumen("LA2_1")]) == 1
+    assert ids_nuevos(["LA2_1"], registro) == []
+
+
+def test_registro_v1_se_migra_a_v2(tmp_path):
+    ruta = tmp_path / "a-las.json"
+    v1 = {**registro_vacio("A#LAS", 0), "version": 1}
+    ruta.write_text(json.dumps(v1), encoding="utf-8")
+    assert leer_registro(ruta, "A#LAS", 0)["version"] == 2
 
 
 def test_ids_nuevos_omite_los_ya_guardados():

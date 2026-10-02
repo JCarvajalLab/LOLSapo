@@ -86,6 +86,116 @@ def test_genera_lol_json_completo(cliente, mapa, tmp_path):
 
 
 @responses.activate
+def test_incluye_data_dragon_solo_con_lo_usado(cliente, mapa, tmp_path):
+    simular_amigo("Johnadis", P_JOHN, ["LA2_1"], jugando=partida_activa(P_JOHN, 450, 62))
+    simular_partida("LA2_1", P_JOHN)
+    ddragon = {
+        "version": "16.19.1",
+        "campeones": {str(i): {"id": f"C{i}", "nombre": f"C{i}"} for i in (1, 2, 62, 86, 103)},
+        "hechizos": {
+            "4": {"id": "SummonerFlash", "nombre": "Destello"},
+            "3": {"id": "X", "nombre": "X"},
+        },
+        "items": {"3031": {"nombre": "Filo"}, "1001": {"nombre": "Botas"}},
+        "runas": {"8112": {"nombre": "Electrocutar", "icono": "perk-images/a.png"}},
+    }
+    salida = ejecutar(
+        cliente,
+        KEY_FALSA,
+        [JOHN],
+        mapa,
+        tmp_path,
+        tmp_path / "lol.json",
+        ahora=AHORA,
+        ddragon=ddragon,
+    )
+    assert salida["ddragon"]["version"] == "16.19.1"
+    assert set(salida["ddragon"]["campeones"]) == {"1", "62", "86", "103"}  # sin el 2
+    assert set(salida["ddragon"]["hechizos"]) == {"4"}
+    assert set(salida["ddragon"]["items"]) == {"3031"}
+    assert set(salida["ddragon"]["runas"]) == {"8112"}
+
+
+@responses.activate
+def test_dos_amigos_en_la_misma_partida_en_vivo(cliente, mapa, tmp_path):
+    en_vivo = partida_activa(P_JOHN, 450, 103, id_partida=99, companeros=(P_GATO,))
+    simular_amigo("Johnadis", P_JOHN, [], jugando=en_vivo, ligas=[liga(tier="GOLD", rank="I")])
+    simular_amigo("Big Gato", P_GATO, [], jugando=en_vivo)
+    rival = "rival1".ljust(78, "r")
+    en_racha = liga("RANKED_FLEX_SR", "SILVER", "III", 12, wins=3, losses=1)
+    en_racha["hotStreak"] = True
+    responses.get(f"{URL_PLATAFORMA}/lol/league/v4/entries/by-puuid/{rival}", json=[en_racha])
+    maestrias = f"{URL_PLATAFORMA}/lol/champion-mastery/v4/champion-masteries/by-puuid"
+    responses.get(
+        f"{maestrias}/{P_JOHN}/by-champion/103",
+        json={"championLevel": 7, "championPoints": 150000},
+    )
+    responses.get(f"{maestrias}/{P_GATO}/by-champion/86", status=404)  # nunca lo jugó
+    responses.get(f"{maestrias}/{rival}/by-champion/62", status=503)  # falla: sin maestría
+
+    salida = ejecutar(
+        cliente, KEY_FALSA, [JOHN, GATO], mapa, tmp_path, tmp_path / "lol.json", ahora=AHORA
+    )
+
+    assert len(salida["en_vivo"]) == 1  # una sola partida, aunque haya dos amigos
+    partida_vivo = salida["en_vivo"][0]
+    assert partida_vivo["id"] == 99
+    assert partida_vivo["modo"] == "ARAM"
+    assert partida_vivo["amigos"] == ["big-gato-las", "johnadis-las"]
+    azul, rojo = partida_vivo["equipos"]
+    assert azul["equipo"] == 100
+    assert [j["amigo"] for j in azul["jugadores"]] == ["johnadis-las", "big-gato-las"]
+    streamer = rojo["jugadores"][1]
+    assert streamer["nombre"] is None and streamer["amigo"] is None and streamer["rango"] is None
+    # Rangos: el del amigo sale de sus datos; el del rival (solo Flex) se consulta una vez.
+    assert azul["jugadores"][0]["rango"] == {
+        "tier": "GOLD",
+        "division": "I",
+        "lp": 45,
+        "victorias": 30,
+        "derrotas": 25,
+        "winrate": 54.5,
+        "racha": False,
+    }
+    assert azul["jugadores"][1]["rango"] is None  # Big Gato sin rankeds
+    assert rojo["jugadores"][0]["rango"]["tier"] == "SILVER"
+    assert rojo["jugadores"][0]["rango"]["winrate"] == 75.0
+    assert rojo["jugadores"][0]["rango"]["racha"] is True
+    assert llamadas_a(f"/entries/by-puuid/{rival}") == 1
+    # Maestría: con datos, nunca jugado (0) y no disponible (None). Streamer: sin llamada.
+    assert azul["jugadores"][0]["maestria"] == {"nivel": 7, "puntos": 150000}
+    assert azul["jugadores"][1]["maestria"] == {"nivel": 0, "puntos": 0}
+    assert rojo["jugadores"][0]["maestria"] is None
+    assert streamer["maestria"] is None
+    assert azul["jugadores"][0]["hechizos"] == [4, 14]
+    assert azul["jugadores"][0]["runas"] == {"principal": 8112, "secundaria": 8000}
+    assert azul["bloqueos"] == [157] and rojo["bloqueos"] == [238]
+    assert all("puuid" not in j for e in partida_vivo["equipos"] for j in e["jugadores"])
+    assert [a["jugando"]["partida_id"] for a in salida["amigos"]] == [99, 99]
+
+
+@responses.activate
+def test_partidas_marcan_a_los_amigos_y_no_publican_puuid(cliente, mapa, tmp_path):
+    simular_amigo("Johnadis", P_JOHN, ["LA2_1"])
+    simular_amigo("Big Gato", P_GATO, [])
+    simular_partida("LA2_1", P_JOHN, companeros=(P_GATO,))
+
+    salida = ejecutar(
+        cliente, KEY_FALSA, [JOHN, GATO], mapa, tmp_path, tmp_path / "lol.json", ahora=AHORA
+    )
+
+    participantes = salida["amigos"][0]["partidas"][0]["participantes"]
+    assert [p["amigo"] for p in participantes] == ["johnadis-las", None, "big-gato-las", None, None]
+    assert all("puuid" not in p for p in participantes)
+    texto = (tmp_path / "lol.json").read_text(encoding="utf-8")
+    for puuid in (P_JOHN, P_GATO, "aliado".ljust(78, "a"), "rival1".ljust(78, "r")):
+        assert puuid not in texto
+    # El registro local sí guarda los PUUID (para reconocer amigos en ejecuciones futuras).
+    registro = (tmp_path / "registro" / "johnadis-las.json").read_text(encoding="utf-8")
+    assert P_GATO in registro
+
+
+@responses.activate
 def test_segunda_ejecucion_solo_descarga_partidas_nuevas(cliente, mapa, tmp_path):
     simular_amigo("Johnadis", P_JOHN, ["LA2_2", "LA2_1"])
     simular_partida("LA2_2", P_JOHN, fin=2_000)
@@ -270,11 +380,48 @@ def test_cualquier_key_de_riot_en_la_salida_bloquea_la_escritura(
     assert not (tmp_path / "lol.json").exists()
 
 
+@responses.activate
+def test_un_puuid_en_la_salida_bloquea_la_escritura(cliente, mapa, tmp_path, monkeypatch):
+    simular_amigo("Johnadis", P_JOHN, [])
+    monkeypatch.setattr("lolsapo.recolector.calcular_ranking", lambda _: [{"x": P_JOHN}])
+    with pytest.raises(SecretoEnSalida, match="PUUID"):
+        ejecutar(cliente, KEY_FALSA, [JOHN], mapa, tmp_path, tmp_path / "lol.json", ahora=AHORA)
+    assert not (tmp_path / "lol.json").exists()
+
+
 def test_main_sin_key_termina_con_error_de_configuracion(monkeypatch, tmp_path, caplog):
     monkeypatch.setenv("RIOT_API_KEY", "")
     monkeypatch.setattr("lolsapo.__main__.RUTA_ENV", tmp_path / "no-existe.env")
     assert main(["--datos", str(tmp_path), "--salida", str(tmp_path / "lol.json")]) == 1
     assert "Falta RIOT_API_KEY" in caplog.text
+
+
+@pytest.mark.parametrize("minutos", ["0", "1", "61", "x"])
+def test_main_rechaza_cada_fuera_de_rango(minutos):
+    with pytest.raises(SystemExit):
+        main(["--cada", minutos])
+
+
+def test_main_cada_repite_hasta_ctrl_c(monkeypatch):
+    llamadas = []
+    monkeypatch.setattr("lolsapo.__main__._una_vez", lambda args, log: llamadas.append(1) or 0)
+    esperas = []
+
+    def dormir(segundos):
+        esperas.append(segundos)
+        if len(esperas) == 3:
+            raise KeyboardInterrupt
+
+    assert main(["--cada", "3"], dormir=dormir) == 0
+    assert len(llamadas) == 3
+    assert esperas == [180, 180, 180]
+
+
+def test_main_cada_se_detiene_si_la_key_es_rechazada(monkeypatch):
+    monkeypatch.setattr("lolsapo.__main__._una_vez", lambda args, log: 2)
+    esperas = []
+    assert main(["--cada", "3"], dormir=esperas.append) == 2
+    assert esperas == []
 
 
 def test_main_rechaza_cantidad_fuera_de_rango():

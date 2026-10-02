@@ -2,7 +2,7 @@
 
 Web estilo op.gg para un grupo cerrado de amigos del servidor **LAS**. Muestra quién está jugando ahora, rango, victorias y derrotas en todos los modos de juego y las últimas 10 partidas de cada uno. Primero League of Legends; Teamfight Tactics después.
 
-> 🚧 Proyecto en desarrollo (fase 2: datos de LoL). Por ahora funciona solo en local.
+> 🚧 Proyecto en desarrollo (fase 3: interfaz de LoL). Por ahora funciona solo en local.
 
 El detalle completo del proyecto está en [docs/REQUERIMIENTOS.md](docs/REQUERIMIENTOS.md).
 
@@ -60,6 +60,8 @@ Consulta la API de Riot y genera `frontend/public/datos/lol.json`. Por cada amig
 
 El registro acumulado de partidas queda en `datos/registro/` (ignorado por git). Las estadísticas de victorias y derrotas por modo se calculan a partir de ese registro, así que cuentan desde que LOLSapo empezó a seguir a cada amigo.
 
+Para que se repita solo (útil en local para ver "En partida"): `python -m lolsapo --cada 3` repite cada 3 minutos hasta presionar `Ctrl + C`.
+
 Códigos de salida: `0` bien · `1` configuración inválida o falta la key · `2` Riot rechazó la key (la dev key caduca cada 24 h) · `3` la key apareció en la salida (no se escribe nada).
 
 ### Tests y chequeos del recolector
@@ -74,7 +76,27 @@ pip-audit --strict --require-hashes -r requirements-dev.txt
 
 ### Frontend
 
-Se completará en la fase 3.
+Web en React + Vite + Tailwind que solo lee `frontend/public/datos/lol.json` (nunca llama a Riot):
+
+```powershell
+cd frontend
+npm install
+npm run dev        # http://localhost:5173
+```
+
+La página vuelve a leer los datos cada 2 minutos mientras la pestaña está visible. Para ver datos nuevos (por ejemplo, quién está en partida), el recolector tiene que estar corriendo: en local, `python -m lolsapo --cada 3` en otra terminal. Si los datos tienen más de 15 minutos, la web lo avisa; con más de 60, oculta las partidas en vivo.
+
+Chequeos del frontend:
+
+```powershell
+npm run lint
+npm test
+npm run build
+npm run verificar:build   # el build no debe contener keys de Riot
+npm audit
+```
+
+Los colores están como variables en `frontend/src/estilos/index.css` (por ejemplo, `--color-victoria`).
 
 ## Agregar o quitar un amigo
 
@@ -95,6 +117,7 @@ En la siguiente ejecución del recolector aparece el amigo nuevo (con sus últim
 ```text
 config/      Lista de amigos y mapa de modos de juego
 recolector/  Script de Python que consulta a Riot (paquete lolsapo) y sus tests
+frontend/    Web en React + Vite + Tailwind y sus tests
 docs/        Documentación y requerimientos
 .github/     Workflows de CI y configuración de Dependabot
 .claude/     Configuración y subagentes de Claude Code

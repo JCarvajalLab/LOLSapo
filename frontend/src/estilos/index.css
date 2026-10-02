@@ -1,0 +1,101 @@
+@import "tailwindcss";
+@import "@fontsource-variable/bricolage-grotesque/wght.css";
+@import "@fontsource/ibm-plex-sans/latin-400.css";
+@import "@fontsource/ibm-plex-sans/latin-600.css";
+
+/*
+  Tokens de diseño de LOLSapo.
+  Para cambiar un color en toda la web, edita solo su valor aquí.
+  Tailwind genera las clases automáticamente: bg-fondo, text-victoria, border-borde, etc.
+*/
+@theme {
+  /* Base */
+  --color-fondo: #0f1418; /* Charca nocturna: fondo de la página */
+  --color-superficie: #182027; /* Piedra mojada: paneles y filas */
+  --color-superficie-alta: #1f2932; /* Paneles destacados y hover */
+  --color-borde: #24303a; /* Bordes y separadores */
+  --color-texto: #e8edf0; /* Niebla: texto principal */
+  --color-texto-suave: #8c98a4; /* Junco: texto secundario */
+
+  /* Marca y acentos */
+  --color-sapo: #f5b83d; /* Ojo de sapo: marca, foco y amigos en partida */
+  --color-sapo-fondo: #2f2612;
+  --color-ranked: #5ab4e6; /* Hextech: partidas ranked */
+
+  /* Resultados */
+  --color-victoria: #3ddc84;
+  --color-victoria-fondo: #13291f;
+  --color-derrota: #ff5c5c;
+  --color-derrota-fondo: #2e1719;
+  --color-remake: #7a8590;
+
+  /* Tipografías */
+  --font-titulo: "Bricolage Grotesque Variable", "IBM Plex Sans", system-ui, sans-serif;
+  --font-sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+html {
+  background-color: var(--color-fondo);
+  color-scheme: dark;
+}
+
+body {
+  background-color: var(--color-fondo);
+  color: var(--color-texto);
+  font-family: var(--font-sans);
+  margin: 0;
+  min-width: 320px;
+}
+
+/* Foco de teclado siempre visible, con el color de marca. */
+:focus-visible {
+  outline: 2px solid var(--color-sapo);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.cifras {
+  font-variant-numeric: tabular-nums;
+}
+
+/*
+  "Saco vocal": la única animación de la web.
+  Un anillo ámbar que se infla alrededor del ícono de quien está en partida.
+*/
+.saco-vocal {
+  position: relative;
+  isolation: isolate;
+}
+
+.saco-vocal::before,
+.saco-vocal::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: 9999px;
+  border: 2px solid var(--color-sapo);
+  pointer-events: none;
+}
+
+.saco-vocal::after {
+  animation: saco-vocal 2s ease-in-out infinite;
+}
+
+@keyframes saco-vocal {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.22);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .saco-vocal::after {
+    animation: none;
+    opacity: 0;
+  }
+}

@@ -14,7 +14,8 @@ from pathlib import Path
 
 from .modos import CATEGORIAS, MapaModos
 
-VERSION_REGISTRO = 1
+# v2: cada partida guarda además ítems, hechizos, runas, CS y participantes.
+VERSION_REGISTRO = 2
 
 log = logging.getLogger(__name__)
 
@@ -42,11 +43,19 @@ def leer_registro(ruta: Path, riot_id: str, ahora_ms: int) -> dict:
         return registro_vacio(riot_id, ahora_ms)
     if (
         not isinstance(registro, dict)
-        or registro.get("version") != VERSION_REGISTRO
+        or registro.get("version") not in (1, VERSION_REGISTRO)
         or not isinstance(registro.get("partidas"), dict)
     ):
         raise ValueError(f"Registro con formato inesperado: {ruta}")
+    # v1 -> v2: las partidas viejas siguen contando en las estadísticas; las que aún aparezcan
+    # entre las recientes se vuelven a descargar una vez para completar su detalle.
+    registro["version"] = VERSION_REGISTRO
     return registro
+
+
+def completa(partida: dict) -> bool:
+    """True si la partida ya tiene el detalle de la versión actual del registro."""
+    return "participantes" in partida
 
 
 def escribir_json_atomico(ruta: Path, datos) -> None:
@@ -65,15 +74,17 @@ def escribir_json_atomico(ruta: Path, datos) -> None:
 
 
 def ids_nuevos(ids: Iterable[str], registro: dict) -> list[str]:
-    """Ids que todavía no están en el registro (para no volver a descargarlos)."""
+    """Ids que faltan en el registro o les falta detalle (el resto no se vuelve a descargar)."""
     guardadas = registro["partidas"]
-    return [id_partida for id_partida in ids if id_partida not in guardadas]
+    return [i for i in ids if i not in guardadas or not completa(guardadas[i])]
 
 
 def agregar_partidas(registro: dict, resumenes: Iterable[dict]) -> int:
+    """Agrega partidas nuevas o completa las que no tenían detalle. Devuelve cuántas cambió."""
     agregadas = 0
     for resumen in resumenes:
-        if resumen["id"] not in registro["partidas"]:
+        existente = registro["partidas"].get(resumen["id"])
+        if existente is None or not completa(existente):
             registro["partidas"][resumen["id"]] = resumen
             agregadas += 1
     return agregadas

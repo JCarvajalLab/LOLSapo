@@ -6,6 +6,7 @@ import time
 from datetime import UTC, datetime
 from pathlib import Path
 
+from . import ddragon as datos_ddragon
 from .config import Amigo
 from .modos import MapaModos
 from .ranking import calcular_ranking
@@ -17,6 +18,7 @@ from .registro import (
     leer_registro,
     registro_vacio,
     ultimas_partidas,
+    winrate,
 )
 from .riot_api import ClienteRiot, ErrorAutenticacion, ErrorRiot, PeticionInvalida
 from .validacion import (
@@ -26,6 +28,7 @@ from .validacion import (
     validar_ids_partidas,
     validar_invocador,
     validar_ligas,
+    validar_maestria,
     validar_partida_activa,
 )
 
@@ -37,7 +40,7 @@ log = logging.getLogger(__name__)
 
 
 class SecretoEnSalida(Exception):
-    """La API key apareció en el JSON de salida: no se escribe nada."""
+    """La API key o un PUUID apareció en el JSON de salida: no se escribe nada."""
 
 
 def _resolver_puuid(cliente: ClienteRiot, amigo: Amigo) -> str:
@@ -69,8 +72,11 @@ def procesar_amigo(
     dir_registro: Path,
     cantidad: int,
     ahora_ms: int,
-) -> dict:
-    """Actualiza el registro de un amigo y devuelve su entrada para lol.json.
+) -> tuple[dict, str | None, dict | None]:
+    """Actualiza el registro de un amigo.
+
+    Devuelve (entrada para lol.json, PUUID, partida activa). La entrada aún trae los PUUID de
+    los participantes: `ejecutar` los reemplaza antes de publicar.
 
     Si algo falla con este amigo, se marca con estado "error" y se muestran sus últimos datos
     conocidos, sin romper al resto. Solo un error de autenticación detiene toda la ejecución.
@@ -81,7 +87,8 @@ def procesar_amigo(
     except ValueError as error:
         # Registro dañado: no se toca (para no perder historial) y se marca solo a este amigo.
         log.error("%s: %s", amigo.riot_id, error)
-        return _entrada(amigo, mapa, registro_vacio(amigo.riot_id, ahora_ms), None, MENSAJE_ERROR)
+        vacio = registro_vacio(amigo.riot_id, ahora_ms)
+        return _entrada(amigo, mapa, vacio, None, MENSAJE_ERROR), None, None
     mensaje_error, jugando = None, None
 
     try:
@@ -107,7 +114,8 @@ def procesar_amigo(
         log.error("%s: %s (%s)", amigo.riot_id, error, type(error).__name__)
 
     escribir_json_atomico(ruta_registro, registro)
-    return _entrada(amigo, mapa, registro, jugando, mensaje_error)
+    entrada = _entrada(amigo, mapa, registro, jugando, mensaje_error)
+    return entrada, registro.get("puuid"), jugando
 
 
 def _entrada(
@@ -116,7 +124,15 @@ def _entrada(
     """Arma la entrada de un amigo para lol.json a partir de su registro."""
     if jugando is not None:
         modo = mapa.obtener(jugando["queue_id"])
-        jugando = {**jugando, "modo": modo.nombre, "categoria": modo.categoria}
+        jugando = {
+            "partida_id": jugando["id"],
+            "campeon_id": jugando["campeon_id"],
+            "queue_id": jugando["queue_id"],
+            "inicio": jugando["inicio"],
+            "duracion": jugando["duracion"],
+            "modo": modo.nombre,
+            "categoria": modo.categoria,
+        }
 
     partidas = []
     for partida in ultimas_partidas(registro, PARTIDAS_VISIBLES):
@@ -139,6 +155,159 @@ def _entrada(
     }
 
 
+def _publicar_participantes(participantes: list[dict], slug_por_puuid: dict) -> list[dict]:
+    """Quita los PUUID y marca con el slug a los jugadores que son del grupo."""
+    return [
+        {
+            "campeon_id": p["campeon_id"],
+            "equipo": p["equipo"],
+            "nombre": p["nombre"],
+            "amigo": slug_por_puuid.get(p["puuid"]) if p["puuid"] else None,
+        }
+        for p in participantes
+    ]
+
+
+def _rangos_en_vivo(cliente: ClienteRiot, activas: list[dict], conocidos: dict) -> dict:
+    """Rango Solo/Dúo (o Flex si no tiene) de cada jugador de las partidas en vivo.
+
+    `conocidos` trae los rangos de los amigos (ya consultados). Para el resto se hace una
+    llamada por jugador; si falla, ese jugador queda sin rango y no afecta a nada más.
+    Los jugadores en modo streamer no traen PUUID y quedan sin rango.
+    """
+    rangos = dict(conocidos)
+    for activa in activas:
+        for jugador in activa["participantes"]:
+            puuid = jugador["puuid"]
+            if not puuid or puuid in rangos:
+                continue
+            try:
+                ligas = validar_ligas(cliente.ligas(puuid))
+                rangos[puuid] = ligas["solo"] or ligas["flex"]
+            except ErrorAutenticacion:
+                raise
+            except (ErrorRiot, DatoInvalido) as error:
+                log.warning("Rango de un jugador en vivo no disponible: %s", error)
+                rangos[puuid] = None
+    return rangos
+
+
+def _maestrias_en_vivo(cliente: ClienteRiot, activas: list[dict]) -> dict:
+    """Maestría de cada jugador con el campeón que está jugando: {(puuid, campeon): {...}}.
+
+    Una llamada por jugador (con PUUID). Si nunca jugó el campeón, nivel y puntos quedan en 0.
+    Si la llamada falla, ese jugador queda sin maestría y no afecta a nada más.
+    """
+    maestrias: dict[tuple[str, int], dict | None] = {}
+    for activa in activas:
+        for jugador in activa["participantes"]:
+            clave = (jugador["puuid"], jugador["campeon_id"])
+            if not jugador["puuid"] or clave in maestrias:
+                continue
+            try:
+                datos = cliente.maestria(*clave)
+                maestrias[clave] = (
+                    validar_maestria(datos) if datos is not None else {"nivel": 0, "puntos": 0}
+                )
+            except ErrorAutenticacion:
+                raise
+            except (ErrorRiot, DatoInvalido) as error:
+                log.warning("Maestría de un jugador en vivo no disponible: %s", error)
+                maestrias[clave] = None
+    return maestrias
+
+
+def _partidas_en_vivo(
+    activas: list[dict],
+    mapa: MapaModos,
+    slug_por_puuid: dict,
+    rangos: dict,
+    maestrias: dict | None = None,
+) -> list[dict]:
+    """Una entrada por partida en curso, aunque haya varios amigos en ella."""
+    por_id: dict[int, dict] = {}
+    for activa in activas:
+        if activa["id"] in por_id:
+            continue
+        modo = mapa.obtener(activa["queue_id"])
+        jugadores = [
+            {
+                **publico,
+                "hechizos": original["hechizos"],
+                "runas": original["runas"],
+                "rango": _rango_en_vivo(rangos.get(original["puuid"])),
+                "maestria": (maestrias or {}).get((original["puuid"], original["campeon_id"])),
+            }
+            for publico, original in zip(
+                _publicar_participantes(activa["participantes"], slug_por_puuid),
+                activa["participantes"],
+                strict=True,
+            )
+        ]
+        equipos = sorted({j["equipo"] for j in jugadores})
+        por_id[activa["id"]] = {
+            "id": activa["id"],
+            "queue_id": activa["queue_id"],
+            "modo": modo.nombre,
+            "categoria": modo.categoria,
+            "inicio": activa["inicio"],
+            "duracion": activa["duracion"],
+            "amigos": sorted({j["amigo"] for j in jugadores if j["amigo"]}),
+            "equipos": [
+                {
+                    "equipo": e,
+                    "jugadores": [j for j in jugadores if j["equipo"] == e],
+                    "bloqueos": [b["campeon_id"] for b in activa["bloqueos"] if b["equipo"] == e],
+                }
+                for e in equipos
+            ],
+        }
+    return list(por_id.values())
+
+
+def _rango_en_vivo(rango: dict | None) -> dict | None:
+    """Rango para la partida en vivo: tier, división, LP, winrate de la temporada y racha."""
+    if not rango:
+        return None
+    return {
+        "tier": rango["tier"],
+        "division": rango["division"],
+        "lp": rango["lp"],
+        "victorias": rango["victorias"],
+        "derrotas": rango["derrotas"],
+        "winrate": winrate(rango["victorias"], rango["derrotas"]),
+        # Rangos guardados antes de agregar la racha no traen el campo.
+        "racha": rango.get("racha", False),
+    }
+
+
+def _elementos_usados(entradas: list[dict], en_vivo: list[dict]) -> dict[str, set[int]]:
+    usados: dict[str, set[int]] = {
+        "campeones": set(),
+        "hechizos": set(),
+        "items": set(),
+        "runas": set(),
+    }
+    for entrada in entradas:
+        if entrada["jugando"] and entrada["jugando"]["campeon_id"] is not None:
+            usados["campeones"].add(entrada["jugando"]["campeon_id"])
+        for partida in entrada["partidas"]:
+            usados["campeones"].add(partida["campeon_id"])
+            usados["campeones"].update(p["campeon_id"] for p in partida.get("participantes", []))
+            usados["hechizos"].update(h for h in partida.get("hechizos", []) if h)
+            usados["items"].update(i for i in partida.get("items", []) if i)
+            runas = partida.get("runas") or {}
+            usados["runas"].update(r for r in runas.values() if r)
+    for partida in en_vivo:
+        for equipo in partida["equipos"]:
+            usados["campeones"].update(equipo["bloqueos"])
+            for jugador in equipo["jugadores"]:
+                usados["campeones"].add(jugador["campeon_id"])
+                usados["hechizos"].update(h for h in jugador["hechizos"] if h)
+                usados["runas"].update(r for r in jugador["runas"].values() if r)
+    return usados
+
+
 def ejecutar(
     cliente: ClienteRiot,
     api_key: str,
@@ -148,18 +317,39 @@ def ejecutar(
     ruta_salida: Path,
     cantidad: int = 20,
     ahora: datetime | None = None,
+    ddragon: dict | None = None,
 ) -> dict:
     ahora = ahora or datetime.now(UTC)
     ahora_ms = int(ahora.timestamp() * 1000)
     inicio = time.monotonic()
 
-    entradas = [
+    resultados = [
         procesar_amigo(cliente, amigo, mapa, Path(dir_datos) / "registro", cantidad, ahora_ms)
         for amigo in amigos
     ]
+    slug_por_puuid = {puuid: entrada["slug"] for entrada, puuid, _ in resultados if puuid}
+    entradas = [entrada for entrada, _, _ in resultados]
+    for entrada in entradas:
+        for partida in entrada["partidas"]:
+            if "participantes" in partida:
+                partida["participantes"] = _publicar_participantes(
+                    partida["participantes"], slug_por_puuid
+                )
+    activas = [activa for _, _, activa in resultados if activa]
+    rangos_amigos = {
+        puuid: (entrada["rangos"]["solo"] or entrada["rangos"]["flex"])
+        for entrada, puuid, _ in resultados
+        if puuid
+    }
+    rangos = _rangos_en_vivo(cliente, activas, rangos_amigos) if activas else {}
+    maestrias = _maestrias_en_vivo(cliente, activas) if activas else {}
+    en_vivo = _partidas_en_vivo(activas, mapa, slug_por_puuid, rangos, maestrias)
+
     salida = {
         "version": VERSION_SALIDA,
         "actualizado": ahora.isoformat(timespec="seconds").replace("+00:00", "Z"),
+        "ddragon": datos_ddragon.para_salida(ddragon, _elementos_usados(entradas, en_vivo)),
+        "en_vivo": en_vivo,
         "amigos": entradas,
         "ranking": calcular_ranking(entradas),
     }
@@ -168,6 +358,12 @@ def ejecutar(
     texto = json.dumps(salida, ensure_ascii=False)
     if (api_key and api_key in texto) or "RGAPI-" in texto.upper():
         raise SecretoEnSalida("La API key apareció en los datos de salida; no se escribió nada.")
+    # Los PUUID solo viven en el registro local: la web identifica a los amigos por su slug.
+    puuids = set(slug_por_puuid) | {
+        j["puuid"] for activa in activas for j in activa["participantes"] if j["puuid"]
+    }
+    if any(puuid in texto for puuid in puuids):
+        raise SecretoEnSalida("Un PUUID apareció en los datos de salida; no se escribió nada.")
 
     escribir_json_atomico(ruta_salida, salida)
     log.info("lol.json generado en %.1f s: %s", time.monotonic() - inicio, ruta_salida)

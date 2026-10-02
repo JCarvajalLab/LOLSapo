@@ -8,6 +8,7 @@ from lolsapo.validacion import (
     validar_ids_partidas,
     validar_invocador,
     validar_ligas,
+    validar_maestria,
     validar_partida_activa,
 )
 
@@ -27,7 +28,65 @@ def test_resumen_de_victoria():
         "muertes": 2,
         "asistencias": 7,
         "duracion": 1800,
+        "nivel": 16,
+        "cs": 177,
+        # (5 asesinatos + 7 asistencias) / (5 + 10 asesinatos del equipo) = 80 %
+        "participacion": 80,
+        "equipo": 100,
+        "items": [3031, 3006, 0, 0, 0, 0, 3340],
+        "hechizos": [4, 14],
+        "runas": {"principal": 8112, "secundaria": 8000},
+        "participantes": [
+            {"puuid": PUUID, "campeon_id": 103, "equipo": 100, "nombre": "Yo#LAS"},
+            {
+                "puuid": "aliado".ljust(78, "a"),
+                "campeon_id": 86,
+                "equipo": 100,
+                "nombre": "Aliado#LAS",
+            },
+            {
+                "puuid": "rival1".ljust(78, "r"),
+                "campeon_id": 62,
+                "equipo": 200,
+                "nombre": "Rival1#LAS",
+            },
+            {
+                "puuid": "rival2".ljust(78, "r"),
+                "campeon_id": 1,
+                "equipo": 200,
+                "nombre": "Rival2#LAS",
+            },
+        ],
     }
+
+
+def test_participante_sin_nombre_ni_puuid_queda_en_none():
+    datos = partida("LA2_1", PUUID)
+    rival = datos["info"]["participants"][3]
+    rival.update(puuid="", riotIdGameName="", riotIdTagline="")
+    otro = resumir_partida(datos, PUUID)["participantes"][3]
+    assert otro == {"puuid": None, "campeon_id": 1, "equipo": 200, "nombre": None}
+
+
+def test_sin_asesinatos_del_equipo_la_participacion_es_none():
+    datos = partida("LA2_1", PUUID, kda=(0, 0, 0))
+    datos["info"]["participants"][1]["kills"] = 0
+    assert resumir_partida(datos, PUUID)["participacion"] is None
+
+
+def test_arena_usa_el_subequipo():
+    datos = partida("LA2_1", PUUID, queue_id=1700)
+    for i, p in enumerate(datos["info"]["participants"]):
+        p["playerSubteamId"] = [1, 1, 2, 2][i]
+    resumen = resumir_partida(datos, PUUID)
+    assert resumen["equipo"] == 1
+    assert [p["equipo"] for p in resumen["participantes"]] == [1, 1, 2, 2]
+
+
+def test_runas_ausentes_no_rompen():
+    datos = partida("LA2_1", PUUID)
+    datos["info"]["participants"][0]["perks"] = {}
+    assert resumir_partida(datos, PUUID)["runas"] == {"principal": None, "secundaria": None}
 
 
 def test_resumen_de_derrota_y_remake():
@@ -56,12 +115,12 @@ def test_queue_id_ausente_queda_como_none():
     [
         lambda d: d["metadata"].update(matchId="../../etc/passwd"),
         lambda d: d["metadata"].update(matchId=123),
-        lambda d: d["info"]["participants"][1].update(championName="<script>"),
-        lambda d: d["info"]["participants"][1].update(kills=-1),
-        lambda d: d["info"]["participants"][1].update(kills="5"),
-        lambda d: d["info"]["participants"][1].update(deaths=True),
-        lambda d: d["info"]["participants"][1].update(win=None),
-        lambda d: d["info"]["participants"][1].update(puuid="otra-persona".ljust(78, "z")),
+        lambda d: d["info"]["participants"][0].update(championName="<script>"),
+        lambda d: d["info"]["participants"][0].update(kills=-1),
+        lambda d: d["info"]["participants"][0].update(kills="5"),
+        lambda d: d["info"]["participants"][0].update(deaths=True),
+        lambda d: d["info"]["participants"][0].update(win=None),
+        lambda d: d["info"]["participants"][0].update(puuid="otra-persona".ljust(78, "z")),
         lambda d: d["info"].update(participants="nada"),
         lambda d: d.pop("info"),
     ],
@@ -151,8 +210,22 @@ def test_ligas_solo_y_flex():
         "lp": 45,
         "victorias": 30,
         "derrotas": 25,
+        "racha": False,
     }
     assert rangos["flex"]["tier"] == "SILVER"
+
+
+def test_ligas_con_racha():
+    entrada = liga()
+    entrada["hotStreak"] = True
+    assert validar_ligas([entrada])["solo"]["racha"] is True
+
+
+def test_maestria():
+    datos = {"championLevel": 7, "championPoints": 123456, "championId": 103, "puuid": "x"}
+    assert validar_maestria(datos) == {"nivel": 7, "puntos": 123456}
+    with pytest.raises(DatoInvalido):
+        validar_maestria({"championLevel": "7", "championPoints": 1})
 
 
 def test_ligas_sin_rankeds():
@@ -171,12 +244,40 @@ def test_ligas_invalidas(tier, rank):
 
 
 def test_partida_activa():
-    assert validar_partida_activa(partida_activa(PUUID, 450, 103), PUUID) == {
+    assert validar_partida_activa(partida_activa(PUUID, 450, 103, id_partida=7), PUUID) == {
+        "id": 7,
         "campeon_id": 103,
         "queue_id": 450,
         "inicio": 1_790_000_000_000,
         "duracion": 300,
+        "participantes": [
+            {"puuid": PUUID, "campeon_id": 103, "equipo": 100, "nombre": "Yo#LAS", **EXTRA},
+            {
+                "puuid": "rival1".ljust(78, "r"),
+                "campeon_id": 62,
+                "equipo": 200,
+                "nombre": "Rival#LAS",
+                **EXTRA,
+            },
+            # Modo streamer: solo se conoce el campeón.
+            {"puuid": None, "campeon_id": 1, "equipo": 200, "nombre": None, **EXTRA},
+        ],
+        # El ban -1 ("sin ban") se descarta.
+        "bloqueos": [{"campeon_id": 157, "equipo": 100}, {"campeon_id": 238, "equipo": 200}],
     }
+
+
+EXTRA = {"hechizos": [4, 14], "runas": {"principal": 8112, "secundaria": 8000}}
+
+
+def test_partida_activa_sin_runas_ni_bans():
+    datos = partida_activa(PUUID)
+    del datos["bannedChampions"]
+    for p in datos["participants"]:
+        del p["perks"]
+    activa = validar_partida_activa(datos, PUUID)
+    assert activa["bloqueos"] == []
+    assert activa["participantes"][0]["runas"] == {"principal": None, "secundaria": None}
 
 
 def test_partida_activa_cargando():
@@ -187,6 +288,14 @@ def test_partida_activa_cargando():
     assert activa["duracion"] == 0
 
 
-def test_partida_activa_sin_el_jugador():
+def test_partida_activa_con_el_amigo_en_modo_streamer():
+    activa = validar_partida_activa(partida_activa("otro".ljust(78, "q")), PUUID)
+    assert activa["campeon_id"] is None
+    assert len(activa["participantes"]) == 3
+
+
+def test_partida_activa_sin_game_id_es_invalida():
+    datos = partida_activa(PUUID)
+    del datos["gameId"]
     with pytest.raises(DatoInvalido):
-        validar_partida_activa(partida_activa("otro".ljust(78, "q")), PUUID)
+        validar_partida_activa(datos, PUUID)

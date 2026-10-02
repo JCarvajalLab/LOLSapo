@@ -193,6 +193,14 @@ class ClienteRiot:
         """match-v5: detalle de una partida."""
         return self._get(f"{URL_REGION}/lol/match/v5/matches/{_segmento(id_partida)}")
 
+    def maestria(self, puuid: str, campeon_id: int) -> dict | None:
+        """champion-mastery-v4: maestría con un campeón, o None si nunca lo jugó (404)."""
+        url = (
+            f"{URL_PLATAFORMA}/lol/champion-mastery/v4/champion-masteries/by-puuid/"
+            f"{_segmento(puuid)}/by-champion/{int(campeon_id)}"
+        )
+        return self._get(url, permitir_404=True)
+
     def partida_activa(self, puuid: str) -> dict | None:
         """spectator-v5: partida en curso, o None si no está jugando (404)."""
         url = f"{URL_PLATAFORMA}/lol/spectator/v5/active-games/by-summoner/{_segmento(puuid)}"
