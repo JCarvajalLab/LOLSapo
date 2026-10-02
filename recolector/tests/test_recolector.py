@@ -210,8 +210,11 @@ def test_rango_y_maestria_en_vivo_se_piden_una_vez_por_partida(cliente, mapa, tm
     assert llamadas_a(f"{maestrias}/{rival}/") == 1  # la que falló se reintenta
     rojo = salida["en_vivo"][0]["equipos"][1]
     assert rojo["jugadores"][0]["maestria"] == {"nivel": 3, "puntos": 1}
-    cache = json.loads((tmp_path / "en_vivo_cache.json").read_text(encoding="utf-8"))
+    texto_cache = (tmp_path / "en_vivo_cache.json").read_text(encoding="utf-8")
+    cache = json.loads(texto_cache)
     assert list(cache) == ["77"]
+    # El caché se publica en la rama de datos: guarda huellas, nunca PUUID.
+    assert P_JOHN not in texto_cache and rival not in texto_cache
 
     # La partida terminó: el caché queda vacío.
     responses.replace(
@@ -250,10 +253,23 @@ def test_cache_en_vivo_con_contenido_danado_se_descarta(tmp_path):
         ),
         encoding="utf-8",
     )
+    assert _leer_cache_en_vivo(ruta) == {"1": {"rangos": {}, "maestrias": {}}}  # claves no-huella
+    h = "a" * 32
+    ruta.write_text(
+        json.dumps(
+            {
+                "1": {
+                    "rangos": {h: bueno, "b" * 32: None, "c" * 32: ["GOLD"], "x" * 78: bueno},
+                    "maestrias": {f"{h}:1": {"nivel": 7, "puntos": 10}, f"{h}:2": "<b>hola</b>"},
+                }
+            }
+        ),
+        encoding="utf-8",
+    )
     assert _leer_cache_en_vivo(ruta) == {
         "1": {
-            "rangos": {"ok": bueno, "sin_rango": None},
-            "maestrias": {"ok:1": {"nivel": 7, "puntos": 10}},
+            "rangos": {h: bueno, "b" * 32: None},
+            "maestrias": {f"{h}:1": {"nivel": 7, "puntos": 10}},
         }
     }
     assert _leer_cache_en_vivo(tmp_path) == {}  # es un directorio: OSError -> vacío

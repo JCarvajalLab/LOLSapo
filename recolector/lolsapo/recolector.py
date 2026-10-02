@@ -3,6 +3,7 @@
 import hashlib
 import json
 import logging
+import re
 import time
 from datetime import UTC, datetime
 from pathlib import Path
@@ -197,6 +198,10 @@ def _publicar_participantes(participantes: list[dict], slug_por_puuid: dict) -> 
     ]
 
 
+_PATRON_HUELLA = re.compile(r"[0-9a-f]{32}")
+_PATRON_HUELLA_CAMPEON = re.compile(r"[0-9a-f]{32}:[0-9]{1,6}")
+
+
 def _huella(puuid: str) -> str:
     """Identificador irreversible de un PUUID para el caché (que se publica en la rama de datos)."""
     return hashlib.sha256(puuid.encode()).hexdigest()[:32]
@@ -245,14 +250,17 @@ def _leer_cache_en_vivo(ruta: Path) -> dict:
             and isinstance(valor.get("maestrias"), dict)
         ):
             continue
+        # Las claves tienen que ser huellas (nunca PUUID crudos de cachés antiguos).
         cache[clave] = {
             "rangos": {
-                puuid: rango
-                for puuid, rango in valor["rangos"].items()
-                if _rango_guardado_valido(rango)
+                huella: rango
+                for huella, rango in valor["rangos"].items()
+                if _PATRON_HUELLA.fullmatch(huella) and _rango_guardado_valido(rango)
             },
             "maestrias": {
-                c: m for c, m in valor["maestrias"].items() if _maestria_guardada_valida(m)
+                c: m
+                for c, m in valor["maestrias"].items()
+                if _PATRON_HUELLA_CAMPEON.fullmatch(c) and _maestria_guardada_valida(m)
             },
         }
     return cache
