@@ -1,6 +1,14 @@
 import { nombreCampeon, nombreHechizo, nombreRuna, urlCampeon, urlHechizo, urlRuna } from "../logica/ddragon.js";
 import { antiguedadDatos } from "../logica/antiguedad.js";
-import { haceCuanto, textoRangoLp } from "../logica/formato.js";
+import {
+  claseWinrate,
+  formatearWinrate,
+  haceCuanto,
+  temporadaRanked,
+  textoMaestria,
+  nombreRango,
+  textoRangoLp,
+} from "../logica/formato.js";
 import { equiposEnVivo, minutosEnPartida, nombreEquipo, nombresAmigos } from "../logica/partidas.js";
 import { EtiquetaModo } from "./Etiquetas.jsx";
 import { IconoConSaco } from "./IconoConSaco.jsx";
@@ -9,12 +17,12 @@ import { TituloSeccion } from "./TituloSeccion.jsx";
 
 /*
   Grilla de cada jugador, igual en todas las filas y en ambos equipos:
-  [campeón] [2 hechizos] [runas] [Riot ID / campeón] [rango]
-  En móvil se ocultan las runas y el rango usa el ancho que necesita.
+  [campeón] [2 hechizos] [runas] [Riot ID / campeón · maestría] [rango y racha / winrate de la temporada]
+  En móvil se ocultan las runas, la línea de winrate, los LP y los puntos de maestría.
 */
 const GRILLA_JUGADOR =
   "grid h-12 grid-cols-[2.25rem_1.125rem_minmax(0,1fr)_auto] items-center gap-x-2 px-2 " +
-  "sm:grid-cols-[2.5rem_1.125rem_1.125rem_minmax(0,1fr)_9.5rem]";
+  "sm:grid-cols-[2.5rem_1.125rem_1.125rem_minmax(0,1fr)_10.5rem]";
 
 const ACENTOS = {
   100: { borde: "border-t-ranked/60", texto: "text-ranked" },
@@ -181,7 +189,12 @@ function JugadorEnVivo({ jugador, ddragon, sinAnillo }) {
   const nombre = typeof jugador.nombre === "string" && jugador.nombre ? jugador.nombre : null;
   const hechizos = Array.isArray(jugador.hechizos) ? jugador.hechizos.slice(0, 2) : [];
   const runas = jugador.runas && typeof jugador.runas === "object" ? jugador.runas : {};
+  // Texto completo para lectores y title; en móvil se ocultan los LP para que quepa la fila.
   const rango = textoRangoLp(jugador.rango);
+  const tier = nombreRango(jugador.rango);
+  const lp = typeof jugador.rango?.lp === "number" ? jugador.rango.lp : 0;
+  const temporada = rango ? temporadaRanked(jugador.rango) : null;
+  const maestria = textoMaestria(jugador.maestria);
 
   return (
     <li
@@ -223,16 +236,56 @@ function JugadorEnVivo({ jugador, ddragon, sinAnillo }) {
         )}
       </span>
 
-      <span className="min-w-0 leading-tight">
+      <span className="min-w-0 overflow-hidden leading-tight">
         <span className={`block truncate text-sm ${esAmigo ? "font-semibold text-sapo" : ""}`} title={nombre ?? campeon}>
           {nombre ?? campeon}
         </span>
-        <span className="block truncate text-xs text-texto-suave">{nombre ? campeon : "Modo streamer"}</span>
+        <span className="flex min-w-0 gap-1 text-xs text-texto-suave">
+          <span className="min-w-0 truncate">{nombre ? campeon : "Modo streamer"}</span>
+          {maestria && (
+            <span className="cifras shrink-0 whitespace-nowrap" title={maestria.titulo} data-maestria="true">
+              <span aria-hidden="true">· </span>
+              {maestria.primeraVez ? (
+                <span className="italic">{maestria.corto}</span>
+              ) : (
+                <span className="text-texto">
+                  {maestria.nivel}
+                  <span className="hidden sm:inline"> · {maestria.puntos}</span>
+                </span>
+              )}
+              <span className="sr-only"> ({maestria.titulo})</span>
+            </span>
+          )}
+        </span>
         {esAmigo && <span className="sr-only"> (del grupo)</span>}
       </span>
 
-      <span className={`cifras truncate text-right text-xs ${rango ? "" : "text-texto-suave"}`}>
-        {rango ?? "Sin clasificar"}
+      <span className="min-w-0 text-right text-xs leading-tight">
+        <span className={`cifras flex items-center justify-end gap-1 ${rango ? "" : "text-texto-suave"}`}>
+          {jugador.rango?.racha === true && rango && (
+            <span role="img" aria-label="En racha de victorias" title="En racha de victorias" className="shrink-0">
+              🔥
+            </span>
+          )}
+          <span className="truncate" title={rango ?? undefined} data-rango="true">
+            {tier ? (
+              <>
+                {tier}
+                <span className="hidden sm:inline"> · {lp} LP</span>
+              </>
+            ) : (
+              "Sin clasificar"
+            )}
+          </span>
+        </span>
+        {temporada && (
+          <span className="cifras hidden truncate text-texto-suave sm:block" data-winrate="true">
+            <span className={`font-semibold ${claseWinrate(temporada.winrate)}`}>
+              {formatearWinrate(temporada.winrate)}
+            </span>{" "}
+            · {temporada.partidas} {temporada.partidas === 1 ? "partida" : "partidas"}
+          </span>
+        )}
       </span>
     </li>
   );

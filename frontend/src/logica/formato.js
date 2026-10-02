@@ -31,6 +31,54 @@ export function textoRangoLp(rango) {
   return `${nombre} · ${esNumero(rango.lp) ? rango.lp : 0} LP`;
 }
 
+/** Umbrales de color del winrate: verde desde 55%, rojo bajo 45%, neutro entre medio. */
+export const WINRATE_BUENO = 55;
+export const WINRATE_MALO = 45;
+
+/** Clase de color para un winrate (escala única de la web). */
+export function claseWinrate(winrate) {
+  if (!esNumero(winrate)) return "text-texto-suave";
+  if (winrate >= WINRATE_BUENO) return "text-victoria";
+  if (winrate < WINRATE_MALO) return "text-derrota";
+  return "text-texto";
+}
+
+/**
+ * Temporada ranked de un jugador: { winrate, partidas } o null si no hay datos.
+ * Usa `winrate` si viene; si no, lo calcula con victorias y derrotas.
+ */
+export function temporadaRanked(rango) {
+  if (!rango || !esNumero(rango.victorias) || !esNumero(rango.derrotas)) return null;
+  const partidas = rango.victorias + rango.derrotas;
+  if (partidas === 0) return null;
+  const winrate = esNumero(rango.winrate) ? rango.winrate : calcularWinrate(rango.victorias, rango.derrotas);
+  return { winrate, partidas };
+}
+
+const puntosCompactos = new Intl.NumberFormat("es", { notation: "compact", maximumFractionDigits: 1 });
+const puntosCompletos = new Intl.NumberFormat("es");
+
+/**
+ * Maestría con el campeón de la partida:
+ * null si no hay dato; { primeraVez: true } con nivel 0; si no, textos corto y completo.
+ */
+export function textoMaestria(maestria) {
+  if (!maestria || !esNumero(maestria.nivel)) return null;
+  if (maestria.nivel === 0) {
+    return { primeraVez: true, corto: "Primera vez", titulo: "Nunca había jugado este campeón" };
+  }
+  const puntos = esNumero(maestria.puntos) ? maestria.puntos : 0;
+  // Intl usa espacios duros entre número y "mil"; se cambian por espacios normales.
+  const compacto = puntosCompactos.format(puntos).replace(/[\u00a0\u202f]/g, " ");
+  return {
+    primeraVez: false,
+    nivel: `M${maestria.nivel}`,
+    puntos: `${compacto} pts`,
+    corto: `M${maestria.nivel} · ${compacto} pts`,
+    titulo: `Maestría ${maestria.nivel} · ${puntosCompletos.format(puntos)} puntos`,
+  };
+}
+
 /** Winrate de un rango oficial (victorias y derrotas de Riot). */
 export function winrateRango(rango) {
   if (!rango) return null;

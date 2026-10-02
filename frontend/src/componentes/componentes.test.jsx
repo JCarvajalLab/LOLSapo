@@ -126,10 +126,13 @@ describe("SeccionEnPartida", () => {
 
   it("muestra rangos: con división, sin rango y Maestro sin división", () => {
     renderVivo();
-    expect(within(filaDe("Rana Azul#LAS")).getByText("Diamante IV · 45 LP")).toHaveClass("cifras");
-    expect(within(filaDe("Desconocido Uno#AAA")).getByText("Maestro · 250 LP")).toBeInTheDocument();
-    expect(within(filaDe("Rival Uno#CCC")).getByText("Oro I · 0 LP")).toBeInTheDocument();
-    expect(within(filaDe("Ashe")).getByText("Sin clasificar")).toHaveClass("text-texto-suave");
+    const rangoRana = filaDe("Rana Azul#LAS").querySelector('[data-rango="true"]');
+    expect(rangoRana).toHaveTextContent("Diamante IV · 45 LP");
+    expect(rangoRana).toHaveAttribute("title", "Diamante IV · 45 LP");
+    expect(rangoRana.parentElement).toHaveClass("cifras");
+    expect(filaDe("Desconocido Uno#AAA").querySelector('[data-rango="true"]')).toHaveTextContent("Maestro · 250 LP");
+    expect(filaDe("Rival Uno#CCC").querySelector('[data-rango="true"]')).toHaveTextContent("Oro I · 0 LP");
+    expect(within(filaDe("Ashe")).getByText("Sin clasificar").parentElement).toHaveClass("text-texto-suave");
   });
 
   it("muestra hechizos y runas de cada jugador", () => {
@@ -150,7 +153,7 @@ describe("SeccionEnPartida", () => {
   it("modo streamer: campeón como texto principal y aviso debajo", () => {
     renderVivo();
     const fila = filaDe("Garen");
-    expect(within(fila).getByText("Modo streamer")).toHaveClass("text-texto-suave");
+    expect(within(fila).getByText("Modo streamer").parentElement).toHaveClass("text-texto-suave");
     // Jugador sin hechizos, runas ni rango: la fila no se rompe.
     expect(within(fila).getByText("Sin clasificar")).toBeInTheDocument();
   });
