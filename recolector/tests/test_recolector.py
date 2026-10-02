@@ -81,7 +81,8 @@ def test_genera_lol_json_completo(cliente, mapa, tmp_path):
     registro = json.loads(
         (tmp_path / "datos" / "registro" / "johnadis-las.json").read_text("utf-8")
     )
-    assert registro["puuid"] == P_JOHN
+    assert "puuid" not in registro
+    assert P_JOHN not in json.dumps(registro)
     assert P_JOHN not in salida_ruta.read_text(encoding="utf-8")
 
 
@@ -274,9 +275,11 @@ def test_partidas_marcan_a_los_amigos_y_no_publican_puuid(cliente, mapa, tmp_pat
     texto = (tmp_path / "lol.json").read_text(encoding="utf-8")
     for puuid in (P_JOHN, P_GATO, "aliado".ljust(78, "a"), "rival1".ljust(78, "r")):
         assert puuid not in texto
-    # El registro local sí guarda los PUUID (para reconocer amigos en ejecuciones futuras).
+    # El registro tampoco guarda PUUID: se publica en la rama de datos del repo público.
     registro = (tmp_path / "registro" / "johnadis-las.json").read_text(encoding="utf-8")
-    assert P_GATO in registro
+    for puuid in (P_JOHN, P_GATO, "aliado".ljust(78, "a"), "rival1".ljust(78, "r")):
+        assert puuid not in registro
+    assert '"amigo": "big-gato-las"' in registro
 
 
 @responses.activate
@@ -299,7 +302,7 @@ def test_segunda_ejecucion_solo_descarga_partidas_nuevas(cliente, mapa, tmp_path
     )
 
     assert llamadas_a("/matches/LA2_") == 1  # solo LA2_3
-    assert llamadas_a("/by-riot-id/") == 0  # el PUUID ya estaba guardado
+    assert llamadas_a("/by-riot-id/") == 1  # el PUUID se pide en cada ejecución (no se guarda)
     assert salida["amigos"][0]["estadisticas"]["total"]["partidas"] == 3
 
 
@@ -339,33 +342,65 @@ def test_con_error_se_muestran_los_ultimos_datos_conocidos(cliente, mapa, tmp_pa
 
 
 @responses.activate
-def test_puuid_de_otra_key_se_vuelve_a_pedir(cliente, mapa, tmp_path):
-    viejo = "viejo".ljust(78, "v")
-    registro = tmp_path / "registro" / "johnadis-las.json"
-    registro.parent.mkdir(parents=True)
-    registro.write_text(
+def test_un_puuid_en_el_registro_bloquea_su_escritura(cliente, mapa, tmp_path, monkeypatch):
+    simular_amigo("Johnadis", P_JOHN, ["LA2_1"])
+    simular_partida("LA2_1", P_JOHN)
+    # Simula un error futuro: alguien olvida anonimizar a los participantes.
+    monkeypatch.setattr("lolsapo.recolector.anonimizar_participantes", lambda p, _: p)
+    with pytest.raises(SecretoEnSalida, match="registro"):
+        ejecutar(cliente, KEY_FALSA, [JOHN], mapa, tmp_path, tmp_path / "lol.json", ahora=AHORA)
+    assert not (tmp_path / "registro" / "johnadis-las.json").exists()
+
+
+@responses.activate
+def test_registro_v2_con_puuid_se_migra_sin_puuid(cliente, mapa, tmp_path):
+    ruta = tmp_path / "registro" / "johnadis-las.json"
+    ruta.parent.mkdir(parents=True)
+    partida_v2 = {
+        "id": "LA2_1",
+        "fecha": 1,
+        "queue_id": 420,
+        "resultado": "victoria",
+        "campeon": "Ahri",
+        "campeon_id": 103,
+        "participantes": [
+            {"puuid": P_JOHN, "campeon_id": 103, "equipo": 100, "nombre": "Yo#LAS"},
+            {"puuid": P_GATO, "campeon_id": 86, "equipo": 100, "nombre": "Gato#LAS"},
+            {"puuid": None, "campeon_id": 1, "equipo": 200, "nombre": None},
+        ],
+    }
+    ruta.write_text(
         json.dumps(
             {
-                "version": 1,
+                "version": 2,
                 "riot_id": "Johnadis#LAS",
-                "puuid": viejo,
+                "puuid": P_JOHN,
                 "seguimiento_desde": 0,
                 "perfil": None,
                 "rangos": None,
-                "partidas": {},
+                "partidas": {"LA2_1": partida_v2},
             }
         ),
         encoding="utf-8",
     )
-    responses.get(f"{URL_PLATAFORMA}/lol/summoner/v4/summoners/by-puuid/{viejo}", status=400)
-    simular_amigo("Johnadis", P_JOHN, [])
+    simular_amigo("Johnadis", P_JOHN, ["LA2_1"])
+    simular_amigo("Big Gato", P_GATO, [])
 
     salida = ejecutar(
-        cliente, KEY_FALSA, [JOHN], mapa, tmp_path, tmp_path / "lol.json", ahora=AHORA
+        cliente, KEY_FALSA, [JOHN, GATO], mapa, tmp_path, tmp_path / "lol.json", ahora=AHORA
     )
 
-    assert salida["amigos"][0]["estado"] == "ok"
-    assert json.loads(registro.read_text("utf-8"))["puuid"] == P_JOHN
+    guardado = ruta.read_text(encoding="utf-8")
+    assert P_JOHN not in guardado and P_GATO not in guardado
+    registro = json.loads(guardado)
+    assert registro["version"] == 3 and "puuid" not in registro
+    assert [p["amigo"] for p in registro["partidas"]["LA2_1"]["participantes"]] == [
+        "johnadis-las",
+        "big-gato-las",
+        None,
+    ]
+    assert llamadas_a("/matches/LA2_") == 0  # la partida ya estaba completa
+    assert salida["amigos"][0]["partidas"][0]["participantes"][1]["amigo"] == "big-gato-las"
 
 
 @responses.activate
@@ -449,7 +484,7 @@ def test_registro_danado_marca_error_y_no_se_pisa(cliente, mapa, tmp_path):
 
     assert [a["estado"] for a in salida["amigos"]] == ["error", "ok"]
     assert ruta.read_text(encoding="utf-8") == "{roto"
-    assert llamadas_a("Johnadis") == 0
+    assert llamadas_a(f"/summoners/by-puuid/{P_JOHN}") == 0
 
 
 @responses.activate

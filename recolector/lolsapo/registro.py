@@ -15,7 +15,10 @@ from pathlib import Path
 from .modos import CATEGORIAS, MapaModos
 
 # v2: cada partida guarda además ítems, hechizos, runas, CS y participantes.
-VERSION_REGISTRO = 2
+# v3: sin PUUID. El registro se publica en la rama de datos (repo público), así que los
+#     participantes se guardan como {"amigo": slug | None} y el PUUID del amigo se pide en
+#     cada ejecución.
+VERSION_REGISTRO = 3
 
 log = logging.getLogger(__name__)
 
@@ -24,7 +27,6 @@ def registro_vacio(riot_id: str, ahora_ms: int) -> dict:
     return {
         "version": VERSION_REGISTRO,
         "riot_id": riot_id,
-        "puuid": None,
         "seguimiento_desde": ahora_ms,
         "perfil": None,
         "rangos": None,
@@ -43,14 +45,41 @@ def leer_registro(ruta: Path, riot_id: str, ahora_ms: int) -> dict:
         return registro_vacio(riot_id, ahora_ms)
     if (
         not isinstance(registro, dict)
-        or registro.get("version") not in (1, VERSION_REGISTRO)
+        or registro.get("version") not in (1, 2, VERSION_REGISTRO)
         or not isinstance(registro.get("partidas"), dict)
     ):
         raise ValueError(f"Registro con formato inesperado: {ruta}")
     # v1 -> v2: las partidas viejas siguen contando en las estadísticas; las que aún aparezcan
     # entre las recientes se vuelven a descargar una vez para completar su detalle.
+    # v2 -> v3: se borra el PUUID del amigo; el de los participantes lo quita
+    # `anonimizar_partidas` (necesita saber quiénes son los amigos).
+    registro.pop("puuid", None)
     registro["version"] = VERSION_REGISTRO
     return registro
+
+
+def anonimizar_participantes(participantes: list[dict], slug_por_puuid: dict) -> list[dict]:
+    """Reemplaza el PUUID de cada participante por el slug del amigo (o None si no es del grupo).
+
+    Es idempotente: los participantes que ya no traen PUUID quedan igual.
+    """
+    resultado = []
+    for p in participantes:
+        if "puuid" in p:
+            p = {k: v for k, v in p.items() if k != "puuid"} | {
+                "amigo": slug_por_puuid.get(p["puuid"]) if p["puuid"] else None
+            }
+        resultado.append(p)
+    return resultado
+
+
+def anonimizar_partidas(registro: dict, slug_por_puuid: dict) -> None:
+    """Quita los PUUID que queden en las partidas guardadas (registros v2)."""
+    for partida in registro["partidas"].values():
+        if "participantes" in partida:
+            partida["participantes"] = anonimizar_participantes(
+                partida["participantes"], slug_por_puuid
+            )
 
 
 def completa(partida: dict) -> bool:

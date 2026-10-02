@@ -33,11 +33,30 @@ def test_partidas_sin_detalle_se_completan_una_vez():
     assert ids_nuevos(["LA2_1"], registro) == []
 
 
-def test_registro_v1_se_migra_a_v2(tmp_path):
+def test_registro_v1_se_migra_a_la_version_actual_sin_puuid(tmp_path):
     ruta = tmp_path / "a-las.json"
-    v1 = {**registro_vacio("A#LAS", 0), "version": 1}
+    v1 = {**registro_vacio("A#LAS", 0), "version": 1, "puuid": "x" * 78}
     ruta.write_text(json.dumps(v1), encoding="utf-8")
-    assert leer_registro(ruta, "A#LAS", 0)["version"] == 2
+    registro = leer_registro(ruta, "A#LAS", 0)
+    assert registro["version"] == 3
+    assert "puuid" not in registro
+
+
+def test_anonimizar_participantes_es_idempotente():
+    from lolsapo.registro import anonimizar_participantes
+
+    participantes = [
+        {"puuid": "a" * 78, "campeon_id": 1, "equipo": 100, "nombre": "A"},
+        {"puuid": None, "campeon_id": 2, "equipo": 200, "nombre": None},
+        {"campeon_id": 3, "equipo": 200, "nombre": "C", "amigo": "c-las"},
+    ]
+    una_vez = anonimizar_participantes(participantes, {"a" * 78: "a-las"})
+    assert una_vez == [
+        {"campeon_id": 1, "equipo": 100, "nombre": "A", "amigo": "a-las"},
+        {"campeon_id": 2, "equipo": 200, "nombre": None, "amigo": None},
+        {"campeon_id": 3, "equipo": 200, "nombre": "C", "amigo": "c-las"},
+    ]
+    assert anonimizar_participantes(una_vez, {}) == una_vez
 
 
 def test_ids_nuevos_omite_los_ya_guardados():
