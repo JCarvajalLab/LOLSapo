@@ -119,8 +119,13 @@ def test_incluye_data_dragon_solo_con_lo_usado(cliente, mapa, tmp_path):
 @responses.activate
 def test_dos_amigos_en_la_misma_partida_en_vivo(cliente, mapa, tmp_path):
     en_vivo = partida_activa(P_JOHN, 450, 103, id_partida=99, companeros=(P_GATO,))
-    simular_amigo("Johnadis", P_JOHN, [], jugando=en_vivo)
+    simular_amigo("Johnadis", P_JOHN, [], jugando=en_vivo, ligas=[liga(tier="GOLD", rank="I")])
     simular_amigo("Big Gato", P_GATO, [], jugando=en_vivo)
+    rival = "rival1".ljust(78, "r")
+    responses.get(
+        f"{URL_PLATAFORMA}/lol/league/v4/entries/by-puuid/{rival}",
+        json=[liga("RANKED_FLEX_SR", "SILVER", "III", 12)],
+    )
 
     salida = ejecutar(
         cliente, KEY_FALSA, [JOHN, GATO], mapa, tmp_path, tmp_path / "lol.json", ahora=AHORA
@@ -134,7 +139,17 @@ def test_dos_amigos_en_la_misma_partida_en_vivo(cliente, mapa, tmp_path):
     azul, rojo = partida_vivo["equipos"]
     assert azul["equipo"] == 100
     assert [j["amigo"] for j in azul["jugadores"]] == ["johnadis-las", "big-gato-las"]
-    assert rojo["jugadores"][1] == {"campeon_id": 1, "equipo": 200, "nombre": None, "amigo": None}
+    streamer = rojo["jugadores"][1]
+    assert streamer["nombre"] is None and streamer["amigo"] is None and streamer["rango"] is None
+    # Rangos: el del amigo sale de sus datos; el del rival (solo Flex) se consulta una vez.
+    assert azul["jugadores"][0]["rango"] == {"tier": "GOLD", "division": "I", "lp": 45}
+    assert azul["jugadores"][1]["rango"] is None  # Big Gato sin rankeds
+    assert rojo["jugadores"][0]["rango"] == {"tier": "SILVER", "division": "III", "lp": 12}
+    assert llamadas_a(f"/entries/by-puuid/{rival}") == 1
+    assert azul["jugadores"][0]["hechizos"] == [4, 14]
+    assert azul["jugadores"][0]["runas"] == {"principal": 8112, "secundaria": 8000}
+    assert azul["bloqueos"] == [157] and rojo["bloqueos"] == [238]
+    assert all("puuid" not in j for e in partida_vivo["equipos"] for j in e["jugadores"])
     assert [a["jugando"]["partida_id"] for a in salida["amigos"]] == [99, 99]
 
 

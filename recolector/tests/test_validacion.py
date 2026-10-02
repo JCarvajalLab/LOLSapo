@@ -236,17 +236,33 @@ def test_partida_activa():
         "inicio": 1_790_000_000_000,
         "duracion": 300,
         "participantes": [
-            {"puuid": PUUID, "campeon_id": 103, "equipo": 100, "nombre": "Yo#LAS"},
+            {"puuid": PUUID, "campeon_id": 103, "equipo": 100, "nombre": "Yo#LAS", **EXTRA},
             {
                 "puuid": "rival1".ljust(78, "r"),
                 "campeon_id": 62,
                 "equipo": 200,
                 "nombre": "Rival#LAS",
+                **EXTRA,
             },
             # Modo streamer: solo se conoce el campeón.
-            {"puuid": None, "campeon_id": 1, "equipo": 200, "nombre": None},
+            {"puuid": None, "campeon_id": 1, "equipo": 200, "nombre": None, **EXTRA},
         ],
+        # El ban -1 ("sin ban") se descarta.
+        "bloqueos": [{"campeon_id": 157, "equipo": 100}, {"campeon_id": 238, "equipo": 200}],
     }
+
+
+EXTRA = {"hechizos": [4, 14], "runas": {"principal": 8112, "secundaria": 8000}}
+
+
+def test_partida_activa_sin_runas_ni_bans():
+    datos = partida_activa(PUUID)
+    del datos["bannedChampions"]
+    for p in datos["participants"]:
+        del p["perks"]
+    activa = validar_partida_activa(datos, PUUID)
+    assert activa["bloqueos"] == []
+    assert activa["participantes"][0]["runas"] == {"principal": None, "secundaria": None}
 
 
 def test_partida_activa_cargando():

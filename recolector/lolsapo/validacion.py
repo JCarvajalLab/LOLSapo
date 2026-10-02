@@ -280,8 +280,22 @@ def validar_partida_activa(datos, puuid: str) -> dict:
                 "campeon_id": _entero(p.get("championId"), "championId"),
                 "equipo": _entero(p.get("teamId"), "teamId"),
                 "nombre": nombre,
+                "hechizos": [
+                    _entero(p.get("spell1Id", 0), "spell1Id"),
+                    _entero(p.get("spell2Id", 0), "spell2Id"),
+                ],
+                "runas": _runas_en_vivo(p.get("perks")),
             }
         )
+
+    bloqueos = []
+    for ban in datos.get("bannedChampions") or []:
+        if not isinstance(ban, dict):
+            raise DatoInvalido("bannedChampions con formato inesperado")
+        campeon = ban.get("championId")
+        # -1 significa "no baneó a nadie".
+        if isinstance(campeon, int) and not isinstance(campeon, bool) and campeon > 0:
+            bloqueos.append({"campeon_id": campeon, "equipo": _entero(ban.get("teamId"), "teamId")})
 
     return {
         "id": _entero(datos.get("gameId"), "gameId"),
@@ -293,4 +307,17 @@ def validar_partida_activa(datos, puuid: str) -> dict:
         # gameLength puede ser negativo en los primeros segundos (pantalla de carga).
         "duracion": max(duracion, 0),
         "participantes": jugadores,
+        "bloqueos": bloqueos,
+    }
+
+
+def _runas_en_vivo(perks) -> dict:
+    """spectator-v5: perkIds[0] es la runa principal y perkSubStyle el estilo secundario."""
+    if not isinstance(perks, dict):
+        return {"principal": None, "secundaria": None}
+    ids = perks.get("perkIds")
+    principal = ids[0] if isinstance(ids, list) and ids else None
+    return {
+        "principal": _entero_opcional(principal, "perkIds"),
+        "secundaria": _entero_opcional(perks.get("perkSubStyle"), "perkSubStyle"),
     }

@@ -166,14 +166,52 @@ def _publicar_participantes(participantes: list[dict], slug_por_puuid: dict) -> 
     ]
 
 
-def _partidas_en_vivo(activas: list[dict], mapa: MapaModos, slug_por_puuid: dict) -> list[dict]:
+def _rangos_en_vivo(cliente: ClienteRiot, activas: list[dict], conocidos: dict) -> dict:
+    """Rango Solo/Dúo (o Flex si no tiene) de cada jugador de las partidas en vivo.
+
+    `conocidos` trae los rangos de los amigos (ya consultados). Para el resto se hace una
+    llamada por jugador; si falla, ese jugador queda sin rango y no afecta a nada más.
+    Los jugadores en modo streamer no traen PUUID y quedan sin rango.
+    """
+    rangos = dict(conocidos)
+    for activa in activas:
+        for jugador in activa["participantes"]:
+            puuid = jugador["puuid"]
+            if not puuid or puuid in rangos:
+                continue
+            try:
+                ligas = validar_ligas(cliente.ligas(puuid))
+                rangos[puuid] = ligas["solo"] or ligas["flex"]
+            except ErrorAutenticacion:
+                raise
+            except (ErrorRiot, DatoInvalido) as error:
+                log.warning("Rango de un jugador en vivo no disponible: %s", error)
+                rangos[puuid] = None
+    return rangos
+
+
+def _partidas_en_vivo(
+    activas: list[dict], mapa: MapaModos, slug_por_puuid: dict, rangos: dict
+) -> list[dict]:
     """Una entrada por partida en curso, aunque haya varios amigos en ella."""
     por_id: dict[int, dict] = {}
     for activa in activas:
         if activa["id"] in por_id:
             continue
         modo = mapa.obtener(activa["queue_id"])
-        jugadores = _publicar_participantes(activa["participantes"], slug_por_puuid)
+        jugadores = [
+            {
+                **publico,
+                "hechizos": original["hechizos"],
+                "runas": original["runas"],
+                "rango": _rango_corto(rangos.get(original["puuid"])),
+            }
+            for publico, original in zip(
+                _publicar_participantes(activa["participantes"], slug_por_puuid),
+                activa["participantes"],
+                strict=True,
+            )
+        ]
         equipos = sorted({j["equipo"] for j in jugadores})
         por_id[activa["id"]] = {
             "id": activa["id"],
@@ -184,11 +222,22 @@ def _partidas_en_vivo(activas: list[dict], mapa: MapaModos, slug_por_puuid: dict
             "duracion": activa["duracion"],
             "amigos": sorted({j["amigo"] for j in jugadores if j["amigo"]}),
             "equipos": [
-                {"equipo": e, "jugadores": [j for j in jugadores if j["equipo"] == e]}
+                {
+                    "equipo": e,
+                    "jugadores": [j for j in jugadores if j["equipo"] == e],
+                    "bloqueos": [b["campeon_id"] for b in activa["bloqueos"] if b["equipo"] == e],
+                }
                 for e in equipos
             ],
         }
     return list(por_id.values())
+
+
+def _rango_corto(rango: dict | None) -> dict | None:
+    """Para la partida en vivo basta con tier, división y LP."""
+    if not rango:
+        return None
+    return {"tier": rango["tier"], "division": rango["division"], "lp": rango["lp"]}
 
 
 def _elementos_usados(entradas: list[dict], en_vivo: list[dict]) -> dict[str, set[int]]:
@@ -210,7 +259,11 @@ def _elementos_usados(entradas: list[dict], en_vivo: list[dict]) -> dict[str, se
             usados["runas"].update(r for r in runas.values() if r)
     for partida in en_vivo:
         for equipo in partida["equipos"]:
-            usados["campeones"].update(j["campeon_id"] for j in equipo["jugadores"])
+            usados["campeones"].update(equipo["bloqueos"])
+            for jugador in equipo["jugadores"]:
+                usados["campeones"].add(jugador["campeon_id"])
+                usados["hechizos"].update(h for h in jugador["hechizos"] if h)
+                usados["runas"].update(r for r in jugador["runas"].values() if r)
     return usados
 
 
@@ -241,9 +294,14 @@ def ejecutar(
                 partida["participantes"] = _publicar_participantes(
                     partida["participantes"], slug_por_puuid
                 )
-    en_vivo = _partidas_en_vivo(
-        [activa for _, _, activa in resultados if activa], mapa, slug_por_puuid
-    )
+    activas = [activa for _, _, activa in resultados if activa]
+    rangos_amigos = {
+        puuid: (entrada["rangos"]["solo"] or entrada["rangos"]["flex"])
+        for entrada, puuid, _ in resultados
+        if puuid
+    }
+    rangos = _rangos_en_vivo(cliente, activas, rangos_amigos) if activas else {}
+    en_vivo = _partidas_en_vivo(activas, mapa, slug_por_puuid, rangos)
 
     salida = {
         "version": VERSION_SALIDA,

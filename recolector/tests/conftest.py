@@ -116,12 +116,26 @@ def partida_activa(
     companeros: tuple[str, ...] = (),
 ) -> dict:
     """Partida en curso: el jugador, sus `companeros` y rivales (uno en modo streamer)."""
+    extra = {
+        "spell1Id": 4,
+        "spell2Id": 14,
+        "perks": {"perkIds": [8112, 8126], "perkStyle": 8100, "perkSubStyle": 8000},
+    }
     participantes = [
-        {"puuid": puuid, "championId": campeon_id, "teamId": 100, "riotId": "Yo#LAS"},
-        *[{"puuid": c, "championId": 86, "teamId": 100, "riotId": "Amigo#LAS"} for c in companeros],
-        {"puuid": "rival1".ljust(78, "r"), "championId": 62, "teamId": 200, "riotId": "Rival#LAS"},
+        {"puuid": puuid, "championId": campeon_id, "teamId": 100, "riotId": "Yo#LAS", **extra},
+        *[
+            {"puuid": c, "championId": 86, "teamId": 100, "riotId": "Amigo#LAS", **extra}
+            for c in companeros
+        ],
+        {
+            "puuid": "rival1".ljust(78, "r"),
+            "championId": 62,
+            "teamId": 200,
+            "riotId": "Rival#LAS",
+            **extra,
+        },
         # Modo streamer: sin PUUID ni nombre, solo el campeón.
-        {"championId": 1, "teamId": 200, "bot": False},
+        {"championId": 1, "teamId": 200, "bot": False, **extra},
     ]
     return {
         "gameId": id_partida,
@@ -129,6 +143,11 @@ def partida_activa(
         "gameStartTime": 1_790_000_000_000,
         "gameLength": 300,
         "participants": participantes,
+        "bannedChampions": [
+            {"championId": 157, "teamId": 100, "pickTurn": 1},
+            {"championId": -1, "teamId": 200, "pickTurn": 2},
+            {"championId": 238, "teamId": 200, "pickTurn": 3},
+        ],
     }
 
 
