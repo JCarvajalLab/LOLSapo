@@ -65,6 +65,7 @@ export default function App({ fetchFn }) {
                         amigo={amigo}
                         ddragon={datos.ddragon}
                         ahora={ahora}
+                        actualizadoMs={isoAMs(datos.actualizado)}
                         abierto={abiertos.has(amigo.slug)}
                         onAlternar={alternar}
                         enfocar={enfocar?.slug === amigo.slug ? enfocar : null}

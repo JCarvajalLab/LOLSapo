@@ -17,7 +17,7 @@ describe("App", () => {
   });
 
   it("muestra carga y luego los datos", async () => {
-    const fetchFn = vi.fn(() => respuestaOk(crearDatos()));
+    const fetchFn = vi.fn(() => respuestaOk(crearDatos({ actualizado: new Date().toISOString() })));
     render(<App fetchFn={fetchFn} />);
     expect(screen.getByRole("status")).toHaveTextContent("Cargando datos…");
     expect(await screen.findByRole("heading", { name: "Amigos" })).toBeInTheDocument();

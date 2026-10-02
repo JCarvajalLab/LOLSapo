@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { nombreCampeon, urlIconoPerfil } from "../logica/ddragon.js";
+import { antiguedadDatos } from "../logica/antiguedad.js";
 import { lineasResumen } from "../logica/resumenAmigo.js";
 import { formatearWinrate } from "../logica/formato.js";
 import { BarraWinrate } from "./Etiquetas.jsx";
@@ -24,11 +25,14 @@ const FILA = [
 ];
 
 /** Fila resumen de un amigo con su panel desplegable (acordeón). */
-export function FilaAmigo({ amigo, ddragon, ahora, abierto, onAlternar, enfocar }) {
+export function FilaAmigo({ amigo, ddragon, ahora, actualizadoMs, abierto, onAlternar, enfocar }) {
   const ref = useRef(null);
   const idPanel = `panel-${amigo.slug}`;
   const conError = amigo.estado === "error";
-  const jugando = amigo.jugando;
+  // "En partida" sigue la antigüedad de los datos: atenuado con más de 15 min, oculto con más de 60.
+  const { nivel, minutos: antiguedad } = antiguedadDatos(actualizadoMs, ahora);
+  const jugando = nivel === "caduco" ? null : amigo.jugando;
+  const jugandoViejo = Boolean(jugando) && nivel === "viejo";
 
   useEffect(() => {
     if (enfocar && ref.current) ref.current.scrollIntoView?.({ block: "start" });
@@ -42,7 +46,7 @@ export function FilaAmigo({ amigo, ddragon, ahora, abierto, onAlternar, enfocar 
             src={urlIconoPerfil(ddragon, amigo.perfil?.icono)}
             alt={`Ícono de ${amigo.riot_id}`}
             tamaño={48}
-            enPartida={Boolean(jugando)}
+            enPartida={Boolean(jugando) && !jugandoViejo}
           />
         </span>
 
@@ -62,8 +66,13 @@ export function FilaAmigo({ amigo, ddragon, ahora, abierto, onAlternar, enfocar 
             {amigo.perfil?.nivel ? `Nivel ${amigo.perfil.nivel}` : "Nivel desconocido"}
           </p>
           {jugando && (
-            <p className="truncate text-xs font-semibold text-sapo">
+            <p
+              className={`truncate text-xs font-semibold text-sapo ${jugandoViejo ? "opacity-50" : ""}`}
+              title={jugandoViejo ? `Datos de hace ${antiguedad} min` : undefined}
+              data-atenuado={jugandoViejo ? "true" : undefined}
+            >
               En partida · {nombreCampeon(ddragon, jugando.campeon_id, "Campeón oculto")}
+              {jugandoViejo && <span className="sr-only"> (datos de hace {antiguedad} min)</span>}
             </p>
           )}
         </div>

@@ -1,5 +1,6 @@
 import { nombreCampeon, nombreHechizo, nombreRuna, urlCampeon, urlHechizo, urlRuna } from "../logica/ddragon.js";
-import { textoRangoLp } from "../logica/formato.js";
+import { antiguedadDatos } from "../logica/antiguedad.js";
+import { haceCuanto, textoRangoLp } from "../logica/formato.js";
 import { equiposEnVivo, minutosEnPartida, nombreEquipo, nombresAmigos } from "../logica/partidas.js";
 import { EtiquetaModo } from "./Etiquetas.jsx";
 import { IconoConSaco } from "./IconoConSaco.jsx";
@@ -23,58 +24,103 @@ const ACENTOS = {
 /**
  * Panel "En partida": siempre ocupa el mismo espacio mínimo.
  * Sin partidas muestra un texto centrado; con partidas, una tarjeta de ancho completo por partida.
+ * Según la antigüedad de `actualizado`:
+ * - más de 15 min: aviso, tarjetas atenuadas y minutos congelados "al consultar";
+ * - más de 60 min: solo el aviso, sin tarjetas.
  */
 export function SeccionEnPartida({ enVivo, ddragon, amigos, actualizadoMs, ahora }) {
   const partidas = Array.isArray(enVivo) ? enVivo : [];
+  const { nivel, minutos: antiguedad } = antiguedadDatos(actualizadoMs, ahora);
+  const caduco = nivel === "caduco";
+  const viejo = nivel === "viejo";
+  const visibles = caduco ? [] : partidas;
+  // Con datos viejos, los minutos se congelan en el momento de la consulta.
+  const relojPartidas = viejo ? actualizadoMs : ahora;
+
   return (
     <section aria-labelledby="titulo-en-partida">
       <TituloSeccion id="titulo-en-partida">
-        <span aria-hidden="true" className={partidas.length ? "text-sapo" : "text-texto-suave"}>
+        <span aria-hidden="true" className={visibles.length && !viejo ? "text-sapo" : "text-texto-suave"}>
           ●
         </span>
         En partida
-        {partidas.length > 0 && <span className="cifras text-sm font-normal text-texto-suave">({partidas.length})</span>}
+        {visibles.length > 0 && <span className="cifras text-sm font-normal text-texto-suave">({visibles.length})</span>}
       </TituloSeccion>
       <div className="min-h-32 rounded-lg border border-borde bg-superficie p-2 sm:p-4">
-        {partidas.length === 0 ? (
-          <p className="flex min-h-24 items-center justify-center text-texto-suave">Nadie en partida.</p>
+        {caduco ? (
+          <AvisoAntiguedad>
+            {antiguedad === null
+              ? "No se sabe cuándo se consultó a Riot. No se puede saber quién está en partida ahora."
+              : `Datos de ${haceCuanto(actualizadoMs, ahora)}. No se puede saber quién está en partida ahora.`}
+          </AvisoAntiguedad>
+        ) : visibles.length === 0 ? (
+          <div className="flex min-h-24 flex-col items-center justify-center gap-1">
+            <p className="text-texto-suave">Nadie en partida.</p>
+            {viejo && <p className="cifras text-xs text-texto-suave">Datos de hace {antiguedad} min.</p>}
+          </div>
         ) : (
-          <ul className="flex flex-col gap-3" aria-label="Partidas en curso">
-            {partidas.map((p, i) => (
-              <li key={p.id ?? i} className="w-full min-w-0">
-                <PartidaEnVivo
-                  partida={p}
-                  ddragon={ddragon}
-                  amigos={amigos}
-                  actualizadoMs={actualizadoMs}
-                  ahora={ahora}
-                />
-              </li>
-            ))}
-          </ul>
+          <>
+            {viejo && (
+              <p className="mb-3 rounded-md border border-sapo/40 bg-sapo-fondo px-3 py-2 text-sm text-sapo">
+                <span aria-hidden="true" className="mr-1">
+                  ⚠
+                </span>
+                Datos de hace <span className="cifras">{antiguedad}</span> min. Puede que estas partidas ya hayan
+                terminado.
+              </p>
+            )}
+            <ul className="flex flex-col gap-3" aria-label="Partidas en curso">
+              {visibles.map((p, i) => (
+                <li key={p.id ?? i} className="w-full min-w-0">
+                  <PartidaEnVivo
+                    partida={p}
+                    ddragon={ddragon}
+                    amigos={amigos}
+                    actualizadoMs={actualizadoMs}
+                    ahora={relojPartidas}
+                    atenuada={viejo}
+                  />
+                </li>
+              ))}
+            </ul>
+          </>
         )}
       </div>
     </section>
   );
 }
 
-function PartidaEnVivo({ partida, ddragon, amigos, actualizadoMs, ahora }) {
+function AvisoAntiguedad({ children }) {
+  return (
+    <p className="flex min-h-24 items-center justify-center px-2 text-center text-sm text-sapo">
+      <span aria-hidden="true" className="mr-2">
+        ⚠
+      </span>
+      {children}
+    </p>
+  );
+}
+
+function PartidaEnVivo({ partida, ddragon, amigos, actualizadoMs, ahora, atenuada }) {
   const minutos = minutosEnPartida(partida, actualizadoMs, ahora);
   const equipos = equiposEnVivo(partida);
   const quienes = nombresAmigos(partida.amigos, amigos);
   const columnas =
     equipos.length > 2 ? "grid-cols-[repeat(auto-fill,minmax(17rem,1fr))]" : "md:grid-cols-2";
+  const textoMinutos =
+    minutos === null ? "Tiempo desconocido" : `${minutos} min de partida${atenuada ? " (al consultar)" : ""}`;
 
   return (
-    <article className="w-full rounded-md border border-sapo/40 bg-fondo/40 p-2 sm:p-3">
+    <article
+      className={`w-full rounded-md border border-sapo/40 bg-fondo/40 p-2 sm:p-3 ${atenuada ? "opacity-60" : ""}`}
+      data-atenuada={atenuada ? "true" : undefined}
+    >
       <header className="mb-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm">
         <EtiquetaModo item={partida} />
         <span aria-hidden="true" className="text-texto-suave">
           ·
         </span>
-        <span className="cifras text-texto-suave">
-          {minutos === null ? "Tiempo desconocido" : `${minutos} min de partida`}
-        </span>
+        <span className="cifras text-texto-suave">{textoMinutos}</span>
         {quienes && (
           <>
             <span aria-hidden="true" className="text-texto-suave">
@@ -89,7 +135,7 @@ function PartidaEnVivo({ partida, ddragon, amigos, actualizadoMs, ahora }) {
       ) : (
         <div className={`grid gap-4 ${columnas}`}>
           {equipos.map((eq, i) => (
-            <Equipo key={eq.equipo} equipo={eq} indice={i} ddragon={ddragon} />
+            <Equipo key={eq.equipo} equipo={eq} indice={i} ddragon={ddragon} sinAnillo={atenuada} />
           ))}
         </div>
       )}
@@ -97,7 +143,7 @@ function PartidaEnVivo({ partida, ddragon, amigos, actualizadoMs, ahora }) {
   );
 }
 
-function Equipo({ equipo, indice, ddragon }) {
+function Equipo({ equipo, indice, ddragon, sinAnillo }) {
   const acento = ACENTOS[equipo.equipo] ?? { borde: "border-t-borde", texto: "text-texto-suave" };
   const nombre = nombreEquipo(equipo.equipo, indice);
   return (
@@ -105,7 +151,7 @@ function Equipo({ equipo, indice, ddragon }) {
       <h3 className={`mb-1 px-2 text-xs font-semibold ${acento.texto}`}>{nombre}</h3>
       <ul className="space-y-1" aria-label={`Jugadores del ${nombre.toLowerCase()}`}>
         {equipo.jugadores.map((j, k) => (
-          <JugadorEnVivo key={`${j.campeon_id}-${k}`} jugador={j} ddragon={ddragon} />
+          <JugadorEnVivo key={`${j.campeon_id}-${k}`} jugador={j} ddragon={ddragon} sinAnillo={sinAnillo} />
         ))}
       </ul>
       {equipo.bloqueos.length > 0 && (
@@ -129,7 +175,7 @@ function Equipo({ equipo, indice, ddragon }) {
   );
 }
 
-function JugadorEnVivo({ jugador, ddragon }) {
+function JugadorEnVivo({ jugador, ddragon, sinAnillo }) {
   const campeon = nombreCampeon(ddragon, jugador.campeon_id);
   const esAmigo = Boolean(jugador.amigo);
   const nombre = typeof jugador.nombre === "string" && jugador.nombre ? jugador.nombre : null;
@@ -142,7 +188,7 @@ function JugadorEnVivo({ jugador, ddragon }) {
       className={`${GRILLA_JUGADOR} rounded ${esAmigo ? "bg-sapo-fondo" : ""}`}
       data-amigo={esAmigo ? "true" : undefined}
     >
-      <IconoConSaco src={urlCampeon(ddragon, jugador.campeon_id)} alt={campeon} tamaño={36} enPartida={esAmigo} />
+      <IconoConSaco src={urlCampeon(ddragon, jugador.campeon_id)} alt={campeon} tamaño={36} enPartida={esAmigo && !sinAnillo} />
 
       <span className="flex flex-col gap-0.5">
         {[0, 1].map((i) =>

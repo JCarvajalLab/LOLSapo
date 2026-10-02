@@ -90,7 +90,7 @@ describe("SeccionEnPartida", () => {
   it("dice que nadie está en partida dentro de un panel de alto fijo", () => {
     renderVivo([]);
     const texto = screen.getByText("Nadie en partida.");
-    expect(texto.parentElement).toHaveClass("min-h-32");
+    expect(texto.closest(".min-h-32")).not.toBeNull();
   });
 
   it("cada partida ocupa el ancho completo, una debajo de otra", () => {
@@ -192,7 +192,7 @@ describe("SeccionEnPartida", () => {
   });
 
   it("aguanta partidas sin equipos ni tiempo", () => {
-    render(<SeccionEnPartida enVivo={[{ id: "z", modo: null }]} ddragon={null} actualizadoMs={null} ahora={AHORA} />);
+    render(<SeccionEnPartida enVivo={[{ id: "z", modo: null }]} ddragon={null} actualizadoMs={AHORA} ahora={AHORA} />);
     expect(screen.getByText("Tiempo desconocido")).toBeInTheDocument();
     expect(screen.getByText("No hay datos de los equipos.")).toBeInTheDocument();
   });
@@ -206,7 +206,15 @@ describe("FilaAmigo (acordeón)", () => {
     const onAlternar = vi.fn();
     const utils = render(
       <ul>
-        <FilaAmigo amigo={amigo} ddragon={ddragon} ahora={AHORA} abierto={false} onAlternar={onAlternar} {...props} />
+        <FilaAmigo
+          amigo={amigo}
+          ddragon={ddragon}
+          ahora={AHORA}
+          actualizadoMs={AHORA}
+          abierto={false}
+          onAlternar={onAlternar}
+          {...props}
+        />
       </ul>,
     );
     return { ...utils, onAlternar };
