@@ -57,7 +57,8 @@ jobs:
           set -euo pipefail
           # shellcheck disable=SC2016 # comillas simples a propósito: $GH_TOKEN se lee dentro del helper
           AUTH=(-c credential.helper= -c 'credential.helper=!f() { test "$1" = get && printf "username=x-access-token\npassword=%s\n" "$GH_TOKEN"; }; f')
-          mkdir -p datos
+          # datos/registro siempre existe, aunque la rama datos sea nueva (find falla si no).
+          mkdir -p datos/registro
           # Código 0 = la rama existe, 2 = no existe. Cualquier otro error detiene el job
           # (para no confundir una falla de GitHub con "no hay registro" y partir de cero).
           set +e
@@ -104,6 +105,7 @@ jobs:
           set -euo pipefail
           # shellcheck disable=SC2016 # comillas simples a propósito: $GH_TOKEN se lee dentro del helper
           AUTH=(-c credential.helper= -c 'credential.helper=!f() { test "$1" = get && printf "username=x-access-token\npassword=%s\n" "$GH_TOKEN"; }; f')
+          mkdir -p datos/registro
           previos=$(cat registros-previos.txt)
           actuales=$(find datos/registro -name '*.json' 2>/dev/null | wc -l)
           if [ "$actuales" -lt "$previos" ]; then
