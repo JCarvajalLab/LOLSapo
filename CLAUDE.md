@@ -91,5 +91,5 @@ Completar esta sección a medida que se creen (instalar dependencias, correr el 
 - Activar hooks de git: `.venv\Scripts\pre-commit install`
 - Correr todos los chequeos (gitleaks + formato): `.venv\Scripts\pre-commit run --all-files`
 - GitHub CLI: `gh` (si la terminal no lo encuentra: `"C:\Program Files\GitHub CLI\gh.exe"`)
-- CI: `.github/workflows/ci.yml` (gitleaks sobre todo el historial + pre-commit). Ver ejecuciones: `gh run list` / `gh run watch`
-- Publicación: `.github/workflows/publicar.yml` (cada ~10 min: recolector con el secret del environment `produccion`, registro en la rama `datos`, deploy a GitHub Pages). Lanzar a mano: `gh workflow run publicar.yml`. Los workflows se validan con actionlint (hook de pre-commit)
+- CI: `.github/workflows/ci.yml` (gitleaks sobre la historia de la rama + pre-commit, tests y auditorías; obligatorio en PRs a `main` por ruleset). Ver ejecuciones: `gh run list` / `gh run watch`
+- Publicación: `.github/workflows/publicar.yml` (cada ~10 min: recolector con el secret `RIOT_API_KEY_LOL` del environment `produccion`, solo si la variable `PUBLICAR_ACTIVO` es `true`; registro en la rama `datos`, deploy a GitHub Pages). Lanzar a mano: `gh workflow run publicar.yml`. Los workflows se validan con actionlint (hook de pre-commit)
