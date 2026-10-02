@@ -2,7 +2,7 @@
 
 Web estilo op.gg para un grupo cerrado de amigos del servidor **LAS**. Muestra quién está jugando ahora, rango, victorias y derrotas en todos los modos de juego y las últimas 10 partidas de cada uno. Primero League of Legends; Teamfight Tactics después.
 
-> 🚧 Proyecto en desarrollo (fase 3: interfaz de LoL). Por ahora funciona solo en local.
+> 🚧 Proyecto en desarrollo (fase 4: pulido). Por ahora funciona solo en local.
 
 El detalle completo del proyecto está en [docs/REQUERIMIENTOS.md](docs/REQUERIMIENTOS.md).
 
