@@ -88,7 +88,6 @@ export function UnidadTft({ unidad, ddragon }) {
           src={urlCampeonTft(ddragon, unidad.id)}
           alt={`${nombre}, ${textoEstrellas}${costo ? `, costo ${costo}` : ""}`}
           tamaño={36}
-
         />
       </span>
       {items.length > 0 ? (
