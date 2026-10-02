@@ -105,8 +105,19 @@ def validar_ligas(datos) -> dict:
             "lp": _entero(entrada.get("leaguePoints"), "leaguePoints"),
             "victorias": _entero(entrada.get("wins"), "wins"),
             "derrotas": _entero(entrada.get("losses"), "losses"),
+            # Riot marca hotStreak con 3 o más victorias seguidas.
+            "racha": entrada.get("hotStreak") is True,
         }
     return rangos
+
+
+def validar_maestria(datos) -> dict:
+    """champion-mastery-v4 -> {nivel, puntos}."""
+    datos = _dict(datos, "maestría")
+    return {
+        "nivel": _entero(datos.get("championLevel"), "championLevel"),
+        "puntos": _entero(datos.get("championPoints"), "championPoints"),
+    }
 
 
 def validar_ids_partidas(datos) -> list[str]:

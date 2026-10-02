@@ -122,10 +122,16 @@ def test_dos_amigos_en_la_misma_partida_en_vivo(cliente, mapa, tmp_path):
     simular_amigo("Johnadis", P_JOHN, [], jugando=en_vivo, ligas=[liga(tier="GOLD", rank="I")])
     simular_amigo("Big Gato", P_GATO, [], jugando=en_vivo)
     rival = "rival1".ljust(78, "r")
+    en_racha = liga("RANKED_FLEX_SR", "SILVER", "III", 12, wins=3, losses=1)
+    en_racha["hotStreak"] = True
+    responses.get(f"{URL_PLATAFORMA}/lol/league/v4/entries/by-puuid/{rival}", json=[en_racha])
+    maestrias = f"{URL_PLATAFORMA}/lol/champion-mastery/v4/champion-masteries/by-puuid"
     responses.get(
-        f"{URL_PLATAFORMA}/lol/league/v4/entries/by-puuid/{rival}",
-        json=[liga("RANKED_FLEX_SR", "SILVER", "III", 12)],
+        f"{maestrias}/{P_JOHN}/by-champion/103",
+        json={"championLevel": 7, "championPoints": 150000},
     )
+    responses.get(f"{maestrias}/{P_GATO}/by-champion/86", status=404)  # nunca lo jugó
+    responses.get(f"{maestrias}/{rival}/by-champion/62", status=503)  # falla: sin maestría
 
     salida = ejecutar(
         cliente, KEY_FALSA, [JOHN, GATO], mapa, tmp_path, tmp_path / "lol.json", ahora=AHORA
@@ -142,10 +148,25 @@ def test_dos_amigos_en_la_misma_partida_en_vivo(cliente, mapa, tmp_path):
     streamer = rojo["jugadores"][1]
     assert streamer["nombre"] is None and streamer["amigo"] is None and streamer["rango"] is None
     # Rangos: el del amigo sale de sus datos; el del rival (solo Flex) se consulta una vez.
-    assert azul["jugadores"][0]["rango"] == {"tier": "GOLD", "division": "I", "lp": 45}
+    assert azul["jugadores"][0]["rango"] == {
+        "tier": "GOLD",
+        "division": "I",
+        "lp": 45,
+        "victorias": 30,
+        "derrotas": 25,
+        "winrate": 54.5,
+        "racha": False,
+    }
     assert azul["jugadores"][1]["rango"] is None  # Big Gato sin rankeds
-    assert rojo["jugadores"][0]["rango"] == {"tier": "SILVER", "division": "III", "lp": 12}
+    assert rojo["jugadores"][0]["rango"]["tier"] == "SILVER"
+    assert rojo["jugadores"][0]["rango"]["winrate"] == 75.0
+    assert rojo["jugadores"][0]["rango"]["racha"] is True
     assert llamadas_a(f"/entries/by-puuid/{rival}") == 1
+    # Maestría: con datos, nunca jugado (0) y no disponible (None). Streamer: sin llamada.
+    assert azul["jugadores"][0]["maestria"] == {"nivel": 7, "puntos": 150000}
+    assert azul["jugadores"][1]["maestria"] == {"nivel": 0, "puntos": 0}
+    assert rojo["jugadores"][0]["maestria"] is None
+    assert streamer["maestria"] is None
     assert azul["jugadores"][0]["hechizos"] == [4, 14]
     assert azul["jugadores"][0]["runas"] == {"principal": 8112, "secundaria": 8000}
     assert azul["bloqueos"] == [157] and rojo["bloqueos"] == [238]

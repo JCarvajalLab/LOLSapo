@@ -8,6 +8,7 @@ from lolsapo.validacion import (
     validar_ids_partidas,
     validar_invocador,
     validar_ligas,
+    validar_maestria,
     validar_partida_activa,
 )
 
@@ -209,8 +210,22 @@ def test_ligas_solo_y_flex():
         "lp": 45,
         "victorias": 30,
         "derrotas": 25,
+        "racha": False,
     }
     assert rangos["flex"]["tier"] == "SILVER"
+
+
+def test_ligas_con_racha():
+    entrada = liga()
+    entrada["hotStreak"] = True
+    assert validar_ligas([entrada])["solo"]["racha"] is True
+
+
+def test_maestria():
+    datos = {"championLevel": 7, "championPoints": 123456, "championId": 103, "puuid": "x"}
+    assert validar_maestria(datos) == {"nivel": 7, "puntos": 123456}
+    with pytest.raises(DatoInvalido):
+        validar_maestria({"championLevel": "7", "championPoints": 1})
 
 
 def test_ligas_sin_rankeds():

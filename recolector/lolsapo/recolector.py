@@ -18,6 +18,7 @@ from .registro import (
     leer_registro,
     registro_vacio,
     ultimas_partidas,
+    winrate,
 )
 from .riot_api import ClienteRiot, ErrorAutenticacion, ErrorRiot, PeticionInvalida
 from .validacion import (
@@ -27,6 +28,7 @@ from .validacion import (
     validar_ids_partidas,
     validar_invocador,
     validar_ligas,
+    validar_maestria,
     validar_partida_activa,
 )
 
@@ -190,8 +192,37 @@ def _rangos_en_vivo(cliente: ClienteRiot, activas: list[dict], conocidos: dict) 
     return rangos
 
 
+def _maestrias_en_vivo(cliente: ClienteRiot, activas: list[dict]) -> dict:
+    """Maestría de cada jugador con el campeón que está jugando: {(puuid, campeon): {...}}.
+
+    Una llamada por jugador (con PUUID). Si nunca jugó el campeón, nivel y puntos quedan en 0.
+    Si la llamada falla, ese jugador queda sin maestría y no afecta a nada más.
+    """
+    maestrias: dict[tuple[str, int], dict | None] = {}
+    for activa in activas:
+        for jugador in activa["participantes"]:
+            clave = (jugador["puuid"], jugador["campeon_id"])
+            if not jugador["puuid"] or clave in maestrias:
+                continue
+            try:
+                datos = cliente.maestria(*clave)
+                maestrias[clave] = (
+                    validar_maestria(datos) if datos is not None else {"nivel": 0, "puntos": 0}
+                )
+            except ErrorAutenticacion:
+                raise
+            except (ErrorRiot, DatoInvalido) as error:
+                log.warning("Maestría de un jugador en vivo no disponible: %s", error)
+                maestrias[clave] = None
+    return maestrias
+
+
 def _partidas_en_vivo(
-    activas: list[dict], mapa: MapaModos, slug_por_puuid: dict, rangos: dict
+    activas: list[dict],
+    mapa: MapaModos,
+    slug_por_puuid: dict,
+    rangos: dict,
+    maestrias: dict | None = None,
 ) -> list[dict]:
     """Una entrada por partida en curso, aunque haya varios amigos en ella."""
     por_id: dict[int, dict] = {}
@@ -204,7 +235,8 @@ def _partidas_en_vivo(
                 **publico,
                 "hechizos": original["hechizos"],
                 "runas": original["runas"],
-                "rango": _rango_corto(rangos.get(original["puuid"])),
+                "rango": _rango_en_vivo(rangos.get(original["puuid"])),
+                "maestria": (maestrias or {}).get((original["puuid"], original["campeon_id"])),
             }
             for publico, original in zip(
                 _publicar_participantes(activa["participantes"], slug_por_puuid),
@@ -233,11 +265,20 @@ def _partidas_en_vivo(
     return list(por_id.values())
 
 
-def _rango_corto(rango: dict | None) -> dict | None:
-    """Para la partida en vivo basta con tier, división y LP."""
+def _rango_en_vivo(rango: dict | None) -> dict | None:
+    """Rango para la partida en vivo: tier, división, LP, winrate de la temporada y racha."""
     if not rango:
         return None
-    return {"tier": rango["tier"], "division": rango["division"], "lp": rango["lp"]}
+    return {
+        "tier": rango["tier"],
+        "division": rango["division"],
+        "lp": rango["lp"],
+        "victorias": rango["victorias"],
+        "derrotas": rango["derrotas"],
+        "winrate": winrate(rango["victorias"], rango["derrotas"]),
+        # Rangos guardados antes de agregar la racha no traen el campo.
+        "racha": rango.get("racha", False),
+    }
 
 
 def _elementos_usados(entradas: list[dict], en_vivo: list[dict]) -> dict[str, set[int]]:
@@ -301,7 +342,8 @@ def ejecutar(
         if puuid
     }
     rangos = _rangos_en_vivo(cliente, activas, rangos_amigos) if activas else {}
-    en_vivo = _partidas_en_vivo(activas, mapa, slug_por_puuid, rangos)
+    maestrias = _maestrias_en_vivo(cliente, activas) if activas else {}
+    en_vivo = _partidas_en_vivo(activas, mapa, slug_por_puuid, rangos, maestrias)
 
     salida = {
         "version": VERSION_SALIDA,
