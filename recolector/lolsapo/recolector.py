@@ -168,53 +168,78 @@ def _publicar_participantes(participantes: list[dict], slug_por_puuid: dict) -> 
     ]
 
 
-def _rangos_en_vivo(cliente: ClienteRiot, activas: list[dict], conocidos: dict) -> dict:
-    """Rango Solo/Dúo (o Flex si no tiene) de cada jugador de las partidas en vivo.
+def _leer_cache_en_vivo(ruta: Path) -> dict:
+    """Caché local de rango y maestría por partida en vivo: {"<gameId>": {...}}."""
+    try:
+        datos = json.loads(Path(ruta).read_text(encoding="utf-8"))
+    except (FileNotFoundError, ValueError):
+        return {}
+    if not isinstance(datos, dict):
+        return {}
+    return {
+        clave: valor
+        for clave, valor in datos.items()
+        if isinstance(valor, dict)
+        and isinstance(valor.get("rangos"), dict)
+        and isinstance(valor.get("maestrias"), dict)
+    }
 
-    `conocidos` trae los rangos de los amigos (ya consultados). Para el resto se hace una
-    llamada por jugador; si falla, ese jugador queda sin rango y no afecta a nada más.
-    Los jugadores en modo streamer no traen PUUID y quedan sin rango.
+
+def _datos_en_vivo(
+    cliente: ClienteRiot, activas: list[dict], rangos_amigos: dict, cache: dict
+) -> tuple[dict, dict, dict]:
+    """Rango y maestría de cada jugador de las partidas en vivo.
+
+    Ninguno de los dos cambia durante una partida, así que se guardan por gameId y en las
+    pasadas siguientes no se vuelven a pedir. Devuelve (rangos por PUUID, maestrías por
+    (PUUID, campeón), caché nuevo solo con las partidas que siguen en curso).
+
+    - Rango: Solo/Dúo, o Flex si no tiene. Los de los amigos ya se consultaron.
+    - Maestría: con el campeón que está jugando; si nunca lo jugó, nivel y puntos en 0.
+    - Si una llamada falla, ese dato queda en None y no se guarda en el caché (se reintenta).
+    - Los jugadores en modo streamer no traen PUUID: quedan sin rango ni maestría.
     """
-    rangos = dict(conocidos)
-    for activa in activas:
-        for jugador in activa["participantes"]:
-            puuid = jugador["puuid"]
-            if not puuid or puuid in rangos:
-                continue
-            try:
-                ligas = validar_ligas(cliente.ligas(puuid))
-                rangos[puuid] = ligas["solo"] or ligas["flex"]
-            except ErrorAutenticacion:
-                raise
-            except (ErrorRiot, DatoInvalido) as error:
-                log.warning("Rango de un jugador en vivo no disponible: %s", error)
-                rangos[puuid] = None
-    return rangos
-
-
-def _maestrias_en_vivo(cliente: ClienteRiot, activas: list[dict]) -> dict:
-    """Maestría de cada jugador con el campeón que está jugando: {(puuid, campeon): {...}}.
-
-    Una llamada por jugador (con PUUID). Si nunca jugó el campeón, nivel y puntos quedan en 0.
-    Si la llamada falla, ese jugador queda sin maestría y no afecta a nada más.
-    """
+    rangos = dict(rangos_amigos)
     maestrias: dict[tuple[str, int], dict | None] = {}
+    cache_nuevo: dict[str, dict] = {}
+
     for activa in activas:
+        guardado = cache.get(str(activa["id"])) or {"rangos": {}, "maestrias": {}}
         for jugador in activa["participantes"]:
-            clave = (jugador["puuid"], jugador["campeon_id"])
-            if not jugador["puuid"] or clave in maestrias:
+            puuid, campeon = jugador["puuid"], jugador["campeon_id"]
+            if not puuid:
                 continue
-            try:
-                datos = cliente.maestria(*clave)
-                maestrias[clave] = (
-                    validar_maestria(datos) if datos is not None else {"nivel": 0, "puntos": 0}
-                )
-            except ErrorAutenticacion:
-                raise
-            except (ErrorRiot, DatoInvalido) as error:
-                log.warning("Maestría de un jugador en vivo no disponible: %s", error)
-                maestrias[clave] = None
-    return maestrias
+
+            if puuid not in rangos:
+                if puuid in guardado["rangos"]:
+                    rangos[puuid] = guardado["rangos"][puuid]
+                else:
+                    try:
+                        ligas = validar_ligas(cliente.ligas(puuid))
+                        rangos[puuid] = guardado["rangos"][puuid] = ligas["solo"] or ligas["flex"]
+                    except ErrorAutenticacion:
+                        raise
+                    except (ErrorRiot, DatoInvalido) as error:
+                        log.warning("Rango de un jugador en vivo no disponible: %s", error)
+                        rangos[puuid] = None
+
+            clave = f"{puuid}:{campeon}"
+            if clave in guardado["maestrias"]:
+                maestrias[(puuid, campeon)] = guardado["maestrias"][clave]
+            else:
+                try:
+                    datos = cliente.maestria(puuid, campeon)
+                    maestria = (
+                        validar_maestria(datos) if datos is not None else {"nivel": 0, "puntos": 0}
+                    )
+                    maestrias[(puuid, campeon)] = guardado["maestrias"][clave] = maestria
+                except ErrorAutenticacion:
+                    raise
+                except (ErrorRiot, DatoInvalido) as error:
+                    log.warning("Maestría de un jugador en vivo no disponible: %s", error)
+                    maestrias[(puuid, campeon)] = None
+        cache_nuevo[str(activa["id"])] = guardado
+    return rangos, maestrias, cache_nuevo
 
 
 def _partidas_en_vivo(
@@ -341,8 +366,11 @@ def ejecutar(
         for entrada, puuid, _ in resultados
         if puuid
     }
-    rangos = _rangos_en_vivo(cliente, activas, rangos_amigos) if activas else {}
-    maestrias = _maestrias_en_vivo(cliente, activas) if activas else {}
+    ruta_cache = Path(dir_datos) / "en_vivo_cache.json"
+    rangos, maestrias, cache_en_vivo = _datos_en_vivo(
+        cliente, activas, rangos_amigos, _leer_cache_en_vivo(ruta_cache)
+    )
+    escribir_json_atomico(ruta_cache, cache_en_vivo)
     en_vivo = _partidas_en_vivo(activas, mapa, slug_por_puuid, rangos, maestrias)
 
     salida = {
