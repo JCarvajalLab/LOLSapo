@@ -1,0 +1,3706 @@
+{
+  "campeones": {
+    "1": {
+      "id": "Annie",
+      "nombre": "Annie"
+    },
+    "10": {
+      "id": "Kayle",
+      "nombre": "Kayle"
+    },
+    "101": {
+      "id": "Xerath",
+      "nombre": "Xerath"
+    },
+    "102": {
+      "id": "Shyvana",
+      "nombre": "Shyvana"
+    },
+    "103": {
+      "id": "Ahri",
+      "nombre": "Ahri"
+    },
+    "104": {
+      "id": "Graves",
+      "nombre": "Graves"
+    },
+    "105": {
+      "id": "Fizz",
+      "nombre": "Fizz"
+    },
+    "106": {
+      "id": "Volibear",
+      "nombre": "Volibear"
+    },
+    "107": {
+      "id": "Rengar",
+      "nombre": "Rengar"
+    },
+    "11": {
+      "id": "MasterYi",
+      "nombre": "Maestro Yi"
+    },
+    "110": {
+      "id": "Varus",
+      "nombre": "Varus"
+    },
+    "111": {
+      "id": "Nautilus",
+      "nombre": "Nautilus"
+    },
+    "112": {
+      "id": "Viktor",
+      "nombre": "Viktor"
+    },
+    "113": {
+      "id": "Sejuani",
+      "nombre": "Sejuani"
+    },
+    "114": {
+      "id": "Fiora",
+      "nombre": "Fiora"
+    },
+    "115": {
+      "id": "Ziggs",
+      "nombre": "Ziggs"
+    },
+    "117": {
+      "id": "Lulu",
+      "nombre": "Lulu"
+    },
+    "119": {
+      "id": "Draven",
+      "nombre": "Draven"
+    },
+    "12": {
+      "id": "Alistar",
+      "nombre": "Alistar"
+    },
+    "120": {
+      "id": "Hecarim",
+      "nombre": "Hecarim"
+    },
+    "121": {
+      "id": "Khazix",
+      "nombre": "Kha'Zix"
+    },
+    "122": {
+      "id": "Darius",
+      "nombre": "Darius"
+    },
+    "126": {
+      "id": "Jayce",
+      "nombre": "Jayce"
+    },
+    "127": {
+      "id": "Lissandra",
+      "nombre": "Lissandra"
+    },
+    "13": {
+      "id": "Ryze",
+      "nombre": "Ryze"
+    },
+    "131": {
+      "id": "Diana",
+      "nombre": "Diana"
+    },
+    "133": {
+      "id": "Quinn",
+      "nombre": "Quinn"
+    },
+    "134": {
+      "id": "Syndra",
+      "nombre": "Syndra"
+    },
+    "136": {
+      "id": "AurelionSol",
+      "nombre": "Aurelion Sol"
+    },
+    "14": {
+      "id": "Sion",
+      "nombre": "Sion"
+    },
+    "141": {
+      "id": "Kayn",
+      "nombre": "Kayn"
+    },
+    "142": {
+      "id": "Zoe",
+      "nombre": "Zoe"
+    },
+    "143": {
+      "id": "Zyra",
+      "nombre": "Zyra"
+    },
+    "145": {
+      "id": "Kaisa",
+      "nombre": "Kai'Sa"
+    },
+    "147": {
+      "id": "Seraphine",
+      "nombre": "Seraphine"
+    },
+    "15": {
+      "id": "Sivir",
+      "nombre": "Sivir"
+    },
+    "150": {
+      "id": "Gnar",
+      "nombre": "Gnar"
+    },
+    "154": {
+      "id": "Zac",
+      "nombre": "Zac"
+    },
+    "157": {
+      "id": "Yasuo",
+      "nombre": "Yasuo"
+    },
+    "16": {
+      "id": "Soraka",
+      "nombre": "Soraka"
+    },
+    "161": {
+      "id": "Velkoz",
+      "nombre": "Vel'Koz"
+    },
+    "163": {
+      "id": "Taliyah",
+      "nombre": "Taliyah"
+    },
+    "164": {
+      "id": "Camille",
+      "nombre": "Camille"
+    },
+    "166": {
+      "id": "Akshan",
+      "nombre": "Akshan"
+    },
+    "17": {
+      "id": "Teemo",
+      "nombre": "Teemo"
+    },
+    "18": {
+      "id": "Tristana",
+      "nombre": "Tristana"
+    },
+    "19": {
+      "id": "Warwick",
+      "nombre": "Warwick"
+    },
+    "2": {
+      "id": "Olaf",
+      "nombre": "Olaf"
+    },
+    "20": {
+      "id": "Nunu",
+      "nombre": "Nunu y Willump"
+    },
+    "200": {
+      "id": "Belveth",
+      "nombre": "Bel'Veth"
+    },
+    "201": {
+      "id": "Braum",
+      "nombre": "Braum"
+    },
+    "202": {
+      "id": "Jhin",
+      "nombre": "Jhin"
+    },
+    "203": {
+      "id": "Kindred",
+      "nombre": "Kindred"
+    },
+    "21": {
+      "id": "MissFortune",
+      "nombre": "Miss Fortune"
+    },
+    "22": {
+      "id": "Ashe",
+      "nombre": "Ashe"
+    },
+    "221": {
+      "id": "Zeri",
+      "nombre": "Zeri"
+    },
+    "222": {
+      "id": "Jinx",
+      "nombre": "Jinx"
+    },
+    "223": {
+      "id": "TahmKench",
+      "nombre": "Tahm Kench"
+    },
+    "23": {
+      "id": "Tryndamere",
+      "nombre": "Tryndamere"
+    },
+    "233": {
+      "id": "Briar",
+      "nombre": "Briar"
+    },
+    "234": {
+      "id": "Viego",
+      "nombre": "Viego"
+    },
+    "235": {
+      "id": "Senna",
+      "nombre": "Senna"
+    },
+    "236": {
+      "id": "Lucian",
+      "nombre": "Lucian"
+    },
+    "238": {
+      "id": "Zed",
+      "nombre": "Zed"
+    },
+    "24": {
+      "id": "Jax",
+      "nombre": "Jax"
+    },
+    "240": {
+      "id": "Kled",
+      "nombre": "Kled"
+    },
+    "245": {
+      "id": "Ekko",
+      "nombre": "Ekko"
+    },
+    "246": {
+      "id": "Qiyana",
+      "nombre": "Qiyana"
+    },
+    "25": {
+      "id": "Morgana",
+      "nombre": "Morgana"
+    },
+    "254": {
+      "id": "Vi",
+      "nombre": "Vi"
+    },
+    "26": {
+      "id": "Zilean",
+      "nombre": "Zilean"
+    },
+    "266": {
+      "id": "Aatrox",
+      "nombre": "Aatrox"
+    },
+    "267": {
+      "id": "Nami",
+      "nombre": "Nami"
+    },
+    "268": {
+      "id": "Azir",
+      "nombre": "Azir"
+    },
+    "27": {
+      "id": "Singed",
+      "nombre": "Singed"
+    },
+    "28": {
+      "id": "Evelynn",
+      "nombre": "Evelynn"
+    },
+    "29": {
+      "id": "Twitch",
+      "nombre": "Twitch"
+    },
+    "3": {
+      "id": "Galio",
+      "nombre": "Galio"
+    },
+    "30": {
+      "id": "Karthus",
+      "nombre": "Karthus"
+    },
+    "31": {
+      "id": "Chogath",
+      "nombre": "Cho'Gath"
+    },
+    "32": {
+      "id": "Amumu",
+      "nombre": "Amumu"
+    },
+    "33": {
+      "id": "Rammus",
+      "nombre": "Rammus"
+    },
+    "34": {
+      "id": "Anivia",
+      "nombre": "Anivia"
+    },
+    "35": {
+      "id": "Shaco",
+      "nombre": "Shaco"
+    },
+    "350": {
+      "id": "Yuumi",
+      "nombre": "Yuumi"
+    },
+    "36": {
+      "id": "DrMundo",
+      "nombre": "Dr. Mundo"
+    },
+    "360": {
+      "id": "Samira",
+      "nombre": "Samira"
+    },
+    "37": {
+      "id": "Sona",
+      "nombre": "Sona"
+    },
+    "38": {
+      "id": "Kassadin",
+      "nombre": "Kassadin"
+    },
+    "39": {
+      "id": "Irelia",
+      "nombre": "Irelia"
+    },
+    "4": {
+      "id": "TwistedFate",
+      "nombre": "Twisted Fate"
+    },
+    "40": {
+      "id": "Janna",
+      "nombre": "Janna"
+    },
+    "41": {
+      "id": "Gangplank",
+      "nombre": "Gangplank"
+    },
+    "412": {
+      "id": "Thresh",
+      "nombre": "Thresh"
+    },
+    "42": {
+      "id": "Corki",
+      "nombre": "Corki"
+    },
+    "420": {
+      "id": "Illaoi",
+      "nombre": "Illaoi"
+    },
+    "421": {
+      "id": "RekSai",
+      "nombre": "Rek'Sai"
+    },
+    "427": {
+      "id": "Ivern",
+      "nombre": "Ivern"
+    },
+    "429": {
+      "id": "Kalista",
+      "nombre": "Kalista"
+    },
+    "43": {
+      "id": "Karma",
+      "nombre": "Karma"
+    },
+    "432": {
+      "id": "Bard",
+      "nombre": "Bardo"
+    },
+    "44": {
+      "id": "Taric",
+      "nombre": "Taric"
+    },
+    "45": {
+      "id": "Veigar",
+      "nombre": "Veigar"
+    },
+    "48": {
+      "id": "Trundle",
+      "nombre": "Trundle"
+    },
+    "497": {
+      "id": "Rakan",
+      "nombre": "Rakan"
+    },
+    "498": {
+      "id": "Xayah",
+      "nombre": "Xayah"
+    },
+    "5": {
+      "id": "XinZhao",
+      "nombre": "Xin Zhao"
+    },
+    "50": {
+      "id": "Swain",
+      "nombre": "Swain"
+    },
+    "51": {
+      "id": "Caitlyn",
+      "nombre": "Caitlyn"
+    },
+    "516": {
+      "id": "Ornn",
+      "nombre": "Ornn"
+    },
+    "517": {
+      "id": "Sylas",
+      "nombre": "Sylas"
+    },
+    "518": {
+      "id": "Neeko",
+      "nombre": "Neeko"
+    },
+    "523": {
+      "id": "Aphelios",
+      "nombre": "Aphelios"
+    },
+    "526": {
+      "id": "Rell",
+      "nombre": "Rell"
+    },
+    "53": {
+      "id": "Blitzcrank",
+      "nombre": "Blitzcrank"
+    },
+    "54": {
+      "id": "Malphite",
+      "nombre": "Malphite"
+    },
+    "55": {
+      "id": "Katarina",
+      "nombre": "Katarina"
+    },
+    "555": {
+      "id": "Pyke",
+      "nombre": "Pyke"
+    },
+    "56": {
+      "id": "Nocturne",
+      "nombre": "Nocturne"
+    },
+    "57": {
+      "id": "Maokai",
+      "nombre": "Maokai"
+    },
+    "58": {
+      "id": "Renekton",
+      "nombre": "Renekton"
+    },
+    "59": {
+      "id": "JarvanIV",
+      "nombre": "Jarvan IV"
+    },
+    "6": {
+      "id": "Urgot",
+      "nombre": "Urgot"
+    },
+    "60": {
+      "id": "Elise",
+      "nombre": "Elise"
+    },
+    "61": {
+      "id": "Orianna",
+      "nombre": "Orianna"
+    },
+    "62": {
+      "id": "MonkeyKing",
+      "nombre": "Wukong"
+    },
+    "63": {
+      "id": "Brand",
+      "nombre": "Brand"
+    },
+    "64": {
+      "id": "LeeSin",
+      "nombre": "Lee Sin"
+    },
+    "67": {
+      "id": "Vayne",
+      "nombre": "Vayne"
+    },
+    "68": {
+      "id": "Rumble",
+      "nombre": "Rumble"
+    },
+    "69": {
+      "id": "Cassiopeia",
+      "nombre": "Cassiopeia"
+    },
+    "7": {
+      "id": "Leblanc",
+      "nombre": "LeBlanc"
+    },
+    "711": {
+      "id": "Vex",
+      "nombre": "Vex"
+    },
+    "72": {
+      "id": "Skarner",
+      "nombre": "Skarner"
+    },
+    "74": {
+      "id": "Heimerdinger",
+      "nombre": "Heimerdinger"
+    },
+    "75": {
+      "id": "Nasus",
+      "nombre": "Nasus"
+    },
+    "76": {
+      "id": "Nidalee",
+      "nombre": "Nidalee"
+    },
+    "77": {
+      "id": "Udyr",
+      "nombre": "Udyr"
+    },
+    "777": {
+      "id": "Yone",
+      "nombre": "Yone"
+    },
+    "78": {
+      "id": "Poppy",
+      "nombre": "Poppy"
+    },
+    "79": {
+      "id": "Gragas",
+      "nombre": "Gragas"
+    },
+    "799": {
+      "id": "Ambessa",
+      "nombre": "Ambessa"
+    },
+    "8": {
+      "id": "Vladimir",
+      "nombre": "Vladimir"
+    },
+    "80": {
+      "id": "Pantheon",
+      "nombre": "Pantheon"
+    },
+    "800": {
+      "id": "Mel",
+      "nombre": "Mel"
+    },
+    "804": {
+      "id": "Yunara",
+      "nombre": "Yunara"
+    },
+    "805": {
+      "id": "Locke",
+      "nombre": "Locke"
+    },
+    "81": {
+      "id": "Ezreal",
+      "nombre": "Ezreal"
+    },
+    "82": {
+      "id": "Mordekaiser",
+      "nombre": "Mordekaiser"
+    },
+    "83": {
+      "id": "Yorick",
+      "nombre": "Yorick"
+    },
+    "84": {
+      "id": "Akali",
+      "nombre": "Akali"
+    },
+    "85": {
+      "id": "Kennen",
+      "nombre": "Kennen"
+    },
+    "86": {
+      "id": "Garen",
+      "nombre": "Garen"
+    },
+    "875": {
+      "id": "Sett",
+      "nombre": "Sett"
+    },
+    "876": {
+      "id": "Lillia",
+      "nombre": "Lillia"
+    },
+    "887": {
+      "id": "Gwen",
+      "nombre": "Gwen"
+    },
+    "888": {
+      "id": "Renata",
+      "nombre": "Renata Glasc"
+    },
+    "89": {
+      "id": "Leona",
+      "nombre": "Leona"
+    },
+    "893": {
+      "id": "Aurora",
+      "nombre": "Aurora"
+    },
+    "895": {
+      "id": "Nilah",
+      "nombre": "Nilah"
+    },
+    "897": {
+      "id": "KSante",
+      "nombre": "K'Sante"
+    },
+    "9": {
+      "id": "Fiddlesticks",
+      "nombre": "Fiddlesticks"
+    },
+    "90": {
+      "id": "Malzahar",
+      "nombre": "Malzahar"
+    },
+    "901": {
+      "id": "Smolder",
+      "nombre": "Smolder"
+    },
+    "902": {
+      "id": "Milio",
+      "nombre": "Milio"
+    },
+    "904": {
+      "id": "Zaahen",
+      "nombre": "Zaahen"
+    },
+    "91": {
+      "id": "Talon",
+      "nombre": "Talon"
+    },
+    "910": {
+      "id": "Hwei",
+      "nombre": "Hwei"
+    },
+    "92": {
+      "id": "Riven",
+      "nombre": "Riven"
+    },
+    "950": {
+      "id": "Naafiri",
+      "nombre": "Naafiri"
+    },
+    "96": {
+      "id": "KogMaw",
+      "nombre": "Kog'Maw"
+    },
+    "98": {
+      "id": "Shen",
+      "nombre": "Shen"
+    },
+    "99": {
+      "id": "Lux",
+      "nombre": "Lux"
+    }
+  },
+  "hechizos": {
+    "1": {
+      "id": "SummonerBoost",
+      "nombre": "Purificación"
+    },
+    "11": {
+      "id": "SummonerSmite",
+      "nombre": "Castigo"
+    },
+    "12": {
+      "id": "SummonerTeleport",
+      "nombre": "Teleportación"
+    },
+    "13": {
+      "id": "SummonerMana",
+      "nombre": "Claridad"
+    },
+    "14": {
+      "id": "SummonerDot",
+      "nombre": "Ignición"
+    },
+    "21": {
+      "id": "SummonerBarrier",
+      "nombre": "Barrera"
+    },
+    "2201": {
+      "id": "SummonerCherryHold",
+      "nombre": "Huida"
+    },
+    "2202": {
+      "id": "SummonerCherryFlash",
+      "nombre": "Destello"
+    },
+    "3": {
+      "id": "SummonerExhaust",
+      "nombre": "Extenuación"
+    },
+    "30": {
+      "id": "SummonerPoroRecall",
+      "nombre": "¡Por el Rey!"
+    },
+    "31": {
+      "id": "SummonerPoroThrow",
+      "nombre": "Disporo"
+    },
+    "32": {
+      "id": "SummonerSnowball",
+      "nombre": "Marca"
+    },
+    "39": {
+      "id": "SummonerSnowURFSnowball_Mark",
+      "nombre": "Marca"
+    },
+    "4": {
+      "id": "SummonerFlash",
+      "nombre": "Destello"
+    },
+    "54": {
+      "id": "Summoner_UltBookPlaceholder",
+      "nombre": "Marcador"
+    },
+    "55": {
+      "id": "Summoner_UltBookSmitePlaceholder",
+      "nombre": "Placeholder y Castigo de ataque"
+    },
+    "6": {
+      "id": "SummonerHaste",
+      "nombre": "Fantasma"
+    },
+    "7": {
+      "id": "SummonerHeal",
+      "nombre": "Curación"
+    },
+    "705": {
+      "id": "SummonerFortify_Jade",
+      "nombre": "Fortificación"
+    },
+    "709": {
+      "id": "SummonerRally_Jade",
+      "nombre": "Reunión"
+    },
+    "71": {
+      "id": "SummonerBoost_Jade",
+      "nombre": "Purificación"
+    },
+    "711": {
+      "id": "SummonerSmite_Jade",
+      "nombre": "Castigo"
+    },
+    "712": {
+      "id": "SummonerTeleport_Jade",
+      "nombre": "Teleportación"
+    },
+    "713": {
+      "id": "SummonerMana_Jade",
+      "nombre": "Claridad"
+    },
+    "714": {
+      "id": "SummonerDot_Jade",
+      "nombre": "Ignición"
+    },
+    "716": {
+      "id": "SummonerBattleCry_Jade",
+      "nombre": "Descarga"
+    },
+    "720": {
+      "id": "SummonerSpell_Promote_Jade",
+      "nombre": "Ascenso"
+    },
+    "721": {
+      "id": "SummonerBarrier_Jade",
+      "nombre": "Barrera"
+    },
+    "73": {
+      "id": "SummonerExhaust_Jade",
+      "nombre": "Extenuación"
+    },
+    "74": {
+      "id": "SummonerFlash_Jade",
+      "nombre": "Destello"
+    },
+    "75": {
+      "id": "SummonerClairvoyance_Jade",
+      "nombre": "Clarividencia"
+    },
+    "76": {
+      "id": "SummonerHaste_Jade",
+      "nombre": "Fantasma"
+    },
+    "77": {
+      "id": "SummonerHeal_Jade",
+      "nombre": "Curación"
+    },
+    "777": {
+      "id": "SummonerRevive_Jade",
+      "nombre": "Revivir"
+    }
+  },
+  "items": {
+    "1001": {
+      "nombre": "Botas"
+    },
+    "1004": {
+      "nombre": "Amuleto de las Hadas"
+    },
+    "1006": {
+      "nombre": "Perla de Rejuvenecimiento"
+    },
+    "1011": {
+      "nombre": "Cinturón de Gigante"
+    },
+    "1018": {
+      "nombre": "Capa de Agilidad"
+    },
+    "1026": {
+      "nombre": "Varita Explosiva"
+    },
+    "1027": {
+      "nombre": "Cristal de Zafiro"
+    },
+    "1028": {
+      "nombre": "Cristal de Rubí"
+    },
+    "1029": {
+      "nombre": "Armadura de Tela"
+    },
+    "1031": {
+      "nombre": "Cota de Malla"
+    },
+    "1033": {
+      "nombre": "Manto Anulamagia"
+    },
+    "1035": {
+      "nombre": "Cuchillo Ámbar"
+    },
+    "1036": {
+      "nombre": "Espada Larga"
+    },
+    "1037": {
+      "nombre": "Picacha"
+    },
+    "1038": {
+      "nombre": "Espadón"
+    },
+    "1039": {
+      "nombre": "Hoja Granizo"
+    },
+    "1040": {
+      "nombre": "Filo de Obsidiana"
+    },
+    "1042": {
+      "nombre": "Daga"
+    },
+    "1043": {
+      "nombre": "Arco Recurvado"
+    },
+    "1052": {
+      "nombre": "Libro Amplificador"
+    },
+    "1053": {
+      "nombre": "Cetro Vampírico"
+    },
+    "1054": {
+      "nombre": "Escudo de Doran"
+    },
+    "1055": {
+      "nombre": "Espada de Doran"
+    },
+    "1056": {
+      "nombre": "Sortija de Doran"
+    },
+    "1057": {
+      "nombre": "Capa de Negatrones"
+    },
+    "1058": {
+      "nombre": "Vara Innecesariamente Grande"
+    },
+    "1082": {
+      "nombre": "El Sello de la Oscuridad"
+    },
+    "1083": {
+      "nombre": "Sacrificar"
+    },
+    "1086": {
+      "nombre": "Arco de Doran"
+    },
+    "1090": {
+      "nombre": "Misión: Carril superior"
+    },
+    "1091": {
+      "nombre": "Misión: Carril central"
+    },
+    "1092": {
+      "nombre": "Misión: Carril inferior"
+    },
+    "1093": {
+      "nombre": "Misión: Soporte"
+    },
+    "1094": {
+      "nombre": "Misión: Jungla"
+    },
+    "1101": {
+      "nombre": "Cachorro de Rasgafuegos"
+    },
+    "1102": {
+      "nombre": "Cría de Trotabrisas"
+    },
+    "1103": {
+      "nombre": "Retoño de Pisamusgo"
+    },
+    "1104": {
+      "nombre": "Ojo del Heraldo"
+    },
+    "1105": {
+      "nombre": "Retoño de Pisamusgo"
+    },
+    "1106": {
+      "nombre": "Cría de Trotabrisas"
+    },
+    "1107": {
+      "nombre": "Cachorro de Rasgafuegos"
+    },
+    "1111": {
+      "nombre": "Jarvan Primero"
+    },
+    "1120": {
+      "nombre": "Casco de Doran"
+    },
+    "1200": {
+      "nombre": "Misión del carril superior"
+    },
+    "1201": {
+      "nombre": "Misión del carril central"
+    },
+    "1202": {
+      "nombre": "Misión del carril inferior"
+    },
+    "1203": {
+      "nombre": "Misión de soporte"
+    },
+    "1204": {
+      "nombre": "Misión de la jungla"
+    },
+    "1205": {
+      "nombre": "Recompensa de la misión de la jungla"
+    },
+    "1206": {
+      "nombre": "Recompensa de misión del carril central"
+    },
+    "1207": {
+      "nombre": "Recompensa de misión del carril inferior"
+    },
+    "1208": {
+      "nombre": "Recompensa de la misión de soporte"
+    },
+    "1209": {
+      "nombre": "Recompensa de la misión de la jungla"
+    },
+    "1210": {
+      "nombre": "Recompensa de la misión de la jungla"
+    },
+    "1211": {
+      "nombre": "Recompensa de la misión de la jungla"
+    },
+    "1220": {
+      "nombre": "Teleportación Desatada (recompensa de la misión del carril s"
+    },
+    "1221": {
+      "nombre": "Recompensa de misión del carril superior"
+    },
+    "1222": {
+      "nombre": "Misión del carril superior"
+    },
+    "123430": {
+      "nombre": "Rito de Ruina"
+    },
+    "124011": {
+      "nombre": "Espada del Amanecer Floreciente"
+    },
+    "126697": {
+      "nombre": "Arrogancia"
+    },
+    "1500": {
+      "nombre": "Balas Penetrantes"
+    },
+    "1501": {
+      "nombre": "Fortificación"
+    },
+    "1502": {
+      "nombre": "Armadura Reforzada"
+    },
+    "1503": {
+      "nombre": "Ojo del Guardián"
+    },
+    "1504": {
+      "nombre": "Vanguardia"
+    },
+    "1505": {
+      "nombre": "Armadura Reforzada"
+    },
+    "1506": {
+      "nombre": "Armadura Reforzada"
+    },
+    "1507": {
+      "nombre": "Sobrecargado"
+    },
+    "1508": {
+      "nombre": "Calcetas antitorretas"
+    },
+    "1509": {
+      "nombre": "Entusiasmo"
+    },
+    "1510": {
+      "nombre": "Entusiasmo Temerario"
+    },
+    "1511": {
+      "nombre": "Armadura Supermecanizada"
+    },
+    "1512": {
+      "nombre": "Campo de Fuerza Supermecánico"
+    },
+    "1515": {
+      "nombre": "Revestimiento de Torretas"
+    },
+    "1516": {
+      "nombre": "Recompensa por estructuras"
+    },
+    "1517": {
+      "nombre": "Recompensa por estructuras"
+    },
+    "1518": {
+      "nombre": "Recompensa por estructuras"
+    },
+    "1519": {
+      "nombre": "Recompensa por estructuras"
+    },
+    "1520": {
+      "nombre": "SobrecargadoAL"
+    },
+    "1521": {
+      "nombre": "Fortificación"
+    },
+    "1522": {
+      "nombre": "Aumento de poder de la torre"
+    },
+    "1523": {
+      "nombre": "Sobrecargado"
+    },
+    "1524": {
+      "nombre": "Cristavid"
+    },
+    "2001": {
+      "nombre": "Retirada"
+    },
+    "2002": {
+      "nombre": "Retirada mejorada"
+    },
+    "2003": {
+      "nombre": "Poción de Vida"
+    },
+    "2007": {
+      "nombre": "Retirada desactivada"
+    },
+    "2010": {
+      "nombre": "Galleta Definitiva de la Voluntad Eterna"
+    },
+    "2015": {
+      "nombre": "Fragmento de Kircheis"
+    },
+    "2019": {
+      "nombre": "Sello de Acero"
+    },
+    "2020": {
+      "nombre": "El Brutalizador"
+    },
+    "2021": {
+      "nombre": "Excavador de Túneles"
+    },
+    "2022": {
+      "nombre": "Mena Brillante"
+    },
+    "2031": {
+      "nombre": "Poción Reutilizable"
+    },
+    "2033": {
+      "nombre": "Poción de Corrupción"
+    },
+    "2049": {
+      "nombre": "Amuleto del Guardián"
+    },
+    "2050": {
+      "nombre": "Manto del Guardián"
+    },
+    "2051": {
+      "nombre": "Cuerno del Guardián"
+    },
+    "2052": {
+      "nombre": "Porogalletas"
+    },
+    "2055": {
+      "nombre": "Centinela de Control"
+    },
+    "2056": {
+      "nombre": "Centinela Invisible"
+    },
+    "2065": {
+      "nombre": "Canto de Guerra de Shurelya"
+    },
+    "2138": {
+      "nombre": "Elixir de Hierro"
+    },
+    "2139": {
+      "nombre": "Elixir de Brujería"
+    },
+    "2140": {
+      "nombre": "Elixir de Furia"
+    },
+    "2141": {
+      "nombre": "Juguito de Gorrito"
+    },
+    "2142": {
+      "nombre": "Juguito de Poder"
+    },
+    "2143": {
+      "nombre": "Juguito de Vitalidad"
+    },
+    "2144": {
+      "nombre": "Juguito de Aceleración"
+    },
+    "2145": {
+      "nombre": "Dados de la Suerte"
+    },
+    "2146": {
+      "nombre": "Dados de la Suerte Mejorados"
+    },
+    "2147": {
+      "nombre": "Nivel de Aumento"
+    },
+    "2150": {
+      "nombre": "Elixir de Habilidad"
+    },
+    "2151": {
+      "nombre": "Elixir de Avaricia"
+    },
+    "2152": {
+      "nombre": "Elixir de Fuerza"
+    },
+    "2161": {
+      "nombre": "Juguito de Poder de Bandle"
+    },
+    "2162": {
+      "nombre": "Juguito de Vitalidad de Bandle"
+    },
+    "2163": {
+      "nombre": "Juguito de Aceleración de Bandle"
+    },
+    "220000": {
+      "nombre": "Estadística adicional"
+    },
+    "220001": {
+      "nombre": "Objeto de Peleador Legendario"
+    },
+    "220002": {
+      "nombre": "Objeto de Tirador Legendario"
+    },
+    "220003": {
+      "nombre": "Objeto de Asesino Legendario"
+    },
+    "220004": {
+      "nombre": "Objeto de Mago Legendario"
+    },
+    "220005": {
+      "nombre": "Objeto de Tanque Legendario"
+    },
+    "220006": {
+      "nombre": "Objeto de Soporte Legendario"
+    },
+    "220007": {
+      "nombre": "Objeto Prismático"
+    },
+    "220008": {
+      "nombre": "Cupón de Yunques"
+    },
+    "220009": {
+      "nombre": "Cupón de Yunque de estadísticas de Oro"
+    },
+    "220010": {
+      "nombre": "Cupón de Estadísticas Prismático"
+    },
+    "220011": {
+      "nombre": "Cupón de Valentía"
+    },
+    "220012": {
+      "nombre": "Espada Fragmentada"
+    },
+    "220013": {
+      "nombre": "Porogalletas"
+    },
+    "221011": {
+      "nombre": "Cinturón de Gigante"
+    },
+    "221026": {
+      "nombre": "Varita Explosiva"
+    },
+    "221031": {
+      "nombre": "Cota de Malla"
+    },
+    "221038": {
+      "nombre": "Espadón"
+    },
+    "221043": {
+      "nombre": "Arco Recurvado"
+    },
+    "221053": {
+      "nombre": "Cetro Vampírico"
+    },
+    "221057": {
+      "nombre": "Capa de Negatrones"
+    },
+    "221058": {
+      "nombre": "Vara Innecesariamente Grande"
+    },
+    "222022": {
+      "nombre": "Mena Brillante"
+    },
+    "222051": {
+      "nombre": "Cuerno del Guardián"
+    },
+    "222065": {
+      "nombre": "Canto de Guerra de Shurelya"
+    },
+    "222141": {
+      "nombre": "Juguito de Gorrito"
+    },
+    "222502": {
+      "nombre": "Desesperación Eterna"
+    },
+    "222503": {
+      "nombre": "Antorcha de Fuegoscuro"
+    },
+    "222504": {
+      "nombre": "Rukerno Kaénico"
+    },
+    "222510": {
+      "nombre": "Ocaso y Alba"
+    },
+    "222512": {
+      "nombre": "Proyectiles Cazademonios"
+    },
+    "222517": {
+      "nombre": "Hambre Infinita"
+    },
+    "222522": {
+      "nombre": "Actualizador"
+    },
+    "222523": {
+      "nombre": "Hexóptica C44"
+    },
+    "222524": {
+      "nombre": "Flautas de Bandle"
+    },
+    "222525": {
+      "nombre": "Arnés de Protoplasma"
+    },
+    "222526": {
+      "nombre": "Tiara Susurrante"
+    },
+    "222530": {
+      "nombre": "Diadema Musical"
+    },
+    "223001": {
+      "nombre": "Manto del Ocaso"
+    },
+    "223002": {
+      "nombre": "Abrecaminos"
+    },
+    "223003": {
+      "nombre": "Báculo del Arcángel"
+    },
+    "223004": {
+      "nombre": "Manamune"
+    },
+    "223005": {
+      "nombre": "Ghostcrawlers"
+    },
+    "223006": {
+      "nombre": "Grebas del Berserker"
+    },
+    "223008": {
+      "nombre": "Grebas Glotonas"
+    },
+    "223009": {
+      "nombre": "Botas de Rapidez"
+    },
+    "223011": {
+      "nombre": "Putrificador Quimtech"
+    },
+    "223020": {
+      "nombre": "Botas del Hechicero"
+    },
+    "223026": {
+      "nombre": "Ángel Guardián"
+    },
+    "223031": {
+      "nombre": "Filo del Infinito"
+    },
+    "223032": {
+      "nombre": "Flechas Salvajes de Yun Tal"
+    },
+    "223033": {
+      "nombre": "Recordatorio Mortal"
+    },
+    "223036": {
+      "nombre": "Recuerdos de Lord Dominik"
+    },
+    "223039": {
+      "nombre": "Juicio de Atma"
+    },
+    "223040": {
+      "nombre": "Abrazo del Serafín"
+    },
+    "223042": {
+      "nombre": "Muramaná"
+    },
+    "223046": {
+      "nombre": "Bailarín Espectral"
+    },
+    "223047": {
+      "nombre": "Punteras de Acero Revestidas"
+    },
+    "223050": {
+      "nombre": "Convergencia de Zeke"
+    },
+    "223053": {
+      "nombre": "Guantelete de Sterak"
+    },
+    "223057": {
+      "nombre": "Brillo"
+    },
+    "223065": {
+      "nombre": "Apariencia Espiritual"
+    },
+    "223067": {
+      "nombre": "Gemaluz"
+    },
+    "223068": {
+      "nombre": "Égida de Fuego Solar"
+    },
+    "223069": {
+      "nombre": "Inmolación del Vacío"
+    },
+    "223071": {
+      "nombre": "Cuchilla Oscura"
+    },
+    "223072": {
+      "nombre": "La Sanguinaria"
+    },
+    "223073": {
+      "nombre": "Placa Hexperimental"
+    },
+    "223074": {
+      "nombre": "Hidra Voraz"
+    },
+    "223075": {
+      "nombre": "Cota de Espinas"
+    },
+    "223078": {
+      "nombre": "Fuerza de la Trinidad"
+    },
+    "223084": {
+      "nombre": "Corazón de Acero"
+    },
+    "223085": {
+      "nombre": "Huracán de Runaan"
+    },
+    "223087": {
+      "nombre": "Navaja de Statikk"
+    },
+    "223089": {
+      "nombre": "Sombrero Mortífero de Rabadon"
+    },
+    "223091": {
+      "nombre": "Al Filo de la Cordura"
+    },
+    "223094": {
+      "nombre": "Cañón de Fuego Rápido"
+    },
+    "223095": {
+      "nombre": "Filo de la Tormenta"
+    },
+    "223100": {
+      "nombre": "Maldición del Liche"
+    },
+    "223102": {
+      "nombre": "Velo de la Banshee"
+    },
+    "223105": {
+      "nombre": "Égida de la Legión"
+    },
+    "223107": {
+      "nombre": "Redención"
+    },
+    "223109": {
+      "nombre": "Promesa del Caballero"
+    },
+    "223110": {
+      "nombre": "Corazón de Hielo"
+    },
+    "223111": {
+      "nombre": "Botas de Mercurio"
+    },
+    "223112": {
+      "nombre": "Orbe del Guardián"
+    },
+    "223115": {
+      "nombre": "Diente de Nashor"
+    },
+    "223116": {
+      "nombre": "Cetro de Cristal de Rylai"
+    },
+    "223118": {
+      "nombre": "Maldad"
+    },
+    "223119": {
+      "nombre": "Umbral del Invierno"
+    },
+    "223121": {
+      "nombre": "Invierno Nórdico"
+    },
+    "223124": {
+      "nombre": "Espadafuria de Guinsoo"
+    },
+    "223135": {
+      "nombre": "Báculo del Vacío"
+    },
+    "223137": {
+      "nombre": "Criptorretoño"
+    },
+    "223139": {
+      "nombre": "Cimitarra Mercurial"
+    },
+    "223142": {
+      "nombre": "Espada Fantasma de Youmuu"
+    },
+    "223143": {
+      "nombre": "Presagio de Randuin"
+    },
+    "223146": {
+      "nombre": "Sablepistola Hextech"
+    },
+    "223152": {
+      "nombre": "Cinturón Cohete Hextech"
+    },
+    "223153": {
+      "nombre": "Espada del Rey Arruinado"
+    },
+    "223156": {
+      "nombre": "Fauces de Malmortius"
+    },
+    "223157": {
+      "nombre": "Reloj de Arena de Zhonya"
+    },
+    "223158": {
+      "nombre": "Botas Jonias de la Lucidez"
+    },
+    "223161": {
+      "nombre": "Lanza de Shojin"
+    },
+    "223165": {
+      "nombre": "Morellonomicón"
+    },
+    "223172": {
+      "nombre": "Céfiro"
+    },
+    "223177": {
+      "nombre": "Espada del Guardián"
+    },
+    "223181": {
+      "nombre": "Rompecascos"
+    },
+    "223184": {
+      "nombre": "Martillo del Guardián"
+    },
+    "223185": {
+      "nombre": "Daga del Guardián"
+    },
+    "223190": {
+      "nombre": "Relicario de los Solari de Hierro"
+    },
+    "223193": {
+      "nombre": "Armadura Pétrea"
+    },
+    "223222": {
+      "nombre": "Bendición de Mikael"
+    },
+    "223302": {
+      "nombre": "Terminus"
+    },
+    "223504": {
+      "nombre": "Pebetero Ardiente"
+    },
+    "223508": {
+      "nombre": "Saqueador de Esencias"
+    },
+    "223742": {
+      "nombre": "Placa del Hombre Muerto"
+    },
+    "223748": {
+      "nombre": "Hidra Titánica"
+    },
+    "223814": {
+      "nombre": "Filo de la Noche"
+    },
+    "224004": {
+      "nombre": "Sable Espectral"
+    },
+    "224005": {
+      "nombre": "Mandato Imperial"
+    },
+    "224401": {
+      "nombre": "Fuerza de la Naturaleza"
+    },
+    "224403": {
+      "nombre": "La Espátula Dorada"
+    },
+    "224628": {
+      "nombre": "Enfoque al Horizonte"
+    },
+    "224629": {
+      "nombre": "Impulso Cósmico"
+    },
+    "224633": {
+      "nombre": "Agrietador"
+    },
+    "224636": {
+      "nombre": "Cosechador Nocturno"
+    },
+    "224637": {
+      "nombre": "Abrazo Demoniaco"
+    },
+    "224644": {
+      "nombre": "Corona de la Reina Fragmentada"
+    },
+    "224645": {
+      "nombre": "Lumbría"
+    },
+    "224646": {
+      "nombre": "Descarga Tormentosa"
+    },
+    "226035": {
+      "nombre": "Amanecer Plateado"
+    },
+    "226333": {
+      "nombre": "Danza de la Muerte"
+    },
+    "226609": {
+      "nombre": "Sierraespada Quimpunk"
+    },
+    "226610": {
+      "nombre": "Cielo Desgarrado"
+    },
+    "226616": {
+      "nombre": "Báculo de Agua Fluyente"
+    },
+    "226617": {
+      "nombre": "Renovador de Piedra Lunar"
+    },
+    "226620": {
+      "nombre": "Ecos de Helia"
+    },
+    "226621": {
+      "nombre": "Esfera del Amanecer"
+    },
+    "226630": {
+      "nombre": "Bebedor de Sangre"
+    },
+    "226631": {
+      "nombre": "Rompeavances"
+    },
+    "226632": {
+      "nombre": "Cercenador Divino"
+    },
+    "226653": {
+      "nombre": "Angustia de Liandry"
+    },
+    "226655": {
+      "nombre": "Eco de Luden"
+    },
+    "226656": {
+      "nombre": "Hielo Eterno"
+    },
+    "226657": {
+      "nombre": "Vara de las Edades"
+    },
+    "226662": {
+      "nombre": "Guantelete del Hijo del Hielo"
+    },
+    "226664": {
+      "nombre": "Resplandor Vacío"
+    },
+    "226665": {
+      "nombre": "Jak'Sho, el Proteico"
+    },
+    "226667": {
+      "nombre": "Virtud Radiante"
+    },
+    "226668": {
+      "nombre": "Ultrahidra"
+    },
+    "226671": {
+      "nombre": "Fuerza del Viento"
+    },
+    "226672": {
+      "nombre": "Matakrakens"
+    },
+    "226673": {
+      "nombre": "Arcoescudo Inmortal"
+    },
+    "226675": {
+      "nombre": "Cuchillas Raudas de Navori"
+    },
+    "226676": {
+      "nombre": "El Coleccionista"
+    },
+    "226691": {
+      "nombre": "Hoja Crepuscular de Draktharr"
+    },
+    "226692": {
+      "nombre": "Eclipse"
+    },
+    "226693": {
+      "nombre": "Garra del Merodeador"
+    },
+    "226694": {
+      "nombre": "Rencor de Serylda"
+    },
+    "226695": {
+      "nombre": "Colmillo de Serpiente"
+    },
+    "226696": {
+      "nombre": "Arco Axiomático"
+    },
+    "226697": {
+      "nombre": "Arrogancia"
+    },
+    "226698": {
+      "nombre": "Hidra Profana"
+    },
+    "226699": {
+      "nombre": "Cicloespada Voltaica"
+    },
+    "226701": {
+      "nombre": "Oportunidad"
+    },
+    "228001": {
+      "nombre": "Cadenas de Anatema"
+    },
+    "228002": {
+      "nombre": "Sombrero de Wooglet"
+    },
+    "228003": {
+      "nombre": "Filo de la muerte"
+    },
+    "228004": {
+      "nombre": "Yelmo Adaptable"
+    },
+    "228005": {
+      "nombre": "Cuchilla de Obsidiana"
+    },
+    "228006": {
+      "nombre": "Hoja Carmesí"
+    },
+    "228008": {
+      "nombre": "Hoja Rúnica"
+    },
+    "228009": {
+      "nombre": "Multiherramienta"
+    },
+    "228020": {
+      "nombre": "Máscara Abisal"
+    },
+    "2403": {
+      "nombre": "Desmaterializador de Súbditos"
+    },
+    "2420": {
+      "nombre": "Guardabrazo del Buscador"
+    },
+    "2421": {
+      "nombre": "Guardabrazo Fragmentado"
+    },
+    "2422": {
+      "nombre": "Calzado Ligeramente Mágico"
+    },
+    "2501": {
+      "nombre": "Cota Sangrienta del Soberano"
+    },
+    "2502": {
+      "nombre": "Desesperación Eterna"
+    },
+    "2503": {
+      "nombre": "Antorcha de Fuegoscuro"
+    },
+    "2504": {
+      "nombre": "Rukerno Kaénico"
+    },
+    "2508": {
+      "nombre": "Cenizas Predestinadas"
+    },
+    "2510": {
+      "nombre": "Ocaso y Alba"
+    },
+    "2512": {
+      "nombre": "Proyectiles Cazademonios"
+    },
+    "2517": {
+      "nombre": "Hambre Infinita"
+    },
+    "2520": {
+      "nombre": "Rompebastiones"
+    },
+    "2522": {
+      "nombre": "Actualizador"
+    },
+    "2523": {
+      "nombre": "Hexóptica C44"
+    },
+    "2524": {
+      "nombre": "Flautas de Bandle"
+    },
+    "2525": {
+      "nombre": "Arnés de Protoplasma"
+    },
+    "2526": {
+      "nombre": "Tiara Susurrante"
+    },
+    "2530": {
+      "nombre": "Diadema Musical"
+    },
+    "3001": {
+      "nombre": "Manto del Ocaso"
+    },
+    "3002": {
+      "nombre": "Abrecaminos"
+    },
+    "3003": {
+      "nombre": "Báculo del Arcángel"
+    },
+    "3004": {
+      "nombre": "Manamune"
+    },
+    "3005": {
+      "nombre": "Ghostcrawlers"
+    },
+    "3006": {
+      "nombre": "Grebas del Berserker"
+    },
+    "3008": {
+      "nombre": "Grebas Glotonas"
+    },
+    "3009": {
+      "nombre": "Botas de Rapidez"
+    },
+    "3010": {
+      "nombre": "Botas Simbióticas"
+    },
+    "3011": {
+      "nombre": "Putrificador Quimtech"
+    },
+    "3012": {
+      "nombre": "Cáliz de Bendición"
+    },
+    "3013": {
+      "nombre": "Botas Sincronizadas"
+    },
+    "3020": {
+      "nombre": "Botas del Hechicero"
+    },
+    "3023": {
+      "nombre": "Pendiente del Pozo de Vida"
+    },
+    "3024": {
+      "nombre": "Escudo Glacial"
+    },
+    "3026": {
+      "nombre": "Ángel Guardián"
+    },
+    "3031": {
+      "nombre": "Filo del Infinito"
+    },
+    "3032": {
+      "nombre": "Flechas Salvajes de Yun Tal"
+    },
+    "3033": {
+      "nombre": "Recordatorio Mortal"
+    },
+    "3035": {
+      "nombre": "Último Suspiro"
+    },
+    "3036": {
+      "nombre": "Recuerdos de Lord Dominik"
+    },
+    "3039": {
+      "nombre": "Juicio de Atma"
+    },
+    "3040": {
+      "nombre": "Abrazo del Serafín"
+    },
+    "3041": {
+      "nombre": "Robaalmas de Mejai"
+    },
+    "3042": {
+      "nombre": "Muramaná"
+    },
+    "3044": {
+      "nombre": "Bacteriófago"
+    },
+    "3046": {
+      "nombre": "Bailarín Espectral"
+    },
+    "3047": {
+      "nombre": "Punteras de Acero Revestidas"
+    },
+    "3050": {
+      "nombre": "Convergencia de Zeke"
+    },
+    "3051": {
+      "nombre": "Hacha Hogareña"
+    },
+    "3053": {
+      "nombre": "Guantelete de Sterak"
+    },
+    "3057": {
+      "nombre": "Brillo"
+    },
+    "3065": {
+      "nombre": "Apariencia Espiritual"
+    },
+    "3066": {
+      "nombre": "Placa Lunar Alada"
+    },
+    "3067": {
+      "nombre": "Gemaluz"
+    },
+    "3068": {
+      "nombre": "Égida de Fuego Solar"
+    },
+    "3070": {
+      "nombre": "Lágrima de la Diosa"
+    },
+    "3071": {
+      "nombre": "Cuchilla Oscura"
+    },
+    "3072": {
+      "nombre": "La Sanguinaria"
+    },
+    "3073": {
+      "nombre": "Placa Hexperimental"
+    },
+    "3074": {
+      "nombre": "Hidra Voraz"
+    },
+    "3075": {
+      "nombre": "Cota de Espinas"
+    },
+    "3076": {
+      "nombre": "Vesta Espinosa"
+    },
+    "3077": {
+      "nombre": "Tiamat"
+    },
+    "3078": {
+      "nombre": "Fuerza de la Trinidad"
+    },
+    "3082": {
+      "nombre": "Cota del Guardabosques"
+    },
+    "3083": {
+      "nombre": "Armadura de Warmog"
+    },
+    "3084": {
+      "nombre": "Corazón de Acero"
+    },
+    "3085": {
+      "nombre": "Huracán de Runaan"
+    },
+    "3086": {
+      "nombre": "Fervor"
+    },
+    "3087": {
+      "nombre": "Navaja de Statikk"
+    },
+    "3089": {
+      "nombre": "Sombrero Mortífero de Rabadon"
+    },
+    "3091": {
+      "nombre": "Al Filo de la Cordura"
+    },
+    "3094": {
+      "nombre": "Cañón de Fuego Rápido"
+    },
+    "3095": {
+      "nombre": "Filo de la Tormenta"
+    },
+    "3100": {
+      "nombre": "Maldición del Liche"
+    },
+    "3102": {
+      "nombre": "Velo de la Banshee"
+    },
+    "3105": {
+      "nombre": "Égida de la Legión"
+    },
+    "3107": {
+      "nombre": "Redención"
+    },
+    "3108": {
+      "nombre": "Códice Diabólico"
+    },
+    "3109": {
+      "nombre": "Promesa del Caballero"
+    },
+    "3110": {
+      "nombre": "Corazón de Hielo"
+    },
+    "3111": {
+      "nombre": "Botas de Mercurio"
+    },
+    "3112": {
+      "nombre": "Orbe del Guardián"
+    },
+    "3113": {
+      "nombre": "Brisa de Éter"
+    },
+    "3114": {
+      "nombre": "Ídolo Prohibido"
+    },
+    "3115": {
+      "nombre": "Diente de Nashor"
+    },
+    "3116": {
+      "nombre": "Cetro de Cristal de Rylai"
+    },
+    "3117": {
+      "nombre": "Botas de Movilidad"
+    },
+    "3118": {
+      "nombre": "Maldad"
+    },
+    "3119": {
+      "nombre": "Umbral del Invierno"
+    },
+    "3121": {
+      "nombre": "Invierno Nórdico"
+    },
+    "3123": {
+      "nombre": "El Llamado del Verdugo"
+    },
+    "3124": {
+      "nombre": "Espadafuria de Guinsoo"
+    },
+    "3128": {
+      "nombre": "Garra de la Muerte Ígnea"
+    },
+    "3131": {
+      "nombre": "Espada de los Dioses"
+    },
+    "3133": {
+      "nombre": "Martillo de Guerra de Caulfield"
+    },
+    "3134": {
+      "nombre": "Puñal Serrado"
+    },
+    "3135": {
+      "nombre": "Báculo del Vacío"
+    },
+    "3137": {
+      "nombre": "Criptorretoño"
+    },
+    "3139": {
+      "nombre": "Cimitarra Mercurial"
+    },
+    "3140": {
+      "nombre": "Fajín de Mercurio"
+    },
+    "3142": {
+      "nombre": "Espada Fantasma de Youmuu"
+    },
+    "3143": {
+      "nombre": "Presagio de Randuin"
+    },
+    "3144": {
+      "nombre": "Honda del Explorador"
+    },
+    "3145": {
+      "nombre": "Alternador Hextech"
+    },
+    "3146": {
+      "nombre": "Sablepistola Hextech"
+    },
+    "3147": {
+      "nombre": "Antifaz Embrujado"
+    },
+    "3152": {
+      "nombre": "Cinturón Cohete Hextech"
+    },
+    "3153": {
+      "nombre": "Espada del Rey Arruinado"
+    },
+    "3155": {
+      "nombre": "Sorbechizos"
+    },
+    "3156": {
+      "nombre": "Fauces de Malmortius"
+    },
+    "3157": {
+      "nombre": "Reloj de Arena de Zhonya"
+    },
+    "3158": {
+      "nombre": "Botas Jonias de la Lucidez"
+    },
+    "3161": {
+      "nombre": "Lanza de Shojin"
+    },
+    "3165": {
+      "nombre": "Morellonomicón"
+    },
+    "3168": {
+      "nombre": "Camino Inmortal"
+    },
+    "3170": {
+      "nombre": "Botas de Marcha Rápida"
+    },
+    "3171": {
+      "nombre": "Botas de Lucidez Carmesí"
+    },
+    "3172": {
+      "nombre": "Grebas de Armacero"
+    },
+    "3173": {
+      "nombre": "Trituradoras Aceradas"
+    },
+    "3174": {
+      "nombre": "Blindadas de Avance"
+    },
+    "3175": {
+      "nombre": "Zapatos de Lanzahechizos"
+    },
+    "3176": {
+      "nombre": "Avance Implacable"
+    },
+    "3177": {
+      "nombre": "Espada del Guardián"
+    },
+    "3179": {
+      "nombre": "Espada de la Penumbra"
+    },
+    "3181": {
+      "nombre": "Rompecascos"
+    },
+    "3184": {
+      "nombre": "Martillo del Guardián"
+    },
+    "3190": {
+      "nombre": "Relicario de los Solari de Hierro"
+    },
+    "3193": {
+      "nombre": "Armadura Pétrea"
+    },
+    "3211": {
+      "nombre": "Hábito del Espectro"
+    },
+    "322065": {
+      "nombre": "Canto de Guerra de Shurelya"
+    },
+    "3222": {
+      "nombre": "Bendición de Mikael"
+    },
+    "322526": {
+      "nombre": "Tiara Susurrante"
+    },
+    "322530": {
+      "nombre": "Diadema Musical"
+    },
+    "323002": {
+      "nombre": "Abrecaminos"
+    },
+    "323003": {
+      "nombre": "Báculo del Arcángel"
+    },
+    "323004": {
+      "nombre": "Manamune"
+    },
+    "323040": {
+      "nombre": "Abrazo del Serafín"
+    },
+    "323042": {
+      "nombre": "Muramaná"
+    },
+    "323050": {
+      "nombre": "Convergencia de Zeke"
+    },
+    "323070": {
+      "nombre": "Lágrima de la Diosa"
+    },
+    "323075": {
+      "nombre": "Cota de Espinas"
+    },
+    "323107": {
+      "nombre": "Redención"
+    },
+    "323109": {
+      "nombre": "Promesa del Caballero"
+    },
+    "323110": {
+      "nombre": "Corazón de Hielo"
+    },
+    "323119": {
+      "nombre": "Umbral del Invierno"
+    },
+    "323121": {
+      "nombre": "Invierno Nórdico"
+    },
+    "323190": {
+      "nombre": "Relicario de los Solari de Hierro"
+    },
+    "323222": {
+      "nombre": "Bendición de Mikael"
+    },
+    "323504": {
+      "nombre": "Pebetero Ardiente"
+    },
+    "324005": {
+      "nombre": "Mandato Imperial"
+    },
+    "326616": {
+      "nombre": "Báculo de Agua Fluyente"
+    },
+    "326617": {
+      "nombre": "Renovador de Piedra Lunar"
+    },
+    "326620": {
+      "nombre": "Ecos de Helia"
+    },
+    "326621": {
+      "nombre": "Esfera del Amanecer"
+    },
+    "326657": {
+      "nombre": "Vara de las Edades"
+    },
+    "328020": {
+      "nombre": "Máscara Abisal"
+    },
+    "3302": {
+      "nombre": "Terminus"
+    },
+    "3330": {
+      "nombre": "Efigie de Espantapájaros"
+    },
+    "3340": {
+      "nombre": "Centinela Invisible"
+    },
+    "3348": {
+      "nombre": "Explorador Arcano"
+    },
+    "3349": {
+      "nombre": "Singularidad Brillante"
+    },
+    "3363": {
+      "nombre": "Alteración de Visión Lejana"
+    },
+    "3364": {
+      "nombre": "Lente del Oráculo"
+    },
+    "3398": {
+      "nombre": "Recuerdito de fiesta pequeño"
+    },
+    "3399": {
+      "nombre": "Recuerdito de fiesta"
+    },
+    "3400": {
+      "nombre": "Tu parte"
+    },
+    "3430": {
+      "nombre": "Rito de Ruina"
+    },
+    "3504": {
+      "nombre": "Pebetero Ardiente"
+    },
+    "3508": {
+      "nombre": "Saqueador de Esencias"
+    },
+    "3513": {
+      "nombre": "Ojo del Heraldo"
+    },
+    "3599": {
+      "nombre": "Lanza Negra de Kalista"
+    },
+    "3600": {
+      "nombre": "Lanza Negra de Kalista"
+    },
+    "3742": {
+      "nombre": "Placa del Hombre Muerto"
+    },
+    "3748": {
+      "nombre": "Hidra Titánica"
+    },
+    "3801": {
+      "nombre": "Brazal Cristalino"
+    },
+    "3802": {
+      "nombre": "Capítulo Perdido"
+    },
+    "3803": {
+      "nombre": "Catalizador de Eones"
+    },
+    "3814": {
+      "nombre": "Filo de la Noche"
+    },
+    "3850": {
+      "nombre": "Filo del Robahechizos"
+    },
+    "3851": {
+      "nombre": "Colmillo de Escarcha"
+    },
+    "3853": {
+      "nombre": "Fragmento de Hielo Puro"
+    },
+    "3854": {
+      "nombre": "Hombreras de Acero"
+    },
+    "3855": {
+      "nombre": "Hombreras de Acero Rúnico"
+    },
+    "3857": {
+      "nombre": "Hombreras de Roca Blanca"
+    },
+    "3858": {
+      "nombre": "Escudo Reliquia"
+    },
+    "3859": {
+      "nombre": "Escudo de Targón"
+    },
+    "3860": {
+      "nombre": "Baluarte de la Montaña"
+    },
+    "3862": {
+      "nombre": "Hoz Espectral"
+    },
+    "3863": {
+      "nombre": "Creciente de Sombras"
+    },
+    "3864": {
+      "nombre": "Guadaña de Niebla Oscura"
+    },
+    "3865": {
+      "nombre": "Mapamundi"
+    },
+    "3866": {
+      "nombre": "Brújula Rúnica"
+    },
+    "3867": {
+      "nombre": "Recompensa Mundial"
+    },
+    "3869": {
+      "nombre": "Oposición Celestial"
+    },
+    "3870": {
+      "nombre": "Tejesueños"
+    },
+    "3871": {
+      "nombre": "Espina Dimensional de Zaz'Zak"
+    },
+    "3876": {
+      "nombre": "Trineo del Solsticio"
+    },
+    "3877": {
+      "nombre": "Canción de Sangre"
+    },
+    "3901": {
+      "nombre": "<rarityLegendary>Fuego a Discreción</rarityLegendary><br><su"
+    },
+    "3902": {
+      "nombre": "<rarityLegendary>Hija de la Muerte</rarityLegendary><br><sub"
+    },
+    "3903": {
+      "nombre": "<rarityLegendary>Subiendo la Moral</rarityLegendary><br><sub"
+    },
+    "3916": {
+      "nombre": "Orbe del Olvido"
+    },
+    "4003": {
+      "nombre": "Salvavidas"
+    },
+    "4004": {
+      "nombre": "Sable Espectral"
+    },
+    "4005": {
+      "nombre": "Mandato Imperial"
+    },
+    "4010": {
+      "nombre": "Maldición de la Vampiresa"
+    },
+    "4011": {
+      "nombre": "Espada del Amanecer Floreciente"
+    },
+    "4012": {
+      "nombre": "Devorador de pecados"
+    },
+    "4013": {
+      "nombre": "Trenza eléctrica"
+    },
+    "4014": {
+      "nombre": "Mazo de Hielo"
+    },
+    "4015": {
+      "nombre": "Perplejidad"
+    },
+    "4016": {
+      "nombre": "Promesa sin Palabras"
+    },
+    "4017": {
+      "nombre": "Hacha de Fuego Infernal"
+    },
+    "4401": {
+      "nombre": "Fuerza de la Naturaleza"
+    },
+    "4402": {
+      "nombre": "Relicario Enervante"
+    },
+    "4403": {
+      "nombre": "La Espátula Dorada"
+    },
+    "443054": {
+      "nombre": "Garras de Acero Oscuro"
+    },
+    "443055": {
+      "nombre": "Fulminación"
+    },
+    "443056": {
+      "nombre": "La Corona del Rey Demonio"
+    },
+    "443058": {
+      "nombre": "Escudo de Roca Fundida"
+    },
+    "443059": {
+      "nombre": "Manto de la Noche Estrellada"
+    },
+    "443060": {
+      "nombre": "Espada de los Dioses"
+    },
+    "443061": {
+      "nombre": "Fuerza de la Entropía"
+    },
+    "443062": {
+      "nombre": "Regalo Sanguinario"
+    },
+    "443063": {
+      "nombre": "Milagro de Eleisa"
+    },
+    "443064": {
+      "nombre": "Talismán de Ascensión"
+    },
+    "443069": {
+      "nombre": "Anulador"
+    },
+    "443079": {
+      "nombre": "Quimotanque Turbo"
+    },
+    "443080": {
+      "nombre": "Máscara Gemela"
+    },
+    "443081": {
+      "nombre": "Compañero de Hexproyectil"
+    },
+    "443083": {
+      "nombre": "Armadura de Warmog"
+    },
+    "443090": {
+      "nombre": "Cuota del Segador"
+    },
+    "443193": {
+      "nombre": "Armadura Pétrea"
+    },
+    "444636": {
+      "nombre": "Cosechador Nocturno"
+    },
+    "444637": {
+      "nombre": "Abrazo Demoniaco"
+    },
+    "444644": {
+      "nombre": "Corona de la Reina Fragmentada"
+    },
+    "446632": {
+      "nombre": "Cercenador Divino"
+    },
+    "446656": {
+      "nombre": "Hielo Eterno"
+    },
+    "446667": {
+      "nombre": "Virtud Radiante"
+    },
+    "446671": {
+      "nombre": "Fuerza del Viento"
+    },
+    "446691": {
+      "nombre": "Hoja Crepuscular de Draktharr"
+    },
+    "446693": {
+      "nombre": "Garra del Merodeador"
+    },
+    "447100": {
+      "nombre": "Espada Espejismo"
+    },
+    "447101": {
+      "nombre": "Espada del Apostador"
+    },
+    "447102": {
+      "nombre": "Fractura de la Realidad"
+    },
+    "447103": {
+      "nombre": "Casco del Hemomante"
+    },
+    "447104": {
+      "nombre": "Relicario Enervante"
+    },
+    "447105": {
+      "nombre": "Promesa Empírea"
+    },
+    "447106": {
+      "nombre": "Corazón Dracónico"
+    },
+    "447107": {
+      "nombre": "Decapitador"
+    },
+    "447108": {
+      "nombre": "Escultor de Runas"
+    },
+    "447109": {
+      "nombre": "Crueldad"
+    },
+    "447110": {
+      "nombre": "Espada Encantada por la Luna"
+    },
+    "447111": {
+      "nombre": "Cota Sangrienta del Soberano"
+    },
+    "447112": {
+      "nombre": "Caníbal"
+    },
+    "447113": {
+      "nombre": "Orbe de detonación"
+    },
+    "447114": {
+      "nombre": "Reverberación"
+    },
+    "447115": {
+      "nombre": "Regicidio"
+    },
+    "447116": {
+      "nombre": "Jitte Kinkou"
+    },
+    "447118": {
+      "nombre": "Capa del Piromante"
+    },
+    "447119": {
+      "nombre": "Vara del Rayo"
+    },
+    "447120": {
+      "nombre": "Lanza con Punta de Diamante"
+    },
+    "447121": {
+      "nombre": "Filo del Crepúsculo"
+    },
+    "447122": {
+      "nombre": "Guantelete del Agujero Negro"
+    },
+    "447123": {
+      "nombre": "Titiritero"
+    },
+    "4628": {
+      "nombre": "Enfoque al Horizonte"
+    },
+    "4629": {
+      "nombre": "Impulso Cósmico"
+    },
+    "4630": {
+      "nombre": "Joya Maldita"
+    },
+    "4632": {
+      "nombre": "Barrera Esmeralda"
+    },
+    "4633": {
+      "nombre": "Agrietador"
+    },
+    "4635": {
+      "nombre": "Mirada Absorbente"
+    },
+    "4636": {
+      "nombre": "Cosechador Nocturno"
+    },
+    "4637": {
+      "nombre": "Abrazo Demoniaco"
+    },
+    "4638": {
+      "nombre": "Piedravigía Observadora"
+    },
+    "4641": {
+      "nombre": "Piedravigía Agitadora"
+    },
+    "4642": {
+      "nombre": "Espejo de Vitrobandle"
+    },
+    "4643": {
+      "nombre": "Piedravigía Alerta"
+    },
+    "4644": {
+      "nombre": "Corona de la Reina Fragmentada"
+    },
+    "4645": {
+      "nombre": "Lumbría"
+    },
+    "4646": {
+      "nombre": "Descarga Tormentosa"
+    },
+    "550001": {
+      "nombre": "Color de la barra de vida: Azul"
+    },
+    "550002": {
+      "nombre": "Color de la barra de vida: Naranja"
+    },
+    "550003": {
+      "nombre": "Color de la barra de vida: Verde"
+    },
+    "550004": {
+      "nombre": "Color de la barra de vida: Rosa"
+    },
+    "550005": {
+      "nombre": "Efecto de la barra de vida: Restablecer color"
+    },
+    "550006": {
+      "nombre": "Color de la barra de vida: Arcoíris"
+    },
+    "550007": {
+      "nombre": "Recuerdito de fiesta"
+    },
+    "6029": {
+      "nombre": "Látigo Férreo"
+    },
+    "6032": {
+      "nombre": "Estadística adicional"
+    },
+    "6035": {
+      "nombre": "Amanecer Plateado"
+    },
+    "6333": {
+      "nombre": "Danza de la Muerte"
+    },
+    "6609": {
+      "nombre": "Sierraespada Quimpunk"
+    },
+    "6610": {
+      "nombre": "Cielo Desgarrado"
+    },
+    "6616": {
+      "nombre": "Báculo de Agua Fluyente"
+    },
+    "6617": {
+      "nombre": "Renovador de Piedra Lunar"
+    },
+    "6620": {
+      "nombre": "Ecos de Helia"
+    },
+    "6621": {
+      "nombre": "Esfera del Amanecer"
+    },
+    "6630": {
+      "nombre": "Bebedor de Sangre"
+    },
+    "663039": {
+      "nombre": "Juicio de Atma"
+    },
+    "663056": {
+      "nombre": "La Corona del Rey Demonio"
+    },
+    "663058": {
+      "nombre": "Escudo de Roca Fundida"
+    },
+    "663059": {
+      "nombre": "Manto de la Noche Estrellada"
+    },
+    "663060": {
+      "nombre": "Espada de los Dioses"
+    },
+    "663064": {
+      "nombre": "Talismán de Ascensión de Veigar"
+    },
+    "6631": {
+      "nombre": "Rompeavances"
+    },
+    "663146": {
+      "nombre": "Sablepistola Hextech"
+    },
+    "663172": {
+      "nombre": "Céfiro"
+    },
+    "663193": {
+      "nombre": "Armadura Pétrea"
+    },
+    "6632": {
+      "nombre": "Cercenador Divino"
+    },
+    "664011": {
+      "nombre": "Espada del Amanecer Floreciente"
+    },
+    "664403": {
+      "nombre": "La Espátula Dorada"
+    },
+    "664644": {
+      "nombre": "Corona de la Reina Fragmentada"
+    },
+    "6653": {
+      "nombre": "El Tormento de Liandry"
+    },
+    "6655": {
+      "nombre": "Eco de Luden"
+    },
+    "6656": {
+      "nombre": "Hielo Eterno"
+    },
+    "6657": {
+      "nombre": "Vara de las Edades"
+    },
+    "6660": {
+      "nombre": "Ceniza de Bami"
+    },
+    "6662": {
+      "nombre": "Guantelete del Hijo del Hielo"
+    },
+    "6664": {
+      "nombre": "Resplandor Vacío"
+    },
+    "6665": {
+      "nombre": "Jak'Sho, el Proteico"
+    },
+    "6667": {
+      "nombre": "Virtud Radiante"
+    },
+    "6670": {
+      "nombre": "Carcaj de Mediodía"
+    },
+    "6671": {
+      "nombre": "Fuerza del Viento"
+    },
+    "667101": {
+      "nombre": "Espada del Apostador"
+    },
+    "667109": {
+      "nombre": "Crueldad"
+    },
+    "667112": {
+      "nombre": "Caníbal"
+    },
+    "6672": {
+      "nombre": "Matakrakens"
+    },
+    "6673": {
+      "nombre": "Arcoescudo Inmortal"
+    },
+    "6675": {
+      "nombre": "Cuchilla Rauda de Navori"
+    },
+    "6676": {
+      "nombre": "El Coleccionista"
+    },
+    "667666": {
+      "nombre": "El Coleccionista"
+    },
+    "6677": {
+      "nombre": "Cuchillo de Furia"
+    },
+    "6690": {
+      "nombre": "Rectriz"
+    },
+    "6691": {
+      "nombre": "Hoja Crepuscular de Draktharr"
+    },
+    "6692": {
+      "nombre": "Eclipse"
+    },
+    "6693": {
+      "nombre": "Garra del Merodeador"
+    },
+    "6694": {
+      "nombre": "Rencor de Serylda"
+    },
+    "6695": {
+      "nombre": "Colmillo de Serpiente"
+    },
+    "6696": {
+      "nombre": "Arco Axiomático"
+    },
+    "6697": {
+      "nombre": "Arrogancia"
+    },
+    "6698": {
+      "nombre": "Hidra Profana"
+    },
+    "6699": {
+      "nombre": "Cicloespada Voltaica"
+    },
+    "6700": {
+      "nombre": "Escudo de los Rakkor"
+    },
+    "6701": {
+      "nombre": "Oportunidades"
+    },
+    "6702": {
+      "nombre": "Exploración de Avanzada"
+    },
+    "7050": {
+      "nombre": "Marcador de Gangplank"
+    },
+    "771001": {
+      "nombre": "Botas de Velocidad"
+    },
+    "771004": {
+      "nombre": "Amuleto de las Hadas"
+    },
+    "771006": {
+      "nombre": "Perla de Rejuvenecimiento"
+    },
+    "771011": {
+      "nombre": "Cinturón de Gigante"
+    },
+    "771018": {
+      "nombre": "Capa de Agilidad"
+    },
+    "771026": {
+      "nombre": "Varita Explosiva"
+    },
+    "771027": {
+      "nombre": "Cristal de Zafiro"
+    },
+    "771028": {
+      "nombre": "Cristal de Rubí"
+    },
+    "771029": {
+      "nombre": "Armadura de Tela"
+    },
+    "771031": {
+      "nombre": "Cota de Malla"
+    },
+    "771033": {
+      "nombre": "Manto Anulamagia"
+    },
+    "771036": {
+      "nombre": "Espada Larga"
+    },
+    "771037": {
+      "nombre": "Picacha"
+    },
+    "771038": {
+      "nombre": "Espadón"
+    },
+    "771039": {
+      "nombre": "Machete del Cazador"
+    },
+    "771042": {
+      "nombre": "Daga"
+    },
+    "771043": {
+      "nombre": "Arco Recurvado"
+    },
+    "771051": {
+      "nombre": "Guantes de Pelea"
+    },
+    "771052": {
+      "nombre": "Libro Amplificador"
+    },
+    "771053": {
+      "nombre": "Cetro Vampírico"
+    },
+    "771054": {
+      "nombre": "Escudo de Doran"
+    },
+    "771055": {
+      "nombre": "Espada de Doran"
+    },
+    "771056": {
+      "nombre": "Sortija de Doran"
+    },
+    "771057": {
+      "nombre": "Capa de Negatrones"
+    },
+    "771058": {
+      "nombre": "Vara Innecesariamente Grande"
+    },
+    "771080": {
+      "nombre": "Piedra Espiritual"
+    },
+    "771500": {
+      "nombre": "Balas Penetrantes"
+    },
+    "772001": {
+      "nombre": "Retirada"
+    },
+    "772003": {
+      "nombre": "Poción de Vida"
+    },
+    "772004": {
+      "nombre": "Poción de Maná"
+    },
+    "772009": {
+      "nombre": "Total Biscuit de Rejuvenecimiento"
+    },
+    "772037": {
+      "nombre": "Elixir de Fortaleza"
+    },
+    "772038": {
+      "nombre": "Elixir de Agilidad"
+    },
+    "772039": {
+      "nombre": "Elixir de Brillantez"
+    },
+    "772041": {
+      "nombre": "Frasco Cristalino"
+    },
+    "772042": {
+      "nombre": "Elixir del Oráculo"
+    },
+    "772043": {
+      "nombre": "Centinela de Visión"
+    },
+    "772044": {
+      "nombre": "Centinela de Sombras"
+    },
+    "772045": {
+      "nombre": "Rubí de Visión"
+    },
+    "772049": {
+      "nombre": "Piedravidente"
+    },
+    "772050": {
+      "nombre": "Centinela del Explorador"
+    },
+    "773001": {
+      "nombre": "Cetro Abisal"
+    },
+    "773003": {
+      "nombre": "Báculo del Arcángel"
+    },
+    "773004": {
+      "nombre": "Manamune"
+    },
+    "773005": {
+      "nombre": "Empalador de Atma"
+    },
+    "773006": {
+      "nombre": "Grebas del Berserker"
+    },
+    "773009": {
+      "nombre": "Botas de Rapidez"
+    },
+    "773010": {
+      "nombre": "Catalizador, el Protector"
+    },
+    "773020": {
+      "nombre": "Botas del Hechicero"
+    },
+    "773022": {
+      "nombre": "Mazo de Hielo"
+    },
+    "773023": {
+      "nombre": "Sombras Gemelas"
+    },
+    "773024": {
+      "nombre": "Sudario Glacial"
+    },
+    "773025": {
+      "nombre": "Guantelete del Hijo del Hielo"
+    },
+    "773026": {
+      "nombre": "Ángel Guardián"
+    },
+    "773027": {
+      "nombre": "Vara de las Edades"
+    },
+    "773028": {
+      "nombre": "Cáliz de la Armonía"
+    },
+    "773031": {
+      "nombre": "Filo del Infinito"
+    },
+    "773035": {
+      "nombre": "Último Suspiro"
+    },
+    "773037": {
+      "nombre": "Manipulador de Maná"
+    },
+    "773040": {
+      "nombre": "Abrazo del Serafín"
+    },
+    "773041": {
+      "nombre": "Robaalmas de Mejai"
+    },
+    "773042": {
+      "nombre": "Muramaná"
+    },
+    "773044": {
+      "nombre": "Bacteriófago"
+    },
+    "773046": {
+      "nombre": "Bailarín Espectral"
+    },
+    "773047": {
+      "nombre": "Tabi de Ninja"
+    },
+    "773050": {
+      "nombre": "Fervor de Stark"
+    },
+    "773052": {
+      "nombre": "Emblema de Valor"
+    },
+    "773056": {
+      "nombre": "Rompeohmios"
+    },
+    "773057": {
+      "nombre": "Brillo"
+    },
+    "773060": {
+      "nombre": "Estandarte de Mando"
+    },
+    "773063": {
+      "nombre": "Sudario del Alma"
+    },
+    "773064": {
+      "nombre": "Fuerza de la Naturaleza"
+    },
+    "773065": {
+      "nombre": "Apariencia Espiritual"
+    },
+    "773067": {
+      "nombre": "Gemaluz"
+    },
+    "773068": {
+      "nombre": "Capa de Fuego Solar"
+    },
+    "773069": {
+      "nombre": "Ensueño de Shurelya"
+    },
+    "773070": {
+      "nombre": "Lágrima de la Diosa"
+    },
+    "773071": {
+      "nombre": "La Cuchilla Oscura"
+    },
+    "773072": {
+      "nombre": "La Sanguinaria"
+    },
+    "773073": {
+      "nombre": "Capas y Capas de Fuego Solar"
+    },
+    "773074": {
+      "nombre": "Hidra Voraz"
+    },
+    "773075": {
+      "nombre": "Cota de Espinas"
+    },
+    "773077": {
+      "nombre": "Tiamat"
+    },
+    "773078": {
+      "nombre": "Fuerza de la Trinidad"
+    },
+    "773082": {
+      "nombre": "Cota del Guardabosques"
+    },
+    "773083": {
+      "nombre": "Armadura de Warmog"
+    },
+    "773084": {
+      "nombre": "Relicario Enervante"
+    },
+    "773085": {
+      "nombre": "Huracán de Runaan"
+    },
+    "773086": {
+      "nombre": "Fervor"
+    },
+    "773087": {
+      "nombre": "Navaja de Statikk"
+    },
+    "773089": {
+      "nombre": "Sombrero Mortífero de Rabadon"
+    },
+    "773091": {
+      "nombre": "Al Filo de la Cordura"
+    },
+    "773092": {
+      "nombre": "Fragmento de Hielo Puro"
+    },
+    "773093": {
+      "nombre": "Espada de la Avaricia"
+    },
+    "773096": {
+      "nombre": "Piedra Filosofal"
+    },
+    "773098": {
+      "nombre": "Púa de la Suerte"
+    },
+    "773100": {
+      "nombre": "Maldición del Liche"
+    },
+    "773101": {
+      "nombre": "Aguijón"
+    },
+    "773102": {
+      "nombre": "Velo de la Banshee"
+    },
+    "773105": {
+      "nombre": "Égida de la Legión"
+    },
+    "773106": {
+      "nombre": "Navajas de Madred"
+    },
+    "773107": {
+      "nombre": "Baluarte Rúnico"
+    },
+    "773108": {
+      "nombre": "Códice Diabólico"
+    },
+    "773109": {
+      "nombre": "Navaja de Sangre de Madred"
+    },
+    "773110": {
+      "nombre": "Corazón de Hielo"
+    },
+    "773111": {
+      "nombre": "Botas de Mercurio"
+    },
+    "773114": {
+      "nombre": "Afección"
+    },
+    "773115": {
+      "nombre": "Diente de Nashor"
+    },
+    "773116": {
+      "nombre": "Cetro de Cristal de Rylai"
+    },
+    "773117": {
+      "nombre": "Botas de Movilidad"
+    },
+    "773123": {
+      "nombre": "El Llamado del Verdugo"
+    },
+    "773124": {
+      "nombre": "Espadafuria de Guinsoo"
+    },
+    "773128": {
+      "nombre": "Garra de la Muerte Ígnea"
+    },
+    "773131": {
+      "nombre": "Espada de los Dioses"
+    },
+    "773132": {
+      "nombre": "Corazón de Oro"
+    },
+    "773134": {
+      "nombre": "El Brutalizador"
+    },
+    "773135": {
+      "nombre": "Báculo del Vacío"
+    },
+    "773136": {
+      "nombre": "Antifaz Embrujado"
+    },
+    "773138": {
+      "nombre": "Leviatán"
+    },
+    "773139": {
+      "nombre": "Cimitarra Mercurial"
+    },
+    "773140": {
+      "nombre": "Fajín de Mercurio"
+    },
+    "773141": {
+      "nombre": "Espada de lo Oculto"
+    },
+    "773142": {
+      "nombre": "Espada Fantasma de Youmuu"
+    },
+    "773143": {
+      "nombre": "Presagio de Randuin"
+    },
+    "773144": {
+      "nombre": "Sable de Aguasturbias"
+    },
+    "773145": {
+      "nombre": "Revólver Hextech"
+    },
+    "773146": {
+      "nombre": "Sablepistola Hextech"
+    },
+    "773151": {
+      "nombre": "El Tormento de Liandry"
+    },
+    "773152": {
+      "nombre": "Testamento de los Antiguos"
+    },
+    "773153": {
+      "nombre": "Espada del Rey Arruinado"
+    },
+    "773154": {
+      "nombre": "Linterna de Wriggle"
+    },
+    "773155": {
+      "nombre": "Sorbechizos"
+    },
+    "773156": {
+      "nombre": "Fauces de Malmortius"
+    },
+    "773157": {
+      "nombre": "Reloj de Arena de Zhonya"
+    },
+    "773158": {
+      "nombre": "Botas Jonias de la Lucidez"
+    },
+    "773160": {
+      "nombre": "Llamarada Salvaje"
+    },
+    "773161": {
+      "nombre": "Espada Encantada por la Luna"
+    },
+    "773162": {
+      "nombre": "Daga y Capa"
+    },
+    "773165": {
+      "nombre": "Morellonomicón"
+    },
+    "773172": {
+      "nombre": "Céfiro"
+    },
+    "773173": {
+      "nombre": "Milagro de Eleisa"
+    },
+    "773174": {
+      "nombre": "Jarra de Maná de Shushei"
+    },
+    "773178": {
+      "nombre": "Chispa Iónica"
+    },
+    "773190": {
+      "nombre": "Relicario de los Solari de Hierro"
+    },
+    "773191": {
+      "nombre": "Guardabrazo del Buscador"
+    },
+    "773206": {
+      "nombre": "Espíritu del Fantasma Espectral"
+    },
+    "773207": {
+      "nombre": "Espíritu del Gólem Ancestral"
+    },
+    "773209": {
+      "nombre": "Espíritu del Lagarto Anciano"
+    },
+    "773211": {
+      "nombre": "Hábito del Espectro"
+    },
+    "773222": {
+      "nombre": "Crisol de Mikael"
+    },
+    "773340": {
+      "nombre": "Baratija Amarilla"
+    },
+    "773348": {
+      "nombre": "Baratija Roja"
+    },
+    "773504": {
+      "nombre": "Pebetero Ardiente"
+    },
+    "773512": {
+      "nombre": "Portal Zz'Rot"
+    },
+    "773513": {
+      "nombre": "Prototipo de Núcleo Hex"
+    },
+    "773514": {
+      "nombre": "Núcleo Hex mk-1"
+    },
+    "773515": {
+      "nombre": "Núcleo Hex mk-2"
+    },
+    "773516": {
+      "nombre": "Núcleo Hex Perfecto"
+    },
+    "773517": {
+      "nombre": "Ponche de Huevo"
+    },
+    "773518": {
+      "nombre": "Bolsita de Té"
+    },
+    "773519": {
+      "nombre": "Maíz Dulce"
+    },
+    "773521": {
+      "nombre": "Poción de Vida"
+    },
+    "8001": {
+      "nombre": "Cadenas de Anatema"
+    },
+    "8010": {
+      "nombre": "Maldición de la Vampiresa"
+    },
+    "8020": {
+      "nombre": "Máscara Abisal"
+    },
+    "9168": {
+      "nombre": "Ranura de arma bloqueada"
+    },
+    "9171": {
+      "nombre": "Shurikens Ciclónicos"
+    },
+    "9172": {
+      "nombre": "Bot Yuumi"
+    },
+    "9173": {
+      "nombre": "Campo Radiante"
+    },
+    "9174": {
+      "nombre": "Espada de Statikk"
+    },
+    "9175": {
+      "nombre": "Lamento de la Leona"
+    },
+    "9176": {
+      "nombre": "Rotocañón Conejo"
+    },
+    "9177": {
+      "nombre": "Arco Corto Abrasador"
+    },
+    "9178": {
+      "nombre": "Annichilatus"
+    },
+    "9179": {
+      "nombre": "Ballesta de Conejita Guerrera"
+    },
+    "9180": {
+      "nombre": "Bláster UwU"
+    },
+    "9181": {
+      "nombre": "Guante del Vórtice"
+    },
+    "9183": {
+      "nombre": "Búmespada"
+    },
+    "9184": {
+      "nombre": "Estación Orbital Conejo"
+    },
+    "9185": {
+      "nombre": "Mina Marina Antitiburones"
+    },
+    "9187": {
+      "nombre": "T.I.B.B.E.R.S."
+    },
+    "9188": {
+      "nombre": "C-4nejo"
+    },
+    "9189": {
+      "nombre": "El Desarmador"
+    },
+    "9190": {
+      "nombre": "Econavajas"
+    },
+    "9192": {
+      "nombre": "Envenenacaminos"
+    },
+    "9193": {
+      "nombre": "Escarcharmadura"
+    },
+    "9271": {
+      "nombre": "Ciclón Incesante"
+    },
+    "9272": {
+      "nombre": "YuumiBot_Final_FINAL"
+    },
+    "9273": {
+      "nombre": "Abrazo Explosivo"
+    },
+    "9274": {
+      "nombre": "Electrogubia de Prumbis"
+    },
+    "9275": {
+      "nombre": "Luz Envolvente"
+    },
+    "9276": {
+      "nombre": "Rotocañón Conejo Doble"
+    },
+    "9277": {
+      "nombre": "Tirabraza Evolucionado"
+    },
+    "9278": {
+      "nombre": "Apocalyptus"
+    },
+    "9279": {
+      "nombre": "Balista Conejita Suprema"
+    },
+    "9280": {
+      "nombre": "Bláster OwO"
+    },
+    "9281": {
+      "nombre": "Guantelete de la Tempestad"
+    },
+    "9283": {
+      "nombre": "Búmeran Cuádruple"
+    },
+    "9284": {
+      "nombre": "Cañón Conejo Cuántico"
+    },
+    "9285": {
+      "nombre": "Machacahordas Infinito"
+    },
+    "9287": {
+      "nombre": "T.I.B.B.E.R.S. (Modo M.A.C.I.Z.O.)"
+    },
+    "9288": {
+      "nombre": "Trinamita de Jinx"
+    },
+    "9289": {
+      "nombre": "Expreso GG"
+    },
+    "9290": {
+      "nombre": "Flechas Cromáticas de Vayne"
+    },
+    "9292": {
+      "nombre": "Dispensador VenenOso"
+    },
+    "9293": {
+      "nombre": "Congelación Profunda"
+    },
+    "9300": {
+      "nombre": "Miau Miau"
+    },
+    "9301": {
+      "nombre": "Escudazo"
+    },
+    "9302": {
+      "nombre": "Onda Sonora"
+    },
+    "9303": {
+      "nombre": "Patada de Tiburón"
+    },
+    "9304": {
+      "nombre": "Tempestad de Acero"
+    },
+    "9305": {
+      "nombre": "Ataque de Tentáculo"
+    },
+    "9306": {
+      "nombre": "Daga Alada"
+    },
+    "9307": {
+      "nombre": "Maleficio Guiado"
+    },
+    "9308": {
+      "nombre": "Salto de Conejo"
+    },
+    "9400": {
+      "nombre": "Salva de Michi Guerrera"
+    },
+    "9401": {
+      "nombre": "Luz del León"
+    },
+    "9402": {
+      "nombre": "Eco Animalia"
+    },
+    "9403": {
+      "nombre": "Corte Salvaje"
+    },
+    "9404": {
+      "nombre": "Tormentas Errantes"
+    },
+    "9405": {
+      "nombre": "Impacto Grizzly"
+    },
+    "9406": {
+      "nombre": "Daga del Amor"
+    },
+    "9407": {
+      "nombre": "Maleficio Mejorado"
+    },
+    "9408": {
+      "nombre": "Zanahoriazo"
+    },
+    "994403": {
+      "nombre": "Espátula Dorada"
+    }
+  },
+  "runas": {
+    "8000": {
+      "icono": "perk-images/Styles/7201_Precision.png",
+      "nombre": "Precisión"
+    },
+    "8005": {
+      "icono": "perk-images/Styles/Precision/PressTheAttack/PressTheAttack.png",
+      "nombre": "Estrategia Ofensiva"
+    },
+    "8008": {
+      "icono": "perk-images/Styles/Precision/LethalTempo/LethalTempoTemp.png",
+      "nombre": "Cadencia Letal"
+    },
+    "8009": {
+      "icono": "perk-images/Styles/Precision/PresenceOfMind/PresenceOfMind.png",
+      "nombre": "Concentración Profunda"
+    },
+    "8010": {
+      "icono": "perk-images/Styles/Precision/Conqueror/Conqueror.png",
+      "nombre": "Conquistador"
+    },
+    "8014": {
+      "icono": "perk-images/Styles/Precision/CoupDeGrace/CoupDeGrace.png",
+      "nombre": "Golpe de Gracia"
+    },
+    "8017": {
+      "icono": "perk-images/Styles/Precision/CutDown/CutDown.png",
+      "nombre": "Corte"
+    },
+    "8021": {
+      "icono": "perk-images/Styles/Precision/FleetFootwork/FleetFootwork.png",
+      "nombre": "Sobre la Marcha"
+    },
+    "8100": {
+      "icono": "perk-images/Styles/7200_Domination.png",
+      "nombre": "Dominación"
+    },
+    "8105": {
+      "icono": "perk-images/Styles/Domination/RelentlessHunter/RelentlessHunter.png",
+      "nombre": "Cazador Implacable"
+    },
+    "8106": {
+      "icono": "perk-images/Styles/Domination/UltimateHunter/UltimateHunter.png",
+      "nombre": "Cazador Definitivo"
+    },
+    "8112": {
+      "icono": "perk-images/Styles/Domination/Electrocute/Electrocute.png",
+      "nombre": "Electrocutar"
+    },
+    "8126": {
+      "icono": "perk-images/Styles/Domination/CheapShot/CheapShot.png",
+      "nombre": "Golpe Bajo"
+    },
+    "8128": {
+      "icono": "perk-images/Styles/Domination/DarkHarvest/DarkHarvest.png",
+      "nombre": "Cosecha Oscura"
+    },
+    "8135": {
+      "icono": "perk-images/Styles/Domination/TreasureHunter/TreasureHunter.png",
+      "nombre": "Cazador de Tesoros"
+    },
+    "8137": {
+      "icono": "perk-images/Styles/Domination/SixthSense/SixthSense.png",
+      "nombre": "Sexto Sentido"
+    },
+    "8139": {
+      "icono": "perk-images/Styles/Domination/TasteOfBlood/GreenTerror_TasteOfBlood.png",
+      "nombre": "Sabor a Sangre"
+    },
+    "8140": {
+      "icono": "perk-images/Styles/Domination/GrislyMementos/GrislyMementos.png",
+      "nombre": "Recuerdos Macabros"
+    },
+    "8141": {
+      "icono": "perk-images/Styles/Domination/DeepWard/DeepWard.png",
+      "nombre": "Centinela profundo"
+    },
+    "8143": {
+      "icono": "perk-images/Styles/Domination/SuddenImpact/SuddenImpact.png",
+      "nombre": "Impacto Súbito"
+    },
+    "8200": {
+      "icono": "perk-images/Styles/7202_Sorcery.png",
+      "nombre": "Brujería"
+    },
+    "8210": {
+      "icono": "perk-images/Styles/Sorcery/Transcendence/Transcendence.png",
+      "nombre": "Trascendencia"
+    },
+    "8214": {
+      "icono": "perk-images/Styles/Sorcery/SummonAery/SummonAery.png",
+      "nombre": "Invocación: Aery"
+    },
+    "8224": {
+      "icono": "perk-images/Styles/Sorcery/NullifyingOrb/Axiom_Arcanist.png",
+      "nombre": "Arcanista Axiomático"
+    },
+    "8226": {
+      "icono": "perk-images/Styles/Sorcery/ManaflowBand/ManaflowBand.png",
+      "nombre": "Anillo de Flujo de Maná"
+    },
+    "8229": {
+      "icono": "perk-images/Styles/Sorcery/ArcaneComet/ArcaneComet.png",
+      "nombre": "Cometa Arcano"
+    },
+    "8230": {
+      "icono": "perk-images/Styles/Sorcery/PhaseRush/StormraidersSurgeRuneIcon2.png",
+      "nombre": "Arrebato del Cabalgatormentas"
+    },
+    "8232": {
+      "icono": "perk-images/Styles/Sorcery/Waterwalking/Waterwalking.png",
+      "nombre": "Caminata Sobre Agua"
+    },
+    "8233": {
+      "icono": "perk-images/Styles/Sorcery/AbsoluteFocus/AbsoluteFocus.png",
+      "nombre": "Concentración Absoluta"
+    },
+    "8234": {
+      "icono": "perk-images/Styles/Sorcery/Celerity/CelerityTemp.png",
+      "nombre": "Celeridad"
+    },
+    "8236": {
+      "icono": "perk-images/Styles/Sorcery/GatheringStorm/GatheringStorm.png",
+      "nombre": "Tormenta Creciente"
+    },
+    "8237": {
+      "icono": "perk-images/Styles/Sorcery/Scorch/Scorch.png",
+      "nombre": "Quemadura"
+    },
+    "8242": {
+      "icono": "perk-images/Styles/Sorcery/Unflinching/Unflinching.png",
+      "nombre": "Inquebrantable"
+    },
+    "8275": {
+      "icono": "perk-images/Styles/Sorcery/NimbusCloak/6361.png",
+      "nombre": "Capa del Nimbo"
+    },
+    "8299": {
+      "icono": "perk-images/Styles/Sorcery/LastStand/LastStand.png",
+      "nombre": "La Última Batalla"
+    },
+    "8300": {
+      "icono": "perk-images/Styles/7203_Whimsy.png",
+      "nombre": "Inspiración"
+    },
+    "8304": {
+      "icono": "perk-images/Styles/Inspiration/MagicalFootwear/MagicalFootwear.png",
+      "nombre": "Calzado Mágico"
+    },
+    "8306": {
+      "icono": "perk-images/Styles/Inspiration/HextechFlashtraption/HextechFlashtraption.png",
+      "nombre": "Destello Hextech"
+    },
+    "8313": {
+      "icono": "perk-images/Styles/Inspiration/PerfectTiming/AlchemistCabinet.png",
+      "nombre": "Tónico Triple"
+    },
+    "8316": {
+      "icono": "perk-images/Styles/Inspiration/JackOfAllTrades/JackofAllTrades2.png",
+      "nombre": "Comodín"
+    },
+    "8321": {
+      "icono": "perk-images/Styles/Inspiration/CashBack/CashBack2.png",
+      "nombre": "Reembolso"
+    },
+    "8345": {
+      "icono": "perk-images/Styles/Inspiration/BiscuitDelivery/BiscuitDelivery.png",
+      "nombre": "Entrega de Galletas"
+    },
+    "8347": {
+      "icono": "perk-images/Styles/Inspiration/CosmicInsight/CosmicInsight.png",
+      "nombre": "Perspicacia Cósmica"
+    },
+    "8351": {
+      "icono": "perk-images/Styles/Inspiration/GlacialAugment/GlacialAugment.png",
+      "nombre": "Aumento Glacial"
+    },
+    "8352": {
+      "icono": "perk-images/Styles/Inspiration/TimeWarpTonic/TimeWarpTonic.png",
+      "nombre": "Tónico de Distorsión Temporal"
+    },
+    "8360": {
+      "icono": "perk-images/Styles/Inspiration/UnsealedSpellbook/UnsealedSpellbook.png",
+      "nombre": "Libro de Hechizos Abierto"
+    },
+    "8369": {
+      "icono": "perk-images/Styles/Inspiration/FirstStrike/FirstStrike.png",
+      "nombre": "Primer Golpe"
+    },
+    "8400": {
+      "icono": "perk-images/Styles/7204_Resolve.png",
+      "nombre": "Valor"
+    },
+    "8401": {
+      "icono": "perk-images/Styles/Resolve/MirrorShell/MirrorShell.png",
+      "nombre": "Golpe de Escudo"
+    },
+    "8410": {
+      "icono": "perk-images/Styles/Resolve/ApproachVelocity/ApproachVelocity.png",
+      "nombre": "Velocidad de Aproximación"
+    },
+    "8429": {
+      "icono": "perk-images/Styles/Resolve/Conditioning/Conditioning.png",
+      "nombre": "Acondicionamiento"
+    },
+    "8437": {
+      "icono": "perk-images/Styles/Resolve/GraspOfTheUndying/GraspOfTheUndying.png",
+      "nombre": "Agarre del Perpetuo"
+    },
+    "8439": {
+      "icono": "perk-images/Styles/Resolve/VeteranAftershock/VeteranAftershock.png",
+      "nombre": "Réplica"
+    },
+    "8444": {
+      "icono": "perk-images/Styles/Resolve/SecondWind/SecondWind.png",
+      "nombre": "Segundo Aire"
+    },
+    "8446": {
+      "icono": "perk-images/Styles/Resolve/Demolish/Demolish.png",
+      "nombre": "Demolición"
+    },
+    "8451": {
+      "icono": "perk-images/Styles/Resolve/Overgrowth/Overgrowth.png",
+      "nombre": "Crecimiento Excesivo"
+    },
+    "8453": {
+      "icono": "perk-images/Styles/Resolve/Revitalize/Revitalize.png",
+      "nombre": "Revitalizar"
+    },
+    "8463": {
+      "icono": "perk-images/Styles/Resolve/FontOfLife/FontOfLife.png",
+      "nombre": "Fuente de Vida"
+    },
+    "8465": {
+      "icono": "perk-images/Styles/Resolve/Guardian/Guardian.png",
+      "nombre": "Guardián"
+    },
+    "8473": {
+      "icono": "perk-images/Styles/Resolve/BonePlating/BonePlating.png",
+      "nombre": "Coraza Ósea"
+    },
+    "8992": {
+      "icono": "perk-images/Styles/Sorcery/DeathfireTouch/DEATHFIRE_TOUCH_KEYSTONE.png",
+      "nombre": "Toque de la Muerte Ígnea"
+    },
+    "9101": {
+      "icono": "perk-images/Styles/Precision/AbsorbLife/AbsorbLife.png",
+      "nombre": "Absorber Vida"
+    },
+    "9103": {
+      "icono": "perk-images/Styles/Precision/LegendBloodline/LegendBloodline.png",
+      "nombre": "Leyenda: Linaje"
+    },
+    "9104": {
+      "icono": "perk-images/Styles/Precision/LegendAlacrity/LegendAlacrity.png",
+      "nombre": "Leyenda: Celeridad"
+    },
+    "9105": {
+      "icono": "perk-images/Styles/Precision/LegendHaste/LegendHaste.png",
+      "nombre": "Leyenda: Aceleración"
+    },
+    "9111": {
+      "icono": "perk-images/Styles/Precision/Triumph.png",
+      "nombre": "Triunfo"
+    },
+    "9923": {
+      "icono": "perk-images/Styles/Domination/HailOfBlades/HailOfBlades.png",
+      "nombre": "Lluvia de Espadas"
+    }
+  },
+  "version": "16.19.1",
+  "version_cache": 2
+}
