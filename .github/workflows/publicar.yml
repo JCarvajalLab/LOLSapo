@@ -55,6 +55,7 @@ jobs:
           URL: https://github.com/${{ github.repository }}.git
         run: |
           set -euo pipefail
+          # shellcheck disable=SC2016 # comillas simples a propósito: $GH_TOKEN se lee dentro del helper
           AUTH=(-c credential.helper= -c 'credential.helper=!f() { test "$1" = get && printf "username=x-access-token\npassword=%s\n" "$GH_TOKEN"; }; f')
           mkdir -p datos
           # Código 0 = la rama existe, 2 = no existe. Cualquier otro error detiene el job
@@ -101,6 +102,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
+          # shellcheck disable=SC2016 # comillas simples a propósito: $GH_TOKEN se lee dentro del helper
           AUTH=(-c credential.helper= -c 'credential.helper=!f() { test "$1" = get && printf "username=x-access-token\npassword=%s\n" "$GH_TOKEN"; }; f')
           previos=$(cat registros-previos.txt)
           actuales=$(find datos/registro -name '*.json' 2>/dev/null | wc -l)
