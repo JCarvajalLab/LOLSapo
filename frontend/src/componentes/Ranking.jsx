@@ -3,16 +3,17 @@ import { hashDeAmigo } from "../rutas/hash.js";
 import { TituloSeccion } from "./TituloSeccion.jsx";
 
 /**
- * Ranking interno del grupo (RF-07). El orden y el criterio vienen de lol.json.
+ * Ranking interno del grupo (RF-07). El orden y el criterio vienen del JSON (lol.json o tft.json).
  * En escritorio cada fila mide lo mismo que una fila de amigo (80 px con borde, separación 3).
+ * `detalle(fila, amigo)` arma la segunda línea y `hrefDe(slug)` el enlace de cada fila.
  */
-export function Ranking({ ranking, amigos, onElegir }) {
+export function Ranking({ ranking, amigos, onElegir, idTitulo = "titulo-ranking", detalle = detalleCriterio, hrefDe = hashDeAmigo }) {
   const porSlug = new Map((amigos ?? []).map((a) => [a.slug, a]));
   const filas = [...(ranking ?? [])].sort((a, b) => (a.posicion ?? 99) - (b.posicion ?? 99));
 
   return (
-    <section aria-labelledby="titulo-ranking" className="min-w-0">
-      <TituloSeccion id="titulo-ranking">Ranking</TituloSeccion>
+    <section aria-labelledby={idTitulo} className="min-w-0">
+      <TituloSeccion id={idTitulo}>Ranking</TituloSeccion>
       {filas.length === 0 ? (
         <p className="flex h-20 items-center justify-center rounded-lg border border-borde bg-superficie text-sm text-texto-suave">
           Todavía no hay ranking.
@@ -25,7 +26,7 @@ export function Ranking({ ranking, amigos, onElegir }) {
             return (
               <li key={fila.slug}>
                 <a
-                  href={hashDeAmigo(fila.slug)}
+                  href={hrefDe(fila.slug)}
                   onClick={(e) => {
                     if (!onElegir) return;
                     e.preventDefault();
@@ -46,7 +47,7 @@ export function Ranking({ ranking, amigos, onElegir }) {
                     <span className="block truncate font-semibold">{fila.riot_id}</span>
                     <span className="block truncate text-xs text-texto-suave">
                       {primero && <span className="text-sapo">Primero · </span>}
-                      {detalleCriterio(fila, amigo)}
+                      {detalle(fila, amigo)}
                     </span>
                   </span>
                 </a>

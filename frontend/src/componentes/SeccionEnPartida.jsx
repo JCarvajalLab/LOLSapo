@@ -98,7 +98,8 @@ export function SeccionEnPartida({ enVivo, ddragon, amigos, actualizadoMs, ahora
   );
 }
 
-function AvisoAntiguedad({ children }) {
+/** Aviso centrado de datos caducos (más de 60 min). También lo usa la vista de TFT. */
+export function AvisoAntiguedad({ children }) {
   return (
     <p className="flex min-h-24 items-center justify-center px-2 text-center text-sm text-sapo">
       <span aria-hidden="true" className="mr-2">

@@ -1,4 +1,4 @@
-// Lectura y validación básica de lol.json.
+// Lectura y validación básica de los JSON de datos (lol.json y tft.json).
 
 /** Ruta del JSON relativa a la página (funciona en localhost y en GitHub Pages). */
 export const RUTA_DATOS = "./datos/lol.json";
@@ -34,10 +34,18 @@ export function validarDatos(json) {
 const SIN_DATOS = "Todavía no hay datos.";
 
 /** Pide lol.json sin caché y lo valida. `fetchFn` se inyecta en los tests. */
-export async function cargarDatos(fetchFn = fetch) {
+export function cargarDatos(fetchFn = fetch) {
+  return cargarJson(RUTA_DATOS, validarDatos, fetchFn);
+}
+
+/**
+ * Pide un JSON de datos sin caché y lo pasa por `validar`.
+ * Lo usan lol.json y tft.json; los errores siempre son ErrorDatos con su tipo.
+ */
+export async function cargarJson(ruta, validar, fetchFn = fetch) {
   let respuesta;
   try {
-    respuesta = await fetchFn(RUTA_DATOS, { cache: "no-store" });
+    respuesta = await fetchFn(ruta, { cache: "no-store" });
   } catch {
     throw new ErrorDatos("No se pudo conectar con el servidor.", "red");
   }
@@ -55,5 +63,5 @@ export async function cargarDatos(fetchFn = fetch) {
   } catch {
     throw new ErrorDatos("El archivo de datos está dañado.", "formato");
   }
-  return validarDatos(json);
+  return validar(json);
 }

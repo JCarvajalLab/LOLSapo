@@ -6,13 +6,13 @@ export const FILAS_ESQUELETO = 5;
 
 /**
  * Esqueleto de la primera carga: mismos títulos, paneles y alturas que la página real,
- * para que nada salte cuando llegan los datos. Sin animación (la única es el "saco vocal").
+ * para que nada salte cuando llegan los datos. TFT pasa su propia fila de relleno. Sin animación (la única es el "saco vocal").
  */
-export function EsqueletoPagina() {
+export function EsqueletoPagina({ FilaEsqueleto = FilaAmigoEsqueleto, etiqueta = "Cargando datos…" }) {
   const filas = Array.from({ length: FILAS_ESQUELETO }, (_, i) => i);
   return (
-    <div role="status" aria-label="Cargando datos…" className="space-y-6" data-esqueleto-pagina="true">
-      <span className="sr-only">Cargando datos…</span>
+    <div role="status" aria-label={etiqueta} className="space-y-6" data-esqueleto-pagina="true">
+      <span className="sr-only">{etiqueta}</span>
 
       <section aria-hidden="true">
         <TituloSeccion>En partida</TituloSeccion>
@@ -45,7 +45,7 @@ export function EsqueletoPagina() {
           <TituloSeccion>Amigos</TituloSeccion>
           <ul className="space-y-3">
             {filas.map((i) => (
-              <FilaAmigoEsqueleto key={i} />
+              <FilaEsqueleto key={i} />
             ))}
           </ul>
         </section>
