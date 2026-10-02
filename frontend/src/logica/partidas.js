@@ -44,18 +44,39 @@ export function nombreEquipo(equipo, indice) {
   return `Equipo ${indice + 1}`;
 }
 
-/** Normaliza los equipos de una partida en vivo (acepta equipos o jugadores sueltos). */
+/**
+ * Normaliza los equipos de una partida en vivo: [{equipo, jugadores, bloqueos}].
+ * Los jugadores se agrupan por su `equipo` y los baneos se juntan por equipo.
+ */
 export function equiposEnVivo(partida) {
-  if (!partida) return [];
-  if (Array.isArray(partida.equipos) && partida.equipos.length > 0) {
-    const jugadores = partida.equipos.flatMap((e) =>
-      Array.isArray(e?.jugadores)
-        ? e.jugadores.map((j) => ({ ...j, equipo: esNumero(j?.equipo) ? j.equipo : e.equipo }))
-        : [],
-    );
-    return agruparPorEquipo(jugadores);
+  if (!partida || !Array.isArray(partida.equipos)) return [];
+  const bloqueos = new Map();
+  const jugadores = [];
+  for (const e of partida.equipos) {
+    if (!e || typeof e !== "object") continue;
+    const equipo = esNumero(e.equipo) ? e.equipo : 0;
+    const bans = Array.isArray(e.bloqueos) ? e.bloqueos.filter((id) => Number.isInteger(id) && id > 0) : [];
+    bloqueos.set(equipo, [...(bloqueos.get(equipo) ?? []), ...bans]);
+    for (const j of Array.isArray(e.jugadores) ? e.jugadores : []) {
+      if (j && typeof j === "object") jugadores.push({ ...j, equipo: esNumero(j.equipo) ? j.equipo : equipo });
+    }
   }
-  return [];
+  const grupos = agruparPorEquipo(jugadores);
+  // Equipos que solo traen baneos (sin jugadores) no se muestran.
+  return grupos.map((g) => ({ ...g, bloqueos: bloqueos.get(g.equipo) ?? [] }));
+}
+
+const listaY = new Intl.ListFormat("es", { style: "long", type: "conjunction" });
+
+/** "Johnadis y ISkrat" a partir de los slugs de la partida y la lista de amigos. */
+export function nombresAmigos(slugs, amigos) {
+  if (!Array.isArray(slugs) || slugs.length === 0) return "";
+  const porSlug = new Map((amigos ?? []).map((a) => [a.slug, a]));
+  const nombres = slugs.map((s) => {
+    const a = porSlug.get(s);
+    return a?.nombre || a?.riot_id || s;
+  });
+  return listaY.format(nombres);
 }
 
 export function esRanked(item) {

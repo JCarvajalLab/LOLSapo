@@ -43,6 +43,7 @@ export default function App({ fetchFn }) {
             <SeccionEnPartida
               enVivo={datos.en_vivo}
               ddragon={datos.ddragon}
+              amigos={datos.amigos}
               actualizadoMs={isoAMs(datos.actualizado)}
               ahora={ahora}
             />

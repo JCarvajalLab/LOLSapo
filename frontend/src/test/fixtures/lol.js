@@ -181,6 +181,8 @@ export function crearDatos(cambios = {}) {
   };
 }
 
+const RUNAS = { principal: 8112, secundaria: 8000 };
+
 export const partidaEnVivo = {
   id: "LA2_99",
   queue_id: 450,
@@ -192,16 +194,42 @@ export const partidaEnVivo = {
   equipos: [
     {
       equipo: 100,
+      bloqueos: [51, 21],
       jugadores: [
-        { campeon_id: 103, equipo: 100, nombre: "Rana Azul#LAS", amigo: "rana-azul-las" },
-        { campeon_id: 22, equipo: 100, nombre: null, amigo: "sapito-las" },
-        { campeon_id: 12, equipo: 100, nombre: null, amigo: null },
+        {
+          campeon_id: 103,
+          equipo: 100,
+          nombre: "Rana Azul#LAS",
+          amigo: "rana-azul-las",
+          hechizos: [4, 14],
+          runas: RUNAS,
+          rango: { tier: "DIAMOND", division: "IV", lp: 45 },
+        },
+        { campeon_id: 22, equipo: 100, nombre: null, amigo: "sapito-las", hechizos: [4, 14], runas: RUNAS, rango: null },
+        {
+          campeon_id: 12,
+          equipo: 100,
+          nombre: "Desconocido Uno#AAA",
+          amigo: null,
+          hechizos: [4, 14],
+          runas: { principal: null, secundaria: null },
+          rango: { tier: "MASTER", division: null, lp: 250 },
+        },
       ],
     },
     {
       equipo: 200,
+      bloqueos: [],
       jugadores: [
-        { campeon_id: 54, equipo: 200, nombre: "Rival Uno#CCC", amigo: null },
+        {
+          campeon_id: 54,
+          equipo: 200,
+          nombre: "Rival Uno#CCC",
+          amigo: null,
+          hechizos: [4, 14],
+          runas: RUNAS,
+          rango: { tier: "GOLD", division: "I", lp: 0 },
+        },
         { campeon_id: 86, equipo: 200, nombre: null, amigo: null },
       ],
     },

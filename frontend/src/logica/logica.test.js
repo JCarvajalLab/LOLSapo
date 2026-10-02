@@ -9,10 +9,11 @@ import {
   isoAMs,
   nombreRango,
   ratioKda,
+  textoRangoLp,
 } from "./formato.js";
 import { filtrarPartidas, modosDe, resumenDe, categoriaDe } from "./filtros.js";
 import { urlCampeon, urlHechizo, urlIconoPerfil, urlItem, urlRuna, nombreCampeon } from "./ddragon.js";
-import { agruparPorEquipo, equiposEnVivo, minutosEnPartida, nombreEquipo } from "./partidas.js";
+import { agruparPorEquipo, equiposEnVivo, minutosEnPartida, nombreEquipo, nombresAmigos } from "./partidas.js";
 import { cargarDatos, validarDatos } from "./datos.js";
 import { hashDeAmigo, slugDesdeHash } from "../rutas/hash.js";
 import { AHORA, crearDatos, ddragon, partidaAram, partidaCompleta, partidaEnVivo, partidaRanked } from "../test/fixtures/lol.js";
@@ -144,9 +145,30 @@ describe("partidas en vivo y equipos", () => {
     expect(nombreEquipo(3, 2)).toBe("Equipo 3");
   });
 
-  it("normaliza los equipos en vivo", () => {
-    expect(equiposEnVivo(partidaEnVivo).map((e) => e.jugadores.length)).toEqual([3, 2]);
+  it("normaliza los equipos en vivo con sus baneos", () => {
+    const equipos = equiposEnVivo(partidaEnVivo);
+    expect(equipos.map((e) => e.jugadores.length)).toEqual([3, 2]);
+    expect(equipos.map((e) => e.bloqueos)).toEqual([[51, 21], []]);
+    expect(equiposEnVivo({ equipos: [{ equipo: 100, bloqueos: [-1, 0, 5], jugadores: [{ campeon_id: 1 }] }] })[0]).toEqual({
+      equipo: 100,
+      jugadores: [{ campeon_id: 1, equipo: 100 }],
+      bloqueos: [5],
+    });
     expect(equiposEnVivo({})).toEqual([]);
+  });
+
+  it("nombra a los amigos de la partida", () => {
+    const amigos = crearDatos().amigos;
+    expect(nombresAmigos(["rana-azul-las", "sapito-las"], amigos)).toBe("Rana Azul y Sapito");
+    expect(nombresAmigos(["rana-azul-las", "sapito-las", "charco-las"], amigos)).toBe("Rana Azul, Sapito y Charco");
+    expect(nombresAmigos(["otro-las"], amigos)).toBe("otro-las");
+    expect(nombresAmigos([], amigos)).toBe("");
+  });
+
+  it("formatea rango con LP", () => {
+    expect(textoRangoLp({ tier: "DIAMOND", division: "IV", lp: 45 })).toBe("Diamante IV · 45 LP");
+    expect(textoRangoLp({ tier: "CHALLENGER", division: null, lp: 1200 })).toBe("Retador · 1200 LP");
+    expect(textoRangoLp(null)).toBeNull();
   });
 });
 

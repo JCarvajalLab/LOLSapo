@@ -75,13 +75,109 @@ describe("FilaPartida", () => {
 });
 
 describe("SeccionEnPartida", () => {
+  const amigos = crearDatos().amigos;
+
+  function renderVivo(enVivo = [partidaEnVivo]) {
+    return render(
+      <SeccionEnPartida enVivo={enVivo} ddragon={ddragon} amigos={amigos} actualizadoMs={AHORA} ahora={AHORA} />,
+    );
+  }
+
+  function filaDe(texto) {
+    return screen.getByText(texto).closest("li");
+  }
+
   it("dice que nadie está en partida dentro de un panel de alto fijo", () => {
-    render(<SeccionEnPartida enVivo={[]} ddragon={ddragon} actualizadoMs={AHORA} ahora={AHORA} />);
+    renderVivo([]);
     const texto = screen.getByText("Nadie en partida.");
     expect(texto.parentElement).toHaveClass("min-h-32");
   });
 
-  it("agrupa equipos de Arena en columnas", () => {
+  it("cada partida ocupa el ancho completo, una debajo de otra", () => {
+    renderVivo([partidaEnVivo, { ...partidaEnVivo, id: "otra" }]);
+    const lista = screen.getByRole("list", { name: "Partidas en curso" });
+    expect(lista).toHaveClass("flex-col");
+    expect(lista.className).not.toMatch(/grid-cols/);
+    const items = [...lista.children];
+    expect(items).toHaveLength(2);
+    for (const item of items) expect(item).toHaveClass("w-full");
+    expect(screen.getAllByRole("article")[0]).toHaveClass("w-full");
+  });
+
+  it("encabezado con modo, minutos y amigos en la partida", () => {
+    renderVivo();
+    const header = screen.getByRole("article").querySelector("header");
+    expect(header).toHaveTextContent("ARAM");
+    expect(header).toHaveTextContent("14 min de partida");
+    expect(header).toHaveTextContent("Rana Azul y Sapito");
+  });
+
+  it("equipos con encabezado y la misma grilla en todas las filas", () => {
+    renderVivo();
+    expect(screen.getByRole("heading", { name: "Equipo azul" })).toHaveClass("text-ranked");
+    expect(screen.getByRole("heading", { name: "Equipo rojo" })).toHaveClass("text-derrota/80");
+    const azul = screen.getByRole("list", { name: "Jugadores del equipo azul" });
+    const rojo = screen.getByRole("list", { name: "Jugadores del equipo rojo" });
+    const filas = [...azul.children, ...rojo.children];
+    expect(filas).toHaveLength(5);
+    const clases = new Set(filas.map((f) => f.className.replace("bg-sapo-fondo", "").trim()));
+    expect(clases.size).toBe(1);
+  });
+
+  it("muestra rangos: con división, sin rango y Maestro sin división", () => {
+    renderVivo();
+    expect(within(filaDe("Rana Azul#LAS")).getByText("Diamante IV · 45 LP")).toHaveClass("cifras");
+    expect(within(filaDe("Desconocido Uno#AAA")).getByText("Maestro · 250 LP")).toBeInTheDocument();
+    expect(within(filaDe("Rival Uno#CCC")).getByText("Oro I · 0 LP")).toBeInTheDocument();
+    expect(within(filaDe("Ashe")).getByText("Sin clasificar")).toHaveClass("text-texto-suave");
+  });
+
+  it("muestra hechizos y runas de cada jugador", () => {
+    renderVivo();
+    const fila = filaDe("Rana Azul#LAS");
+    expect(within(fila).getByAltText("Destello")).toHaveAttribute(
+      "src",
+      "https://ddragon.leagueoflegends.com/cdn/16.1.1/img/spell/SummonerFlash.png",
+    );
+    expect(within(fila).getByAltText("Incendiar")).toBeInTheDocument();
+    expect(within(fila).getByAltText("Electrocutar")).toHaveAttribute(
+      "src",
+      "https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Domination/Electrocute/Electrocute.png",
+    );
+    expect(within(fila).getByAltText("Precisión")).toBeInTheDocument();
+  });
+
+  it("modo streamer: campeón como texto principal y aviso debajo", () => {
+    renderVivo();
+    const fila = filaDe("Garen");
+    expect(within(fila).getByText("Modo streamer")).toHaveClass("text-texto-suave");
+    // Jugador sin hechizos, runas ni rango: la fila no se rompe.
+    expect(within(fila).getByText("Sin clasificar")).toBeInTheDocument();
+  });
+
+  it("destaca a los amigos con color y anillo", () => {
+    const { container } = renderVivo();
+    expect(container.querySelectorAll('li[data-amigo="true"]')).toHaveLength(2);
+    expect(container.querySelectorAll('[data-en-partida="true"]')).toHaveLength(2);
+    expect(screen.getAllByText("(del grupo)")).toHaveLength(2);
+    expect(screen.getByText("Rana Azul#LAS")).toHaveClass("text-sapo");
+    expect(filaDe("Rana Azul#LAS")).toHaveClass("bg-sapo-fondo");
+    expect(screen.getByText("Ashe")).toHaveClass("text-sapo");
+    expect(filaDe("Rival Uno#CCC")).not.toHaveClass("bg-sapo-fondo");
+  });
+
+  it("muestra baneos en gris solo si el equipo tiene", () => {
+    renderVivo();
+    const baneosAzul = screen.getByRole("list", { name: "Baneos del equipo azul" });
+    const imgs = within(baneosAzul).getAllByRole("img");
+    expect(imgs.map((i) => i.getAttribute("alt"))).toEqual(["Caitlyn", "Miss Fortune"]);
+    expect(imgs[0]).toHaveAttribute("title", "Caitlyn");
+    expect(imgs[0]).toHaveClass("grayscale");
+    expect(screen.queryByRole("list", { name: "Baneos del equipo rojo" })).not.toBeInTheDocument();
+    expect(screen.getAllByText("Baneos:")).toHaveLength(1);
+  });
+
+  it("agrupa equipos de Arena en una grilla automática", () => {
     const arena = {
       id: "a",
       modo: "Arena",
@@ -89,40 +185,10 @@ describe("SeccionEnPartida", () => {
       inicio: AHORA - 60000,
       equipos: [1, 2, 3, 4].map((n) => ({ equipo: n, jugadores: [{ campeon_id: 1, equipo: n, nombre: null, amigo: null }] })),
     };
-    render(<SeccionEnPartida enVivo={[arena]} ddragon={ddragon} actualizadoMs={AHORA} ahora={AHORA} />);
-    expect(screen.getAllByRole("heading", { level: 3 }).map((h) => h.textContent)).toEqual([
-      "Equipo 1",
-      "Equipo 2",
-      "Equipo 3",
-      "Equipo 4",
-    ]);
-  });
-
-  it("muestra una partida con varios amigos una sola vez", () => {
-    const { container } = render(
-      <SeccionEnPartida enVivo={[partidaEnVivo]} ddragon={ddragon} actualizadoMs={AHORA} ahora={AHORA} />,
-    );
-    expect(screen.getAllByRole("article")).toHaveLength(1);
-    expect(screen.getByText("ARAM")).toBeInTheDocument();
-    expect(screen.getByText("14 min de partida")).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "Equipo azul" })).toBeInTheDocument();
-    expect(screen.getByRole("heading", { name: "Equipo rojo" })).toBeInTheDocument();
-    // Dos amigos destacados, con anillo.
-    expect(container.querySelectorAll('[data-amigo="true"]')).toHaveLength(2);
-    expect(container.querySelectorAll('[data-en-partida="true"]')).toHaveLength(2);
-    expect(screen.getAllByText("(del grupo)")).toHaveLength(2);
-    expect(screen.getByText("Rana Azul#LAS")).toHaveClass("text-sapo");
-  });
-
-  it("con nombre oculto muestra solo el campeón", () => {
-    render(<SeccionEnPartida enVivo={[partidaEnVivo]} ddragon={ddragon} actualizadoMs={AHORA} ahora={AHORA} />);
-    // Sapito juega Ashe con nombre null: aparece "Ashe" como nombre principal.
-    expect(screen.getByText("Ashe")).toHaveClass("text-sapo");
-    expect(screen.getByText("Garen")).toBeInTheDocument();
-    expect(screen.getByAltText("Ahri")).toHaveAttribute(
-      "src",
-      "https://ddragon.leagueoflegends.com/cdn/16.1.1/img/champion/Ahri.png",
-    );
+    renderVivo([arena]);
+    const titulos = screen.getAllByRole("heading", { level: 3 });
+    expect(titulos.map((h) => h.textContent)).toEqual(["Equipo 1", "Equipo 2", "Equipo 3", "Equipo 4"]);
+    expect(titulos[0].parentElement.parentElement.className).toMatch(/auto-fill/);
   });
 
   it("aguanta partidas sin equipos ni tiempo", () => {

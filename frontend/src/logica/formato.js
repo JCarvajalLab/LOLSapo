@@ -24,6 +24,13 @@ export function nombreRango(rango) {
   return rango.division ? `${tier} ${rango.division}` : tier;
 }
 
+/** "Diamante IV · 45 LP", "Maestro · 250 LP" o null si no hay rango. */
+export function textoRangoLp(rango) {
+  const nombre = nombreRango(rango);
+  if (!nombre) return null;
+  return `${nombre} · ${esNumero(rango.lp) ? rango.lp : 0} LP`;
+}
+
 /** Winrate de un rango oficial (victorias y derrotas de Riot). */
 export function winrateRango(rango) {
   if (!rango) return null;
