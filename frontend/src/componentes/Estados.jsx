@@ -26,3 +26,27 @@ export function EstadoError({ titulo, children, accion }) {
     </div>
   );
 }
+
+/** Mensaje accionable según el tipo de error de la primera carga. */
+export function ErrorCarga({ error }) {
+  if (error.tipo === "sin-datos") {
+    return (
+      <EstadoError titulo="Todavía no hay datos.">
+        Corre el recolector: <code className="rounded bg-fondo px-1 text-texto">python -m lolsapo</code>. La página
+        revisa de nuevo cada 2 minutos.
+      </EstadoError>
+    );
+  }
+  if (error.tipo === "formato") {
+    return (
+      <EstadoError titulo="Los datos están dañados.">
+        Vuelve a correr el recolector para generar datos/lol.json de nuevo. La página revisa otra vez cada 2 minutos.
+      </EstadoError>
+    );
+  }
+  return (
+    <EstadoError titulo="No se pudieron cargar los datos.">
+      {error.mensaje} La página reintenta sola cada 2 minutos.
+    </EstadoError>
+  );
+}

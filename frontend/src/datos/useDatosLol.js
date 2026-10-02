@@ -30,7 +30,8 @@ export function useDatosLol(fetchFn, intervaloMs = INTERVALO_ACTUALIZACION_MS) {
       setDatos(nuevos);
       setError(null);
     } catch (e) {
-      setError(e?.message || "No se pudieron leer los datos.");
+      // { tipo, mensaje }: el tipo decide qué mensaje accionable se muestra.
+      setError({ tipo: e?.tipo ?? "red", mensaje: e?.message || "No se pudieron leer los datos." });
     } finally {
       enCurso.current = false;
       setCargando(false);

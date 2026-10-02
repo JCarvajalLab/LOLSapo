@@ -23,3 +23,11 @@ export function reemplazarHash(hash) {
   const url = `${window.location.pathname}${window.location.search}${hash}`;
   window.history.replaceState(null, "", url);
 }
+
+export const HASH_TFT = "#/tft";
+export const HASH_INICIO = "#/";
+
+/** Juego de la vista: "#/tft" es TFT; "#/", "#/amigo/<slug>" o cualquier otro, League. */
+export function juegoDesdeHash(hash) {
+  return typeof hash === "string" && /^#\/tft\/?$/.test(hash) ? "tft" : "lol";
+}

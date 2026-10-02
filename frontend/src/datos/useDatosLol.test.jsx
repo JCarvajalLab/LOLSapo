@@ -99,7 +99,7 @@ describe("actualización automática", () => {
 
     await avanzar(DOS_MIN);
     expect(fetchFn).toHaveBeenCalledTimes(2);
-    expect(result.current.error).toMatch("No se pudo conectar");
+    expect(result.current.error).toEqual({ tipo: "red", mensaje: "No se pudo conectar con el servidor." });
     expect(result.current.datos.actualizado).toBe(datos1.actualizado);
 
     await avanzar(DOS_MIN);

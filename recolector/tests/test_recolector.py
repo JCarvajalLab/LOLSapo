@@ -175,6 +175,90 @@ def test_dos_amigos_en_la_misma_partida_en_vivo(cliente, mapa, tmp_path):
 
 
 @responses.activate
+def test_rango_y_maestria_en_vivo_se_piden_una_vez_por_partida(cliente, mapa, tmp_path):
+    en_vivo = partida_activa(P_JOHN, 450, 103, id_partida=77)
+    simular_amigo("Johnadis", P_JOHN, [], jugando=en_vivo)
+    rival = "rival1".ljust(78, "r")
+    url_rango = f"{URL_PLATAFORMA}/lol/league/v4/entries/by-puuid/{rival}"
+    maestrias = f"{URL_PLATAFORMA}/lol/champion-mastery/v4/champion-masteries/by-puuid"
+    responses.get(url_rango, json=[liga()])
+    responses.get(
+        f"{maestrias}/{P_JOHN}/by-champion/103", json={"championLevel": 5, "championPoints": 9}
+    )
+    # La maestría del rival falla la primera vez: no se guarda y se reintenta.
+    responses.get(f"{maestrias}/{rival}/by-champion/62", status=503)
+
+    def correr():
+        return ejecutar(
+            cliente, KEY_FALSA, [JOHN], mapa, tmp_path, tmp_path / "lol.json", ahora=AHORA
+        )
+
+    correr()
+    assert llamadas_a("/entries/by-puuid/") == 2  # Johnadis (amigo) + rival
+    responses.calls.reset()
+    responses.replace(
+        responses.GET,
+        f"{maestrias}/{rival}/by-champion/62",
+        json={"championLevel": 3, "championPoints": 1},
+    )
+
+    salida = correr()
+
+    assert llamadas_a(url_rango) == 0  # rango del rival desde el caché
+    assert llamadas_a(f"{maestrias}/{P_JOHN}/") == 0  # maestría guardada
+    assert llamadas_a(f"{maestrias}/{rival}/") == 1  # la que falló se reintenta
+    rojo = salida["en_vivo"][0]["equipos"][1]
+    assert rojo["jugadores"][0]["maestria"] == {"nivel": 3, "puntos": 1}
+    cache = json.loads((tmp_path / "en_vivo_cache.json").read_text(encoding="utf-8"))
+    assert list(cache) == ["77"]
+
+    # La partida terminó: el caché queda vacío.
+    responses.replace(
+        responses.GET,
+        f"{URL_PLATAFORMA}/lol/spectator/v5/active-games/by-summoner/{P_JOHN}",
+        status=404,
+    )
+    correr()
+    assert json.loads((tmp_path / "en_vivo_cache.json").read_text(encoding="utf-8")) == {}
+
+
+def test_cache_en_vivo_con_contenido_danado_se_descarta(tmp_path):
+    from lolsapo.recolector import _leer_cache_en_vivo
+
+    ruta = tmp_path / "en_vivo_cache.json"
+    bueno = {"tier": "GOLD", "division": "I", "lp": 5, "victorias": 1, "derrotas": 2}
+    ruta.write_text(
+        json.dumps(
+            {
+                "1": {
+                    "rangos": {
+                        "ok": bueno,
+                        "sin_rango": None,
+                        "sin_lp": {"tier": "GOLD", "division": "I"},
+                        "lista": ["GOLD"],
+                        "tier_raro": {**bueno, "tier": "<b>x</b>"},
+                    },
+                    "maestrias": {
+                        "ok:1": {"nivel": 7, "puntos": 10},
+                        "html:1": "<b>hola</b>",
+                        "neg:1": {"nivel": -1, "puntos": 0},
+                    },
+                },
+                "2": "no es objeto",
+            }
+        ),
+        encoding="utf-8",
+    )
+    assert _leer_cache_en_vivo(ruta) == {
+        "1": {
+            "rangos": {"ok": bueno, "sin_rango": None},
+            "maestrias": {"ok:1": {"nivel": 7, "puntos": 10}},
+        }
+    }
+    assert _leer_cache_en_vivo(tmp_path) == {}  # es un directorio: OSError -> vacío
+
+
+@responses.activate
 def test_partidas_marcan_a_los_amigos_y_no_publican_puuid(cliente, mapa, tmp_path):
     simular_amigo("Johnadis", P_JOHN, ["LA2_1"])
     simular_amigo("Big Gato", P_GATO, [])

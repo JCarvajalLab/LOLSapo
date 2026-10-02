@@ -6,7 +6,8 @@ export const DDRAGON_BASE = "https://ddragon.leagueoflegends.com";
 
 const VERSION_OK = /^\d+(\.\d+)*$/;
 const ID_OK = /^[A-Za-z0-9_]+$/;
-const RUTA_RUNA_OK = /^[A-Za-z0-9_/-]+\.png$/;
+// Igual que el recolector: solo rutas dentro de perk-images/, sin puntos ni guiones.
+const RUTA_RUNA_OK = /^perk-images(\/[A-Za-z0-9_]+)+\.png$/;
 
 function version(dd) {
   const v = dd?.version;

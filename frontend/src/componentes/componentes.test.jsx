@@ -115,7 +115,7 @@ describe("SeccionEnPartida", () => {
   it("equipos con encabezado y la misma grilla en todas las filas", () => {
     renderVivo();
     expect(screen.getByRole("heading", { name: "Equipo azul" })).toHaveClass("text-ranked");
-    expect(screen.getByRole("heading", { name: "Equipo rojo" })).toHaveClass("text-derrota/80");
+    expect(screen.getByRole("heading", { name: "Equipo rojo" })).toHaveClass("text-derrota");
     const azul = screen.getByRole("list", { name: "Jugadores del equipo azul" });
     const rojo = screen.getByRole("list", { name: "Jugadores del equipo rojo" });
     const filas = [...azul.children, ...rojo.children];
@@ -275,10 +275,15 @@ describe("FilaAmigo (acordeón)", () => {
   });
 
   it("muestra el error de un amigo sin romper la fila", () => {
-    renderFila(charco, { abierto: true });
-    expect(screen.getByRole("alert")).toHaveTextContent("No se pudieron cargar sus datos");
-    expect(screen.getByText(/Riot ID no encontrado/)).toBeInTheDocument();
+    const { container } = renderFila(charco, { abierto: true });
+    const aviso = container.querySelector('[data-aviso-error="true"]');
+    expect(aviso).toHaveTextContent("Sin actualizar: se muestran sus últimos datos");
+    expect(aviso).toHaveAttribute("title", "Riot ID no encontrado");
+    expect(screen.getByText(/Riot ID no encontrado/)).toHaveClass("sr-only");
     expect(screen.getByRole("img", { name: "Ícono de Charco#LAS" })).toBeInTheDocument();
+    // Sin datos previos: las columnas siguen en su lugar.
+    expect(screen.getAllByText("Sin clasificar")).toHaveLength(2);
+    expect(screen.getByText("Sin partidas")).toBeInTheDocument();
   });
 
   it("marca En partida con texto y anillo", () => {
