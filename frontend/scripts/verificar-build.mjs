@@ -1,7 +1,8 @@
 // Revisa el build antes de publicarlo. Se corre en CI después de `npm run build`:
 //   npm run verificar:build
 // 1. Ningún archivo (incluido datos/lol.json si existe) contiene una key de Riot.
-// 2. dist/index.html trae la Content Security Policy esperada, sin 'unsafe-inline' ni
+// 2. Los datos publicados (dist/datos/*.json) no contienen PUUID.
+// 3. dist/index.html trae la Content Security Policy esperada, sin 'unsafe-inline' ni
 //    'unsafe-eval', y sin scripts ni estilos inline que la CSP bloquearía.
 import { readdirSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
@@ -32,6 +33,17 @@ if (conKey.length > 0) {
   process.exit(1);
 }
 
+// Los PUUID solo viven en el registro local del recolector; los datos publicados no deben
+// traer ni la clave "puuid" ni cadenas con forma de PUUID (78 caracteres [A-Za-z0-9_-]).
+const PATRON_PUUID = /"puuid"|(?<![A-Za-z0-9_-])[A-Za-z0-9_-]{78}(?![A-Za-z0-9_-])/;
+const conPuuid = lista.filter(
+  (ruta) => /[\\/]datos[\\/][^\\/]+\.json$/.test(ruta) && PATRON_PUUID.test(readFileSync(ruta, "utf8")),
+);
+if (conPuuid.length > 0) {
+  console.error("Se encontró algo con forma de PUUID en los datos publicados:", conPuuid);
+  process.exit(1);
+}
+
 const problemasCsp = revisarCsp(readFileSync(fileURLToPath(new URL("index.html", CARPETA)), "utf8"));
 if (problemasCsp.length > 0) {
   console.error("Problemas de CSP en dist/index.html:");
@@ -39,7 +51,7 @@ if (problemasCsp.length > 0) {
   process.exit(1);
 }
 
-console.log(`Build revisado: ${lista.length} archivos, sin keys de Riot y con CSP correcta.`);
+console.log(`Build revisado: ${lista.length} archivos, sin keys ni PUUID y con CSP correcta.`);
 
 /** Devuelve la lista de problemas de CSP del index.html (vacía si está bien). */
 function revisarCsp(html) {
