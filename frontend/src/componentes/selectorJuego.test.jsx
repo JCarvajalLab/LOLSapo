@@ -5,9 +5,11 @@ import App from "../App.jsx";
 import { SelectorJuego } from "./SelectorJuego.jsx";
 import { juegoDesdeHash } from "../rutas/hash.js";
 import { crearDatos } from "../test/fixtures/lol.js";
+import { crearDatosTft, fetchPorRuta } from "../test/fixtures/tft.js";
 
-function respuestaOk() {
-  return Promise.resolve({ ok: true, json: async () => crearDatos({ actualizado: new Date().toISOString() }) });
+function respuestaOk(ruta) {
+  const ahora = new Date().toISOString();
+  return fetchPorRuta({ lol: crearDatos({ actualizado: ahora }), tft: crearDatosTft({ actualizado: ahora }) })(ruta);
 }
 
 describe("ruta del juego", () => {
@@ -65,12 +67,9 @@ describe("App con pestañas de juego", () => {
     await userEvent.click(screen.getByRole("tab", { name: "TFT" }));
     expect(window.location.hash).toBe("#/tft");
     expect(screen.getByRole("tab", { name: "TFT" })).toHaveAttribute("aria-selected", "true");
-    expect(screen.getByRole("heading", { name: "Teamfight Tactics" })).toBeInTheDocument();
-    expect(
-      screen.getByText("Próximamente: rango, top 4 y últimas 10 partidas de TFT de cada amigo."),
-    ).toBeInTheDocument();
-    expect(screen.queryByRole("heading", { name: "Amigos" })).not.toBeInTheDocument();
     expect(screen.getByRole("tabpanel")).toHaveAttribute("id", "vista-tft");
+    expect(await screen.findByRole("button", { name: "Croac#LAS" })).toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /Rana Azul#LAS/ })).not.toBeInTheDocument();
 
     await userEvent.click(screen.getByRole("tab", { name: "League of Legends" }));
     expect(window.location.hash).toBe("#/");
@@ -84,7 +83,7 @@ describe("App con pestañas de juego", () => {
     await userEvent.keyboard("{ArrowRight}");
     expect(screen.getByRole("tab", { name: "TFT" })).toHaveFocus();
     expect(window.location.hash).toBe("#/tft");
-    expect(screen.getByRole("heading", { name: "Teamfight Tactics" })).toBeInTheDocument();
+    expect(screen.getByRole("tabpanel")).toHaveAttribute("id", "vista-tft");
     await userEvent.keyboard("{ArrowLeft}");
     expect(screen.getByRole("tab", { name: "League of Legends" })).toHaveFocus();
     expect(window.location.hash).toBe("#/");
@@ -94,8 +93,9 @@ describe("App con pestañas de juego", () => {
     window.history.replaceState(null, "", "/#/tft");
     render(<App fetchFn={() => new Promise(() => {})} />);
     expect(screen.getByRole("tab", { name: "TFT" })).toHaveAttribute("aria-selected", "true");
-    expect(screen.getByRole("heading", { name: "Teamfight Tactics" })).toBeInTheDocument();
-    // No muestra el esqueleto de League mientras lol.json no llega.
+    expect(screen.getByRole("tabpanel")).toHaveAttribute("id", "vista-tft");
+    // Muestra el esqueleto de TFT, no el de League, mientras los datos no llegan.
+    expect(screen.getByRole("status", { name: "Cargando datos de TFT…" })).toBeInTheDocument();
     expect(screen.queryByRole("status", { name: "Cargando datos…" })).not.toBeInTheDocument();
   });
 

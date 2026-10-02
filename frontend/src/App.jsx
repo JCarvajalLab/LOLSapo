@@ -1,7 +1,8 @@
 import { useAhora } from "./datos/useAhora.js";
 import { useDatosLol } from "./datos/useDatosLol.js";
+import { useDatosTft } from "./datos/useDatosTft.js";
 import { isoAMs } from "./logica/formato.js";
-import { useAmigosAbiertos } from "./rutas/useAmigosAbiertos.js";
+import { useAmigosAbiertos, useAmigosAbiertosLocal } from "./rutas/useAmigosAbiertos.js";
 import { useJuego } from "./rutas/useJuego.js";
 import { Encabezado } from "./componentes/Encabezado.jsx";
 import { EsqueletoPagina } from "./componentes/Esqueleto.jsx";
@@ -18,6 +19,11 @@ export default function App({ fetchFn }) {
   const ahora = useAhora();
   const amigosAbiertos = useAmigosAbiertos();
   const { juego, cambiar } = useJuego();
+  // tft.json solo se pide mientras se mira la pestaña TFT; lo cargado se conserva al volver.
+  const tft = useDatosTft(fetchFn, juego === "tft");
+  const amigosAbiertosTft = useAmigosAbiertosLocal();
+  // El encabezado muestra la antigüedad de los datos del juego que se mira.
+  const actual = juego === "tft" ? tft : { datos, cargando, error };
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -32,19 +38,19 @@ export default function App({ fetchFn }) {
         Saltar al contenido
       </a>
       <Encabezado
-        actualizado={datos?.actualizado}
+        actualizado={actual.datos?.actualizado}
         ahora={ahora}
-        falloActualizar={Boolean(error && datos)}
+        falloActualizar={Boolean(actual.error && actual.datos)}
         juego={juego}
         onCambiarJuego={cambiar}
       />
 
-      <main id="contenido" tabIndex={-1} aria-busy={cargando} className="mx-auto w-full max-w-6xl flex-1 px-4 py-5 focus:outline-none">
+      <main id="contenido" tabIndex={-1} aria-busy={actual.cargando} className="mx-auto w-full max-w-6xl flex-1 px-4 py-5 focus:outline-none">
         <PanelJuego clave="lol" activo={juego === "lol"}>
           <VistaLol datos={datos} error={error} ahora={ahora} {...amigosAbiertos} />
         </PanelJuego>
         <PanelJuego clave="tft" activo={juego === "tft"}>
-          <VistaTft />
+          <VistaTft datos={tft.datos} error={tft.error} ahora={ahora} {...amigosAbiertosTft} />
         </PanelJuego>
       </main>
 
