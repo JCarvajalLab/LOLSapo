@@ -12,7 +12,7 @@ export function FiltroModos({ valor, onCambiar }) {
             type="button"
             aria-pressed={activo}
             onClick={() => onCambiar(f.clave)}
-            className={`rounded-md border px-3 py-1 text-sm ${
+            className={`min-h-10 rounded-md border px-3 py-1 text-sm ${
               activo
                 ? "border-sapo bg-sapo-fondo font-semibold text-sapo"
                 : "border-borde text-texto-suave hover:border-texto-suave hover:text-texto"

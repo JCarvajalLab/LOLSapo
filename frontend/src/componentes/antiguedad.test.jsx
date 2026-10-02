@@ -49,7 +49,7 @@ describe("En partida según la antigüedad", () => {
     const { container } = renderSeccion(5);
     expect(screen.queryByText(/Puede que estas partidas/)).not.toBeInTheDocument();
     expect(screen.getByText("15 min de partida")).toBeInTheDocument();
-    expect(screen.getByRole("article")).not.toHaveClass("opacity-60");
+    expect(screen.getByRole("article")).not.toHaveClass("grayscale");
     expect(container.querySelectorAll('[data-en-partida="true"]')).toHaveLength(2);
   });
 
@@ -60,7 +60,8 @@ describe("En partida según la antigüedad", () => {
     );
     expect(screen.getByText("10 min de partida (al consultar)")).toBeInTheDocument();
     expect(screen.queryByText("30 min de partida")).not.toBeInTheDocument();
-    expect(screen.getByRole("article")).toHaveClass("opacity-60");
+    expect(screen.getByRole("article")).toHaveClass("grayscale");
+    expect(screen.getByRole("article")).toHaveAttribute("data-atenuada", "true");
     // Sigue legible: equipos y amigos presentes, pero sin el anillo animado.
     expect(screen.getByText("Rana Azul#LAS")).toBeInTheDocument();
     expect(container.querySelectorAll('[data-en-partida="true"]')).toHaveLength(0);
@@ -122,14 +123,15 @@ describe("indicador En partida en la fila del amigo", () => {
   it("5 min: normal, con anillo", () => {
     const { container } = renderFila(5);
     const texto = screen.getByText(/En partida · Ahri/);
-    expect(texto).not.toHaveClass("opacity-50");
+    expect(texto).toHaveClass("text-sapo");
     expect(container.querySelector(".saco-vocal")).not.toBeNull();
   });
 
   it("20 min: atenuado y sin anillo", () => {
     const { container } = renderFila(20);
     const texto = screen.getByText(/En partida · Ahri/);
-    expect(texto).toHaveClass("opacity-50");
+    expect(texto).toHaveClass("text-texto-suave");
+    expect(texto).toHaveAttribute("data-atenuado", "true");
     expect(texto).toHaveTextContent("(datos de hace 20 min)");
     expect(container.querySelector(".saco-vocal")).toBeNull();
   });

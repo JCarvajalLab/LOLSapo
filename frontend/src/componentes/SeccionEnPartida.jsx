@@ -26,7 +26,7 @@ const GRILLA_JUGADOR =
 
 const ACENTOS = {
   100: { borde: "border-t-ranked/60", texto: "text-ranked" },
-  200: { borde: "border-t-derrota/50", texto: "text-derrota/80" },
+  200: { borde: "border-t-derrota/50", texto: "text-derrota" },
 };
 
 /**
@@ -120,18 +120,18 @@ function PartidaEnVivo({ partida, ddragon, amigos, actualizadoMs, ahora, atenuad
 
   return (
     <article
-      className={`w-full rounded-md border border-sapo/40 bg-fondo/40 p-2 sm:p-3 ${atenuada ? "opacity-60" : ""}`}
+      className={`w-full rounded-md border border-sapo/40 bg-fondo/40 p-2 sm:p-3 ${atenuada ? "opacity-90 grayscale" : ""}`}
       data-atenuada={atenuada ? "true" : undefined}
     >
       <header className="mb-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm">
         <EtiquetaModo item={partida} />
-        <span aria-hidden="true" className="text-texto-suave">
+        <span aria-hidden="true" className="hidden text-texto-suave sm:inline">
           ·
         </span>
         <span className="cifras text-texto-suave">{textoMinutos}</span>
         {quienes && (
           <>
-            <span aria-hidden="true" className="text-texto-suave">
+            <span aria-hidden="true" className="hidden text-texto-suave sm:inline">
               ·
             </span>
             <span className="min-w-0 truncate font-semibold text-sapo">{quienes}</span>
