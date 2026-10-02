@@ -22,6 +22,8 @@ from .registro import (
 )
 from .riot_api import ClienteRiot, ErrorAutenticacion, ErrorRiot, PeticionInvalida
 from .validacion import (
+    DIVISIONES,
+    TIERS,
     DatoInvalido,
     resumir_partida,
     validar_cuenta,
@@ -168,21 +170,60 @@ def _publicar_participantes(participantes: list[dict], slug_por_puuid: dict) -> 
     ]
 
 
+def _entero_valido(valor) -> bool:
+    return isinstance(valor, int) and not isinstance(valor, bool) and valor >= 0
+
+
+def _rango_guardado_valido(rango) -> bool:
+    """Un rango leído del caché tiene que tener la misma forma que uno recién validado."""
+    if rango is None:
+        return True
+    return (
+        isinstance(rango, dict)
+        and rango.get("tier") in TIERS
+        and rango.get("division") in (*DIVISIONES, None)
+        and all(_entero_valido(rango.get(c)) for c in ("lp", "victorias", "derrotas"))
+        and isinstance(rango.get("racha", False), bool)
+    )
+
+
+def _maestria_guardada_valida(maestria) -> bool:
+    return isinstance(maestria, dict) and all(
+        _entero_valido(maestria.get(c)) for c in ("nivel", "puntos")
+    )
+
+
 def _leer_cache_en_vivo(ruta: Path) -> dict:
-    """Caché local de rango y maestría por partida en vivo: {"<gameId>": {...}}."""
+    """Caché local de rango y maestría por partida en vivo: {"<gameId>": {...}}.
+
+    Se valida todo lo que se lee: una entrada con forma inesperada se descarta (y se vuelve
+    a pedir a Riot) en vez de pasar a lol.json o detener la ejecución.
+    """
     try:
         datos = json.loads(Path(ruta).read_text(encoding="utf-8"))
-    except (FileNotFoundError, ValueError):
+    except (OSError, ValueError):
         return {}
     if not isinstance(datos, dict):
         return {}
-    return {
-        clave: valor
-        for clave, valor in datos.items()
-        if isinstance(valor, dict)
-        and isinstance(valor.get("rangos"), dict)
-        and isinstance(valor.get("maestrias"), dict)
-    }
+    cache = {}
+    for clave, valor in datos.items():
+        if not (
+            isinstance(valor, dict)
+            and isinstance(valor.get("rangos"), dict)
+            and isinstance(valor.get("maestrias"), dict)
+        ):
+            continue
+        cache[clave] = {
+            "rangos": {
+                puuid: rango
+                for puuid, rango in valor["rangos"].items()
+                if _rango_guardado_valido(rango)
+            },
+            "maestrias": {
+                c: m for c, m in valor["maestrias"].items() if _maestria_guardada_valida(m)
+            },
+        }
+    return cache
 
 
 def _datos_en_vivo(
