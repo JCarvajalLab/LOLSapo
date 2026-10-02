@@ -17,9 +17,13 @@ updates:
     commit-message:
       prefix: chore
     groups:
-      # Un solo PR semanal para las dependencias de desarrollo (tests, lint, build).
-      desarrollo:
-        dependency-type: development
+      # Un solo PR semanal con las versiones menores y parches (seguras). Las versiones
+      # mayores (ej. ESLint 9 -> 10) llegan en PRs separados para revisarlas una por una.
+      # Las actualizaciones de seguridad siempre llegan, sin importar el tipo.
+      menores:
+        update-types:
+          - minor
+          - patch
 
   - package-ecosystem: pip
     directory: /recolector
@@ -27,3 +31,8 @@ updates:
       interval: weekly
     commit-message:
       prefix: chore
+    groups:
+      menores:
+        update-types:
+          - minor
+          - patch
