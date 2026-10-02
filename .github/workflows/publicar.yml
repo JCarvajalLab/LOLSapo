@@ -31,7 +31,7 @@ jobs:
     if: vars.PUBLICAR_ACTIVO == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    # El secret RIOT_API_KEY vive en este environment, limitado a la rama main.
+    # El secret RIOT_API_KEY_LOL vive en este environment, limitado a la rama main.
     environment: produccion
     permissions:
       contents: write # solo para guardar el registro en la rama `datos`
@@ -85,7 +85,7 @@ jobs:
       # imprime y bloquea la salida si apareciera en lol.json.
       - name: Consultar Riot y generar lol.json
         env:
-          RIOT_API_KEY: ${{ secrets.RIOT_API_KEY }}
+          RIOT_API_KEY: ${{ secrets.RIOT_API_KEY_LOL }}
           PYTHONPATH: recolector
         run: python -m lolsapo
 
