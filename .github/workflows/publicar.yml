@@ -1,0 +1,179 @@
+name: Publicar
+
+# Cada ~10 minutos: consulta a Riot, guarda el registro en la rama `datos` y publica la web
+# en GitHub Pages. También se puede lanzar a mano (Actions -> Publicar -> Run workflow) y
+# corre al mergear cambios en main. Nunca corre desde pull requests: este workflow usa la key.
+#
+# Interruptor: no hace nada hasta que exista la variable del repo PUBLICAR_ACTIVO=true
+# (Settings -> Secrets and variables -> Actions -> Variables). Se activa cuando la key es una
+# Personal API Key: las políticas de Riot no permiten usar la development key en un sitio
+# público, y además caduca cada 24 horas.
+on:
+  schedule:
+    # Minuto 3, 13, 23...: GitHub recomienda evitar el minuto 0, donde hay más demora.
+    - cron: "3-59/10 * * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+# Sin permisos por defecto: cada job pide solo lo que necesita.
+permissions: {}
+
+# Una ejecución a la vez y sin cancelar la que está en curso (para no cortar un push o un
+# deploy a medias).
+concurrency:
+  group: publicar
+  cancel-in-progress: false
+
+jobs:
+  datos:
+    name: Consultar Riot
+    if: vars.PUBLICAR_ACTIVO == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    # El secret RIOT_API_KEY vive en este environment, limitado a la rama main.
+    environment: produccion
+    permissions:
+      contents: write # solo para guardar el registro en la rama `datos`
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.14"
+
+      - name: Instalar dependencias del recolector (con hashes verificados)
+        run: pip install --require-hashes -r recolector/requirements.txt
+
+      # Git pide las credenciales a este helper, que las lee de GH_TOKEN: el token no queda
+      # en URLs, en argumentos de procesos ni en .git/config.
+      - name: Traer el registro desde la rama datos
+        env:
+          GH_TOKEN: ${{ github.token }}
+          URL: https://github.com/${{ github.repository }}.git
+        run: |
+          set -euo pipefail
+          AUTH=(-c credential.helper= -c 'credential.helper=!f() { test "$1" = get && printf "username=x-access-token\npassword=%s\n" "$GH_TOKEN"; }; f')
+          mkdir -p datos
+          # Código 0 = la rama existe, 2 = no existe. Cualquier otro error detiene el job
+          # (para no confundir una falla de GitHub con "no hay registro" y partir de cero).
+          set +e
+          git "${AUTH[@]}" ls-remote --exit-code --heads "$URL" datos > /dev/null
+          estado=$?
+          set -e
+          if [ "$estado" -eq 0 ]; then
+            git "${AUTH[@]}" clone --quiet --depth 1 --branch datos "$URL" rama-datos
+            if [ -d rama-datos/datos ]; then
+              cp -r rama-datos/datos/. datos/
+            fi
+          elif [ "$estado" -eq 2 ]; then
+            echo "La rama datos todavía no existe: se crea al final con el primer registro."
+            git init --quiet rama-datos
+            git -C rama-datos checkout --quiet --orphan datos
+            git -C rama-datos remote add origin "$URL"
+          else
+            echo "No se pudo consultar la rama datos (código $estado)."
+            exit 1
+          fi
+          # Cuántos registros había, para detectar después si se perdieron.
+          find datos/registro -name '*.json' 2>/dev/null | wc -l > registros-previos.txt
+
+      # La key solo existe como variable de entorno de este paso. El recolector nunca la
+      # imprime y bloquea la salida si apareciera en lol.json.
+      - name: Consultar Riot y generar lol.json
+        env:
+          RIOT_API_KEY: ${{ secrets.RIOT_API_KEY }}
+          PYTHONPATH: recolector
+        run: python -m lolsapo
+
+      - name: Guardar lol.json para el deploy
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: lol-json
+          path: frontend/public/datos/lol.json
+          retention-days: 1
+          if-no-files-found: error
+
+      - name: Guardar el registro en la rama datos (solo si cambió)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          AUTH=(-c credential.helper= -c 'credential.helper=!f() { test "$1" = get && printf "username=x-access-token\npassword=%s\n" "$GH_TOKEN"; }; f')
+          previos=$(cat registros-previos.txt)
+          actuales=$(find datos/registro -name '*.json' 2>/dev/null | wc -l)
+          if [ "$actuales" -lt "$previos" ]; then
+            echo "Había $previos registros y ahora hay $actuales: no se sube nada."
+            exit 1
+          fi
+          # Barrera: la rama datos es pública y nunca debe llevar PUUID.
+          if grep -rEq '"puuid"|(^|[^A-Za-z0-9_-])[A-Za-z0-9_-]{78}([^A-Za-z0-9_-]|$)' datos; then
+            echo "Hay algo con forma de PUUID en datos/: no se sube nada."
+            exit 1
+          fi
+          rm -rf rama-datos/datos
+          mkdir -p rama-datos/datos
+          cp -r datos/. rama-datos/datos/
+          cd rama-datos
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "El registro no cambió."
+          else
+            git commit --quiet -m "chore(datos): actualizar registro"
+            git "${AUTH[@]}" push --quiet origin HEAD:datos
+          fi
+
+  deploy:
+    name: Publicar en GitHub Pages
+    needs: datos
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "24" # LTS
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Instalar dependencias (exactas, sin scripts)
+        run: npm ci --ignore-scripts
+
+      - name: Traer lol.json
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: lol-json
+          path: frontend/public/datos
+
+      - name: Build
+        run: npm run build
+
+      # Última revisión antes de publicar: sin keys, sin PUUID y con la CSP correcta.
+      - name: Verificar el build
+        run: npm run verificar:build
+
+      - uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
+
+      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: frontend/dist
+
+      - name: Publicar
+        id: deploy
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1

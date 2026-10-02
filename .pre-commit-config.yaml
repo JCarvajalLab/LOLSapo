@@ -28,6 +28,12 @@ repos:
       - id: ruff-check
       - id: ruff-format
 
+  # Revisa los workflows de GitHub Actions (sintaxis, expresiones y scripts de shell).
+  - repo: https://github.com/rhysd/actionlint
+    rev: 914e7df21a07ef503a81201c76d2b11c789d3fca # frozen: v1.7.12
+    hooks:
+      - id: actionlint
+
   # Caracteres invisibles o bidireccionales ("Trojan Source") en cualquier archivo de texto.
   - repo: local
     hooks:

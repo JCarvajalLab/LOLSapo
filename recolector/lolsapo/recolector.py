@@ -1,7 +1,9 @@
 """Orquesta una ejecución: consulta a Riot, actualiza los registros y genera lol.json."""
 
+import hashlib
 import json
 import logging
+import re
 import time
 from datetime import UTC, datetime
 from pathlib import Path
@@ -12,6 +14,8 @@ from .modos import MapaModos
 from .ranking import calcular_ranking
 from .registro import (
     agregar_partidas,
+    anonimizar_participantes,
+    anonimizar_partidas,
     calcular_estadisticas,
     escribir_json_atomico,
     ids_nuevos,
@@ -20,7 +24,7 @@ from .registro import (
     ultimas_partidas,
     winrate,
 )
-from .riot_api import ClienteRiot, ErrorAutenticacion, ErrorRiot, PeticionInvalida
+from .riot_api import ClienteRiot, ErrorAutenticacion, ErrorRiot
 from .validacion import (
     DIVISIONES,
     TIERS,
@@ -49,7 +53,9 @@ def _resolver_puuid(cliente: ClienteRiot, amigo: Amigo) -> str:
     return validar_cuenta(cliente.cuenta_por_riot_id(amigo.nombre, amigo.tag))["puuid"]
 
 
-def _consultar(cliente: ClienteRiot, puuid: str, registro: dict, cantidad: int) -> dict:
+def _consultar(
+    cliente: ClienteRiot, puuid: str, registro: dict, cantidad: int, slug_por_puuid: dict
+) -> dict:
     perfil = validar_invocador(cliente.invocador(puuid))
     rangos = validar_ligas(cliente.ligas(puuid))
 
@@ -60,25 +66,49 @@ def _consultar(cliente: ClienteRiot, puuid: str, registro: dict, cantidad: int) 
     ids = validar_ids_partidas(cliente.ids_partidas(puuid, cantidad))
     for id_partida in ids_nuevos(ids, registro):
         try:
-            resumenes.append(resumir_partida(cliente.partida(id_partida), puuid, id_partida))
+            resumen = resumir_partida(cliente.partida(id_partida), puuid, id_partida)
         except DatoInvalido as error:
             # Se omite; como no queda guardada, se reintenta en la próxima ejecución.
             log.warning("Partida %s omitida: %s", id_partida, error)
+            continue
+        resumen["participantes"] = anonimizar_participantes(
+            resumen["participantes"], slug_por_puuid
+        )
+        resumenes.append(resumen)
     return {"perfil": perfil, "rangos": rangos, "jugando": jugando, "resumenes": resumenes}
+
+
+def _resolver_puuids(cliente: ClienteRiot, amigos: list[Amigo]) -> dict[str, str | None]:
+    """PUUID de cada amigo por slug (solo en memoria: no se guarda en ningún archivo).
+
+    Si un Riot ID no se puede resolver, ese amigo queda en None y se marca con error.
+    """
+    puuids: dict[str, str | None] = {}
+    for amigo in amigos:
+        try:
+            puuids[amigo.slug] = _resolver_puuid(cliente, amigo)
+        except ErrorAutenticacion:
+            raise
+        except (ErrorRiot, DatoInvalido) as error:
+            log.error("%s: no se pudo obtener su PUUID (%s)", amigo.riot_id, error)
+            puuids[amigo.slug] = None
+    return puuids
 
 
 def procesar_amigo(
     cliente: ClienteRiot,
     amigo: Amigo,
+    puuid: str | None,
+    slug_por_puuid: dict,
     mapa: MapaModos,
     dir_registro: Path,
     cantidad: int,
     ahora_ms: int,
-) -> tuple[dict, str | None, dict | None]:
-    """Actualiza el registro de un amigo.
+) -> tuple[dict, dict | None]:
+    """Actualiza el registro de un amigo. Devuelve (entrada para lol.json, partida activa).
 
-    Devuelve (entrada para lol.json, PUUID, partida activa). La entrada aún trae los PUUID de
-    los participantes: `ejecutar` los reemplaza antes de publicar.
+    El registro se guarda sin PUUID: los participantes de cada partida quedan marcados con el
+    slug del amigo o como desconocidos.
 
     Si algo falla con este amigo, se marca con estado "error" y se muestran sus últimos datos
     conocidos, sin romper al resto. Solo un error de autenticación detiene toda la ejecución.
@@ -90,19 +120,14 @@ def procesar_amigo(
         # Registro dañado: no se toca (para no perder historial) y se marca solo a este amigo.
         log.error("%s: %s", amigo.riot_id, error)
         vacio = registro_vacio(amigo.riot_id, ahora_ms)
-        return _entrada(amigo, mapa, vacio, None, MENSAJE_ERROR), None, None
+        return _entrada(amigo, mapa, vacio, None, MENSAJE_ERROR), None
+    anonimizar_partidas(registro, slug_por_puuid)
     mensaje_error, jugando = None, None
 
     try:
-        puuid = registro.get("puuid") or _resolver_puuid(cliente, amigo)
-        try:
-            datos = _consultar(cliente, puuid, registro, cantidad)
-        except PeticionInvalida:
-            # PUUID guardado con otra key (cada key de Riot cifra los PUUID distinto).
-            log.info("PUUID de %s no válido para esta key, se vuelve a pedir", amigo.riot_id)
-            puuid = _resolver_puuid(cliente, amigo)
-            datos = _consultar(cliente, puuid, registro, cantidad)
-        registro["puuid"] = puuid
+        if puuid is None:
+            raise ErrorRiot("no se conoce su PUUID")
+        datos = _consultar(cliente, puuid, registro, cantidad, slug_por_puuid)
         registro["perfil"] = datos["perfil"]
         registro["rangos"] = datos["rangos"]
         jugando = datos["jugando"]
@@ -115,9 +140,12 @@ def procesar_amigo(
         mensaje_error = MENSAJE_ERROR
         log.error("%s: %s (%s)", amigo.riot_id, error, type(error).__name__)
 
+    # Barrera: el registro se publica en la rama de datos, así que nunca debe llevar PUUID.
+    texto = json.dumps(registro, ensure_ascii=False)
+    if '"puuid"' in texto or any(p in texto for p in (*slug_por_puuid, puuid) if p):
+        raise SecretoEnSalida(f"Un PUUID apareció en el registro de {amigo.riot_id}; no se guardó.")
     escribir_json_atomico(ruta_registro, registro)
-    entrada = _entrada(amigo, mapa, registro, jugando, mensaje_error)
-    return entrada, registro.get("puuid"), jugando
+    return _entrada(amigo, mapa, registro, jugando, mensaje_error), jugando
 
 
 def _entrada(
@@ -170,6 +198,15 @@ def _publicar_participantes(participantes: list[dict], slug_por_puuid: dict) -> 
     ]
 
 
+_PATRON_HUELLA = re.compile(r"[0-9a-f]{32}")
+_PATRON_HUELLA_CAMPEON = re.compile(r"[0-9a-f]{32}:[0-9]{1,6}")
+
+
+def _huella(puuid: str) -> str:
+    """Identificador irreversible de un PUUID para el caché (que se publica en la rama de datos)."""
+    return hashlib.sha256(puuid.encode()).hexdigest()[:32]
+
+
 def _entero_valido(valor) -> bool:
     return isinstance(valor, int) and not isinstance(valor, bool) and valor >= 0
 
@@ -213,14 +250,17 @@ def _leer_cache_en_vivo(ruta: Path) -> dict:
             and isinstance(valor.get("maestrias"), dict)
         ):
             continue
+        # Las claves tienen que ser huellas (nunca PUUID crudos de cachés antiguos).
         cache[clave] = {
             "rangos": {
-                puuid: rango
-                for puuid, rango in valor["rangos"].items()
-                if _rango_guardado_valido(rango)
+                huella: rango
+                for huella, rango in valor["rangos"].items()
+                if _PATRON_HUELLA.fullmatch(huella) and _rango_guardado_valido(rango)
             },
             "maestrias": {
-                c: m for c, m in valor["maestrias"].items() if _maestria_guardada_valida(m)
+                c: m
+                for c, m in valor["maestrias"].items()
+                if _PATRON_HUELLA_CAMPEON.fullmatch(c) and _maestria_guardada_valida(m)
             },
         }
     return cache
@@ -251,20 +291,21 @@ def _datos_en_vivo(
             if not puuid:
                 continue
 
+            huella = _huella(puuid)
             if puuid not in rangos:
-                if puuid in guardado["rangos"]:
-                    rangos[puuid] = guardado["rangos"][puuid]
+                if huella in guardado["rangos"]:
+                    rangos[puuid] = guardado["rangos"][huella]
                 else:
                     try:
                         ligas = validar_ligas(cliente.ligas(puuid))
-                        rangos[puuid] = guardado["rangos"][puuid] = ligas["solo"] or ligas["flex"]
+                        rangos[puuid] = guardado["rangos"][huella] = ligas["solo"] or ligas["flex"]
                     except ErrorAutenticacion:
                         raise
                     except (ErrorRiot, DatoInvalido) as error:
                         log.warning("Rango de un jugador en vivo no disponible: %s", error)
                         rangos[puuid] = None
 
-            clave = f"{puuid}:{campeon}"
+            clave = f"{huella}:{campeon}"
             if clave in guardado["maestrias"]:
                 maestrias[(puuid, campeon)] = guardado["maestrias"][clave]
             else:
@@ -389,23 +430,27 @@ def ejecutar(
     ahora_ms = int(ahora.timestamp() * 1000)
     inicio = time.monotonic()
 
+    puuids = _resolver_puuids(cliente, amigos)
+    slug_por_puuid = {puuid: slug for slug, puuid in puuids.items() if puuid}
     resultados = [
-        procesar_amigo(cliente, amigo, mapa, Path(dir_datos) / "registro", cantidad, ahora_ms)
+        procesar_amigo(
+            cliente,
+            amigo,
+            puuids[amigo.slug],
+            slug_por_puuid,
+            mapa,
+            Path(dir_datos) / "registro",
+            cantidad,
+            ahora_ms,
+        )
         for amigo in amigos
     ]
-    slug_por_puuid = {puuid: entrada["slug"] for entrada, puuid, _ in resultados if puuid}
-    entradas = [entrada for entrada, _, _ in resultados]
-    for entrada in entradas:
-        for partida in entrada["partidas"]:
-            if "participantes" in partida:
-                partida["participantes"] = _publicar_participantes(
-                    partida["participantes"], slug_por_puuid
-                )
-    activas = [activa for _, _, activa in resultados if activa]
+    entradas = [entrada for entrada, _ in resultados]
+    activas = [activa for _, activa in resultados if activa]
     rangos_amigos = {
-        puuid: (entrada["rangos"]["solo"] or entrada["rangos"]["flex"])
-        for entrada, puuid, _ in resultados
-        if puuid
+        puuids[entrada["slug"]]: (entrada["rangos"]["solo"] or entrada["rangos"]["flex"])
+        for entrada in entradas
+        if puuids.get(entrada["slug"])
     }
     ruta_cache = Path(dir_datos) / "en_vivo_cache.json"
     rangos, maestrias, cache_en_vivo = _datos_en_vivo(
