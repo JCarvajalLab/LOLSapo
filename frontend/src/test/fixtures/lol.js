@@ -253,11 +253,11 @@ export function crearDestacados(cambios = {}) {
   return {
     dias: 7,
     desde: AHORA - 7 * 24 * HORA,
-    // Distinto del valor por defecto (7) para que los tests distingan el dato del respaldo.
-    ultimas_partidas: 10,
+    // Inicio del "día" de los destacados de hoy (las 6:00 de Chile), inventado.
+    hoy_desde: AHORA - 5 * HORA,
     mas_partidas: { amigos: ["rana-azul-las", "sapito-las"], partidas: 20 },
     mejor_winrate: { amigos: ["sapito-las"], winrate: 62.5, victorias: 5, derrotas: 3, partidas: 8 },
-    mejor_partida: {
+    mejor_jugador_hoy: {
       amigos: ["sapito-las"],
       partida_id: "LA2_77",
       campeon_id: 11,
@@ -287,7 +287,7 @@ export function crearDestacados(cambios = {}) {
       desde: new Date(2026, 9, 1, 10, 0).getTime(),
       hasta: new Date(2026, 9, 1, 12, 0).getTime(),
     },
-    peor_partida: {
+    peor_jugador_hoy: {
       amigos: ["rana-azul-las"],
       partida_id: "LA2_99",
       campeon_id: 1,
@@ -299,7 +299,7 @@ export function crearDestacados(cambios = {}) {
       danio: 4180,
       resultado: "victoria",
       modo: "Normal (Reclutamiento)",
-      fecha: AHORA - 3 * 24 * HORA,
+      fecha: AHORA - 4 * HORA,
     },
     ...cambios,
   };

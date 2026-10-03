@@ -2,3 +2,4 @@
 #   pip-compile --generate-hashes --allow-unsafe requirements.in
 requests
 python-dotenv
+tzdata  # zonas horarias (Windows no las trae): "hoy" desde las 6:00 de Chile

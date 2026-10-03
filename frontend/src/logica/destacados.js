@@ -6,17 +6,14 @@ import { esNumero } from "./formato.js";
 export const CLAVES_DESTACADOS = [
   "mas_partidas",
   "mejor_winrate",
-  "mejor_partida",
+  "mejor_jugador_hoy",
   "racha_victorias_grupo",
   "racha_derrotas_grupo",
-  "peor_partida",
+  "peor_jugador_hoy",
 ];
 
 /** Mínimo de partidas seguidas para que una racha cuente (lo mismo que usa el recolector). */
 export const RACHA_MINIMA = 2;
-
-/** Partidas por amigo para winrate y mejor y peor partida si el archivo no lo dice. */
-export const ULTIMAS_PARTIDAS_POR_DEFECTO = 7;
 
 const RESULTADOS_OK = new Set(["victoria", "derrota"]);
 
@@ -39,13 +36,13 @@ const VALIDADORES = {
     conteo(t.derrotas) &&
     conteo(t.partidas) &&
     t.partidas > 0,
-  mejor_partida: validarPartida,
+  mejor_jugador_hoy: validarPartida,
   racha_victorias_grupo: validarRacha,
   racha_derrotas_grupo: validarRacha,
-  peor_partida: validarPartida,
+  peor_jugador_hoy: validarPartida,
 };
 
-// El formato viejo traía "mejor_kda" (KDA acumulado): se ignora como "peor_kda".
+// Los formatos viejos ("mejor_kda", "peor_kda", "mejor_partida", "peor_partida") se ignoran.
 function validarPartida(t) {
   return (
     conteo(t.asesinatos) &&
@@ -122,14 +119,31 @@ export function validarDestacados(destacados, amigos) {
   return {
     dias: Number.isInteger(destacados.dias) && destacados.dias > 0 ? destacados.dias : 7,
     desde: decimal(destacados.desde) ? destacados.desde : null,
-    ultimas_partidas: validarUltimasPartidas(destacados.ultimas_partidas),
+    hoy_desde: fechaMs(destacados.hoy_desde),
     ...tarjetas,
   };
 }
 
-/** Entero de 1 a 50; si falta o es inválido, el valor por defecto (7). */
-function validarUltimasPartidas(valor) {
-  return Number.isInteger(valor) && valor >= 1 && valor <= 50 ? valor : ULTIMAS_PARTIDAS_POR_DEFECTO;
+/** Claves de las tarjetas que cuentan solo las partidas de hoy (desde las 6:00 de Chile). */
+export const CLAVES_HOY = ["mejor_jugador_hoy", "peor_jugador_hoy"];
+
+const DIA_MS = 24 * 3600 * 1000;
+
+/**
+ * true si el "día" de los datos ya terminó: pasaron 24 h o más desde `hoyDesde`
+ * (lol.json quedó viejo). Sin `hoyDesde` (archivos viejos) o sin `ahora`, false.
+ */
+export function hoyVencido(hoyDesde, ahora) {
+  if (!esNumero(hoyDesde) || !esNumero(ahora)) return false;
+  return ahora - hoyDesde >= DIA_MS;
+}
+
+/** Destacados con las tarjetas de hoy en null si su día ya terminó. */
+export function destacadosVigentes(destacados, ahora) {
+  if (!destacados || !hoyVencido(destacados.hoy_desde, ahora)) return destacados;
+  const vigentes = { ...destacados };
+  for (const clave of CLAVES_HOY) vigentes[clave] = null;
+  return vigentes;
 }
 
 /** true si ninguna tarjeta tiene datos. */

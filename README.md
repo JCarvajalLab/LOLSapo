@@ -21,8 +21,8 @@ En la pestaña LoL, bajo "En partida", seis tarjetas resumen la semana del grupo
 | Tarjeta | Cómo se calcula |
 |---------|-----------------|
 | Más partidas | Partidas jugadas en los 7 días |
-| Mejor winrate | De las últimas 7 partidas de cada uno, con mínimo 5 |
-| Mejor partida / Peor partida | La partida individual con el KDA más alto / más bajo de las últimas 7 de cada uno (gane o pierda), con su daño a campeones |
+| Mejor winrate | Partidas de los 7 días, con mínimo 5 |
+| Mejor / Peor jugador de la partida - Hoy | De las partidas en grupo (2 o más del grupo en el mismo equipo) jugadas **hoy**, la actuación individual con el KDA más alto / más bajo (gane o pierda), con su daño a campeones. El "día" empieza a las 6:00 de Chile |
 | Racha de victorias / derrotas en equipo | Partidas con 2 o más del grupo en el mismo equipo, en orden: la racha sigue mientras se repite el resultado y cada partida comparte al menos un amigo con la anterior. Muestra a todos los que participaron; quien jugó solo una lleva la nota «(1 partida)» |
 
 Se calculan en el recolector ([recolector/lolsapo/destacados.py](recolector/lolsapo/destacados.py)) a partir del registro completo de cada amigo, sin consultas extra a Riot.
