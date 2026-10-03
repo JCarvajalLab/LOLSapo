@@ -1,0 +1,19 @@
+{
+  "name": "lolsapo-disparador",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Cloudflare Worker que lanza el workflow Publicar cada 5 minutos.",
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "lint": "eslint .",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "@eslint/js": "9.39.5",
+    "eslint": "9.39.5",
+    "globals": "17.13.0",
+    "vitest": "5.0.2",
+    "wrangler": "4.147.0"
+  }
+}
