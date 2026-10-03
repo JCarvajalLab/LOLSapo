@@ -10,6 +10,7 @@ from pathlib import Path
 
 from . import ddragon as datos_ddragon
 from .config import Amigo
+from .destacados import calcular_destacados
 from .modos import MapaModos
 from .ranking import calcular_ranking
 from .registro import (
@@ -391,7 +392,18 @@ def _rango_en_vivo(rango: dict | None) -> dict | None:
     }
 
 
-def _elementos_usados(entradas: list[dict], en_vivo: list[dict]) -> dict[str, set[int]]:
+def _partidas_registradas(dir_registro: Path, amigo: Amigo, ahora_ms: int) -> list[dict]:
+    """Partidas del registro (ya guardado en esta ejecución). Si no se puede leer, ninguna."""
+    try:
+        registro = leer_registro(Path(dir_registro) / f"{amigo.slug}.json", amigo.riot_id, ahora_ms)
+    except (OSError, ValueError):
+        return []
+    return list(registro["partidas"].values())
+
+
+def _elementos_usados(
+    entradas: list[dict], en_vivo: list[dict], destacados: dict | None = None
+) -> dict[str, set[int]]:
     usados: dict[str, set[int]] = {
         "campeones": set(),
         "hechizos": set(),
@@ -408,6 +420,9 @@ def _elementos_usados(entradas: list[dict], en_vivo: list[dict]) -> dict[str, se
             usados["items"].update(i for i in partida.get("items", []) if i)
             runas = partida.get("runas") or {}
             usados["runas"].update(r for r in runas.values() if r)
+    peor = (destacados or {}).get("peor_partida")
+    if peor:
+        usados["campeones"].add(peor["campeon_id"])
     for partida in en_vivo:
         for equipo in partida["equipos"]:
             usados["campeones"].update(equipo["bloqueos"])
@@ -450,6 +465,15 @@ def ejecutar(
     ]
     entradas = [entrada for entrada, _ in resultados]
     activas = [activa for _, activa in resultados if activa]
+    # Los destacados usan el registro completo (lol.json solo lleva las últimas 10 partidas).
+    destacados = calcular_destacados(
+        {
+            amigo.slug: _partidas_registradas(Path(dir_datos) / "registro", amigo, ahora_ms)
+            for amigo in amigos
+        },
+        mapa,
+        ahora_ms,
+    )
     rangos_amigos = {
         puuids[entrada["slug"]]: (entrada["rangos"]["solo"] or entrada["rangos"]["flex"])
         for entrada in entradas
@@ -465,8 +489,11 @@ def ejecutar(
     salida = {
         "version": VERSION_SALIDA,
         "actualizado": ahora.isoformat(timespec="seconds").replace("+00:00", "Z"),
-        "ddragon": datos_ddragon.para_salida(ddragon, _elementos_usados(entradas, en_vivo)),
+        "ddragon": datos_ddragon.para_salida(
+            ddragon, _elementos_usados(entradas, en_vivo, destacados)
+        ),
         "en_vivo": en_vivo,
+        "destacados": destacados,
         "amigos": entradas,
         "ranking": calcular_ranking(entradas),
     }
