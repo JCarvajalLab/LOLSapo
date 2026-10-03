@@ -108,7 +108,6 @@ def _una_vez(args: argparse.Namespace, log: logging.Logger) -> int:
     """Una consulta completa a Riot. Devuelve el código de salida."""
     try:
         api_key = cargar_api_key(RUTA_ENV)
-        api_key_tft = cargar_api_key_tft(RUTA_ENV)
         amigos = cargar_amigos(args.amigos)
         mapa = MapaModos.desde_archivo(args.modos)
         mapa_tft = MapaModos.desde_archivo(args.modos_tft)
@@ -127,6 +126,12 @@ def _una_vez(args: argparse.Namespace, log: logging.Logger) -> int:
                 ddragon=ddragon,
             )
         if args.juego in ("ambos", "tft"):
+            try:
+                api_key_tft = cargar_api_key_tft(RUTA_ENV)
+            except ErrorConfiguracion as error:
+                # Una key de TFT mal copiada no debe detener la publicación de LoL.
+                log.error("Configuración: %s Se usa la key de LoL para TFT.", error)
+                api_key_tft = None
             # Con una key propia de TFT se usa otro cliente (los límites son por key); si no,
             # se comparte el de LoL para respetar el mismo límite.
             if api_key_tft and api_key_tft != api_key:

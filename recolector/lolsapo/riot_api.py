@@ -108,6 +108,9 @@ class ClienteRiot:
         self._dormir = dormir
         self._max_reintentos = max_reintentos
         self._timeout = timeout
+        # Riot ID -> cuenta, solo en memoria: si LoL y TFT comparten cliente (misma key), TFT
+        # no vuelve a pedir las cuentas.
+        self._cuentas: dict[tuple[str, str], dict] = {}
 
     def __repr__(self) -> str:
         return "ClienteRiot(api_key=***)"
@@ -171,10 +174,14 @@ class ClienteRiot:
 
     def cuenta_por_riot_id(self, nombre: str, tag: str) -> dict:
         """account-v1: Riot ID -> cuenta (incluye el PUUID)."""
-        url = (
-            f"{URL_REGION}/riot/account/v1/accounts/by-riot-id/{_segmento(nombre)}/{_segmento(tag)}"
-        )
-        return self._get(url)
+        clave = (nombre, tag)
+        if clave not in self._cuentas:
+            url = (
+                f"{URL_REGION}/riot/account/v1/accounts/by-riot-id/"
+                f"{_segmento(nombre)}/{_segmento(tag)}"
+            )
+            self._cuentas[clave] = self._get(url)
+        return self._cuentas[clave]
 
     def invocador(self, puuid: str) -> dict:
         """summoner-v4: nivel e ícono."""

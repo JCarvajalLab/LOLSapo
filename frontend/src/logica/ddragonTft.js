@@ -6,7 +6,8 @@ import { DDRAGON_BASE, versionDD } from "./ddragon.js";
 // Nombre de archivo simple: "TFT18_Sivir_splash_centered_61.TFT_Set18.png".
 // Sin barras, sin "..", sin esquema y sin empezar con punto o guion.
 const IMAGEN_OK = /^[A-Za-z0-9_][A-Za-z0-9_.-]{0,119}\.png$/;
-const ID_OK = /^[A-Za-z0-9_]{1,80}$/;
+// Máximo 64, igual que el recolector (nunca se confunde con un PUUID de 78).
+const ID_OK = /^[A-Za-z0-9_]{1,64}$/;
 
 const CARPETAS = {
   campeones: "tft-champion",

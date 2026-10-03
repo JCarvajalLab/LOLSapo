@@ -5,7 +5,16 @@ from datetime import UTC, datetime
 
 import pytest
 import responses
-from conftest import KEY_FALSA, cuenta, invocador, liga, partida, partida_activa, puuid_de
+from conftest import (
+    KEY_FALSA,
+    cuenta,
+    invocador,
+    liga,
+    nuevo_cliente,
+    partida,
+    partida_activa,
+    puuid_de,
+)
 
 from lolsapo.__main__ import main
 from lolsapo.config import Amigo
@@ -299,7 +308,7 @@ def test_partidas_marcan_a_los_amigos_y_no_publican_puuid(cliente, mapa, tmp_pat
 
 
 @responses.activate
-def test_segunda_ejecucion_solo_descarga_partidas_nuevas(cliente, mapa, tmp_path):
+def test_segunda_ejecucion_solo_descarga_partidas_nuevas(cliente, mapa, tmp_path, dormir):
     simular_amigo("Johnadis", P_JOHN, ["LA2_2", "LA2_1"])
     simular_partida("LA2_2", P_JOHN, fin=2_000)
     simular_partida("LA2_1", P_JOHN, fin=1_000)
@@ -314,7 +323,7 @@ def test_segunda_ejecucion_solo_descarga_partidas_nuevas(cliente, mapa, tmp_path
     )
     simular_partida("LA2_3", P_JOHN, fin=3_000)
     salida = ejecutar(
-        cliente, KEY_FALSA, [JOHN], mapa, tmp_path, tmp_path / "lol.json", ahora=AHORA
+        nuevo_cliente(dormir), KEY_FALSA, [JOHN], mapa, tmp_path, tmp_path / "lol.json", ahora=AHORA
     )
 
     assert llamadas_a("/matches/LA2_") == 1  # solo LA2_3

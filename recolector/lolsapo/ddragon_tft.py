@@ -33,10 +33,13 @@ def _validar(datos, con_costo: bool) -> dict[str, dict]:
         id_tft = elemento.get("id")
         imagen = elemento.get("image")
         imagen = imagen.get("full") if isinstance(imagen, dict) else None
+        # Un elemento con formato raro se omite (no se pierde el archivo entero por uno).
         if not isinstance(id_tft, str) or not _PATRON_ID_TFT.fullmatch(id_tft):
-            raise DatoInvalido(f"id de TFT inesperado: {id_tft!r}")
+            log.debug("Elemento de TFT omitido: id inesperado")
+            continue
         if not isinstance(imagen, str) or not _PATRON_IMAGEN.fullmatch(imagen):
-            raise DatoInvalido(f"imagen de TFT inesperada: {imagen!r}")
+            log.debug("Elemento de TFT omitido: imagen inesperada (%s)", id_tft)
+            continue
         try:
             nombre = texto_limpio(elemento.get("name"), "name", 60)
         except DatoInvalido:

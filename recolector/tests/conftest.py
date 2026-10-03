@@ -166,10 +166,16 @@ def dormir():
     return SinEspera()
 
 
-@pytest.fixture
-def cliente(dormir):
+def nuevo_cliente(dormir) -> ClienteRiot:
+    """Cliente sin límite ni esperas. Cada ejecución real usa uno nuevo (su caché de cuentas
+    dura solo esa ejecución)."""
     sin_limite = Limitador(ventanas=((10_000, 1.0),), dormir=dormir)
     return ClienteRiot(KEY_FALSA, limitador=sin_limite, dormir=dormir, max_reintentos=2)
+
+
+@pytest.fixture
+def cliente(dormir):
+    return nuevo_cliente(dormir)
 
 
 @pytest.fixture

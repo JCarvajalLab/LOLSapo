@@ -24,7 +24,9 @@ COLAS_TFT = {"RANKED_TFT": "ranked", "RANKED_TFT_DOUBLE_UP": "doble"}
 COLA_TURBO = "RANKED_TFT_TURBO"
 
 # Ids de unidades, ítems y rasgos, ej. "DA_18_Sivir", "DA_InfinityEdge", "DA_Primal18".
-_PATRON_ID_TFT = re.compile(r"[A-Za-z0-9_]{1,80}")
+# Máximo 64: los reales miden hasta ~50, y así nunca se confunden con un PUUID (78 caracteres),
+# que la barrera del workflow bloquearía.
+_PATRON_ID_TFT = re.compile(r"[A-Za-z0-9_]{1,64}")
 MAX_UNIDADES = 15
 MAX_ITEMS_UNIDAD = 3
 MAX_JUGADORES = 8
@@ -191,12 +193,14 @@ def es_partida_tft(datos) -> bool:
     return isinstance(datos, dict) and (datos.get("gameMode") == "TFT" or datos.get("mapId") == 22)
 
 
-def validar_partida_activa_tft(datos) -> dict:
+def validar_partida_activa_tft(datos, puuid: str) -> dict:
     """spectator (TFT o LoL con una partida de TFT) -> partida en curso con sus jugadores."""
     datos = _dict(datos, "partida activa TFT")
     participantes = _lista(datos.get("participants"), "participants")
     if len(participantes) > MAX_JUGADORES:
         raise DatoInvalido("demasiados jugadores en la partida activa")
+    if not any(isinstance(p, dict) and p.get("puuid") == puuid for p in participantes):
+        raise DatoInvalido("el amigo no aparece en la partida activa")
     duracion = datos.get("gameLength", 0)
     if isinstance(duracion, bool) or not isinstance(duracion, int):
         raise DatoInvalido(f"'gameLength' debería ser un entero: {duracion!r}")

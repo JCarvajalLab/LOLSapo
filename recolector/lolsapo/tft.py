@@ -77,7 +77,7 @@ class Espectador:
                     datos = self._cliente.partida_activa(puuid)
                     if datos is not None and not es_partida_tft(datos):
                         return None  # está en una partida de LoL
-                return validar_partida_activa_tft(datos) if datos is not None else None
+                return validar_partida_activa_tft(datos, puuid) if datos is not None else None
             except ErrorAutenticacion:
                 log.info("La key no tiene acceso al spectator de %s", self.fuente.upper())
                 self.fuente = "lol" if self.fuente == "tft" else None

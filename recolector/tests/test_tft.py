@@ -6,7 +6,7 @@ from urllib.parse import quote
 
 import pytest
 import responses
-from conftest import KEY_FALSA, cuenta, invocador, partida_activa, puuid_de
+from conftest import KEY_FALSA, cuenta, invocador, nuevo_cliente, partida_activa, puuid_de
 
 from lolsapo import ddragon_tft
 from lolsapo.__main__ import main
@@ -250,6 +250,7 @@ def test_resumen_tft_limpia_nombres_con_caracteres_invisibles():
         lambda d: d["info"]["participants"][0]["traits"][1].update(name="../../etc"),
         lambda d: d["info"].update(game_length="largo"),
         lambda d: d["info"].update(participants=[]),
+        lambda d: d["info"]["participants"][0]["units"][0].update(character_id="A" * 78),
     ],
 )
 def test_resumen_tft_rechaza_datos_invalidos(romper):
@@ -267,13 +268,18 @@ def test_detecta_partidas_de_tft_en_el_spectator():
 
 
 def test_partida_activa_tft_con_jugador_en_modo_streamer():
-    activa = validar_partida_activa_tft(activa_tft(P_JOHN))
+    activa = validar_partida_activa_tft(activa_tft(P_JOHN), P_JOHN)
     assert activa["id"] == 7
     assert activa["queue_id"] == 1100
     assert activa["participantes"] == [
         {"puuid": P_JOHN, "nombre": "Yo#LAS"},
         {"puuid": None, "nombre": None},
     ]
+
+
+def test_partida_activa_tft_sin_el_amigo_es_invalida():
+    with pytest.raises(DatoInvalido):
+        validar_partida_activa_tft(activa_tft(P_GATO), P_JOHN)
 
 
 # --- Espectador: spectator-tft o, si la key no tiene acceso, el de LoL ------------------------
@@ -442,7 +448,7 @@ def test_tft_segunda_ejecucion_solo_descarga_partidas_nuevas(cliente, mapa_tft, 
 
 
 @responses.activate
-def test_tft_sin_acceso_usa_los_ultimos_datos_y_no_falla(cliente, mapa_tft, tmp_path):
+def test_tft_sin_acceso_usa_los_ultimos_datos_y_no_falla(cliente, mapa_tft, tmp_path, dormir):
     simular_amigo_tft("Johnadis", P_JOHN, ["LA2_1"])
     simular_partida_tft("LA2_1", P_JOHN)
     datos, ruta = tmp_path / "datos", tmp_path / "tft.json"
@@ -450,7 +456,9 @@ def test_tft_sin_acceso_usa_los_ultimos_datos_y_no_falla(cliente, mapa_tft, tmp_
 
     responses.reset()
     responses.get(f"{URL_REGION}/riot/account/v1/accounts/by-riot-id/Johnadis/LAS", status=403)
-    salida = ejecutar_tft(cliente, KEY_FALSA, [JOHN], mapa_tft, datos, ruta, ahora=AHORA)
+    salida = ejecutar_tft(
+        nuevo_cliente(dormir), KEY_FALSA, [JOHN], mapa_tft, datos, ruta, ahora=AHORA
+    )
     assert salida["error"] == MENSAJE_SIN_ACCESO
     assert salida["en_vivo_disponible"] is False
     assert salida["amigos"][0]["estado"] == "error"
@@ -575,9 +583,9 @@ def test_ddragon_tft_reindexa_por_id_y_omite_sin_nombre():
         {"id": "DA_18_Sivir", "name": "Sivir", "image": "x.png"},
     ],
 )
-def test_ddragon_tft_rechaza_datos_raros(elemento):
-    with pytest.raises(DatoInvalido):
-        ddragon_tft.validar_rasgos(_archivo([elemento]))
+def test_ddragon_tft_omite_elementos_raros_sin_perder_el_resto(elemento):
+    rasgos = ddragon_tft.validar_rasgos(_archivo([elemento, _elemento("DA_Primal18")]))
+    assert list(rasgos) == ["DA_Primal18"]
 
 
 @responses.activate
@@ -696,6 +704,48 @@ def test_main_tft_usa_su_propia_key_y_cliente(monkeypatch, tmp_path):
     assert main(["--datos", str(tmp_path)]) == 0
     (_, cliente_lol), (_, cliente_tft) = llamadas
     assert cliente_lol is not cliente_tft
+
+
+def test_main_key_tft_invalida_no_detiene_lol(monkeypatch, tmp_path, caplog):
+    llamadas = []
+    _sin_red(monkeypatch, llamadas)
+    monkeypatch.setenv("RIOT_API_KEY_TFT", "clave-tft-mal-copiada")
+    monkeypatch.setattr("lolsapo.__main__.RUTA_ENV", tmp_path / "no-existe.env")
+    monkeypatch.setattr(
+        "lolsapo.__main__.ejecutar",
+        lambda cliente, *a, **k: llamadas.append(("lol", cliente)) or {"amigos": []},
+    )
+    assert main(["--datos", str(tmp_path)]) == 0
+    (_, cliente_lol), (_, cliente_tft) = llamadas
+    assert cliente_lol is cliente_tft  # TFT usa la key de LoL
+    assert "RIOT_API_KEY_TFT" in caplog.text
+    assert "clave-tft-mal-copiada" not in caplog.text
+
+
+def test_main_solo_lol_no_lee_la_key_tft(monkeypatch, tmp_path):
+    llamadas = []
+    _sin_red(monkeypatch, llamadas)
+    monkeypatch.setenv("RIOT_API_KEY_TFT", "clave-tft-mal-copiada")
+    monkeypatch.setattr("lolsapo.__main__.RUTA_ENV", tmp_path / "no-existe.env")
+    monkeypatch.setattr(
+        "lolsapo.__main__.ejecutar",
+        lambda *a, **k: llamadas.append(("lol", None)) or {"amigos": []},
+    )
+    assert main(["--juego", "lol", "--datos", str(tmp_path)]) == 0
+    assert [n for n, _ in llamadas] == ["lol"]
+
+
+@responses.activate
+def test_con_la_misma_key_tft_no_vuelve_a_pedir_las_cuentas(cliente, mapa, mapa_tft, tmp_path):
+    from test_recolector import simular_amigo
+
+    from lolsapo.recolector import ejecutar
+
+    simular_amigo("Johnadis", P_JOHN, [])
+    simular_amigo_tft("Johnadis", P_JOHN, [])
+    ejecutar(cliente, KEY_FALSA, [JOHN], mapa, tmp_path, tmp_path / "lol.json", ahora=AHORA)
+    ejecutar_tft(cliente, KEY_FALSA, [JOHN], mapa_tft, tmp_path, tmp_path / "tft.json", ahora=AHORA)
+    assert sum("by-riot-id" in c.request.url for c in responses.calls) == 1
 
 
 def test_main_sin_key_tft_comparte_el_cliente_de_lol(monkeypatch, tmp_path, sin_key_tft):
