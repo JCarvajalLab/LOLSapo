@@ -315,6 +315,21 @@ def test_sin_partidas_todo_vacio(mapa):
         assert destacados[clave] is None
 
 
+@pytest.mark.parametrize(
+    "rotura",
+    [{"asesinatos": "muchos"}, {"muertes": None}, {"campeon_id": -1}, {"id": 5}, {"campeon": None}],
+)
+def test_partidas_incompletas_se_omiten_sin_romper_el_resto(mapa, rotura):
+    rota = p("rota", 1) | rotura
+    destacados = calcular_destacados({"a": [rota, p("bien", 2)]}, mapa, AHORA_MS)
+    assert destacados["mas_partidas"]["partidas"] == 1
+
+
+def test_un_registro_con_algo_que_no_es_una_partida_no_rompe(mapa):
+    destacados = calcular_destacados({"a": ["texto", None, p("bien", 1)]}, mapa, AHORA_MS)
+    assert destacados["mas_partidas"]["partidas"] == 1
+
+
 @pytest.mark.parametrize("dato_roto", [{"fecha": None}, {}])
 def test_partidas_sin_fecha_se_ignoran(mapa, dato_roto):
     partida = p("x", 1) | dato_roto
@@ -341,9 +356,11 @@ def test_registro_danado_no_impide_generar_lol_json(cliente, mapa, tmp_path, cap
     salida = ejecutar(
         cliente, KEY_FALSA, [JOHN], mapa, tmp_path, tmp_path / "lol.json", ahora=AHORA
     )
-    assert salida["destacados"] is None
+    # La partida dañada se omite y los destacados se generan igual (sin esa partida).
+    assert salida["destacados"] is not None
+    assert salida["destacados"]["mas_partidas"] is None
     assert salida["amigos"][0]["slug"] == "johnadis-las"
-    assert "destacados" in caplog.text
+    assert "No se pudieron calcular los destacados" not in caplog.text
 
 
 @responses.activate

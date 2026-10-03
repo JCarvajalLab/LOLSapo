@@ -56,11 +56,28 @@ def kda(asesinatos: int, muertes: int, asistencias: int) -> float:
     return round((asesinatos + asistencias) / max(muertes, 1), 2)
 
 
+def _entero(valor) -> bool:
+    return isinstance(valor, int) and not isinstance(valor, bool) and valor >= 0
+
+
+def _completa(partida) -> bool:
+    """Una partida del registro con todo lo que usan los destacados (si no, se omite)."""
+    return (
+        isinstance(partida, dict)
+        and isinstance(partida.get("id"), str)
+        and isinstance(partida.get("campeon"), str)
+        and all(
+            _entero(partida.get(c)) for c in ("asesinatos", "muertes", "asistencias", "campeon_id")
+        )
+    )
+
+
 def _partidas_validas(partidas: Iterable[dict], mapa: MapaModos, desde_ms: int) -> list[dict]:
     validas = [
         p
         for p in partidas
-        if isinstance(p.get("fecha"), int)
+        if _completa(p)
+        and isinstance(p.get("fecha"), int)
         and p["fecha"] >= desde_ms
         and p.get("resultado") in ("victoria", "derrota")
         and mapa.obtener(p.get("queue_id")).categoria in CATEGORIAS
