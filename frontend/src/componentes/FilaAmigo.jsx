@@ -46,6 +46,7 @@ export function FilaAmigo({ amigo, ddragon, ahora, actualizadoMs, abierto, onAlt
           <IconoConSaco
             src={urlIconoPerfil(ddragon, amigo.perfil?.icono)}
             alt={`Ícono de ${amigo.riot_id}`}
+            respaldo={amigo.riot_id}
             tamaño={48}
             enPartida={Boolean(jugando) && !jugandoViejo}
           />
