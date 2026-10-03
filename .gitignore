@@ -24,6 +24,9 @@ build/
 
 # --- Node / frontend ---
 node_modules/
+# Cloudflare Workers: caché local de wrangler y secrets para desarrollo local
+.wrangler/
+.dev.vars*
 dist/
 coverage/
 *.log
