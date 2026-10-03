@@ -61,6 +61,11 @@ function validarPartida(t) {
   );
 }
 
+/** Daño a campeones: entero ≥ 0; si falta (partidas o archivos viejos) o es inválido, null. */
+function validarDanio(valor) {
+  return conteo(valor) ? valor : null;
+}
+
 // Los formatos viejos ("racha", "racha_victorias", "racha_derrotas") se ignoran: el
 // recolector regenera lol.json en cada pasada.
 function validarRacha(t) {
@@ -96,6 +101,7 @@ export function validarTarjeta(clave, tarjeta, slugs) {
   const amigos = amigosConocidos(tarjeta.amigos, slugs);
   if (amigos.length === 0) return null;
   if (validar === validarRacha) return completarRacha(tarjeta, amigos);
+  if (validar === validarPartida) return { ...tarjeta, amigos, danio: validarDanio(tarjeta.danio) };
   return { ...tarjeta, amigos };
 }
 
@@ -141,6 +147,13 @@ export function formatearPorcentaje(valor) {
 /** KDA de una partida: "9,5", "3,02", "0". */
 export function formatearKdaDestacado(valor) {
   return esNumero(valor) ? hastaDosDecimales.format(valor) : "—";
+}
+
+const miles = new Intl.NumberFormat("es-CL");
+
+/** "32.450 de daño" o null si no hay dato (la tarjeta no muestra la línea). */
+export function formatearDanio(valor) {
+  return conteo(valor) ? `${miles.format(valor)} de daño` : null;
 }
 
 const diaMes = new Intl.DateTimeFormat("es-CL", { day: "numeric", month: "short" });

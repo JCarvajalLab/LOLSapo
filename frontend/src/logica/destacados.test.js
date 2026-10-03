@@ -5,6 +5,7 @@ import {
   CLAVES_DESTACADOS,
   destacadosVacios,
   fechaRacha,
+  formatearDanio,
   formatearKdaDestacado,
   formatearPorcentaje,
   plural,
@@ -194,6 +195,39 @@ describe("validarDestacados", () => {
     expect(d.mas_partidas ?? d.mejor_winrate).not.toBeNull();
   });
 
+  it("acepta el daño entero ≥ 0 en mejor y peor partida", () => {
+    const d = validarDestacados(crearDestacados(), AMIGOS);
+    expect(d.mejor_partida.danio).toBe(32450);
+    expect(d.peor_partida.danio).toBe(4180);
+    const cero = validarDestacados(crearDestacados({ peor_partida: { ...crearDestacados().peor_partida, danio: 0 } }), AMIGOS);
+    expect(cero.peor_partida.danio).toBe(0);
+  });
+
+  it.each([
+    ["null", null],
+    ["ausente", undefined],
+    ["negativo", -5],
+    ["decimal", 1234.5],
+    ["texto", "32450"],
+    ["HTML", "<b>32450</b>"],
+    ["NaN", Number.NaN],
+    ["infinito", Number.POSITIVE_INFINITY],
+    ["objeto", { valor: 1 }],
+  ])("daño %s queda en null sin descartar la partida", (_nombre, danio) => {
+    const base = crearDestacados();
+    const mejor = { ...base.mejor_partida, danio };
+    const peor = { ...base.peor_partida, danio };
+    if (danio === undefined) {
+      delete mejor.danio;
+      delete peor.danio;
+    }
+    const d = validarDestacados(crearDestacados({ mejor_partida: mejor, peor_partida: peor }), AMIGOS);
+    expect(d.mejor_partida).not.toBeNull();
+    expect(d.mejor_partida.danio).toBeNull();
+    expect(d.peor_partida).not.toBeNull();
+    expect(d.peor_partida.danio).toBeNull();
+  });
+
   it("detecta cuando todas las tarjetas vienen vacías", () => {
     const todasNull = Object.fromEntries(CLAVES_DESTACADOS.map((c) => [c, null]));
     expect(destacadosVacios(validarDestacados(crearDestacados(todasNull), AMIGOS))).toBe(true);
@@ -229,6 +263,17 @@ describe("formato de destacados", () => {
     expect(formatearKdaDestacado(2.3333)).toBe("2,33");
     expect(formatearKdaDestacado(0)).toBe("0");
     expect(formatearKdaDestacado(null)).toBe("—");
+  });
+
+  it("daño con punto de miles o null", () => {
+    expect(formatearDanio(32450)).toBe("32.450 de daño");
+    expect(formatearDanio(1234567)).toBe("1.234.567 de daño");
+    expect(formatearDanio(0)).toBe("0 de daño");
+    expect(formatearDanio(null)).toBeNull();
+    expect(formatearDanio(undefined)).toBeNull();
+    expect(formatearDanio(-1)).toBeNull();
+    expect(formatearDanio(2.5)).toBeNull();
+    expect(formatearDanio("32450")).toBeNull();
   });
 
   it("singular y plural", () => {

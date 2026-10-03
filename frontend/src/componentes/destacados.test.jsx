@@ -97,6 +97,45 @@ describe("SeccionDestacados", () => {
     );
   });
 
+  it("muestra el daño a campeones con punto de miles en mejor y peor partida", () => {
+    renderDestacados(crearDestacados());
+    const m = tarjeta("Mejor partida");
+    const p = tarjeta("Peor partida");
+    expect(within(m).getByText("32.450 de daño")).toBeInTheDocument();
+    expect(within(p).getByText("4.180 de daño")).toBeInTheDocument();
+    // Va en la misma línea del KDA para no sumar alto a la tarjeta.
+    expect(within(m).getByText("32.450 de daño").parentElement).toHaveTextContent("KDA 9,5");
+    // Solo en estas dos tarjetas.
+    expect(screen.getAllByText(/de daño/)).toHaveLength(2);
+  });
+
+  it.each([
+    ["null", null],
+    ["ausente", undefined],
+    ["negativo", -100],
+    ["decimal", 32450.7],
+    ["texto", "32450"],
+    ["HTML", "<img src=x onerror=alert(1)>"],
+  ])("con daño %s no muestra la línea ni «sin datos»", (_nombre, danio) => {
+    const base = crearDestacados();
+    const mejor = { ...base.mejor_partida, danio };
+    const peor = { ...base.peor_partida, danio };
+    if (danio === undefined) {
+      delete mejor.danio;
+      delete peor.danio;
+    }
+    const { container } = renderDestacados(crearDestacados({ mejor_partida: mejor, peor_partida: peor }));
+    for (const nombre of ["Mejor partida", "Peor partida"]) {
+      const t = tarjeta(nombre);
+      expect(t).not.toHaveTextContent(/daño/);
+      expect(t).not.toHaveTextContent(/sin datos/i);
+      expect(t.querySelector("[data-danio]")).toBeNull();
+    }
+    // La partida se sigue mostrando y nada se inserta como HTML.
+    expect(tarjeta("Mejor partida")).toHaveTextContent("KDA 9,5");
+    expect(container.querySelector("img[src='x']")).toBeNull();
+  });
+
   it("no arma la URL del campeón si el id de Data Dragon no es válido", () => {
     const dd = { ...ddragon, campeones: { 1: { id: "../evil", nombre: "Annie" } } };
     const datos = validarDatos(crearDatos({ destacados: crearDestacados(), ddragon: dd }));
