@@ -115,94 +115,117 @@ def grupal(partidas, *amigos, rival=()):
     return partidas
 
 
-def test_racha_en_grupo_muestra_a_todos_los_que_la_jugaron(mapa):
-    juntos = ["derrota", "victoria", "victoria", "victoria", "derrota"]
-    trio = ("ana", "beto", "carla")
-    datos = {
-        # La misma partida (mismo id) queda en el registro de los tres.
-        "ana": grupal(serie("x", juntos), *trio),
-        "beto": grupal(serie("x", juntos), *trio),
-        "carla": grupal(serie("x", juntos), *trio),
-        # Dani ganó 4 seguidas, pero solo: no cuenta.
-        "dani": grupal(serie("d", ["victoria"] * 4), "dani"),
-    }
+def juego(id_p, horas_atras, resultado, *amigos, rival=()):
+    """Una partida en la que jugaron `amigos` en el mismo equipo (y `rival` enfrente)."""
+    return grupal([p(id_p, horas_atras, resultado)], *amigos, rival=rival)[0]
+
+
+def rachas(partidas, mapa, amigos=("nic", "iskrat", "john", "gato", "gral")):
+    """Reparte las partidas en el registro de su primer amigo (el resto no las tiene)."""
+    datos = {a: [] for a in amigos}
+    for partida in partidas:
+        primero = next(x["amigo"] for x in partida["participantes"] if x["amigo"] in datos)
+        datos[primero].append(partida)
     destacados = calcular_destacados(datos, mapa, AHORA_MS)
-    assert destacados["racha_victorias_grupo"] == {"amigos": ["ana", "beto", "carla"], "racha": 3}
+    return destacados["racha_victorias_grupo"], destacados["racha_derrotas_grupo"]
+
+
+def test_racha_de_derrotas_del_ejemplo_de_deo(mapa):
+    # 4 derrotas de Nicø, ISkrat y Johnadis; luego ISkrat y Johnadis ganan sin Nicø.
+    trio = ("nic", "iskrat", "john")
+    partidas = [
+        juego("d1", 10, "derrota", *trio),
+        juego("d2", 9, "derrota", *trio),
+        juego("d3", 8, "derrota", *trio),
+        juego("d4", 7, "derrota", *trio),
+        juego("v1", 6, "victoria", "iskrat", "john"),
+        juego("d5", 5, "derrota", *trio),
+    ]
+    _, derrotas = rachas(partidas, mapa)
+    assert derrotas["racha"] == 4
+    assert derrotas["amigos"] == ["iskrat", "john", "nic"]
+    assert derrotas["partidas"] == {"nic": 4, "iskrat": 4, "john": 4}
+
+
+def test_quien_se_suma_en_la_ultima_partida_aparece_con_1(mapa):
+    partidas = [
+        juego("v1", 3, "victoria", "nic", "iskrat"),
+        juego("v2", 2, "victoria", "nic", "iskrat"),
+        juego("v3", 1, "victoria", "nic", "iskrat", "gato"),
+    ]
+    victorias, _ = rachas(partidas, mapa)
+    assert victorias["racha"] == 3
+    assert victorias["amigos"] == ["iskrat", "nic", "gato"]  # primero los que jugaron más
+    assert victorias["partidas"] == {"nic": 3, "iskrat": 3, "gato": 1}
+    assert victorias["desde"] < victorias["hasta"]
+
+
+def test_partidas_en_solitario_no_cuentan_ni_cortan(mapa):
+    partidas = [
+        juego("v1", 4, "victoria", "nic", "iskrat"),
+        juego("solo", 3, "derrota", "nic"),  # Nicø solo: no es partida en grupo
+        juego("v2", 2, "victoria", "nic", "iskrat"),
+    ]
+    victorias, derrotas = rachas(partidas, mapa)
+    assert victorias["racha"] == 2
+    assert derrotas is None
 
 
 def test_racha_en_solitario_queda_sin_datos(mapa):
     # El caso de Big Gato: 2 victorias seguidas, pero sin nadie del grupo.
-    datos = {"gato": serie("g", ["victoria", "victoria"])}
-    destacados = calcular_destacados(datos, mapa, AHORA_MS)
-    assert destacados["racha_victorias_grupo"] is None
-    assert destacados["racha_derrotas_grupo"] is None
+    partidas = [juego("v1", 2, "victoria", "gato"), juego("v2", 1, "victoria", "gato")]
+    assert rachas(partidas, mapa) == (None, None)
+
+
+def test_otro_grupo_sin_nadie_en_comun_corta_la_racha(mapa):
+    partidas = [
+        juego("v1", 2, "victoria", "nic", "iskrat"),
+        juego("v2", 1, "victoria", "john", "gato"),
+    ]
+    assert rachas(partidas, mapa) == (None, None)
 
 
 def test_un_amigo_en_el_equipo_rival_no_hace_partida_en_grupo(mapa):
-    datos = {"ana": grupal(serie("a", ["victoria"] * 3), "ana", rival=("beto",))}
-    assert calcular_destacados(datos, mapa, AHORA_MS)["racha_victorias_grupo"] is None
-
-
-def test_racha_ignora_las_partidas_en_solitario_entre_medio(mapa):
-    partidas = serie("a", ["victoria", "derrota", "victoria", "victoria"])
-    grupal([partidas[0], partidas[2], partidas[3]], "ana", "beto")  # la derrota fue en solitario
-    destacados = calcular_destacados({"ana": partidas}, mapa, AHORA_MS)
-    assert destacados["racha_victorias_grupo"] == {"amigos": ["ana"], "racha": 3}
-
-
-def test_racha_en_grupo_usa_todos_los_dias_no_solo_las_ultimas_7(mapa):
-    partidas = grupal(serie("a", ["derrota"] * 9 + ["victoria"]), "ana", "beto")
-    destacados = calcular_destacados({"ana": partidas}, mapa, AHORA_MS)
-    assert destacados["racha_derrotas_grupo"]["racha"] == 9
-
-
-def test_racha_de_derrotas_en_grupo_con_empate(mapa):
-    juntos = ["victoria", "derrota", "derrota", "derrota", "derrota", "victoria"]
-    datos = {
-        "ana": grupal(serie("x", juntos), "ana", "beto"),
-        "beto": grupal(serie("x", juntos), "ana", "beto"),
-        # Carla jugó con alguien que ya no está en la lista: cuenta como grupo solo para ella.
-        "carla": grupal(serie("c", ["derrota", "derrota", "victoria"]), "carla", "ex-amigo"),
-    }
-    destacados = calcular_destacados(datos, mapa, AHORA_MS)
-    assert destacados["racha_derrotas_grupo"] == {"amigos": ["ana", "beto"], "racha": 4}
-    assert destacados["racha_victorias_grupo"] is None  # nadie con 2 victorias seguidas
-
-
-def test_racha_cuenta_para_todos_los_del_equipo_aunque_falte_en_su_registro(mapa):
-    # Solo Nicø tiene registradas estas partidas (el registro de los otros empezó después),
-    # pero ISkrat y Johnadis las jugaron con él: la racha es de los tres.
-    trio = ("nic", "iskrat", "john")
-    datos = {
-        "nic": grupal(serie("n", ["victoria"] * 3 + ["derrota"]), *trio),
-        "iskrat": [],
-        "john": [],
-    }
-    destacados = calcular_destacados(datos, mapa, AHORA_MS)
-    assert destacados["racha_victorias_grupo"] == {"amigos": ["iskrat", "john", "nic"], "racha": 3}
+    partidas = [juego(f"v{i}", i, "victoria", "nic", rival=("iskrat",)) for i in (1, 2)]
+    assert rachas(partidas, mapa) == (None, None)
 
 
 def test_la_misma_partida_en_varios_registros_cuenta_una_vez(mapa):
-    partidas_ana = grupal(serie("x", ["victoria", "victoria"]), "ana", "beto")
-    partidas_beto = grupal(serie("x", ["victoria", "victoria"]), "ana", "beto")  # mismos ids
-    datos = {"ana": partidas_ana, "beto": partidas_beto}
-    destacados = calcular_destacados(datos, mapa, AHORA_MS)
-    assert destacados["racha_victorias_grupo"] == {"amigos": ["ana", "beto"], "racha": 2}
+    partidas = [
+        juego("v1", 2, "victoria", "nic", "john"),
+        juego("v2", 1, "victoria", "nic", "john"),
+    ]
+    datos = {"nic": partidas, "john": [dict(x) for x in partidas]}
+    victorias = calcular_destacados(datos, mapa, AHORA_MS)["racha_victorias_grupo"]
+    assert victorias["racha"] == 2
+    assert victorias["partidas"] == {"nic": 2, "john": 2}
 
 
-def test_amigos_que_ya_no_estan_en_la_lista_no_aparecen(mapa):
-    datos = {"ana": grupal(serie("a", ["victoria"] * 2), "ana", "ex-amigo")}
-    assert calcular_destacados(datos, mapa, AHORA_MS)["racha_victorias_grupo"] == {
-        "amigos": ["ana"],
-        "racha": 2,
-    }
+def test_amigos_que_ya_no_estan_en_la_lista_no_cuentan(mapa):
+    # Con un ex amigo, el equipo queda con un solo amigo actual: no es partida en grupo.
+    partidas = [juego(f"v{i}", i, "victoria", "nic", "ex-amigo") for i in (1, 2)]
+    assert rachas(partidas, mapa) == (None, None)
 
 
-def test_racha_de_una_victoria_no_cuenta(mapa):
-    datos = {"a": grupal(serie("a", ["victoria", "derrota", "victoria"]), "a", "b")}
-    destacados = calcular_destacados(datos, mapa, AHORA_MS)
-    assert destacados["racha_victorias_grupo"] is None
-    assert destacados["racha_derrotas_grupo"] is None
+def test_con_empate_de_largo_gana_la_racha_mas_reciente(mapa):
+    partidas = [
+        juego("a1", 6, "victoria", "nic", "iskrat"),
+        juego("a2", 5, "victoria", "nic", "iskrat"),
+        juego("x", 4, "derrota", "nic", "iskrat"),
+        juego("b1", 2, "victoria", "john", "gato"),
+        juego("b2", 1, "victoria", "john", "gato"),
+    ]
+    victorias, _ = rachas(partidas, mapa)
+    assert victorias["amigos"] == ["gato", "john"]
+
+
+def test_racha_de_una_partida_no_cuenta(mapa):
+    partidas = [
+        juego("v1", 3, "victoria", "nic", "iskrat"),
+        juego("d1", 2, "derrota", "nic", "iskrat"),
+        juego("v2", 1, "victoria", "nic", "iskrat"),
+    ]
+    assert rachas(partidas, mapa) == (None, None)
 
 
 def test_empate_en_winrate_gana_quien_jugo_mas(mapa):

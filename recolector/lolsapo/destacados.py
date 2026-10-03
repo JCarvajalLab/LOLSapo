@@ -5,13 +5,17 @@ quedan fuera. Los remakes tampoco cuentan.
 
 "Más partidas" cuenta todo lo jugado en los 7 días. Winrate y mejor y peor partida usan solo
 las últimas 7 partidas de cada amigo dentro de esos días, para que jugar mucho no premie ni
-castigue. Las rachas son "en grupo": solo cuentan las partidas de los 7 días en las que 2 o
-más del grupo jugaron en el mismo equipo. Se arman desde las partidas (que dicen qué amigos
+castigue.
+
+Las rachas son "en equipo": solo cuentan las partidas de los 7 días en las que 2 o más del
+grupo jugaron en el mismo equipo, en orden. La racha sigue mientras se repite el resultado y
+cada partida comparte al menos un amigo con la anterior; trae a todos los que participaron y
+cuántas partidas de la racha jugó cada uno. Se arman desde las partidas (que dicen qué amigos
 estaban en el equipo), no desde el registro de cada uno: así una partida registrada por un
 amigo cuenta para todos los que la jugaron, aunque no esté en sus propios registros.
 
-Cada destacado trae la lista de amigos que lo ganan: si hay empate exacto (después de los
-desempates), aparecen todos. En las rachas es lo normal, porque el grupo suele jugar junto.
+Los demás destacados traen la lista de amigos que los ganan: si hay empate exacto (después de
+los desempates), aparecen todos.
 """
 
 from collections.abc import Iterable
@@ -60,33 +64,60 @@ def en_grupo(partida: dict) -> bool:
     return len(companeros(partida)) >= MINIMO_EN_GRUPO
 
 
-def _partidas_en_grupo(validas: dict[str, list[dict]]) -> dict[str, list[dict]]:
-    """Partidas en grupo de cada amigo, juntando lo que registró cualquiera del grupo.
+def _partidas_en_grupo(validas: dict[str, list[dict]]) -> list[tuple[dict, set[str]]]:
+    """Partidas en grupo de todos, sin repetir, en orden: (partida, amigos del equipo).
 
     Una partida aparece en el registro de quien la jugó, pero sus participantes dicen quiénes
-    más estaban en el equipo (y el resultado es el mismo para todos ellos).
+    más estaban en el equipo (y el resultado es el mismo para todos ellos). Solo cuentan los
+    amigos que siguen en la lista.
     """
     unicas: dict[str, tuple[dict, set[str]]] = {}
     for partidas in validas.values():
         for partida in partidas:
-            if partida["id"] not in unicas and en_grupo(partida):
-                unicas[partida["id"]] = (partida, companeros(partida))
-    por_amigo: dict[str, list[dict]] = {slug: [] for slug in validas}
-    for partida, equipo in unicas.values():
-        for slug in equipo & por_amigo.keys():
-            por_amigo[slug].append(partida)
-    return {s: sorted(p, key=lambda x: x["fecha"]) for s, p in por_amigo.items()}
+            equipo = companeros(partida) & validas.keys()
+            if partida["id"] not in unicas and len(equipo) >= MINIMO_EN_GRUPO:
+                unicas[partida["id"]] = (partida, equipo)
+    return sorted(unicas.values(), key=lambda u: (u[0]["fecha"], u[0]["id"]))
+
+
+def _racha_en_equipo(en_grupo_ordenadas: list[tuple[dict, set[str]]], resultado: str):
+    """La racha más larga de `resultado` jugando en grupo.
+
+    La racha sigue mientras el resultado se repite y cada partida comparte al menos un amigo
+    con la anterior (si se suma alguien, la racha continúa). Se corta con el resultado
+    contrario o si la partida siguiente la juega otro grupo sin nadie en común.
+    Con empate de largo, gana la más reciente.
+    """
+    mejor: list[tuple[dict, set[str]]] = []
+    actual: list[tuple[dict, set[str]]] = []
+    for partida, equipo in en_grupo_ordenadas:
+        sigue = (
+            actual
+            and partida["resultado"] == actual[-1][0]["resultado"]
+            and (equipo & actual[-1][1])
+        )
+        actual = [*actual, (partida, equipo)] if sigue else [(partida, equipo)]
+        if actual[0][0]["resultado"] == resultado and len(actual) >= len(mejor):
+            mejor = actual
+    if len(mejor) < RACHA_MINIMA:
+        return None
+    partidas_por_amigo: dict[str, int] = {}
+    for _, equipo in mejor:
+        for slug in equipo:
+            partidas_por_amigo[slug] = partidas_por_amigo.get(slug, 0) + 1
+    return {
+        "racha": len(mejor),
+        # Primero quienes jugaron más partidas de la racha.
+        "amigos": sorted(partidas_por_amigo, key=lambda s: (-partidas_por_amigo[s], s)),
+        "partidas": partidas_por_amigo,
+        "desde": mejor[0][0]["fecha"],
+        "hasta": mejor[-1][0]["fecha"],
+    }
 
 
 def _resumen(partidas: list[dict]) -> dict:
     victorias = sum(p["resultado"] == "victoria" for p in partidas)
     totales = {c: sum(p[c] for p in partidas) for c in ("asesinatos", "muertes", "asistencias")}
-    rachas = {"victoria": 0, "derrota": 0}
-    mejores = {"victoria": 0, "derrota": 0}
-    for partida in partidas:
-        for resultado in rachas:
-            rachas[resultado] = rachas[resultado] + 1 if partida["resultado"] == resultado else 0
-            mejores[resultado] = max(mejores[resultado], rachas[resultado])
     return {
         "partidas": len(partidas),
         "victorias": victorias,
@@ -94,8 +125,6 @@ def _resumen(partidas: list[dict]) -> dict:
         "winrate": winrate(victorias, len(partidas) - victorias),
         **totales,
         "kda": kda(totales["asesinatos"], totales["muertes"], totales["asistencias"]),
-        "racha_victorias": mejores["victoria"],
-        "racha_derrotas": mejores["derrota"],
     }
 
 
@@ -124,7 +153,7 @@ def calcular_destacados(
     totales = {s: _resumen(p) for s, p in validas.items() if p}
     recientes = {s: p[-ULTIMAS_PARTIDAS:] for s, p in validas.items()}
     resumenes = {s: _resumen(p) for s, p in recientes.items() if p}
-    rachas = {s: _resumen(p) for s, p in _partidas_en_grupo(validas).items() if p}
+    en_grupo_ordenadas = _partidas_en_grupo(validas)
 
     return {
         "dias": DIAS,
@@ -139,18 +168,10 @@ def calcular_destacados(
             ("winrate", "victorias", "derrotas", "partidas"),
         ),
         "mejor_partida": _partida_destacada(recientes, mapa, mejor=True),
-        "racha_victorias_grupo": _racha(rachas, "racha_victorias"),
-        "racha_derrotas_grupo": _racha(rachas, "racha_derrotas"),
+        "racha_victorias_grupo": _racha_en_equipo(en_grupo_ordenadas, "victoria"),
+        "racha_derrotas_grupo": _racha_en_equipo(en_grupo_ordenadas, "derrota"),
         "peor_partida": _partida_destacada(recientes, mapa, mejor=False),
     }
-
-
-def _racha(resumenes: dict[str, dict], campo: str) -> dict | None:
-    """La racha más larga (desde 2 seguidas). Con empate aparecen todos los que la tienen."""
-    ganadores = _ganadores(resumenes, lambda r: r[campo])
-    if not ganadores or resumenes[ganadores[0]][campo] < RACHA_MINIMA:
-        return None
-    return {"amigos": ganadores, "racha": resumenes[ganadores[0]][campo]}
 
 
 def _partida_destacada(
