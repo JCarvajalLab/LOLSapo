@@ -83,7 +83,7 @@ Web tipo op.gg privada para un grupo de 5 a 6 amigos del servidor LAS. Muestra q
 Completar esta sección a medida que se creen (instalar dependencias, correr el script, levantar el frontend, correr tests).
 
 - Entorno Python (3.14; el `python` del sistema es 3.11, no usarlo): `py -3.14 -m venv .venv`, luego `.venv\Scripts\pip install --require-hashes -r recolector/requirements-dev.txt` y `.venv\Scripts\pip install --no-deps --no-build-isolation -e recolector`
-- Recolector (consulta Riot y genera `frontend/public/datos/lol.json`): `.venv\Scripts\python -m lolsapo` (opcional `--cantidad N`, `--cada MIN` para repetir hasta Ctrl+C, `-v`)
+- Recolector (consulta Riot y genera `frontend/public/datos/lol.json` y `tft.json`): `.venv\Scripts\python -m lolsapo` (opcional `--juego lol|tft`, `--cantidad N`, `--cada MIN` para repetir hasta Ctrl+C, `-v`). Key opcional `RIOT_API_KEY_TFT` en `.env` (si falta, TFT usa la de LoL)
 - Frontend: `cd frontend`, `npm install`, `npm run dev` (http://localhost:5173). Chequeos: `npm run lint`, `npm test`, `npm run build`, `npm run verificar:build`, `npm audit`
 - Tests del recolector: `cd recolector` y `..\.venv\Scripts\python -m pytest`. Lint: `ruff check .` y `ruff format --check .`. Seguridad: `bandit -c pyproject.toml -r lolsapo` (en Windows con `PYTHONUTF8=1`) y `pip-audit --strict --require-hashes -r requirements-dev.txt`
 - Actualizar dependencias de Python: editar `recolector/requirements*.in` y en `recolector/` correr `pip-compile --generate-hashes --allow-unsafe --strip-extras <archivo>.in`

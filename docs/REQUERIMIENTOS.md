@@ -272,6 +272,8 @@ En la raíz del repo va un `CLAUDE.md` que Claude Code lee al iniciar cada sesi�
 
 Verificar cada endpoint en el portal oficial antes de implementarlo.
 
+**Implementación (fase 6, 2026-10-03):** rango con `tft-league-v1` · `/tft/league/v1/by-puuid/{puuid}`; ícono y nivel con `tft-summoner-v1` · by-puuid. La *development key* no tiene acceso a `spectator-tft-v5` (responde 403), así que "jugando TFT" usa como respaldo `spectator-v5` de LoL, que también devuelve las partidas de TFT (mapa 22). Si la key no tiene acceso a TFT, `tft.json` se genera con los últimos datos y un aviso, sin afectar a LoL. Secret opcional `RIOT_API_KEY_TFT` en el environment `produccion`; si no existe, TFT usa la key de LoL. Además de lo pedido: ícono y nivel, filtros por modo, orden de amigos por partidas jugadas y grilla de posición en las últimas 30 partidas.
+
 ## 12. API key de Riot
 
 1. **Desarrollo local:** usar la *development key* del portal, guardada en `.env`. Caduca cada 24 horas (se renueva desde el portal) y no se puede usar en el sitio publicado.
@@ -288,7 +290,7 @@ Verificar cada endpoint en el portal oficial antes de implementarlo.
 | 3 | Interfaz LoL (local) | Frontend React en localhost: tarjetas, detalle, historial de 10 partidas, filtros por modo, ranking, tests con Vitest. |
 | 4 | Pulido local | Estados de error y carga, modo oscuro, responsive, aviso legal, CSP. |
 | 5 | Publicación | Solicitud de Personal Key, GitHub Actions programado, rama `datos`, deploy a GitHub Pages o alternativa. ✅ Completa (2026-10-02). |
-| 6 | TFT | Datos e interfaz de TFT, selector LoL/TFT, sus tests. |
+| 6 | TFT | Datos e interfaz de TFT, selector LoL/TFT, sus tests. ✅ Completa (2026-10-03). |
 | 7 | Extras | Highlights, gráficos de LP, dúos, evaluar proxy para tiempo real. |
 
 Los tests y chequeos de seguridad no son una fase aparte: cada fase desde la 2 entrega su código con sus tests. Cada fase se cierra validando que funciona antes de pasar a la siguiente.

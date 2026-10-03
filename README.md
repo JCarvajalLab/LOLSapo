@@ -1,16 +1,16 @@
 # LOLSapo
 
-Web estilo op.gg para un grupo cerrado de amigos del servidor **LAS**. Muestra quién está jugando ahora (con los dos equipos), rango, victorias y derrotas en todos los modos de juego y las últimas partidas de cada uno. Primero League of Legends; Teamfight Tactics después.
+Web estilo op.gg para un grupo cerrado de amigos del servidor **LAS**. Muestra quién está jugando ahora (con los dos equipos), rango, victorias y derrotas en todos los modos de juego y las últimas partidas de cada uno, en **League of Legends** y **Teamfight Tactics** (pestañas LoL / TFT).
 
 **Sitio:** https://jcarvajallab.github.io/LOLSapo/ (se actualiza solo cada ~5 minutos).
 
-> Fase 5 (publicación) completa. Próxima: fase 6, TFT. El detalle del proyecto está en [docs/REQUERIMIENTOS.md](docs/REQUERIMIENTOS.md).
+> Fase 6 (TFT) completa. Próxima: fase 7, extras. El detalle del proyecto está en [docs/REQUERIMIENTOS.md](docs/REQUERIMIENTOS.md).
 
 ## Cómo funciona
 
 La API de Riot necesita una key secreta, así que la web **nunca** llama a Riot directamente:
 
-1. Un script en Python (el **recolector**) consulta la API de Riot y genera `lol.json`.
+1. Un script en Python (el **recolector**) consulta la API de Riot y genera `lol.json` y `tft.json`.
 2. El frontend (React + Vite) solo lee ese JSON.
 3. En producción, un Cloudflare Worker le pide a GitHub Actions cada 5 minutos que corra el recolector y publique la web en GitHub Pages. En local lo corres tú.
 
@@ -23,7 +23,7 @@ La API de Riot necesita una key secreta, así que la web **nunca** llama a Riot 
 | Tu API key de Riot | `.env` (local) o un secret de GitHub (publicado) | Sí |
 | La lista de amigos (máximo 10) | [config/amigos.json](config/amigos.json) | Sí |
 | El servidor, si no juegan en LAS | `PLATAFORMA` y `REGION` en [recolector/lolsapo/riot_api.py](recolector/lolsapo/riot_api.py) | Solo si no es LAS |
-| Nombres de modos de juego | [config/modos.json](config/modos.json) | No |
+| Nombres de modos de juego | [config/modos.json](config/modos.json) (LoL) y [config/modos_tft.json](config/modos_tft.json) (TFT) | No |
 | Colores (por ejemplo, el de victoria) | [frontend/src/estilos/index.css](frontend/src/estilos/index.css) | No |
 
 **Servidor:** `PLATAFORMA` es el servidor (`la1` LAN, `la2` LAS, `br1` Brasil, `na1` Norteamérica, `euw1` Europa Oeste…) y `REGION` es el grupo al que pertenece (`americas` para LAN, LAS, BR y NA; `europe` para EUW, EUNE y TR; `asia` para KR y JP). La lista completa está en la [documentación de Riot](https://developer.riotgames.com/docs/lol#routing-values).
@@ -57,7 +57,10 @@ Abre `.env` y pega tu key después del `=`:
 
 ```text
 RIOT_API_KEY=pega-aqui-tu-key
+RIOT_API_KEY_TFT=
 ```
+
+`RIOT_API_KEY_TFT` es opcional: si la dejas vacía, TFT usa la misma key. La *development key* sirve para los dos juegos.
 
 `.env` está ignorado por git: nunca se sube al repositorio. No compartas tu key con nadie ni la pegues en otro archivo.
 
@@ -84,15 +87,16 @@ Con el entorno virtual activado:
 python -m lolsapo
 ```
 
-Genera `frontend/public/datos/lol.json`. La primera vez tarda unos minutos (descarga las últimas 20 partidas de cada amigo respetando los límites de la key); las siguientes, segundos, porque nunca vuelve a descargar una partida ya guardada.
+Genera `frontend/public/datos/lol.json` y `tft.json`. La primera vez tarda unos minutos (descarga las últimas 20 partidas de LoL y 30 de TFT de cada amigo respetando los límites de la key); las siguientes, segundos, porque nunca vuelve a descargar una partida ya guardada.
 
-- `--cantidad N`: cuántas partidas recientes revisar por amigo (1 a 100, por defecto 20).
+- `--juego lol` o `--juego tft`: generar solo uno de los dos (por defecto, ambos).
+- `--cantidad N`: cuántas partidas recientes revisar por amigo (1 a 100, por defecto 20; TFT revisa siempre al menos 30 para la grilla de posiciones).
 - `--cada MIN`: repetir cada MIN minutos hasta presionar `Ctrl + C`. Útil para ver "En partida" en local: `python -m lolsapo --cada 3`.
 - `-v`: más detalle en la consola.
 
 Códigos de salida: `0` bien · `1` configuración inválida o falta la key · `2` Riot rechazó la key (probablemente caducó) · `3` la key o un PUUID apareció en la salida (no se escribe nada).
 
-El registro acumulado de partidas queda en `datos/registro/`. Las victorias y derrotas por modo se calculan desde ese registro, así que cuentan desde que LOLSapo empezó a seguir a cada amigo.
+El registro acumulado de partidas queda en `datos/registro/` (LoL) y `datos/registro_tft/` (TFT). Las victorias y derrotas por modo se calculan desde ese registro, así que cuentan desde que LOLSapo empezó a seguir a cada amigo.
 
 ### 5. Levantar la web
 
@@ -120,7 +124,7 @@ Para activarlo en tu fork, en **Settings** del repo:
 1. **General:** el repo tiene que ser **público** (GitHub Pages y los minutos ilimitados de Actions son gratis solo en repos públicos).
 2. **Actions:** en la pestaña **Actions** de tu fork, habilita los workflows (GitHub los desactiva en los forks).
 3. **Pages → Source:** elige **GitHub Actions**.
-4. **Environments → New environment:** nómbralo `produccion`. En **Deployment branches and tags** limítalo a `main` y agrega el **environment secret** `RIOT_API_KEY_LOL` con tu Personal Key. Tiene que ser secret del environment, no del repo.
+4. **Environments → New environment:** nómbralo `produccion`. En **Deployment branches and tags** limítalo a `main` y agrega el **environment secret** `RIOT_API_KEY_LOL` con tu Personal Key. Tiene que ser secret del environment, no del repo. Si tienes una key aparte para TFT, agrégala en el mismo environment como `RIOT_API_KEY_TFT` (si no existe, TFT usa la de LoL).
 5. **Secrets and variables → Actions → pestaña Variables:** crea `PUBLICAR_ACTIVO` con valor `true`. Es el interruptor: sin ella el workflow no hace nada. Para pausar la publicación, cámbiala a `false`.
 
 Tu sitio queda en `https://<tu-usuario>.github.io/<nombre-del-repo>/`.
@@ -151,7 +155,7 @@ Tests y chequeos: `npm run lint`, `npm test` y `npm audit` dentro de `disparador
 
 ### Renovar la API key
 
-La key vive en **Settings → Environments → produccion → `RIOT_API_KEY_LOL`** (para TFT habrá otro, `RIOT_API_KEY_TFT`). Para cambiarla, edita ese secret y pega la nueva (nadie puede ver la anterior, solo reemplazarla). Si el workflow empieza a fallar y la web avisa que los datos están viejos, lo primero es revisar la key.
+La key vive en **Settings → Environments → produccion → `RIOT_API_KEY_LOL`** (y la de TFT, si existe, en `RIOT_API_KEY_TFT`). Para cambiarla, edita ese secret y pega la nueva (nadie puede ver la anterior, solo reemplazarla). Si el workflow empieza a fallar y la web avisa que los datos están viejos, lo primero es revisar la key.
 
 ## Para desarrollar
 
