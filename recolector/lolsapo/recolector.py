@@ -420,9 +420,10 @@ def _elementos_usados(
             usados["items"].update(i for i in partida.get("items", []) if i)
             runas = partida.get("runas") or {}
             usados["runas"].update(r for r in runas.values() if r)
-    peor = (destacados or {}).get("peor_partida")
-    if peor:
-        usados["campeones"].add(peor["campeon_id"])
+    for clave in ("mejor_partida", "peor_partida"):
+        destacada = (destacados or {}).get(clave)
+        if destacada:
+            usados["campeones"].add(destacada["campeon_id"])
     for partida in en_vivo:
         for equipo in partida["equipos"]:
             usados["campeones"].update(equipo["bloqueos"])

@@ -55,30 +55,44 @@ def test_solo_cuentan_normal_y_ranked_de_los_ultimos_7_dias(mapa):
     assert destacados["mas_partidas"] == {"amigos": ["a"], "partidas": 3}
 
 
-def test_winrate_y_kda_exigen_5_partidas(mapa):
+def test_winrate_exige_5_partidas(mapa):
     datos = {
         "pocas": serie("x", ["victoria"] * 4, k=20, d=0, a=20),
         "suficientes": serie("y", ["victoria", "derrota"] * 3, k=3, d=3, a=3),
     }
     destacados = calcular_destacados(datos, mapa, AHORA_MS)
     assert destacados["mejor_winrate"]["amigos"] == ["suficientes"]
-    assert destacados["mejor_kda"]["amigos"] == ["suficientes"]
+    # La mejor partida no exige mínimo: es una sola partida.
+    assert destacados["mejor_partida"]["amigos"] == ["pocas"]
 
 
-def test_mejor_kda_con_sus_totales(mapa):
+def test_mejor_partida(mapa):
     datos = {
-        "bueno": serie("b", ["victoria"] * 5, k=3, d=0, a=3),
-        "malo": serie("m", ["derrota"] * 5, k=1, d=4, a=1),
+        "a": [p("a1", 2, k=10, d=2, a=5), p("a2", 3, "derrota", k=14, d=0, a=15, campeon_id=157)],
+        "b": [p("b1", 1, k=8, d=1, a=10), p("b2", 4, queue_id=450, k=30, d=0, a=30)],  # ARAM: fuera
     }
     destacados = calcular_destacados(datos, mapa, AHORA_MS)
-    assert destacados["mejor_kda"] == {
-        "amigos": ["bueno"],
-        "kda": 30.0,
-        "asesinatos": 15,
-        "muertes": 0,
-        "asistencias": 15,
-        "partidas": 5,
+    mejor = destacados["mejor_partida"]
+    assert mejor["amigos"] == ["a"]
+    assert mejor["partida_id"] == "a2"
+    assert (mejor["asesinatos"], mejor["muertes"], mejor["asistencias"]) == (14, 0, 15)
+    assert mejor["kda"] == 29.0
+    assert mejor["resultado"] == "derrota"  # el resultado no influye
+    assert "mejor_kda" not in destacados
+
+
+def test_mejor_partida_desempata_por_mas_asesinatos_y_asistencias(mapa):
+    datos = {"a": [p("a1", 2, k=4, d=0, a=4)], "b": [p("b1", 1, k=2, d=1, a=6)]}
+    # KDA 8 en las dos: gana la de más asesinatos + asistencias (8 vs 8) y luego menos muertes.
+    assert calcular_destacados(datos, mapa, AHORA_MS)["mejor_partida"]["amigos"] == ["a"]
+
+
+def test_mejor_winrate_con_sus_totales(mapa):
+    datos = {
+        "bueno": serie("b", ["victoria"] * 5),
+        "malo": serie("m", ["derrota"] * 5),
     }
+    destacados = calcular_destacados(datos, mapa, AHORA_MS)
     assert "peor_kda" not in destacados
     assert destacados["mejor_winrate"] == {
         "amigos": ["bueno"],
@@ -138,7 +152,7 @@ def test_mas_partidas_cuenta_todo_y_el_resto_solo_las_ultimas_7(mapa):
     assert destacados["mas_partidas"]["partidas"] == 10
     assert destacados["mejor_winrate"]["partidas"] == 7
     assert destacados["mejor_winrate"]["winrate"] == 100.0
-    assert destacados["mejor_kda"]["kda"] == 10.0
+    assert destacados["mejor_partida"]["kda"] == 10.0
     assert destacados["racha_victorias"]["racha"] == 7
     # Las 3 derrotas seguidas quedaron fuera de las últimas 7.
     assert destacados["racha_derrotas"] is None
@@ -166,7 +180,7 @@ def test_sin_partidas_todo_vacio(mapa):
     for clave in (
         "mas_partidas",
         "mejor_winrate",
-        "mejor_kda",
+        "mejor_partida",
         "racha_victorias",
         "racha_derrotas",
         "peor_partida",

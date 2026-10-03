@@ -3,7 +3,7 @@
 Solo cuentan Normal y Ranked (Solo/Dúo y Flex): ARAM, ARAM Caos y los modos especiales
 quedan fuera. Los remakes tampoco cuentan.
 
-"Más partidas" cuenta todo lo jugado en los 7 días. El resto (winrate, KDA, rachas y peor
+"Más partidas" cuenta todo lo jugado en los 7 días. El resto (winrate, rachas y mejor y peor
 partida) usa solo las últimas 7 partidas de cada amigo dentro de esos días, para que jugar
 mucho no premie ni castigue.
 
@@ -19,8 +19,8 @@ from .registro import winrate
 DIAS = 7
 VENTANA_MS = DIAS * 24 * 60 * 60 * 1000
 CATEGORIAS = ("ranked", "normal")
-ULTIMAS_PARTIDAS = 7  # muestra por amigo para winrate, KDA, rachas y peor partida
-MINIMO_PARTIDAS = 5  # de esas 7, para winrate y KDA: así no gana alguien con 1 partida
+ULTIMAS_PARTIDAS = 7  # muestra por amigo para winrate, rachas y mejor y peor partida
+MINIMO_PARTIDAS = 5  # de esas 7, para el winrate: así no gana alguien con 1 partida
 RACHA_MINIMA = 2
 
 
@@ -88,8 +88,6 @@ def calcular_destacados(
     recientes = {s: p[-ULTIMAS_PARTIDAS:] for s, p in validas.items()}
     resumenes = {s: _resumen(p) for s, p in recientes.items() if p}
 
-    campos_kda = ("kda", "asesinatos", "muertes", "asistencias", "partidas")
-
     return {
         "dias": DIAS,
         "desde": desde,
@@ -102,14 +100,10 @@ def calcular_destacados(
             resumenes,
             ("winrate", "victorias", "derrotas", "partidas"),
         ),
-        "mejor_kda": _destacado(
-            _ganadores(resumenes, lambda r: (r["kda"], r["partidas"]), MINIMO_PARTIDAS),
-            resumenes,
-            campos_kda,
-        ),
+        "mejor_partida": _partida_destacada(recientes, mapa, mejor=True),
         "racha_victorias": _racha(resumenes, "racha_victorias"),
         "racha_derrotas": _racha(resumenes, "racha_derrotas"),
-        "peor_partida": _peor_partida(recientes, mapa),
+        "peor_partida": _partida_destacada(recientes, mapa, mejor=False),
     }
 
 
@@ -121,16 +115,26 @@ def _racha(resumenes: dict[str, dict], campo: str) -> dict | None:
     return {"amigos": ganadores, "racha": resumenes[ganadores[0]][campo]}
 
 
-def _peor_partida(validas: dict[str, list[dict]], mapa: MapaModos) -> dict | None:
-    """La partida con peor KDA; con empate, la de más muertes y luego la más reciente."""
-    candidatas = [
-        (kda(p["asesinatos"], p["muertes"], p["asistencias"]), -p["muertes"], -p["fecha"], s, p)
-        for s, partidas in validas.items()
-        for p in partidas
-    ]
+def _partida_destacada(
+    validas: dict[str, list[dict]], mapa: MapaModos, *, mejor: bool
+) -> dict | None:
+    """La partida individual con mejor o peor KDA del grupo (gane o pierda).
+
+    Desempates: mejor -> más asesinatos + asistencias, menos muertes, la más reciente.
+                peor  -> más muertes, la más reciente.
+    """
+
+    def orden(slug: str, p: dict):
+        valor = kda(p["asesinatos"], p["muertes"], p["asistencias"])
+        if mejor:
+            return (-valor, -(p["asesinatos"] + p["asistencias"]), p["muertes"], -p["fecha"], slug)
+        return (valor, -p["muertes"], -p["fecha"], slug)
+
+    candidatas = [(orden(s, p), s, p) for s, partidas in validas.items() for p in partidas]
     if not candidatas:
         return None
-    valor, _, _, slug, partida = min(candidatas, key=lambda c: c[:4])
+    _, slug, partida = min(candidatas, key=lambda c: c[0])
+    valor = kda(partida["asesinatos"], partida["muertes"], partida["asistencias"])
     return {
         "amigos": [slug],
         "partida_id": partida["id"],
