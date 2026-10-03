@@ -160,6 +160,27 @@ describe("lectura de tft.json", () => {
     expect(conAvisos.en_vivo_disponible).toBe(false);
   });
 
+  it("acepta perfil con enteros >= 0 y deja null lo que no sirve", () => {
+    const d = validarDatosTft({
+      amigos: [
+        { slug: "ok", perfil: { icono: 4022, nivel: 834 } },
+        { slug: "viejo" },
+        { slug: "nulo", perfil: null },
+        { slug: "raro", perfil: { icono: "4022", nivel: -3 } },
+        { slug: "mitad", perfil: { icono: 1.5, nivel: 12 } },
+        { slug: "lista", perfil: [1, 2] },
+      ],
+    });
+    expect(d.amigos.map((a) => a.perfil)).toEqual([
+      { icono: 4022, nivel: 834 },
+      null,
+      null,
+      null,
+      { icono: null, nivel: 12 },
+      null,
+    ]);
+  });
+
   it("pide la ruta relativa y trata 404 como sin datos", async () => {
     const fetchFn = vi.fn(() => Promise.resolve({ ok: false, status: 404 }));
     await expect(cargarDatosTft(fetchFn)).rejects.toMatchObject({ tipo: "sin-datos" });

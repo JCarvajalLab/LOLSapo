@@ -6,6 +6,19 @@ export const RUTA_DATOS_TFT = "./datos/tft.json";
 
 const lista = (valor) => (Array.isArray(valor) ? valor.filter((x) => x && typeof x === "object") : []);
 
+const enteroOk = (n) => Number.isInteger(n) && n >= 0;
+
+/**
+ * Perfil de la cuenta ({icono, nivel}) con enteros >= 0, o null.
+ * Archivos viejos sin el campo, o con valores raros, quedan en null (se muestran las iniciales).
+ */
+export function validarPerfil(perfil) {
+  if (!perfil || typeof perfil !== "object" || Array.isArray(perfil)) return null;
+  const icono = enteroOk(perfil.icono) ? perfil.icono : null;
+  const nivel = enteroOk(perfil.nivel) ? perfil.nivel : null;
+  return icono === null && nivel === null ? null : { icono, nivel };
+}
+
 /** Comprueba la forma mínima de tft.json y rellena lo que falte para no romper la interfaz. */
 export function validarDatosTft(json) {
   if (!json || typeof json !== "object" || !Array.isArray(json.amigos)) {
@@ -19,7 +32,9 @@ export function validarDatosTft(json) {
     en_vivo_disponible: json.en_vivo_disponible !== false,
     ddragon: json.ddragon && typeof json.ddragon === "object" ? json.ddragon : null,
     en_vivo: lista(json.en_vivo),
-    amigos: lista(json.amigos).filter((a) => typeof a.slug === "string"),
+    amigos: lista(json.amigos)
+      .filter((a) => typeof a.slug === "string")
+      .map((a) => ({ ...a, perfil: validarPerfil(a.perfil) })),
     ranking: lista(json.ranking),
   };
 }
