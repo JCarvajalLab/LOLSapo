@@ -208,6 +208,10 @@ class ClienteRiot:
 
     # --- Endpoints de TFT ----------------------------------------------------------
 
+    def invocador_tft(self, puuid: str) -> dict:
+        """tft-summoner-v1: nivel e ícono de la cuenta (los mismos que en LoL)."""
+        return self._get(f"{URL_PLATAFORMA}/tft/summoner/v1/summoners/by-puuid/{_segmento(puuid)}")
+
     def ligas_tft(self, puuid: str) -> list:
         """tft-league-v1: rango en Ranked, Double Up e Hyper Roll."""
         return self._get(f"{URL_PLATAFORMA}/tft/league/v1/by-puuid/{_segmento(puuid)}")

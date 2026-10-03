@@ -30,7 +30,7 @@ from .registro import (
     ultimas_partidas,
 )
 from .riot_api import ClienteRiot, ErrorAutenticacion, ErrorRiot
-from .validacion import DatoInvalido, validar_ids_partidas
+from .validacion import DatoInvalido, validar_ids_partidas, validar_invocador
 from .validacion_tft import (
     es_partida_tft,
     resumir_partida_tft,
@@ -92,6 +92,7 @@ def _consultar(
     slug_por_puuid: dict,
     espectador: Espectador,
 ) -> dict:
+    perfil = validar_invocador(cliente.invocador_tft(puuid))
     rangos = validar_ligas_tft(cliente.ligas_tft(puuid))
     resumenes = []
     ids = validar_ids_partidas(cliente.ids_partidas_tft(puuid, cantidad))
@@ -106,7 +107,7 @@ def _consultar(
         )
         resumenes.append(resumen)
     jugando = espectador.consultar(puuid)
-    return {"rangos": rangos, "jugando": jugando, "resumenes": resumenes}
+    return {"perfil": perfil, "rangos": rangos, "jugando": jugando, "resumenes": resumenes}
 
 
 def procesar_amigo_tft(
@@ -138,6 +139,7 @@ def procesar_amigo_tft(
         if puuid is None:
             raise ErrorRiot("no se conoce su PUUID")
         datos = _consultar(cliente, puuid, registro, cantidad, slug_por_puuid, espectador)
+        registro["perfil"] = datos["perfil"]
         registro["rangos"] = datos["rangos"]
         jugando = datos["jugando"]
         nuevas = agregar_partidas(registro, datos["resumenes"])
@@ -183,6 +185,7 @@ def _entrada(
         "estado": "error" if con_error else "ok",
         "error": MENSAJE_ERROR if con_error else None,
         "seguimiento_desde": registro["seguimiento_desde"],
+        "perfil": registro.get("perfil"),
         "rangos": registro["rangos"] or dict(RANGOS_VACIOS),
         "jugando": jugando,
         "estadisticas": calcular_estadisticas_tft(registro["partidas"].values(), mapa),

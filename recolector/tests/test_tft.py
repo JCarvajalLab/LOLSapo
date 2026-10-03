@@ -6,7 +6,7 @@ from urllib.parse import quote
 
 import pytest
 import responses
-from conftest import KEY_FALSA, cuenta, partida_activa, puuid_de
+from conftest import KEY_FALSA, cuenta, invocador, partida_activa, puuid_de
 
 from lolsapo import ddragon_tft
 from lolsapo.__main__ import main
@@ -145,6 +145,10 @@ def simular_amigo_tft(nombre, puuid, ids, *, ligas=(), espectador=404, jugando=N
     responses.get(
         f"{URL_REGION}/riot/account/v1/accounts/by-riot-id/{quote(nombre, safe='')}/LAS",
         json=cuenta(nombre),
+    )
+    responses.get(
+        f"{URL_PLATAFORMA}/tft/summoner/v1/summoners/by-puuid/{puuid}",
+        json=invocador(puuid, icono=4022, nivel=834),
     )
     responses.get(f"{URL_PLATAFORMA}/tft/league/v1/by-puuid/{puuid}", json=list(ligas))
     responses.get(f"{URL_REGION}/tft/match/v1/matches/by-puuid/{puuid}/ids", json=list(ids))
@@ -400,6 +404,7 @@ def test_genera_tft_json_completo(cliente, mapa_tft, tmp_path):
     assert salida["error"] is None
     assert salida["en_vivo_disponible"] is True
     john, gato = salida["amigos"]
+    assert john["perfil"] == {"icono": 4022, "nivel": 834}
     assert john["rangos"]["ranked"]["tier"] == "PLATINUM"
     assert [p["id"] for p in john["partidas"]] == ["LA2_2", "LA2_1"]
     assert john["partidas"][1]["modo"] == "Normal"
@@ -446,6 +451,8 @@ def test_tft_sin_acceso_usa_los_ultimos_datos_y_no_falla(cliente, mapa_tft, tmp_
     assert salida["en_vivo_disponible"] is False
     assert salida["amigos"][0]["estado"] == "error"
     assert [p["id"] for p in salida["amigos"][0]["partidas"]] == ["LA2_1"]
+    # El último perfil conocido se sigue mostrando.
+    assert salida["amigos"][0]["perfil"] == {"icono": 4022, "nivel": 834}
 
 
 @responses.activate
@@ -454,7 +461,8 @@ def test_tft_key_rechazada_a_mitad_de_camino(cliente, mapa_tft, tmp_path):
     responses.get(
         f"{URL_REGION}/riot/account/v1/accounts/by-riot-id/Big%20Gato/LAS", json=cuenta("Big Gato")
     )
-    responses.get(f"{URL_PLATAFORMA}/tft/league/v1/by-puuid/{P_GATO}", status=401)
+    # La primera consulta del amigo (su perfil) ya responde 401.
+    responses.get(f"{URL_PLATAFORMA}/tft/summoner/v1/summoners/by-puuid/{P_GATO}", status=401)
     salida = ejecutar_tft(
         cliente, KEY_FALSA, [JOHN, GATO], mapa_tft, tmp_path, tmp_path / "tft.json", ahora=AHORA
     )
