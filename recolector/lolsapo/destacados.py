@@ -6,7 +6,9 @@ quedan fuera. Los remakes tampoco cuentan.
 "Más partidas" cuenta todo lo jugado en los 7 días. Winrate y mejor y peor partida usan solo
 las últimas 7 partidas de cada amigo dentro de esos días, para que jugar mucho no premie ni
 castigue. Las rachas son "en grupo": solo cuentan las partidas de los 7 días en las que 2 o
-más del grupo jugaron en el mismo equipo.
+más del grupo jugaron en el mismo equipo. Se arman desde las partidas (que dicen qué amigos
+estaban en el equipo), no desde el registro de cada uno: así una partida registrada por un
+amigo cuenta para todos los que la jugaron, aunque no esté en sus propios registros.
 
 Cada destacado trae la lista de amigos que lo ganan: si hay empate exacto (después de los
 desempates), aparecen todos. En las rachas es lo normal, porque el grupo suele jugar junto.
@@ -43,15 +45,37 @@ def _partidas_validas(partidas: Iterable[dict], mapa: MapaModos, desde_ms: int) 
     return sorted(validas, key=lambda p: p["fecha"])
 
 
+def companeros(partida: dict) -> set[str]:
+    """Amigos (slugs) que jugaron en el mismo equipo que el dueño de la partida, incluido él."""
+    equipo = partida.get("equipo")
+    return {
+        p["amigo"]
+        for p in partida.get("participantes") or []
+        if isinstance(p, dict) and isinstance(p.get("amigo"), str) and p.get("equipo") == equipo
+    }
+
+
 def en_grupo(partida: dict) -> bool:
     """True si 2 o más del grupo jugaron la partida en el mismo equipo."""
-    equipo = partida.get("equipo")
-    amigos = {
-        p.get("amigo")
-        for p in partida.get("participantes") or []
-        if isinstance(p, dict) and p.get("amigo") and p.get("equipo") == equipo
-    }
-    return len(amigos) >= MINIMO_EN_GRUPO
+    return len(companeros(partida)) >= MINIMO_EN_GRUPO
+
+
+def _partidas_en_grupo(validas: dict[str, list[dict]]) -> dict[str, list[dict]]:
+    """Partidas en grupo de cada amigo, juntando lo que registró cualquiera del grupo.
+
+    Una partida aparece en el registro de quien la jugó, pero sus participantes dicen quiénes
+    más estaban en el equipo (y el resultado es el mismo para todos ellos).
+    """
+    unicas: dict[str, tuple[dict, set[str]]] = {}
+    for partidas in validas.values():
+        for partida in partidas:
+            if partida["id"] not in unicas and en_grupo(partida):
+                unicas[partida["id"]] = (partida, companeros(partida))
+    por_amigo: dict[str, list[dict]] = {slug: [] for slug in validas}
+    for partida, equipo in unicas.values():
+        for slug in equipo & por_amigo.keys():
+            por_amigo[slug].append(partida)
+    return {s: sorted(p, key=lambda x: x["fecha"]) for s, p in por_amigo.items()}
 
 
 def _resumen(partidas: list[dict]) -> dict:
@@ -100,8 +124,7 @@ def calcular_destacados(
     totales = {s: _resumen(p) for s, p in validas.items() if p}
     recientes = {s: p[-ULTIMAS_PARTIDAS:] for s, p in validas.items()}
     resumenes = {s: _resumen(p) for s, p in recientes.items() if p}
-    grupales = {s: [x for x in p if en_grupo(x)] for s, p in validas.items()}
-    rachas = {s: _resumen(p) for s, p in grupales.items() if p}
+    rachas = {s: _resumen(p) for s, p in _partidas_en_grupo(validas).items() if p}
 
     return {
         "dias": DIAS,
