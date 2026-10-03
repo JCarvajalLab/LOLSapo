@@ -3,9 +3,10 @@
 Solo cuentan Normal y Ranked (Solo/Dúo y Flex): ARAM, ARAM Caos y los modos especiales
 quedan fuera. Los remakes tampoco cuentan.
 
-"Más partidas" cuenta todo lo jugado en los 7 días. El resto (winrate, rachas y mejor y peor
-partida) usa solo las últimas 7 partidas de cada amigo dentro de esos días, para que jugar
-mucho no premie ni castigue.
+"Más partidas" cuenta todo lo jugado en los 7 días. Winrate y mejor y peor partida usan solo
+las últimas 7 partidas de cada amigo dentro de esos días, para que jugar mucho no premie ni
+castigue. Las rachas son "en grupo": solo cuentan las partidas de los 7 días en las que 2 o
+más del grupo jugaron en el mismo equipo.
 
 Cada destacado trae la lista de amigos que lo ganan: si hay empate exacto (después de los
 desempates), aparecen todos. En las rachas es lo normal, porque el grupo suele jugar junto.
@@ -19,7 +20,8 @@ from .registro import winrate
 DIAS = 7
 VENTANA_MS = DIAS * 24 * 60 * 60 * 1000
 CATEGORIAS = ("ranked", "normal")
-ULTIMAS_PARTIDAS = 7  # muestra por amigo para winrate, rachas y mejor y peor partida
+ULTIMAS_PARTIDAS = 7  # muestra por amigo para winrate y mejor y peor partida
+MINIMO_EN_GRUPO = 2  # amigos en el mismo equipo para que una partida cuente en las rachas
 MINIMO_PARTIDAS = 5  # de esas 7, para el winrate: así no gana alguien con 1 partida
 RACHA_MINIMA = 2
 
@@ -39,6 +41,17 @@ def _partidas_validas(partidas: Iterable[dict], mapa: MapaModos, desde_ms: int) 
         and mapa.obtener(p.get("queue_id")).categoria in CATEGORIAS
     ]
     return sorted(validas, key=lambda p: p["fecha"])
+
+
+def en_grupo(partida: dict) -> bool:
+    """True si 2 o más del grupo jugaron la partida en el mismo equipo."""
+    equipo = partida.get("equipo")
+    amigos = {
+        p.get("amigo")
+        for p in partida.get("participantes") or []
+        if isinstance(p, dict) and p.get("amigo") and p.get("equipo") == equipo
+    }
+    return len(amigos) >= MINIMO_EN_GRUPO
 
 
 def _resumen(partidas: list[dict]) -> dict:
@@ -87,6 +100,8 @@ def calcular_destacados(
     totales = {s: _resumen(p) for s, p in validas.items() if p}
     recientes = {s: p[-ULTIMAS_PARTIDAS:] for s, p in validas.items()}
     resumenes = {s: _resumen(p) for s, p in recientes.items() if p}
+    grupales = {s: [x for x in p if en_grupo(x)] for s, p in validas.items()}
+    rachas = {s: _resumen(p) for s, p in grupales.items() if p}
 
     return {
         "dias": DIAS,
@@ -101,8 +116,8 @@ def calcular_destacados(
             ("winrate", "victorias", "derrotas", "partidas"),
         ),
         "mejor_partida": _partida_destacada(recientes, mapa, mejor=True),
-        "racha_victorias": _racha(resumenes, "racha_victorias"),
-        "racha_derrotas": _racha(resumenes, "racha_derrotas"),
+        "racha_victorias_grupo": _racha(rachas, "racha_victorias"),
+        "racha_derrotas_grupo": _racha(rachas, "racha_derrotas"),
         "peor_partida": _partida_destacada(recientes, mapa, mejor=False),
     }
 
