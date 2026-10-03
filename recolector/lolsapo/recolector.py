@@ -467,14 +467,19 @@ def ejecutar(
     entradas = [entrada for entrada, _ in resultados]
     activas = [activa for _, activa in resultados if activa]
     # Los destacados usan el registro completo (lol.json solo lleva las últimas 10 partidas).
-    destacados = calcular_destacados(
-        {
-            amigo.slug: _partidas_registradas(Path(dir_datos) / "registro", amigo, ahora_ms)
-            for amigo in amigos
-        },
-        mapa,
-        ahora_ms,
-    )
+    # Si un registro trae algo raro, se omiten los destacados y el resto de lol.json sigue.
+    try:
+        destacados = calcular_destacados(
+            {
+                amigo.slug: _partidas_registradas(Path(dir_datos) / "registro", amigo, ahora_ms)
+                for amigo in amigos
+            },
+            mapa,
+            ahora_ms,
+        )
+    except (TypeError, KeyError, AttributeError, ValueError) as error:
+        log.error("No se pudieron calcular los destacados (%s)", type(error).__name__)
+        destacados = None
     rangos_amigos = {
         puuids[entrada["slug"]]: (entrada["rangos"]["solo"] or entrada["rangos"]["flex"])
         for entrada in entradas

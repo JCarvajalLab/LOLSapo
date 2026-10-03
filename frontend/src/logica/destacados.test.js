@@ -106,6 +106,13 @@ describe("validarDestacados", () => {
     expect(d.racha_victorias_grupo.partidas).toEqual({ "sapito-las": 3 });
   });
 
+  it("fechas de racha fuera del rango de Date quedan en null", () => {
+    const racha = { amigos: ["sapito-las"], racha: 3, desde: 9e15, hasta: 9e15 };
+    const d = validarDestacados(crearDestacados({ racha_victorias_grupo: racha }), AMIGOS);
+    expect(d.racha_victorias_grupo.desde).toBeNull();
+    expect(d.racha_victorias_grupo.hasta).toBeNull();
+  });
+
   it("fechas inválidas quedan en null; con una sola fecha usa la misma para ambas", () => {
     const base = { racha: 2, amigos: ["sapito-las", "rana-azul-las"] };
     for (const malo of [0, -5, 1.5, "1790000000000", Number.NaN, Number.POSITIVE_INFINITY, null, true]) {
@@ -188,6 +195,8 @@ describe("validarDestacados", () => {
     ["peor_partida", { ...crearDestacados().peor_partida, campeon_id: "1" }],
     ["peor_partida", { ...crearDestacados().peor_partida, modo: { html: "x" } }],
     ["peor_partida", { ...crearDestacados().peor_partida, fecha: "ayer" }],
+    // Fuera del rango de Date: formatearla lanzaría RangeError y dejaría la página en blanco.
+    ["peor_partida", { ...crearDestacados().peor_partida, fecha: 9e15 }],
     ["racha_victorias_grupo", [3]],
   ])("descarta %s mal formado", (clave, tarjeta) => {
     const d = validarDestacados(crearDestacados({ [clave]: tarjeta }), AMIGOS);

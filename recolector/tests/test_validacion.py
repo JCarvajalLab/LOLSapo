@@ -96,11 +96,11 @@ def test_resumen_sin_danio_lo_deja_vacio():
     assert resumir_partida(datos, PUUID)["danio"] is None
 
 
-def test_resumen_con_danio_invalido_se_rechaza():
+@pytest.mark.parametrize("valor", [-5, 1.5, "mucho", True])
+def test_resumen_con_danio_invalido_lo_deja_vacio(valor):
     datos = partida("LA2_100", PUUID)
-    datos["info"]["participants"][0]["totalDamageDealtToChampions"] = -5
-    with pytest.raises(DatoInvalido):
-        resumir_partida(datos, PUUID)
+    datos["info"]["participants"][0]["totalDamageDealtToChampions"] = valor
+    assert resumir_partida(datos, PUUID)["danio"] is None
 
 
 def test_resumen_de_derrota_y_remake():

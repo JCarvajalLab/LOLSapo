@@ -8,7 +8,7 @@ from conftest import KEY_FALSA
 from test_recolector import AHORA, JOHN, P_JOHN, simular_amigo, simular_partida
 
 from lolsapo.destacados import VENTANA_MS, calcular_destacados, kda
-from lolsapo.recolector import ejecutar
+from lolsapo.recolector import _elementos_usados, ejecutar
 
 AHORA_MS = int(AHORA.timestamp() * 1000)
 HORA = 60 * 60 * 1000
@@ -291,6 +291,28 @@ def test_partidas_sin_fecha_se_ignoran(mapa, dato_roto):
 
 
 @responses.activate
+def test_registro_danado_no_impide_generar_lol_json(cliente, mapa, tmp_path, caplog):
+    simular_amigo("Johnadis", P_JOHN, [])
+    ejecutar(cliente, KEY_FALSA, [JOHN], mapa, tmp_path, tmp_path / "lol.json", ahora=AHORA)
+    ruta = tmp_path / "registro" / "johnadis-las.json"
+    registro = json.loads(ruta.read_text(encoding="utf-8"))
+    # Partida con el KDA dañado (texto en vez de número): solo afecta a los destacados.
+    registro["partidas"]["LA2_X"] = {
+        **p("LA2_X", 1),
+        "asesinatos": "muchos",
+        "participantes": [],
+        "danio": None,
+    }
+    ruta.write_text(json.dumps(registro), encoding="utf-8")
+    salida = ejecutar(
+        cliente, KEY_FALSA, [JOHN], mapa, tmp_path, tmp_path / "lol.json", ahora=AHORA
+    )
+    assert salida["destacados"] is None
+    assert salida["amigos"][0]["slug"] == "johnadis-las"
+    assert "destacados" in caplog.text
+
+
+@responses.activate
 def test_lol_json_incluye_destacados_sin_puuid(cliente, mapa, tmp_path):
     ids = [f"LA2_{i}" for i in range(6, 0, -1)]
     simular_amigo("Johnadis", P_JOHN, ids)
@@ -305,7 +327,12 @@ def test_lol_json_incluye_destacados_sin_puuid(cliente, mapa, tmp_path):
     assert destacados["racha_victorias_grupo"] is None
     assert destacados["peor_partida"]["amigos"] == ["johnadis-las"]
     assert destacados["peor_partida"]["danio"] == 21_345
-    # El campeón de la peor partida queda disponible para su imagen.
+    # Los campeones de la mejor y peor partida quedan disponibles para su imagen.
+    usados = _elementos_usados([], [], destacados)["campeones"]
+    assert {
+        destacados["mejor_partida"]["campeon_id"],
+        destacados["peor_partida"]["campeon_id"],
+    } <= usados
     texto = (tmp_path / "lol.json").read_text(encoding="utf-8")
     assert P_JOHN not in texto
     assert json.loads(texto)["destacados"] == destacados

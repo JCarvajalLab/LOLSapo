@@ -53,7 +53,7 @@ function validarPartida(t) {
     conteo(t.asistencias) &&
     decimal(t.kda) &&
     RESULTADOS_OK.has(t.resultado) &&
-    decimal(t.fecha) &&
+    fechaValida(t.fecha) &&
     (t.campeon_id === null || t.campeon_id === undefined || conteo(t.campeon_id)) &&
     textoOpcional(t.campeon) &&
     textoOpcional(t.modo) &&
@@ -72,7 +72,10 @@ function validarRacha(t) {
   return Number.isInteger(t.racha) && t.racha >= RACHA_MINIMA;
 }
 
-const fechaMs = (v) => (Number.isInteger(v) && v > 0 ? v : null);
+// Máximo que acepta Date (año 275760): fuera de eso, formatear la fecha lanza RangeError.
+const MAX_FECHA_MS = 8.64e15;
+const fechaValida = (v) => Number.isInteger(v) && v > 0 && v <= MAX_FECHA_MS;
+const fechaMs = (v) => (fechaValida(v) ? v : null);
 
 /**
  * Completa una racha en equipo ya validada: `partidas` por amigo (entero de 1 a `racha`;
