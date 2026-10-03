@@ -21,7 +21,11 @@
   },
   // Sin telemetría de wrangler.
   "send_metrics": false,
+  // Logs de cada ejecución (para ver errores en el panel), sin trazas de las peticiones
+  // salientes: se fija explícitamente para no depender de los valores por defecto.
   "observability": {
-    "enabled": true
+    "enabled": true,
+    "logs": { "invocation_logs": true },
+    "traces": { "enabled": false }
   }
 }
