@@ -9,7 +9,7 @@ import { FilaAmigoTftEsqueleto } from "./FilaAmigoTft.jsx";
 import { FilaPartidaTft } from "./FilaPartidaTft.jsx";
 import { SeccionEnPartidaTft } from "./SeccionEnPartidaTft.jsx";
 import { crearDatos } from "../test/fixtures/lol.js";
-import { AHORA, crearDatosTft, ddragonTft, fetchPorRuta, partidaEnVivoTft, partidaTft } from "../test/fixtures/tft.js";
+import { AHORA, crearDatosTft, ddragonTft, fetchPorRuta, historialCroac, partidaEnVivoTft, partidaTft } from "../test/fixtures/tft.js";
 
 const MIN = 60 * 1000;
 
@@ -461,5 +461,76 @@ describe("carga de tft.json en la app", () => {
     await userEvent.click(screen.getByRole("tab", { name: "TFT" }));
     await screen.findByRole("button", { name: "Croac#LAS" });
     expect(fetchFn.mock.calls.map(([ruta]) => ruta)).toEqual(["./datos/lol.json", "./datos/tft.json"]);
+  });
+});
+
+describe("historial de puestos en el panel", () => {
+  async function abrirPanel(riotId, datos = crearDatosTft()) {
+    renderVista(datos);
+    const boton = await abrir(riotId);
+    return document.getElementById(boton.getAttribute("aria-controls"));
+  }
+
+  const NOMBRE_GRILLA = "Puestos, del más reciente al más antiguo";
+  const celdas = (panel) => within(within(panel).getByRole("list", { name: NOMBRE_GRILLA })).getAllByRole("listitem");
+
+  it("muestra la grilla con N real, más reciente primero y colores por puesto", async () => {
+    const panel = await abrirPanel("Croac#LAS");
+    const seccion = within(panel).getByRole("region", { name: "Historial de puestos" });
+    expect(within(seccion).getByRole("heading", { level: 3 })).toHaveTextContent("Posición en las últimas 12 partidas");
+    expect(seccion).toHaveTextContent("Más reciente primero");
+
+    const lista = celdas(panel);
+    expect(lista).toHaveLength(12);
+    expect(lista.map((c) => c.textContent.split("Partida")[0])).toEqual([
+      "#2", "#1", "#5", "#8", "#3", "#4", "#6", "#1", "#7", "#2", "#4", "#5",
+    ]);
+    expect(lista[0]).toHaveAttribute("title", "Partida 1 (más reciente): 2.º · Clasificatoria");
+    expect(lista[0]).toHaveTextContent("Partida 1 (más reciente): 2.º · Clasificatoria");
+    expect(lista[2]).toHaveAttribute("title", "Partida 3: 5.º · Normal");
+
+    expect(lista[1]).toHaveAttribute("data-puesto", "primero");
+    expect(lista[1]).toHaveClass("bg-oro-fondo", "text-oro");
+    expect(lista[0]).toHaveAttribute("data-puesto", "top4");
+    expect(lista[0]).toHaveClass("bg-victoria-fondo", "text-victoria");
+    expect(lista[3]).toHaveAttribute("data-puesto", "abajo");
+    expect(lista[3]).toHaveClass("bg-fondo", "text-derrota");
+  });
+
+  it("aplica el filtro de modo a la grilla", async () => {
+    const panel = await abrirPanel("Croac#LAS");
+    await userEvent.click(within(panel).getByRole("button", { name: "Rankeds" }));
+    const seccion = within(panel).getByRole("region", { name: "Historial de puestos" });
+    expect(within(seccion).getByRole("heading", { level: 3 })).toHaveTextContent("Posición en las últimas 8 partidas");
+    expect(seccion).toHaveTextContent("Rankeds · Más reciente primero");
+    expect(celdas(panel).map((c) => c.getAttribute("data-puesto"))).toEqual([
+      "top4", "primero", "abajo", "top4", "abajo", "abajo", "top4", "abajo",
+    ]);
+
+    await userEvent.click(within(panel).getByRole("button", { name: "Otros" }));
+    expect(within(seccion).getByRole("heading", { level: 3 })).toHaveTextContent("Posición en la última partida");
+    expect(celdas(panel)[0]).toHaveAttribute("title", "Partida 1 (más reciente): 3.º · Dúo dinámico");
+  });
+
+  it("filtro sin puestos: texto discreto en lugar de la grilla", async () => {
+    const datos = crearDatosTft();
+    datos.amigos[0].historial = historialCroac.filter((x) => x.categoria === "normal").slice(0, 2);
+    const panel = await abrirPanel("Croac#LAS", datos);
+    await userEvent.click(within(panel).getByRole("button", { name: "Rankeds" }));
+    const seccion = within(panel).getByRole("region", { name: "Historial de puestos" });
+    expect(seccion).toHaveTextContent("No hay partidas de Rankeds en las últimas 2. Prueba con Todos.");
+    expect(within(seccion).getByRole("heading", { level: 3 })).toHaveTextContent(/^Posición en las últimas partidas$/);
+    expect(within(panel).queryByRole("list", { name: NOMBRE_GRILLA })).not.toBeInTheDocument();
+  });
+
+  it("sin historial (vacío o archivo viejo) no muestra la grilla y el panel sigue entero", async () => {
+    const panel = await abrirPanel("Renacuaja#LAS");
+    expect(within(panel).queryByRole("region", { name: "Historial de puestos" })).not.toBeInTheDocument();
+    expect(panel).toHaveTextContent("Sin rango en ninguna cola de TFT esta temporada.");
+
+    const botonLodo = await abrir("Lodo#LAS");
+    const lodo = document.getElementById(botonLodo.getAttribute("aria-controls"));
+    expect(within(lodo).queryByRole("region", { name: "Historial de puestos" })).not.toBeInTheDocument();
+    expect(within(lodo).getByRole("list", { name: "Rangos" })).toBeInTheDocument();
   });
 });

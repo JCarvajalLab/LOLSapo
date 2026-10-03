@@ -6,6 +6,7 @@ import { formatearPromedio, resumenTftDe, textoRangoTft, tierTurbo, top4DeRango 
 import { BarraWinrate } from "./Etiquetas.jsx";
 import { FilaPartidaTft } from "./FilaPartidaTft.jsx";
 import { FiltroModos } from "./FiltroModos.jsx";
+import { HistorialPuestos } from "./HistorialPuestos.jsx";
 
 const numeros = new Intl.NumberFormat("es");
 
@@ -23,7 +24,13 @@ export function PanelAmigoTft({ amigo, ddragon, ahora }) {
         registradas por LOLSapo.
       </p>
 
-      <RangosTft rangos={amigo.rangos} />
+      {/* Escritorio: rangos a la izquierda y la grilla de puestos a la derecha. Móvil: uno debajo del otro. */}
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-start">
+        <div className="min-w-0 flex-1">
+          <RangosTft rangos={amigo.rangos} />
+        </div>
+        <HistorialPuestos historial={amigo.historial} filtro={filtro} />
+      </div>
 
       <FiltroModos valor={filtro} onCambiar={setFiltro} opciones={FILTROS_TFT} />
 
