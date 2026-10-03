@@ -7,15 +7,15 @@ export const CLAVES_DESTACADOS = [
   "mas_partidas",
   "mejor_winrate",
   "mejor_partida",
-  "racha_victorias",
-  "racha_derrotas",
+  "racha_victorias_grupo",
+  "racha_derrotas_grupo",
   "peor_partida",
 ];
 
 /** Mínimo de partidas seguidas para que una racha cuente (lo mismo que usa el recolector). */
 export const RACHA_MINIMA = 2;
 
-/** Partidas por amigo para winrate, rachas y mejor y peor partida si el archivo no lo dice. */
+/** Partidas por amigo para winrate y mejor y peor partida si el archivo no lo dice. */
 export const ULTIMAS_PARTIDAS_POR_DEFECTO = 7;
 
 const RESULTADOS_OK = new Set(["victoria", "derrota"]);
@@ -40,8 +40,8 @@ const VALIDADORES = {
     conteo(t.partidas) &&
     t.partidas > 0,
   mejor_partida: validarPartida,
-  racha_victorias: validarRacha,
-  racha_derrotas: validarRacha,
+  racha_victorias_grupo: validarRacha,
+  racha_derrotas_grupo: validarRacha,
   peor_partida: validarPartida,
 };
 
@@ -61,10 +61,31 @@ function validarPartida(t) {
   );
 }
 
-// El formato viejo traía una sola "racha" (de victorias): se ignora, el recolector
-// regenera lol.json en cada pasada.
+// Los formatos viejos ("racha", "racha_victorias", "racha_derrotas") se ignoran: el
+// recolector regenera lol.json en cada pasada.
 function validarRacha(t) {
   return Number.isInteger(t.racha) && t.racha >= RACHA_MINIMA;
+}
+
+const fechaMs = (v) => (Number.isInteger(v) && v > 0 ? v : null);
+
+/**
+ * Completa una racha en equipo ya validada: `partidas` por amigo (entero de 1 a `racha`;
+ * si falta o es inválido vale `racha`) y `desde`/`hasta` (null si faltan o son inválidos).
+ */
+function completarRacha(t, amigos) {
+  const crudas = t.partidas && typeof t.partidas === "object" && !Array.isArray(t.partidas) ? t.partidas : {};
+  const partidas = {};
+  for (const slug of amigos) {
+    const n = Object.hasOwn(crudas, slug) ? crudas[slug] : undefined;
+    partidas[slug] = Number.isInteger(n) && n >= 1 && n <= t.racha ? n : t.racha;
+  }
+  let desde = fechaMs(t.desde);
+  let hasta = fechaMs(t.hasta);
+  if (desde === null) desde = hasta;
+  if (hasta === null) hasta = desde;
+  if (desde !== null && hasta < desde) [desde, hasta] = [hasta, desde];
+  return { racha: t.racha, amigos, partidas, desde, hasta };
 }
 
 /** Una tarjeta válida (con `amigos` filtrados) o null si está mal formada o sin amigos conocidos. */
@@ -74,6 +95,7 @@ export function validarTarjeta(clave, tarjeta, slugs) {
   if (!validar || !validar(tarjeta)) return null;
   const amigos = amigosConocidos(tarjeta.amigos, slugs);
   if (amigos.length === 0) return null;
+  if (validar === validarRacha) return completarRacha(tarjeta, amigos);
   return { ...tarjeta, amigos };
 }
 
@@ -119,6 +141,23 @@ export function formatearPorcentaje(valor) {
 /** KDA de una partida: "9,5", "3,02", "0". */
 export function formatearKdaDestacado(valor) {
   return esNumero(valor) ? hastaDosDecimales.format(valor) : "—";
+}
+
+const diaMes = new Intl.DateTimeFormat("es-CL", { day: "numeric", month: "short" });
+
+const mismoDia = (a, b) =>
+  a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+
+/**
+ * Fecha de una racha en la zona horaria local: "1 oct" si empieza y termina el mismo día,
+ * "30 sept – 2 oct" si no. null si no hay fechas.
+ */
+export function fechaRacha(desde, hasta) {
+  if (!esNumero(desde) || !esNumero(hasta)) return null;
+  const inicio = new Date(desde);
+  const fin = new Date(hasta);
+  if (mismoDia(inicio, fin)) return diaMes.format(inicio);
+  return `${diaMes.format(inicio)} – ${diaMes.format(fin)}`;
 }
 
 /** "1 partida", "8 partidas". */

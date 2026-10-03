@@ -4,6 +4,7 @@ import {
   RACHA_MINIMA,
   ULTIMAS_PARTIDAS_POR_DEFECTO,
   destacadosVacios,
+  fechaRacha,
   formatearKdaDestacado,
   formatearPorcentaje,
   plural,
@@ -17,8 +18,8 @@ const TITULOS = {
   mas_partidas: "Más partidas",
   mejor_winrate: "Mejor winrate",
   mejor_partida: "Mejor partida",
-  racha_victorias: "Racha más larga de victorias",
-  racha_derrotas: "Racha más larga de derrotas",
+  racha_victorias_grupo: "Racha de victorias en equipo",
+  racha_derrotas_grupo: "Racha de derrotas en equipo",
   peor_partida: "Peor partida",
 };
 
@@ -27,10 +28,10 @@ function minimo(clave, n) {
   switch (clave) {
     case "mejor_winrate":
       return `Nadie con 5 partidas de sus últimas ${n}.`;
-    case "racha_victorias":
-      return `Nadie con ${RACHA_MINIMA} victorias seguidas.`;
-    case "racha_derrotas":
-      return `Nadie con ${RACHA_MINIMA} derrotas seguidas.`;
+    case "racha_victorias_grupo":
+      return `Nadie con ${RACHA_MINIMA} victorias seguidas en equipo.`;
+    case "racha_derrotas_grupo":
+      return `Nadie con ${RACHA_MINIMA} derrotas seguidas en equipo.`;
     default:
       return null;
   }
@@ -38,7 +39,8 @@ function minimo(clave, n) {
 
 /**
  * Destacados de los últimos 7 días (solo LoL, Normal y Ranked).
- * Más partidas cuenta los 7 días; el resto, las últimas N partidas de cada amigo.
+ * Más partidas cuenta los 7 días; las rachas, las partidas en equipo (2 o más del grupo);
+ * el resto, las últimas N partidas de cada amigo.
  * Sin `destacados` (archivos viejos) no se muestra nada.
  */
 export function SeccionDestacados({ destacados, amigos, ddragon, ahora }) {
@@ -51,7 +53,7 @@ export function SeccionDestacados({ destacados, amigos, ddragon, ahora }) {
     <section aria-labelledby="titulo-destacados" aria-describedby="nota-destacados">
       <TituloSeccion id="titulo-destacados">Destacados de los últimos 7 días</TituloSeccion>
       <p id="nota-destacados" className="-mt-2 mb-3 text-xs break-words text-texto-suave">
-        {`Solo Normal y Ranked (Solo/Dúo y Flex) · Winrate, rachas y mejor y peor partida: últimas ${n} partidas de cada uno`}
+        {`Solo Normal y Ranked (Solo/Dúo y Flex) · Winrate y mejor y peor partida: últimas ${n} partidas de cada uno · Rachas: partidas en equipo (2 o más del grupo)`}
       </p>
       {vacios ? (
         <p className="flex min-h-20 items-center justify-center rounded-lg border border-borde bg-superficie px-3 text-center text-sm text-texto-suave">
@@ -91,7 +93,11 @@ function TarjetaDestacado({ clave, tarjeta, porSlug, ddragon, ahora, ultimas }) 
       </h3>
       {tarjeta ? (
         <>
-          <Amigos slugs={tarjeta.amigos} porSlug={porSlug} ddragon={ddragon} />
+          {esRacha(clave) ? (
+            <IntegrantesRacha t={tarjeta} porSlug={porSlug} ddragon={ddragon} />
+          ) : (
+            <Amigos slugs={tarjeta.amigos} porSlug={porSlug} ddragon={ddragon} />
+          )}
           <Contenido clave={clave} t={tarjeta} ddragon={ddragon} ahora={ahora} />
         </>
       ) : (
@@ -104,29 +110,66 @@ function TarjetaDestacado({ clave, tarjeta, porSlug, ddragon, ahora, ultimas }) 
   );
 }
 
+const esRacha = (clave) => clave === "racha_victorias_grupo" || clave === "racha_derrotas_grupo";
+
+const amigoDe = (porSlug, slug) => porSlug.get(slug) ?? { slug, riot_id: slug };
+const nombreDe = (a) => a.nombre || a.riot_id || a.slug;
+
+function IconosAmigos({ lista, ddragon }) {
+  return (
+    <span className="flex shrink-0 -space-x-2">
+      {lista.map((a) => (
+        <ImagenDD
+          key={a.slug}
+          src={urlIconoPerfil(ddragon, a.perfil?.icono)}
+          alt={`Ícono de ${a.riot_id ?? a.slug}`}
+          respaldo={a.riot_id ?? a.slug}
+          tamaño={28}
+          redonda
+          className="ring-2 ring-superficie"
+        />
+      ))}
+    </span>
+  );
+}
+
+/**
+ * Integrantes de una racha en equipo: íconos arriba y nombres debajo, a todo el ancho.
+ * Quien jugó solo 1 partida de la racha lleva «(1 partida)» en texto suave.
+ * Los nombres ocupan siempre 2 líneas (cortados si no caben) para que 3 a 5 integrantes
+ * no cambien el alto; la lista completa queda en `title` y para lectores de pantalla.
+ */
+function IntegrantesRacha({ t, porSlug, ddragon }) {
+  const lista = t.amigos.map((slug) => amigoDe(porSlug, slug));
+  const nota = (a) => (t.partidas?.[a.slug] === 1 ? " (1 partida)" : "");
+  const completo = lista.map((a) => `${nombreDe(a)}${nota(a)}`).join(" · ");
+  return (
+    <div className="flex min-w-0 flex-col gap-1">
+      <IconosAmigos lista={lista} ddragon={ddragon} />
+      <p title={completo} data-integrantes="" className="line-clamp-2 h-10 min-w-0 text-sm leading-5 break-words">
+        {lista.map((a, i) => (
+          <span key={a.slug}>
+            {i > 0 && <span className="text-texto-suave"> · </span>}
+            <span className="font-semibold">{nombreDe(a)}</span>
+            {nota(a) && <span className="text-xs text-texto-suave">{nota(a)}</span>}
+          </span>
+        ))}
+      </p>
+    </div>
+  );
+}
+
 /**
  * Íconos superpuestos y nombres separados por " · " (con empate van todos).
  * Los nombres se cortan en 2 líneas para que 3 a 5 empatados no estiren todas las
  * tarjetas; la lista completa queda en `title` y para lectores de pantalla.
  */
 function Amigos({ slugs, porSlug, ddragon }) {
-  const lista = slugs.map((slug) => porSlug.get(slug) ?? { slug, riot_id: slug });
-  const nombres = lista.map((a) => a.nombre || a.riot_id || a.slug).join(" · ");
+  const lista = slugs.map((slug) => amigoDe(porSlug, slug));
+  const nombres = lista.map(nombreDe).join(" · ");
   return (
     <div className="flex min-w-0 items-center gap-2">
-      <span className="flex shrink-0 -space-x-2">
-        {lista.map((a) => (
-          <ImagenDD
-            key={a.slug}
-            src={urlIconoPerfil(ddragon, a.perfil?.icono)}
-            alt={`Ícono de ${a.riot_id ?? a.slug}`}
-            respaldo={a.riot_id ?? a.slug}
-            tamaño={28}
-            redonda
-            className="ring-2 ring-superficie"
-          />
-        ))}
-      </span>
+      <IconosAmigos lista={lista} ddragon={ddragon} />
       <p title={nombres} className="line-clamp-2 min-w-0 font-semibold break-words">
         {nombres}
       </p>
@@ -161,10 +204,10 @@ function Contenido({ clave, t, ddragon, ahora }) {
       );
     case "mejor_partida":
       return <Partida t={t} ddragon={ddragon} ahora={ahora} mejor />;
-    case "racha_victorias":
-      return <Racha icono="🔥" valor={t.racha} texto="victorias seguidas" color="text-victoria" />;
-    case "racha_derrotas":
-      return <Racha icono="🧊" valor={t.racha} texto="derrotas seguidas" color="text-derrota" />;
+    case "racha_victorias_grupo":
+      return <Racha icono="🔥" t={t} texto="victorias seguidas" color="text-victoria" />;
+    case "racha_derrotas_grupo":
+      return <Racha icono="🧊" t={t} texto="derrotas seguidas" color="text-derrota" />;
     case "peor_partida":
       return <Partida t={t} ddragon={ddragon} ahora={ahora} mejor={false} />;
     default:
@@ -172,15 +215,28 @@ function Contenido({ clave, t, ddragon, ahora }) {
   }
 }
 
-/** "🔥 3 victorias seguidas": el texto dice el resultado, el color solo lo refuerza. */
-function Racha({ icono, valor, texto, color }) {
+/**
+ * "🔥 3 victorias seguidas": el texto dice el resultado, el color solo lo refuerza.
+ * Debajo, cuándo fue la racha ("1 oct" o "30 sept – 2 oct") si el archivo trae las fechas.
+ */
+function Racha({ icono, t, texto, color }) {
+  const cuando = fechaRacha(t.desde, t.hasta);
   return (
-    <p className="mt-auto flex items-baseline gap-2">
-      <span aria-hidden="true">{icono}</span>
-      <span>
-        <span className={`${VALOR} ${color}`}>{valor}</span> <span className="text-texto-suave">{texto}</span>
-      </span>
-    </p>
+    <div className="mt-auto">
+      <p className="flex items-baseline gap-2">
+        <span aria-hidden="true">{icono}</span>
+        <span>
+          <span className={`${VALOR} ${color}`}>{t.racha}</span> <span className="text-texto-suave">{texto}</span>
+        </span>
+      </p>
+      {cuando && (
+        <p className="mt-1 text-xs text-texto-suave">
+          <time dateTime={new Date(t.desde).toISOString()} title={`${fechaCompleta(t.desde)} – ${fechaCompleta(t.hasta)}`}>
+            {cuando}
+          </time>
+        </p>
+      )}
+    </div>
   );
 }
 

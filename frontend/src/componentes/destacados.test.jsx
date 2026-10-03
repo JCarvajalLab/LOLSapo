@@ -19,14 +19,14 @@ describe("SeccionDestacados", () => {
   it("muestra el título, la nota y las 6 tarjetas en orden", () => {
     renderDestacados(crearDestacados());
     expect(screen.getByRole("heading", { level: 2, name: "Destacados de los últimos 7 días" })).toBeInTheDocument();
-    expect(screen.getByText("Solo Normal y Ranked (Solo/Dúo y Flex) · Winrate, rachas y mejor y peor partida: últimas 10 partidas de cada uno")).toBeInTheDocument();
+    expect(screen.getByText("Solo Normal y Ranked (Solo/Dúo y Flex) · Winrate y mejor y peor partida: últimas 10 partidas de cada uno · Rachas: partidas en equipo (2 o más del grupo)")).toBeInTheDocument();
     const titulos = screen.getAllByRole("heading", { level: 3 }).map((h) => h.textContent);
     expect(titulos).toEqual([
       "Más partidas",
       "Mejor winrate",
       "Mejor partida",
-      "Racha más larga de victorias",
-      "Racha más larga de derrotas",
+      "Racha de victorias en equipo",
+      "Racha de derrotas en equipo",
       "Peor partida",
     ]);
     expect(screen.getAllByRole("listitem")).toHaveLength(6);
@@ -46,12 +46,12 @@ describe("SeccionDestacados", () => {
     expect(within(wr).getByText("3 D")).toHaveClass("text-derrota");
     expect(within(wr).getByText("5 victorias y 3 derrotas en 8 partidas")).toBeInTheDocument();
 
-    const victorias = tarjeta("Racha más larga de victorias");
+    const victorias = tarjeta("Racha de victorias en equipo");
     expect(victorias).toHaveTextContent("🔥4 victorias seguidas");
     expect(within(victorias).getByText("4")).toHaveClass("text-victoria");
     expect(within(victorias).getByText("Sapito")).toBeInTheDocument();
 
-    const derrotas = tarjeta("Racha más larga de derrotas");
+    const derrotas = tarjeta("Racha de derrotas en equipo");
     expect(derrotas).toHaveTextContent("🧊3 derrotas seguidas");
     expect(within(derrotas).getByText("3")).toHaveClass("text-derrota");
   });
@@ -120,12 +120,21 @@ describe("SeccionDestacados", () => {
     expect(screen.getAllByRole("article")).toHaveLength(6);
   });
 
-  it("racha de derrotas con 3 amigos empatados muestra a todos, con los nombres cortados y completos en title", () => {
+  it("racha en equipo con 3 integrantes: nota «(1 partida)» solo para quien jugó 1", () => {
     renderDestacados(crearDestacados());
-    const racha = tarjeta("Racha más larga de derrotas");
-    const nombres = within(racha).getByText("Rana Azul · Sapito · Charco");
-    expect(nombres).toHaveAttribute("title", "Rana Azul · Sapito · Charco");
-    expect(nombres).toHaveClass("line-clamp-2", "min-w-0", "break-words");
+    const racha = tarjeta("Racha de derrotas en equipo");
+    const nombres = racha.querySelector("[data-integrantes]");
+    // El texto (también para lectores de pantalla) incluye la nota.
+    expect(nombres).toHaveTextContent(/^Rana Azul · Sapito · Charco \(1 partida\)$/);
+    expect(nombres).toHaveAttribute("title", "Rana Azul · Sapito · Charco (1 partida)");
+    const nota = within(racha).getByText("(1 partida)");
+    expect(nota).toHaveClass("text-texto-suave");
+    expect(within(racha).getAllByText(/partida\)/)).toHaveLength(1);
+    expect(within(racha).getByText("Charco").nextSibling).toBe(nota);
+    expect(within(racha).getByText("Rana Azul").nextSibling).toBeNull();
+    expect(within(racha).getByText("Sapito").nextSibling).toBeNull();
+    // La otra racha: Rana jugó 3 de 4, sin nota.
+    expect(within(tarjeta("Racha de victorias en equipo")).queryByText(/partida\)/)).toBeNull();
     expect(within(racha).getAllByRole("img", { name: /^Ícono de / })).toHaveLength(3);
     expect(within(racha).getByAltText("Ícono de Rana Azul#LAS")).toHaveAttribute(
       "src",
@@ -134,7 +143,72 @@ describe("SeccionDestacados", () => {
     expect(within(racha).getByAltText("Ícono de Sapito#LAS")).toBeInTheDocument();
     // Charco no tiene perfil: se ve el respaldo con iniciales.
     expect(within(racha).getByRole("img", { name: "Ícono de Charco#LAS" })).toHaveTextContent("C");
-    expect(within(tarjeta("Más partidas")).getByText("Rana Azul · Sapito")).toBeInTheDocument();
+    const mas = within(tarjeta("Más partidas")).getByText("Rana Azul · Sapito");
+    expect(mas).toHaveAttribute("title", "Rana Azul · Sapito");
+    expect(mas).toHaveClass("line-clamp-2", "min-w-0", "break-words");
+  });
+
+  it("racha con 5 integrantes: nombres en 2 líneas fijas, sin desborde y completos en title", () => {
+    const base = crearDatos().amigos;
+    const extra = ["Renacuajo", "Ranita Feliz"].map((nombre, i) => ({
+      ...base[1],
+      riot_id: `${nombre}#LAS`,
+      nombre,
+      slug: `extra-${i}-las`,
+    }));
+    const amigos = [...base, ...extra];
+    const slugs = amigos.map((a) => a.slug);
+    renderDestacados(
+      crearDestacados({
+        racha_victorias_grupo: {
+          racha: 5,
+          amigos: slugs,
+          partidas: Object.fromEntries(slugs.map((s, i) => [s, i === 4 ? 1 : 5])),
+          desde: new Date(2026, 9, 1, 10).getTime(),
+          hasta: new Date(2026, 9, 1, 14).getTime(),
+        },
+      }),
+      { amigos },
+    );
+    const racha = tarjeta("Racha de victorias en equipo");
+    const nombres = racha.querySelector("[data-integrantes]");
+    expect(nombres).toHaveClass("line-clamp-2", "h-10", "min-w-0", "break-words");
+    expect(nombres).toHaveAttribute("title", "Rana Azul · Sapito · Charco · Renacuajo · Ranita Feliz (1 partida)");
+    expect(within(racha).getAllByRole("img", { name: /^Ícono de / })).toHaveLength(5);
+    expect(within(racha).getByText("1 oct")).toBeInTheDocument();
+  });
+
+  it("muestra la fecha de la racha: un día o un rango", () => {
+    renderDestacados(crearDestacados());
+    const dia = within(tarjeta("Racha de derrotas en equipo")).getByText("1 oct");
+    expect(dia.tagName).toBe("TIME");
+    expect(dia).toHaveAttribute("dateTime", new Date(2026, 9, 1, 10).toISOString());
+    expect(within(tarjeta("Racha de victorias en equipo")).getByText(/^30 sept? – 1 oct$/)).toBeInTheDocument();
+  });
+
+  it("sin fechas válidas la racha no muestra la línea de fecha ni notas", () => {
+    renderDestacados(
+      crearDestacados({ racha_derrotas_grupo: { racha: 2, amigos: ["sapito-las", "rana-azul-las"], desde: "ayer" } }),
+    );
+    const derrotas = tarjeta("Racha de derrotas en equipo");
+    expect(derrotas).toHaveTextContent("🧊2 derrotas seguidas");
+    expect(derrotas.querySelector("time")).toBeNull();
+    expect(within(derrotas).queryByText(/partida\)/)).toBeNull();
+  });
+
+  it("ignora las rachas del formato viejo", () => {
+    renderDestacados(
+      crearDestacados({
+        racha_victorias: { amigos: ["sapito-las"], racha: 47 },
+        racha_derrotas: { amigos: ["sapito-las"], racha: 46 },
+        racha_victorias_grupo: undefined,
+        racha_derrotas_grupo: undefined,
+      }),
+    );
+    expect(within(tarjeta("Racha de victorias en equipo")).getByText("Sin datos")).toBeInTheDocument();
+    expect(within(tarjeta("Racha de derrotas en equipo")).getByText("Sin datos")).toBeInTheDocument();
+    expect(screen.queryByText("47")).toBeNull();
+    expect(screen.queryByText("46")).toBeNull();
   });
 
   it("las tarjetas null dicen Sin datos", () => {
@@ -150,13 +224,13 @@ describe("SeccionDestacados", () => {
   });
 
   it("ambas rachas null dicen Sin datos con su mínimo", () => {
-    renderDestacados(crearDestacados({ racha_victorias: null, racha_derrotas: null }));
-    const victorias = tarjeta("Racha más larga de victorias");
-    const derrotas = tarjeta("Racha más larga de derrotas");
+    renderDestacados(crearDestacados({ racha_victorias_grupo: null, racha_derrotas_grupo: null }));
+    const victorias = tarjeta("Racha de victorias en equipo");
+    const derrotas = tarjeta("Racha de derrotas en equipo");
     expect(within(victorias).getByText("Sin datos")).toBeInTheDocument();
-    expect(within(victorias).getByText("Nadie con 2 victorias seguidas.")).toBeInTheDocument();
+    expect(within(victorias).getByText("Nadie con 2 victorias seguidas en equipo.")).toBeInTheDocument();
     expect(within(derrotas).getByText("Sin datos")).toBeInTheDocument();
-    expect(within(derrotas).getByText("Nadie con 2 derrotas seguidas.")).toBeInTheDocument();
+    expect(within(derrotas).getByText("Nadie con 2 derrotas seguidas en equipo.")).toBeInTheDocument();
     expect(victorias).not.toHaveTextContent("🔥");
     expect(derrotas).not.toHaveTextContent("🧊");
     expect(screen.getAllByRole("article")).toHaveLength(6);
@@ -164,12 +238,12 @@ describe("SeccionDestacados", () => {
 
   it("sin ultimas_partidas o con un valor inválido usa 7 en la nota y en los mínimos", () => {
     const { unmount } = renderDestacados(crearDestacados({ ultimas_partidas: undefined, mejor_winrate: null }));
-    expect(screen.getByText("Solo Normal y Ranked (Solo/Dúo y Flex) · Winrate, rachas y mejor y peor partida: últimas 7 partidas de cada uno")).toBeInTheDocument();
+    expect(screen.getByText("Solo Normal y Ranked (Solo/Dúo y Flex) · Winrate y mejor y peor partida: últimas 7 partidas de cada uno · Rachas: partidas en equipo (2 o más del grupo)")).toBeInTheDocument();
     expect(within(tarjeta("Mejor winrate")).getByText("Nadie con 5 partidas de sus últimas 7.")).toBeInTheDocument();
     unmount();
 
     renderDestacados(crearDestacados({ ultimas_partidas: "<b>99</b>" }));
-    expect(screen.getByText("Solo Normal y Ranked (Solo/Dúo y Flex) · Winrate, rachas y mejor y peor partida: últimas 7 partidas de cada uno")).toBeInTheDocument();
+    expect(screen.getByText("Solo Normal y Ranked (Solo/Dúo y Flex) · Winrate y mejor y peor partida: últimas 7 partidas de cada uno · Rachas: partidas en equipo (2 o más del grupo)")).toBeInTheDocument();
     expect(screen.queryByText(/99/)).toBeNull();
   });
 
@@ -178,14 +252,14 @@ describe("SeccionDestacados", () => {
       crearDestacados({
         mas_partidas: { amigos: ["intruso-las"], partidas: 20 },
         mejor_partida: { ...crearDestacados().mejor_partida, kda: "9,5" },
-        racha_victorias: { amigos: ["sapito-las"], racha: 1 },
-        racha_derrotas: { amigos: ["intruso-las"], racha: 3 },
+        racha_victorias_grupo: { amigos: ["sapito-las", "rana-azul-las"], racha: 1 },
+        racha_derrotas_grupo: { amigos: ["intruso-las"], racha: 3, partidas: { "intruso-las": 1 } },
       }),
     );
     expect(within(tarjeta("Más partidas")).getByText("Sin datos")).toBeInTheDocument();
     expect(within(tarjeta("Mejor partida")).getByText("Sin datos")).toBeInTheDocument();
-    expect(within(tarjeta("Racha más larga de victorias")).getByText("Sin datos")).toBeInTheDocument();
-    expect(within(tarjeta("Racha más larga de derrotas")).getByText("Sin datos")).toBeInTheDocument();
+    expect(within(tarjeta("Racha de victorias en equipo")).getByText("Sin datos")).toBeInTheDocument();
+    expect(within(tarjeta("Racha de derrotas en equipo")).getByText("Sin datos")).toBeInTheDocument();
     expect(screen.queryByText(/intruso/)).toBeNull();
   });
 

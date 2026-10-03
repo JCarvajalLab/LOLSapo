@@ -270,9 +270,22 @@ export function crearDestacados(cambios = {}) {
       modo: "Clasificatoria Flex",
       fecha: AHORA - 2 * HORA,
     },
-    racha_victorias: { amigos: ["sapito-las"], racha: 4 },
-    // Empate de 3: lo normal, porque el grupo juega junto.
-    racha_derrotas: { amigos: ["rana-azul-las", "sapito-las", "charco-las"], racha: 3 },
+    // Rachas en equipo. Las fechas son locales para que el día no dependa de la zona horaria.
+    racha_victorias_grupo: {
+      racha: 4,
+      amigos: ["sapito-las", "rana-azul-las"],
+      partidas: { "sapito-las": 4, "rana-azul-las": 3 },
+      desde: new Date(2026, 8, 30, 21, 0).getTime(),
+      hasta: new Date(2026, 9, 1, 1, 30).getTime(),
+    },
+    // Charco se sumó solo a la última partida: lleva la nota «(1 partida)».
+    racha_derrotas_grupo: {
+      racha: 3,
+      amigos: ["rana-azul-las", "sapito-las", "charco-las"],
+      partidas: { "rana-azul-las": 3, "sapito-las": 3, "charco-las": 1 },
+      desde: new Date(2026, 9, 1, 10, 0).getTime(),
+      hasta: new Date(2026, 9, 1, 12, 0).getTime(),
+    },
     peor_partida: {
       amigos: ["rana-azul-las"],
       partida_id: "LA2_99",
