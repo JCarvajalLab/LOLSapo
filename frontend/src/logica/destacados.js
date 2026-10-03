@@ -5,6 +5,9 @@ import { esNumero } from "./formato.js";
 /** Orden fijo de las tarjetas, como lo decidió Deo. */
 export const CLAVES_DESTACADOS = ["mas_partidas", "mejor_winrate", "mejor_kda", "peor_kda", "racha", "peor_partida"];
 
+/** Partidas por amigo para winrate, KDA, racha y peor partida si el archivo no lo dice. */
+export const ULTIMAS_PARTIDAS_POR_DEFECTO = 7;
+
 const RESULTADOS_OK = new Set(["victoria", "derrota"]);
 
 const conteo = (v) => Number.isInteger(v) && v >= 0;
@@ -77,8 +80,14 @@ export function validarDestacados(destacados, amigos) {
   return {
     dias: Number.isInteger(destacados.dias) && destacados.dias > 0 ? destacados.dias : 7,
     desde: decimal(destacados.desde) ? destacados.desde : null,
+    ultimas_partidas: validarUltimasPartidas(destacados.ultimas_partidas),
     ...tarjetas,
   };
+}
+
+/** Entero de 1 a 50; si falta o es inválido, el valor por defecto (7). */
+function validarUltimasPartidas(valor) {
+  return Number.isInteger(valor) && valor >= 1 && valor <= 50 ? valor : ULTIMAS_PARTIDAS_POR_DEFECTO;
 }
 
 /** true si ninguna tarjeta tiene datos. */

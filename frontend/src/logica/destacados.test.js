@@ -17,9 +17,27 @@ describe("validarDestacados", () => {
   it("acepta los destacados completos", () => {
     const d = validarDestacados(crearDestacados(), AMIGOS);
     expect(d.dias).toBe(7);
+    expect(d.ultimas_partidas).toBe(10);
     for (const clave of CLAVES_DESTACADOS) expect(d[clave]).not.toBeNull();
     expect(d.mejor_winrate).toMatchObject({ winrate: 62.5, victorias: 5, derrotas: 3, partidas: 8 });
     expect(d.racha.amigos).toEqual(["rana-azul-las", "sapito-las", "charco-las"]);
+  });
+
+  it("usa 7 últimas partidas si el campo falta (archivos viejos)", () => {
+    const sinCampo = crearDestacados();
+    delete sinCampo.ultimas_partidas;
+    expect(validarDestacados(sinCampo, AMIGOS).ultimas_partidas).toBe(7);
+  });
+
+  it.each([0, -3, 51, 7.5, "7", null, Number.NaN, Number.POSITIVE_INFINITY, true])(
+    "usa 7 si ultimas_partidas es inválido (%s)",
+    (valor) => {
+      expect(validarDestacados(crearDestacados({ ultimas_partidas: valor }), AMIGOS).ultimas_partidas).toBe(7);
+    },
+  );
+
+  it.each([1, 7, 50])("acepta ultimas_partidas = %s", (valor) => {
+    expect(validarDestacados(crearDestacados({ ultimas_partidas: valor }), AMIGOS).ultimas_partidas).toBe(valor);
   });
 
   it("devuelve null si el archivo no trae el campo", () => {

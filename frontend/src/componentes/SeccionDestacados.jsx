@@ -1,6 +1,7 @@
 import { nombreCampeon, urlCampeon, urlIconoPerfil } from "../logica/ddragon.js";
 import {
   CLAVES_DESTACADOS,
+  ULTIMAS_PARTIDAS_POR_DEFECTO,
   destacadosVacios,
   formatearKdaDestacado,
   formatearPorcentaje,
@@ -21,27 +22,35 @@ const TITULOS = {
 };
 
 // Qué falta cuando una tarjeta viene vacía (los mínimos los pone el recolector).
-const MINIMOS = {
-  mejor_winrate: "Nadie con 5 partidas o más.",
-  mejor_kda: "Nadie con 5 partidas o más.",
-  peor_kda: "Nadie con 5 partidas o más.",
-  racha: "Nadie con 2 victorias seguidas.",
-};
+function minimo(clave, n) {
+  switch (clave) {
+    case "mejor_winrate":
+    case "mejor_kda":
+    case "peor_kda":
+      return `Nadie con 5 partidas de sus últimas ${n}.`;
+    case "racha":
+      return "Nadie con 2 victorias seguidas.";
+    default:
+      return null;
+  }
+}
 
 /**
  * Destacados de los últimos 7 días (solo LoL, Normal y Ranked).
+ * Más partidas cuenta los 7 días; el resto, las últimas N partidas de cada amigo.
  * Sin `destacados` (archivos viejos) no se muestra nada.
  */
 export function SeccionDestacados({ destacados, amigos, ddragon, ahora }) {
   if (!destacados) return null;
   const porSlug = new Map((amigos ?? []).map((a) => [a.slug, a]));
   const vacios = destacadosVacios(destacados);
+  const n = destacados.ultimas_partidas ?? ULTIMAS_PARTIDAS_POR_DEFECTO;
 
   return (
     <section aria-labelledby="titulo-destacados" aria-describedby="nota-destacados">
       <TituloSeccion id="titulo-destacados">Destacados de los últimos 7 días</TituloSeccion>
-      <p id="nota-destacados" className="-mt-2 mb-3 text-xs text-texto-suave">
-        Solo Normal y Ranked (Solo/Dúo y Flex)
+      <p id="nota-destacados" className="-mt-2 mb-3 text-xs break-words text-texto-suave">
+        {`Solo Normal y Ranked (Solo/Dúo y Flex) · Winrate, KDA, racha y peor partida: últimas ${n} partidas de cada uno`}
       </p>
       {vacios ? (
         <p className="flex min-h-20 items-center justify-center rounded-lg border border-borde bg-superficie px-3 text-center text-sm text-texto-suave">
@@ -57,6 +66,7 @@ export function SeccionDestacados({ destacados, amigos, ddragon, ahora }) {
                 porSlug={porSlug}
                 ddragon={ddragon}
                 ahora={ahora}
+                ultimas={n}
               />
             </li>
           ))}
@@ -66,8 +76,9 @@ export function SeccionDestacados({ destacados, amigos, ddragon, ahora }) {
   );
 }
 
-function TarjetaDestacado({ clave, tarjeta, porSlug, ddragon, ahora }) {
+function TarjetaDestacado({ clave, tarjeta, porSlug, ddragon, ahora, ultimas }) {
   const idTitulo = `destacado-${clave}`;
+  const textoMinimo = minimo(clave, ultimas);
   return (
     <article
       aria-labelledby={idTitulo}
@@ -85,7 +96,7 @@ function TarjetaDestacado({ clave, tarjeta, porSlug, ddragon, ahora }) {
       ) : (
         <div className="flex flex-1 flex-col justify-center">
           <p className="text-texto-suave">Sin datos</p>
-          {MINIMOS[clave] && <p className="text-xs text-texto-suave">{MINIMOS[clave]}</p>}
+          {textoMinimo && <p className="text-xs text-texto-suave">{textoMinimo}</p>}
         </div>
       )}
     </article>

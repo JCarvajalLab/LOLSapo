@@ -252,10 +252,12 @@ export function crearDestacados(cambios = {}) {
   return {
     dias: 7,
     desde: AHORA - 7 * 24 * HORA,
+    // Distinto del valor por defecto (7) para que los tests distingan el dato del respaldo.
+    ultimas_partidas: 10,
     mas_partidas: { amigos: ["rana-azul-las", "sapito-las"], partidas: 20 },
     mejor_winrate: { amigos: ["sapito-las"], winrate: 62.5, victorias: 5, derrotas: 3, partidas: 8 },
     mejor_kda: { amigos: ["sapito-las"], kda: 3.02, asesinatos: 85, muertes: 48, asistencias: 60, partidas: 8 },
-    peor_kda: { amigos: ["rana-azul-las"], kda: 1.5, asesinatos: 30, muertes: 40, asistencias: 30, partidas: 12 },
+    peor_kda: { amigos: ["rana-azul-las"], kda: 1.5, asesinatos: 30, muertes: 40, asistencias: 30, partidas: 9 },
     racha: { amigos: ["rana-azul-las", "sapito-las", "charco-las"], racha: 3 },
     peor_partida: {
       amigos: ["rana-azul-las"],

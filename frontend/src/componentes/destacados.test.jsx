@@ -18,7 +18,7 @@ describe("SeccionDestacados", () => {
   it("muestra el título, la nota y las 6 tarjetas en orden", () => {
     renderDestacados(crearDestacados());
     expect(screen.getByRole("heading", { level: 2, name: "Destacados de los últimos 7 días" })).toBeInTheDocument();
-    expect(screen.getByText("Solo Normal y Ranked (Solo/Dúo y Flex)")).toBeInTheDocument();
+    expect(screen.getByText(`Solo Normal y Ranked (Solo/Dúo y Flex) · Winrate, KDA, racha y peor partida: últimas 10 partidas de cada uno`)).toBeInTheDocument();
     const titulos = screen.getAllByRole("heading", { level: 3 }).map((h) => h.textContent);
     expect(titulos).toEqual(["Más partidas", "Mejor winrate", "Mejor KDA", "Peor KDA", "Racha más larga", "Peor partida"]);
     expect(screen.getAllByRole("listitem")).toHaveLength(6);
@@ -46,7 +46,7 @@ describe("SeccionDestacados", () => {
     const peor = tarjeta("Peor KDA");
     expect(peor).toHaveTextContent("1,50");
     expect(peor).toHaveTextContent("30 / 40 / 30");
-    expect(peor).toHaveTextContent("12 partidas");
+    expect(peor).toHaveTextContent("9 partidas");
 
     expect(tarjeta("Racha más larga")).toHaveTextContent("3 victorias seguidas");
   });
@@ -91,10 +91,22 @@ describe("SeccionDestacados", () => {
   it("las tarjetas null dicen Sin datos", () => {
     renderDestacados(crearDestacados({ mejor_winrate: null, racha: null, peor_partida: null }));
     expect(within(tarjeta("Mejor winrate")).getByText("Sin datos")).toBeInTheDocument();
-    expect(within(tarjeta("Mejor winrate")).getByText("Nadie con 5 partidas o más.")).toBeInTheDocument();
+    expect(within(tarjeta("Mejor winrate")).getByText("Nadie con 5 partidas de sus últimas 10.")).toBeInTheDocument();
     expect(within(tarjeta("Racha más larga")).getByText("Nadie con 2 victorias seguidas.")).toBeInTheDocument();
     expect(within(tarjeta("Peor partida")).getByText("Sin datos")).toBeInTheDocument();
     expect(within(tarjeta("Más partidas")).queryByText("Sin datos")).toBeNull();
+  });
+
+  it("sin ultimas_partidas o con un valor inválido usa 7 en la nota y en los mínimos", () => {
+    const { unmount } = renderDestacados(crearDestacados({ ultimas_partidas: undefined, mejor_kda: null, peor_kda: null }));
+    expect(screen.getByText(`Solo Normal y Ranked (Solo/Dúo y Flex) · Winrate, KDA, racha y peor partida: últimas 7 partidas de cada uno`)).toBeInTheDocument();
+    expect(within(tarjeta("Mejor KDA")).getByText("Nadie con 5 partidas de sus últimas 7.")).toBeInTheDocument();
+    expect(within(tarjeta("Peor KDA")).getByText("Nadie con 5 partidas de sus últimas 7.")).toBeInTheDocument();
+    unmount();
+
+    renderDestacados(crearDestacados({ ultimas_partidas: "<b>99</b>" }));
+    expect(screen.getByText(`Solo Normal y Ranked (Solo/Dúo y Flex) · Winrate, KDA, racha y peor partida: últimas 7 partidas de cada uno`)).toBeInTheDocument();
+    expect(screen.queryByText(/99/)).toBeNull();
   });
 
   it("los datos inválidos y los slugs desconocidos terminan en Sin datos", () => {
