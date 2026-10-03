@@ -7,10 +7,39 @@ import { esNumero, nombreRango } from "./formato.js";
  * el color solo refuerza: 1.º dorado, 2.º a 4.º verde (top 4), 5.º a 8.º rojo.
  */
 const PUESTOS = {
-  primero: { grupo: "primero", texto: "text-oro", borde: "border-l-oro", fondo: "bg-oro-fondo", descripcion: "primer lugar" },
-  top4: { grupo: "top4", texto: "text-victoria", borde: "border-l-victoria", fondo: "bg-victoria-fondo", descripcion: "top 4" },
-  abajo: { grupo: "abajo", texto: "text-derrota", borde: "border-l-derrota", fondo: "bg-derrota-fondo", descripcion: "fuera del top 4" },
-  desconocido: { grupo: "desconocido", texto: "text-texto-suave", borde: "border-l-borde", fondo: "bg-superficie", descripcion: "sin puesto" },
+  primero: {
+    grupo: "primero",
+    texto: "text-oro",
+    borde: "border-l-oro",
+    fondo: "bg-oro-fondo",
+    celda: "border-oro bg-oro-fondo text-oro font-bold",
+    descripcion: "primer lugar",
+  },
+  top4: {
+    grupo: "top4",
+    texto: "text-victoria",
+    borde: "border-l-victoria",
+    fondo: "bg-victoria-fondo",
+    celda: "border-victoria/40 bg-victoria-fondo text-victoria font-semibold",
+    descripcion: "top 4",
+  },
+  // En la grilla de historial, 5.º a 8.º van apagados: sin fondo de color, solo el número en rojo.
+  abajo: {
+    grupo: "abajo",
+    texto: "text-derrota",
+    borde: "border-l-derrota",
+    fondo: "bg-derrota-fondo",
+    celda: "border-borde bg-fondo text-derrota",
+    descripcion: "fuera del top 4",
+  },
+  desconocido: {
+    grupo: "desconocido",
+    texto: "text-texto-suave",
+    borde: "border-l-borde",
+    fondo: "bg-superficie",
+    celda: "border-borde bg-fondo text-texto-suave",
+    descripcion: "sin puesto",
+  },
 };
 
 export function estiloPuesto(puesto) {
@@ -181,4 +210,17 @@ export function resumenTftDe(estadisticas, filtro) {
     top4_pct: Math.round((top4 * 1000) / partidas) / 10,
     promedio: conPromedio > 0 ? Math.round((sumaPuestos * 100) / conPromedio) / 100 : null,
   };
+}
+
+/** Puestos del historial (ya validado) que entran en el filtro elegido, en el mismo orden. */
+export function historialDe(historial, filtro) {
+  if (!Array.isArray(historial)) return [];
+  if (filtro === "todos" || !esFiltroValido(filtro)) return historial;
+  return historial.filter((h) => categoriaDe(h) === filtro);
+}
+
+/** "Posición en las últimas 12 partidas" o "Posición en la última partida". */
+export function tituloHistorial(cantidad) {
+  if (cantidad === 1) return "Posición en la última partida";
+  return cantidad > 1 ? `Posición en las últimas ${cantidad} partidas` : "Posición en las últimas partidas";
 }

@@ -71,6 +71,24 @@ export const partidaNormalTft = partidaTft(3, {
   danio: 87,
 });
 
+const h = (puesto, modo = "Clasificatoria", categoria = "ranked") => ({ puesto, modo, categoria });
+
+/** Historial de 12 puestos de Croac, del más reciente al más antiguo: 8 rankeds, 3 normales y 1 de Otros. */
+export const historialCroac = [
+  h(2),
+  h(1),
+  h(5, "Normal", "normal"),
+  h(8),
+  h(3, "Dúo dinámico", "otros"),
+  h(4),
+  h(6),
+  h(1, "Normal", "normal"),
+  h(7),
+  h(2),
+  h(4, "Normal", "normal"),
+  h(5),
+];
+
 export function crearDatosTft(cambios = {}) {
   return {
     version: 1,
@@ -103,6 +121,7 @@ export function crearDatosTft(cambios = {}) {
           ],
         },
         partidas: [partidaTft(1), partidaTft(2), partidaTft(4), partidaTft(5), partidaTft(8), partidaNormalTft],
+        historial: historialCroac,
       },
       {
         riot_id: "Renacuaja#LAS",
@@ -117,8 +136,10 @@ export function crearDatosTft(cambios = {}) {
         jugando: null,
         estadisticas: { total: { partidas: 0, primeros: 0, top4: 0, top4_pct: null, promedio: null }, por_modo: [] },
         partidas: [],
+        historial: [],
       },
       {
+        // Archivo viejo: sin el campo historial.
         riot_id: "Lodo#LAS",
         nombre: "Lodo",
         tag: "LAS",

@@ -19,6 +19,25 @@ export function validarPerfil(perfil) {
   return icono === null && nivel === null ? null : { icono, nivel };
 }
 
+/** Máximo de puestos que muestra la grilla del historial. */
+export const MAX_HISTORIAL = 30;
+
+const textoONull = (v) => (typeof v === "string" && v.trim() ? v : null);
+
+/**
+ * Historial de puestos ([{puesto, modo, categoria}], del más reciente al más antiguo).
+ * Descarta lo que no sea un objeto con puesto entero de 1 a 8; modo y categoría que no sean texto
+ * quedan en null ("Modo especial" y "Otros" al mostrarlos). Archivos viejos sin el campo: lista vacía.
+ */
+export function validarHistorial(historial) {
+  if (!Array.isArray(historial)) return [];
+  return historial
+    .filter((h) => h && typeof h === "object" && !Array.isArray(h))
+    .filter((h) => Number.isInteger(h.puesto) && h.puesto >= 1 && h.puesto <= 8)
+    .slice(0, MAX_HISTORIAL)
+    .map((h) => ({ puesto: h.puesto, modo: textoONull(h.modo), categoria: textoONull(h.categoria) }));
+}
+
 /** Comprueba la forma mínima de tft.json y rellena lo que falte para no romper la interfaz. */
 export function validarDatosTft(json) {
   if (!json || typeof json !== "object" || !Array.isArray(json.amigos)) {
@@ -34,7 +53,7 @@ export function validarDatosTft(json) {
     en_vivo: lista(json.en_vivo),
     amigos: lista(json.amigos)
       .filter((a) => typeof a.slug === "string")
-      .map((a) => ({ ...a, perfil: validarPerfil(a.perfil) })),
+      .map((a) => ({ ...a, perfil: validarPerfil(a.perfil), historial: validarHistorial(a.historial) })),
     ranking: lista(json.ranking),
   };
 }

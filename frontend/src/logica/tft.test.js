@@ -10,12 +10,13 @@ import {
   urlItemTft,
   urlRasgoTft,
 } from "./ddragonTft.js";
-import { cargarDatosTft, RUTA_DATOS_TFT, validarDatosTft } from "./datosTft.js";
+import { cargarDatosTft, MAX_HISTORIAL, RUTA_DATOS_TFT, validarDatosTft, validarHistorial } from "./datosTft.js";
 import {
   claseCosto,
   estiloPuesto,
   estiloRasgo,
   formatearPromedio,
+  historialDe,
   ordenarAmigosTft,
   rasgosParaMostrar,
   resumenTftDe,
@@ -23,10 +24,11 @@ import {
   textoPuesto,
   textoRangoTft,
   tierTurbo,
+  tituloHistorial,
   top4DeRango,
 } from "./tft.js";
 import { FILTROS_TFT } from "./filtros.js";
-import { crearDatosTft, ddragonTft } from "../test/fixtures/tft.js";
+import { crearDatosTft, ddragonTft, historialCroac } from "../test/fixtures/tft.js";
 
 const BASE = "https://ddragon.leagueoflegends.com/cdn/99.1.1/img";
 
@@ -181,6 +183,49 @@ describe("lectura de tft.json", () => {
     ]);
   });
 
+  it("valida el historial de puestos y es compatible con archivos sin el campo", () => {
+    const d = validarDatosTft({
+      amigos: [
+        { slug: "viejo" },
+        { slug: "vacio", historial: [] },
+        { slug: "raro", historial: "x" },
+        {
+          slug: "mezcla",
+          historial: [
+            { puesto: 2, modo: "Clasificatoria", categoria: "ranked" },
+            null,
+            [3],
+            { puesto: 0, modo: "Normal", categoria: "normal" },
+            { puesto: 9 },
+            { puesto: "1" },
+            { puesto: 4.5 },
+            { puesto: 8, modo: 7, categoria: "  " },
+            { puesto: 1, modo: "Normal", categoria: "normal", extra: "<b>no</b>" },
+          ],
+        },
+      ],
+    });
+    expect(d.amigos.map((a) => a.historial)).toEqual([
+      [],
+      [],
+      [],
+      [
+        { puesto: 2, modo: "Clasificatoria", categoria: "ranked" },
+        { puesto: 8, modo: null, categoria: null },
+        { puesto: 1, modo: "Normal", categoria: "normal" },
+      ],
+    ]);
+  });
+
+  it("recorta el historial a 30 manteniendo los más recientes", () => {
+    const largo = Array.from({ length: 40 }, (_, i) => ({ puesto: (i % 8) + 1, modo: "Normal", categoria: "normal" }));
+    const h = validarHistorial(largo);
+    expect(MAX_HISTORIAL).toBe(30);
+    expect(h).toHaveLength(30);
+    expect(h[0].puesto).toBe(1);
+    expect(h[29].puesto).toBe(6);
+  });
+
   it("pide la ruta relativa y trata 404 como sin datos", async () => {
     const fetchFn = vi.fn(() => Promise.resolve({ ok: false, status: 404 }));
     await expect(cargarDatosTft(fetchFn)).rejects.toMatchObject({ tipo: "sin-datos" });
@@ -259,5 +304,30 @@ describe("filtros por modo en TFT", () => {
     expect(resumenTftDe(estadisticas, "otros")).toEqual(vacio);
     expect(resumenTftDe(null, "ranked")).toEqual(vacio);
     expect(resumenTftDe({ total: null, por_modo: null }, "ranked")).toEqual(vacio);
+  });
+});
+
+describe("historial de puestos", () => {
+  it("filtra por categoría sin cambiar el orden", () => {
+    expect(historialDe(historialCroac, "todos")).toHaveLength(12);
+    expect(historialDe(historialCroac, "ranked").map((x) => x.puesto)).toEqual([2, 1, 8, 4, 6, 7, 2, 5]);
+    expect(historialDe(historialCroac, "normal").map((x) => x.puesto)).toEqual([5, 1, 4]);
+    expect(historialDe(historialCroac, "otros").map((x) => x.puesto)).toEqual([3]);
+    expect(historialDe(historialCroac, "inventado")).toHaveLength(12);
+    expect(historialDe(null, "ranked")).toEqual([]);
+    // Categoría desconocida o null cae en Otros.
+    expect(historialDe([{ puesto: 4, modo: null, categoria: null }], "otros")).toHaveLength(1);
+  });
+
+  it("titula con la cantidad real", () => {
+    expect(tituloHistorial(30)).toBe("Posición en las últimas 30 partidas");
+    expect(tituloHistorial(1)).toBe("Posición en la última partida");
+    expect(tituloHistorial(0)).toBe("Posición en las últimas partidas");
+  });
+
+  it("da una clase de celda por rango de puesto", () => {
+    expect(estiloPuesto(1).celda).toContain("bg-oro-fondo");
+    for (const p of [2, 3, 4]) expect(estiloPuesto(p).celda).toContain("bg-victoria-fondo");
+    for (const p of [5, 6, 7, 8]) expect(estiloPuesto(p).celda).toContain("text-derrota");
   });
 });
