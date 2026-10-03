@@ -83,8 +83,12 @@ def anonimizar_partidas(registro: dict, slug_por_puuid: dict) -> None:
 
 
 def completa(partida: dict) -> bool:
-    """True si la partida ya tiene el detalle de la versión actual del registro."""
-    return "participantes" in partida
+    """True si la partida ya tiene el detalle de la versión actual del registro.
+
+    Las que no lo tienen se vuelven a descargar una vez si siguen entre las recientes (por
+    ejemplo, las guardadas antes de agregar el daño).
+    """
+    return "participantes" in partida and "danio" in partida
 
 
 def escribir_json_atomico(ruta: Path, datos) -> None:
