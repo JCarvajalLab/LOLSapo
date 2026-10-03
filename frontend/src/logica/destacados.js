@@ -3,9 +3,19 @@
 import { esNumero } from "./formato.js";
 
 /** Orden fijo de las tarjetas, como lo decidió Deo. */
-export const CLAVES_DESTACADOS = ["mas_partidas", "mejor_winrate", "mejor_kda", "peor_kda", "racha", "peor_partida"];
+export const CLAVES_DESTACADOS = [
+  "mas_partidas",
+  "mejor_winrate",
+  "mejor_kda",
+  "racha_victorias",
+  "racha_derrotas",
+  "peor_partida",
+];
 
-/** Partidas por amigo para winrate, KDA, racha y peor partida si el archivo no lo dice. */
+/** Mínimo de partidas seguidas para que una racha cuente (lo mismo que usa el recolector). */
+export const RACHA_MINIMA = 2;
+
+/** Partidas por amigo para winrate, KDA, rachas y peor partida si el archivo no lo dice. */
 export const ULTIMAS_PARTIDAS_POR_DEFECTO = 7;
 
 const RESULTADOS_OK = new Set(["victoria", "derrota"]);
@@ -30,8 +40,8 @@ const VALIDADORES = {
     conteo(t.partidas) &&
     t.partidas > 0,
   mejor_kda: validarKda,
-  peor_kda: validarKda,
-  racha: (t) => conteo(t.racha) && t.racha > 0,
+  racha_victorias: validarRacha,
+  racha_derrotas: validarRacha,
   peor_partida: (t) =>
     conteo(t.asesinatos) &&
     conteo(t.muertes) &&
@@ -44,6 +54,12 @@ const VALIDADORES = {
     textoOpcional(t.modo) &&
     textoOpcional(t.partida_id),
 };
+
+// El formato viejo traía una sola "racha" (de victorias): se ignora, el recolector
+// regenera lol.json en cada pasada.
+function validarRacha(t) {
+  return Number.isInteger(t.racha) && t.racha >= RACHA_MINIMA;
+}
 
 function validarKda(t) {
   return (

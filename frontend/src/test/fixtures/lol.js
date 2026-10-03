@@ -257,8 +257,9 @@ export function crearDestacados(cambios = {}) {
     mas_partidas: { amigos: ["rana-azul-las", "sapito-las"], partidas: 20 },
     mejor_winrate: { amigos: ["sapito-las"], winrate: 62.5, victorias: 5, derrotas: 3, partidas: 8 },
     mejor_kda: { amigos: ["sapito-las"], kda: 3.02, asesinatos: 85, muertes: 48, asistencias: 60, partidas: 8 },
-    peor_kda: { amigos: ["rana-azul-las"], kda: 1.5, asesinatos: 30, muertes: 40, asistencias: 30, partidas: 9 },
-    racha: { amigos: ["rana-azul-las", "sapito-las", "charco-las"], racha: 3 },
+    racha_victorias: { amigos: ["sapito-las"], racha: 4 },
+    // Empate de 3: lo normal, porque el grupo juega junto.
+    racha_derrotas: { amigos: ["rana-azul-las", "sapito-las", "charco-las"], racha: 3 },
     peor_partida: {
       amigos: ["rana-azul-las"],
       partida_id: "LA2_99",

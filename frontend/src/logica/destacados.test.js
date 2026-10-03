@@ -20,7 +20,23 @@ describe("validarDestacados", () => {
     expect(d.ultimas_partidas).toBe(10);
     for (const clave of CLAVES_DESTACADOS) expect(d[clave]).not.toBeNull();
     expect(d.mejor_winrate).toMatchObject({ winrate: 62.5, victorias: 5, derrotas: 3, partidas: 8 });
-    expect(d.racha.amigos).toEqual(["rana-azul-las", "sapito-las", "charco-las"]);
+    expect(d.racha_victorias).toEqual({ amigos: ["sapito-las"], racha: 4 });
+    expect(d.racha_derrotas.amigos).toEqual(["rana-azul-las", "sapito-las", "charco-las"]);
+    expect(d).not.toHaveProperty("peor_kda");
+  });
+
+  it("ignora peor_kda y la racha del formato viejo", () => {
+    const d = validarDestacados(
+      crearDestacados({
+        peor_kda: { amigos: ["rana-azul-las"], kda: 1.5, asesinatos: 30, muertes: 40, asistencias: 30, partidas: 9 },
+        racha: { amigos: ["rana-azul-las"], racha: 5 },
+        racha_victorias: undefined,
+      }),
+      AMIGOS,
+    );
+    expect(d).not.toHaveProperty("peor_kda");
+    expect(d).not.toHaveProperty("racha");
+    expect(d.racha_victorias).toBeNull();
   });
 
   it("usa 7 últimas partidas si el campo falta (archivos viejos)", () => {
@@ -35,6 +51,11 @@ describe("validarDestacados", () => {
       expect(validarDestacados(crearDestacados({ ultimas_partidas: valor }), AMIGOS).ultimas_partidas).toBe(7);
     },
   );
+
+  it("acepta rachas desde 2", () => {
+    const d = validarDestacados(crearDestacados({ racha_victorias: { amigos: ["charco-las"], racha: 2 } }), AMIGOS);
+    expect(d.racha_victorias.racha).toBe(2);
+  });
 
   it.each([1, 7, 50])("acepta ultimas_partidas = %s", (valor) => {
     expect(validarDestacados(crearDestacados({ ultimas_partidas: valor }), AMIGOS).ultimas_partidas).toBe(valor);
@@ -57,13 +78,13 @@ describe("validarDestacados", () => {
     const d = validarDestacados(
       crearDestacados({
         mas_partidas: { amigos: ["intruso-las", "sapito-las", "sapito-las", 7], partidas: 20 },
-        racha: { amigos: ["intruso-las"], racha: 3 },
+        racha_derrotas: { amigos: ["intruso-las", "intruso2-las"], racha: 3 },
         mejor_kda: { amigos: "sapito-las", kda: 1, asesinatos: 1, muertes: 1, asistencias: 0, partidas: 5 },
       }),
       AMIGOS,
     );
     expect(d.mas_partidas.amigos).toEqual(["sapito-las"]);
-    expect(d.racha).toBeNull();
+    expect(d.racha_derrotas).toBeNull();
     expect(d.mejor_kda).toBeNull();
   });
 
@@ -73,13 +94,20 @@ describe("validarDestacados", () => {
     ["mejor_winrate", { amigos: ["sapito-las"], winrate: 120, victorias: 5, derrotas: 3, partidas: 8 }],
     ["mejor_winrate", { amigos: ["sapito-las"], winrate: Number.NaN, victorias: 5, derrotas: 3, partidas: 8 }],
     ["mejor_kda", { amigos: ["sapito-las"], kda: -2, asesinatos: 1, muertes: 1, asistencias: 1, partidas: 5 }],
-    ["peor_kda", { amigos: ["sapito-las"], kda: 1, asesinatos: 1.5, muertes: 1, asistencias: 1, partidas: 5 }],
-    ["racha", { amigos: ["sapito-las"], racha: null }],
+    ["racha_victorias", { amigos: ["sapito-las"], racha: null }],
+    ["racha_victorias", { amigos: ["sapito-las"], racha: 1 }],
+    ["racha_victorias", { amigos: ["sapito-las"], racha: 2.5 }],
+    ["racha_victorias", { amigos: ["sapito-las"], racha: "3" }],
+    ["racha_victorias", { racha: 3 }],
+    ["racha_derrotas", { amigos: ["sapito-las"], racha: 0 }],
+    ["racha_derrotas", { amigos: ["sapito-las"], racha: -4 }],
+    ["racha_derrotas", { amigos: [], racha: 3 }],
+    ["racha_derrotas", "<b>3</b>"],
     ["peor_partida", { ...crearDestacados().peor_partida, resultado: "<b>gané</b>" }],
     ["peor_partida", { ...crearDestacados().peor_partida, campeon_id: "1" }],
     ["peor_partida", { ...crearDestacados().peor_partida, modo: { html: "x" } }],
     ["peor_partida", { ...crearDestacados().peor_partida, fecha: "ayer" }],
-    ["racha", [3]],
+    ["racha_victorias", [3]],
   ])("descarta %s mal formado", (clave, tarjeta) => {
     const d = validarDestacados(crearDestacados({ [clave]: tarjeta }), AMIGOS);
     expect(d[clave]).toBeNull();

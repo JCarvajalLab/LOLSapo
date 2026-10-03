@@ -1,6 +1,7 @@
 import { nombreCampeon, urlCampeon, urlIconoPerfil } from "../logica/ddragon.js";
 import {
   CLAVES_DESTACADOS,
+  RACHA_MINIMA,
   ULTIMAS_PARTIDAS_POR_DEFECTO,
   destacadosVacios,
   formatearKdaDestacado,
@@ -16,8 +17,8 @@ const TITULOS = {
   mas_partidas: "Más partidas",
   mejor_winrate: "Mejor winrate",
   mejor_kda: "Mejor KDA",
-  peor_kda: "Peor KDA",
-  racha: "Racha más larga",
+  racha_victorias: "Racha más larga de victorias",
+  racha_derrotas: "Racha más larga de derrotas",
   peor_partida: "Peor partida",
 };
 
@@ -26,10 +27,11 @@ function minimo(clave, n) {
   switch (clave) {
     case "mejor_winrate":
     case "mejor_kda":
-    case "peor_kda":
       return `Nadie con 5 partidas de sus últimas ${n}.`;
-    case "racha":
-      return "Nadie con 2 victorias seguidas.";
+    case "racha_victorias":
+      return `Nadie con ${RACHA_MINIMA} victorias seguidas.`;
+    case "racha_derrotas":
+      return `Nadie con ${RACHA_MINIMA} derrotas seguidas.`;
     default:
       return null;
   }
@@ -50,7 +52,7 @@ export function SeccionDestacados({ destacados, amigos, ddragon, ahora }) {
     <section aria-labelledby="titulo-destacados" aria-describedby="nota-destacados">
       <TituloSeccion id="titulo-destacados">Destacados de los últimos 7 días</TituloSeccion>
       <p id="nota-destacados" className="-mt-2 mb-3 text-xs break-words text-texto-suave">
-        {`Solo Normal y Ranked (Solo/Dúo y Flex) · Winrate, KDA, racha y peor partida: últimas ${n} partidas de cada uno`}
+        {`Solo Normal y Ranked (Solo/Dúo y Flex) · Winrate, KDA, rachas y peor partida: últimas ${n} partidas de cada uno`}
       </p>
       {vacios ? (
         <p className="flex min-h-20 items-center justify-center rounded-lg border border-borde bg-superficie px-3 text-center text-sm text-texto-suave">
@@ -103,9 +105,14 @@ function TarjetaDestacado({ clave, tarjeta, porSlug, ddragon, ahora, ultimas }) 
   );
 }
 
-/** Íconos superpuestos y nombres separados por " · " (con empate van todos). */
+/**
+ * Íconos superpuestos y nombres separados por " · " (con empate van todos).
+ * Los nombres se cortan en 2 líneas para que 3 a 5 empatados no estiren todas las
+ * tarjetas; la lista completa queda en `title` y para lectores de pantalla.
+ */
 function Amigos({ slugs, porSlug, ddragon }) {
   const lista = slugs.map((slug) => porSlug.get(slug) ?? { slug, riot_id: slug });
+  const nombres = lista.map((a) => a.nombre || a.riot_id || a.slug).join(" · ");
   return (
     <div className="flex min-w-0 items-center gap-2">
       <span className="flex shrink-0 -space-x-2">
@@ -121,7 +128,9 @@ function Amigos({ slugs, porSlug, ddragon }) {
           />
         ))}
       </span>
-      <p className="min-w-0 font-semibold break-words">{lista.map((a) => a.nombre || a.riot_id || a.slug).join(" · ")}</p>
+      <p title={nombres} className="line-clamp-2 min-w-0 font-semibold break-words">
+        {nombres}
+      </p>
     </div>
   );
 }
@@ -152,10 +161,9 @@ function Contenido({ clave, t, ddragon, ahora }) {
         </div>
       );
     case "mejor_kda":
-    case "peor_kda":
       return (
         <div className="mt-auto">
-          <p className={`${VALOR} ${clave === "peor_kda" ? "text-derrota" : "text-victoria"}`}>
+          <p className={`${VALOR} text-victoria`}>
             {formatearKdaDestacado(t.kda)}
             <span className="sr-only"> de KDA</span>
           </p>
@@ -164,21 +172,27 @@ function Contenido({ clave, t, ddragon, ahora }) {
           </p>
         </div>
       );
-    case "racha":
-      return (
-        <p className="mt-auto flex items-baseline gap-2">
-          <span aria-hidden="true">🔥</span>
-          <span>
-            <span className={VALOR}>{t.racha}</span>{" "}
-            <span className="text-texto-suave">{t.racha === 1 ? "victoria seguida" : "victorias seguidas"}</span>
-          </span>
-        </p>
-      );
+    case "racha_victorias":
+      return <Racha icono="🔥" valor={t.racha} texto="victorias seguidas" color="text-victoria" />;
+    case "racha_derrotas":
+      return <Racha icono="🧊" valor={t.racha} texto="derrotas seguidas" color="text-derrota" />;
     case "peor_partida":
       return <PeorPartida t={t} ddragon={ddragon} ahora={ahora} />;
     default:
       return null;
   }
+}
+
+/** "🔥 3 victorias seguidas": el texto dice el resultado, el color solo lo refuerza. */
+function Racha({ icono, valor, texto, color }) {
+  return (
+    <p className="mt-auto flex items-baseline gap-2">
+      <span aria-hidden="true">{icono}</span>
+      <span>
+        <span className={`${VALOR} ${color}`}>{valor}</span> <span className="text-texto-suave">{texto}</span>
+      </span>
+    </p>
+  );
 }
 
 /** "85 / 48 / 60" con las muertes en color derrota, como en las partidas. */
