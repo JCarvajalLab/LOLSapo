@@ -388,6 +388,7 @@ def test_registro_v2_con_puuid_se_migra_sin_puuid(cliente, mapa, tmp_path):
         "resultado": "victoria",
         "campeon": "Ahri",
         "campeon_id": 103,
+        "danio": 15_000,
         "participantes": [
             {"puuid": P_JOHN, "campeon_id": 103, "equipo": 100, "nombre": "Yo#LAS"},
             {"puuid": P_GATO, "campeon_id": 86, "equipo": 100, "nombre": "Gato#LAS"},

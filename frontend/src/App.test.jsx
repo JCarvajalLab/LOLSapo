@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import App from "./App.jsx";
-import { crearDatos } from "./test/fixtures/lol.js";
+import { crearDatos, crearDestacados } from "./test/fixtures/lol.js";
 
 function respuestaOk(json) {
   return Promise.resolve({ ok: true, json: async () => json });
@@ -26,6 +26,21 @@ describe("App", () => {
     expect(screen.getByRole("heading", { name: "Ranking" })).toBeInTheDocument();
     expect(screen.getByText(/no está respaldado por Riot Games/)).toBeInTheDocument();
     expect(fetchFn).toHaveBeenCalledWith("./datos/lol.json", { cache: "no-store" });
+  });
+
+  it("muestra los destacados entre En partida y Ranking, y los oculta en archivos viejos", async () => {
+    const fetchFn = vi.fn(() => respuestaOk(crearDatos({ destacados: crearDestacados() })));
+    const { unmount } = render(<App fetchFn={fetchFn} />);
+    const destacados = await screen.findByRole("heading", { name: "Destacados de los últimos 7 días" });
+    const enPartida = screen.getByRole("heading", { name: /En partida/ });
+    const ranking = screen.getByRole("heading", { name: "Ranking" });
+    expect(enPartida.compareDocumentPosition(destacados) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(destacados.compareDocumentPosition(ranking) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    unmount();
+
+    render(<App fetchFn={vi.fn(() => respuestaOk(crearDatos()))} />);
+    expect(await screen.findByRole("heading", { name: "Amigos" })).toBeInTheDocument();
+    expect(screen.queryByText("Destacados de los últimos 7 días")).not.toBeInTheDocument();
   });
 
   it("muestra un error claro si no hay datos", async () => {

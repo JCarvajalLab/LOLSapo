@@ -152,6 +152,10 @@ def _puuid_opcional(valor) -> str | None:
     return _puuid(valor)
 
 
+def _danio(valor) -> int | None:
+    return valor if isinstance(valor, int) and not isinstance(valor, bool) and valor >= 0 else None
+
+
 def _equipo(participante: dict) -> int:
     """Equipo del jugador. En Arena se usa el subequipo (parejas o tríos)."""
     subequipo = participante.get("playerSubteamId")
@@ -242,6 +246,9 @@ def resumir_partida(datos, puuid: str, id_esperado: str | None = None) -> dict:
         "cs": _entero(jugador.get("totalMinionsKilled", 0), "totalMinionsKilled")
         + _entero(jugador.get("neutralMinionsKilled", 0), "neutralMinionsKilled"),
         "participacion": participacion,
+        # Daño a campeones. Las partidas guardadas antes de agregarlo no lo tienen.
+        # Solo informativo: si no viene o no es válido, queda vacío (no se descarta la partida).
+        "danio": _danio(jugador.get("totalDamageDealtToChampions")),
         "equipo": equipo,
         "items": [_entero(jugador.get(f"item{i}", 0), f"item{i}") for i in range(7)],
         "hechizos": [

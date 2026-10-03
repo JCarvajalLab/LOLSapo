@@ -20,6 +20,7 @@ def resumen(id_partida: str, resultado="victoria", queue_id=420, fecha=1) -> dic
         "resultado": resultado,
         "queue_id": queue_id,
         "fecha": fecha,
+        "danio": 1000,
         "participantes": [],
     }
 
@@ -31,6 +32,18 @@ def test_partidas_sin_detalle_se_completan_una_vez():
     assert ids_nuevos(["LA2_1"], registro) == ["LA2_1"]
     assert agregar_partidas(registro, [resumen("LA2_1")]) == 1
     assert ids_nuevos(["LA2_1"], registro) == []
+
+
+def test_partidas_sin_danio_se_completan_una_vez():
+    registro = registro_vacio("A#LAS", 0)
+    sin_danio = {k: v for k, v in resumen("LA2_1").items() if k != "danio"}
+    registro["partidas"]["LA2_1"] = sin_danio
+    assert ids_nuevos(["LA2_1"], registro) == ["LA2_1"]
+    assert agregar_partidas(registro, [resumen("LA2_1")]) == 1
+    assert ids_nuevos(["LA2_1"], registro) == []
+    # Las partidas con daño vacío (Riot no lo mandó) no se vuelven a pedir.
+    registro["partidas"]["LA2_2"] = {**resumen("LA2_2"), "danio": None}
+    assert ids_nuevos(["LA2_2"], registro) == []
 
 
 def test_registro_v1_se_migra_a_la_version_actual_sin_puuid(tmp_path):

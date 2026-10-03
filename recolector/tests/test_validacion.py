@@ -32,6 +32,7 @@ def test_resumen_de_victoria():
         "cs": 177,
         # (5 asesinatos + 7 asistencias) / (5 + 10 asesinatos del equipo) = 80 %
         "participacion": 80,
+        "danio": 21_345,
         "equipo": 100,
         "items": [3031, 3006, 0, 0, 0, 0, 3340],
         "hechizos": [4, 14],
@@ -87,6 +88,19 @@ def test_runas_ausentes_no_rompen():
     datos = partida("LA2_1", PUUID)
     datos["info"]["participants"][0]["perks"] = {}
     assert resumir_partida(datos, PUUID)["runas"] == {"principal": None, "secundaria": None}
+
+
+def test_resumen_sin_danio_lo_deja_vacio():
+    datos = partida("LA2_100", PUUID)
+    datos["info"]["participants"][0].pop("totalDamageDealtToChampions")
+    assert resumir_partida(datos, PUUID)["danio"] is None
+
+
+@pytest.mark.parametrize("valor", [-5, 1.5, "mucho", True])
+def test_resumen_con_danio_invalido_lo_deja_vacio(valor):
+    datos = partida("LA2_100", PUUID)
+    datos["info"]["participants"][0]["totalDamageDealtToChampions"] = valor
+    assert resumir_partida(datos, PUUID)["danio"] is None
 
 
 def test_resumen_de_derrota_y_remake():

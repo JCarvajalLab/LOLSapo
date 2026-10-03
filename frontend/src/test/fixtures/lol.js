@@ -16,6 +16,7 @@ export const ddragon = {
     51: { id: "Caitlyn", nombre: "Caitlyn" },
     54: { id: "Malphite", nombre: "Malphite" },
     86: { id: "Garen", nombre: "Garen" },
+    11: { id: "MasterYi", nombre: "Maestro Yi" },
   },
   hechizos: {
     4: { id: "SummonerFlash", nombre: "Destello" },
@@ -246,3 +247,60 @@ export const partidaEnVivo = {
     },
   ],
 };
+
+/** Destacados de 7 días INVENTADOS, con la forma que escribe el recolector. */
+export function crearDestacados(cambios = {}) {
+  return {
+    dias: 7,
+    desde: AHORA - 7 * 24 * HORA,
+    // Distinto del valor por defecto (7) para que los tests distingan el dato del respaldo.
+    ultimas_partidas: 10,
+    mas_partidas: { amigos: ["rana-azul-las", "sapito-las"], partidas: 20 },
+    mejor_winrate: { amigos: ["sapito-las"], winrate: 62.5, victorias: 5, derrotas: 3, partidas: 8 },
+    mejor_partida: {
+      amigos: ["sapito-las"],
+      partida_id: "LA2_77",
+      campeon_id: 11,
+      campeon: "MasterYi",
+      asesinatos: 11,
+      muertes: 2,
+      asistencias: 8,
+      kda: 9.5,
+      danio: 32450,
+      resultado: "derrota",
+      modo: "Clasificatoria Flex",
+      fecha: AHORA - 2 * HORA,
+    },
+    // Rachas en equipo. Las fechas son locales para que el día no dependa de la zona horaria.
+    racha_victorias_grupo: {
+      racha: 4,
+      amigos: ["sapito-las", "rana-azul-las"],
+      partidas: { "sapito-las": 4, "rana-azul-las": 3 },
+      desde: new Date(2026, 8, 30, 21, 0).getTime(),
+      hasta: new Date(2026, 9, 1, 1, 30).getTime(),
+    },
+    // Charco se sumó solo a la última partida: lleva la nota «(1 partida)».
+    racha_derrotas_grupo: {
+      racha: 3,
+      amigos: ["rana-azul-las", "sapito-las", "charco-las"],
+      partidas: { "rana-azul-las": 3, "sapito-las": 3, "charco-las": 1 },
+      desde: new Date(2026, 9, 1, 10, 0).getTime(),
+      hasta: new Date(2026, 9, 1, 12, 0).getTime(),
+    },
+    peor_partida: {
+      amigos: ["rana-azul-las"],
+      partida_id: "LA2_99",
+      campeon_id: 1,
+      campeon: "Annie",
+      asesinatos: 0,
+      muertes: 4,
+      asistencias: 0,
+      kda: 0.0,
+      danio: 4180,
+      resultado: "victoria",
+      modo: "Normal (Reclutamiento)",
+      fecha: AHORA - 3 * 24 * HORA,
+    },
+    ...cambios,
+  };
+}
