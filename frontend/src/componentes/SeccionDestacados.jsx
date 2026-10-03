@@ -1,9 +1,11 @@
 import { nombreCampeon, urlCampeon, urlIconoPerfil } from "../logica/ddragon.js";
 import {
   CLAVES_DESTACADOS,
+  CLAVES_HOY,
   colorResultado,
   RACHA_MINIMA,
   destacadosVacios,
+  destacadosVigentes,
   fechaRacha,
   formatearDanio,
   formatearKdaDestacado,
@@ -39,16 +41,18 @@ function minimo(clave) {
 }
 
 /** Mejor y peor jugador de hoy: el día se reinicia a las 6:00 de Chile. */
-const esHoy = (clave) => clave === "mejor_jugador_hoy" || clave === "peor_jugador_hoy";
+const esHoy = (clave) => CLAVES_HOY.includes(clave);
 
 /**
  * Destacados (solo LoL, Normal y Ranked).
  * Más partidas, winrate y rachas cuentan los últimos 7 días (las rachas, solo partidas en
  * equipo: 2 o más del grupo); mejor y peor jugador, las partidas en grupo de hoy (desde las 6:00).
- * Sin `destacados` (archivos viejos) no se muestra nada.
+ * Sin `destacados` (archivos viejos) no se muestra nada. Si el día de los datos ya terminó
+ * (lol.json quedó viejo), mejor y peor jugador de hoy se muestran vacíos.
  */
-export function SeccionDestacados({ destacados, amigos, ddragon, ahora }) {
-  if (!destacados) return null;
+export function SeccionDestacados({ destacados: crudos, amigos, ddragon, ahora }) {
+  if (!crudos) return null;
+  const destacados = destacadosVigentes(crudos, ahora);
   const porSlug = new Map((amigos ?? []).map((a) => [a.slug, a]));
   const vacios = destacadosVacios(destacados);
 

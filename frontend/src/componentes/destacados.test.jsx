@@ -353,3 +353,35 @@ describe("SeccionDestacados", () => {
     expect(screen.queryAllByRole("article")).toHaveLength(0);
   });
 });
+
+describe("SeccionDestacados con lol.json viejo", () => {
+  const HORA = 3600 * 1000;
+  const TITULOS_HOY = ["Mejor jugador de la partida - Hoy", "Peor jugador de la partida - Hoy"];
+
+  it("si el día de los datos ya terminó (hoy_desde de hace 25 h), mejor y peor jugador quedan vacíos", () => {
+    renderDestacados(crearDestacados({ hoy_desde: AHORA - 25 * HORA }));
+    for (const titulo of TITULOS_HOY) {
+      const t = tarjeta(titulo);
+      expect(t).toHaveTextContent(new RegExp(`^${titulo}No hay partidas en grupo registradas hoySe reinicia a las 6:00$`));
+      expect(within(t).queryByText("Sapito")).toBeNull();
+      expect(within(t).queryByRole("img")).toBeNull();
+    }
+    // El resto de las tarjetas (7 días) se mantiene.
+    expect(within(tarjeta("Más partidas")).getByText("20")).toBeInTheDocument();
+  });
+
+  it("con hoy_desde reciente muestra mejor y peor jugador", () => {
+    renderDestacados(crearDestacados({ hoy_desde: AHORA - 23 * HORA }));
+    for (const titulo of TITULOS_HOY) {
+      expect(within(tarjeta(titulo)).queryByText("No hay partidas en grupo registradas hoy")).toBeNull();
+      expect(within(tarjeta(titulo)).getByText(/^KDA /)).toBeInTheDocument();
+    }
+  });
+
+  it("sin hoy_desde (archivos viejos) muestra lo que venga", () => {
+    renderDestacados(crearDestacados({ hoy_desde: null }));
+    for (const titulo of TITULOS_HOY) {
+      expect(within(tarjeta(titulo)).getByText(/^KDA /)).toBeInTheDocument();
+    }
+  });
+});

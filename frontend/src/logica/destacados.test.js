@@ -4,6 +4,8 @@ import { validarDatos } from "./datos.js";
 import {
   CLAVES_DESTACADOS,
   destacadosVacios,
+  destacadosVigentes,
+  hoyVencido,
   fechaRacha,
   colorResultado,
   formatearDanio,
@@ -312,5 +314,50 @@ describe("formato de destacados", () => {
   it("singular y plural", () => {
     expect(plural(1, "partida")).toBe("1 partida");
     expect(plural(8, "partida")).toBe("8 partidas");
+  });
+});
+
+describe("hoyVencido", () => {
+  const DIA = 24 * 3600 * 1000;
+  const INICIO = 1759298400000;
+
+  it("justo antes de 24 h no está vencido", () => {
+    expect(hoyVencido(INICIO, INICIO + DIA - 1)).toBe(false);
+    expect(hoyVencido(INICIO, INICIO)).toBe(false);
+  });
+
+  it("con 24 h exactas o más está vencido", () => {
+    expect(hoyVencido(INICIO, INICIO + DIA)).toBe(true);
+    expect(hoyVencido(INICIO, INICIO + 25 * 3600 * 1000)).toBe(true);
+  });
+
+  it.each([null, undefined])("hoy_desde %s no está vencido", (valor) => {
+    expect(hoyVencido(valor, INICIO + 3 * DIA)).toBe(false);
+  });
+
+  it("sin ahora no está vencido", () => {
+    expect(hoyVencido(INICIO, undefined)).toBe(false);
+  });
+});
+
+describe("destacadosVigentes", () => {
+  const HORA = 3600 * 1000;
+  const base = (hoyDesde) => validarDestacados(crearDestacados({ hoy_desde: hoyDesde }), AMIGOS);
+
+  it("vencido: deja en null solo mejor y peor jugador de hoy", () => {
+    const d = base(1759298400000);
+    const v = destacadosVigentes(d, 1759298400000 + 25 * HORA);
+    expect(v.mejor_jugador_hoy).toBeNull();
+    expect(v.peor_jugador_hoy).toBeNull();
+    expect(v.mas_partidas).toEqual(d.mas_partidas);
+    expect(d.mejor_jugador_hoy).not.toBeNull();
+  });
+
+  it("vigente o sin hoy_desde: devuelve lo mismo", () => {
+    const d = base(1759298400000);
+    expect(destacadosVigentes(d, 1759298400000 + HORA)).toBe(d);
+    const viejo = base(null);
+    expect(destacadosVigentes(viejo, 1759298400000 + 100 * HORA)).toBe(viejo);
+    expect(destacadosVigentes(null, 0)).toBeNull();
   });
 });

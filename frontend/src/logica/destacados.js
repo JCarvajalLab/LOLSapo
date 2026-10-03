@@ -124,6 +124,28 @@ export function validarDestacados(destacados, amigos) {
   };
 }
 
+/** Claves de las tarjetas que cuentan solo las partidas de hoy (desde las 6:00 de Chile). */
+export const CLAVES_HOY = ["mejor_jugador_hoy", "peor_jugador_hoy"];
+
+const DIA_MS = 24 * 3600 * 1000;
+
+/**
+ * true si el "día" de los datos ya terminó: pasaron 24 h o más desde `hoyDesde`
+ * (lol.json quedó viejo). Sin `hoyDesde` (archivos viejos) o sin `ahora`, false.
+ */
+export function hoyVencido(hoyDesde, ahora) {
+  if (!esNumero(hoyDesde) || !esNumero(ahora)) return false;
+  return ahora - hoyDesde >= DIA_MS;
+}
+
+/** Destacados con las tarjetas de hoy en null si su día ya terminó. */
+export function destacadosVigentes(destacados, ahora) {
+  if (!destacados || !hoyVencido(destacados.hoy_desde, ahora)) return destacados;
+  const vigentes = { ...destacados };
+  for (const clave of CLAVES_HOY) vigentes[clave] = null;
+  return vigentes;
+}
+
 /** true si ninguna tarjeta tiene datos. */
 export function destacadosVacios(destacados) {
   return CLAVES_DESTACADOS.every((clave) => !destacados?.[clave]);
