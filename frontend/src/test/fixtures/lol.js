@@ -16,6 +16,7 @@ export const ddragon = {
     51: { id: "Caitlyn", nombre: "Caitlyn" },
     54: { id: "Malphite", nombre: "Malphite" },
     86: { id: "Garen", nombre: "Garen" },
+    11: { id: "MasterYi", nombre: "Maestro Yi" },
   },
   hechizos: {
     4: { id: "SummonerFlash", nombre: "Destello" },
@@ -256,7 +257,19 @@ export function crearDestacados(cambios = {}) {
     ultimas_partidas: 10,
     mas_partidas: { amigos: ["rana-azul-las", "sapito-las"], partidas: 20 },
     mejor_winrate: { amigos: ["sapito-las"], winrate: 62.5, victorias: 5, derrotas: 3, partidas: 8 },
-    mejor_kda: { amigos: ["sapito-las"], kda: 3.02, asesinatos: 85, muertes: 48, asistencias: 60, partidas: 8 },
+    mejor_partida: {
+      amigos: ["sapito-las"],
+      partida_id: "LA2_77",
+      campeon_id: 11,
+      campeon: "MasterYi",
+      asesinatos: 11,
+      muertes: 2,
+      asistencias: 8,
+      kda: 9.5,
+      resultado: "derrota",
+      modo: "Clasificatoria Flex",
+      fecha: AHORA - 2 * HORA,
+    },
     racha_victorias: { amigos: ["sapito-las"], racha: 4 },
     // Empate de 3: lo normal, porque el grupo juega junto.
     racha_derrotas: { amigos: ["rana-azul-las", "sapito-las", "charco-las"], racha: 3 },

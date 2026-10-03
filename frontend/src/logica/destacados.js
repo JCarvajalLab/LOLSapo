@@ -6,7 +6,7 @@ import { esNumero } from "./formato.js";
 export const CLAVES_DESTACADOS = [
   "mas_partidas",
   "mejor_winrate",
-  "mejor_kda",
+  "mejor_partida",
   "racha_victorias",
   "racha_derrotas",
   "peor_partida",
@@ -15,7 +15,7 @@ export const CLAVES_DESTACADOS = [
 /** Mínimo de partidas seguidas para que una racha cuente (lo mismo que usa el recolector). */
 export const RACHA_MINIMA = 2;
 
-/** Partidas por amigo para winrate, KDA, rachas y peor partida si el archivo no lo dice. */
+/** Partidas por amigo para winrate, rachas y mejor y peor partida si el archivo no lo dice. */
 export const ULTIMAS_PARTIDAS_POR_DEFECTO = 7;
 
 const RESULTADOS_OK = new Set(["victoria", "derrota"]);
@@ -39,10 +39,15 @@ const VALIDADORES = {
     conteo(t.derrotas) &&
     conteo(t.partidas) &&
     t.partidas > 0,
-  mejor_kda: validarKda,
+  mejor_partida: validarPartida,
   racha_victorias: validarRacha,
   racha_derrotas: validarRacha,
-  peor_partida: (t) =>
+  peor_partida: validarPartida,
+};
+
+// El formato viejo traía "mejor_kda" (KDA acumulado): se ignora como "peor_kda".
+function validarPartida(t) {
+  return (
     conteo(t.asesinatos) &&
     conteo(t.muertes) &&
     conteo(t.asistencias) &&
@@ -52,24 +57,14 @@ const VALIDADORES = {
     (t.campeon_id === null || t.campeon_id === undefined || conteo(t.campeon_id)) &&
     textoOpcional(t.campeon) &&
     textoOpcional(t.modo) &&
-    textoOpcional(t.partida_id),
-};
+    textoOpcional(t.partida_id)
+  );
+}
 
 // El formato viejo traía una sola "racha" (de victorias): se ignora, el recolector
 // regenera lol.json en cada pasada.
 function validarRacha(t) {
   return Number.isInteger(t.racha) && t.racha >= RACHA_MINIMA;
-}
-
-function validarKda(t) {
-  return (
-    decimal(t.kda) &&
-    conteo(t.asesinatos) &&
-    conteo(t.muertes) &&
-    conteo(t.asistencias) &&
-    conteo(t.partidas) &&
-    t.partidas > 0
-  );
 }
 
 /** Una tarjeta válida (con `amigos` filtrados) o null si está mal formada o sin amigos conocidos. */
@@ -112,7 +107,7 @@ export function destacadosVacios(destacados) {
 }
 
 const unDecimal = new Intl.NumberFormat("es-CL", { maximumFractionDigits: 1 });
-const dosDecimales = new Intl.NumberFormat("es-CL", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const hastaDosDecimales = new Intl.NumberFormat("es-CL", { maximumFractionDigits: 2 });
 
 const ESPACIO_DURO = String.fromCharCode(0xa0);
 
@@ -121,9 +116,9 @@ export function formatearPorcentaje(valor) {
   return esNumero(valor) ? `${unDecimal.format(valor)}${ESPACIO_DURO}%` : "—";
 }
 
-/** "3,02" */
+/** KDA de una partida: "9,5", "3,02", "0". */
 export function formatearKdaDestacado(valor) {
-  return esNumero(valor) ? dosDecimales.format(valor) : "—";
+  return esNumero(valor) ? hastaDosDecimales.format(valor) : "—";
 }
 
 /** "1 partida", "8 partidas". */

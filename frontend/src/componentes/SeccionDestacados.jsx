@@ -16,7 +16,7 @@ import { TituloSeccion } from "./TituloSeccion.jsx";
 const TITULOS = {
   mas_partidas: "Más partidas",
   mejor_winrate: "Mejor winrate",
-  mejor_kda: "Mejor KDA",
+  mejor_partida: "Mejor partida",
   racha_victorias: "Racha más larga de victorias",
   racha_derrotas: "Racha más larga de derrotas",
   peor_partida: "Peor partida",
@@ -26,7 +26,6 @@ const TITULOS = {
 function minimo(clave, n) {
   switch (clave) {
     case "mejor_winrate":
-    case "mejor_kda":
       return `Nadie con 5 partidas de sus últimas ${n}.`;
     case "racha_victorias":
       return `Nadie con ${RACHA_MINIMA} victorias seguidas.`;
@@ -52,7 +51,7 @@ export function SeccionDestacados({ destacados, amigos, ddragon, ahora }) {
     <section aria-labelledby="titulo-destacados" aria-describedby="nota-destacados">
       <TituloSeccion id="titulo-destacados">Destacados de los últimos 7 días</TituloSeccion>
       <p id="nota-destacados" className="-mt-2 mb-3 text-xs break-words text-texto-suave">
-        {`Solo Normal y Ranked (Solo/Dúo y Flex) · Winrate, KDA, rachas y peor partida: últimas ${n} partidas de cada uno`}
+        {`Solo Normal y Ranked (Solo/Dúo y Flex) · Winrate, rachas y mejor y peor partida: últimas ${n} partidas de cada uno`}
       </p>
       {vacios ? (
         <p className="flex min-h-20 items-center justify-center rounded-lg border border-borde bg-superficie px-3 text-center text-sm text-texto-suave">
@@ -160,24 +159,14 @@ function Contenido({ clave, t, ddragon, ahora }) {
           </p>
         </div>
       );
-    case "mejor_kda":
-      return (
-        <div className="mt-auto">
-          <p className={`${VALOR} text-victoria`}>
-            {formatearKdaDestacado(t.kda)}
-            <span className="sr-only"> de KDA</span>
-          </p>
-          <p className="cifras mt-1 text-sm text-texto-suave">
-            <Kda a={t.asesinatos} m={t.muertes} asi={t.asistencias} /> · {plural(t.partidas, "partida")}
-          </p>
-        </div>
-      );
+    case "mejor_partida":
+      return <Partida t={t} ddragon={ddragon} ahora={ahora} mejor />;
     case "racha_victorias":
       return <Racha icono="🔥" valor={t.racha} texto="victorias seguidas" color="text-victoria" />;
     case "racha_derrotas":
       return <Racha icono="🧊" valor={t.racha} texto="derrotas seguidas" color="text-derrota" />;
     case "peor_partida":
-      return <PeorPartida t={t} ddragon={ddragon} ahora={ahora} />;
+      return <Partida t={t} ddragon={ddragon} ahora={ahora} mejor={false} />;
     default:
       return null;
   }
@@ -209,7 +198,11 @@ function Kda({ a, m, asi }) {
   );
 }
 
-function PeorPartida({ t, ddragon, ahora }) {
+/**
+ * Mejor o peor partida del grupo: misma tarjeta, cambia el color del KDA.
+ * El nombre del campeón sale de Data Dragon ("Maestro Yi"), con `campeon` de respaldo.
+ */
+function Partida({ t, ddragon, ahora, mejor }) {
   const campeon = nombreCampeon(ddragon, t.campeon_id, t.campeon);
   return (
     <div className="mt-auto flex items-center gap-3">
@@ -217,6 +210,9 @@ function PeorPartida({ t, ddragon, ahora }) {
       <div className="min-w-0">
         <p className="cifras font-titulo text-lg leading-tight font-bold">
           {campeon} <span className="text-texto-suave">·</span> <Kda a={t.asesinatos} m={t.muertes} asi={t.asistencias} />
+        </p>
+        <p className={`cifras text-sm font-semibold ${mejor ? "text-victoria" : "text-derrota"}`}>
+          KDA {formatearKdaDestacado(t.kda)}
         </p>
         <p className="flex flex-wrap items-center gap-x-2 text-xs text-texto-suave">
           <span>{t.modo || "Modo especial"}</span>
