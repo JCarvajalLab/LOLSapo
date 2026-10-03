@@ -23,9 +23,7 @@ import {
   resumenTft,
   textoPuesto,
   textoRangoTft,
-  tierTurbo,
   tituloHistorial,
-  top4DeRango,
 } from "./tft.js";
 import { FILTROS_TFT } from "./filtros.js";
 import { crearDatosTft, ddragonTft, historialCroac } from "../test/fixtures/tft.js";
@@ -116,19 +114,12 @@ describe("puesto, rango y rasgos", () => {
     expect(textoPuesto(null)).toBe("—");
   });
 
-  it("formatea promedio, top 4 y rangos", () => {
+  it("formatea promedio y rangos", () => {
     expect(formatearPromedio(4.3)).toBe("4,3");
     expect(formatearPromedio(4)).toBe("4,0");
     expect(formatearPromedio(null)).toBe("—");
-    expect(top4DeRango({ top4: 55, partidas: 100 })).toBe(55);
-    expect(top4DeRango({ top4: 1, partidas: 3 })).toBe(33.3);
-    expect(top4DeRango({ top4: 0, partidas: 0 })).toBeNull();
-    expect(top4DeRango(null)).toBeNull();
     expect(textoRangoTft({ tier: "PLATINUM", division: "III", lp: 38 })).toBe("Platino III · 38 LP");
     expect(textoRangoTft(null)).toBeNull();
-    expect(tierTurbo({ tier: "PURPLE" })).toEqual({ nombre: "Morado", clase: "text-costo-4" });
-    expect(tierTurbo({ tier: "ORANGE" }).clase).toBe("text-naranja");
-    expect(tierTurbo(null)).toBeNull();
   });
 
   it("pone los rasgos únicos al final y nombra el estilo", () => {

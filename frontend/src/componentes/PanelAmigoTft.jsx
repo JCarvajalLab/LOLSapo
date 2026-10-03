@@ -1,14 +1,12 @@
 import { useState } from "react";
 import { etiquetaFiltro, FILTROS_TFT, filtrarPartidas, modosDe } from "../logica/filtros.js";
-import { esNumero, fechaCorta, formatearWinrate, claseWinrate } from "../logica/formato.js";
+import { fechaCorta, formatearWinrate, claseWinrate } from "../logica/formato.js";
 import { esRanked } from "../logica/partidas.js";
-import { formatearPromedio, resumenTftDe, textoRangoTft, tierTurbo, top4DeRango } from "../logica/tft.js";
+import { formatearPromedio, resumenTftDe } from "../logica/tft.js";
 import { BarraWinrate } from "./Etiquetas.jsx";
 import { FilaPartidaTft } from "./FilaPartidaTft.jsx";
 import { FiltroModos } from "./FiltroModos.jsx";
 import { HistorialPuestos } from "./HistorialPuestos.jsx";
-
-const numeros = new Intl.NumberFormat("es");
 
 /** Contenido desplegado de un amigo en TFT. Solo se monta al abrir su fila. */
 export function PanelAmigoTft({ amigo, ddragon, ahora }) {
@@ -24,15 +22,14 @@ export function PanelAmigoTft({ amigo, ddragon, ahora }) {
         registradas por LOLSapo.
       </p>
 
-      {/* Escritorio: rangos a la izquierda y la grilla de puestos a la derecha. Móvil: uno debajo del otro. */}
-      <div className="flex flex-col gap-4 lg:flex-row lg:items-start">
+      {/* Escritorio: filtros a la izquierda y la grilla de puestos a la derecha. Móvil: uno debajo del otro.
+          Sin historial, HistorialPuestos no renderiza nada y los filtros quedan solos. */}
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
         <div className="min-w-0 flex-1">
-          <RangosTft rangos={amigo.rangos} />
+          <FiltroModos valor={filtro} onCambiar={setFiltro} opciones={FILTROS_TFT} />
         </div>
         <HistorialPuestos historial={amigo.historial} filtro={filtro} />
       </div>
-
-      <FiltroModos valor={filtro} onCambiar={setFiltro} opciones={FILTROS_TFT} />
 
       <section aria-label="Estadísticas del filtro" className="space-y-2">
         <h3 className="font-titulo font-bold">Por modo</h3>
@@ -74,80 +71,6 @@ function ResumenFiltroTft({ etiqueta, resumen }) {
       <span className="text-texto-suave"> · prom. </span>
       <span className="font-semibold">{formatearPromedio(resumen.promedio)}</span>
     </p>
-  );
-}
-
-/** Rangos de las colas con liga: Ranked, Dúo dinámico (Double Up) y Hyper Roll. Solo las que existen. */
-function RangosTft({ rangos }) {
-  const r = rangos && typeof rangos === "object" ? rangos : {};
-  const colas = [
-    r.ranked && { clave: "ranked", nombre: "Ranked", rango: r.ranked },
-    r.doble && { clave: "doble", nombre: "Dúo dinámico", rango: r.doble },
-    r.turbo && { clave: "turbo", nombre: "Hyper Roll", rango: r.turbo, turbo: true },
-  ].filter(Boolean);
-
-  if (colas.length === 0) {
-    return <p className="text-sm text-texto-suave">Sin rango en ninguna cola de TFT esta temporada.</p>;
-  }
-  return (
-    <ul className="grid gap-2 sm:grid-cols-3" aria-label="Rangos">
-      {colas.map((c) => (
-        <li key={c.clave} className="rounded-md border border-borde bg-fondo/40 px-3 py-2 text-sm" data-cola={c.clave}>
-          <p className="text-xs text-texto-suave">{c.nombre}</p>
-          {c.turbo ? <ValorTurbo rango={c.rango} /> : <ValorLiga rango={c.rango} />}
-        </li>
-      ))}
-    </ul>
-  );
-}
-
-function ValorLiga({ rango }) {
-  const texto = textoRangoTft(rango) ?? "Sin rango";
-  const pct = top4DeRango(rango);
-  return (
-    <>
-      <p className="cifras font-semibold">
-        {texto}
-        {rango.racha === true && (
-          <span role="img" aria-label="En racha" title="En racha" className="ml-1">
-            🔥
-          </span>
-        )}
-      </p>
-      <p className="cifras text-xs text-texto-suave">
-        {esNumero(rango.top4) && esNumero(rango.partidas) ? (
-          <>
-            {rango.top4} top 4 en {rango.partidas} partidas ·{" "}
-            <span className={`font-semibold ${claseWinrate(pct)}`}>{formatearWinrate(pct)}</span>
-          </>
-        ) : (
-          "Sin partidas"
-        )}
-      </p>
-    </>
-  );
-}
-
-function ValorTurbo({ rango }) {
-  const tier = tierTurbo(rango);
-  const pct = top4DeRango(rango);
-  return (
-    <>
-      <p className="cifras font-semibold">
-        {tier ? <span className={tier.clase}>{tier.nombre}</span> : "Sin tier"}
-        {esNumero(rango.puntos) && <span className="text-texto"> · {numeros.format(rango.puntos)} puntos</span>}
-      </p>
-      <p className="cifras text-xs text-texto-suave">
-        {esNumero(rango.top4) && esNumero(rango.partidas) ? (
-          <>
-            {rango.top4} top 4 en {rango.partidas} partidas ·{" "}
-            <span className={`font-semibold ${claseWinrate(pct)}`}>{formatearWinrate(pct)}</span>
-          </>
-        ) : (
-          "Sin partidas"
-        )}
-      </p>
-    </>
   );
 }
 

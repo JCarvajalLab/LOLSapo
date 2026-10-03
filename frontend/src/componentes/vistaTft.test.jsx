@@ -123,12 +123,10 @@ describe("vista de TFT con datos", () => {
     const panel = document.getElementById(boton.getAttribute("aria-controls"));
     expect(panel).toBeVisible();
 
-    const rangos = within(panel).getByRole("list", { name: "Rangos" });
-    expect(rangos).toHaveTextContent("RankedPlatino II · 61 LP");
-    expect(rangos).toHaveTextContent("30 top 4 en 50 partidas · 60%");
-    expect(rangos).toHaveTextContent("Dúo dinámicoOro I · 12 LP");
-    expect(rangos).toHaveTextContent("Hyper RollMorado · 3100 puntos");
-    expect(within(rangos).getByText("Morado")).toHaveClass("text-costo-4");
+    // El rango ya se ve en la fila y en el Ranking: el panel no repite el bloque de rangos.
+    expect(within(panel).queryByRole("list", { name: "Rangos" })).not.toBeInTheDocument();
+    expect(panel).not.toHaveTextContent("Hyper Roll");
+    expect(panel).not.toHaveTextContent("Platino II · 61 LP");
 
     const desglose = within(panel).getByRole("list", { name: "Desglose por modo" });
     expect(desglose).toHaveTextContent("Clasificatoria · 10 partidas");
@@ -145,7 +143,7 @@ describe("vista de TFT con datos", () => {
     renderVista(crearDatosTft());
     const boton = await abrir("Renacuaja#LAS");
     const panel = document.getElementById(boton.getAttribute("aria-controls"));
-    expect(panel).toHaveTextContent("Sin rango en ninguna cola de TFT esta temporada.");
+    expect(panel).not.toHaveTextContent("Sin rango en ninguna cola de TFT esta temporada.");
     expect(panel).toHaveTextContent("Sin partidas registradas todavía.");
     expect(panel).toHaveTextContent("Todavía no hay partidas de TFT registradas.");
   });
@@ -526,11 +524,32 @@ describe("historial de puestos en el panel", () => {
   it("sin historial (vacío o archivo viejo) no muestra la grilla y el panel sigue entero", async () => {
     const panel = await abrirPanel("Renacuaja#LAS");
     expect(within(panel).queryByRole("region", { name: "Historial de puestos" })).not.toBeInTheDocument();
-    expect(panel).toHaveTextContent("Sin rango en ninguna cola de TFT esta temporada.");
+    expect(panel).not.toHaveTextContent("Sin rango en ninguna cola de TFT esta temporada.");
+    // Los filtros quedan solos en su fila, sin contenedor vacío al lado.
+    const filtros = within(panel).getByRole("group", { name: "Filtrar por modo" });
+    expect(filtros.parentElement.parentElement.children).toHaveLength(1);
 
     const botonLodo = await abrir("Lodo#LAS");
     const lodo = document.getElementById(botonLodo.getAttribute("aria-controls"));
     expect(within(lodo).queryByRole("region", { name: "Historial de puestos" })).not.toBeInTheDocument();
-    expect(within(lodo).getByRole("list", { name: "Rangos" })).toBeInTheDocument();
+    expect(within(lodo).queryByRole("list", { name: "Rangos" })).not.toBeInTheDocument();
+    expect(within(lodo).getByRole("group", { name: "Filtrar por modo" })).toBeInTheDocument();
+  });
+
+  it("el panel ordena filtros, grilla, por modo y últimas partidas", async () => {
+    const panel = await abrirPanel("Croac#LAS");
+    const contando = within(panel).getByText(/^Contando desde/);
+    const filtros = within(panel).getByRole("group", { name: "Filtrar por modo" });
+    const grilla = within(panel).getByRole("region", { name: "Historial de puestos" });
+    const porModo = within(panel).getByRole("region", { name: "Estadísticas del filtro" });
+    const partidas = within(panel).getByRole("region", { name: "Últimas partidas" });
+    const orden = [contando, filtros, grilla, porModo, partidas];
+    for (let i = 1; i < orden.length; i++) {
+      expect(orden[i - 1].compareDocumentPosition(orden[i]) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    }
+    // Filtros y grilla comparten fila en escritorio (lg:flex-row) y se apilan en móvil.
+    const fila = filtros.parentElement.parentElement;
+    expect(fila).toContainElement(grilla);
+    expect(fila).toHaveClass("flex-col", "lg:flex-row", "lg:items-start");
   });
 });
