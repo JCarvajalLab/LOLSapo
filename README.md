@@ -4,7 +4,7 @@ Web estilo op.gg para un grupo cerrado de amigos del servidor **LAS**. Muestra q
 
 **Sitio:** https://jcarvajallab.github.io/LOLSapo/ (se actualiza solo cada ~5 minutos).
 
-> Fase 6 (TFT) completa. Próxima: fase 7, extras. El detalle del proyecto está en [docs/REQUERIMIENTOS.md](docs/REQUERIMIENTOS.md).
+> Fase 7 (extras) en curso: ya están los destacados de los últimos 7 días. El detalle del proyecto está en [docs/REQUERIMIENTOS.md](docs/REQUERIMIENTOS.md).
 
 ## Cómo funciona
 
@@ -13,6 +13,19 @@ La API de Riot necesita una key secreta, así que la web **nunca** llama a Riot 
 1. Un script en Python (el **recolector**) consulta la API de Riot y genera `lol.json` y `tft.json`.
 2. El frontend (React + Vite) solo lee ese JSON.
 3. En producción, un Cloudflare Worker le pide a GitHub Actions cada 5 minutos que corra el recolector y publique la web en GitHub Pages. En local lo corres tú.
+
+## Destacados de los últimos 7 días
+
+En la pestaña LoL, bajo "En partida", seis tarjetas resumen la semana del grupo. Solo cuentan Normal y Ranked (Solo/Dúo y Flex), sin remakes:
+
+| Tarjeta | Cómo se calcula |
+|---------|-----------------|
+| Más partidas | Partidas jugadas en los 7 días |
+| Mejor winrate | De las últimas 7 partidas de cada uno, con mínimo 5 |
+| Mejor partida / Peor partida | La partida individual con el KDA más alto / más bajo de las últimas 7 de cada uno (gane o pierda), con su daño a campeones |
+| Racha de victorias / derrotas en equipo | Partidas con 2 o más del grupo en el mismo equipo, en orden: la racha sigue mientras se repite el resultado y cada partida comparte al menos un amigo con la anterior. Muestra a todos los que participaron; quien jugó solo una lleva la nota «(1 partida)» |
+
+Se calculan en el recolector ([recolector/lolsapo/destacados.py](recolector/lolsapo/destacados.py)) a partir del registro completo de cada amigo, sin consultas extra a Riot.
 
 ## Usarlo con tus amigos
 
