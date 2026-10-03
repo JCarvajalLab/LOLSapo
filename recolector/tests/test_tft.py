@@ -405,6 +405,10 @@ def test_genera_tft_json_completo(cliente, mapa_tft, tmp_path):
     assert salida["en_vivo_disponible"] is True
     john, gato = salida["amigos"]
     assert john["perfil"] == {"icono": 4022, "nivel": 834}
+    assert john["historial"] == [
+        {"puesto": 2, "modo": "Clasificatoria", "categoria": "ranked"},
+        {"puesto": 6, "modo": "Normal", "categoria": "normal"},
+    ]
     assert john["rangos"]["ranked"]["tier"] == "PLATINUM"
     assert [p["id"] for p in john["partidas"]] == ["LA2_2", "LA2_1"]
     assert john["partidas"][1]["modo"] == "Normal"
@@ -519,6 +523,24 @@ def test_lol_ignora_una_partida_de_tft_en_el_spectator(cliente, mapa, tmp_path):
     assert salida["amigos"][0]["estado"] == "ok"
     assert salida["amigos"][0]["jugando"] is None
     assert salida["en_vivo"] == []
+
+
+@responses.activate
+def test_tft_historial_de_los_ultimos_30_puestos(cliente, mapa_tft, tmp_path):
+    ids = [f"LA2_{i}" for i in range(35, 0, -1)]
+    simular_amigo_tft("Johnadis", P_JOHN, ids[:30])
+    for i, id_partida in enumerate(ids):
+        simular_partida_tft(id_partida, P_JOHN, puesto=i % 8 + 1, fecha=10_000 - i)
+    salida = ejecutar_tft(
+        cliente, KEY_FALSA, [JOHN], mapa_tft, tmp_path, tmp_path / "t.json", cantidad=5, ahora=AHORA
+    )
+    # Aunque se pidan 5, TFT revisa 30 para completar la grilla.
+    pedido = next(c.request.url for c in responses.calls if "/ids" in c.request.url)
+    assert "count=30" in pedido
+    historial = salida["amigos"][0]["historial"]
+    assert len(historial) == 30
+    assert [h["puesto"] for h in historial[:9]] == [1, 2, 3, 4, 5, 6, 7, 8, 1]
+    assert len(salida["amigos"][0]["partidas"]) == 10
 
 
 # --- Data Dragon de TFT ----------------------------------------------------------------------

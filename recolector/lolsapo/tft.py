@@ -40,6 +40,9 @@ from .validacion_tft import (
 
 VERSION_SALIDA_TFT = 1
 PARTIDAS_VISIBLES = 10
+# Grilla de posiciones: los últimos 30 puestos. Por eso TFT revisa siempre al menos 30 partidas
+# recientes (solo se descargan las que faltan en el registro).
+PUESTOS_HISTORIAL = 30
 DIR_REGISTRO_TFT = "registro_tft"
 MENSAJE_SIN_ACCESO = (
     "No se pudieron consultar los datos de TFT: la key no tiene acceso o caducó. "
@@ -95,7 +98,7 @@ def _consultar(
     perfil = validar_invocador(cliente.invocador_tft(puuid))
     rangos = validar_ligas_tft(cliente.ligas_tft(puuid))
     resumenes = []
-    ids = validar_ids_partidas(cliente.ids_partidas_tft(puuid, cantidad))
+    ids = validar_ids_partidas(cliente.ids_partidas_tft(puuid, max(cantidad, PUESTOS_HISTORIAL)))
     for id_partida in ids_nuevos(ids, registro):
         try:
             resumen = resumir_partida_tft(cliente.partida_tft(id_partida), puuid, id_partida)
@@ -190,6 +193,12 @@ def _entrada(
         "jugando": jugando,
         "estadisticas": calcular_estadisticas_tft(registro["partidas"].values(), mapa),
         "partidas": partidas,
+        # Del más reciente al más antiguo.
+        "historial": [
+            {"puesto": p["puesto"], "modo": modo.nombre, "categoria": modo.categoria}
+            for p in ultimas_partidas(registro, PUESTOS_HISTORIAL)
+            for modo in (mapa.obtener(p.get("queue_id")),)
+        ],
     }
 
 
