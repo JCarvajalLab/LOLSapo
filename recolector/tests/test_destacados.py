@@ -1,13 +1,14 @@
 """Destacados de los últimos 7 días (datos inventados, sin red)."""
 
 import json
+from datetime import UTC, datetime
 
 import pytest
 import responses
 from conftest import KEY_FALSA
-from test_recolector import AHORA, JOHN, P_JOHN, simular_amigo, simular_partida
+from test_recolector import AHORA, GATO, JOHN, P_GATO, P_JOHN, simular_amigo, simular_partida
 
-from lolsapo.destacados import VENTANA_MS, calcular_destacados, kda
+from lolsapo.destacados import VENTANA_MS, calcular_destacados, inicio_del_dia, kda
 from lolsapo.recolector import _elementos_usados, ejecutar
 
 AHORA_MS = int(AHORA.timestamp() * 1000)
@@ -62,30 +63,84 @@ def test_winrate_exige_5_partidas(mapa):
     }
     destacados = calcular_destacados(datos, mapa, AHORA_MS)
     assert destacados["mejor_winrate"]["amigos"] == ["suficientes"]
-    # La mejor partida no exige mínimo: es una sola partida.
-    assert destacados["mejor_partida"]["amigos"] == ["pocas"]
 
 
-def test_mejor_partida(mapa):
+def test_inicio_del_dia_es_a_las_6_de_chile():
+    # AHORA es 2026-10-01 20:00 UTC = 17:00 en Chile (UTC-3): el día empezó a las 6:00 de hoy.
+    seis_hoy = datetime(2026, 10, 1, 9, 0, tzinfo=UTC)
+    assert inicio_del_dia(AHORA_MS) == int(seis_hoy.timestamp() * 1000)
+    # A las 2:00 de Chile todavía es "ayer": el día empezó a las 6:00 del día anterior.
+    dos_am = int(datetime(2026, 10, 2, 5, 0, tzinfo=UTC).timestamp() * 1000)
+    assert inicio_del_dia(dos_am) == int(seis_hoy.timestamp() * 1000)
+    # Justo a las 6:00 empieza un día nuevo.
+    seis_manana = int(datetime(2026, 10, 2, 9, 0, tzinfo=UTC).timestamp() * 1000)
+    assert inicio_del_dia(seis_manana) == seis_manana
+
+
+def test_inicio_del_dia_respeta_el_horario_de_invierno():
+    # En julio Chile está en UTC-4: las 6:00 son las 10:00 UTC.
+    julio = int(datetime(2026, 7, 15, 20, 0, tzinfo=UTC).timestamp() * 1000)
+    seis = int(datetime(2026, 7, 15, 10, 0, tzinfo=UTC).timestamp() * 1000)
+    assert inicio_del_dia(julio) == seis
+
+
+def hoy_en_grupo(id_p, horas_atras, k, d, a, resultado="victoria", con=("ana", "otro"), **kw):
+    """La actuación de un amigo en una partida que jugaron juntos los amigos de `con`."""
+    partida = p(id_p, horas_atras, resultado, k=k, d=d, a=a, **kw)
+    return grupal([partida], *con)[0]
+
+
+def test_mejor_y_peor_jugador_de_una_partida_de_hoy(mapa):
+    # 2 amigos, 1 partida: el de mejor KDA es el mejor y el otro, el peor.
     datos = {
-        "a": [p("a1", 2, k=10, d=2, a=5), p("a2", 3, "derrota", k=14, d=0, a=15, campeon_id=157)],
-        "b": [p("b1", 1, k=8, d=1, a=10), p("b2", 4, queue_id=450, k=30, d=0, a=30)],  # ARAM: fuera
+        "ana": [hoy_en_grupo("g1", 2, 10, 2, 8)],
+        "otro": [hoy_en_grupo("g1", 2, 2, 7, 4, campeon_id=157)],
     }
     destacados = calcular_destacados(datos, mapa, AHORA_MS)
-    mejor = destacados["mejor_partida"]
-    assert mejor["amigos"] == ["a"]
-    assert mejor["partida_id"] == "a2"
-    assert (mejor["asesinatos"], mejor["muertes"], mejor["asistencias"]) == (14, 0, 15)
-    assert mejor["kda"] == 29.0
-    assert mejor["resultado"] == "derrota"  # el resultado no influye
-    assert mejor["danio"] is None  # partida guardada sin daño (antes de agregarlo)
-    assert "mejor_kda" not in destacados
+    assert destacados["mejor_jugador_hoy"]["amigos"] == ["ana"]
+    assert destacados["mejor_jugador_hoy"]["kda"] == 9.0
+    peor = destacados["peor_jugador_hoy"]
+    assert peor["amigos"] == ["otro"]
+    assert (peor["asesinatos"], peor["muertes"], peor["asistencias"]) == (2, 7, 4)
+    assert peor["campeon_id"] == 157
+    assert peor["modo"] == "Clasificatoria Solo/Dúo"
 
 
-def test_mejor_partida_desempata_por_mas_asesinatos_y_asistencias(mapa):
-    datos = {"a": [p("a1", 2, k=4, d=0, a=4)], "b": [p("b1", 1, k=2, d=1, a=6)]}
+def test_jugador_de_hoy_compara_todas_las_actuaciones_del_dia(mapa):
+    datos = {
+        "ana": [hoy_en_grupo("g1", 5, 5, 5, 5), hoy_en_grupo("g2", 2, 14, 0, 15)],
+        "otro": [hoy_en_grupo("g1", 5, 1, 12, 3), hoy_en_grupo("g2", 2, 4, 4, 4)],
+    }
+    destacados = calcular_destacados(datos, mapa, AHORA_MS)
+    mejor, peor = destacados["mejor_jugador_hoy"], destacados["peor_jugador_hoy"]
+    assert (mejor["amigos"], mejor["partida_id"], mejor["kda"]) == (["ana"], "g2", 29.0)
+    assert (peor["amigos"], peor["partida_id"], peor["kda"]) == (["otro"], "g1", 0.33)
+    assert mejor["danio"] is None  # partida guardada sin daño
+
+
+def test_jugador_de_hoy_ignora_solitario_ayer_y_aram(mapa):
+    datos = {
+        # Solo: no cuenta. ARAM: no cuenta. 12 h antes de las 17:00 son las 5:00: es "ayer".
+        "ana": [
+            p("solo", 1, k=30, d=0, a=30),
+            hoy_en_grupo("aram", 2, 30, 0, 30, queue_id=450),
+            hoy_en_grupo("ayer", 12, 30, 0, 30),
+        ],
+        "otro": [],  # sigue en la lista: las partidas con él sí son "en grupo"
+    }
+    destacados = calcular_destacados(datos, mapa, AHORA_MS)
+    assert destacados["mejor_jugador_hoy"] is None
+    assert destacados["peor_jugador_hoy"] is None
+    assert destacados["hoy_desde"] == inicio_del_dia(AHORA_MS)
+
+
+def test_mejor_jugador_desempata_por_mas_asesinatos_y_asistencias(mapa):
+    datos = {
+        "a": [hoy_en_grupo("g1", 2, 4, 0, 4, con=("a", "b"))],
+        "b": [hoy_en_grupo("g1", 2, 2, 1, 6, con=("a", "b"))],
+    }
     # KDA 8 en las dos: gana la de más asesinatos + asistencias (8 vs 8) y luego menos muertes.
-    assert calcular_destacados(datos, mapa, AHORA_MS)["mejor_partida"]["amigos"] == ["a"]
+    assert calcular_destacados(datos, mapa, AHORA_MS)["mejor_jugador_hoy"]["amigos"] == ["a"]
 
 
 def test_mejor_winrate_con_sus_totales(mapa):
@@ -237,35 +292,14 @@ def test_empate_en_winrate_gana_quien_jugo_mas(mapa):
     assert calcular_destacados(datos, mapa, AHORA_MS)["mejor_winrate"]["amigos"] == ["seis"]
 
 
-def test_mas_partidas_cuenta_todo_y_el_resto_solo_las_ultimas_7(mapa):
-    # 10 partidas: 3 derrotas antiguas con KDA horrible y luego 7 victorias.
-    partidas = serie("x", ["derrota"] * 3 + ["victoria"] * 7, k=5, d=1, a=5)
-    for vieja in partidas[:3]:
-        vieja.update(asesinatos=0, muertes=20, asistencias=0)
+def test_mas_partidas_y_winrate_usan_los_7_dias_completos(mapa):
+    partidas = serie("x", ["derrota"] * 3 + ["victoria"] * 7)
     destacados = calcular_destacados({"a": partidas}, mapa, AHORA_MS)
-    assert destacados["ultimas_partidas"] == 7
     assert destacados["mas_partidas"]["partidas"] == 10
-    assert destacados["mejor_winrate"]["partidas"] == 7
-    assert destacados["mejor_winrate"]["winrate"] == 100.0
-    assert destacados["mejor_partida"]["kda"] == 10.0
-    assert "racha_victorias" not in destacados
-    # La peor partida sale de las últimas 7 (las 0/20/0 antiguas no cuentan).
-    assert destacados["peor_partida"]["muertes"] == 1
-
-
-def test_peor_partida(mapa):
-    datos = {
-        "a": [p("a1", 2, k=10, d=2, a=5), p("a2", 3, "derrota", k=1, d=12, a=3, campeon_id=157)],
-        "b": [p("b1", 1, k=2, d=4, a=2), p("b2", 4, queue_id=450, k=0, d=20, a=0)],  # ARAM: fuera
-    }
-    peor = calcular_destacados(datos, mapa, AHORA_MS)["peor_partida"]
-    assert peor["amigos"] == ["a"]
-    assert peor["partida_id"] == "a2"
-    assert (peor["asesinatos"], peor["muertes"], peor["asistencias"]) == (1, 12, 3)
-    assert peor["kda"] == 0.33
-    assert peor["campeon_id"] == 157
-    assert peor["modo"] == "Clasificatoria Solo/Dúo"
-    assert peor["resultado"] == "derrota"
+    assert destacados["mejor_winrate"]["partidas"] == 10
+    assert destacados["mejor_winrate"]["winrate"] == 70.0
+    for vieja in ("ultimas_partidas", "mejor_partida", "peor_partida", "racha_victorias"):
+        assert vieja not in destacados
 
 
 def test_sin_partidas_todo_vacio(mapa):
@@ -273,10 +307,10 @@ def test_sin_partidas_todo_vacio(mapa):
     for clave in (
         "mas_partidas",
         "mejor_winrate",
-        "mejor_partida",
+        "mejor_jugador_hoy",
         "racha_victorias_grupo",
         "racha_derrotas_grupo",
-        "peor_partida",
+        "peor_jugador_hoy",
     ):
         assert destacados[clave] is None
 
@@ -314,25 +348,27 @@ def test_registro_danado_no_impide_generar_lol_json(cliente, mapa, tmp_path, cap
 
 @responses.activate
 def test_lol_json_incluye_destacados_sin_puuid(cliente, mapa, tmp_path):
-    ids = [f"LA2_{i}" for i in range(6, 0, -1)]
+    ids = [f"LA2_{i}" for i in range(3, 0, -1)]
     simular_amigo("Johnadis", P_JOHN, ids)
+    simular_amigo("Big Gato", P_GATO, ids)
     for i, id_p in enumerate(ids):
-        simular_partida(id_p, P_JOHN, queue_id=420, win=i != 0, fin=AHORA_MS - (i + 1) * HORA)
+        # Johnadis (5/2/7) y Big Gato (0/2/7) en el mismo equipo, hoy.
+        simular_partida(id_p, P_JOHN, companeros=(P_GATO,), fin=AHORA_MS - (i + 1) * HORA)
     salida = ejecutar(
-        cliente, KEY_FALSA, [JOHN], mapa, tmp_path, tmp_path / "lol.json", ahora=AHORA
+        cliente, KEY_FALSA, [JOHN, GATO], mapa, tmp_path, tmp_path / "lol.json", ahora=AHORA
     )
     destacados = salida["destacados"]
-    assert destacados["mas_partidas"] == {"amigos": ["johnadis-las"], "partidas": 6}
-    # Johnadis jugó sin nadie del grupo: no hay racha en grupo.
-    assert destacados["racha_victorias_grupo"] is None
-    assert destacados["peor_partida"]["amigos"] == ["johnadis-las"]
-    assert destacados["peor_partida"]["danio"] == 21_345
-    # Los campeones de la mejor y peor partida quedan disponibles para su imagen.
+    assert destacados["mas_partidas"]["partidas"] == 3
+    assert destacados["racha_victorias_grupo"]["racha"] == 3
+    assert destacados["mejor_jugador_hoy"]["amigos"] == ["johnadis-las"]
+    assert destacados["peor_jugador_hoy"]["amigos"] == ["big-gato-las"]
+    assert destacados["peor_jugador_hoy"]["danio"] == 21_345
+    # Los campeones del mejor y peor jugador quedan disponibles para su imagen.
     usados = _elementos_usados([], [], destacados)["campeones"]
     assert {
-        destacados["mejor_partida"]["campeon_id"],
-        destacados["peor_partida"]["campeon_id"],
+        destacados["mejor_jugador_hoy"]["campeon_id"],
+        destacados["peor_jugador_hoy"]["campeon_id"],
     } <= usados
     texto = (tmp_path / "lol.json").read_text(encoding="utf-8")
-    assert P_JOHN not in texto
+    assert P_JOHN not in texto and P_GATO not in texto
     assert json.loads(texto)["destacados"] == destacados
