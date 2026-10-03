@@ -3,12 +3,12 @@
 Solo cuentan Normal y Ranked (Solo/Dúo y Flex): ARAM, ARAM Caos y los modos especiales
 quedan fuera. Los remakes tampoco cuentan.
 
-"Más partidas" cuenta todo lo jugado en los 7 días. El resto (winrate, KDA, racha y peor
+"Más partidas" cuenta todo lo jugado en los 7 días. El resto (winrate, KDA, rachas y peor
 partida) usa solo las últimas 7 partidas de cada amigo dentro de esos días, para que jugar
 mucho no premie ni castigue.
 
 Cada destacado trae la lista de amigos que lo ganan: si hay empate exacto (después de los
-desempates), aparecen todos. En la racha es lo normal, porque el grupo suele jugar junto.
+desempates), aparecen todos. En las rachas es lo normal, porque el grupo suele jugar junto.
 """
 
 from collections.abc import Iterable
@@ -19,7 +19,7 @@ from .registro import winrate
 DIAS = 7
 VENTANA_MS = DIAS * 24 * 60 * 60 * 1000
 CATEGORIAS = ("ranked", "normal")
-ULTIMAS_PARTIDAS = 7  # muestra por amigo para winrate, KDA, racha y peor partida
+ULTIMAS_PARTIDAS = 7  # muestra por amigo para winrate, KDA, rachas y peor partida
 MINIMO_PARTIDAS = 5  # de esas 7, para winrate y KDA: así no gana alguien con 1 partida
 RACHA_MINIMA = 2
 
@@ -44,10 +44,12 @@ def _partidas_validas(partidas: Iterable[dict], mapa: MapaModos, desde_ms: int) 
 def _resumen(partidas: list[dict]) -> dict:
     victorias = sum(p["resultado"] == "victoria" for p in partidas)
     totales = {c: sum(p[c] for p in partidas) for c in ("asesinatos", "muertes", "asistencias")}
-    racha = mejor_racha = 0
+    rachas = {"victoria": 0, "derrota": 0}
+    mejores = {"victoria": 0, "derrota": 0}
     for partida in partidas:
-        racha = racha + 1 if partida["resultado"] == "victoria" else 0
-        mejor_racha = max(mejor_racha, racha)
+        for resultado in rachas:
+            rachas[resultado] = rachas[resultado] + 1 if partida["resultado"] == resultado else 0
+            mejores[resultado] = max(mejores[resultado], rachas[resultado])
     return {
         "partidas": len(partidas),
         "victorias": victorias,
@@ -55,7 +57,8 @@ def _resumen(partidas: list[dict]) -> dict:
         "winrate": winrate(victorias, len(partidas) - victorias),
         **totales,
         "kda": kda(totales["asesinatos"], totales["muertes"], totales["asistencias"]),
-        "racha": mejor_racha,
+        "racha_victorias": mejores["victoria"],
+        "racha_derrotas": mejores["derrota"],
     }
 
 
@@ -86,9 +89,6 @@ def calcular_destacados(
     resumenes = {s: _resumen(p) for s, p in recientes.items() if p}
 
     campos_kda = ("kda", "asesinatos", "muertes", "asistencias", "partidas")
-    racha = _ganadores(resumenes, lambda r: r["racha"])
-    if racha and resumenes[racha[0]]["racha"] < RACHA_MINIMA:
-        racha = []
 
     return {
         "dias": DIAS,
@@ -107,14 +107,18 @@ def calcular_destacados(
             resumenes,
             campos_kda,
         ),
-        "peor_kda": _destacado(
-            _ganadores(resumenes, lambda r: (-r["kda"], r["partidas"]), MINIMO_PARTIDAS),
-            resumenes,
-            campos_kda,
-        ),
-        "racha": _destacado(racha, resumenes, ("racha",)),
+        "racha_victorias": _racha(resumenes, "racha_victorias"),
+        "racha_derrotas": _racha(resumenes, "racha_derrotas"),
         "peor_partida": _peor_partida(recientes, mapa),
     }
+
+
+def _racha(resumenes: dict[str, dict], campo: str) -> dict | None:
+    """La racha más larga (desde 2 seguidas). Con empate aparecen todos los que la tienen."""
+    ganadores = _ganadores(resumenes, lambda r: r[campo])
+    if not ganadores or resumenes[ganadores[0]][campo] < RACHA_MINIMA:
+        return None
+    return {"amigos": ganadores, "racha": resumenes[ganadores[0]][campo]}
 
 
 def _peor_partida(validas: dict[str, list[dict]], mapa: MapaModos) -> dict | None:

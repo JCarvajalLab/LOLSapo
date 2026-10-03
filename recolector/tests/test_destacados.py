@@ -63,10 +63,9 @@ def test_winrate_y_kda_exigen_5_partidas(mapa):
     destacados = calcular_destacados(datos, mapa, AHORA_MS)
     assert destacados["mejor_winrate"]["amigos"] == ["suficientes"]
     assert destacados["mejor_kda"]["amigos"] == ["suficientes"]
-    assert destacados["peor_kda"]["amigos"] == ["suficientes"]
 
 
-def test_mejor_y_peor_kda_con_sus_totales(mapa):
+def test_mejor_kda_con_sus_totales(mapa):
     datos = {
         "bueno": serie("b", ["victoria"] * 5, k=3, d=0, a=3),
         "malo": serie("m", ["derrota"] * 5, k=1, d=4, a=1),
@@ -80,8 +79,7 @@ def test_mejor_y_peor_kda_con_sus_totales(mapa):
         "asistencias": 15,
         "partidas": 5,
     }
-    assert destacados["peor_kda"]["amigos"] == ["malo"]
-    assert destacados["peor_kda"]["kda"] == 0.5
+    assert "peor_kda" not in destacados
     assert destacados["mejor_winrate"] == {
         "amigos": ["bueno"],
         "winrate": 100.0,
@@ -99,13 +97,27 @@ def test_racha_con_empate_muestra_a_todos(mapa):
         "carla": serie("c", juntos),
         "dani": serie("d", ["victoria", "victoria", "derrota"]),
     }
-    racha = calcular_destacados(datos, mapa, AHORA_MS)["racha"]
-    assert racha == {"amigos": ["ana", "beto", "carla"], "racha": 3}
+    destacados = calcular_destacados(datos, mapa, AHORA_MS)
+    assert destacados["racha_victorias"] == {"amigos": ["ana", "beto", "carla"], "racha": 3}
+
+
+def test_racha_de_derrotas_con_empate_muestra_a_todos(mapa):
+    juntos = ["victoria", "derrota", "derrota", "derrota", "derrota", "victoria"]
+    datos = {
+        "ana": serie("a", juntos),
+        "beto": serie("b", juntos),
+        "carla": serie("c", ["derrota", "derrota", "victoria"]),
+    }
+    destacados = calcular_destacados(datos, mapa, AHORA_MS)
+    assert destacados["racha_derrotas"] == {"amigos": ["ana", "beto"], "racha": 4}
+    assert destacados["racha_victorias"] is None  # nadie con 2 victorias seguidas
 
 
 def test_racha_de_una_victoria_no_cuenta(mapa):
     datos = {"a": serie("a", ["victoria", "derrota", "victoria"])}
-    assert calcular_destacados(datos, mapa, AHORA_MS)["racha"] is None
+    destacados = calcular_destacados(datos, mapa, AHORA_MS)
+    assert destacados["racha_victorias"] is None
+    assert destacados["racha_derrotas"] is None
 
 
 def test_empate_en_winrate_gana_quien_jugo_mas(mapa):
@@ -127,7 +139,9 @@ def test_mas_partidas_cuenta_todo_y_el_resto_solo_las_ultimas_7(mapa):
     assert destacados["mejor_winrate"]["partidas"] == 7
     assert destacados["mejor_winrate"]["winrate"] == 100.0
     assert destacados["mejor_kda"]["kda"] == 10.0
-    assert destacados["racha"]["racha"] == 7
+    assert destacados["racha_victorias"]["racha"] == 7
+    # Las 3 derrotas seguidas quedaron fuera de las últimas 7.
+    assert destacados["racha_derrotas"] is None
     # La peor partida sale de las últimas 7 (las 0/20/0 antiguas no cuentan).
     assert destacados["peor_partida"]["muertes"] == 1
 
@@ -153,8 +167,8 @@ def test_sin_partidas_todo_vacio(mapa):
         "mas_partidas",
         "mejor_winrate",
         "mejor_kda",
-        "peor_kda",
-        "racha",
+        "racha_victorias",
+        "racha_derrotas",
         "peor_partida",
     ):
         assert destacados[clave] is None
@@ -180,7 +194,7 @@ def test_lol_json_incluye_destacados_sin_puuid(cliente, mapa, tmp_path):
     )
     destacados = salida["destacados"]
     assert destacados["mas_partidas"] == {"amigos": ["johnadis-las"], "partidas": 6}
-    assert destacados["racha"] == {"amigos": ["johnadis-las"], "racha": 5}
+    assert destacados["racha_victorias"] == {"amigos": ["johnadis-las"], "racha": 5}
     assert destacados["peor_partida"]["amigos"] == ["johnadis-las"]
     # El campeón de la peor partida queda disponible para su imagen.
     texto = (tmp_path / "lol.json").read_text(encoding="utf-8")
