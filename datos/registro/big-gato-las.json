@@ -1899,11 +1899,296 @@
         "principal": 8112,
         "secundaria": 8300
       }
+    },
+    "LA2_1628055712": {
+      "asesinatos": 17,
+      "asistencias": 12,
+      "campeon": "Chogath",
+      "campeon_id": 31,
+      "cs": 242,
+      "duracion": 2091,
+      "equipo": 100,
+      "fecha": 1790996787163,
+      "hechizos": [
+        12,
+        4
+      ],
+      "id": "LA2_1628055712",
+      "items": [
+        6665,
+        2504,
+        3110,
+        3009,
+        3084,
+        3152,
+        3340
+      ],
+      "muertes": 5,
+      "nivel": 20,
+      "participacion": 60,
+      "participantes": [
+        {
+          "amigo": "big-gato-las",
+          "campeon_id": 31,
+          "equipo": 100,
+          "nombre": "Big Gato#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 246,
+          "equipo": 100,
+          "nombre": "TheEliasp#LAS"
+        },
+        {
+          "amigo": "johnadis-las",
+          "campeon_id": 166,
+          "equipo": 100,
+          "nombre": "Johnadis#LAS"
+        },
+        {
+          "amigo": "iskrat-las",
+          "campeon_id": 115,
+          "equipo": 100,
+          "nombre": "ISkrat#LAS"
+        },
+        {
+          "amigo": "nic-las",
+          "campeon_id": 201,
+          "equipo": 100,
+          "nombre": "Nicø#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 122,
+          "equipo": 200,
+          "nombre": "NotMasini#8103"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 107,
+          "equipo": 200,
+          "nombre": "Juan7u7Lol#CHILE"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 84,
+          "equipo": 200,
+          "nombre": "tiki#tiki7"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 145,
+          "equipo": 200,
+          "nombre": "NickoideXd#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 518,
+          "equipo": 200,
+          "nombre": "Coltencito#lvs"
+        }
+      ],
+      "queue_id": 400,
+      "resultado": "victoria",
+      "runas": {
+        "principal": 8437,
+        "secundaria": 8000
+      }
+    },
+    "LA2_1628068957": {
+      "asesinatos": 6,
+      "asistencias": 3,
+      "campeon": "Kennen",
+      "campeon_id": 85,
+      "cs": 260,
+      "duracion": 2094,
+      "equipo": 200,
+      "fecha": 1790999403749,
+      "hechizos": [
+        14,
+        4
+      ],
+      "id": "LA2_1628068957",
+      "items": [
+        3157,
+        3152,
+        3020,
+        3089,
+        0,
+        3146,
+        3340
+      ],
+      "muertes": 9,
+      "nivel": 18,
+      "participacion": 45,
+      "participantes": [
+        {
+          "amigo": null,
+          "campeon_id": 240,
+          "equipo": 100,
+          "nombre": "Rin#Zeus"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 59,
+          "equipo": 100,
+          "nombre": "KtadorD3Qcas#6969"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 142,
+          "equipo": 100,
+          "nombre": "sssssssssssssss#8639"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 29,
+          "equipo": 100,
+          "nombre": "GinoGi2#5422"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 40,
+          "equipo": 100,
+          "nombre": "Danix#3298"
+        },
+        {
+          "amigo": "big-gato-las",
+          "campeon_id": 85,
+          "equipo": 200,
+          "nombre": "Big Gato#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 141,
+          "equipo": 200,
+          "nombre": "Catador de Colas#737"
+        },
+        {
+          "amigo": "johnadis-las",
+          "campeon_id": 112,
+          "equipo": 200,
+          "nombre": "Johnadis#LAS"
+        },
+        {
+          "amigo": "iskrat-las",
+          "campeon_id": 901,
+          "equipo": 200,
+          "nombre": "ISkrat#LAS"
+        },
+        {
+          "amigo": "nic-las",
+          "campeon_id": 117,
+          "equipo": 200,
+          "nombre": "Nicø#LAS"
+        }
+      ],
+      "queue_id": 400,
+      "resultado": "derrota",
+      "runas": {
+        "principal": 8112,
+        "secundaria": 8200
+      }
+    },
+    "LA2_1628089352": {
+      "asesinatos": 21,
+      "asistencias": 8,
+      "campeon": "Poppy",
+      "campeon_id": 78,
+      "cs": 260,
+      "duracion": 2263,
+      "equipo": 200,
+      "fecha": 1791002738543,
+      "hechizos": [
+        12,
+        4
+      ],
+      "id": "LA2_1628089352",
+      "items": [
+        2502,
+        3121,
+        6610,
+        3111,
+        6665,
+        6662,
+        3340
+      ],
+      "muertes": 6,
+      "nivel": 20,
+      "participacion": 59,
+      "participantes": [
+        {
+          "amigo": null,
+          "campeon_id": 516,
+          "equipo": 100,
+          "nombre": "Karasu#観察眼"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 245,
+          "equipo": 100,
+          "nombre": "puppet lullaby#AyJ"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 103,
+          "equipo": 100,
+          "nombre": "dolly lullaby#AyJ"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 804,
+          "equipo": 100,
+          "nombre": "mishilore#gato"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 235,
+          "equipo": 100,
+          "nombre": "Las Wehrmacht#LAS"
+        },
+        {
+          "amigo": "big-gato-las",
+          "campeon_id": 78,
+          "equipo": 200,
+          "nombre": "Big Gato#LAS"
+        },
+        {
+          "amigo": "nic-las",
+          "campeon_id": 35,
+          "equipo": 200,
+          "nombre": "Nicø#LAS"
+        },
+        {
+          "amigo": "johnadis-las",
+          "campeon_id": 910,
+          "equipo": 200,
+          "nombre": "Johnadis#LAS"
+        },
+        {
+          "amigo": "iskrat-las",
+          "campeon_id": 81,
+          "equipo": 200,
+          "nombre": "ISkrat#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 432,
+          "equipo": 200,
+          "nombre": "SSurpriseMDFK#LAS"
+        }
+      ],
+      "queue_id": 400,
+      "resultado": "victoria",
+      "runas": {
+        "principal": 8437,
+        "secundaria": 8000
+      }
     }
   },
   "perfil": {
     "icono": 691,
-    "nivel": 657
+    "nivel": 658
   },
   "rangos": {
     "flex": null,
