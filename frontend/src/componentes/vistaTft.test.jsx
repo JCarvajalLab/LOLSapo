@@ -56,6 +56,48 @@ describe("vista de TFT con datos", () => {
     expect(filas[2].closest("li")).toHaveTextContent("Sin rango");
   });
 
+  it("muestra el ícono de invocador y el nivel como en League", () => {
+    renderVista(crearDatosTft());
+    const croac = screen.getByRole("button", { name: "Croac#LAS" }).closest("li");
+    const icono = within(croac).getByRole("img", { name: "Ícono de Croac#LAS" });
+    expect(icono.tagName).toBe("IMG");
+    expect(icono).toHaveAttribute("src", "https://ddragon.leagueoflegends.com/cdn/99.1.1/img/profileicon/4022.png");
+    expect(within(croac).getByText("Nivel 834")).toBeInTheDocument();
+  });
+
+  it("sin perfil muestra las iniciales y Nivel desconocido", () => {
+    renderVista(crearDatosTft());
+    const renacuaja = screen.getByRole("button", { name: "Renacuaja#LAS" }).closest("li");
+    const icono = within(renacuaja).getByRole("img", { name: "Ícono de Renacuaja#LAS" });
+    expect(icono.tagName).toBe("SPAN");
+    expect(icono).toHaveTextContent("R");
+    expect(within(renacuaja).getByText("Nivel desconocido")).toBeInTheDocument();
+    // Nivel 0 no es un nivel real: también se muestra como desconocido.
+    const lodo = screen.getByRole("button", { name: "Lodo#LAS" }).closest("li");
+    expect(within(lodo).getByText("Nivel desconocido")).toBeInTheDocument();
+  });
+
+  it("sin Data Dragon muestra las iniciales pero conserva el nivel", () => {
+    renderVista(crearDatosTft({ ddragon: null }));
+    const croac = screen.getByRole("button", { name: "Croac#LAS" }).closest("li");
+    const icono = within(croac).getByRole("img", { name: "Ícono de Croac#LAS" });
+    expect(icono.tagName).toBe("SPAN");
+    expect(icono).toHaveTextContent("C");
+    expect(within(croac).getByText("Nivel 834")).toBeInTheDocument();
+  });
+
+  it("el anillo de En partida rodea el ícono de perfil", () => {
+    const datos = crearDatosTft();
+    datos.amigos[0].jugando = { modo: "Clasificatoria" };
+    const { container } = renderVista(datos);
+    const anillo = container.querySelector(".saco-vocal");
+    expect(anillo).not.toBeNull();
+    expect(within(anillo).getByRole("img", { name: "Ícono de Croac#LAS" })).toHaveAttribute(
+      "src",
+      "https://ddragon.leagueoflegends.com/cdn/99.1.1/img/profileicon/4022.png",
+    );
+  });
+
   it("todas las filas usan la misma grilla de alto fijo", () => {
     const { container } = renderVista(crearDatosTft());
     const grillas = [...container.querySelectorAll("section[aria-labelledby='titulo-tft-amigos'] ul > li > div:first-child")].map(

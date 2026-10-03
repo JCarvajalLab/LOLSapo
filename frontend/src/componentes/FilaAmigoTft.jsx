@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { antiguedadDatos } from "../logica/antiguedad.js";
+import { urlIconoPerfil } from "../logica/ddragon.js";
 import { claseWinrate, formatearWinrate } from "../logica/formato.js";
 import { formatearPromedio, resumenTft } from "../logica/tft.js";
 import { IconoConSaco } from "./IconoConSaco.jsx";
@@ -7,7 +8,7 @@ import { PanelAmigoTft } from "./PanelAmigoTft.jsx";
 
 /*
   Grilla fija, igual para todas las filas (y para la de carga), para que nada salte.
-  Escritorio (sm+): [ícono] [Riot ID + estado] [Ranked | Top 4 | Promedio | Partidas] [chevron], 78 px de alto.
+  Escritorio (sm+): [ícono] [Riot ID + nivel + estado] [Ranked | Top 4 | Promedio | Partidas] [chevron], 78 px de alto.
   Móvil: fila 1 = ícono, Riot ID, chevron; fila 2 = las cuatro cifras.
   Las clases están escritas completas para que Tailwind las detecte.
 */
@@ -36,7 +37,13 @@ export function FilaAmigoTft({ amigo, ddragon, ahora, actualizadoMs, abierto, on
     <li ref={ref} className="scroll-mt-4 overflow-hidden rounded-lg border border-borde bg-superficie">
       <div className={`relative px-3 py-3 text-sm hover:bg-superficie-alta sm:px-4 sm:py-0 ${GRILLA}`}>
         <span className="col-start-1 row-start-1">
-          <IconoConSaco src={null} alt={amigo.riot_id} tamaño={48} enPartida={Boolean(jugando) && !jugandoViejo} />
+          <IconoConSaco
+            src={urlIconoPerfil(ddragon, amigo.perfil?.icono)}
+            alt={`Ícono de ${amigo.riot_id}`}
+            respaldo={amigo.riot_id}
+            tamaño={48}
+            enPartida={Boolean(jugando) && !jugandoViejo}
+          />
         </span>
 
         <div className="col-start-2 row-start-1 min-w-0">
@@ -51,6 +58,9 @@ export function FilaAmigoTft({ amigo, ddragon, ahora, actualizadoMs, abierto, on
               {amigo.riot_id}
             </button>
           </h3>
+          <p className="cifras truncate text-xs text-texto-suave">
+            {amigo.perfil?.nivel ? `Nivel ${amigo.perfil.nivel}` : "Nivel desconocido"}
+          </p>
           {conError ? (
             <p className="h-4 truncate text-xs text-derrota" title={amigo.error ?? undefined} data-aviso-error="true">
               <span aria-hidden="true">● </span>

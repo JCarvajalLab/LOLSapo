@@ -86,6 +86,7 @@ export function crearDatosTft(cambios = {}) {
         tag: "LAS",
         slug: "croac-las",
         estado: "ok",
+        perfil: { icono: 4022, nivel: 834 },
         error: null,
         seguimiento_desde: Date.UTC(2026, 8, 20, 12),
         rangos: {
@@ -109,6 +110,7 @@ export function crearDatosTft(cambios = {}) {
         tag: "LAS",
         slug: "renacuaja-las",
         estado: "ok",
+        perfil: null,
         error: null,
         seguimiento_desde: Date.UTC(2026, 8, 20, 12),
         rangos: { ranked: null, doble: null, turbo: null },
@@ -122,6 +124,7 @@ export function crearDatosTft(cambios = {}) {
         tag: "LAS",
         slug: "lodo-las",
         estado: "error",
+        perfil: { icono: 7, nivel: 0 },
         error: "No se pudieron actualizar los datos de este jugador.",
         seguimiento_desde: null,
         rangos: { ranked: { tier: "SILVER", division: "IV", lp: 0, top4: 4, partidas: 10, racha: false }, doble: null, turbo: null },
