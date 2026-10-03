@@ -8,6 +8,9 @@ export const FILTROS = [
   { clave: "otros", etiqueta: "Otros" },
 ];
 
+/** TFT no tiene ARAM: mismas opciones sin esa categoría. */
+export const FILTROS_TFT = FILTROS.filter((f) => f.clave !== "aram");
+
 const CLAVES = new Set(FILTROS.map((f) => f.clave));
 
 export function esFiltroValido(clave) {

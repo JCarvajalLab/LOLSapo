@@ -148,6 +148,76 @@ describe("orden de las filas de amigos en TFT", () => {
   });
 });
 
+describe("filtros por modo en TFT", () => {
+  async function abrirCroac() {
+    renderVista(crearDatosTft());
+    const boton = await abrir("Croac#LAS");
+    return document.getElementById(boton.getAttribute("aria-controls"));
+  }
+
+  it("muestra Todos / Rankeds / Normales / Otros, sin ARAM", async () => {
+    const panel = await abrirCroac();
+    const grupo = within(panel).getByRole("group", { name: "Filtrar por modo" });
+    expect(within(grupo).getAllByRole("button").map((b) => b.textContent)).toEqual(["Todos", "Rankeds", "Normales", "Otros"]);
+    expect(within(panel).queryByRole("button", { name: "ARAM" })).not.toBeInTheDocument();
+    expect(within(grupo).getByRole("button", { name: "Todos" })).toHaveAttribute("aria-pressed", "true");
+  });
+
+  it("aplica el filtro a las partidas, al resumen y al desglose", async () => {
+    const panel = await abrirCroac();
+    const stats = within(panel).getByRole("region", { name: "Estadísticas del filtro" });
+    expect(stats).toHaveTextContent("Todos: 12 partidas · top 4 58% · prom. 3,9");
+    expect(within(panel).getAllByRole("article")).toHaveLength(6);
+
+    await userEvent.click(within(panel).getByRole("button", { name: "Rankeds" }));
+    expect(within(panel).getByRole("button", { name: "Rankeds" })).toHaveAttribute("aria-pressed", "true");
+    expect(within(panel).getByRole("button", { name: "Todos" })).toHaveAttribute("aria-pressed", "false");
+    expect(within(panel).getAllByRole("article")).toHaveLength(5);
+    expect(stats).toHaveTextContent("Rankeds: 10 partidas · top 4 60% · prom. 3,8");
+    const desglose = within(panel).getByRole("list", { name: "Desglose por modo" });
+    expect(within(desglose).getAllByRole("listitem")).toHaveLength(1);
+    expect(desglose).toHaveTextContent("Clasificatoria");
+
+    await userEvent.click(within(panel).getByRole("button", { name: "Normales" }));
+    expect(within(panel).getAllByRole("article")).toHaveLength(1);
+    expect(stats).toHaveTextContent("Normales: 2 partidas · top 4 50% · prom. 4,5");
+    expect(within(panel).getByRole("list", { name: "Desglose por modo" })).toHaveTextContent("Normal");
+  });
+
+  it("filtro sin partidas: estado vacío que sugiere Todos", async () => {
+    const panel = await abrirCroac();
+    await userEvent.click(within(panel).getByRole("button", { name: "Otros" }));
+    expect(within(panel).queryByRole("article")).not.toBeInTheDocument();
+    expect(panel).toHaveTextContent("No hay partidas de Otros entre las últimas 10. Prueba con Todos.");
+    expect(panel).toHaveTextContent("Sin partidas registradas en este filtro.");
+    expect(within(panel).getByRole("region", { name: "Estadísticas del filtro" })).toHaveTextContent(
+      "Otros: 0 partidas · top 4 — · prom. —",
+    );
+
+    await userEvent.click(within(panel).getByRole("button", { name: "Todos" }));
+    expect(within(panel).getAllByRole("article")).toHaveLength(6);
+  });
+
+  it("amigo sin partidas: mantiene el mensaje de sin partidas en cualquier filtro", async () => {
+    renderVista(crearDatosTft());
+    const boton = await abrir("Renacuaja#LAS");
+    const panel = document.getElementById(boton.getAttribute("aria-controls"));
+    await userEvent.click(within(panel).getByRole("button", { name: "Rankeds" }));
+    expect(panel).toHaveTextContent("Todavía no hay partidas de TFT registradas.");
+    expect(panel).not.toHaveTextContent("Prueba con Todos");
+  });
+
+  it("partida con categoría desconocida cae en Otros", async () => {
+    const datos = crearDatosTft();
+    datos.amigos[0].partidas = [partidaTft(2, { id: "LA2_TFT_RARO", categoria: "rarisima", modo: "Modo especial" })];
+    renderVista(datos);
+    const boton = await abrir("Croac#LAS");
+    const panel = document.getElementById(boton.getAttribute("aria-controls"));
+    await userEvent.click(within(panel).getByRole("button", { name: "Otros" }));
+    expect(within(panel).getAllByRole("article")).toHaveLength(1);
+  });
+});
+
 describe("partida de TFT", () => {
   function renderPartida(puesto, cambios, ddragon = ddragonTft) {
     return render(<FilaPartidaTft partida={partidaTft(puesto, cambios)} ddragon={ddragon} ahora={AHORA} slugPropio="croac-las" />);

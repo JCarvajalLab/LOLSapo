@@ -18,12 +18,14 @@ import {
   formatearPromedio,
   ordenarAmigosTft,
   rasgosParaMostrar,
+  resumenTftDe,
   resumenTft,
   textoPuesto,
   textoRangoTft,
   tierTurbo,
   top4DeRango,
 } from "./tft.js";
+import { FILTROS_TFT } from "./filtros.js";
 import { crearDatosTft, ddragonTft } from "../test/fixtures/tft.js";
 
 const BASE = "https://ddragon.leagueoflegends.com/cdn/99.1.1/img";
@@ -205,5 +207,36 @@ describe("orden de amigos en TFT", () => {
 
   it("con el fixture: Croac (12), Lodo (3), Renacuaja (0)", () => {
     expect(ordenarAmigosTft(crearDatosTft().amigos).map((a) => a.slug)).toEqual(["croac-las", "lodo-las", "renacuaja-las"]);
+  });
+});
+
+describe("filtros por modo en TFT", () => {
+  const estadisticas = {
+    total: { partidas: 13, primeros: 2, top4: 8, top4_pct: 61.5, promedio: 3.85 },
+    por_modo: [
+      { queue_id: 1100, nombre: "Clasificatoria", categoria: "ranked", partidas: 6, primeros: 1, top4: 4, top4_pct: 66.7, promedio: 3.5 },
+      { queue_id: 1160, nombre: "Dúo dinámico", categoria: "ranked", partidas: 4, primeros: 1, top4: 2, top4_pct: 50, promedio: 4 },
+      { queue_id: 1090, nombre: "Normal", categoria: "normal", partidas: 3, primeros: 0, top4: 2, top4_pct: 66.7, promedio: 4.2 },
+    ],
+  };
+
+  it("las opciones de TFT no incluyen ARAM", () => {
+    expect(FILTROS_TFT.map((f) => f.clave)).toEqual(["todos", "ranked", "normal", "otros"]);
+  });
+
+  it("Todos usa el total tal cual", () => {
+    expect(resumenTftDe(estadisticas, "todos")).toEqual(estadisticas.total);
+  });
+
+  it("una categoría suma sus modos y pondera el promedio", () => {
+    expect(resumenTftDe(estadisticas, "ranked")).toEqual({ partidas: 10, primeros: 2, top4: 6, top4_pct: 60, promedio: 3.7 });
+    expect(resumenTftDe(estadisticas, "normal")).toEqual({ partidas: 3, primeros: 0, top4: 2, top4_pct: 66.7, promedio: 4.2 });
+  });
+
+  it("categoría sin modos o sin estadísticas: resumen vacío", () => {
+    const vacio = { partidas: 0, primeros: 0, top4: 0, top4_pct: null, promedio: null };
+    expect(resumenTftDe(estadisticas, "otros")).toEqual(vacio);
+    expect(resumenTftDe(null, "ranked")).toEqual(vacio);
+    expect(resumenTftDe({ total: null, por_modo: null }, "ranked")).toEqual(vacio);
   });
 });

@@ -1,4 +1,5 @@
 // Cálculos y textos de TFT. Funciones puras, sin React.
+import { categoriaDe, esFiltroValido } from "./filtros.js";
 import { esNumero, nombreRango } from "./formato.js";
 
 /**
@@ -144,4 +145,40 @@ export function ordenarAmigosTft(amigos) {
     }
     return idOrden(a).localeCompare(idOrden(b), "es");
   });
+}
+
+const RESUMEN_VACIO = { partidas: 0, primeros: 0, top4: 0, top4_pct: null, promedio: null };
+
+/**
+ * Partidas, primeros, top 4 (y su %) y puesto promedio del filtro elegido.
+ * Con "todos" usa el total; con una categoría suma los modos de esa categoría
+ * (tft.json no trae totales por categoría). El promedio se pondera por partidas.
+ */
+export function resumenTftDe(estadisticas, filtro) {
+  if (!estadisticas) return RESUMEN_VACIO;
+  if (filtro === "todos" || !esFiltroValido(filtro)) return { ...RESUMEN_VACIO, ...(estadisticas.total ?? {}) };
+  const modos = Array.isArray(estadisticas.por_modo) ? estadisticas.por_modo.filter(Boolean) : [];
+  let partidas = 0;
+  let primeros = 0;
+  let top4 = 0;
+  let sumaPuestos = 0;
+  let conPromedio = 0;
+  for (const m of modos) {
+    if (categoriaDe(m) !== filtro || !esNumero(m.partidas) || m.partidas <= 0) continue;
+    partidas += m.partidas;
+    primeros += esNumero(m.primeros) ? m.primeros : 0;
+    top4 += esNumero(m.top4) ? m.top4 : 0;
+    if (esNumero(m.promedio)) {
+      sumaPuestos += m.promedio * m.partidas;
+      conPromedio += m.partidas;
+    }
+  }
+  if (partidas === 0) return RESUMEN_VACIO;
+  return {
+    partidas,
+    primeros,
+    top4,
+    top4_pct: Math.round((top4 * 1000) / partidas) / 10,
+    promedio: conPromedio > 0 ? Math.round((sumaPuestos * 100) / conPromedio) / 100 : null,
+  };
 }

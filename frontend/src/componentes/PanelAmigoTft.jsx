@@ -1,14 +1,21 @@
+import { useState } from "react";
+import { etiquetaFiltro, FILTROS_TFT, filtrarPartidas, modosDe } from "../logica/filtros.js";
 import { esNumero, fechaCorta, formatearWinrate, claseWinrate } from "../logica/formato.js";
 import { esRanked } from "../logica/partidas.js";
-import { formatearPromedio, textoRangoTft, tierTurbo, top4DeRango } from "../logica/tft.js";
+import { formatearPromedio, resumenTftDe, textoRangoTft, tierTurbo, top4DeRango } from "../logica/tft.js";
 import { BarraWinrate } from "./Etiquetas.jsx";
 import { FilaPartidaTft } from "./FilaPartidaTft.jsx";
+import { FiltroModos } from "./FiltroModos.jsx";
 
 const numeros = new Intl.NumberFormat("es");
 
 /** Contenido desplegado de un amigo en TFT. Solo se monta al abrir su fila. */
 export function PanelAmigoTft({ amigo, ddragon, ahora }) {
-  const partidas = Array.isArray(amigo.partidas) ? amigo.partidas.filter(Boolean) : [];
+  const [filtro, setFiltro] = useState("todos");
+  const todas = Array.isArray(amigo.partidas) ? amigo.partidas.filter(Boolean) : [];
+  const partidas = filtrarPartidas(todas, filtro);
+  const resumen = resumenTftDe(amigo.estadisticas, filtro);
+  const modos = modosDe(amigo.estadisticas, filtro);
   return (
     <div className="space-y-4 border-t border-borde px-3 py-4 sm:px-4">
       <p className="text-sm text-texto-suave">
@@ -18,15 +25,22 @@ export function PanelAmigoTft({ amigo, ddragon, ahora }) {
 
       <RangosTft rangos={amigo.rangos} />
 
-      <section aria-label="Desglose por modo" className="space-y-2">
+      <FiltroModos valor={filtro} onCambiar={setFiltro} opciones={FILTROS_TFT} />
+
+      <section aria-label="Estadísticas del filtro" className="space-y-2">
         <h3 className="font-titulo font-bold">Por modo</h3>
-        <DesgloseModosTft modos={amigo.estadisticas?.por_modo} />
+        <ResumenFiltroTft etiqueta={etiquetaFiltro(filtro)} resumen={resumen} />
+        <DesgloseModosTft modos={modos} filtrado={filtro !== "todos"} />
       </section>
 
       <section aria-label="Últimas partidas" className="space-y-2">
         <h3 className="font-titulo font-bold">Últimas partidas</h3>
-        {partidas.length === 0 ? (
+        {todas.length === 0 ? (
           <p className="text-sm text-texto-suave">Todavía no hay partidas de TFT registradas.</p>
+        ) : partidas.length === 0 ? (
+          <p className="text-sm text-texto-suave">
+            No hay partidas de {etiquetaFiltro(filtro)} entre las últimas 10. Prueba con Todos.
+          </p>
         ) : (
           <ol className="space-y-2">
             {partidas.map((p, i) => (
@@ -38,6 +52,21 @@ export function PanelAmigoTft({ amigo, ddragon, ahora }) {
         )}
       </section>
     </div>
+  );
+}
+
+/** "Rankeds: 10 partidas · top 4 60% · prom. 3,8" del filtro elegido. */
+function ResumenFiltroTft({ etiqueta, resumen }) {
+  return (
+    <p className="cifras text-sm">
+      {etiqueta}:{" "}
+      <span className="text-texto-suave">
+        {resumen.partidas} {resumen.partidas === 1 ? "partida" : "partidas"} · top 4{" "}
+      </span>
+      <span className={`font-semibold ${claseWinrate(resumen.top4_pct)}`}>{formatearWinrate(resumen.top4_pct)}</span>
+      <span className="text-texto-suave"> · prom. </span>
+      <span className="font-semibold">{formatearPromedio(resumen.promedio)}</span>
+    </p>
   );
 }
 
@@ -116,10 +145,14 @@ function ValorTurbo({ rango }) {
 }
 
 /** Partidas, top 4 % y puesto promedio por modo, con barra de top 4. */
-export function DesgloseModosTft({ modos }) {
+export function DesgloseModosTft({ modos, filtrado = false }) {
   const lista = Array.isArray(modos) ? modos.filter(Boolean) : [];
   if (lista.length === 0) {
-    return <p className="text-sm text-texto-suave">Sin partidas registradas todavía.</p>;
+    return (
+      <p className="text-sm text-texto-suave">
+        {filtrado ? "Sin partidas registradas en este filtro." : "Sin partidas registradas todavía."}
+      </p>
+    );
   }
   return (
     <ul className="space-y-2" aria-label="Desglose por modo">
