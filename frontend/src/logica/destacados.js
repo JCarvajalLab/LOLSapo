@@ -151,9 +151,16 @@ export function formatearKdaDestacado(valor) {
 
 const miles = new Intl.NumberFormat("es-CL");
 
-/** "32.450 de daño" o null si no hay dato (la tarjeta no muestra la línea). */
+/** "Daño: 32.450" o null si no hay dato (la tarjeta no muestra la línea). */
 export function formatearDanio(valor) {
-  return conteo(valor) ? `${miles.format(valor)} de daño` : null;
+  return conteo(valor) ? `Daño: ${miles.format(valor)}` : null;
+}
+
+/** Color del texto según el resultado de la partida; neutro si no es victoria ni derrota. */
+export function colorResultado(resultado) {
+  if (resultado === "victoria") return "text-victoria";
+  if (resultado === "derrota") return "text-derrota";
+  return "text-texto";
 }
 
 const diaMes = new Intl.DateTimeFormat("es-CL", { day: "numeric", month: "short" });

@@ -1,6 +1,7 @@
 import { nombreCampeon, urlCampeon, urlIconoPerfil } from "../logica/ddragon.js";
 import {
   CLAVES_DESTACADOS,
+  colorResultado,
   RACHA_MINIMA,
   ULTIMAS_PARTIDAS_POR_DEFECTO,
   destacadosVacios,
@@ -258,7 +259,8 @@ function Kda({ a, m, asi }) {
 /**
  * Mejor o peor partida del grupo: misma tarjeta, cambia el color del KDA.
  * El nombre del campeón sale de Data Dragon ("Maestro Yi"), con `campeon` de respaldo.
- * El daño a campeones va en la misma línea del KDA para no sumar alto; sin dato no se muestra.
+ * El daño a campeones va en su línea bajo el KDA, en color del resultado de esa partida
+ * (el texto «Victoria»/«Derrota» de abajo lo dice sin depender del color); sin dato no se muestra.
  */
 function Partida({ t, ddragon, ahora, mejor }) {
   const campeon = nombreCampeon(ddragon, t.campeon_id, t.campeon);
@@ -270,16 +272,14 @@ function Partida({ t, ddragon, ahora, mejor }) {
         <p className="cifras font-titulo text-lg leading-tight font-bold">
           {campeon} <span className="text-texto-suave">·</span> <Kda a={t.asesinatos} m={t.muertes} asi={t.asistencias} />
         </p>
-        <p className="flex flex-wrap items-baseline gap-x-2">
-          <span className={`cifras text-sm font-semibold ${mejor ? "text-victoria" : "text-derrota"}`}>
-            KDA {formatearKdaDestacado(t.kda)}
-          </span>
-          {danio && (
-            <span data-danio="" className="cifras text-xs whitespace-nowrap text-texto-suave">
-              {danio}
-            </span>
-          )}
+        <p className={`cifras text-sm font-semibold ${mejor ? "text-victoria" : "text-derrota"}`}>
+          KDA {formatearKdaDestacado(t.kda)}
         </p>
+        {danio && (
+          <p data-danio="" className={`cifras text-sm font-semibold ${colorResultado(t.resultado)}`}>
+            {danio}
+          </p>
+        )}
         <p className="flex flex-wrap items-center gap-x-2 text-xs text-texto-suave">
           <span>{t.modo || "Modo especial"}</span>
           <time

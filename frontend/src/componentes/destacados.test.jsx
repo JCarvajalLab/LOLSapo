@@ -101,12 +101,44 @@ describe("SeccionDestacados", () => {
     renderDestacados(crearDestacados());
     const m = tarjeta("Mejor partida");
     const p = tarjeta("Peor partida");
-    expect(within(m).getByText("32.450 de daño")).toBeInTheDocument();
-    expect(within(p).getByText("4.180 de daño")).toBeInTheDocument();
-    // Va en la misma línea del KDA para no sumar alto a la tarjeta.
-    expect(within(m).getByText("32.450 de daño").parentElement).toHaveTextContent("KDA 9,5");
+    const danioM = within(m).getByText("Daño: 32.450");
+    const danioP = within(p).getByText("Daño: 4.180");
+    // Elemento propio, justo después de la línea del KDA (que queda sola), mismo tamaño y peso.
+    for (const [danio, kda] of [
+      [danioM, within(m).getByText("KDA 9,5")],
+      [danioP, within(p).getByText("KDA 0")],
+    ]) {
+      expect(danio.tagName).toBe("P");
+      expect(kda.nextElementSibling).toBe(danio);
+      expect(kda).toHaveTextContent(/^KDA [\d,]+$/);
+      expect(danio).toHaveClass("text-sm", "font-semibold");
+      expect(kda).toHaveClass("text-sm", "font-semibold");
+    }
     // Solo en estas dos tarjetas.
-    expect(screen.getAllByText(/de daño/)).toHaveLength(2);
+    expect(screen.getAllByText(/^Daño: /)).toHaveLength(2);
+  });
+
+  it("colorea el daño según el resultado de esa partida, no según la tarjeta", () => {
+    // Fixture: la mejor partida es una derrota y la peor una victoria.
+    renderDestacados(crearDestacados());
+    const danioM = within(tarjeta("Mejor partida")).getByText("Daño: 32.450");
+    const danioP = within(tarjeta("Peor partida")).getByText("Daño: 4.180");
+    expect(danioM).toHaveClass("text-derrota");
+    expect(danioM).not.toHaveClass("text-victoria");
+    expect(danioP).toHaveClass("text-victoria");
+    expect(danioP).not.toHaveClass("text-derrota");
+  });
+
+  it("con resultados invertidos cambia el color del daño en ambas tarjetas", () => {
+    const base = crearDestacados();
+    renderDestacados(
+      crearDestacados({
+        mejor_partida: { ...base.mejor_partida, resultado: "victoria" },
+        peor_partida: { ...base.peor_partida, resultado: "derrota" },
+      }),
+    );
+    expect(within(tarjeta("Mejor partida")).getByText("Daño: 32.450")).toHaveClass("text-victoria");
+    expect(within(tarjeta("Peor partida")).getByText("Daño: 4.180")).toHaveClass("text-derrota");
   });
 
   it.each([
@@ -127,7 +159,7 @@ describe("SeccionDestacados", () => {
     const { container } = renderDestacados(crearDestacados({ mejor_partida: mejor, peor_partida: peor }));
     for (const nombre of ["Mejor partida", "Peor partida"]) {
       const t = tarjeta(nombre);
-      expect(t).not.toHaveTextContent(/daño/);
+      expect(t).not.toHaveTextContent(/daño/i);
       expect(t).not.toHaveTextContent(/sin datos/i);
       expect(t.querySelector("[data-danio]")).toBeNull();
     }

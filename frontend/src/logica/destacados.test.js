@@ -5,6 +5,7 @@ import {
   CLAVES_DESTACADOS,
   destacadosVacios,
   fechaRacha,
+  colorResultado,
   formatearDanio,
   formatearKdaDestacado,
   formatearPorcentaje,
@@ -266,14 +267,21 @@ describe("formato de destacados", () => {
   });
 
   it("daño con punto de miles o null", () => {
-    expect(formatearDanio(32450)).toBe("32.450 de daño");
-    expect(formatearDanio(1234567)).toBe("1.234.567 de daño");
-    expect(formatearDanio(0)).toBe("0 de daño");
+    expect(formatearDanio(32450)).toBe("Daño: 32.450");
+    expect(formatearDanio(1234567)).toBe("Daño: 1.234.567");
+    expect(formatearDanio(0)).toBe("Daño: 0");
     expect(formatearDanio(null)).toBeNull();
     expect(formatearDanio(undefined)).toBeNull();
     expect(formatearDanio(-1)).toBeNull();
     expect(formatearDanio(2.5)).toBeNull();
     expect(formatearDanio("32450")).toBeNull();
+  });
+
+  it("color según el resultado de la partida", () => {
+    expect(colorResultado("victoria")).toBe("text-victoria");
+    expect(colorResultado("derrota")).toBe("text-derrota");
+    expect(colorResultado("remake")).toBe("text-texto");
+    expect(colorResultado(undefined)).toBe("text-texto");
   });
 
   it("singular y plural", () => {
