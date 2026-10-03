@@ -1899,6 +1899,196 @@
         "principal": 8021,
         "secundaria": 8300
       }
+    },
+    "LA2_1628013455": {
+      "asesinatos": 11,
+      "asistencias": 8,
+      "campeon": "MasterYi",
+      "campeon_id": 11,
+      "cs": 267,
+      "duracion": 2039,
+      "equipo": 200,
+      "fecha": 1790986941339,
+      "hechizos": [
+        11,
+        4
+      ],
+      "id": "LA2_1628013455",
+      "items": [
+        3008,
+        6672,
+        6676,
+        3153,
+        3036,
+        6670,
+        3364
+      ],
+      "muertes": 2,
+      "nivel": 18,
+      "participacion": 44,
+      "participantes": [
+        {
+          "amigo": null,
+          "campeon_id": 36,
+          "equipo": 100,
+          "nombre": "LA FLDSMDFR#SHESH"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 31,
+          "equipo": 100,
+          "nombre": "0800 Nidalee#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 42,
+          "equipo": 100,
+          "nombre": "RąVęn#R3V"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 360,
+          "equipo": 100,
+          "nombre": "Samira Carpenter#0727"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 412,
+          "equipo": 100,
+          "nombre": "マチタン#mambo"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 887,
+          "equipo": 200,
+          "nombre": "Maaku#UnU"
+        },
+        {
+          "amigo": "nic-las",
+          "campeon_id": 11,
+          "equipo": 200,
+          "nombre": "Nicø#LAS"
+        },
+        {
+          "amigo": "johnadis-las",
+          "campeon_id": 166,
+          "equipo": 200,
+          "nombre": "Johnadis#LAS"
+        },
+        {
+          "amigo": "iskrat-las",
+          "campeon_id": 115,
+          "equipo": 200,
+          "nombre": "ISkrat#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 800,
+          "equipo": 200,
+          "nombre": "luxo#6403"
+        }
+      ],
+      "queue_id": 400,
+      "resultado": "victoria",
+      "runas": {
+        "principal": 9923,
+        "secundaria": 8000
+      }
+    },
+    "LA2_1628030222": {
+      "asesinatos": 4,
+      "asistencias": 6,
+      "campeon": "Viego",
+      "campeon_id": 234,
+      "cs": 147,
+      "duracion": 1747,
+      "equipo": 200,
+      "fecha": 1790990453676,
+      "hechizos": [
+        11,
+        4
+      ],
+      "id": "LA2_1628030222",
+      "items": [
+        3047,
+        6676,
+        6673,
+        3031,
+        0,
+        0,
+        3340
+      ],
+      "muertes": 9,
+      "nivel": 16,
+      "participacion": 36,
+      "participantes": [
+        {
+          "amigo": null,
+          "campeon_id": 86,
+          "equipo": 100,
+          "nombre": "Uriko#UTHB"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 33,
+          "equipo": 100,
+          "nombre": "JpatoK#Idont"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 246,
+          "equipo": 100,
+          "nombre": "ErahaJenetara#9349"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 222,
+          "equipo": 100,
+          "nombre": "FaciBrista#1167"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 43,
+          "equipo": 100,
+          "nombre": "Shaquete143#shaco"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 164,
+          "equipo": 200,
+          "nombre": "Iryday#Silly"
+        },
+        {
+          "amigo": "nic-las",
+          "campeon_id": 234,
+          "equipo": 200,
+          "nombre": "Nicø#LAS"
+        },
+        {
+          "amigo": "johnadis-las",
+          "campeon_id": 112,
+          "equipo": 200,
+          "nombre": "Johnadis#LAS"
+        },
+        {
+          "amigo": "iskrat-las",
+          "campeon_id": 115,
+          "equipo": 200,
+          "nombre": "ISkrat#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 25,
+          "equipo": 200,
+          "nombre": "qwerty#EBQ7"
+        }
+      ],
+      "queue_id": 400,
+      "resultado": "derrota",
+      "runas": {
+        "principal": 9923,
+        "secundaria": 8000
+      }
     }
   },
   "perfil": {
