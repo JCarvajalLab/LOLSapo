@@ -78,6 +78,7 @@ def test_mejor_partida(mapa):
     assert (mejor["asesinatos"], mejor["muertes"], mejor["asistencias"]) == (14, 0, 15)
     assert mejor["kda"] == 29.0
     assert mejor["resultado"] == "derrota"  # el resultado no influye
+    assert mejor["danio"] is None  # partida guardada sin daño (antes de agregarlo)
     assert "mejor_kda" not in destacados
 
 
@@ -303,6 +304,7 @@ def test_lol_json_incluye_destacados_sin_puuid(cliente, mapa, tmp_path):
     # Johnadis jugó sin nadie del grupo: no hay racha en grupo.
     assert destacados["racha_victorias_grupo"] is None
     assert destacados["peor_partida"]["amigos"] == ["johnadis-las"]
+    assert destacados["peor_partida"]["danio"] == 21_345
     # El campeón de la peor partida queda disponible para su imagen.
     texto = (tmp_path / "lol.json").read_text(encoding="utf-8")
     assert P_JOHN not in texto

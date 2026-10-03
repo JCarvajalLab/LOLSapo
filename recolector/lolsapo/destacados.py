@@ -206,4 +206,6 @@ def _partida_destacada(
         "resultado": partida["resultado"],
         "modo": mapa.obtener(partida.get("queue_id")).nombre,
         "fecha": partida["fecha"],
+        # Solo las partidas guardadas desde que se agregó el daño lo traen.
+        "danio": partida.get("danio") if isinstance(partida.get("danio"), int) else None,
     }

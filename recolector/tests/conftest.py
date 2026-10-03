@@ -75,6 +75,7 @@ def partida(
             "gameEndedInEarlySurrender": remake,
             "champLevel": 16,
             "totalMinionsKilled": 150,
+            "totalDamageDealtToChampions": 21_345,
             "neutralMinionsKilled": 27,
             **{f"item{i}": item for i, item in enumerate([3031, 3006, 0, 0, 0, 0, 3340])},
             "summoner1Id": 4,

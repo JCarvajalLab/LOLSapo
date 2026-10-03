@@ -242,6 +242,10 @@ def resumir_partida(datos, puuid: str, id_esperado: str | None = None) -> dict:
         "cs": _entero(jugador.get("totalMinionsKilled", 0), "totalMinionsKilled")
         + _entero(jugador.get("neutralMinionsKilled", 0), "neutralMinionsKilled"),
         "participacion": participacion,
+        # Daño a campeones. Las partidas guardadas antes de agregarlo no lo tienen.
+        "danio": _entero_opcional(
+            jugador.get("totalDamageDealtToChampions"), "totalDamageDealtToChampions"
+        ),
         "equipo": equipo,
         "items": [_entero(jugador.get(f"item{i}", 0), f"item{i}") for i in range(7)],
         "hechizos": [
