@@ -2,7 +2,7 @@
 
 Web estilo op.gg para un grupo cerrado de amigos del servidor **LAS**. Muestra quién está jugando ahora (con los dos equipos), rango, victorias y derrotas en todos los modos de juego y las últimas partidas de cada uno. Primero League of Legends; Teamfight Tactics después.
 
-**Sitio:** https://jcarvajallab.github.io/LOLSapo/ (se actualiza solo cada ~10 minutos).
+**Sitio:** https://jcarvajallab.github.io/LOLSapo/ (se actualiza solo cada ~5 minutos).
 
 > Fase 5 (publicación) completa. Próxima: fase 6, TFT. El detalle del proyecto está en [docs/REQUERIMIENTOS.md](docs/REQUERIMIENTOS.md).
 
@@ -12,7 +12,7 @@ La API de Riot necesita una key secreta, así que la web **nunca** llama a Riot 
 
 1. Un script en Python (el **recolector**) consulta la API de Riot y genera `lol.json`.
 2. El frontend (React + Vite) solo lee ese JSON.
-3. En producción, GitHub Actions corre el recolector cada ~10 minutos y publica la web en GitHub Pages. En local lo corres tú.
+3. En producción, un Cloudflare Worker le pide a GitHub Actions cada 5 minutos que corra el recolector y publique la web en GitHub Pages. En local lo corres tú.
 
 ## Usarlo con tus amigos
 
@@ -108,7 +108,7 @@ Abre http://localhost:5173. La página vuelve a leer los datos cada 2 minutos mi
 
 ## Publicarlo en GitHub Pages
 
-El workflow [`.github/workflows/publicar.yml`](.github/workflows/publicar.yml) corre cada ~10 minutos, al mergear en `main` o a mano (**Actions → Publicar → Run workflow**):
+El workflow [`.github/workflows/publicar.yml`](.github/workflows/publicar.yml) corre cada 5 minutos (lo lanza el [disparador](#disparador-cloudflare-worker)), al mergear en `main` o a mano (**Actions → Publicar → Run workflow**):
 
 1. **Consultar Riot:** trae el registro desde la rama `datos`, corre el recolector y, si el registro cambió, lo guarda de vuelta en `datos`. `main` nunca recibe commits automáticos.
 2. **Publicar:** construye la web, corre `verificar:build` (sin keys, sin PUUID y con CSP) y la publica en GitHub Pages.
@@ -126,6 +126,28 @@ Para activarlo en tu fork, en **Settings** del repo:
 Tu sitio queda en `https://<tu-usuario>.github.io/<nombre-del-repo>/`.
 
 La rama `datos` solo la escribe el workflow: no la borres, ahí vive el registro acumulado de partidas. Los registros no guardan PUUID.
+
+### Disparador (Cloudflare Worker)
+
+El cron propio de GitHub Actions es "lo mejor posible": cuando GitHub tiene mucha carga atrasa o salta ejecuciones (a veces pasan horas). Por eso el que manda es un [Cloudflare Worker](https://developers.cloudflare.com/workers/) gratuito en [disparador/](disparador/): cada 5 minutos le pide a la API de GitHub que ejecute `publicar.yml`, igual que apretar **Run workflow**. El cron de GitHub queda de respaldo cada 30 minutos.
+
+- No tiene URL pública: solo corre en su horario.
+- Usa un *fine-grained token* de GitHub limitado al repo y al permiso **Actions: Read and write**, guardado como secret `GH_TOKEN` en Cloudflare. No da acceso al código ni a los secrets del repo.
+- **Cambiar el intervalo:** edita `"crons"` en [disparador/wrangler.jsonc](disparador/wrangler.jsonc) y vuelve a publicar. Menos de 5 minutos no conviene (cada publicación tarda ~3 min y la key de Riot tiene un límite).
+- **Ver si funciona:** panel de Cloudflare → Workers → `lolsapo-disparador` → Logs, o en GitHub, **Actions → Publicar** (las ejecuciones aparecen como `workflow_dispatch`).
+
+Publicarlo (desde `disparador/`, una sola vez y cada vez que cambie):
+
+```powershell
+npm install
+npx wrangler login              # abre el navegador para autorizar tu cuenta de Cloudflare
+npx wrangler secret put GH_TOKEN   # pega el token cuando lo pida (no queda en ningún archivo)
+npx wrangler deploy
+```
+
+**Renovar el token** (vence según lo que elegiste al crearlo): crea uno nuevo en GitHub con los mismos permisos, corre `npx wrangler secret put GH_TOKEN` y pega el nuevo. Mientras esté vencido, la web solo se actualiza con el cron de respaldo.
+
+Tests y chequeos: `npm run lint`, `npm test` y `npm audit` dentro de `disparador/`.
 
 ### Renovar la API key
 
@@ -171,6 +193,7 @@ config/      Lista de amigos y mapa de modos de juego
 recolector/  Script de Python que consulta a Riot (paquete lolsapo) y sus tests
 frontend/    Web en React + Vite + Tailwind y sus tests
 docs/        Documentación y requerimientos
+disparador/  Cloudflare Worker que lanza la publicación cada 5 minutos
 .github/     Workflows (CI y publicación) y configuración de Dependabot
 .claude/     Configuración y subagentes de Claude Code
 ```
