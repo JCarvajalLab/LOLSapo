@@ -46,13 +46,14 @@ describe("vista de TFT con datos", () => {
     expect(ranking[2]).toHaveTextContent("Sin Ranked · top 4 —");
 
     const filas = screen.getAllByRole("button");
-    expect(filas.map((b) => b.textContent)).toEqual(["Croac#LAS", "Renacuaja#LAS", "Lodo#LAS"]);
+    // Las filas van por partidas registradas (12, 3, 0), no por el orden del JSON.
+    expect(filas.map((b) => b.textContent)).toEqual(["Croac#LAS", "Lodo#LAS", "Renacuaja#LAS"]);
     const croac = filas[0].closest("li");
     expect(croac).toHaveTextContent("Platino II · 61 LP");
     expect(croac).toHaveTextContent("58%");
     expect(croac).toHaveTextContent("3,9");
     expect(croac).toHaveTextContent("12");
-    expect(filas[1].closest("li")).toHaveTextContent("Sin rango");
+    expect(filas[2].closest("li")).toHaveTextContent("Sin rango");
   });
 
   it("todas las filas usan la misma grilla de alto fijo", () => {
@@ -117,6 +118,33 @@ describe("vista de TFT con datos", () => {
     renderVista(crearDatosTft({ amigos: [], ranking: [] }));
     expect(screen.getByText(/No hay amigos configurados/)).toBeInTheDocument();
     expect(screen.getByText("Todavía no hay ranking.")).toBeInTheDocument();
+  });
+});
+
+describe("orden de las filas de amigos en TFT", () => {
+  const conTotal = (amigo, total) => ({ ...amigo, estadisticas: { ...amigo.estadisticas, total } });
+
+  it("más partidas primero; empate por top 4 % (null al final) y luego Riot ID", () => {
+    const base = crearDatosTft();
+    const [croac, renacuaja, lodo] = base.amigos;
+    const amigos = [
+      conTotal(croac, { partidas: 5, top4_pct: null }),
+      conTotal(renacuaja, { partidas: 5, top4_pct: 40 }),
+      conTotal(lodo, { partidas: 20, top4_pct: 10 }),
+      conTotal({ ...croac, slug: "barro-las", riot_id: "barro#LAS" }, { partidas: 5, top4_pct: 40 }),
+    ];
+    renderVista(crearDatosTft({ amigos }));
+    const filas = within(screen.getByRole("region", { name: "Amigos" })).getAllByRole("button", { expanded: false });
+    expect(filas.map((b) => b.textContent)).toEqual(["Lodo#LAS", "barro#LAS", "Renacuaja#LAS", "Croac#LAS"]);
+  });
+
+  it("el ranking conserva el orden de ranking", () => {
+    renderVista(crearDatosTft());
+    expect(screen.getAllByRole("link").map((l) => l.textContent)).toEqual([
+      expect.stringContaining("Croac#LAS"),
+      expect.stringContaining("Lodo#LAS"),
+      expect.stringContaining("Renacuaja#LAS"),
+    ]);
   });
 });
 

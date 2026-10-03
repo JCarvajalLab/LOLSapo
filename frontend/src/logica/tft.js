@@ -114,3 +114,34 @@ export function resumenTft(amigo) {
     partidas: esNumero(total.partidas) ? total.partidas : 0,
   };
 }
+
+const partidasDe = (amigo) => {
+  const n = amigo?.estadisticas?.total?.partidas;
+  return esNumero(n) ? n : 0;
+};
+const top4PctDe = (amigo) => {
+  const pct = amigo?.estadisticas?.total?.top4_pct;
+  return esNumero(pct) ? pct : null;
+};
+const idOrden = (amigo) => (typeof amigo?.riot_id === "string" ? amigo.riot_id.toLocaleLowerCase("es") : "");
+
+/**
+ * Orden de las filas de amigos en TFT (no del ranking): más partidas registradas primero.
+ * Empates: mayor % de top 4 (sin dato al final) y luego Riot ID alfabético sin mayúsculas.
+ * Devuelve una copia; no modifica la lista original.
+ */
+export function ordenarAmigosTft(amigos) {
+  if (!Array.isArray(amigos)) return [];
+  return [...amigos].sort((a, b) => {
+    const porPartidas = partidasDe(b) - partidasDe(a);
+    if (porPartidas !== 0) return porPartidas;
+    const pa = top4PctDe(a);
+    const pb = top4PctDe(b);
+    if (pa !== pb) {
+      if (pa === null) return 1;
+      if (pb === null) return -1;
+      return pb - pa;
+    }
+    return idOrden(a).localeCompare(idOrden(b), "es");
+  });
+}

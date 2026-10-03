@@ -1,5 +1,5 @@
 import { formatearWinrate, isoAMs } from "../logica/formato.js";
-import { textoRangoTft } from "../logica/tft.js";
+import { ordenarAmigosTft, textoRangoTft } from "../logica/tft.js";
 import { HASH_TFT } from "../rutas/hash.js";
 import { EsqueletoPagina } from "./Esqueleto.jsx";
 import { ErrorCarga, EstadoVacio } from "./Estados.jsx";
@@ -65,7 +65,7 @@ export function VistaTft({ datos, error, ahora, abiertos, alternar, abrir, enfoc
             </EstadoVacio>
           ) : (
             <ul className="space-y-3">
-              {datos.amigos.map((amigo) => (
+              {ordenarAmigosTft(datos.amigos).map((amigo) => (
                 <FilaAmigoTft
                   key={amigo.slug}
                   amigo={amigo}

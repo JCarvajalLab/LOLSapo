@@ -16,6 +16,7 @@ import {
   estiloPuesto,
   estiloRasgo,
   formatearPromedio,
+  ordenarAmigosTft,
   rasgosParaMostrar,
   resumenTft,
   textoPuesto,
@@ -162,5 +163,47 @@ describe("lectura de tft.json", () => {
     await expect(cargarDatosTft(fetchFn)).rejects.toMatchObject({ tipo: "sin-datos" });
     expect(fetchFn).toHaveBeenCalledWith(RUTA_DATOS_TFT, { cache: "no-store" });
     expect(RUTA_DATOS_TFT).toBe("./datos/tft.json");
+  });
+});
+
+/** Amigo mínimo inventado para probar el orden. */
+const amigoOrden = (riot_id, partidas, top4_pct) => ({
+  riot_id,
+  slug: riot_id.toLowerCase(),
+  estadisticas: { total: { partidas, top4_pct } },
+});
+
+describe("orden de amigos en TFT", () => {
+  it("más partidas registradas primero", () => {
+    const lista = [amigoOrden("Pocas#LAS", 3, 90), amigoOrden("Muchas#LAS", 40, 10), amigoOrden("Medio#LAS", 12, 50)];
+    expect(ordenarAmigosTft(lista).map((a) => a.riot_id)).toEqual(["Muchas#LAS", "Medio#LAS", "Pocas#LAS"]);
+  });
+
+  it("empate en partidas: mayor top 4 % primero y sin dato al final", () => {
+    const lista = [amigoOrden("Nulo#LAS", 10, null), amigoOrden("Bajo#LAS", 10, 20), amigoOrden("Alto#LAS", 10, 75)];
+    expect(ordenarAmigosTft(lista).map((a) => a.riot_id)).toEqual(["Alto#LAS", "Bajo#LAS", "Nulo#LAS"]);
+  });
+
+  it("empate total: Riot ID alfabético sin distinguir mayúsculas", () => {
+    const lista = [amigoOrden("zeta#LAS", 5, 40), amigoOrden("Beta#LAS", 5, 40), amigoOrden("alfa#LAS", 5, 40)];
+    expect(ordenarAmigosTft(lista).map((a) => a.riot_id)).toEqual(["alfa#LAS", "Beta#LAS", "zeta#LAS"]);
+  });
+
+  it("dos sin top 4 % se ordenan por Riot ID", () => {
+    const lista = [amigoOrden("Sapo#LAS", 0, null), amigoOrden("rana#LAS", 0, null)];
+    expect(ordenarAmigosTft(lista).map((a) => a.riot_id)).toEqual(["rana#LAS", "Sapo#LAS"]);
+  });
+
+  it("tolera estadísticas faltantes (cuentan como 0 partidas) y no modifica la lista", () => {
+    const sinDatos = { riot_id: "Vacio#LAS", slug: "vacio-las" };
+    const lista = [sinDatos, amigoOrden("Uno#LAS", 1, null)];
+    const copia = [...lista];
+    expect(ordenarAmigosTft(lista).map((a) => a.riot_id)).toEqual(["Uno#LAS", "Vacio#LAS"]);
+    expect(lista).toEqual(copia);
+    expect(ordenarAmigosTft(null)).toEqual([]);
+  });
+
+  it("con el fixture: Croac (12), Lodo (3), Renacuaja (0)", () => {
+    expect(ordenarAmigosTft(crearDatosTft().amigos).map((a) => a.slug)).toEqual(["croac-las", "lodo-las", "renacuaja-las"]);
   });
 });
