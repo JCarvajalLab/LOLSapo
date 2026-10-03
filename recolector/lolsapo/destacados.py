@@ -3,6 +3,10 @@
 Solo cuentan Normal y Ranked (Solo/Dúo y Flex): ARAM, ARAM Caos y los modos especiales
 quedan fuera. Los remakes tampoco cuentan.
 
+"Más partidas" cuenta todo lo jugado en los 7 días. El resto (winrate, KDA, racha y peor
+partida) usa solo las últimas 7 partidas de cada amigo dentro de esos días, para que jugar
+mucho no premie ni castigue.
+
 Cada destacado trae la lista de amigos que lo ganan: si hay empate exacto (después de los
 desempates), aparecen todos. En la racha es lo normal, porque el grupo suele jugar junto.
 """
@@ -15,7 +19,8 @@ from .registro import winrate
 DIAS = 7
 VENTANA_MS = DIAS * 24 * 60 * 60 * 1000
 CATEGORIAS = ("ranked", "normal")
-MINIMO_PARTIDAS = 5  # para winrate y KDA, así no gana alguien con 1 partida
+ULTIMAS_PARTIDAS = 7  # muestra por amigo para winrate, KDA, racha y peor partida
+MINIMO_PARTIDAS = 5  # de esas 7, para winrate y KDA: así no gana alguien con 1 partida
 RACHA_MINIMA = 2
 
 
@@ -76,7 +81,9 @@ def calcular_destacados(
 ) -> dict:
     desde = ahora_ms - VENTANA_MS
     validas = {s: _partidas_validas(p, mapa, desde) for s, p in partidas_por_amigo.items()}
-    resumenes = {s: _resumen(p) for s, p in validas.items() if p}
+    totales = {s: _resumen(p) for s, p in validas.items() if p}
+    recientes = {s: p[-ULTIMAS_PARTIDAS:] for s, p in validas.items()}
+    resumenes = {s: _resumen(p) for s, p in recientes.items() if p}
 
     campos_kda = ("kda", "asesinatos", "muertes", "asistencias", "partidas")
     racha = _ganadores(resumenes, lambda r: r["racha"])
@@ -86,8 +93,9 @@ def calcular_destacados(
     return {
         "dias": DIAS,
         "desde": desde,
+        "ultimas_partidas": ULTIMAS_PARTIDAS,
         "mas_partidas": _destacado(
-            _ganadores(resumenes, lambda r: r["partidas"]), resumenes, ("partidas",)
+            _ganadores(totales, lambda r: r["partidas"]), totales, ("partidas",)
         ),
         "mejor_winrate": _destacado(
             _ganadores(resumenes, lambda r: (r["winrate"], r["partidas"]), MINIMO_PARTIDAS),
@@ -105,7 +113,7 @@ def calcular_destacados(
             campos_kda,
         ),
         "racha": _destacado(racha, resumenes, ("racha",)),
-        "peor_partida": _peor_partida(validas, mapa),
+        "peor_partida": _peor_partida(recientes, mapa),
     }
 
 

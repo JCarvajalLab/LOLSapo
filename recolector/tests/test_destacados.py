@@ -116,6 +116,22 @@ def test_empate_en_winrate_gana_quien_jugo_mas(mapa):
     assert calcular_destacados(datos, mapa, AHORA_MS)["mejor_winrate"]["amigos"] == ["seis"]
 
 
+def test_mas_partidas_cuenta_todo_y_el_resto_solo_las_ultimas_7(mapa):
+    # 10 partidas: 3 derrotas antiguas con KDA horrible y luego 7 victorias.
+    partidas = serie("x", ["derrota"] * 3 + ["victoria"] * 7, k=5, d=1, a=5)
+    for vieja in partidas[:3]:
+        vieja.update(asesinatos=0, muertes=20, asistencias=0)
+    destacados = calcular_destacados({"a": partidas}, mapa, AHORA_MS)
+    assert destacados["ultimas_partidas"] == 7
+    assert destacados["mas_partidas"]["partidas"] == 10
+    assert destacados["mejor_winrate"]["partidas"] == 7
+    assert destacados["mejor_winrate"]["winrate"] == 100.0
+    assert destacados["mejor_kda"]["kda"] == 10.0
+    assert destacados["racha"]["racha"] == 7
+    # La peor partida sale de las últimas 7 (las 0/20/0 antiguas no cuentan).
+    assert destacados["peor_partida"]["muertes"] == 1
+
+
 def test_peor_partida(mapa):
     datos = {
         "a": [p("a1", 2, k=10, d=2, a=5), p("a2", 3, "derrota", k=1, d=12, a=3, campeon_id=157)],
