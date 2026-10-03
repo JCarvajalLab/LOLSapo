@@ -1,4 +1,5 @@
 // Lectura y validación básica de los JSON de datos (lol.json y tft.json).
+import { validarDestacados } from "./destacados.js";
 
 /** Ruta del JSON relativa a la página (funciona en localhost y en GitHub Pages). */
 export const RUTA_DATOS = "./datos/lol.json";
@@ -21,13 +22,16 @@ export function validarDatos(json) {
   if (!json || typeof json !== "object" || !Array.isArray(json.amigos)) {
     throw new ErrorDatos("El archivo de datos no tiene el formato esperado.", "formato");
   }
+  const amigos = json.amigos.filter((a) => a && typeof a === "object" && typeof a.slug === "string");
   return {
     version: json.version ?? null,
     actualizado: typeof json.actualizado === "string" ? json.actualizado : null,
     ddragon: json.ddragon && typeof json.ddragon === "object" ? json.ddragon : null,
     en_vivo: Array.isArray(json.en_vivo) ? json.en_vivo.filter(Boolean) : [],
-    amigos: json.amigos.filter((a) => a && typeof a === "object" && typeof a.slug === "string"),
+    amigos,
     ranking: Array.isArray(json.ranking) ? json.ranking.filter(Boolean) : [],
+    // null en archivos anteriores a la fase 7: la sección no se muestra.
+    destacados: validarDestacados(json.destacados, amigos),
   };
 }
 

@@ -246,3 +246,30 @@ export const partidaEnVivo = {
     },
   ],
 };
+
+/** Destacados de 7 días INVENTADOS, con la forma que escribe el recolector. */
+export function crearDestacados(cambios = {}) {
+  return {
+    dias: 7,
+    desde: AHORA - 7 * 24 * HORA,
+    mas_partidas: { amigos: ["rana-azul-las", "sapito-las"], partidas: 20 },
+    mejor_winrate: { amigos: ["sapito-las"], winrate: 62.5, victorias: 5, derrotas: 3, partidas: 8 },
+    mejor_kda: { amigos: ["sapito-las"], kda: 3.02, asesinatos: 85, muertes: 48, asistencias: 60, partidas: 8 },
+    peor_kda: { amigos: ["rana-azul-las"], kda: 1.5, asesinatos: 30, muertes: 40, asistencias: 30, partidas: 12 },
+    racha: { amigos: ["rana-azul-las", "sapito-las", "charco-las"], racha: 3 },
+    peor_partida: {
+      amigos: ["rana-azul-las"],
+      partida_id: "LA2_99",
+      campeon_id: 1,
+      campeon: "Annie",
+      asesinatos: 0,
+      muertes: 4,
+      asistencias: 0,
+      kda: 0.0,
+      resultado: "victoria",
+      modo: "Normal (Reclutamiento)",
+      fecha: AHORA - 3 * 24 * HORA,
+    },
+    ...cambios,
+  };
+}
