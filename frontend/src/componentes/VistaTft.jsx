@@ -58,7 +58,9 @@ export function VistaTft({ datos, error, ahora, abiertos, alternar, abrir, enfoc
         />
 
         <section aria-labelledby="titulo-tft-amigos" className="min-w-0">
-          <TituloSeccion id="titulo-tft-amigos">Amigos</TituloSeccion>
+          <TituloSeccion id="titulo-tft-amigos" subtitulo="Ordenados por partidas jugadas">
+            Amigos
+          </TituloSeccion>
           {datos.amigos.length === 0 ? (
             <EstadoVacio>
               No hay amigos configurados. Agrégalos en el archivo de configuración y ejecuta el script de datos.

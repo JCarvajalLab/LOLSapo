@@ -76,6 +76,18 @@ describe("App con pestañas de juego", () => {
     expect(screen.getByRole("heading", { name: "Amigos" })).toBeInTheDocument();
   });
 
+  it("el aviso del orden por partidas aparece solo en TFT", async () => {
+    render(<App fetchFn={respuestaOk} />);
+    await screen.findByRole("heading", { name: "Amigos" });
+    expect(screen.queryByText("Ordenados por partidas jugadas")).not.toBeInTheDocument();
+
+    await userEvent.click(screen.getByRole("tab", { name: "TFT" }));
+    await screen.findByRole("button", { name: "Croac#LAS" });
+    // Va junto al título, sin cambiar su nombre accesible.
+    expect(screen.getByText("Ordenados por partidas jugadas")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Amigos" })).toBeInTheDocument();
+  });
+
   it("con flechas cambia de pestaña y mueve el foco", async () => {
     render(<App fetchFn={respuestaOk} />);
     await screen.findByRole("heading", { name: "Amigos" });
