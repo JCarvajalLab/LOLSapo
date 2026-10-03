@@ -1,10 +1,13 @@
 import { FILTROS } from "../logica/filtros.js";
 
-/** Botones Todos / Rankeds / Normales / ARAM / Otros (RF-17). */
-export function FiltroModos({ valor, onCambiar }) {
+/**
+ * Botones Todos / Rankeds / Normales / ARAM / Otros (RF-17).
+ * `opciones` permite quitar categorías que no aplican (TFT usa FILTROS_TFT, sin ARAM).
+ */
+export function FiltroModos({ valor, onCambiar, opciones = FILTROS }) {
   return (
     <div role="group" aria-label="Filtrar por modo" className="flex flex-wrap gap-1">
-      {FILTROS.map((f) => {
+      {opciones.map((f) => {
         const activo = f.clave === valor;
         return (
           <button

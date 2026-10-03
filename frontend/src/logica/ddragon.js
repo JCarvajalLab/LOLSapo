@@ -9,7 +9,8 @@ const ID_OK = /^[A-Za-z0-9_]+$/;
 // Igual que el recolector: solo rutas dentro de perk-images/, sin puntos ni guiones.
 const RUTA_RUNA_OK = /^perk-images(\/[A-Za-z0-9_]+)+\.png$/;
 
-function version(dd) {
+/** Versión de Data Dragon validada ("16.19.1") o null. */
+export function versionDD(dd) {
   const v = dd?.version;
   return typeof v === "string" && VERSION_OK.test(v) ? v : null;
 }
@@ -32,20 +33,20 @@ export function nombreCampeon(dd, campeonId, respaldo) {
 }
 
 export function urlCampeon(dd, campeonId, respaldo) {
-  const v = version(dd);
+  const v = versionDD(dd);
   const id = idCampeon(dd, campeonId, respaldo);
   return v && id ? `${DDRAGON_BASE}/cdn/${v}/img/champion/${id}.png` : null;
 }
 
 export function urlIconoPerfil(dd, icono) {
-  const v = version(dd);
+  const v = versionDD(dd);
   return v && Number.isInteger(icono) && icono >= 0
     ? `${DDRAGON_BASE}/cdn/${v}/img/profileicon/${icono}.png`
     : null;
 }
 
 export function urlItem(dd, itemId) {
-  const v = version(dd);
+  const v = versionDD(dd);
   return v && Number.isInteger(itemId) && itemId > 0
     ? `${DDRAGON_BASE}/cdn/${v}/img/item/${itemId}.png`
     : null;
@@ -56,7 +57,7 @@ export function nombreItem(dd, itemId) {
 }
 
 export function urlHechizo(dd, hechizoId) {
-  const v = version(dd);
+  const v = versionDD(dd);
   const id = dd?.hechizos?.[clave(hechizoId)]?.id;
   return v && typeof id === "string" && ID_OK.test(id)
     ? `${DDRAGON_BASE}/cdn/${v}/img/spell/${id}.png`

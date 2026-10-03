@@ -37,6 +37,7 @@ from .validacion import (
     validar_maestria,
     validar_partida_activa,
 )
+from .validacion_tft import es_partida_tft
 
 VERSION_SALIDA = 1
 PARTIDAS_VISIBLES = 10
@@ -60,6 +61,8 @@ def _consultar(
     rangos = validar_ligas(cliente.ligas(puuid))
 
     activa = cliente.partida_activa(puuid)
+    if es_partida_tft(activa):
+        activa = None  # las partidas de TFT se muestran en tft.json
     jugando = validar_partida_activa(activa, puuid) if activa is not None else None
 
     resumenes = []

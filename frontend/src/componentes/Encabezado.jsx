@@ -4,7 +4,7 @@ import { SelectorJuego } from "./SelectorJuego.jsx";
 /**
  * Logo y antigüedad de los datos (RF-08).
  * `actualizado` es cuándo el recolector consultó a Riot, no cuándo cargó la página.
- * Debajo van las pestañas de juego, siempre visibles. La antigüedad solo aplica a League.
+ * Debajo van las pestañas de juego, siempre visibles. La antigüedad es la del juego que se mira.
  */
 export function Encabezado({ actualizado, ahora, falloActualizar, juego = "lol", onCambiarJuego }) {
   const ms = isoAMs(actualizado);
@@ -17,7 +17,7 @@ export function Encabezado({ actualizado, ahora, falloActualizar, juego = "lol",
           </span>
           LOL<span className="text-sapo">Sapo</span>
         </h1>
-        <div className={`text-right text-sm ${juego === "lol" ? "" : "invisible"}`}>
+        <div className="text-right text-sm">
           <p className="text-texto-suave">
             {ms ? (
               <>

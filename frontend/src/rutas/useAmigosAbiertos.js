@@ -50,3 +50,28 @@ export function useAmigosAbiertos() {
 
   return { abiertos, alternar, abrir, enfocar };
 }
+
+/**
+ * Igual que useAmigosAbiertos pero sin tocar el hash (lo usa la pestaña TFT,
+ * cuya ruta es siempre "#/tft"). Misma forma: { abiertos, alternar, abrir, enfocar }.
+ */
+export function useAmigosAbiertosLocal() {
+  const [abiertos, setAbiertos] = useState(() => new Set());
+  const [enfocar, setEnfocar] = useState(null);
+
+  const abrir = useCallback((slug) => {
+    setAbiertos((prev) => (prev.has(slug) ? prev : new Set(prev).add(slug)));
+    setEnfocar((prev) => ({ slug, n: (prev?.n ?? 0) + 1 }));
+  }, []);
+
+  const alternar = useCallback((slug) => {
+    setAbiertos((prev) => {
+      const siguiente = new Set(prev);
+      if (siguiente.has(slug)) siguiente.delete(slug);
+      else siguiente.add(slug);
+      return siguiente;
+    });
+  }, []);
+
+  return { abiertos, alternar, abrir, enfocar };
+}

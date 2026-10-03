@@ -1,0 +1,64 @@
+// Lectura y validación básica de tft.json.
+import { cargarJson, ErrorDatos } from "./datos.js";
+
+/** Ruta relativa, igual que lol.json (funciona en localhost y en GitHub Pages). */
+export const RUTA_DATOS_TFT = "./datos/tft.json";
+
+const lista = (valor) => (Array.isArray(valor) ? valor.filter((x) => x && typeof x === "object") : []);
+
+const enteroOk = (n) => Number.isInteger(n) && n >= 0;
+
+/**
+ * Perfil de la cuenta ({icono, nivel}) con enteros >= 0, o null.
+ * Archivos viejos sin el campo, o con valores raros, quedan en null (se muestran las iniciales).
+ */
+export function validarPerfil(perfil) {
+  if (!perfil || typeof perfil !== "object" || Array.isArray(perfil)) return null;
+  const icono = enteroOk(perfil.icono) ? perfil.icono : null;
+  const nivel = enteroOk(perfil.nivel) ? perfil.nivel : null;
+  return icono === null && nivel === null ? null : { icono, nivel };
+}
+
+/** Máximo de puestos que muestra la grilla del historial. */
+export const MAX_HISTORIAL = 30;
+
+const textoONull = (v) => (typeof v === "string" && v.trim() ? v : null);
+
+/**
+ * Historial de puestos ([{puesto, modo, categoria}], del más reciente al más antiguo).
+ * Descarta lo que no sea un objeto con puesto entero de 1 a 8; modo y categoría que no sean texto
+ * quedan en null ("Modo especial" y "Otros" al mostrarlos). Archivos viejos sin el campo: lista vacía.
+ */
+export function validarHistorial(historial) {
+  if (!Array.isArray(historial)) return [];
+  return historial
+    .filter((h) => h && typeof h === "object" && !Array.isArray(h))
+    .filter((h) => Number.isInteger(h.puesto) && h.puesto >= 1 && h.puesto <= 8)
+    .slice(0, MAX_HISTORIAL)
+    .map((h) => ({ puesto: h.puesto, modo: textoONull(h.modo), categoria: textoONull(h.categoria) }));
+}
+
+/** Comprueba la forma mínima de tft.json y rellena lo que falte para no romper la interfaz. */
+export function validarDatosTft(json) {
+  if (!json || typeof json !== "object" || !Array.isArray(json.amigos)) {
+    throw new ErrorDatos("El archivo de datos no tiene el formato esperado.", "formato");
+  }
+  return {
+    version: json.version ?? null,
+    actualizado: typeof json.actualizado === "string" ? json.actualizado : null,
+    error: typeof json.error === "string" && json.error.trim() ? json.error : null,
+    // Si no viene, se asume disponible: el aviso solo aparece cuando el recolector lo dice.
+    en_vivo_disponible: json.en_vivo_disponible !== false,
+    ddragon: json.ddragon && typeof json.ddragon === "object" ? json.ddragon : null,
+    en_vivo: lista(json.en_vivo),
+    amigos: lista(json.amigos)
+      .filter((a) => typeof a.slug === "string")
+      .map((a) => ({ ...a, perfil: validarPerfil(a.perfil), historial: validarHistorial(a.historial) })),
+    ranking: lista(json.ranking),
+  };
+}
+
+/** Pide tft.json sin caché y lo valida. `fetchFn` se inyecta en los tests. */
+export function cargarDatosTft(fetchFn = fetch) {
+  return cargarJson(RUTA_DATOS_TFT, validarDatosTft, fetchFn);
+}

@@ -28,7 +28,7 @@ export function EstadoError({ titulo, children, accion }) {
 }
 
 /** Mensaje accionable según el tipo de error de la primera carga. */
-export function ErrorCarga({ error }) {
+export function ErrorCarga({ error, archivo = "datos/lol.json" }) {
   if (error.tipo === "sin-datos") {
     return (
       <EstadoError titulo="Todavía no hay datos.">
@@ -40,7 +40,7 @@ export function ErrorCarga({ error }) {
   if (error.tipo === "formato") {
     return (
       <EstadoError titulo="Los datos están dañados.">
-        Vuelve a correr el recolector para generar datos/lol.json de nuevo. La página revisa otra vez cada 2 minutos.
+        Vuelve a correr el recolector para generar {archivo} de nuevo. La página revisa otra vez cada 2 minutos.
       </EstadoError>
     );
   }

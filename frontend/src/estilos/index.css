@@ -29,6 +29,20 @@
   --color-derrota-fondo: #2e1719;
   --color-remake: #858f99; /* 5:1 sobre superficie */
 
+  /* TFT */
+  --color-oro: #ffd966; /* Primer lugar y unidades de 3 estrellas */
+  --color-oro-fondo: #2c2712;
+  --color-rasgo-bronce: #c08a5b; /* Rasgo activo nivel bronce */
+  --color-rasgo-plata: #b9c6d2; /* Rasgo activo nivel plata y 2 estrellas */
+  --color-rasgo-oro: #e8b931; /* Rasgo activo nivel oro */
+  --color-rasgo-prisma: #c7a4ff; /* Rasgo activo nivel prismático */
+  --color-costo-1: #9aa4ae; /* Unidad de 1 de oro y Hyper Roll gris */
+  --color-costo-2: #3fbf6f; /* 2 de oro y Hyper Roll verde */
+  --color-costo-3: #3f9be8; /* 3 de oro y Hyper Roll azul */
+  --color-costo-4: #b46cf0; /* 4 de oro y Hyper Roll morado */
+  --color-costo-5: #f2b53c; /* 5 de oro */
+  --color-naranja: #ff9a3d; /* Hyper Roll naranja */
+
   /* Tipografías */
   --font-titulo: "Bricolage Grotesque Variable", "IBM Plex Sans", system-ui, sans-serif;
   --font-sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;

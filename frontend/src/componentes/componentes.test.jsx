@@ -280,7 +280,8 @@ describe("FilaAmigo (acordeón)", () => {
     expect(aviso).toHaveTextContent("Sin actualizar: se muestran sus últimos datos");
     expect(aviso).toHaveAttribute("title", "Riot ID no encontrado");
     expect(screen.getByText(/Riot ID no encontrado/)).toHaveClass("sr-only");
-    expect(screen.getByRole("img", { name: "Ícono de Charco#LAS" })).toBeInTheDocument();
+    // Sin ícono: las iniciales salen del Riot ID, no del texto "Ícono de".
+    expect(screen.getByRole("img", { name: "Ícono de Charco#LAS" })).toHaveTextContent(/^C$/);
     // Sin datos previos: las columnas siguen en su lugar.
     expect(screen.getAllByText("Sin clasificar")).toHaveLength(2);
     expect(screen.getByText("Sin partidas")).toBeInTheDocument();
