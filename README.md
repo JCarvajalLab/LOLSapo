@@ -14,15 +14,24 @@ La API de Riot necesita una key secreta, así que la web **nunca** llama a Riot 
 2. El frontend (React + Vite) solo lee ese JSON.
 3. En producción, un Cloudflare Worker le pide a GitHub Actions cada 5 minutos que corra el recolector y publique la web en GitHub Pages. En local lo corres tú.
 
-## Destacados de los últimos 7 días
+## Destacados
 
-En la pestaña LoL, bajo "En partida", seis tarjetas resumen la semana del grupo. Solo cuentan Normal y Ranked (Solo/Dúo y Flex), sin remakes:
+En la pestaña LoL, bajo "En partida", dos secciones resumen lo que hizo el grupo. Solo cuentan Normal y Ranked (Solo/Dúo y Flex), sin remakes. "En grupo" significa 2 o más del grupo en el mismo equipo.
+
+**Destacados de hoy** (desde las 6:00 de Chile; se reinicia cada día a esa hora):
+
+| Tarjeta | Cómo se calcula |
+|---------|-----------------|
+| Mejor / Peor jugador de la partida - Hoy | De las partidas en grupo de hoy, la actuación individual con el KDA más alto / más bajo (gane o pierda), con su daño a campeones |
+| Balance del grupo hoy | Victorias y derrotas de las partidas en grupo de hoy (cada partida cuenta una vez), con los nombres de quienes jugaron; quien jugó menos partidas que el total lleva cuántas entre paréntesis |
+
+**Destacados de los últimos 7 días:**
 
 | Tarjeta | Cómo se calcula |
 |---------|-----------------|
 | Más partidas | Partidas jugadas en los 7 días |
 | Mejor winrate | Partidas de los 7 días, con mínimo 5 |
-| Mejor / Peor jugador de la partida - Hoy | De las partidas en grupo (2 o más del grupo en el mismo equipo) jugadas **hoy**, la actuación individual con el KDA más alto / más bajo (gane o pierda), con su daño a campeones. El "día" empieza a las 6:00 de Chile |
+| Mejor / Peor jugador de la semana | Igual que los de hoy, pero con las partidas en grupo de los 7 días |
 | Racha de victorias / derrotas en equipo | Partidas con 2 o más del grupo en el mismo equipo, en orden: la racha sigue mientras se repite el resultado y cada partida comparte al menos un amigo con la anterior. Muestra a todos los que participaron; quien jugó solo una lleva la nota «(1 partida)» |
 
 Se calculan en el recolector ([recolector/lolsapo/destacados.py](recolector/lolsapo/destacados.py)) a partir del registro completo de cada amigo, sin consultas extra a Riot.

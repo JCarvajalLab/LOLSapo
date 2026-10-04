@@ -386,8 +386,13 @@ def test_lol_json_incluye_destacados_sin_puuid(cliente, mapa, tmp_path):
     # Los campeones del mejor y peor jugador quedan disponibles para su imagen.
     usados = _elementos_usados([], [], destacados)["campeones"]
     assert {
-        destacados["mejor_jugador_hoy"]["campeon_id"],
-        destacados["peor_jugador_hoy"]["campeon_id"],
+        destacados[clave]["campeon_id"]
+        for clave in (
+            "mejor_jugador_hoy",
+            "peor_jugador_hoy",
+            "mejor_jugador_semana",
+            "peor_jugador_semana",
+        )
     } <= usados
     texto = (tmp_path / "lol.json").read_text(encoding="utf-8")
     assert P_JOHN not in texto and P_GATO not in texto

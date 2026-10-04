@@ -233,7 +233,7 @@ def _balance(en_grupo_ordenadas: list[tuple[dict, set[str]]], desde_ms: int) -> 
     if not partidas:
         return None
     victorias = sum(p["resultado"] == "victoria" for p, _ in partidas)
-    derrotas = len(partidas) - victorias
+    derrotas = sum(p["resultado"] == "derrota" for p, _ in partidas)
     jugadas: dict[str, int] = {}
     for _, equipo in partidas:
         for slug in equipo:
