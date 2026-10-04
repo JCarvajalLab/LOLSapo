@@ -2015,6 +2015,102 @@
         "principal": 9923,
         "secundaria": 8000
       }
+    },
+    "LA2_1628280210": {
+      "asesinatos": 5,
+      "asistencias": 9,
+      "campeon": "Jhin",
+      "campeon_id": 202,
+      "cs": 269,
+      "danio": 27964,
+      "duracion": 2116,
+      "equipo": 200,
+      "fecha": 1791082638676,
+      "hechizos": [
+        4,
+        21
+      ],
+      "id": "LA2_1628280210",
+      "items": [
+        3031,
+        6676,
+        3094,
+        3036,
+        1029,
+        1029,
+        3363
+      ],
+      "muertes": 8,
+      "nivel": 17,
+      "participacion": 52,
+      "participantes": [
+        {
+          "amigo": null,
+          "campeon_id": 41,
+          "equipo": 100,
+          "nombre": "Chapuka#SOAD"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 245,
+          "equipo": 100,
+          "nombre": "FZaide#7625"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 8,
+          "equipo": 100,
+          "nombre": "Uzual#Padré"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 51,
+          "equipo": 100,
+          "nombre": "MueldeAki#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 902,
+          "equipo": 100,
+          "nombre": "lownunuu#nomin"
+        },
+        {
+          "amigo": "johnadis-las",
+          "campeon_id": 79,
+          "equipo": 200,
+          "nombre": "Johnadis#LAS"
+        },
+        {
+          "amigo": "nic-las",
+          "campeon_id": 233,
+          "equipo": 200,
+          "nombre": "Nicø#LAS"
+        },
+        {
+          "amigo": "big-gato-las",
+          "campeon_id": 101,
+          "equipo": 200,
+          "nombre": "Big Gato#LAS"
+        },
+        {
+          "amigo": "gralmogeko-las",
+          "campeon_id": 202,
+          "equipo": 200,
+          "nombre": "GralMogeko#LAS"
+        },
+        {
+          "amigo": "iskrat-las",
+          "campeon_id": 80,
+          "equipo": 200,
+          "nombre": "ISkrat#LAS"
+        }
+      ],
+      "queue_id": 400,
+      "resultado": "derrota",
+      "runas": {
+        "principal": 8021,
+        "secundaria": 8200
+      }
     }
   },
   "perfil": {
