@@ -3064,6 +3064,102 @@
         "principal": 8112,
         "secundaria": 8200
       }
+    },
+    "LA2_1628462563": {
+      "asesinatos": 10,
+      "asistencias": 2,
+      "campeon": "MasterYi",
+      "campeon_id": 11,
+      "cs": 216,
+      "danio": 17823,
+      "duracion": 1709,
+      "equipo": 200,
+      "fecha": 1791157244153,
+      "hechizos": [
+        11,
+        4
+      ],
+      "id": "LA2_1628462563",
+      "items": [
+        3006,
+        6672,
+        3124,
+        3302,
+        6333,
+        1036,
+        3340
+      ],
+      "muertes": 3,
+      "nivel": 16,
+      "participacion": 44,
+      "participantes": [
+        {
+          "amigo": null,
+          "campeon_id": 58,
+          "equipo": 100,
+          "nombre": "polilla#12345"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 106,
+          "equipo": 100,
+          "nombre": "ojotas#0611"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 238,
+          "equipo": 100,
+          "nombre": "choritodestroyer#6969"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 202,
+          "equipo": 100,
+          "nombre": "V LA D I N S K Y#YVL"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 53,
+          "equipo": 100,
+          "nombre": "neunhinged#42000"
+        },
+        {
+          "amigo": "gralmogeko-las",
+          "campeon_id": 166,
+          "equipo": 200,
+          "nombre": "GralMogeko#LAS"
+        },
+        {
+          "amigo": "nic-las",
+          "campeon_id": 11,
+          "equipo": 200,
+          "nombre": "Nicø#LAS"
+        },
+        {
+          "amigo": "johnadis-las",
+          "campeon_id": 711,
+          "equipo": 200,
+          "nombre": "Johnadis#LAS"
+        },
+        {
+          "amigo": "iskrat-las",
+          "campeon_id": 115,
+          "equipo": 200,
+          "nombre": "ISkrat#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 412,
+          "equipo": 200,
+          "nombre": "Bronazo#LAS"
+        }
+      ],
+      "queue_id": 400,
+      "resultado": "victoria",
+      "runas": {
+        "principal": 8008,
+        "secundaria": 8300
+      }
     }
   },
   "perfil": {
