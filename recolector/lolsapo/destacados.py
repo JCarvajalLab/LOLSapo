@@ -234,12 +234,18 @@ def _balance(en_grupo_ordenadas: list[tuple[dict, set[str]]], desde_ms: int) -> 
         return None
     victorias = sum(p["resultado"] == "victoria" for p, _ in partidas)
     derrotas = len(partidas) - victorias
+    jugadas: dict[str, int] = {}
+    for _, equipo in partidas:
+        for slug in equipo:
+            jugadas[slug] = jugadas.get(slug, 0) + 1
     return {
         "partidas": len(partidas),
         "victorias": victorias,
         "derrotas": derrotas,
         "winrate": winrate(victorias, derrotas),
-        "amigos": sorted(set().union(*(equipo for _, equipo in partidas))),
+        # Primero quienes jugaron más; `jugadas` dice cuántas partidas jugó cada uno.
+        "amigos": sorted(jugadas, key=lambda s: (-jugadas[s], s)),
+        "jugadas": jugadas,
     }
 
 

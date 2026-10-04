@@ -417,7 +417,24 @@ def test_balance_del_grupo_hoy_cuenta_cada_partida_una_vez(mapa):
         "derrotas": 1,
         "winrate": 66.7,
         "amigos": ["ana", "otro"],
+        "jugadas": {"ana": 3, "otro": 3},
     }
+
+
+def test_balance_dice_cuantas_jugo_quien_se_sumo_despues(mapa):
+    datos = {
+        "ana": [
+            hoy_en_grupo("g1", 3, 5, 5, 5, con=("ana", "beto")),
+            hoy_en_grupo("g2", 2, 5, 5, 5, con=("ana", "beto")),
+            hoy_en_grupo("g3", 1, 5, 5, 5, "derrota", con=("ana", "beto", "carla")),
+        ],
+        "beto": [],
+        "carla": [],
+    }
+    balance = calcular_destacados(datos, mapa, AHORA_MS)["balance_hoy"]
+    assert balance["partidas"] == 3
+    assert balance["amigos"] == ["ana", "beto", "carla"]
+    assert balance["jugadas"] == {"ana": 3, "beto": 3, "carla": 1}
 
 
 def test_balance_sin_partidas_en_grupo_hoy_es_none(mapa):
