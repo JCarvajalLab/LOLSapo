@@ -1,16 +1,22 @@
-// Destacados de los últimos 7 días (lol.json → "destacados").
+// Destacados de LoL (lol.json → "destacados"): los de hoy y los de los últimos 7 días.
 // Validación al leer el JSON y formato de los números. No depende de React.
 import { esNumero } from "./formato.js";
 
-/** Orden fijo de las tarjetas, como lo decidió Deo. */
-export const CLAVES_DESTACADOS = [
+/** Tarjetas de hoy (desde las 6:00 de Chile), en el orden de la fila: el balance al centro. */
+export const CLAVES_HOY = ["mejor_jugador_hoy", "balance_hoy", "peor_jugador_hoy"];
+
+/** Tarjetas de los últimos 7 días, en el orden que decidió Deo. */
+export const CLAVES_SEMANA = [
   "mas_partidas",
   "mejor_winrate",
-  "mejor_jugador_hoy",
+  "mejor_jugador_semana",
   "racha_victorias_grupo",
   "racha_derrotas_grupo",
-  "peor_jugador_hoy",
+  "peor_jugador_semana",
 ];
+
+/** Todas las tarjetas que se validan. */
+export const CLAVES_DESTACADOS = [...CLAVES_HOY, ...CLAVES_SEMANA];
 
 /** Mínimo de partidas seguidas para que una racha cuente (lo mismo que usa el recolector). */
 export const RACHA_MINIMA = 2;
@@ -37,10 +43,34 @@ const VALIDADORES = {
     conteo(t.partidas) &&
     t.partidas > 0,
   mejor_jugador_hoy: validarPartida,
+  peor_jugador_hoy: validarPartida,
+  balance_hoy: validarBalance,
+  mejor_jugador_semana: validarPartida,
+  peor_jugador_semana: validarPartida,
   racha_victorias_grupo: validarRacha,
   racha_derrotas_grupo: validarRacha,
-  peor_jugador_hoy: validarPartida,
 };
+
+/**
+ * Balance del grupo hoy: cada partida en grupo cuenta una vez. Enteros coherentes
+ * (victorias + derrotas = partidas, al menos 1) y winrate de 0 a 100 o null.
+ */
+function validarBalance(t) {
+  return (
+    conteo(t.partidas) &&
+    conteo(t.victorias) &&
+    conteo(t.derrotas) &&
+    t.partidas > 0 &&
+    t.victorias + t.derrotas === t.partidas &&
+    (t.winrate === null || t.winrate === undefined || (decimal(t.winrate) && t.winrate <= 100))
+  );
+}
+
+/** Solo los campos conocidos; sin winrate se calcula con las victorias. */
+function completarBalance(t, amigos) {
+  const winrate = esNumero(t.winrate) ? t.winrate : (t.victorias / t.partidas) * 100;
+  return { partidas: t.partidas, victorias: t.victorias, derrotas: t.derrotas, winrate, amigos };
+}
 
 // Los formatos viejos ("mejor_kda", "peor_kda", "mejor_partida", "peor_partida") se ignoran.
 function validarPartida(t) {
@@ -101,6 +131,7 @@ export function validarTarjeta(clave, tarjeta, slugs) {
   const amigos = amigosConocidos(tarjeta.amigos, slugs);
   if (amigos.length === 0) return null;
   if (validar === validarRacha) return completarRacha(tarjeta, amigos);
+  if (validar === validarBalance) return completarBalance(tarjeta, amigos);
   if (validar === validarPartida) return { ...tarjeta, amigos, danio: validarDanio(tarjeta.danio) };
   return { ...tarjeta, amigos };
 }
@@ -124,9 +155,6 @@ export function validarDestacados(destacados, amigos) {
   };
 }
 
-/** Claves de las tarjetas que cuentan solo las partidas de hoy (desde las 6:00 de Chile). */
-export const CLAVES_HOY = ["mejor_jugador_hoy", "peor_jugador_hoy"];
-
 const DIA_MS = 24 * 3600 * 1000;
 
 /**
@@ -146,9 +174,9 @@ export function destacadosVigentes(destacados, ahora) {
   return vigentes;
 }
 
-/** true si ninguna tarjeta tiene datos. */
-export function destacadosVacios(destacados) {
-  return CLAVES_DESTACADOS.every((clave) => !destacados?.[clave]);
+/** true si ninguna de las tarjetas `claves` (por defecto, las de 7 días) tiene datos. */
+export function destacadosVacios(destacados, claves = CLAVES_SEMANA) {
+  return claves.every((clave) => !destacados?.[clave]);
 }
 
 const unDecimal = new Intl.NumberFormat("es-CL", { maximumFractionDigits: 1 });

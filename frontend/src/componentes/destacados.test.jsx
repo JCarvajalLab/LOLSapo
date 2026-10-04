@@ -4,32 +4,73 @@ import { AHORA, crearDatos, crearDestacados, ddragon } from "../test/fixtures/lo
 import { validarDatos } from "../logica/datos.js";
 import { CLAVES_DESTACADOS } from "../logica/destacados.js";
 import { haceCuanto } from "../logica/formato.js";
-import { SeccionDestacados } from "./SeccionDestacados.jsx";
+import { SeccionDestacadosHoy } from "./SeccionDestacadosHoy.jsx";
+import { SeccionDestacadosSemana } from "./SeccionDestacadosSemana.jsx";
 
-function renderDestacados(destacados, extra = {}) {
-  const datos = validarDatos(crearDatos({ destacados, ...extra }));
-  return render(
-    <SeccionDestacados destacados={datos.destacados} amigos={datos.amigos} ddragon={datos.ddragon} ahora={AHORA} />,
+/** Las dos secciones, como en App. */
+function Destacados(props) {
+  return (
+    <>
+      <SeccionDestacadosHoy {...props} />
+      <SeccionDestacadosSemana {...props} />
+    </>
   );
 }
 
-const tarjeta = (titulo) => screen.getByRole("article", { name: titulo });
+function renderDestacados(destacados, extra = {}) {
+  const datos = validarDatos(crearDatos({ destacados, ...extra }));
+  return render(<Destacados destacados={datos.destacados} amigos={datos.amigos} ddragon={datos.ddragon} ahora={AHORA} />);
+}
 
-describe("SeccionDestacados", () => {
-  it("muestra el título, la nota y las 6 tarjetas en orden", () => {
+const tarjeta = (titulo) => screen.getByRole("article", { name: titulo });
+const seccion = (titulo) => screen.getByRole("region", { name: titulo });
+const HOY = "Destacados de hoy";
+const SEMANA = "Destacados de los últimos 7 días";
+const NOTA_HOY = "Partidas en grupo (2 o más del grupo) de Normal y Ranked desde las 6:00 · Se reinicia cada día";
+const NOTA_SEMANA =
+  "Solo Normal y Ranked (Solo/Dúo y Flex) · Mejor y peor jugador y rachas: partidas en equipo (2 o más del grupo)";
+const titulosEn = (region) => within(region).getAllByRole("heading", { level: 3 }).map((h) => h.textContent);
+
+describe("Destacados", () => {
+  it("muestra dos secciones en orden: hoy y luego 7 días, cada una con su nota", () => {
     renderDestacados(crearDestacados());
-    expect(screen.getByRole("heading", { level: 2, name: "Destacados de los últimos 7 días" })).toBeInTheDocument();
-    expect(screen.getByText("Solo Normal y Ranked (Solo/Dúo y Flex) · Más partidas, winrate y rachas: últimos 7 días · Mejor y peor jugador: partidas en grupo de hoy (desde las 6:00)")).toBeInTheDocument();
-    const titulos = screen.getAllByRole("heading", { level: 3 }).map((h) => h.textContent);
-    expect(titulos).toEqual([
-      "Más partidas",
-      "Mejor winrate",
+    const titulos = screen.getAllByRole("heading", { level: 2 }).map((h) => h.textContent);
+    expect(titulos).toEqual([HOY, SEMANA]);
+    expect(seccion(HOY)).toHaveAccessibleDescription(NOTA_HOY);
+    expect(seccion(SEMANA)).toHaveAccessibleDescription(NOTA_SEMANA);
+  });
+
+  it("hoy: mejor jugador, balance al centro y peor jugador", () => {
+    renderDestacados(crearDestacados());
+    const hoy = seccion(HOY);
+    expect(titulosEn(hoy)).toEqual([
       "Mejor jugador de la partida - Hoy",
-      "Racha de victorias en equipo",
-      "Racha de derrotas en equipo",
+      "Balance del grupo hoy",
       "Peor jugador de la partida - Hoy",
     ]);
-    expect(screen.getAllByRole("listitem")).toHaveLength(6);
+    expect(within(hoy).getAllByRole("listitem")).toHaveLength(3);
+    expect(within(hoy).getByRole("list")).toHaveClass("grid-cols-1", "sm:grid-cols-2", "lg:grid-cols-3");
+    // En tablet el balance baja a su fila a todo el ancho; en escritorio vuelve al centro.
+    expect(tarjeta("Balance del grupo hoy").closest("li")).toHaveClass(
+      "sm:order-last",
+      "sm:col-span-2",
+      "lg:order-none",
+      "lg:col-span-1",
+    );
+  });
+
+  it("7 días: las 6 tarjetas en orden, con mejor y peor jugador de la semana", () => {
+    renderDestacados(crearDestacados());
+    const semana = seccion(SEMANA);
+    expect(titulosEn(semana)).toEqual([
+      "Más partidas",
+      "Mejor winrate",
+      "Mejor jugador de la semana",
+      "Racha de victorias en equipo",
+      "Racha de derrotas en equipo",
+      "Peor jugador de la semana",
+    ]);
+    expect(within(semana).getAllByRole("listitem")).toHaveLength(6);
     expect(screen.queryByText("Peor KDA")).toBeNull();
     expect(screen.queryByText("Mejor KDA")).toBeNull();
   });
@@ -77,7 +118,7 @@ describe("SeccionDestacados", () => {
   it("sin el campeón en Data Dragon usa el nombre crudo en ambas tarjetas", () => {
     const dd = { ...ddragon, campeones: {} };
     const datos = validarDatos(crearDatos({ destacados: crearDestacados(), ddragon: dd }));
-    render(<SeccionDestacados destacados={datos.destacados} amigos={datos.amigos} ddragon={dd} ahora={AHORA} />);
+    render(<Destacados destacados={datos.destacados} amigos={datos.amigos} ddragon={dd} ahora={AHORA} />);
     expect(tarjeta("Mejor jugador de la partida - Hoy")).toHaveTextContent("MasterYi · 11 / 2 / 8");
     expect(tarjeta("Peor jugador de la partida - Hoy")).toHaveTextContent("Annie · 0 / 4 / 0");
   });
@@ -114,8 +155,9 @@ describe("SeccionDestacados", () => {
       expect(danio).toHaveClass("text-sm", "font-semibold");
       expect(kda).toHaveClass("text-sm", "font-semibold");
     }
-    // Solo en estas dos tarjetas.
-    expect(screen.getAllByText(/^Daño: /)).toHaveLength(2);
+    // En hoy, solo en estas dos tarjetas (en 7 días, en las del jugador de la semana).
+    expect(within(seccion(HOY)).getAllByText(/^Daño: /)).toHaveLength(2);
+    expect(within(seccion(SEMANA)).getAllByText(/^Daño: /)).toHaveLength(2);
   });
 
   it("colorea el daño según el resultado de esa partida, no según la tarjeta", () => {
@@ -171,7 +213,7 @@ describe("SeccionDestacados", () => {
   it("no arma la URL del campeón si el id de Data Dragon no es válido", () => {
     const dd = { ...ddragon, campeones: { 1: { id: "../evil", nombre: "Annie" } } };
     const datos = validarDatos(crearDatos({ destacados: crearDestacados(), ddragon: dd }));
-    render(<SeccionDestacados destacados={datos.destacados} amigos={datos.amigos} ddragon={dd} ahora={AHORA} />);
+    render(<Destacados destacados={datos.destacados} amigos={datos.amigos} ddragon={dd} ahora={AHORA} />);
     const p = tarjeta("Peor jugador de la partida - Hoy");
     expect(within(p).queryByRole("img", { name: "Annie" })?.tagName).toBe("SPAN");
     expect(p.querySelector("img[src*='evil']")).toBeNull();
@@ -188,7 +230,7 @@ describe("SeccionDestacados", () => {
     expect(screen.queryByText("Mejor KDA")).toBeNull();
     expect(screen.queryByText(/1,5/)).toBeNull();
     expect(screen.queryByText(/3,02/)).toBeNull();
-    expect(screen.getAllByRole("article")).toHaveLength(6);
+    expect(screen.getAllByRole("article")).toHaveLength(9);
   });
 
   it("racha en equipo con 3 integrantes: nota «(1 partida)» solo para quien jugó 1", () => {
@@ -294,7 +336,7 @@ describe("SeccionDestacados", () => {
       expect(within(t).queryByText("Sin datos")).toBeNull();
     }
     expect(within(tarjeta("Más partidas")).queryByText("Sin datos")).toBeNull();
-    expect(screen.getAllByRole("article")).toHaveLength(6);
+    expect(screen.getAllByRole("article")).toHaveLength(9);
   });
 
   it("ambas rachas null dicen Sin datos con su mínimo", () => {
@@ -307,7 +349,7 @@ describe("SeccionDestacados", () => {
     expect(within(derrotas).getByText("Nadie con 2 derrotas seguidas en equipo.")).toBeInTheDocument();
     expect(victorias).not.toHaveTextContent("🔥");
     expect(derrotas).not.toHaveTextContent("🧊");
-    expect(screen.getAllByRole("article")).toHaveLength(6);
+    expect(screen.getAllByRole("article")).toHaveLength(9);
   });
 
   it("ignora mejor_partida, peor_partida y ultimas_partidas de archivos viejos", () => {
@@ -316,10 +358,10 @@ describe("SeccionDestacados", () => {
     delete viejo.mejor_jugador_hoy;
     delete viejo.peor_jugador_hoy;
     renderDestacados(viejo);
-    expect(screen.getByText("Solo Normal y Ranked (Solo/Dúo y Flex) · Más partidas, winrate y rachas: últimos 7 días · Mejor y peor jugador: partidas en grupo de hoy (desde las 6:00)")).toBeInTheDocument();
+    expect(screen.getByText(NOTA_HOY)).toBeInTheDocument();
     expect(within(tarjeta("Mejor jugador de la partida - Hoy")).getByText("No hay partidas en grupo registradas hoy")).toBeInTheDocument();
     expect(within(tarjeta("Peor jugador de la partida - Hoy")).getByText("No hay partidas en grupo registradas hoy")).toBeInTheDocument();
-    expect(screen.queryByText(/Maestro Yi|Annie|99/)).toBeNull();
+    expect(within(seccion(HOY)).queryByText(/Maestro Yi|Annie|99/)).toBeNull();
     expect(screen.queryByText("Mejor partida")).toBeNull();
     expect(screen.queryByText("Peor partida")).toBeNull();
   });
@@ -340,25 +382,117 @@ describe("SeccionDestacados", () => {
     expect(screen.queryByText(/intruso/)).toBeNull();
   });
 
-  it("sin el campo destacados no muestra la sección", () => {
+  it("sin el campo destacados no muestra ninguna de las dos secciones", () => {
     const { container } = renderDestacados(undefined);
     expect(container).toBeEmptyDOMElement();
-    expect(screen.queryByText("Destacados de los últimos 7 días")).toBeNull();
+    expect(screen.queryByText(HOY)).toBeNull();
+    expect(screen.queryByText(SEMANA)).toBeNull();
   });
 
-  it("si todas las tarjetas son null muestra un mensaje", () => {
+  it("si todas las tarjetas son null: hoy con sus 3 vacías y 7 días con un mensaje", () => {
     renderDestacados(crearDestacados(Object.fromEntries(CLAVES_DESTACADOS.map((c) => [c, null]))));
-    expect(screen.getByRole("heading", { name: "Destacados de los últimos 7 días" })).toBeInTheDocument();
-    expect(screen.getByText("Sin partidas de Normal o Ranked en los últimos 7 días")).toBeInTheDocument();
-    expect(screen.queryAllByRole("article")).toHaveLength(0);
+    expect(within(seccion(SEMANA)).getByText("Sin partidas de Normal o Ranked en los últimos 7 días")).toBeInTheDocument();
+    expect(within(seccion(SEMANA)).queryAllByRole("article")).toHaveLength(0);
+    expect(within(seccion(HOY)).getAllByRole("article")).toHaveLength(3);
+    expect(within(seccion(HOY)).getAllByText("No hay partidas en grupo registradas hoy")).toHaveLength(3);
+  });
+
+  it("si solo hay datos de hoy, 7 días muestra su mensaje y hoy sus tarjetas", () => {
+    renderDestacados(
+      crearDestacados({
+        mas_partidas: null,
+        mejor_winrate: null,
+        mejor_jugador_semana: null,
+        racha_victorias_grupo: null,
+        racha_derrotas_grupo: null,
+        peor_jugador_semana: null,
+      }),
+    );
+    expect(within(seccion(SEMANA)).getByText("Sin partidas de Normal o Ranked en los últimos 7 días")).toBeInTheDocument();
+    expect(within(tarjeta("Balance del grupo hoy")).getByText("4 V")).toBeInTheDocument();
   });
 });
 
-describe("SeccionDestacados con lol.json viejo", () => {
-  const HORA = 3600 * 1000;
-  const TITULOS_HOY = ["Mejor jugador de la partida - Hoy", "Peor jugador de la partida - Hoy"];
+describe("Balance del grupo hoy", () => {
+  it("muestra victorias y derrotas con color y letra, winrate con un decimal, partidas e íconos", () => {
+    renderDestacados(crearDestacados());
+    const b = tarjeta("Balance del grupo hoy");
+    expect(within(b).getByText("4 V")).toHaveClass("text-victoria");
+    expect(within(b).getByText("2 D")).toHaveClass("text-derrota");
+    expect(within(b).getByText("4 victorias y 2 derrotas")).toHaveClass("sr-only");
+    expect(b).toHaveTextContent("66,7 % · 6 partidas en grupo");
+    const iconos = within(b).getAllByRole("img", { name: /^Ícono de / });
+    expect(iconos.map((i) => i.getAttribute("aria-label") ?? i.getAttribute("alt"))).toEqual([
+      "Ícono de Sapito#LAS",
+      "Ícono de Rana Azul#LAS",
+      "Ícono de Charco#LAS",
+    ]);
+    expect(b).not.toHaveTextContent(/sin datos/i);
+  });
 
-  it("si el día de los datos ya terminó (hoy_desde de hace 25 h), mejor y peor jugador quedan vacíos", () => {
+  it("singular con 1 partida y winrate calculado si viene null", () => {
+    renderDestacados(
+      crearDestacados({ balance_hoy: { partidas: 1, victorias: 0, derrotas: 1, winrate: null, amigos: ["sapito-las"] } }),
+    );
+    const b = tarjeta("Balance del grupo hoy");
+    expect(b).toHaveTextContent("0 % · 1 partida en grupo");
+    expect(within(b).getByText("0 victorias y 1 derrota")).toBeInTheDocument();
+  });
+
+  it.each([
+    ["null", null],
+    ["ausente", undefined],
+    ["incoherente", { partidas: 6, victorias: 4, derrotas: 1, winrate: 66.7, amigos: ["sapito-las"] }],
+    ["con slugs desconocidos", { partidas: 2, victorias: 1, derrotas: 1, winrate: 50, amigos: ["intruso-las"] }],
+  ])("balance %s muestra el estado vacío de hoy", (_nombre, balance) => {
+    renderDestacados(crearDestacados({ balance_hoy: balance }));
+    const b = tarjeta("Balance del grupo hoy");
+    expect(b).toHaveTextContent(/^Balance del grupo hoyNo hay partidas en grupo registradas hoySe reinicia a las 6:00$/);
+    expect(screen.queryByText(/intruso/)).toBeNull();
+  });
+});
+
+describe("Mejor y peor jugador de la semana", () => {
+  it("usan el mismo bloque que los de hoy: campeón, K/D/A, KDA, daño, modo, fecha y resultado", () => {
+    renderDestacados(crearDestacados());
+    const m = tarjeta("Mejor jugador de la semana");
+    expect(within(m).getByText("Charco")).toBeInTheDocument();
+    expect(m).toHaveTextContent("Ahri · 15 / 1 / 9");
+    expect(within(m).getByText("KDA 24")).toHaveClass("text-victoria");
+    expect(within(m).getByText("Daño: 41.200")).toHaveClass("text-victoria");
+    expect(m).toHaveTextContent("Clasificatoria Solo/Dúo");
+    expect(within(m).getByText(haceCuanto(AHORA - 3 * 24 * 3600 * 1000, AHORA))).toBeInTheDocument();
+    expect(within(m).getByText("Victoria")).toBeInTheDocument();
+    expect(within(m).getByAltText("Ahri")).toHaveAttribute(
+      "src",
+      "https://ddragon.leagueoflegends.com/cdn/16.1.1/img/champion/Ahri.png",
+    );
+
+    const p = tarjeta("Peor jugador de la semana");
+    expect(within(p).getByText("Sapito")).toBeInTheDocument();
+    expect(p).toHaveTextContent("Ashe · 1 / 9 / 2");
+    expect(within(p).getByText("KDA 0,33")).toHaveClass("text-derrota");
+    expect(within(p).getByText("Daño: 6.050")).toHaveClass("text-derrota");
+    expect(p).toHaveTextContent("Normal (Selección oculta)");
+    expect(within(p).getByText("Derrota")).toBeInTheDocument();
+  });
+
+  it("sin datos dicen que no hubo partidas en grupo en 7 días", () => {
+    renderDestacados(crearDestacados({ mejor_jugador_semana: null, peor_jugador_semana: undefined }));
+    for (const titulo of ["Mejor jugador de la semana", "Peor jugador de la semana"]) {
+      const t = tarjeta(titulo);
+      expect(within(t).getByText("Sin datos")).toBeInTheDocument();
+      expect(within(t).getByText("Sin partidas en grupo en los últimos 7 días.")).toHaveClass("text-xs");
+      expect(t).not.toHaveTextContent("Se reinicia");
+    }
+  });
+});
+
+describe("Destacados con lol.json viejo", () => {
+  const HORA = 3600 * 1000;
+  const TITULOS_HOY = ["Mejor jugador de la partida - Hoy", "Balance del grupo hoy", "Peor jugador de la partida - Hoy"];
+
+  it("si el día de los datos ya terminó (hoy_desde de hace 25 h), las 3 tarjetas de hoy quedan vacías", () => {
     renderDestacados(crearDestacados({ hoy_desde: AHORA - 25 * HORA }));
     for (const titulo of TITULOS_HOY) {
       const t = tarjeta(titulo);
@@ -366,13 +500,16 @@ describe("SeccionDestacados con lol.json viejo", () => {
       expect(within(t).queryByText("Sapito")).toBeNull();
       expect(within(t).queryByRole("img")).toBeNull();
     }
-    // El resto de las tarjetas (7 días) se mantiene.
+    // El resto de las tarjetas (7 días) se mantiene, incluidos los jugadores de la semana.
     expect(within(tarjeta("Más partidas")).getByText("20")).toBeInTheDocument();
+    expect(tarjeta("Mejor jugador de la semana")).toHaveTextContent("Ahri · 15 / 1 / 9");
+    expect(tarjeta("Peor jugador de la semana")).toHaveTextContent("Ashe · 1 / 9 / 2");
   });
 
-  it("con hoy_desde reciente muestra mejor y peor jugador", () => {
+  it("con hoy_desde reciente muestra mejor y peor jugador y el balance", () => {
     renderDestacados(crearDestacados({ hoy_desde: AHORA - 23 * HORA }));
-    for (const titulo of TITULOS_HOY) {
+    expect(within(tarjeta("Balance del grupo hoy")).getByText("4 V")).toBeInTheDocument();
+    for (const titulo of [TITULOS_HOY[0], TITULOS_HOY[2]]) {
       expect(within(tarjeta(titulo)).queryByText("No hay partidas en grupo registradas hoy")).toBeNull();
       expect(within(tarjeta(titulo)).getByText(/^KDA /)).toBeInTheDocument();
     }
@@ -380,7 +517,8 @@ describe("SeccionDestacados con lol.json viejo", () => {
 
   it("sin hoy_desde (archivos viejos) muestra lo que venga", () => {
     renderDestacados(crearDestacados({ hoy_desde: null }));
-    for (const titulo of TITULOS_HOY) {
+    expect(within(tarjeta("Balance del grupo hoy")).getByText("2 D")).toBeInTheDocument();
+    for (const titulo of [TITULOS_HOY[0], TITULOS_HOY[2]]) {
       expect(within(tarjeta(titulo)).getByText(/^KDA /)).toBeInTheDocument();
     }
   });

@@ -9,7 +9,8 @@ import { EsqueletoPagina } from "./componentes/Esqueleto.jsx";
 import { ErrorCarga, EstadoVacio } from "./componentes/Estados.jsx";
 import { FilaAmigo } from "./componentes/FilaAmigo.jsx";
 import { Ranking } from "./componentes/Ranking.jsx";
-import { SeccionDestacados } from "./componentes/SeccionDestacados.jsx";
+import { SeccionDestacadosHoy } from "./componentes/SeccionDestacadosHoy.jsx";
+import { SeccionDestacadosSemana } from "./componentes/SeccionDestacadosSemana.jsx";
 import { SeccionEnPartida } from "./componentes/SeccionEnPartida.jsx";
 import { idPanelJuego, idPestana } from "./componentes/SelectorJuego.jsx";
 import { TituloSeccion } from "./componentes/TituloSeccion.jsx";
@@ -89,7 +90,8 @@ function VistaLol({ datos, error, ahora, abiertos, alternar, abrir, enfocar }) {
         ahora={ahora}
       />
 
-      <SeccionDestacados destacados={datos.destacados} amigos={datos.amigos} ddragon={datos.ddragon} ahora={ahora} />
+      <SeccionDestacadosHoy destacados={datos.destacados} amigos={datos.amigos} ddragon={datos.ddragon} ahora={ahora} />
+      <SeccionDestacadosSemana destacados={datos.destacados} amigos={datos.amigos} ddragon={datos.ddragon} ahora={ahora} />
 
       <div className="grid gap-6 lg:grid-cols-[18rem_minmax(0,1fr)] lg:items-start">
         <Ranking ranking={datos.ranking} amigos={datos.amigos} onElegir={abrir} />

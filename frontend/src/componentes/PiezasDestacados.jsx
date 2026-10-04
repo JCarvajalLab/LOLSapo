@@ -1,11 +1,9 @@
+// Piezas comunes de los destacados de LoL: sección, lista y tarjeta.
 import { nombreCampeon, urlCampeon, urlIconoPerfil } from "../logica/ddragon.js";
 import {
-  CLAVES_DESTACADOS,
   CLAVES_HOY,
   colorResultado,
   RACHA_MINIMA,
-  destacadosVacios,
-  destacadosVigentes,
   fechaRacha,
   formatearDanio,
   formatearKdaDestacado,
@@ -18,19 +16,25 @@ import { ImagenDD } from "./ImagenDD.jsx";
 import { TituloSeccion } from "./TituloSeccion.jsx";
 
 const TITULOS = {
+  mejor_jugador_hoy: "Mejor jugador de la partida - Hoy",
+  balance_hoy: "Balance del grupo hoy",
+  peor_jugador_hoy: "Peor jugador de la partida - Hoy",
   mas_partidas: "Más partidas",
   mejor_winrate: "Mejor winrate",
-  mejor_jugador_hoy: "Mejor jugador de la partida - Hoy",
+  mejor_jugador_semana: "Mejor jugador de la semana",
   racha_victorias_grupo: "Racha de victorias en equipo",
   racha_derrotas_grupo: "Racha de derrotas en equipo",
-  peor_jugador_hoy: "Peor jugador de la partida - Hoy",
+  peor_jugador_semana: "Peor jugador de la semana",
 };
 
-// Qué falta cuando una tarjeta viene vacía (los mínimos los pone el recolector).
+// Qué falta cuando una tarjeta de 7 días viene vacía (los mínimos los pone el recolector).
 function minimo(clave) {
   switch (clave) {
     case "mejor_winrate":
       return "Nadie con 5 partidas en los últimos 7 días.";
+    case "mejor_jugador_semana":
+    case "peor_jugador_semana":
+      return "Sin partidas en grupo en los últimos 7 días.";
     case "racha_victorias_grupo":
       return `Nadie con ${RACHA_MINIMA} victorias seguidas en equipo.`;
     case "racha_derrotas_grupo":
@@ -40,53 +44,46 @@ function minimo(clave) {
   }
 }
 
-/** Mejor y peor jugador de hoy: el día se reinicia a las 6:00 de Chile. */
+/** Tarjetas de hoy: el día se reinicia a las 6:00 de Chile. */
 const esHoy = (clave) => CLAVES_HOY.includes(clave);
 
-/**
- * Destacados (solo LoL, Normal y Ranked).
- * Más partidas, winrate y rachas cuentan los últimos 7 días (las rachas, solo partidas en
- * equipo: 2 o más del grupo); mejor y peor jugador, las partidas en grupo de hoy (desde las 6:00).
- * Sin `destacados` (archivos viejos) no se muestra nada. Si el día de los datos ya terminó
- * (lol.json quedó viejo), mejor y peor jugador de hoy se muestran vacíos.
- */
-export function SeccionDestacados({ destacados: crudos, amigos, ddragon, ahora }) {
-  if (!crudos) return null;
-  const destacados = destacadosVigentes(crudos, ahora);
-  const porSlug = new Map((amigos ?? []).map((a) => [a.slug, a]));
-  const vacios = destacadosVacios(destacados);
-
+/** Una sección de destacados: título (h2), nota bajo el título y su contenido. */
+export function BloqueDestacados({ id, titulo, nota, children }) {
   return (
-    <section aria-labelledby="titulo-destacados" aria-describedby="nota-destacados">
-      <TituloSeccion id="titulo-destacados">Destacados de los últimos 7 días</TituloSeccion>
-      <p id="nota-destacados" className="-mt-2 mb-3 text-xs break-words text-texto-suave">
-        Solo Normal y Ranked (Solo/Dúo y Flex) · Más partidas, winrate y rachas: últimos 7 días · Mejor y peor
-        jugador: partidas en grupo de hoy (desde las 6:00)
+    <section aria-labelledby={`titulo-${id}`} aria-describedby={`nota-${id}`}>
+      <TituloSeccion id={`titulo-${id}`}>{titulo}</TituloSeccion>
+      <p id={`nota-${id}`} className="-mt-2 mb-3 text-xs break-words text-texto-suave">
+        {nota}
       </p>
-      {vacios ? (
-        <p className="flex min-h-20 items-center justify-center rounded-lg border border-borde bg-superficie px-3 text-center text-sm text-texto-suave">
-          Sin partidas de Normal o Ranked en los últimos 7 días
-        </p>
-      ) : (
-        <ul className="grid auto-rows-fr grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {CLAVES_DESTACADOS.map((clave) => (
-            <li key={clave} className="min-w-0">
-              <TarjetaDestacado
-                clave={clave}
-                tarjeta={destacados[clave]}
-                porSlug={porSlug}
-                ddragon={ddragon}
-                ahora={ahora}
-              />
-            </li>
-          ))}
-        </ul>
-      )}
+      {children}
     </section>
   );
 }
 
-function TarjetaDestacado({ clave, tarjeta, porSlug, ddragon, ahora }) {
+/**
+ * Lista de tarjetas en el orden de `claves`. `claseLista` define la grilla y
+ * `claseItem` (opcional) ajusta el `li` de una tarjeta según su clave.
+ */
+export function ListaDestacados({ claves, destacados, amigos, ddragon, ahora, claseLista, claseItem = () => "" }) {
+  const porSlug = new Map((amigos ?? []).map((a) => [a.slug, a]));
+  return (
+    <ul className={`grid auto-rows-fr gap-3 ${claseLista}`}>
+      {claves.map((clave) => (
+        <li key={clave} className={`min-w-0 ${claseItem(clave)}`.trim()}>
+          <TarjetaDestacado
+            clave={clave}
+            tarjeta={destacados[clave]}
+            porSlug={porSlug}
+            ddragon={ddragon}
+            ahora={ahora}
+          />
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+export function TarjetaDestacado({ clave, tarjeta, porSlug, ddragon, ahora }) {
   const idTitulo = `destacado-${clave}`;
   const textoMinimo = minimo(clave);
   return (
@@ -102,6 +99,8 @@ function TarjetaDestacado({ clave, tarjeta, porSlug, ddragon, ahora }) {
         <>
           {esRacha(clave) ? (
             <IntegrantesRacha t={tarjeta} porSlug={porSlug} ddragon={ddragon} />
+          ) : clave === "balance_hoy" ? (
+            <IconosAmigos lista={tarjeta.amigos.map((slug) => amigoDe(porSlug, slug))} ddragon={ddragon} />
           ) : (
             <Amigos slugs={tarjeta.amigos} porSlug={porSlug} ddragon={ddragon} />
           )}
@@ -215,16 +214,43 @@ function Contenido({ clave, t, ddragon, ahora }) {
         </div>
       );
     case "mejor_jugador_hoy":
+    case "mejor_jugador_semana":
       return <Partida t={t} ddragon={ddragon} ahora={ahora} mejor />;
+    case "balance_hoy":
+      return <Balance t={t} />;
     case "racha_victorias_grupo":
       return <Racha icono="🔥" t={t} texto="victorias seguidas" color="text-victoria" />;
     case "racha_derrotas_grupo":
       return <Racha icono="🧊" t={t} texto="derrotas seguidas" color="text-derrota" />;
     case "peor_jugador_hoy":
+    case "peor_jugador_semana":
       return <Partida t={t} ddragon={ddragon} ahora={ahora} mejor={false} />;
     default:
       return null;
   }
+}
+
+/**
+ * Balance del grupo hoy: «4 V – 2 D» grande (la letra dice el resultado, el color lo refuerza)
+ * y debajo «66,7 % · 6 partidas en grupo».
+ */
+function Balance({ t }) {
+  return (
+    <div className="mt-auto">
+      <p className={VALOR}>
+        <span aria-hidden="true">
+          <span className="text-victoria">{t.victorias} V</span> <span className="text-texto-suave">–</span>{" "}
+          <span className="text-derrota">{t.derrotas} D</span>
+        </span>
+        <span className="sr-only">
+          {plural(t.victorias, "victoria")} y {plural(t.derrotas, "derrota")}
+        </span>
+      </p>
+      <p className="cifras mt-1 text-sm text-texto-suave">
+        {formatearPorcentaje(t.winrate)} · {plural(t.partidas, "partida")} en grupo
+      </p>
+    </div>
+  );
 }
 
 /**
@@ -267,7 +293,7 @@ function Kda({ a, m, asi }) {
 }
 
 /**
- * Mejor o peor jugador de la partida de hoy: misma tarjeta, cambia el color del KDA.
+ * Mejor o peor jugador de la partida (de hoy o de la semana): misma tarjeta, cambia el color del KDA.
  * El nombre del campeón sale de Data Dragon ("Maestro Yi"), con `campeon` de respaldo.
  * El daño a campeones va en su línea bajo el KDA, en color del resultado de esa partida
  * (el texto «Victoria»/«Derrota» de abajo lo dice sin depender del color); sin dato no se muestra.

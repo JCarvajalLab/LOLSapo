@@ -248,7 +248,7 @@ export const partidaEnVivo = {
   ],
 };
 
-/** Destacados de 7 días INVENTADOS, con la forma que escribe el recolector. */
+/** Destacados de hoy y de 7 días INVENTADOS, con la forma que escribe el recolector. */
 export function crearDestacados(cambios = {}) {
   return {
     dias: 7,
@@ -300,6 +300,37 @@ export function crearDestacados(cambios = {}) {
       resultado: "victoria",
       modo: "Normal (Reclutamiento)",
       fecha: AHORA - 4 * HORA,
+    },
+    // Partidas en grupo de hoy: cada una cuenta una vez.
+    balance_hoy: { partidas: 6, victorias: 4, derrotas: 2, winrate: 66.7, amigos: ["sapito-las", "rana-azul-las", "charco-las"] },
+    // Mejor y peor jugador de la semana: misma forma que los de hoy, otras partidas.
+    mejor_jugador_semana: {
+      amigos: ["charco-las"],
+      partida_id: "LA2_55",
+      campeon_id: 103,
+      campeon: "Ahri",
+      asesinatos: 15,
+      muertes: 1,
+      asistencias: 9,
+      kda: 24,
+      danio: 41200,
+      resultado: "victoria",
+      modo: "Clasificatoria Solo/Dúo",
+      fecha: AHORA - 3 * 24 * HORA,
+    },
+    peor_jugador_semana: {
+      amigos: ["sapito-las"],
+      partida_id: "LA2_44",
+      campeon_id: 22,
+      campeon: "Ashe",
+      asesinatos: 1,
+      muertes: 9,
+      asistencias: 2,
+      kda: 0.33,
+      danio: 6050,
+      resultado: "derrota",
+      modo: "Normal (Selección oculta)",
+      fecha: AHORA - 6 * 24 * HORA,
     },
     ...cambios,
   };
