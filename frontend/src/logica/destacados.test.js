@@ -13,6 +13,7 @@ import {
   formatearDanio,
   formatearKdaDestacado,
   formatearPorcentaje,
+  notaJugadas,
   plural,
   validarDestacados,
 } from "./destacados.js";
@@ -295,7 +296,47 @@ describe("validarDestacados: balance del grupo hoy", () => {
       derrotas: 2,
       winrate: 66.7,
       amigos: ["sapito-las", "rana-azul-las", "charco-las"],
+      jugadas: { "sapito-las": 6, "rana-azul-las": 6, "charco-las": 4 },
     });
+  });
+
+  it("jugadas: conserva los enteros de 1 al total y solo de los amigos conocidos", () => {
+    const b = validar({
+      partidas: 3,
+      victorias: 2,
+      derrotas: 1,
+      winrate: 66.7,
+      amigos: ["sapito-las", "charco-las"],
+      jugadas: { "sapito-las": 3, "charco-las": 1, "intruso-las": 2 },
+    });
+    expect(b.jugadas).toEqual({ "sapito-las": 3, "charco-las": 1 });
+  });
+
+  it.each([
+    ["ausente", undefined],
+    ["null", null],
+    ["lista", [1, 2]],
+    ["texto", "1"],
+  ])("jugadas %s: todos valen el total (archivos viejos)", (_nombre, jugadas) => {
+    const b = validar({ ...BALANCE, jugadas });
+    expect(b.jugadas).toEqual({ "sapito-las": 6, "rana-azul-las": 6, "charco-las": 6 });
+  });
+
+  it.each([
+    ["cero", 0],
+    ["negativo", -1],
+    ["mayor que el total", 7],
+    ["decimal", 2.5],
+    ["texto", "2"],
+    ["null", null],
+  ])("jugadas con valor %s vale el total solo para ese amigo", (_nombre, valor) => {
+    const b = validar({ ...BALANCE, jugadas: { "sapito-las": 6, "rana-azul-las": 2, "charco-las": valor } });
+    expect(b.jugadas).toEqual({ "sapito-las": 6, "rana-azul-las": 2, "charco-las": 6 });
+  });
+
+  it("un amigo sin entrada en jugadas vale el total", () => {
+    const b = validar({ ...BALANCE, jugadas: { "charco-las": 1 } });
+    expect(b.jugadas).toEqual({ "sapito-las": 6, "rana-azul-las": 6, "charco-las": 1 });
   });
 
   it("sin winrate lo calcula con las victorias", () => {
@@ -418,6 +459,20 @@ describe("formato de destacados", () => {
   it("singular y plural", () => {
     expect(plural(1, "partida")).toBe("1 partida");
     expect(plural(8, "partida")).toBe("8 partidas");
+  });
+});
+
+describe("notaJugadas", () => {
+  it("con menos partidas que el total: singular o plural entre paréntesis", () => {
+    expect(notaJugadas(1, 3)).toBe(" (1 partida)");
+    expect(notaJugadas(2, 4)).toBe(" (2 partidas)");
+  });
+
+  it("sin nota si jugó todas o no hay dato", () => {
+    expect(notaJugadas(3, 3)).toBe("");
+    expect(notaJugadas(undefined, 3)).toBe("");
+    expect(notaJugadas(null, 3)).toBe("");
+    expect(notaJugadas(1, undefined)).toBe("");
   });
 });
 

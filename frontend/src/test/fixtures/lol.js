@@ -302,7 +302,14 @@ export function crearDestacados(cambios = {}) {
       fecha: AHORA - 4 * HORA,
     },
     // Partidas en grupo de hoy: cada una cuenta una vez.
-    balance_hoy: { partidas: 6, victorias: 4, derrotas: 2, winrate: 66.7, amigos: ["sapito-las", "rana-azul-las", "charco-las"] },
+    balance_hoy: {
+      partidas: 6,
+      victorias: 4,
+      derrotas: 2,
+      winrate: 66.7,
+      amigos: ["sapito-las", "rana-azul-las", "charco-las"],
+      jugadas: { "sapito-las": 6, "rana-azul-las": 6, "charco-las": 4 },
+    },
     // Mejor y peor jugador de la semana: misma forma que los de hoy, otras partidas.
     mejor_jugador_semana: {
       amigos: ["charco-las"],

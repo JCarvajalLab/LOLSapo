@@ -66,10 +66,28 @@ function validarBalance(t) {
   );
 }
 
-/** Solo los campos conocidos; sin winrate se calcula con las victorias. */
+/**
+ * Partidas jugadas por amigo: entero de 1 a `total`; si falta, es inválido o el archivo
+ * no trae el objeto (archivos viejos), vale `total`.
+ */
+function partidasPorAmigo(crudas, amigos, total) {
+  const objeto = crudas && typeof crudas === "object" && !Array.isArray(crudas) ? crudas : {};
+  const resultado = {};
+  for (const slug of amigos) {
+    const n = Object.hasOwn(objeto, slug) ? objeto[slug] : undefined;
+    resultado[slug] = Number.isInteger(n) && n >= 1 && n <= total ? n : total;
+  }
+  return resultado;
+}
+
+/**
+ * Solo los campos conocidos; sin winrate se calcula con las victorias. `jugadas` dice
+ * cuántas de las partidas en grupo jugó cada amigo (ver `partidasPorAmigo`).
+ */
 function completarBalance(t, amigos) {
   const winrate = esNumero(t.winrate) ? t.winrate : (t.victorias / t.partidas) * 100;
-  return { partidas: t.partidas, victorias: t.victorias, derrotas: t.derrotas, winrate, amigos };
+  const jugadas = partidasPorAmigo(t.jugadas, amigos, t.partidas);
+  return { partidas: t.partidas, victorias: t.victorias, derrotas: t.derrotas, winrate, amigos, jugadas };
 }
 
 // Los formatos viejos ("mejor_kda", "peor_kda", "mejor_partida", "peor_partida") se ignoran.
@@ -109,12 +127,7 @@ const fechaMs = (v) => (fechaValida(v) ? v : null);
  * si falta o es inválido vale `racha`) y `desde`/`hasta` (null si faltan o son inválidos).
  */
 function completarRacha(t, amigos) {
-  const crudas = t.partidas && typeof t.partidas === "object" && !Array.isArray(t.partidas) ? t.partidas : {};
-  const partidas = {};
-  for (const slug of amigos) {
-    const n = Object.hasOwn(crudas, slug) ? crudas[slug] : undefined;
-    partidas[slug] = Number.isInteger(n) && n >= 1 && n <= t.racha ? n : t.racha;
-  }
+  const partidas = partidasPorAmigo(t.partidas, amigos, t.racha);
   let desde = fechaMs(t.desde);
   let hasta = fechaMs(t.hasta);
   if (desde === null) desde = hasta;
@@ -223,6 +236,15 @@ export function fechaRacha(desde, hasta) {
   const fin = new Date(hasta);
   if (mismoDia(inicio, fin)) return diaMes.format(inicio);
   return `${diaMes.format(inicio)} – ${diaMes.format(fin)}`;
+}
+
+/**
+ * Nota de un jugador del balance de hoy: « (2 partidas)» si jugó menos que el total del
+ * grupo, "" si jugó todas o no hay dato.
+ */
+export function notaJugadas(jugadas, total) {
+  if (!Number.isInteger(jugadas) || !Number.isInteger(total) || jugadas >= total) return "";
+  return ` (${plural(jugadas, "partida")})`;
 }
 
 /** "1 partida", "8 partidas". */

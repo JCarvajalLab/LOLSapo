@@ -8,6 +8,7 @@ import {
   formatearDanio,
   formatearKdaDestacado,
   formatearPorcentaje,
+  notaJugadas,
   plural,
 } from "../logica/destacados.js";
 import { esNumero, fechaCompleta, haceCuanto } from "../logica/formato.js";
@@ -100,7 +101,7 @@ export function TarjetaDestacado({ clave, tarjeta, porSlug, ddragon, ahora }) {
           {esRacha(clave) ? (
             <IntegrantesRacha t={tarjeta} porSlug={porSlug} ddragon={ddragon} />
           ) : clave === "balance_hoy" ? (
-            <JugadoresBalance slugs={tarjeta.amigos} porSlug={porSlug} ddragon={ddragon} />
+            <JugadoresBalance t={tarjeta} porSlug={porSlug} ddragon={ddragon} />
           ) : (
             <Amigos slugs={tarjeta.amigos} porSlug={porSlug} ddragon={ddragon} />
           )}
@@ -173,19 +174,24 @@ function IntegrantesRacha({ t, porSlug, ddragon }) {
 /**
  * Quiénes jugaron hoy en grupo: íconos arriba y debajo todos los nombres completos en
  * texto chico. Sin recorte: con 5 nombres largos la línea salta y la fila crece pareja.
+ * Quien jugó menos partidas que el total lleva «(2 partidas)» en texto suave.
  */
-function JugadoresBalance({ slugs, porSlug, ddragon }) {
-  const lista = slugs.map((slug) => amigoDe(porSlug, slug));
+function JugadoresBalance({ t, porSlug, ddragon }) {
+  const lista = t.amigos.map((slug) => amigoDe(porSlug, slug));
   return (
     <div className="flex min-w-0 flex-col gap-1">
       <IconosAmigos lista={lista} ddragon={ddragon} />
       <p data-jugadores="" className="min-w-0 text-xs leading-4 break-words">
-        {lista.map((a, i) => (
-          <span key={a.slug}>
-            {i > 0 && <span className="text-texto-suave"> · </span>}
-            <span className="font-semibold">{nombreDe(a)}</span>
-          </span>
-        ))}
+        {lista.map((a, i) => {
+          const nota = notaJugadas(t.jugadas?.[a.slug], t.partidas);
+          return (
+            <span key={a.slug}>
+              {i > 0 && <span className="text-texto-suave"> · </span>}
+              <span className="font-semibold">{nombreDe(a)}</span>
+              {nota && <span className="text-texto-suave">{nota}</span>}
+            </span>
+          );
+        })}
       </p>
     </div>
   );

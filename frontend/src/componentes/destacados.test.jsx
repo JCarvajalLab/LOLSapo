@@ -470,6 +470,53 @@ describe("Balance del grupo hoy", () => {
     expect(nombres).not.toHaveTextContent("#");
   });
 
+  const nombresBalance = () => tarjeta("Balance del grupo hoy").querySelector("[data-jugadores]");
+
+  it("quien jugó 1 de 3 lleva «(1 partida)»; quienes jugaron todas, sin nota", () => {
+    renderDestacados(
+      crearDestacados({
+        balance_hoy: {
+          partidas: 3,
+          victorias: 2,
+          derrotas: 1,
+          winrate: 66.7,
+          amigos: ["sapito-las", "rana-azul-las", "charco-las"],
+          jugadas: { "sapito-las": 3, "rana-azul-las": 3, "charco-las": 1 },
+        },
+      }),
+    );
+    const nombres = nombresBalance();
+    expect(nombres).toHaveTextContent(/^Sapito · Rana Azul · Charco \(1 partida\)$/);
+    expect(within(nombres).getByText("(1 partida)")).toHaveClass("text-texto-suave");
+    expect(within(nombres).getAllByText(/partida/)).toHaveLength(1);
+    expect(nombres).not.toHaveClass(...SIN_RECORTE);
+  });
+
+  it("quien jugó 2 de 4 lleva «(2 partidas)», en plural", () => {
+    renderDestacados(
+      crearDestacados({
+        balance_hoy: {
+          partidas: 4,
+          victorias: 3,
+          derrotas: 1,
+          winrate: 75,
+          amigos: ["rana-azul-las", "sapito-las"],
+          jugadas: { "rana-azul-las": 4, "sapito-las": 2 },
+        },
+      }),
+    );
+    expect(nombresBalance()).toHaveTextContent(/^Rana Azul · Sapito \(2 partidas\)$/);
+  });
+
+  it.each([
+    ["ausente (archivo viejo)", undefined],
+    ["inválido", { "sapito-las": 0, "rana-azul-las": 9, "charco-las": "1" }],
+    ["que no es objeto", [1, 1, 1]],
+  ])("jugadas %s: nadie lleva nota", (_nombre, jugadas) => {
+    renderDestacados(crearDestacados({ balance_hoy: { ...crearDestacados().balance_hoy, jugadas } }));
+    expect(nombresBalance()).toHaveTextContent(/^Sapito · Rana Azul · Charco$/);
+  });
+
   it("singular con 1 partida y winrate calculado si viene null", () => {
     renderDestacados(
       crearDestacados({ balance_hoy: { partidas: 1, victorias: 0, derrotas: 1, winrate: null, amigos: ["sapito-las"] } }),
