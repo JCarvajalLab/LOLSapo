@@ -3,9 +3,16 @@
 Solo cuentan Normal y Ranked (Solo/Dúo y Flex): ARAM, ARAM Caos y los modos especiales
 quedan fuera. Los remakes tampoco cuentan.
 
-"Más partidas" cuenta todo lo jugado en los 7 días. Winrate y mejor y peor partida usan solo
-las últimas 7 partidas de cada amigo dentro de esos días, para que jugar mucho no premie ni
-castigue.
+"Más partidas", "Mejor winrate" (mínimo 5 partidas) y las rachas usan los 7 días completos.
+
+Bloque "hoy" (desde las 6:00 de Chile; se reinicia cada día a esa hora), solo partidas en grupo
+(2 o más del grupo en el mismo equipo):
+- Mejor y peor jugador de la partida: cada amigo en cada partida es una actuación, y gana la de
+  KDA más alto o más bajo (por partida, sin sumar).
+- Balance del grupo: victorias y derrotas de las partidas en grupo (cada partida cuenta una vez).
+
+"Mejor y peor jugador de la semana" son lo mismo que los de hoy, pero con las partidas en grupo
+de los 7 días.
 
 Las rachas son "en equipo": solo cuentan las partidas de los 7 días en las que 2 o más del
 grupo jugaron en el mismo equipo, en orden. La racha sigue mientras se repite el resultado y
@@ -19,6 +26,8 @@ los desempates), aparecen todos.
 """
 
 from collections.abc import Iterable
+from datetime import UTC, datetime, timedelta
+from zoneinfo import ZoneInfo
 
 from .modos import MapaModos
 from .registro import winrate
@@ -26,9 +35,24 @@ from .registro import winrate
 DIAS = 7
 VENTANA_MS = DIAS * 24 * 60 * 60 * 1000
 CATEGORIAS = ("ranked", "normal")
-ULTIMAS_PARTIDAS = 7  # muestra por amigo para winrate y mejor y peor partida
-MINIMO_EN_GRUPO = 2  # amigos en el mismo equipo para que una partida cuente en las rachas
-MINIMO_PARTIDAS = 5  # de esas 7, para el winrate: así no gana alguien con 1 partida
+MINIMO_EN_GRUPO = 2  # amigos en el mismo equipo para que una partida sea "en grupo"
+MINIMO_PARTIDAS = 5  # para el winrate: así no gana alguien con 1 partida
+# El "día" del grupo empieza a las 6:00 de Chile (a esa hora ya no juega nadie).
+ZONA = ZoneInfo("America/Santiago")
+HORA_INICIO_DIA = 6
+
+
+def inicio_del_dia(ahora_ms: int) -> int:
+    """Última vez que fueron las 6:00 en Chile (en ms). A las 2:00 sigue siendo "ayer"."""
+    ahora = datetime.fromtimestamp(ahora_ms / 1000, tz=UTC).astimezone(ZONA)
+    inicio = ahora.replace(hour=HORA_INICIO_DIA, minute=0, second=0, microsecond=0)
+    if inicio > ahora:
+        inicio = (ahora - timedelta(days=1)).replace(
+            hour=HORA_INICIO_DIA, minute=0, second=0, microsecond=0
+        )
+    return int(inicio.timestamp() * 1000)
+
+
 RACHA_MINIMA = 2
 
 
@@ -37,11 +61,28 @@ def kda(asesinatos: int, muertes: int, asistencias: int) -> float:
     return round((asesinatos + asistencias) / max(muertes, 1), 2)
 
 
+def _entero(valor) -> bool:
+    return isinstance(valor, int) and not isinstance(valor, bool) and valor >= 0
+
+
+def _completa(partida) -> bool:
+    """Una partida del registro con todo lo que usan los destacados (si no, se omite)."""
+    return (
+        isinstance(partida, dict)
+        and isinstance(partida.get("id"), str)
+        and isinstance(partida.get("campeon"), str)
+        and all(
+            _entero(partida.get(c)) for c in ("asesinatos", "muertes", "asistencias", "campeon_id")
+        )
+    )
+
+
 def _partidas_validas(partidas: Iterable[dict], mapa: MapaModos, desde_ms: int) -> list[dict]:
     validas = [
         p
         for p in partidas
-        if isinstance(p.get("fecha"), int)
+        if _completa(p)
+        and isinstance(p.get("fecha"), int)
         and p["fecha"] >= desde_ms
         and p.get("resultado") in ("victoria", "derrota")
         and mapa.obtener(p.get("queue_id")).categoria in CATEGORIAS
@@ -151,27 +192,66 @@ def calcular_destacados(
     desde = ahora_ms - VENTANA_MS
     validas = {s: _partidas_validas(p, mapa, desde) for s, p in partidas_por_amigo.items()}
     totales = {s: _resumen(p) for s, p in validas.items() if p}
-    recientes = {s: p[-ULTIMAS_PARTIDAS:] for s, p in validas.items()}
-    resumenes = {s: _resumen(p) for s, p in recientes.items() if p}
     en_grupo_ordenadas = _partidas_en_grupo(validas)
+    hoy_desde = inicio_del_dia(ahora_ms)
+    # Actuaciones en grupo: la partida de cada amigo, si la jugó con otro del grupo.
+    semana = {
+        s: [p for p in partidas if _en_grupo_actual(p, validas)] for s, partidas in validas.items()
+    }
+    hoy = {s: [p for p in partidas if p["fecha"] >= hoy_desde] for s, partidas in semana.items()}
 
     return {
         "dias": DIAS,
         "desde": desde,
-        "ultimas_partidas": ULTIMAS_PARTIDAS,
+        "hoy_desde": hoy_desde,
         "mas_partidas": _destacado(
             _ganadores(totales, lambda r: r["partidas"]), totales, ("partidas",)
         ),
         "mejor_winrate": _destacado(
-            _ganadores(resumenes, lambda r: (r["winrate"], r["partidas"]), MINIMO_PARTIDAS),
-            resumenes,
+            _ganadores(totales, lambda r: (r["winrate"], r["partidas"]), MINIMO_PARTIDAS),
+            totales,
             ("winrate", "victorias", "derrotas", "partidas"),
         ),
-        "mejor_partida": _partida_destacada(recientes, mapa, mejor=True),
+        # Bloque "hoy"
+        "mejor_jugador_hoy": _partida_destacada(hoy, mapa, mejor=True),
+        "peor_jugador_hoy": _partida_destacada(hoy, mapa, mejor=False),
+        "balance_hoy": _balance(en_grupo_ordenadas, hoy_desde),
+        # Bloque "últimos 7 días"
+        "mejor_jugador_semana": _partida_destacada(semana, mapa, mejor=True),
         "racha_victorias_grupo": _racha_en_equipo(en_grupo_ordenadas, "victoria"),
         "racha_derrotas_grupo": _racha_en_equipo(en_grupo_ordenadas, "derrota"),
-        "peor_partida": _partida_destacada(recientes, mapa, mejor=False),
+        "peor_jugador_semana": _partida_destacada(semana, mapa, mejor=False),
     }
+
+
+def _balance(en_grupo_ordenadas: list[tuple[dict, set[str]]], desde_ms: int) -> dict | None:
+    """Victorias y derrotas del grupo en sus partidas en grupo desde `desde_ms`.
+
+    Cada partida cuenta una vez, aunque la hayan jugado varios amigos.
+    """
+    partidas = [(p, equipo) for p, equipo in en_grupo_ordenadas if p["fecha"] >= desde_ms]
+    if not partidas:
+        return None
+    victorias = sum(p["resultado"] == "victoria" for p, _ in partidas)
+    derrotas = sum(p["resultado"] == "derrota" for p, _ in partidas)
+    jugadas: dict[str, int] = {}
+    for _, equipo in partidas:
+        for slug in equipo:
+            jugadas[slug] = jugadas.get(slug, 0) + 1
+    return {
+        "partidas": len(partidas),
+        "victorias": victorias,
+        "derrotas": derrotas,
+        "winrate": winrate(victorias, derrotas),
+        # Primero quienes jugaron más; `jugadas` dice cuántas partidas jugó cada uno.
+        "amigos": sorted(jugadas, key=lambda s: (-jugadas[s], s)),
+        "jugadas": jugadas,
+    }
+
+
+def _en_grupo_actual(partida: dict, validas: dict) -> bool:
+    """En grupo contando solo a los amigos que siguen en la lista."""
+    return len(companeros(partida) & validas.keys()) >= MINIMO_EN_GRUPO
 
 
 def _partida_destacada(

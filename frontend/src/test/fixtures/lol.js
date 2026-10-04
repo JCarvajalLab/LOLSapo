@@ -248,16 +248,16 @@ export const partidaEnVivo = {
   ],
 };
 
-/** Destacados de 7 días INVENTADOS, con la forma que escribe el recolector. */
+/** Destacados de hoy y de 7 días INVENTADOS, con la forma que escribe el recolector. */
 export function crearDestacados(cambios = {}) {
   return {
     dias: 7,
     desde: AHORA - 7 * 24 * HORA,
-    // Distinto del valor por defecto (7) para que los tests distingan el dato del respaldo.
-    ultimas_partidas: 10,
+    // Inicio del "día" de los destacados de hoy (las 6:00 de Chile), inventado.
+    hoy_desde: AHORA - 5 * HORA,
     mas_partidas: { amigos: ["rana-azul-las", "sapito-las"], partidas: 20 },
     mejor_winrate: { amigos: ["sapito-las"], winrate: 62.5, victorias: 5, derrotas: 3, partidas: 8 },
-    mejor_partida: {
+    mejor_jugador_hoy: {
       amigos: ["sapito-las"],
       partida_id: "LA2_77",
       campeon_id: 11,
@@ -287,7 +287,7 @@ export function crearDestacados(cambios = {}) {
       desde: new Date(2026, 9, 1, 10, 0).getTime(),
       hasta: new Date(2026, 9, 1, 12, 0).getTime(),
     },
-    peor_partida: {
+    peor_jugador_hoy: {
       amigos: ["rana-azul-las"],
       partida_id: "LA2_99",
       campeon_id: 1,
@@ -299,7 +299,45 @@ export function crearDestacados(cambios = {}) {
       danio: 4180,
       resultado: "victoria",
       modo: "Normal (Reclutamiento)",
+      fecha: AHORA - 4 * HORA,
+    },
+    // Partidas en grupo de hoy: cada una cuenta una vez.
+    balance_hoy: {
+      partidas: 6,
+      victorias: 4,
+      derrotas: 2,
+      winrate: 66.7,
+      amigos: ["sapito-las", "rana-azul-las", "charco-las"],
+      jugadas: { "sapito-las": 6, "rana-azul-las": 6, "charco-las": 4 },
+    },
+    // Mejor y peor jugador de la semana: misma forma que los de hoy, otras partidas.
+    mejor_jugador_semana: {
+      amigos: ["charco-las"],
+      partida_id: "LA2_55",
+      campeon_id: 103,
+      campeon: "Ahri",
+      asesinatos: 15,
+      muertes: 1,
+      asistencias: 9,
+      kda: 24,
+      danio: 41200,
+      resultado: "victoria",
+      modo: "Clasificatoria Solo/Dúo",
       fecha: AHORA - 3 * 24 * HORA,
+    },
+    peor_jugador_semana: {
+      amigos: ["sapito-las"],
+      partida_id: "LA2_44",
+      campeon_id: 22,
+      campeon: "Ashe",
+      asesinatos: 1,
+      muertes: 9,
+      asistencias: 2,
+      kda: 0.33,
+      danio: 6050,
+      resultado: "derrota",
+      modo: "Normal (Selección oculta)",
+      fecha: AHORA - 6 * 24 * HORA,
     },
     ...cambios,
   };

@@ -28,19 +28,23 @@ describe("App", () => {
     expect(fetchFn).toHaveBeenCalledWith("./datos/lol.json", { cache: "no-store" });
   });
 
-  it("muestra los destacados entre En partida y Ranking, y los oculta en archivos viejos", async () => {
+  it("muestra En partida → destacados de hoy → de 7 días → Ranking, y los oculta en archivos viejos", async () => {
     const fetchFn = vi.fn(() => respuestaOk(crearDatos({ destacados: crearDestacados() })));
     const { unmount } = render(<App fetchFn={fetchFn} />);
-    const destacados = await screen.findByRole("heading", { name: "Destacados de los últimos 7 días" });
+    const semana = await screen.findByRole("heading", { name: "Destacados de los últimos 7 días" });
+    const hoy = screen.getByRole("heading", { name: "Destacados de hoy" });
     const enPartida = screen.getByRole("heading", { name: /En partida/ });
     const ranking = screen.getByRole("heading", { name: "Ranking" });
-    expect(enPartida.compareDocumentPosition(destacados) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
-    expect(destacados.compareDocumentPosition(ranking) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    const despues = (a, b) => Boolean(a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING);
+    expect(despues(enPartida, hoy)).toBe(true);
+    expect(despues(hoy, semana)).toBe(true);
+    expect(despues(semana, ranking)).toBe(true);
     unmount();
 
     render(<App fetchFn={vi.fn(() => respuestaOk(crearDatos()))} />);
     expect(await screen.findByRole("heading", { name: "Amigos" })).toBeInTheDocument();
     expect(screen.queryByText("Destacados de los últimos 7 días")).not.toBeInTheDocument();
+    expect(screen.queryByText("Destacados de hoy")).not.toBeInTheDocument();
   });
 
   it("muestra un error claro si no hay datos", async () => {

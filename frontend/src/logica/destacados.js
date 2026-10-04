@@ -1,22 +1,25 @@
-// Destacados de los últimos 7 días (lol.json → "destacados").
+// Destacados de LoL (lol.json → "destacados"): los de hoy y los de los últimos 7 días.
 // Validación al leer el JSON y formato de los números. No depende de React.
 import { esNumero } from "./formato.js";
 
-/** Orden fijo de las tarjetas, como lo decidió Deo. */
-export const CLAVES_DESTACADOS = [
+/** Tarjetas de hoy (desde las 6:00 de Chile), en el orden de la fila: el balance al centro. */
+export const CLAVES_HOY = ["mejor_jugador_hoy", "balance_hoy", "peor_jugador_hoy"];
+
+/** Tarjetas de los últimos 7 días, en el orden que decidió Deo. */
+export const CLAVES_SEMANA = [
   "mas_partidas",
   "mejor_winrate",
-  "mejor_partida",
+  "mejor_jugador_semana",
   "racha_victorias_grupo",
   "racha_derrotas_grupo",
-  "peor_partida",
+  "peor_jugador_semana",
 ];
+
+/** Todas las tarjetas que se validan. */
+export const CLAVES_DESTACADOS = [...CLAVES_HOY, ...CLAVES_SEMANA];
 
 /** Mínimo de partidas seguidas para que una racha cuente (lo mismo que usa el recolector). */
 export const RACHA_MINIMA = 2;
-
-/** Partidas por amigo para winrate y mejor y peor partida si el archivo no lo dice. */
-export const ULTIMAS_PARTIDAS_POR_DEFECTO = 7;
 
 const RESULTADOS_OK = new Set(["victoria", "derrota"]);
 
@@ -39,13 +42,55 @@ const VALIDADORES = {
     conteo(t.derrotas) &&
     conteo(t.partidas) &&
     t.partidas > 0,
-  mejor_partida: validarPartida,
+  mejor_jugador_hoy: validarPartida,
+  peor_jugador_hoy: validarPartida,
+  balance_hoy: validarBalance,
+  mejor_jugador_semana: validarPartida,
+  peor_jugador_semana: validarPartida,
   racha_victorias_grupo: validarRacha,
   racha_derrotas_grupo: validarRacha,
-  peor_partida: validarPartida,
 };
 
-// El formato viejo traía "mejor_kda" (KDA acumulado): se ignora como "peor_kda".
+/**
+ * Balance del grupo hoy: cada partida en grupo cuenta una vez. Enteros coherentes
+ * (victorias + derrotas = partidas, al menos 1) y winrate de 0 a 100 o null.
+ */
+function validarBalance(t) {
+  return (
+    conteo(t.partidas) &&
+    conteo(t.victorias) &&
+    conteo(t.derrotas) &&
+    t.partidas > 0 &&
+    t.victorias + t.derrotas === t.partidas &&
+    (t.winrate === null || t.winrate === undefined || (decimal(t.winrate) && t.winrate <= 100))
+  );
+}
+
+/**
+ * Partidas jugadas por amigo: entero de 1 a `total`; si falta, es inválido o el archivo
+ * no trae el objeto (archivos viejos), vale `total`.
+ */
+function partidasPorAmigo(crudas, amigos, total) {
+  const objeto = crudas && typeof crudas === "object" && !Array.isArray(crudas) ? crudas : {};
+  const resultado = {};
+  for (const slug of amigos) {
+    const n = Object.hasOwn(objeto, slug) ? objeto[slug] : undefined;
+    resultado[slug] = Number.isInteger(n) && n >= 1 && n <= total ? n : total;
+  }
+  return resultado;
+}
+
+/**
+ * Solo los campos conocidos; sin winrate se calcula con las victorias. `jugadas` dice
+ * cuántas de las partidas en grupo jugó cada amigo (ver `partidasPorAmigo`).
+ */
+function completarBalance(t, amigos) {
+  const winrate = esNumero(t.winrate) ? t.winrate : (t.victorias / t.partidas) * 100;
+  const jugadas = partidasPorAmigo(t.jugadas, amigos, t.partidas);
+  return { partidas: t.partidas, victorias: t.victorias, derrotas: t.derrotas, winrate, amigos, jugadas };
+}
+
+// Los formatos viejos ("mejor_kda", "peor_kda", "mejor_partida", "peor_partida") se ignoran.
 function validarPartida(t) {
   return (
     conteo(t.asesinatos) &&
@@ -82,12 +127,7 @@ const fechaMs = (v) => (fechaValida(v) ? v : null);
  * si falta o es inválido vale `racha`) y `desde`/`hasta` (null si faltan o son inválidos).
  */
 function completarRacha(t, amigos) {
-  const crudas = t.partidas && typeof t.partidas === "object" && !Array.isArray(t.partidas) ? t.partidas : {};
-  const partidas = {};
-  for (const slug of amigos) {
-    const n = Object.hasOwn(crudas, slug) ? crudas[slug] : undefined;
-    partidas[slug] = Number.isInteger(n) && n >= 1 && n <= t.racha ? n : t.racha;
-  }
+  const partidas = partidasPorAmigo(t.partidas, amigos, t.racha);
   let desde = fechaMs(t.desde);
   let hasta = fechaMs(t.hasta);
   if (desde === null) desde = hasta;
@@ -104,6 +144,7 @@ export function validarTarjeta(clave, tarjeta, slugs) {
   const amigos = amigosConocidos(tarjeta.amigos, slugs);
   if (amigos.length === 0) return null;
   if (validar === validarRacha) return completarRacha(tarjeta, amigos);
+  if (validar === validarBalance) return completarBalance(tarjeta, amigos);
   if (validar === validarPartida) return { ...tarjeta, amigos, danio: validarDanio(tarjeta.danio) };
   return { ...tarjeta, amigos };
 }
@@ -122,19 +163,33 @@ export function validarDestacados(destacados, amigos) {
   return {
     dias: Number.isInteger(destacados.dias) && destacados.dias > 0 ? destacados.dias : 7,
     desde: decimal(destacados.desde) ? destacados.desde : null,
-    ultimas_partidas: validarUltimasPartidas(destacados.ultimas_partidas),
+    hoy_desde: fechaMs(destacados.hoy_desde),
     ...tarjetas,
   };
 }
 
-/** Entero de 1 a 50; si falta o es inválido, el valor por defecto (7). */
-function validarUltimasPartidas(valor) {
-  return Number.isInteger(valor) && valor >= 1 && valor <= 50 ? valor : ULTIMAS_PARTIDAS_POR_DEFECTO;
+const DIA_MS = 24 * 3600 * 1000;
+
+/**
+ * true si el "día" de los datos ya terminó: pasaron 24 h o más desde `hoyDesde`
+ * (lol.json quedó viejo). Sin `hoyDesde` (archivos viejos) o sin `ahora`, false.
+ */
+export function hoyVencido(hoyDesde, ahora) {
+  if (!esNumero(hoyDesde) || !esNumero(ahora)) return false;
+  return ahora - hoyDesde >= DIA_MS;
 }
 
-/** true si ninguna tarjeta tiene datos. */
-export function destacadosVacios(destacados) {
-  return CLAVES_DESTACADOS.every((clave) => !destacados?.[clave]);
+/** Destacados con las tarjetas de hoy en null si su día ya terminó. */
+export function destacadosVigentes(destacados, ahora) {
+  if (!destacados || !hoyVencido(destacados.hoy_desde, ahora)) return destacados;
+  const vigentes = { ...destacados };
+  for (const clave of CLAVES_HOY) vigentes[clave] = null;
+  return vigentes;
+}
+
+/** true si ninguna de las tarjetas `claves` (por defecto, las de 7 días) tiene datos. */
+export function destacadosVacios(destacados, claves = CLAVES_SEMANA) {
+  return claves.every((clave) => !destacados?.[clave]);
 }
 
 const unDecimal = new Intl.NumberFormat("es-CL", { maximumFractionDigits: 1 });
@@ -181,6 +236,15 @@ export function fechaRacha(desde, hasta) {
   const fin = new Date(hasta);
   if (mismoDia(inicio, fin)) return diaMes.format(inicio);
   return `${diaMes.format(inicio)} – ${diaMes.format(fin)}`;
+}
+
+/**
+ * Nota de un jugador del balance de hoy: « (2 partidas)» si jugó menos que el total del
+ * grupo, "" si jugó todas o no hay dato.
+ */
+export function notaJugadas(jugadas, total) {
+  if (!Number.isInteger(jugadas) || !Number.isInteger(total) || jugadas >= total) return "";
+  return ` (${plural(jugadas, "partida")})`;
 }
 
 /** "1 partida", "8 partidas". */
