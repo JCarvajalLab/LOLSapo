@@ -2396,6 +2396,102 @@
         "principal": 9923,
         "secundaria": 8200
       }
+    },
+    "LA2_1628301837": {
+      "asesinatos": 1,
+      "asistencias": 1,
+      "campeon": "Sett",
+      "campeon_id": 875,
+      "cs": 107,
+      "danio": 7382,
+      "duracion": 954,
+      "equipo": 100,
+      "fecha": 1791086187536,
+      "hechizos": [
+        14,
+        4
+      ],
+      "id": "LA2_1628301837",
+      "items": [
+        1055,
+        3047,
+        3044,
+        0,
+        1042,
+        3077,
+        3340
+      ],
+      "muertes": 4,
+      "nivel": 11,
+      "participacion": 29,
+      "participantes": [
+        {
+          "amigo": "big-gato-las",
+          "campeon_id": 875,
+          "equipo": 100,
+          "nombre": "Big Gato#LAS"
+        },
+        {
+          "amigo": "gralmogeko-las",
+          "campeon_id": 48,
+          "equipo": 100,
+          "nombre": "GralMogeko#LAS"
+        },
+        {
+          "amigo": "iskrat-las",
+          "campeon_id": 517,
+          "equipo": 100,
+          "nombre": "ISkrat#LAS"
+        },
+        {
+          "amigo": "johnadis-las",
+          "campeon_id": 112,
+          "equipo": 100,
+          "nombre": "Johnadis#LAS"
+        },
+        {
+          "amigo": "nic-las",
+          "campeon_id": 53,
+          "equipo": 100,
+          "nombre": "Nicø#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 2,
+          "equipo": 200,
+          "nombre": "Mad or Afk#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 102,
+          "equipo": 200,
+          "nombre": "Shake#Buda"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 161,
+          "equipo": 200,
+          "nombre": "Lotan#lol"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 147,
+          "equipo": 200,
+          "nombre": "X Potato#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 526,
+          "equipo": 200,
+          "nombre": "Akechi#SSG"
+        }
+      ],
+      "queue_id": 400,
+      "resultado": "derrota",
+      "runas": {
+        "principal": 8010,
+        "secundaria": 8400
+      }
     }
   },
   "perfil": {
