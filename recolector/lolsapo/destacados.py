@@ -5,9 +5,14 @@ quedan fuera. Los remakes tampoco cuentan.
 
 "Más partidas", "Mejor winrate" (mínimo 5 partidas) y las rachas usan los 7 días completos.
 
-"Mejor y peor jugador de la partida - Hoy" usan solo las partidas en grupo (2 o más del grupo
-en el mismo equipo) desde las 6:00 de Chile: cada amigo en cada partida es una actuación, y
-gana la de KDA más alto o más bajo (por partida, sin sumar). Se reinicia cada día a las 6:00.
+Bloque "hoy" (desde las 6:00 de Chile; se reinicia cada día a esa hora), solo partidas en grupo
+(2 o más del grupo en el mismo equipo):
+- Mejor y peor jugador de la partida: cada amigo en cada partida es una actuación, y gana la de
+  KDA más alto o más bajo (por partida, sin sumar).
+- Balance del grupo: victorias y derrotas de las partidas en grupo (cada partida cuenta una vez).
+
+"Mejor y peor jugador de la semana" son lo mismo que los de hoy, pero con las partidas en grupo
+de los 7 días.
 
 Las rachas son "en equipo": solo cuentan las partidas de los 7 días en las que 2 o más del
 grupo jugaron en el mismo equipo, en orden. La racha sigue mientras se repite el resultado y
@@ -189,11 +194,11 @@ def calcular_destacados(
     totales = {s: _resumen(p) for s, p in validas.items() if p}
     en_grupo_ordenadas = _partidas_en_grupo(validas)
     hoy_desde = inicio_del_dia(ahora_ms)
-    # Actuaciones de hoy: la partida de cada amigo, si la jugó con otro del grupo.
-    hoy = {
-        s: [p for p in partidas if p["fecha"] >= hoy_desde and _en_grupo_actual(p, validas)]
-        for s, partidas in validas.items()
+    # Actuaciones en grupo: la partida de cada amigo, si la jugó con otro del grupo.
+    semana = {
+        s: [p for p in partidas if _en_grupo_actual(p, validas)] for s, partidas in validas.items()
     }
+    hoy = {s: [p for p in partidas if p["fecha"] >= hoy_desde] for s, partidas in semana.items()}
 
     return {
         "dias": DIAS,
@@ -207,10 +212,34 @@ def calcular_destacados(
             totales,
             ("winrate", "victorias", "derrotas", "partidas"),
         ),
+        # Bloque "hoy"
         "mejor_jugador_hoy": _partida_destacada(hoy, mapa, mejor=True),
+        "peor_jugador_hoy": _partida_destacada(hoy, mapa, mejor=False),
+        "balance_hoy": _balance(en_grupo_ordenadas, hoy_desde),
+        # Bloque "últimos 7 días"
+        "mejor_jugador_semana": _partida_destacada(semana, mapa, mejor=True),
         "racha_victorias_grupo": _racha_en_equipo(en_grupo_ordenadas, "victoria"),
         "racha_derrotas_grupo": _racha_en_equipo(en_grupo_ordenadas, "derrota"),
-        "peor_jugador_hoy": _partida_destacada(hoy, mapa, mejor=False),
+        "peor_jugador_semana": _partida_destacada(semana, mapa, mejor=False),
+    }
+
+
+def _balance(en_grupo_ordenadas: list[tuple[dict, set[str]]], desde_ms: int) -> dict | None:
+    """Victorias y derrotas del grupo en sus partidas en grupo desde `desde_ms`.
+
+    Cada partida cuenta una vez, aunque la hayan jugado varios amigos.
+    """
+    partidas = [(p, equipo) for p, equipo in en_grupo_ordenadas if p["fecha"] >= desde_ms]
+    if not partidas:
+        return None
+    victorias = sum(p["resultado"] == "victoria" for p, _ in partidas)
+    derrotas = len(partidas) - victorias
+    return {
+        "partidas": len(partidas),
+        "victorias": victorias,
+        "derrotas": derrotas,
+        "winrate": winrate(victorias, derrotas),
+        "amigos": sorted(set().union(*(equipo for _, equipo in partidas))),
     }
 
 

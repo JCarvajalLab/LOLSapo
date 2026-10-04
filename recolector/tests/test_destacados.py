@@ -308,9 +308,12 @@ def test_sin_partidas_todo_vacio(mapa):
         "mas_partidas",
         "mejor_winrate",
         "mejor_jugador_hoy",
+        "peor_jugador_hoy",
+        "balance_hoy",
+        "mejor_jugador_semana",
         "racha_victorias_grupo",
         "racha_derrotas_grupo",
-        "peor_jugador_hoy",
+        "peor_jugador_semana",
     ):
         assert destacados[clave] is None
 
@@ -389,3 +392,54 @@ def test_lol_json_incluye_destacados_sin_puuid(cliente, mapa, tmp_path):
     texto = (tmp_path / "lol.json").read_text(encoding="utf-8")
     assert P_JOHN not in texto and P_GATO not in texto
     assert json.loads(texto)["destacados"] == destacados
+
+
+def test_balance_del_grupo_hoy_cuenta_cada_partida_una_vez(mapa):
+    juntos = ("ana", "otro")
+    datos = {
+        # g1 y g2 las jugaron los dos (aparecen en ambos registros): cuentan una vez cada una.
+        "ana": [
+            hoy_en_grupo("g1", 3, 5, 5, 5, "victoria", con=juntos),
+            hoy_en_grupo("g2", 2, 5, 5, 5, "derrota", con=juntos),
+            hoy_en_grupo("g3", 1, 5, 5, 5, "victoria", con=juntos),
+            p("solo", 1),  # en solitario: no cuenta
+            hoy_en_grupo("ayer", 12, 5, 5, 5, "derrota", con=juntos),  # antes de las 6:00
+        ],
+        "otro": [
+            hoy_en_grupo("g1", 3, 5, 5, 5, "victoria", con=juntos),
+            hoy_en_grupo("g2", 2, 5, 5, 5, "derrota", con=juntos),
+        ],
+    }
+    balance = calcular_destacados(datos, mapa, AHORA_MS)["balance_hoy"]
+    assert balance == {
+        "partidas": 3,
+        "victorias": 2,
+        "derrotas": 1,
+        "winrate": 66.7,
+        "amigos": ["ana", "otro"],
+    }
+
+
+def test_balance_sin_partidas_en_grupo_hoy_es_none(mapa):
+    datos = {"ana": [p("solo", 1)], "otro": []}
+    assert calcular_destacados(datos, mapa, AHORA_MS)["balance_hoy"] is None
+
+
+def test_jugador_de_la_semana_incluye_dias_anteriores_y_el_de_hoy_no(mapa):
+    datos = {
+        # Ayer (30 h atrás): la mejor actuación de la semana, pero no de hoy.
+        "ana": [hoy_en_grupo("ayer", 30, 20, 0, 20), hoy_en_grupo("g1", 2, 5, 5, 5)],
+        "otro": [hoy_en_grupo("g1", 2, 1, 9, 1)],
+    }
+    destacados = calcular_destacados(datos, mapa, AHORA_MS)
+    assert destacados["mejor_jugador_semana"]["partida_id"] == "ayer"
+    assert destacados["mejor_jugador_hoy"]["partida_id"] == "g1"
+    assert destacados["peor_jugador_semana"]["amigos"] == ["otro"]
+    assert destacados["peor_jugador_hoy"]["amigos"] == ["otro"]
+
+
+def test_jugador_de_la_semana_solo_con_partidas_en_grupo(mapa):
+    datos = {"ana": [p("solo", 30, k=30, d=0, a=30)], "otro": []}
+    destacados = calcular_destacados(datos, mapa, AHORA_MS)
+    assert destacados["mejor_jugador_semana"] is None
+    assert destacados["peor_jugador_semana"] is None
