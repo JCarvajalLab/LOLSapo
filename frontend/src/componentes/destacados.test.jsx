@@ -430,6 +430,46 @@ describe("Balance del grupo hoy", () => {
     expect(b).not.toHaveTextContent(/sin datos/i);
   });
 
+  const SIN_RECORTE = ["truncate", "line-clamp-1", "line-clamp-2", "line-clamp-3", "text-ellipsis", "overflow-hidden"];
+
+  it("con 2 amigos muestra los 2 nombres sin #tag bajo los íconos", () => {
+    renderDestacados(
+      crearDestacados({
+        balance_hoy: { partidas: 2, victorias: 1, derrotas: 1, winrate: 50, amigos: ["sapito-las", "charco-las"] },
+      }),
+    );
+    const nombres = tarjeta("Balance del grupo hoy").querySelector("[data-jugadores]");
+    expect(nombres).toHaveTextContent(/^Sapito · Charco$/);
+    expect(nombres).toHaveClass("text-xs", "break-words");
+    expect(nombres).not.toHaveClass(...SIN_RECORTE);
+    expect(within(nombres).getByText("Sapito")).toBeInTheDocument();
+    expect(within(nombres).getByText("Charco")).toBeInTheDocument();
+  });
+
+  it("con 5 amigos muestra los 5 nombres completos, sin recorte", () => {
+    const base = crearDatos().amigos;
+    const extra = ["Renacuajo Saltarín Nocturno", "Ranita Feliz"].map((nombre, i) => ({
+      ...base[1],
+      riot_id: `${nombre}#LAS`,
+      nombre,
+      slug: `extra-${i}-las`,
+    }));
+    const amigos = [...base, ...extra];
+    renderDestacados(
+      crearDestacados({
+        balance_hoy: { partidas: 3, victorias: 2, derrotas: 1, winrate: 66.7, amigos: amigos.map((a) => a.slug) },
+      }),
+      { amigos },
+    );
+    const b = tarjeta("Balance del grupo hoy");
+    const nombres = b.querySelector("[data-jugadores]");
+    expect(nombres).toHaveTextContent(/^Rana Azul · Sapito · Charco · Renacuajo Saltarín Nocturno · Ranita Feliz$/);
+    expect(nombres).not.toHaveClass(...SIN_RECORTE);
+    for (const n of nombres.querySelectorAll("span")) expect(n).not.toHaveClass(...SIN_RECORTE);
+    expect(within(b).getAllByRole("img", { name: /^Ícono de / })).toHaveLength(5);
+    expect(nombres).not.toHaveTextContent("#");
+  });
+
   it("singular con 1 partida y winrate calculado si viene null", () => {
     renderDestacados(
       crearDestacados({ balance_hoy: { partidas: 1, victorias: 0, derrotas: 1, winrate: null, amigos: ["sapito-las"] } }),

@@ -100,7 +100,7 @@ export function TarjetaDestacado({ clave, tarjeta, porSlug, ddragon, ahora }) {
           {esRacha(clave) ? (
             <IntegrantesRacha t={tarjeta} porSlug={porSlug} ddragon={ddragon} />
           ) : clave === "balance_hoy" ? (
-            <IconosAmigos lista={tarjeta.amigos.map((slug) => amigoDe(porSlug, slug))} ddragon={ddragon} />
+            <JugadoresBalance slugs={tarjeta.amigos} porSlug={porSlug} ddragon={ddragon} />
           ) : (
             <Amigos slugs={tarjeta.amigos} porSlug={porSlug} ddragon={ddragon} />
           )}
@@ -163,6 +163,27 @@ function IntegrantesRacha({ t, porSlug, ddragon }) {
             {i > 0 && <span className="text-texto-suave"> · </span>}
             <span className="font-semibold">{nombreDe(a)}</span>
             {nota(a) && <span className="text-xs text-texto-suave">{nota(a)}</span>}
+          </span>
+        ))}
+      </p>
+    </div>
+  );
+}
+
+/**
+ * Quiénes jugaron hoy en grupo: íconos arriba y debajo todos los nombres completos en
+ * texto chico. Sin recorte: con 5 nombres largos la línea salta y la fila crece pareja.
+ */
+function JugadoresBalance({ slugs, porSlug, ddragon }) {
+  const lista = slugs.map((slug) => amigoDe(porSlug, slug));
+  return (
+    <div className="flex min-w-0 flex-col gap-1">
+      <IconosAmigos lista={lista} ddragon={ddragon} />
+      <p data-jugadores="" className="min-w-0 text-xs leading-4 break-words">
+        {lista.map((a, i) => (
+          <span key={a.slug}>
+            {i > 0 && <span className="text-texto-suave"> · </span>}
+            <span className="font-semibold">{nombreDe(a)}</span>
           </span>
         ))}
       </p>
