@@ -8,6 +8,7 @@ import {
   destacadosVacios,
   destacadosVigentes,
   hoyVencido,
+  semanaVencida,
   fechaRacha,
   colorResultado,
   formatearDanio,
@@ -24,7 +25,7 @@ const NBSP = String.fromCharCode(0xa0);
 describe("validarDestacados", () => {
   it("acepta los destacados completos", () => {
     const d = validarDestacados(crearDestacados(), AMIGOS);
-    expect(d.dias).toBe(7);
+    expect(d.semana_desde).toBe(crearDestacados().semana_desde);
     expect(d.hoy_desde).toBe(crearDestacados().hoy_desde);
     expect(d).not.toHaveProperty("ultimas_partidas");
     for (const clave of CLAVES_DESTACADOS) expect(d[clave]).not.toBeNull();
@@ -157,6 +158,61 @@ describe("validarDestacados", () => {
     expect(d.racha_victorias_grupo).not.toHaveProperty("html");
   });
 
+  it.each([1, 1759298400000, 8.64e15])("acepta semana_desde = %s", (valor) => {
+    expect(validarDestacados(crearDestacados({ semana_desde: valor }), AMIGOS).semana_desde).toBe(valor);
+  });
+
+  it.each([undefined, null, 0, -3, 7.5, "1759298400000", 9e15, Number.NaN, Number.POSITIVE_INFINITY, true, {}])(
+    "semana_desde inválido (%s) queda en null",
+    (valor) => {
+      expect(validarDestacados(crearDestacados({ semana_desde: valor }), AMIGOS).semana_desde).toBeNull();
+    },
+  );
+
+  it("ignora dias y desde de archivos viejos", () => {
+    const d = validarDestacados(crearDestacados({ dias: 7, desde: 1759298400000 }), AMIGOS);
+    expect(d).not.toHaveProperty("dias");
+    expect(d).not.toHaveProperty("desde");
+    expect(d.mas_partidas).not.toBeNull();
+  });
+
+  it("mejor_winrate acepta varios amigos (empate) y descarta los desconocidos", () => {
+    const d = validarDestacados(
+      crearDestacados({
+        mejor_winrate: {
+          amigos: ["sapito-las", "intruso-las", "rana-azul-las", "sapito-las", "charco-las"],
+          winrate: 75.0,
+          victorias: 3,
+          derrotas: 1,
+          partidas: 4,
+        },
+      }),
+      AMIGOS,
+    );
+    expect(d.mejor_winrate).toEqual({
+      amigos: ["sapito-las", "rana-azul-las", "charco-las"],
+      winrate: 75,
+      victorias: 3,
+      derrotas: 1,
+      partidas: 4,
+    });
+  });
+
+  it("racha: notaJugadas marca a quien jugó menos que el total", () => {
+    const d = validarDestacados(
+      crearDestacados({
+        racha_victorias_grupo: {
+          racha: 7,
+          amigos: ["sapito-las", "rana-azul-las", "charco-las"],
+          partidas: { "sapito-las": 7, "rana-azul-las": 5, "charco-las": 2 },
+        },
+      }),
+      AMIGOS,
+    );
+    const r = d.racha_victorias_grupo;
+    expect(r.amigos.map((slug) => notaJugadas(r.partidas[slug], r.racha))).toEqual(["", " (5 partidas)", " (2 partidas)"]);
+  });
+
   it.each([1, 1759298400000, 8.64e15])("acepta hoy_desde = %s", (valor) => {
     expect(validarDestacados(crearDestacados({ hoy_desde: valor }), AMIGOS).hoy_desde).toBe(valor);
   });
@@ -265,14 +321,14 @@ describe("validarDestacados", () => {
     expect(destacadosVacios(validarDestacados(crearDestacados(), AMIGOS))).toBe(false);
   });
 
-  it("por defecto mira solo las tarjetas de 7 días", () => {
+  it("por defecto mira solo las tarjetas de la semana", () => {
     const semanaNull = Object.fromEntries(CLAVES_SEMANA.map((c) => [c, null]));
     const d = validarDestacados(crearDestacados(semanaNull), AMIGOS);
     expect(destacadosVacios(d)).toBe(true);
     expect(destacadosVacios(d, CLAVES_HOY)).toBe(false);
   });
 
-  it("las claves de hoy y de 7 días están en el orden de las tarjetas", () => {
+  it("las claves de hoy y de la semana están en el orden de las tarjetas", () => {
     expect(CLAVES_HOY).toEqual(["mejor_jugador_hoy", "balance_hoy", "peor_jugador_hoy"]);
     expect(CLAVES_SEMANA).toEqual([
       "mas_partidas",
@@ -521,5 +577,67 @@ describe("destacadosVigentes", () => {
     const viejo = base(null);
     expect(destacadosVigentes(viejo, 1759298400000 + 100 * HORA)).toBe(viejo);
     expect(destacadosVigentes(null, 0)).toBeNull();
+  });
+});
+
+describe("semanaVencida", () => {
+  const SEMANA = 7 * 24 * 3600 * 1000;
+  const INICIO = 1759107600000;
+
+  it("justo antes de 7 días no está vencida", () => {
+    expect(semanaVencida(INICIO, INICIO + SEMANA - 1)).toBe(false);
+    expect(semanaVencida(INICIO, INICIO)).toBe(false);
+  });
+
+  it("con 7 días exactos o más está vencida", () => {
+    expect(semanaVencida(INICIO, INICIO + SEMANA)).toBe(true);
+    expect(semanaVencida(INICIO, INICIO + 8 * 24 * 3600 * 1000)).toBe(true);
+  });
+
+  it.each([null, undefined, "1759107600000", Number.NaN])("semana_desde %s no está vencida", (valor) => {
+    expect(semanaVencida(valor, INICIO + 3 * SEMANA)).toBe(false);
+  });
+
+  it("sin ahora no está vencida", () => {
+    expect(semanaVencida(INICIO, undefined)).toBe(false);
+    expect(semanaVencida(INICIO, null)).toBe(false);
+  });
+});
+
+describe("destacadosVigentes con la semana vencida", () => {
+  const DIA = 24 * 3600 * 1000;
+  const AHORA_T = 1759298400000;
+  const base = (cambios) => validarDestacados(crearDestacados(cambios), AMIGOS);
+
+  it("semana vencida y día vigente: anula solo las tarjetas de la semana, sin mutar", () => {
+    const d = base({ semana_desde: AHORA_T - 8 * DIA, hoy_desde: AHORA_T - 2 * 3600 * 1000 });
+    const copia = structuredClone(d);
+    const v = destacadosVigentes(d, AHORA_T);
+    expect(v).not.toBe(d);
+    for (const clave of CLAVES_SEMANA) expect(v[clave]).toBeNull();
+    for (const clave of CLAVES_HOY) expect(v[clave]).toEqual(d[clave]);
+    expect(d).toEqual(copia);
+  });
+
+  it("día vencido y semana vigente: anula solo las tarjetas de hoy", () => {
+    const d = base({ semana_desde: AHORA_T - 2 * DIA, hoy_desde: AHORA_T - 25 * 3600 * 1000 });
+    const v = destacadosVigentes(d, AHORA_T);
+    for (const clave of CLAVES_HOY) expect(v[clave]).toBeNull();
+    for (const clave of CLAVES_SEMANA) expect(v[clave]).toEqual(d[clave]);
+  });
+
+  it("ambos vencidos: anula todas las tarjetas y conserva las fechas", () => {
+    const d = base({ semana_desde: AHORA_T - 9 * DIA, hoy_desde: AHORA_T - 30 * 3600 * 1000 });
+    const copia = structuredClone(d);
+    const v = destacadosVigentes(d, AHORA_T);
+    for (const clave of CLAVES_DESTACADOS) expect(v[clave]).toBeNull();
+    expect(v.semana_desde).toBe(d.semana_desde);
+    expect(v.hoy_desde).toBe(d.hoy_desde);
+    expect(d).toEqual(copia);
+  });
+
+  it("sin semana_desde (archivos viejos) no anula la semana", () => {
+    const d = base({ semana_desde: null, hoy_desde: null });
+    expect(destacadosVigentes(d, AHORA_T + 100 * DIA)).toBe(d);
   });
 });

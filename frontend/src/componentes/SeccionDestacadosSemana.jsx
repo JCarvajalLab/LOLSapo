@@ -1,27 +1,29 @@
-import { CLAVES_SEMANA, destacadosVacios } from "../logica/destacados.js";
-import { BloqueDestacados, ListaDestacados } from "./PiezasDestacados.jsx";
+import { CLAVES_SEMANA, destacadosVacios, destacadosVigentes } from "../logica/destacados.js";
+import { BloqueDestacados, ListaDestacados, VACIO_SEMANA } from "./PiezasDestacados.jsx";
 
 /**
- * Destacados de los últimos 7 días (solo LoL, Normal y Ranked). Mejor y peor jugador de la
- * semana y las rachas cuentan solo partidas en equipo (2 o más del grupo). No dependen del
- * reinicio de las 6:00. Sin `destacados` (archivos viejos) no se muestra.
+ * Destacados de la semana (solo LoL, Normal y Ranked): todas las tarjetas cuentan solo
+ * partidas en equipo (2 o más del grupo), de lunes a domingo; el recolector reinicia la
+ * semana el lunes a la 01:00 de Chile. Sin `destacados` (archivos viejos) no se muestra.
+ * Si la semana de los datos ya terminó (lol.json quedó viejo), se muestra vacía.
  */
 export function SeccionDestacadosSemana({ destacados, amigos, ddragon, ahora }) {
   if (!destacados) return null;
+  const vigentes = destacadosVigentes(destacados, ahora);
   return (
     <BloqueDestacados
       id="destacados-semana"
-      titulo="Destacados de los últimos 7 días"
-      nota="Solo Normal y Ranked (Solo/Dúo y Flex) · Mejor y peor jugador y rachas: partidas en equipo (2 o más del grupo)"
+      titulo="Destacados de la semana"
+      nota="Partidas en equipo (2 o más del grupo) de Normal y Ranked, de lunes a domingo · Se reinicia el lunes a la 01:00"
     >
-      {destacadosVacios(destacados, CLAVES_SEMANA) ? (
+      {destacadosVacios(vigentes, CLAVES_SEMANA) ? (
         <p className="flex min-h-20 items-center justify-center rounded-lg border border-borde bg-superficie px-3 text-center text-sm text-texto-suave">
-          Sin partidas de Normal o Ranked en los últimos 7 días
+          {VACIO_SEMANA}
         </p>
       ) : (
         <ListaDestacados
           claves={CLAVES_SEMANA}
-          destacados={destacados}
+          destacados={vigentes}
           amigos={amigos}
           ddragon={ddragon}
           ahora={ahora}

@@ -291,7 +291,7 @@ Verificar cada endpoint en el portal oficial antes de implementarlo.
 | 4 | Pulido local | Estados de error y carga, modo oscuro, responsive, aviso legal, CSP. |
 | 5 | Publicación | Solicitud de Personal Key, GitHub Actions programado, rama `datos`, deploy a GitHub Pages o alternativa. ✅ Completa (2026-10-02). |
 | 6 | TFT | Datos e interfaz de TFT, selector LoL/TFT, sus tests. ✅ Completa (2026-10-03). |
-| 7 | Extras | Highlights, gráficos de LP, dúos, evaluar proxy para tiempo real. En curso: ✅ destacados de los últimos 7 días (2026-10-03). |
+| 7 | Extras | Highlights, gráficos de LP, dúos, evaluar proxy para tiempo real. En curso: ✅ destacados de hoy (desde las 12:00) y de la semana (lunes a domingo) (2026-10-05). |
 
 Los tests y chequeos de seguridad no son una fase aparte: cada fase desde la 2 entrega su código con sus tests. Cada fase se cierra validando que funciona antes de pasar a la siguiente.
 

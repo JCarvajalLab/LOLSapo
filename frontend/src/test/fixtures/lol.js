@@ -248,12 +248,12 @@ export const partidaEnVivo = {
   ],
 };
 
-/** Destacados de hoy y de 7 días INVENTADOS, con la forma que escribe el recolector. */
+/** Destacados de hoy y de la semana INVENTADOS, con la forma que escribe el recolector. */
 export function crearDestacados(cambios = {}) {
   return {
-    dias: 7,
-    desde: AHORA - 7 * 24 * HORA,
-    // Inicio del "día" de los destacados de hoy (las 6:00 de Chile), inventado.
+    // Inicio de la semana (lunes a la 01:00 de Chile), inventado.
+    semana_desde: AHORA - 4 * 24 * HORA,
+    // Inicio del "día" de los destacados de hoy (las 12:00 de Chile), inventado.
     hoy_desde: AHORA - 5 * HORA,
     mas_partidas: { amigos: ["rana-azul-las", "sapito-las"], partidas: 20 },
     mejor_winrate: { amigos: ["sapito-las"], winrate: 62.5, victorias: 5, derrotas: 3, partidas: 8 },

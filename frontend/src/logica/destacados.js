@@ -1,11 +1,14 @@
-// Destacados de LoL (lol.json → "destacados"): los de hoy y los de los últimos 7 días.
+// Destacados de LoL (lol.json → "destacados"): los de hoy y los de la semana (lunes a domingo).
 // Validación al leer el JSON y formato de los números. No depende de React.
 import { esNumero } from "./formato.js";
 
-/** Tarjetas de hoy (desde las 6:00 de Chile), en el orden de la fila: el balance al centro. */
+/** Tarjetas de hoy (desde las 12:00 de Chile), en el orden de la fila: el balance al centro. */
 export const CLAVES_HOY = ["mejor_jugador_hoy", "balance_hoy", "peor_jugador_hoy"];
 
-/** Tarjetas de los últimos 7 días, en el orden que decidió Deo. */
+/**
+ * Tarjetas de la semana (lunes 01:00 de Chile a domingo, solo partidas en equipo), en el
+ * orden que decidió Deo.
+ */
 export const CLAVES_SEMANA = [
   "mas_partidas",
   "mejor_winrate",
@@ -160,9 +163,9 @@ export function validarDestacados(destacados, amigos) {
   for (const clave of CLAVES_DESTACADOS) {
     tarjetas[clave] = validarTarjeta(clave, destacados[clave], slugs);
   }
+  // `dias` y `desde` (ventana de 7 días de archivos viejos) se ignoran.
   return {
-    dias: Number.isInteger(destacados.dias) && destacados.dias > 0 ? destacados.dias : 7,
-    desde: decimal(destacados.desde) ? destacados.desde : null,
+    semana_desde: fechaMs(destacados.semana_desde),
     hoy_desde: fechaMs(destacados.hoy_desde),
     ...tarjetas,
   };
@@ -179,15 +182,34 @@ export function hoyVencido(hoyDesde, ahora) {
   return ahora - hoyDesde >= DIA_MS;
 }
 
-/** Destacados con las tarjetas de hoy en null si su día ya terminó. */
+const SEMANA_MS = 7 * DIA_MS;
+
+/**
+ * true si la semana de los datos ya terminó: pasaron 7 días o más desde `semanaDesde`
+ * (lunes 01:00 de Chile; lol.json quedó viejo). Sin `semanaDesde` o sin `ahora`, false.
+ */
+export function semanaVencida(semanaDesde, ahora) {
+  if (!esNumero(semanaDesde) || !esNumero(ahora)) return false;
+  return ahora - semanaDesde >= SEMANA_MS;
+}
+
+/**
+ * Destacados con las tarjetas de hoy en null si su día ya terminó y las de la semana en
+ * null si su semana ya terminó. No modifica el original; si nada venció, lo devuelve tal cual.
+ */
 export function destacadosVigentes(destacados, ahora) {
-  if (!destacados || !hoyVencido(destacados.hoy_desde, ahora)) return destacados;
+  if (!destacados) return destacados;
+  const vencidas = [
+    ...(hoyVencido(destacados.hoy_desde, ahora) ? CLAVES_HOY : []),
+    ...(semanaVencida(destacados.semana_desde, ahora) ? CLAVES_SEMANA : []),
+  ];
+  if (vencidas.length === 0) return destacados;
   const vigentes = { ...destacados };
-  for (const clave of CLAVES_HOY) vigentes[clave] = null;
+  for (const clave of vencidas) vigentes[clave] = null;
   return vigentes;
 }
 
-/** true si ninguna de las tarjetas `claves` (por defecto, las de 7 días) tiene datos. */
+/** true si ninguna de las tarjetas `claves` (por defecto, las de la semana) tiene datos. */
 export function destacadosVacios(destacados, claves = CLAVES_SEMANA) {
   return claves.every((clave) => !destacados?.[clave]);
 }
@@ -239,8 +261,8 @@ export function fechaRacha(desde, hasta) {
 }
 
 /**
- * Nota de un jugador del balance de hoy: « (2 partidas)» si jugó menos que el total del
- * grupo, "" si jugó todas o no hay dato.
+ * Nota de un jugador del balance de hoy o de una racha en equipo: « (2 partidas)» si jugó
+ * menos que el total, "" si jugó todas o no hay dato.
  */
 export function notaJugadas(jugadas, total) {
   if (!Number.isInteger(jugadas) || !Number.isInteger(total) || jugadas >= total) return "";

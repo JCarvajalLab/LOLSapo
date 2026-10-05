@@ -1,4 +1,8 @@
-"""Destacados de los últimos 7 días (datos inventados, sin red)."""
+"""Destacados de hoy y de la semana (datos inventados, sin red).
+
+AHORA es el jueves 1 de octubre de 2026 a las 17:00 de Chile: "hoy" empezó a las 12:00 (hace
+5 h) y la semana el lunes 28 de septiembre a la 01:00 (hace 88 h).
+"""
 
 import json
 from datetime import UTC, datetime
@@ -8,7 +12,12 @@ import responses
 from conftest import KEY_FALSA
 from test_recolector import AHORA, GATO, JOHN, P_GATO, P_JOHN, simular_amigo, simular_partida
 
-from lolsapo.destacados import VENTANA_MS, calcular_destacados, inicio_del_dia, kda
+from lolsapo.destacados import (
+    calcular_destacados,
+    inicio_de_la_semana,
+    inicio_del_dia,
+    kda,
+)
 from lolsapo.recolector import _elementos_usados, ejecutar
 
 AHORA_MS = int(AHORA.timestamp() * 1000)
@@ -29,6 +38,13 @@ def p(id_p, horas_atras, resultado="victoria", k=5, d=5, a=5, queue_id=420, camp
     }
 
 
+def en_equipo(datos):
+    """Marca todas las partidas de cada amigo como jugadas con "compa" (otro amigo del grupo)."""
+    for slug, partidas in datos.items():
+        grupal(partidas, slug, "compa")
+    return {**datos, "compa": datos.get("compa", [])}
+
+
 def serie(prefijo, resultados, **kwargs):
     """Partidas de una hora en una hora, la primera de la lista es la más antigua."""
     total = len(resultados)
@@ -40,7 +56,7 @@ def test_kda_sin_muertes_divide_por_uno():
     assert kda(1, 12, 3) == 0.33
 
 
-def test_solo_cuentan_normal_y_ranked_de_los_ultimos_7_dias(mapa):
+def test_solo_cuentan_normal_y_ranked_en_equipo_de_esta_semana(mapa):
     partidas = [
         p("ok-solo", 1, queue_id=420),
         p("ok-flex", 2, queue_id=440),
@@ -49,39 +65,81 @@ def test_solo_cuentan_normal_y_ranked_de_los_ultimos_7_dias(mapa):
         p("aram-caos", 5, queue_id=2400),
         p("arena", 6, queue_id=1750),
         p("remake", 7, resultado="remake"),
-        p("vieja", VENTANA_MS // HORA + 1),
+        p("semana-pasada", 89),  # domingo antes de la 01:00 del lunes
     ]
-    destacados = calcular_destacados({"a": partidas}, mapa, AHORA_MS)
-    assert destacados["dias"] == 7
+    datos = en_equipo({"a": partidas})
+    datos["a"].append(p("en-solitario", 8))
+    destacados = calcular_destacados(datos, mapa, AHORA_MS)
+    assert destacados["semana_desde"] == inicio_de_la_semana(AHORA_MS)
     assert destacados["mas_partidas"] == {"amigos": ["a"], "partidas": 3}
 
 
-def test_winrate_exige_5_partidas(mapa):
-    datos = {
-        "pocas": serie("x", ["victoria"] * 4, k=20, d=0, a=20),
-        "suficientes": serie("y", ["victoria", "derrota"] * 3, k=3, d=3, a=3),
+def test_winrate_exige_2_partidas(mapa):
+    datos = en_equipo(
+        {
+            "una": [p("u1", 1, "victoria")],
+            "dos": [p("d1", 2, "victoria"), p("d2", 1, "derrota")],
+        }
+    )
+    assert calcular_destacados(datos, mapa, AHORA_MS)["mejor_winrate"]["amigos"] == ["dos"]
+
+
+def test_winrate_con_el_mismo_porcentaje_gana_quien_jugo_mas(mapa):
+    datos = en_equipo({"dos": serie("d", ["victoria"] * 2), "diez": serie("x", ["victoria"] * 10)})
+    assert calcular_destacados(datos, mapa, AHORA_MS)["mejor_winrate"]["amigos"] == ["diez"]
+
+
+def test_winrate_compartido_muestra_a_todos(mapa):
+    # Ana y Beto jugaron juntos las mismas 4 partidas: mismo % y mismas partidas.
+    juntos = [juego(f"g{i}", i, r, "ana", "beto") for i, r in enumerate("vvdv", 1)]
+    for partida in juntos:
+        partida["resultado"] = "victoria" if partida["resultado"] == "v" else "derrota"
+    datos = {"ana": juntos, "beto": [dict(x) for x in juntos], "carla": []}
+    winrate = calcular_destacados(datos, mapa, AHORA_MS)["mejor_winrate"]
+    assert winrate == {
+        "amigos": ["ana", "beto"],
+        "winrate": 75.0,
+        "victorias": 3,
+        "derrotas": 1,
+        "partidas": 4,
     }
-    destacados = calcular_destacados(datos, mapa, AHORA_MS)
-    assert destacados["mejor_winrate"]["amigos"] == ["suficientes"]
 
 
-def test_inicio_del_dia_es_a_las_6_de_chile():
-    # AHORA es 2026-10-01 20:00 UTC = 17:00 en Chile (UTC-3): el día empezó a las 6:00 de hoy.
-    seis_hoy = datetime(2026, 10, 1, 9, 0, tzinfo=UTC)
-    assert inicio_del_dia(AHORA_MS) == int(seis_hoy.timestamp() * 1000)
-    # A las 2:00 de Chile todavía es "ayer": el día empezó a las 6:00 del día anterior.
+def test_inicio_del_dia_es_a_las_12_de_chile():
+    # AHORA es 2026-10-01 20:00 UTC = 17:00 en Chile (UTC-3): el día empezó a las 12:00 de hoy.
+    doce_hoy = datetime(2026, 10, 1, 15, 0, tzinfo=UTC)
+    assert inicio_del_dia(AHORA_MS) == int(doce_hoy.timestamp() * 1000)
+    # A las 2:00 de Chile todavía es "ayer": el día empezó a las 12:00 del día anterior.
     dos_am = int(datetime(2026, 10, 2, 5, 0, tzinfo=UTC).timestamp() * 1000)
-    assert inicio_del_dia(dos_am) == int(seis_hoy.timestamp() * 1000)
-    # Justo a las 6:00 empieza un día nuevo.
-    seis_manana = int(datetime(2026, 10, 2, 9, 0, tzinfo=UTC).timestamp() * 1000)
-    assert inicio_del_dia(seis_manana) == seis_manana
+    assert inicio_del_dia(dos_am) == int(doce_hoy.timestamp() * 1000)
+    # Justo a las 12:00 empieza un día nuevo.
+    doce_manana = int(datetime(2026, 10, 2, 15, 0, tzinfo=UTC).timestamp() * 1000)
+    assert inicio_del_dia(doce_manana) == doce_manana
 
 
 def test_inicio_del_dia_respeta_el_horario_de_invierno():
-    # En julio Chile está en UTC-4: las 6:00 son las 10:00 UTC.
+    # En julio Chile está en UTC-4: las 12:00 son las 16:00 UTC.
     julio = int(datetime(2026, 7, 15, 20, 0, tzinfo=UTC).timestamp() * 1000)
-    seis = int(datetime(2026, 7, 15, 10, 0, tzinfo=UTC).timestamp() * 1000)
-    assert inicio_del_dia(julio) == seis
+    doce = int(datetime(2026, 7, 15, 16, 0, tzinfo=UTC).timestamp() * 1000)
+    assert inicio_del_dia(julio) == doce
+
+
+def ms(*fecha):
+    return int(datetime(*fecha, tzinfo=UTC).timestamp() * 1000)
+
+
+def test_inicio_de_la_semana_es_el_lunes_a_la_01_de_chile():
+    lunes = ms(2026, 9, 28, 4, 0)  # lunes 28 de septiembre, 01:00 en Chile (UTC-3)
+    assert inicio_de_la_semana(AHORA_MS) == lunes  # jueves
+    # El domingo en la noche y el lunes a las 00:30 todavía son la semana anterior.
+    assert inicio_de_la_semana(ms(2026, 10, 5, 3, 30)) == lunes
+    # Justo el lunes a la 01:00 empieza la semana nueva.
+    assert inicio_de_la_semana(ms(2026, 10, 5, 4, 0)) == ms(2026, 10, 5, 4, 0)
+
+
+def test_inicio_de_la_semana_respeta_el_horario_de_invierno():
+    # Miércoles 15 de julio (UTC-4): la semana empezó el lunes 13 a la 01:00 = 05:00 UTC.
+    assert inicio_de_la_semana(ms(2026, 7, 15, 20, 0)) == ms(2026, 7, 13, 5, 0)
 
 
 def hoy_en_grupo(id_p, horas_atras, k, d, a, resultado="victoria", con=("ana", "otro"), **kw):
@@ -144,10 +202,7 @@ def test_mejor_jugador_desempata_por_mas_asesinatos_y_asistencias(mapa):
 
 
 def test_mejor_winrate_con_sus_totales(mapa):
-    datos = {
-        "bueno": serie("b", ["victoria"] * 5),
-        "malo": serie("m", ["derrota"] * 5),
-    }
+    datos = en_equipo({"bueno": serie("b", ["victoria"] * 5), "malo": serie("m", ["derrota"] * 5)})
     destacados = calcular_destacados(datos, mapa, AHORA_MS)
     assert "peor_kda" not in destacados
     assert destacados["mejor_winrate"] == {
@@ -284,22 +339,25 @@ def test_racha_de_una_partida_no_cuenta(mapa):
     assert rachas(partidas, mapa) == (None, None)
 
 
-def test_empate_en_winrate_gana_quien_jugo_mas(mapa):
-    datos = {
-        "cinco": serie("c", ["victoria"] * 5),
-        "seis": serie("s", ["victoria"] * 6),
-    }
-    assert calcular_destacados(datos, mapa, AHORA_MS)["mejor_winrate"]["amigos"] == ["seis"]
-
-
-def test_mas_partidas_y_winrate_usan_los_7_dias_completos(mapa):
-    partidas = serie("x", ["derrota"] * 3 + ["victoria"] * 7)
-    destacados = calcular_destacados({"a": partidas}, mapa, AHORA_MS)
+def test_mas_partidas_y_winrate_solo_cuentan_partidas_en_equipo(mapa):
+    datos = en_equipo({"a": serie("x", ["derrota"] * 3 + ["victoria"] * 7)})
+    datos["a"] += [p("solo1", 20), p("solo2", 21)]  # en solitario: no cuentan
+    destacados = calcular_destacados(datos, mapa, AHORA_MS)
     assert destacados["mas_partidas"]["partidas"] == 10
     assert destacados["mejor_winrate"]["partidas"] == 10
     assert destacados["mejor_winrate"]["winrate"] == 70.0
-    for vieja in ("ultimas_partidas", "mejor_partida", "peor_partida", "racha_victorias"):
+    for vieja in ("ultimas_partidas", "mejor_partida", "peor_partida", "racha_victorias", "dias"):
         assert vieja not in destacados
+
+
+def test_rachas_solo_con_partidas_de_esta_semana(mapa):
+    partidas = [
+        juego("sp1", 95, "victoria", "nic", "iskrat"),  # semana pasada
+        juego("sp2", 94, "victoria", "nic", "iskrat"),  # semana pasada
+        juego("v1", 2, "victoria", "nic", "iskrat"),
+        juego("d1", 1, "derrota", "nic", "iskrat"),
+    ]
+    assert rachas(partidas, mapa) == (None, None)
 
 
 def test_sin_partidas_todo_vacio(mapa):
@@ -324,12 +382,15 @@ def test_sin_partidas_todo_vacio(mapa):
 )
 def test_partidas_incompletas_se_omiten_sin_romper_el_resto(mapa, rotura):
     rota = p("rota", 1) | rotura
-    destacados = calcular_destacados({"a": [rota, p("bien", 2)]}, mapa, AHORA_MS)
+    datos = en_equipo({"a": [rota, p("bien", 2)]})
+    destacados = calcular_destacados(datos, mapa, AHORA_MS)
     assert destacados["mas_partidas"]["partidas"] == 1
 
 
 def test_un_registro_con_algo_que_no_es_una_partida_no_rompe(mapa):
-    destacados = calcular_destacados({"a": ["texto", None, p("bien", 1)]}, mapa, AHORA_MS)
+    datos = en_equipo({"a": [p("bien", 1)]})
+    datos["a"] = ["texto", None, *datos["a"]]
+    destacados = calcular_destacados(datos, mapa, AHORA_MS)
     assert destacados["mas_partidas"]["partidas"] == 1
 
 
@@ -408,7 +469,7 @@ def test_balance_del_grupo_hoy_cuenta_cada_partida_una_vez(mapa):
             hoy_en_grupo("g2", 2, 5, 5, 5, "derrota", con=juntos),
             hoy_en_grupo("g3", 1, 5, 5, 5, "victoria", con=juntos),
             p("solo", 1),  # en solitario: no cuenta
-            hoy_en_grupo("ayer", 12, 5, 5, 5, "derrota", con=juntos),  # antes de las 6:00
+            hoy_en_grupo("ayer", 12, 5, 5, 5, "derrota", con=juntos),  # antes de las 12:00
         ],
         "otro": [
             hoy_en_grupo("g1", 3, 5, 5, 5, "victoria", con=juntos),
@@ -465,3 +526,26 @@ def test_jugador_de_la_semana_solo_con_partidas_en_grupo(mapa):
     destacados = calcular_destacados(datos, mapa, AHORA_MS)
     assert destacados["mejor_jugador_semana"] is None
     assert destacados["peor_jugador_semana"] is None
+
+
+def test_inicio_de_la_semana_que_cruza_el_cambio_de_horario():
+    # Chile pasa a UTC-4 el domingo 5 de abril de 2026: el lunes 6 a la 01:00 son las 05:00 UTC.
+    assert inicio_de_la_semana(ms(2026, 4, 8, 18, 0)) == ms(2026, 4, 6, 5, 0)
+
+
+def test_lunes_temprano_hoy_incluye_el_domingo_pero_la_semana_no(mapa):
+    # Lunes 5 de octubre a las 10:00 de Chile: "hoy" empezó el domingo a las 12:00 y la semana
+    # nueva el lunes a la 01:00. Una partida en grupo del domingo a las 15:00 es de hoy, no de
+    # esta semana.
+    lunes_10 = ms(2026, 10, 5, 13, 0)
+    domingo_15 = ms(2026, 10, 4, 18, 0)
+
+    def partida(amigo, k, d, a):
+        return grupal([{**p("dom", 0, k=k, d=d, a=a), "fecha": domingo_15}], "ana", "beto")[0]
+
+    datos = {"ana": [partida("ana", 8, 2, 6)], "beto": [partida("beto", 2, 6, 3)]}
+    destacados = calcular_destacados(datos, mapa, lunes_10)
+    assert destacados["mejor_jugador_hoy"]["amigos"] == ["ana"]
+    assert destacados["balance_hoy"]["partidas"] == 1
+    for clave in ("mas_partidas", "mejor_jugador_semana", "peor_jugador_semana"):
+        assert destacados[clave] is None
