@@ -2687,6 +2687,102 @@
         "principal": 8992,
         "secundaria": 8000
       }
+    },
+    "LA2_1628481580": {
+      "asesinatos": 7,
+      "asistencias": 4,
+      "campeon": "Skarner",
+      "campeon_id": 72,
+      "cs": 197,
+      "danio": 24895,
+      "duracion": 1635,
+      "equipo": 200,
+      "fecha": 1791161174230,
+      "hechizos": [
+        4,
+        12
+      ],
+      "id": "LA2_1628481580",
+      "items": [
+        3047,
+        3748,
+        6699,
+        3070,
+        3133,
+        6610,
+        3340
+      ],
+      "muertes": 6,
+      "nivel": 17,
+      "participacion": 55,
+      "participantes": [
+        {
+          "amigo": null,
+          "campeon_id": 150,
+          "equipo": 100,
+          "nombre": "Viserys I#501"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 104,
+          "equipo": 100,
+          "nombre": "DRX Lensko#n23"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 3,
+          "equipo": 100,
+          "nombre": "NachoDeus#369"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 523,
+          "equipo": 100,
+          "nombre": "TheLordVayne#303"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 99,
+          "equipo": 100,
+          "nombre": "Vynsek#4768"
+        },
+        {
+          "amigo": "gralmogeko-las",
+          "campeon_id": 72,
+          "equipo": 200,
+          "nombre": "GralMogeko#LAS"
+        },
+        {
+          "amigo": "nic-las",
+          "campeon_id": 120,
+          "equipo": 200,
+          "nombre": "Nicø#LAS"
+        },
+        {
+          "amigo": "iskrat-las",
+          "campeon_id": 4,
+          "equipo": 200,
+          "nombre": "ISkrat#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 245,
+          "equipo": 200,
+          "nombre": "Rulay#THC"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 147,
+          "equipo": 200,
+          "nombre": "I HaveNo Enemies#Guts"
+        }
+      ],
+      "queue_id": 400,
+      "resultado": "derrota",
+      "runas": {
+        "principal": 8992,
+        "secundaria": 8000
+      }
     }
   },
   "perfil": {
