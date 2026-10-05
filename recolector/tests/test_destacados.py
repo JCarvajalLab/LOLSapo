@@ -526,3 +526,26 @@ def test_jugador_de_la_semana_solo_con_partidas_en_grupo(mapa):
     destacados = calcular_destacados(datos, mapa, AHORA_MS)
     assert destacados["mejor_jugador_semana"] is None
     assert destacados["peor_jugador_semana"] is None
+
+
+def test_inicio_de_la_semana_que_cruza_el_cambio_de_horario():
+    # Chile pasa a UTC-4 el domingo 5 de abril de 2026: el lunes 6 a la 01:00 son las 05:00 UTC.
+    assert inicio_de_la_semana(ms(2026, 4, 8, 18, 0)) == ms(2026, 4, 6, 5, 0)
+
+
+def test_lunes_temprano_hoy_incluye_el_domingo_pero_la_semana_no(mapa):
+    # Lunes 5 de octubre a las 10:00 de Chile: "hoy" empezó el domingo a las 12:00 y la semana
+    # nueva el lunes a la 01:00. Una partida en grupo del domingo a las 15:00 es de hoy, no de
+    # esta semana.
+    lunes_10 = ms(2026, 10, 5, 13, 0)
+    domingo_15 = ms(2026, 10, 4, 18, 0)
+
+    def partida(amigo, k, d, a):
+        return grupal([{**p("dom", 0, k=k, d=d, a=a), "fecha": domingo_15}], "ana", "beto")[0]
+
+    datos = {"ana": [partida("ana", 8, 2, 6)], "beto": [partida("beto", 2, 6, 3)]}
+    destacados = calcular_destacados(datos, mapa, lunes_10)
+    assert destacados["mejor_jugador_hoy"]["amigos"] == ["ana"]
+    assert destacados["balance_hoy"]["partidas"] == 1
+    for clave in ("mas_partidas", "mejor_jugador_semana", "peor_jugador_semana"):
+        assert destacados[clave] is None
