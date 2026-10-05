@@ -1,28 +1,26 @@
-"""Destacados del grupo en los últimos 7 días (LoL), calculados desde el registro de cada amigo.
+"""Destacados del grupo (LoL), calculados desde el registro de cada amigo.
 
 Solo cuentan Normal y Ranked (Solo/Dúo y Flex): ARAM, ARAM Caos y los modos especiales
-quedan fuera. Los remakes tampoco cuentan.
+quedan fuera. Los remakes tampoco cuentan. Todo usa partidas "en grupo": 2 o más del grupo en
+el mismo equipo.
 
-"Más partidas", "Mejor winrate" (mínimo 5 partidas) y las rachas usan los 7 días completos.
-
-Bloque "hoy" (desde las 6:00 de Chile; se reinicia cada día a esa hora), solo partidas en grupo
-(2 o más del grupo en el mismo equipo):
+Bloque "hoy" (desde las 12:00 de Chile; se reinicia cada día a esa hora):
 - Mejor y peor jugador de la partida: cada amigo en cada partida es una actuación, y gana la de
   KDA más alto o más bajo (por partida, sin sumar).
 - Balance del grupo: victorias y derrotas de las partidas en grupo (cada partida cuenta una vez).
 
-"Mejor y peor jugador de la semana" son lo mismo que los de hoy, pero con las partidas en grupo
-de los 7 días.
+Bloque "semana" (de lunes a domingo; se reinicia el lunes a la 01:00 de Chile):
+- Más partidas: quien jugó más partidas en grupo.
+- Mejor winrate: desde 2 partidas; gana el % más alto y, con el mismo %, quien jugó más.
+- Mejor y peor jugador de la semana: como los de hoy, con las partidas de la semana.
+- Rachas en equipo: las partidas en grupo de la semana, en orden. La racha sigue mientras se
+  repite el resultado y cada partida comparte al menos un amigo con la anterior; trae a todos
+  los que participaron y cuántas partidas de la racha jugó cada uno. Se arman desde las
+  partidas (que dicen qué amigos estaban en el equipo), no desde el registro de cada uno: así
+  una partida registrada por un amigo cuenta para todos los que la jugaron.
 
-Las rachas son "en equipo": solo cuentan las partidas de los 7 días en las que 2 o más del
-grupo jugaron en el mismo equipo, en orden. La racha sigue mientras se repite el resultado y
-cada partida comparte al menos un amigo con la anterior; trae a todos los que participaron y
-cuántas partidas de la racha jugó cada uno. Se arman desde las partidas (que dicen qué amigos
-estaban en el equipo), no desde el registro de cada uno: así una partida registrada por un
-amigo cuenta para todos los que la jugaron, aunque no esté en sus propios registros.
-
-Los demás destacados traen la lista de amigos que los ganan: si hay empate exacto (después de
-los desempates), aparecen todos.
+Con empate exacto (después de los desempates) aparecen todos los amigos que lo ganan: lo normal,
+porque el grupo suele jugar junto.
 """
 
 from collections.abc import Iterable
@@ -32,25 +30,44 @@ from zoneinfo import ZoneInfo
 from .modos import MapaModos
 from .registro import winrate
 
-DIAS = 7
-VENTANA_MS = DIAS * 24 * 60 * 60 * 1000
 CATEGORIAS = ("ranked", "normal")
 MINIMO_EN_GRUPO = 2  # amigos en el mismo equipo para que una partida sea "en grupo"
-MINIMO_PARTIDAS = 5  # para el winrate: así no gana alguien con 1 partida
-# El "día" del grupo empieza a las 6:00 de Chile (a esa hora ya no juega nadie).
+MINIMO_PARTIDAS = 2  # para el winrate: así no gana alguien con 1 sola partida
 ZONA = ZoneInfo("America/Santiago")
-HORA_INICIO_DIA = 6
+# El "día" del grupo empieza a las 12:00 de Chile (antes de esa hora nadie juega en grupo).
+HORA_INICIO_DIA = 12
+# La semana va de lunes a domingo y empieza el lunes a la 01:00 de Chile.
+HORA_INICIO_SEMANA = 1
+
+
+def _a_las(fecha: datetime, hora: int) -> datetime:
+    return fecha.replace(hour=hora, minute=0, second=0, microsecond=0)
+
+
+def _ms(fecha: datetime) -> int:
+    return int(fecha.timestamp() * 1000)
+
+
+def _en_chile(ahora_ms: int) -> datetime:
+    return datetime.fromtimestamp(ahora_ms / 1000, tz=UTC).astimezone(ZONA)
 
 
 def inicio_del_dia(ahora_ms: int) -> int:
-    """Última vez que fueron las 6:00 en Chile (en ms). A las 2:00 sigue siendo "ayer"."""
-    ahora = datetime.fromtimestamp(ahora_ms / 1000, tz=UTC).astimezone(ZONA)
-    inicio = ahora.replace(hour=HORA_INICIO_DIA, minute=0, second=0, microsecond=0)
+    """Última vez que fueron las 12:00 en Chile (en ms). A las 2:00 sigue siendo "ayer"."""
+    ahora = _en_chile(ahora_ms)
+    inicio = _a_las(ahora, HORA_INICIO_DIA)
     if inicio > ahora:
-        inicio = (ahora - timedelta(days=1)).replace(
-            hour=HORA_INICIO_DIA, minute=0, second=0, microsecond=0
-        )
-    return int(inicio.timestamp() * 1000)
+        inicio = _a_las(ahora - timedelta(days=1), HORA_INICIO_DIA)
+    return _ms(inicio)
+
+
+def inicio_de_la_semana(ahora_ms: int) -> int:
+    """Último lunes a la 01:00 de Chile (en ms). El lunes a las 00:30 sigue siendo la anterior."""
+    ahora = _en_chile(ahora_ms)
+    inicio = _a_las(ahora - timedelta(days=ahora.weekday()), HORA_INICIO_SEMANA)
+    if inicio > ahora:
+        inicio = _a_las(inicio - timedelta(days=7), HORA_INICIO_SEMANA)
+    return _ms(inicio)
 
 
 RACHA_MINIMA = 2
@@ -189,37 +206,40 @@ def _destacado(ganadores: list[str], resumenes: dict, campos: tuple[str, ...]) -
 def calcular_destacados(
     partidas_por_amigo: dict[str, Iterable[dict]], mapa: MapaModos, ahora_ms: int
 ) -> dict:
-    desde = ahora_ms - VENTANA_MS
-    validas = {s: _partidas_validas(p, mapa, desde) for s, p in partidas_por_amigo.items()}
-    totales = {s: _resumen(p) for s, p in validas.items() if p}
-    en_grupo_ordenadas = _partidas_en_grupo(validas)
     hoy_desde = inicio_del_dia(ahora_ms)
+    semana_desde = inicio_de_la_semana(ahora_ms)
+    # "Hoy" puede empezar antes que la semana (el lunes temprano): se leen ambos períodos.
+    desde = min(hoy_desde, semana_desde)
+    validas = {s: _partidas_validas(p, mapa, desde) for s, p in partidas_por_amigo.items()}
     # Actuaciones en grupo: la partida de cada amigo, si la jugó con otro del grupo.
-    semana = {
+    en_grupo = {
         s: [p for p in partidas if _en_grupo_actual(p, validas)] for s, partidas in validas.items()
     }
-    hoy = {s: [p for p in partidas if p["fecha"] >= hoy_desde] for s, partidas in semana.items()}
+    semana = {s: [p for p in ps if p["fecha"] >= semana_desde] for s, ps in en_grupo.items()}
+    hoy = {s: [p for p in ps if p["fecha"] >= hoy_desde] for s, ps in en_grupo.items()}
+    resumenes = {s: _resumen(p) for s, p in semana.items() if p}
+    en_grupo_ordenadas = _partidas_en_grupo(validas)
+    en_grupo_semana = [(p, e) for p, e in en_grupo_ordenadas if p["fecha"] >= semana_desde]
 
     return {
-        "dias": DIAS,
-        "desde": desde,
         "hoy_desde": hoy_desde,
-        "mas_partidas": _destacado(
-            _ganadores(totales, lambda r: r["partidas"]), totales, ("partidas",)
-        ),
-        "mejor_winrate": _destacado(
-            _ganadores(totales, lambda r: (r["winrate"], r["partidas"]), MINIMO_PARTIDAS),
-            totales,
-            ("winrate", "victorias", "derrotas", "partidas"),
-        ),
+        "semana_desde": semana_desde,
         # Bloque "hoy"
         "mejor_jugador_hoy": _partida_destacada(hoy, mapa, mejor=True),
         "peor_jugador_hoy": _partida_destacada(hoy, mapa, mejor=False),
         "balance_hoy": _balance(en_grupo_ordenadas, hoy_desde),
-        # Bloque "últimos 7 días"
+        # Bloque "semana"
+        "mas_partidas": _destacado(
+            _ganadores(resumenes, lambda r: r["partidas"]), resumenes, ("partidas",)
+        ),
+        "mejor_winrate": _destacado(
+            _ganadores(resumenes, lambda r: (r["winrate"], r["partidas"]), MINIMO_PARTIDAS),
+            resumenes,
+            ("winrate", "victorias", "derrotas", "partidas"),
+        ),
         "mejor_jugador_semana": _partida_destacada(semana, mapa, mejor=True),
-        "racha_victorias_grupo": _racha_en_equipo(en_grupo_ordenadas, "victoria"),
-        "racha_derrotas_grupo": _racha_en_equipo(en_grupo_ordenadas, "derrota"),
+        "racha_victorias_grupo": _racha_en_equipo(en_grupo_semana, "victoria"),
+        "racha_derrotas_grupo": _racha_en_equipo(en_grupo_semana, "derrota"),
         "peor_jugador_semana": _partida_destacada(semana, mapa, mejor=False),
     }
 
