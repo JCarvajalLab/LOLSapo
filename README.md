@@ -4,7 +4,7 @@ Web estilo op.gg para un grupo cerrado de amigos del servidor **LAS**. Muestra q
 
 **Sitio:** https://jcarvajallab.github.io/LOLSapo/ (se actualiza solo cada ~5 minutos).
 
-> Fase 7 (extras) en curso: ya están los destacados de los últimos 7 días. El detalle del proyecto está en [docs/REQUERIMIENTOS.md](docs/REQUERIMIENTOS.md).
+> Fase 7 (extras) en curso: ya están los destacados de hoy y de la semana. El detalle del proyecto está en [docs/REQUERIMIENTOS.md](docs/REQUERIMIENTOS.md).
 
 ## Cómo funciona
 
@@ -16,23 +16,25 @@ La API de Riot necesita una key secreta, así que la web **nunca** llama a Riot 
 
 ## Destacados
 
-En la pestaña LoL, bajo "En partida", dos secciones resumen lo que hizo el grupo. Solo cuentan Normal y Ranked (Solo/Dúo y Flex), sin remakes. "En grupo" significa 2 o más del grupo en el mismo equipo.
+En la pestaña LoL, bajo "En partida", dos secciones resumen lo que hizo el grupo. Solo cuentan partidas **en grupo** (2 o más del grupo en el mismo equipo) de Normal y Ranked (Solo/Dúo y Flex), sin remakes.
 
-**Destacados de hoy** (desde las 6:00 de Chile; se reinicia cada día a esa hora):
+**Destacados de hoy** (desde las 12:00 de Chile; se reinicia cada día a esa hora):
 
 | Tarjeta | Cómo se calcula |
 |---------|-----------------|
 | Mejor / Peor jugador de la partida - Hoy | De las partidas en grupo de hoy, la actuación individual con el KDA más alto / más bajo (gane o pierda), con su daño a campeones |
 | Balance del grupo hoy | Victorias y derrotas de las partidas en grupo de hoy (cada partida cuenta una vez), con los nombres de quienes jugaron; quien jugó menos partidas que el total lleva cuántas entre paréntesis |
 
-**Destacados de los últimos 7 días:**
+**Destacados de la semana** (de lunes a domingo; se reinicia el lunes a la 01:00 de Chile):
 
 | Tarjeta | Cómo se calcula |
 |---------|-----------------|
-| Más partidas | Partidas jugadas en los 7 días |
-| Mejor winrate | Partidas de los 7 días, con mínimo 5 |
-| Mejor / Peor jugador de la semana | Igual que los de hoy, pero con las partidas en grupo de los 7 días |
-| Racha de victorias / derrotas en equipo | Partidas con 2 o más del grupo en el mismo equipo, en orden: la racha sigue mientras se repite el resultado y cada partida comparte al menos un amigo con la anterior. Muestra a todos los que participaron; quien jugó solo una lleva la nota «(1 partida)» |
+| Más partidas | Partidas en grupo de la semana |
+| Mejor winrate | Partidas en grupo de la semana, desde 2. Gana el % más alto; con el mismo %, quien jugó más. Con empate exacto (lo normal si jugaron juntos) aparecen todos |
+| Mejor / Peor jugador de la semana | Igual que los de hoy, pero con las partidas en grupo de la semana |
+| Racha de victorias / derrotas en equipo | Partidas en grupo en orden: la racha sigue mientras se repite el resultado y cada partida comparte al menos un amigo con la anterior. Muestra a todos los que participaron; quien jugó menos partidas que el total de la racha lleva cuántas entre paréntesis |
+
+Las tarjetas sin datos dicen «No existen partidas registradas en equipo esta semana» (o «…hoy»).
 
 Se calculan en el recolector ([recolector/lolsapo/destacados.py](recolector/lolsapo/destacados.py)) a partir del registro completo de cada amigo, sin consultas extra a Riot.
 
