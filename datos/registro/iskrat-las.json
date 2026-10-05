@@ -3255,11 +3255,107 @@
         "principal": 8112,
         "secundaria": 8200
       }
+    },
+    "LA2_1628472881": {
+      "asesinatos": 1,
+      "asistencias": 5,
+      "campeon": "Ziggs",
+      "campeon_id": 115,
+      "cs": 137,
+      "danio": 9879,
+      "duracion": 924,
+      "equipo": 200,
+      "fecha": 1791158829711,
+      "hechizos": [
+        4,
+        12
+      ],
+      "id": "LA2_1628472881",
+      "items": [
+        1056,
+        6655,
+        1052,
+        1058,
+        1052,
+        0,
+        3340
+      ],
+      "muertes": 1,
+      "nivel": 10,
+      "participacion": 30,
+      "participantes": [
+        {
+          "amigo": null,
+          "campeon_id": 68,
+          "equipo": 100,
+          "nombre": "Ascex#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 107,
+          "equipo": 100,
+          "nombre": "Joan2G#GGWP"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 246,
+          "equipo": 100,
+          "nombre": "Ieyendaker#good"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 804,
+          "equipo": 100,
+          "nombre": "Alan Wake#HEX"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 43,
+          "equipo": 100,
+          "nombre": "Karigura#SettD"
+        },
+        {
+          "amigo": "gralmogeko-las",
+          "campeon_id": 72,
+          "equipo": 200,
+          "nombre": "GralMogeko#LAS"
+        },
+        {
+          "amigo": "nic-las",
+          "campeon_id": 120,
+          "equipo": 200,
+          "nombre": "Nicø#LAS"
+        },
+        {
+          "amigo": "johnadis-las",
+          "campeon_id": 910,
+          "equipo": 200,
+          "nombre": "Johnadis#LAS"
+        },
+        {
+          "amigo": "iskrat-las",
+          "campeon_id": 115,
+          "equipo": 200,
+          "nombre": "ISkrat#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 53,
+          "equipo": 200,
+          "nombre": "UltmanOP#PNCC"
+        }
+      ],
+      "queue_id": 400,
+      "resultado": "victoria",
+      "runas": {
+        "principal": 8229,
+        "secundaria": 8000
+      }
     }
   },
   "perfil": {
     "icono": 4022,
-    "nivel": 835
+    "nivel": 836
   },
   "rangos": {
     "flex": {
