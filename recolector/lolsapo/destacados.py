@@ -94,7 +94,7 @@ def _completa(partida) -> bool:
     )
 
 
-def _partidas_validas(partidas: Iterable[dict], mapa: MapaModos, desde_ms: int) -> list[dict]:
+def partidas_validas(partidas: Iterable[dict], mapa: MapaModos, desde_ms: int) -> list[dict]:
     validas = [
         p
         for p in partidas
@@ -122,7 +122,7 @@ def en_grupo(partida: dict) -> bool:
     return len(companeros(partida)) >= MINIMO_EN_GRUPO
 
 
-def _partidas_en_grupo(validas: dict[str, list[dict]]) -> list[tuple[dict, set[str]]]:
+def partidas_en_grupo(validas: dict[str, list[dict]]) -> list[tuple[dict, set[str]]]:
     """Partidas en grupo de todos, sin repetir, en orden: (partida, amigos del equipo).
 
     Una partida aparece en el registro de quien la jugó, pero sus participantes dicen quiénes
@@ -210,7 +210,7 @@ def calcular_destacados(
     semana_desde = inicio_de_la_semana(ahora_ms)
     # "Hoy" puede empezar antes que la semana (el lunes temprano): se leen ambos períodos.
     desde = min(hoy_desde, semana_desde)
-    validas = {s: _partidas_validas(p, mapa, desde) for s, p in partidas_por_amigo.items()}
+    validas = {s: partidas_validas(p, mapa, desde) for s, p in partidas_por_amigo.items()}
     # Actuaciones en grupo: la partida de cada amigo, si la jugó con otro del grupo.
     en_grupo = {
         s: [p for p in partidas if _en_grupo_actual(p, validas)] for s, partidas in validas.items()
@@ -218,7 +218,7 @@ def calcular_destacados(
     semana = {s: [p for p in ps if p["fecha"] >= semana_desde] for s, ps in en_grupo.items()}
     hoy = {s: [p for p in ps if p["fecha"] >= hoy_desde] for s, ps in en_grupo.items()}
     resumenes = {s: _resumen(p) for s, p in semana.items() if p}
-    en_grupo_ordenadas = _partidas_en_grupo(validas)
+    en_grupo_ordenadas = partidas_en_grupo(validas)
     en_grupo_semana = [(p, e) for p, e in en_grupo_ordenadas if p["fecha"] >= semana_desde]
 
     return {

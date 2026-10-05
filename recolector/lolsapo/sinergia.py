@@ -8,7 +8,7 @@ solo quedó en el registro de un amigo cuenta igual para todos los que la jugaro
 
 from collections.abc import Iterable
 
-from .destacados import _partidas_en_grupo, _partidas_validas
+from .destacados import partidas_en_grupo, partidas_validas
 from .modos import MapaModos
 from .registro import winrate
 
@@ -19,9 +19,9 @@ def calcular_sinergia(partidas_por_amigo: dict[str, Iterable[dict]], mapa: MapaM
     Cada lista va de quien jugó más partidas juntos a quien jugó menos (y por nombre si empatan).
     Los amigos con los que nunca jugó no aparecen.
     """
-    validas = {s: _partidas_validas(p, mapa, 0) for s, p in partidas_por_amigo.items()}
+    validas = {s: partidas_validas(p, mapa, 0) for s, p in partidas_por_amigo.items()}
     juntos: dict[str, dict[str, list[int]]] = {s: {} for s in validas}
-    for partida, equipo in _partidas_en_grupo(validas):
+    for partida, equipo in partidas_en_grupo(validas):
         gano = partida["resultado"] == "victoria"
         for amigo in equipo:
             for companero in equipo - {amigo}:

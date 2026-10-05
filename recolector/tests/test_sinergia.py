@@ -98,3 +98,19 @@ def test_lol_json_incluye_la_sinergia_sin_puuid(cliente, mapa, tmp_path):
     texto = (tmp_path / "lol.json").read_text(encoding="utf-8")
     assert P_JOHN not in texto and P_GATO not in texto
     assert json.loads(texto)["sinergia"] == salida["sinergia"]
+
+
+@responses.activate
+def test_si_falla_la_sinergia_los_destacados_siguen(cliente, mapa, tmp_path, monkeypatch, caplog):
+    simular_amigo("Johnadis", P_JOHN, [])
+
+    def falla(*_):
+        raise KeyError("x")
+
+    monkeypatch.setattr("lolsapo.recolector.calcular_sinergia", falla)
+    salida = ejecutar(
+        cliente, KEY_FALSA, [JOHN], mapa, tmp_path, tmp_path / "lol.json", ahora=AHORA
+    )
+    assert salida["sinergia"] is None
+    assert salida["destacados"] is not None
+    assert "No se pudo calcular la sinergia" in caplog.text
