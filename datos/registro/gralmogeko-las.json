@@ -2783,6 +2783,102 @@
         "principal": 8992,
         "secundaria": 8000
       }
+    },
+    "LA2_1628492439": {
+      "asesinatos": 3,
+      "asistencias": 15,
+      "campeon": "FiddleSticks",
+      "campeon_id": 9,
+      "cs": 207,
+      "danio": 31353,
+      "duracion": 1993,
+      "equipo": 200,
+      "fecha": 1791163498023,
+      "hechizos": [
+        4,
+        14
+      ],
+      "id": "LA2_1628492439",
+      "items": [
+        3020,
+        1058,
+        3110,
+        8020,
+        6653,
+        1082,
+        3330
+      ],
+      "muertes": 8,
+      "nivel": 19,
+      "participacion": 40,
+      "participantes": [
+        {
+          "amigo": null,
+          "campeon_id": 887,
+          "equipo": 100,
+          "nombre": "Unstoppable444#GOD"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 104,
+          "equipo": 100,
+          "nombre": "Viserys I#501"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 245,
+          "equipo": 100,
+          "nombre": "Rulay#THC"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 22,
+          "equipo": 100,
+          "nombre": "Megustanmalas#NTP"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 412,
+          "equipo": 100,
+          "nombre": "GerDfirt1#001"
+        },
+        {
+          "amigo": "gralmogeko-las",
+          "campeon_id": 9,
+          "equipo": 200,
+          "nombre": "GralMogeko#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 254,
+          "equipo": 200,
+          "nombre": "ZORENBLAIM#123"
+        },
+        {
+          "amigo": "johnadis-las",
+          "campeon_id": 805,
+          "equipo": 200,
+          "nombre": "Johnadis#LAS"
+        },
+        {
+          "amigo": "iskrat-las",
+          "campeon_id": 51,
+          "equipo": 200,
+          "nombre": "ISkrat#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 99,
+          "equipo": 200,
+          "nombre": "Angel of Death1#LAS"
+        }
+      ],
+      "queue_id": 400,
+      "resultado": "victoria",
+      "runas": {
+        "principal": 8010,
+        "secundaria": 8200
+      }
     }
   },
   "perfil": {
