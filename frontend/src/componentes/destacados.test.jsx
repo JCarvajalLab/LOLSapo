@@ -701,6 +701,36 @@ describe("Destacados con lol.json viejo", () => {
     }
   });
 
+  it("si la semana de los datos ya terminó (semana_desde de hace 8 días), la semana queda vacía y hoy no cambia", () => {
+    renderDestacados(crearDestacados({ semana_desde: AHORA - 8 * 24 * HORA, hoy_desde: AHORA - 2 * HORA }));
+    const semana = seccion(SEMANA);
+    expect(within(semana).getByText(VACIO_SEMANA)).toBeInTheDocument();
+    expect(within(semana).queryAllByRole("article")).toHaveLength(0);
+    expect(within(semana).queryByText("Sapito")).toBeNull();
+    expect(within(tarjeta("Balance del grupo hoy")).getByText("4 V")).toBeInTheDocument();
+    for (const titulo of [TITULOS_HOY[0], TITULOS_HOY[2]]) {
+      expect(within(tarjeta(titulo)).getByText(/^KDA /)).toBeInTheDocument();
+    }
+  });
+
+  it("con semana_desde de hace casi 7 días la semana se mantiene", () => {
+    renderDestacados(crearDestacados({ semana_desde: AHORA - 7 * 24 * HORA + 1 }));
+    expect(within(seccion(SEMANA)).queryByText(VACIO_SEMANA)).toBeNull();
+    expect(within(tarjeta("Más partidas")).getByText("20")).toBeInTheDocument();
+  });
+
+  it("si solo terminó el día, la semana no se ve afectada", () => {
+    renderDestacados(crearDestacados({ semana_desde: AHORA - 2 * 24 * HORA, hoy_desde: AHORA - 25 * HORA }));
+    expect(within(seccion(SEMANA)).queryByText(VACIO_SEMANA)).toBeNull();
+    expect(titulosEn(seccion(SEMANA))).toEqual(TITULOS_SEMANA);
+    expect(tarjeta("Balance del grupo hoy")).toHaveTextContent("No hay partidas en grupo registradas hoy");
+  });
+
+  it("sin semana_desde (archivos viejos) la semana muestra lo que venga", () => {
+    renderDestacados(crearDestacados({ semana_desde: null }));
+    expect(within(tarjeta("Más partidas")).getByText("20")).toBeInTheDocument();
+  });
+
   it("sin hoy_desde (archivos viejos) muestra lo que venga", () => {
     renderDestacados(crearDestacados({ hoy_desde: null }));
     expect(within(tarjeta("Balance del grupo hoy")).getByText("2 D")).toBeInTheDocument();

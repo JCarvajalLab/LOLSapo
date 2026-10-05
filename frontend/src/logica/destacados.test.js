@@ -8,6 +8,7 @@ import {
   destacadosVacios,
   destacadosVigentes,
   hoyVencido,
+  semanaVencida,
   fechaRacha,
   colorResultado,
   formatearDanio,
@@ -576,5 +577,67 @@ describe("destacadosVigentes", () => {
     const viejo = base(null);
     expect(destacadosVigentes(viejo, 1759298400000 + 100 * HORA)).toBe(viejo);
     expect(destacadosVigentes(null, 0)).toBeNull();
+  });
+});
+
+describe("semanaVencida", () => {
+  const SEMANA = 7 * 24 * 3600 * 1000;
+  const INICIO = 1759107600000;
+
+  it("justo antes de 7 días no está vencida", () => {
+    expect(semanaVencida(INICIO, INICIO + SEMANA - 1)).toBe(false);
+    expect(semanaVencida(INICIO, INICIO)).toBe(false);
+  });
+
+  it("con 7 días exactos o más está vencida", () => {
+    expect(semanaVencida(INICIO, INICIO + SEMANA)).toBe(true);
+    expect(semanaVencida(INICIO, INICIO + 8 * 24 * 3600 * 1000)).toBe(true);
+  });
+
+  it.each([null, undefined, "1759107600000", Number.NaN])("semana_desde %s no está vencida", (valor) => {
+    expect(semanaVencida(valor, INICIO + 3 * SEMANA)).toBe(false);
+  });
+
+  it("sin ahora no está vencida", () => {
+    expect(semanaVencida(INICIO, undefined)).toBe(false);
+    expect(semanaVencida(INICIO, null)).toBe(false);
+  });
+});
+
+describe("destacadosVigentes con la semana vencida", () => {
+  const DIA = 24 * 3600 * 1000;
+  const AHORA_T = 1759298400000;
+  const base = (cambios) => validarDestacados(crearDestacados(cambios), AMIGOS);
+
+  it("semana vencida y día vigente: anula solo las tarjetas de la semana, sin mutar", () => {
+    const d = base({ semana_desde: AHORA_T - 8 * DIA, hoy_desde: AHORA_T - 2 * 3600 * 1000 });
+    const copia = structuredClone(d);
+    const v = destacadosVigentes(d, AHORA_T);
+    expect(v).not.toBe(d);
+    for (const clave of CLAVES_SEMANA) expect(v[clave]).toBeNull();
+    for (const clave of CLAVES_HOY) expect(v[clave]).toEqual(d[clave]);
+    expect(d).toEqual(copia);
+  });
+
+  it("día vencido y semana vigente: anula solo las tarjetas de hoy", () => {
+    const d = base({ semana_desde: AHORA_T - 2 * DIA, hoy_desde: AHORA_T - 25 * 3600 * 1000 });
+    const v = destacadosVigentes(d, AHORA_T);
+    for (const clave of CLAVES_HOY) expect(v[clave]).toBeNull();
+    for (const clave of CLAVES_SEMANA) expect(v[clave]).toEqual(d[clave]);
+  });
+
+  it("ambos vencidos: anula todas las tarjetas y conserva las fechas", () => {
+    const d = base({ semana_desde: AHORA_T - 9 * DIA, hoy_desde: AHORA_T - 30 * 3600 * 1000 });
+    const copia = structuredClone(d);
+    const v = destacadosVigentes(d, AHORA_T);
+    for (const clave of CLAVES_DESTACADOS) expect(v[clave]).toBeNull();
+    expect(v.semana_desde).toBe(d.semana_desde);
+    expect(v.hoy_desde).toBe(d.hoy_desde);
+    expect(d).toEqual(copia);
+  });
+
+  it("sin semana_desde (archivos viejos) no anula la semana", () => {
+    const d = base({ semana_desde: null, hoy_desde: null });
+    expect(destacadosVigentes(d, AHORA_T + 100 * DIA)).toBe(d);
   });
 });

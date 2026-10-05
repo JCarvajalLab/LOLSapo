@@ -182,11 +182,30 @@ export function hoyVencido(hoyDesde, ahora) {
   return ahora - hoyDesde >= DIA_MS;
 }
 
-/** Destacados con las tarjetas de hoy en null si su día ya terminó. */
+const SEMANA_MS = 7 * DIA_MS;
+
+/**
+ * true si la semana de los datos ya terminó: pasaron 7 días o más desde `semanaDesde`
+ * (lunes 01:00 de Chile; lol.json quedó viejo). Sin `semanaDesde` o sin `ahora`, false.
+ */
+export function semanaVencida(semanaDesde, ahora) {
+  if (!esNumero(semanaDesde) || !esNumero(ahora)) return false;
+  return ahora - semanaDesde >= SEMANA_MS;
+}
+
+/**
+ * Destacados con las tarjetas de hoy en null si su día ya terminó y las de la semana en
+ * null si su semana ya terminó. No modifica el original; si nada venció, lo devuelve tal cual.
+ */
 export function destacadosVigentes(destacados, ahora) {
-  if (!destacados || !hoyVencido(destacados.hoy_desde, ahora)) return destacados;
+  if (!destacados) return destacados;
+  const vencidas = [
+    ...(hoyVencido(destacados.hoy_desde, ahora) ? CLAVES_HOY : []),
+    ...(semanaVencida(destacados.semana_desde, ahora) ? CLAVES_SEMANA : []),
+  ];
+  if (vencidas.length === 0) return destacados;
   const vigentes = { ...destacados };
-  for (const clave of CLAVES_HOY) vigentes[clave] = null;
+  for (const clave of vencidas) vigentes[clave] = null;
   return vigentes;
 }
 
