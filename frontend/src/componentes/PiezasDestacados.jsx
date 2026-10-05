@@ -3,7 +3,6 @@ import { nombreCampeon, urlCampeon, urlIconoPerfil } from "../logica/ddragon.js"
 import {
   CLAVES_HOY,
   colorResultado,
-  RACHA_MINIMA,
   fechaRacha,
   formatearDanio,
   formatearKdaDestacado,
@@ -28,25 +27,21 @@ const TITULOS = {
   peor_jugador_semana: "Peor jugador de la semana",
 };
 
-// Qué falta cuando una tarjeta de 7 días viene vacía (los mínimos los pone el recolector).
-function minimo(clave) {
-  switch (clave) {
-    case "mejor_winrate":
-      return "Nadie con 5 partidas en los últimos 7 días.";
-    case "mejor_jugador_semana":
-    case "peor_jugador_semana":
-      return "Sin partidas en grupo en los últimos 7 días.";
-    case "racha_victorias_grupo":
-      return `Nadie con ${RACHA_MINIMA} victorias seguidas en equipo.`;
-    case "racha_derrotas_grupo":
-      return `Nadie con ${RACHA_MINIMA} derrotas seguidas en equipo.`;
-    default:
-      return null;
-  }
-}
+/** Vacío de cualquier tarjeta de la semana (y de la sección entera si todas vienen vacías). */
+export const VACIO_SEMANA = "No existen partidas registradas en equipo esta semana";
 
-/** Tarjetas de hoy: el día se reinicia a las 6:00 de Chile. */
+/** Tarjetas de hoy: el día se reinicia a las 12:00 de Chile. */
 const esHoy = (clave) => CLAVES_HOY.includes(clave);
+
+/** Estado vacío de una tarjeta: mensaje principal y, debajo en chico, cuándo se reinicia. */
+function Vacio({ mensaje, reinicio }) {
+  return (
+    <div className="flex flex-1 flex-col justify-center">
+      <p className="text-texto-suave">{mensaje}</p>
+      <p className="text-xs text-texto-suave">{reinicio}</p>
+    </div>
+  );
+}
 
 /** Una sección de destacados: título (h2), nota bajo el título y su contenido. */
 export function BloqueDestacados({ id, titulo, nota, children }) {
@@ -86,7 +81,6 @@ export function ListaDestacados({ claves, destacados, amigos, ddragon, ahora, cl
 
 export function TarjetaDestacado({ clave, tarjeta, porSlug, ddragon, ahora }) {
   const idTitulo = `destacado-${clave}`;
-  const textoMinimo = minimo(clave);
   return (
     <article
       aria-labelledby={idTitulo}
@@ -99,24 +93,32 @@ export function TarjetaDestacado({ clave, tarjeta, porSlug, ddragon, ahora }) {
       {tarjeta ? (
         <>
           {esRacha(clave) ? (
-            <IntegrantesRacha t={tarjeta} porSlug={porSlug} ddragon={ddragon} />
+            <NombresCompletos
+              marca="integrantes"
+              slugs={tarjeta.amigos}
+              nota={(slug) => notaJugadas(tarjeta.partidas?.[slug], tarjeta.racha)}
+              porSlug={porSlug}
+              ddragon={ddragon}
+            />
           ) : clave === "balance_hoy" ? (
-            <JugadoresBalance t={tarjeta} porSlug={porSlug} ddragon={ddragon} />
+            <NombresCompletos
+              marca="jugadores"
+              slugs={tarjeta.amigos}
+              nota={(slug) => notaJugadas(tarjeta.jugadas?.[slug], tarjeta.partidas)}
+              porSlug={porSlug}
+              ddragon={ddragon}
+            />
+          ) : clave === "mejor_winrate" ? (
+            <NombresCompletos marca="ganadores" slugs={tarjeta.amigos} porSlug={porSlug} ddragon={ddragon} />
           ) : (
             <Amigos slugs={tarjeta.amigos} porSlug={porSlug} ddragon={ddragon} />
           )}
           <Contenido clave={clave} t={tarjeta} ddragon={ddragon} ahora={ahora} />
         </>
       ) : esHoy(clave) ? (
-        <div className="flex flex-1 flex-col justify-center">
-          <p className="text-texto-suave">No hay partidas en grupo registradas hoy</p>
-          <p className="text-xs text-texto-suave">Se reinicia a las 6:00</p>
-        </div>
+        <Vacio mensaje="No hay partidas en grupo registradas hoy" reinicio="Se reinicia a las 12:00" />
       ) : (
-        <div className="flex flex-1 flex-col justify-center">
-          <p className="text-texto-suave">Sin datos</p>
-          {textoMinimo && <p className="text-xs text-texto-suave">{textoMinimo}</p>}
-        </div>
+        <Vacio mensaje={VACIO_SEMANA} reinicio="Se reinicia el lunes a la 01:00" />
       )}
     </article>
   );
@@ -146,49 +148,24 @@ function IconosAmigos({ lista, ddragon }) {
 }
 
 /**
- * Integrantes de una racha en equipo: íconos arriba y nombres debajo, a todo el ancho.
- * Quien jugó solo 1 partida de la racha lleva «(1 partida)» en texto suave.
- * Los nombres ocupan siempre 2 líneas (cortados si no caben) para que 3 a 5 integrantes
- * no cambien el alto; la lista completa queda en `title` y para lectores de pantalla.
+ * Íconos arriba y debajo todos los nombres completos en texto chico (balance de hoy, rachas en
+ * equipo y mejor winrate compartido). Sin recorte: con 5 nombres largos la línea salta y la
+ * fila crece pareja. `nota(slug)` agrega texto suave tras el nombre, como «(2 partidas)».
+ * `marca` queda como atributo `data-…` del párrafo de nombres.
  */
-function IntegrantesRacha({ t, porSlug, ddragon }) {
-  const lista = t.amigos.map((slug) => amigoDe(porSlug, slug));
-  const nota = (a) => (t.partidas?.[a.slug] === 1 ? " (1 partida)" : "");
-  const completo = lista.map((a) => `${nombreDe(a)}${nota(a)}`).join(" · ");
+function NombresCompletos({ marca, slugs, nota = () => "", porSlug, ddragon }) {
+  const lista = slugs.map((slug) => amigoDe(porSlug, slug));
   return (
     <div className="flex min-w-0 flex-col gap-1">
       <IconosAmigos lista={lista} ddragon={ddragon} />
-      <p title={completo} data-integrantes="" className="line-clamp-2 h-10 min-w-0 text-sm leading-5 break-words">
-        {lista.map((a, i) => (
-          <span key={a.slug}>
-            {i > 0 && <span className="text-texto-suave"> · </span>}
-            <span className="font-semibold">{nombreDe(a)}</span>
-            {nota(a) && <span className="text-xs text-texto-suave">{nota(a)}</span>}
-          </span>
-        ))}
-      </p>
-    </div>
-  );
-}
-
-/**
- * Quiénes jugaron hoy en grupo: íconos arriba y debajo todos los nombres completos en
- * texto chico. Sin recorte: con 5 nombres largos la línea salta y la fila crece pareja.
- * Quien jugó menos partidas que el total lleva «(2 partidas)» en texto suave.
- */
-function JugadoresBalance({ t, porSlug, ddragon }) {
-  const lista = t.amigos.map((slug) => amigoDe(porSlug, slug));
-  return (
-    <div className="flex min-w-0 flex-col gap-1">
-      <IconosAmigos lista={lista} ddragon={ddragon} />
-      <p data-jugadores="" className="min-w-0 text-xs leading-4 break-words">
+      <p {...{ [`data-${marca}`]: "" }} className="min-w-0 text-xs leading-4 break-words">
         {lista.map((a, i) => {
-          const nota = notaJugadas(t.jugadas?.[a.slug], t.partidas);
+          const extra = nota(a.slug);
           return (
             <span key={a.slug}>
               {i > 0 && <span className="text-texto-suave"> · </span>}
               <span className="font-semibold">{nombreDe(a)}</span>
-              {nota && <span className="text-texto-suave">{nota}</span>}
+              {extra && <span className="text-texto-suave">{extra}</span>}
             </span>
           );
         })}

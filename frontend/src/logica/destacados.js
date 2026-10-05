@@ -1,11 +1,14 @@
-// Destacados de LoL (lol.json → "destacados"): los de hoy y los de los últimos 7 días.
+// Destacados de LoL (lol.json → "destacados"): los de hoy y los de la semana (lunes a domingo).
 // Validación al leer el JSON y formato de los números. No depende de React.
 import { esNumero } from "./formato.js";
 
-/** Tarjetas de hoy (desde las 6:00 de Chile), en el orden de la fila: el balance al centro. */
+/** Tarjetas de hoy (desde las 12:00 de Chile), en el orden de la fila: el balance al centro. */
 export const CLAVES_HOY = ["mejor_jugador_hoy", "balance_hoy", "peor_jugador_hoy"];
 
-/** Tarjetas de los últimos 7 días, en el orden que decidió Deo. */
+/**
+ * Tarjetas de la semana (lunes 01:00 de Chile a domingo, solo partidas en equipo), en el
+ * orden que decidió Deo.
+ */
 export const CLAVES_SEMANA = [
   "mas_partidas",
   "mejor_winrate",
@@ -160,9 +163,9 @@ export function validarDestacados(destacados, amigos) {
   for (const clave of CLAVES_DESTACADOS) {
     tarjetas[clave] = validarTarjeta(clave, destacados[clave], slugs);
   }
+  // `dias` y `desde` (ventana de 7 días de archivos viejos) se ignoran.
   return {
-    dias: Number.isInteger(destacados.dias) && destacados.dias > 0 ? destacados.dias : 7,
-    desde: decimal(destacados.desde) ? destacados.desde : null,
+    semana_desde: fechaMs(destacados.semana_desde),
     hoy_desde: fechaMs(destacados.hoy_desde),
     ...tarjetas,
   };
@@ -187,7 +190,7 @@ export function destacadosVigentes(destacados, ahora) {
   return vigentes;
 }
 
-/** true si ninguna de las tarjetas `claves` (por defecto, las de 7 días) tiene datos. */
+/** true si ninguna de las tarjetas `claves` (por defecto, las de la semana) tiene datos. */
 export function destacadosVacios(destacados, claves = CLAVES_SEMANA) {
   return claves.every((clave) => !destacados?.[clave]);
 }
@@ -239,8 +242,8 @@ export function fechaRacha(desde, hasta) {
 }
 
 /**
- * Nota de un jugador del balance de hoy: « (2 partidas)» si jugó menos que el total del
- * grupo, "" si jugó todas o no hay dato.
+ * Nota de un jugador del balance de hoy o de una racha en equipo: « (2 partidas)» si jugó
+ * menos que el total, "" si jugó todas o no hay dato.
  */
 export function notaJugadas(jugadas, total) {
   if (!Number.isInteger(jugadas) || !Number.isInteger(total) || jugadas >= total) return "";

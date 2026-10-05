@@ -24,7 +24,7 @@ const NBSP = String.fromCharCode(0xa0);
 describe("validarDestacados", () => {
   it("acepta los destacados completos", () => {
     const d = validarDestacados(crearDestacados(), AMIGOS);
-    expect(d.dias).toBe(7);
+    expect(d.semana_desde).toBe(crearDestacados().semana_desde);
     expect(d.hoy_desde).toBe(crearDestacados().hoy_desde);
     expect(d).not.toHaveProperty("ultimas_partidas");
     for (const clave of CLAVES_DESTACADOS) expect(d[clave]).not.toBeNull();
@@ -157,6 +157,61 @@ describe("validarDestacados", () => {
     expect(d.racha_victorias_grupo).not.toHaveProperty("html");
   });
 
+  it.each([1, 1759298400000, 8.64e15])("acepta semana_desde = %s", (valor) => {
+    expect(validarDestacados(crearDestacados({ semana_desde: valor }), AMIGOS).semana_desde).toBe(valor);
+  });
+
+  it.each([undefined, null, 0, -3, 7.5, "1759298400000", 9e15, Number.NaN, Number.POSITIVE_INFINITY, true, {}])(
+    "semana_desde inválido (%s) queda en null",
+    (valor) => {
+      expect(validarDestacados(crearDestacados({ semana_desde: valor }), AMIGOS).semana_desde).toBeNull();
+    },
+  );
+
+  it("ignora dias y desde de archivos viejos", () => {
+    const d = validarDestacados(crearDestacados({ dias: 7, desde: 1759298400000 }), AMIGOS);
+    expect(d).not.toHaveProperty("dias");
+    expect(d).not.toHaveProperty("desde");
+    expect(d.mas_partidas).not.toBeNull();
+  });
+
+  it("mejor_winrate acepta varios amigos (empate) y descarta los desconocidos", () => {
+    const d = validarDestacados(
+      crearDestacados({
+        mejor_winrate: {
+          amigos: ["sapito-las", "intruso-las", "rana-azul-las", "sapito-las", "charco-las"],
+          winrate: 75.0,
+          victorias: 3,
+          derrotas: 1,
+          partidas: 4,
+        },
+      }),
+      AMIGOS,
+    );
+    expect(d.mejor_winrate).toEqual({
+      amigos: ["sapito-las", "rana-azul-las", "charco-las"],
+      winrate: 75,
+      victorias: 3,
+      derrotas: 1,
+      partidas: 4,
+    });
+  });
+
+  it("racha: notaJugadas marca a quien jugó menos que el total", () => {
+    const d = validarDestacados(
+      crearDestacados({
+        racha_victorias_grupo: {
+          racha: 7,
+          amigos: ["sapito-las", "rana-azul-las", "charco-las"],
+          partidas: { "sapito-las": 7, "rana-azul-las": 5, "charco-las": 2 },
+        },
+      }),
+      AMIGOS,
+    );
+    const r = d.racha_victorias_grupo;
+    expect(r.amigos.map((slug) => notaJugadas(r.partidas[slug], r.racha))).toEqual(["", " (5 partidas)", " (2 partidas)"]);
+  });
+
   it.each([1, 1759298400000, 8.64e15])("acepta hoy_desde = %s", (valor) => {
     expect(validarDestacados(crearDestacados({ hoy_desde: valor }), AMIGOS).hoy_desde).toBe(valor);
   });
@@ -265,14 +320,14 @@ describe("validarDestacados", () => {
     expect(destacadosVacios(validarDestacados(crearDestacados(), AMIGOS))).toBe(false);
   });
 
-  it("por defecto mira solo las tarjetas de 7 días", () => {
+  it("por defecto mira solo las tarjetas de la semana", () => {
     const semanaNull = Object.fromEntries(CLAVES_SEMANA.map((c) => [c, null]));
     const d = validarDestacados(crearDestacados(semanaNull), AMIGOS);
     expect(destacadosVacios(d)).toBe(true);
     expect(destacadosVacios(d, CLAVES_HOY)).toBe(false);
   });
 
-  it("las claves de hoy y de 7 días están en el orden de las tarjetas", () => {
+  it("las claves de hoy y de la semana están en el orden de las tarjetas", () => {
     expect(CLAVES_HOY).toEqual(["mejor_jugador_hoy", "balance_hoy", "peor_jugador_hoy"]);
     expect(CLAVES_SEMANA).toEqual([
       "mas_partidas",
