@@ -5,6 +5,7 @@ import { TituloSeccion } from "./TituloSeccion.jsx";
 /**
  * Ranking interno del grupo (RF-07). El orden y el criterio vienen del JSON (lol.json o tft.json).
  * En escritorio cada fila mide lo mismo que una fila de amigo (80 px con borde, separación 3).
+ * `onElegir(slug, enlace)` recibe además el enlace clicado (para devolverle el foco).
  * `detalle(fila, amigo)` arma la segunda línea y `hrefDe(slug)` el enlace de cada fila.
  */
 export function Ranking({ ranking, amigos, onElegir, idTitulo = "titulo-ranking", detalle = detalleCriterio, hrefDe = hashDeAmigo }) {
@@ -30,7 +31,7 @@ export function Ranking({ ranking, amigos, onElegir, idTitulo = "titulo-ranking"
                   onClick={(e) => {
                     if (!onElegir) return;
                     e.preventDefault();
-                    onElegir(fila.slug);
+                    onElegir(fila.slug, e.currentTarget);
                   }}
                   className={`flex h-14 items-center gap-3 rounded-lg border px-3 hover:bg-superficie-alta lg:h-20 ${
                     primero ? "border-sapo/50 bg-sapo-fondo" : "border-borde bg-superficie"

@@ -26,6 +26,7 @@ from .registro import (
     winrate,
 )
 from .riot_api import ClienteRiot, ErrorAutenticacion, ErrorRiot
+from .sinergia import calcular_sinergia
 from .validacion import (
     DIVISIONES,
     TIERS,
@@ -473,18 +474,21 @@ def ejecutar(
     activas = [activa for _, activa in resultados if activa]
     # Los destacados usan el registro completo (lol.json solo lleva las últimas 10 partidas).
     # Si un registro trae algo raro, se omiten los destacados y el resto de lol.json sigue.
+    registradas = {
+        amigo.slug: _partidas_registradas(Path(dir_datos) / "registro", amigo, ahora_ms)
+        for amigo in amigos
+    }
+    # Si un cálculo falla por algo raro en un registro, el otro y el resto de lol.json siguen.
     try:
-        destacados = calcular_destacados(
-            {
-                amigo.slug: _partidas_registradas(Path(dir_datos) / "registro", amigo, ahora_ms)
-                for amigo in amigos
-            },
-            mapa,
-            ahora_ms,
-        )
+        destacados = calcular_destacados(registradas, mapa, ahora_ms)
     except (TypeError, KeyError, AttributeError, ValueError) as error:
         log.error("No se pudieron calcular los destacados (%s)", type(error).__name__)
         destacados = None
+    try:
+        sinergia = calcular_sinergia(registradas, mapa)
+    except (TypeError, KeyError, AttributeError, ValueError) as error:
+        log.error("No se pudo calcular la sinergia (%s)", type(error).__name__)
+        sinergia = None
     rangos_amigos = {
         puuids[entrada["slug"]]: (entrada["rangos"]["solo"] or entrada["rangos"]["flex"])
         for entrada in entradas
@@ -505,6 +509,7 @@ def ejecutar(
         ),
         "en_vivo": en_vivo,
         "destacados": destacados,
+        "sinergia": sinergia,
         "amigos": entradas,
         "ranking": calcular_ranking(entradas),
     }

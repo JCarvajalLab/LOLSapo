@@ -307,7 +307,7 @@ describe("Ranking", () => {
     expect(filas[1]).toHaveTextContent("Sin Solo/Dúo · winrate —");
     expect(filas[0]).toHaveAttribute("href", "#/amigo/rana-azul-las");
     await userEvent.click(filas[1]);
-    expect(onElegir).toHaveBeenCalledWith("sapito-las");
+    expect(onElegir).toHaveBeenCalledWith("sapito-las", filas[1]);
   });
 
   it("muestra estado vacío", () => {

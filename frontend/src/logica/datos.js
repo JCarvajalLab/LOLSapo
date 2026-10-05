@@ -1,5 +1,6 @@
 // Lectura y validación básica de los JSON de datos (lol.json y tft.json).
 import { validarDestacados } from "./destacados.js";
+import { validarSinergia } from "./sinergia.js";
 
 /** Ruta del JSON relativa a la página (funciona en localhost y en GitHub Pages). */
 export const RUTA_DATOS = "./datos/lol.json";
@@ -32,6 +33,8 @@ export function validarDatos(json) {
     ranking: Array.isArray(json.ranking) ? json.ranking.filter(Boolean) : [],
     // null en archivos anteriores a la fase 7: la sección no se muestra.
     destacados: validarDestacados(json.destacados, amigos),
+    // null en archivos sin sinergia: el clic en el ranking abre las partidas como antes.
+    sinergia: validarSinergia(json.sinergia, amigos),
   };
 }
 
