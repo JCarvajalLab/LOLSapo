@@ -25,6 +25,11 @@ const FILA = [
   "row-start-4 sm:row-start-3",
 ];
 
+/** Id del botón que abre y cierra el panel de un amigo (para llevarle el foco). */
+export function idBotonAmigo(slug) {
+  return `boton-amigo-${slug}`;
+}
+
 /** Fila resumen de un amigo con su panel desplegable (acordeón). */
 export function FilaAmigo({ amigo, ddragon, ahora, actualizadoMs, abierto, onAlternar, enfocar }) {
   const ref = useRef(null);
@@ -56,6 +61,7 @@ export function FilaAmigo({ amigo, ddragon, ahora, actualizadoMs, abierto, onAlt
           <h3 className="min-w-0">
             <button
               type="button"
+              id={idBotonAmigo(amigo.slug)}
               aria-expanded={abierto}
               aria-controls={idPanel}
               onClick={() => onAlternar(amigo.slug)}

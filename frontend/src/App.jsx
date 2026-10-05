@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useAhora } from "./datos/useAhora.js";
 import { useDatosLol } from "./datos/useDatosLol.js";
 import { useDatosTft } from "./datos/useDatosTft.js";
@@ -7,7 +8,8 @@ import { useJuego } from "./rutas/useJuego.js";
 import { Encabezado } from "./componentes/Encabezado.jsx";
 import { EsqueletoPagina } from "./componentes/Esqueleto.jsx";
 import { ErrorCarga, EstadoVacio } from "./componentes/Estados.jsx";
-import { FilaAmigo } from "./componentes/FilaAmigo.jsx";
+import { FilaAmigo, idBotonAmigo } from "./componentes/FilaAmigo.jsx";
+import { ModalSinergia } from "./componentes/ModalSinergia.jsx";
 import { Ranking } from "./componentes/Ranking.jsx";
 import { SeccionDestacadosHoy } from "./componentes/SeccionDestacadosHoy.jsx";
 import { SeccionDestacadosSemana } from "./componentes/SeccionDestacadosSemana.jsx";
@@ -76,10 +78,32 @@ function PanelJuego({ clave, activo, children }) {
 
 /** Vista de League of Legends: la página principal. */
 function VistaLol({ datos, error, ahora, abiertos, alternar, abrir, enfocar }) {
+  // Sinergia abierta: { slug, origen } (origen = enlace del ranking que recibe el foco al cerrar).
+  const [sinergiaDe, setSinergiaDe] = useState(null);
+
   if (error && !datos) return <ErrorCarga error={error} />;
   if (!datos) return <EsqueletoPagina />;
 
   const actualizadoMs = isoAMs(datos.actualizado);
+  const amigoSinergia = sinergiaDe && datos.amigos.find((a) => a.slug === sinergiaDe.slug);
+
+  // Sin sinergia en el JSON (archivo viejo), el ranking abre las partidas como antes.
+  const alElegirRanking = (slug, origen) => {
+    if (datos.sinergia) setSinergiaDe({ slug, origen });
+    else abrir(slug);
+  };
+  const cerrarSinergia = () => {
+    setSinergiaDe(null);
+    sinergiaDe?.origen?.focus();
+  };
+  const verPartidas = () => {
+    const { slug } = sinergiaDe;
+    setSinergiaDe(null);
+    abrir(slug);
+    // El foco va al amigo abierto; el desplazamiento lo hace su fila.
+    document.getElementById(idBotonAmigo(slug))?.focus({ preventScroll: true });
+  };
+
   return (
     <div className="space-y-6">
       <SeccionEnPartida
@@ -94,7 +118,7 @@ function VistaLol({ datos, error, ahora, abiertos, alternar, abrir, enfocar }) {
       <SeccionDestacadosSemana destacados={datos.destacados} amigos={datos.amigos} ddragon={datos.ddragon} ahora={ahora} />
 
       <div className="grid gap-6 lg:grid-cols-[18rem_minmax(0,1fr)] lg:items-start">
-        <Ranking ranking={datos.ranking} amigos={datos.amigos} onElegir={abrir} />
+        <Ranking ranking={datos.ranking} amigos={datos.amigos} onElegir={alElegirRanking} />
 
         <section aria-labelledby="titulo-amigos" className="min-w-0">
           <TituloSeccion id="titulo-amigos">Amigos</TituloSeccion>
@@ -120,6 +144,17 @@ function VistaLol({ datos, error, ahora, abiertos, alternar, abrir, enfocar }) {
           )}
         </section>
       </div>
+
+      {amigoSinergia && (
+        <ModalSinergia
+          amigo={amigoSinergia}
+          filas={datos.sinergia?.[amigoSinergia.slug] ?? []}
+          amigos={datos.amigos}
+          ddragon={datos.ddragon}
+          onCerrar={cerrarSinergia}
+          onVerPartidas={verPartidas}
+        />
+      )}
     </div>
   );
 }
