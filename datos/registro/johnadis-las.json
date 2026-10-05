@@ -3543,6 +3543,102 @@
         "principal": 8112,
         "secundaria": 8000
       }
+    },
+    "LA2_1628522648": {
+      "asesinatos": 9,
+      "asistencias": 6,
+      "campeon": "Anivia",
+      "campeon_id": 34,
+      "cs": 286,
+      "danio": 28310,
+      "duracion": 2239,
+      "equipo": 200,
+      "fecha": 1791169546196,
+      "hechizos": [
+        4,
+        12
+      ],
+      "id": "LA2_1628522648",
+      "items": [
+        3040,
+        3157,
+        3175,
+        6653,
+        6657,
+        3118,
+        3363
+      ],
+      "muertes": 3,
+      "nivel": 18,
+      "participacion": 48,
+      "participantes": [
+        {
+          "amigo": null,
+          "campeon_id": 54,
+          "equipo": 100,
+          "nombre": "Alberto catetas#0501"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 31,
+          "equipo": 100,
+          "nombre": "MéLáSHÁĆØ#3638"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 99,
+          "equipo": 100,
+          "nombre": "ŠęTëÇørtóŁªŁÛX#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 523,
+          "equipo": 100,
+          "nombre": "アラン#Aran1"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 147,
+          "equipo": 100,
+          "nombre": "GordoWar#4526"
+        },
+        {
+          "amigo": "gralmogeko-las",
+          "campeon_id": 154,
+          "equipo": 200,
+          "nombre": "GralMogeko#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 141,
+          "equipo": 200,
+          "nombre": "Kayn Carrion#Rhast"
+        },
+        {
+          "amigo": "johnadis-las",
+          "campeon_id": 34,
+          "equipo": 200,
+          "nombre": "Johnadis#LAS"
+        },
+        {
+          "amigo": "iskrat-las",
+          "campeon_id": 115,
+          "equipo": 200,
+          "nombre": "ISkrat#LAS"
+        },
+        {
+          "amigo": "nic-las",
+          "campeon_id": 235,
+          "equipo": 200,
+          "nombre": "Nicø#LAS"
+        }
+      ],
+      "queue_id": 400,
+      "resultado": "victoria",
+      "runas": {
+        "principal": 8112,
+        "secundaria": 8200
+      }
     }
   },
   "perfil": {
