@@ -3352,6 +3352,102 @@
         "principal": 8230,
         "secundaria": 8000
       }
+    },
+    "LA2_1628509473": {
+      "asesinatos": 4,
+      "asistencias": 4,
+      "campeon": "Shaco",
+      "campeon_id": 35,
+      "cs": 163,
+      "danio": 13671,
+      "duracion": 1805,
+      "equipo": 100,
+      "fecha": 1791166605566,
+      "hechizos": [
+        11,
+        14
+      ],
+      "id": "LA2_1628509473",
+      "items": [
+        6699,
+        1018,
+        3179,
+        3006,
+        3134,
+        1037,
+        3340
+      ],
+      "muertes": 5,
+      "nivel": 14,
+      "participacion": 42,
+      "participantes": [
+        {
+          "amigo": "gralmogeko-las",
+          "campeon_id": 72,
+          "equipo": 100,
+          "nombre": "GralMogeko#LAS"
+        },
+        {
+          "amigo": "nic-las",
+          "campeon_id": 35,
+          "equipo": 100,
+          "nombre": "Nicø#LAS"
+        },
+        {
+          "amigo": "johnadis-las",
+          "campeon_id": 805,
+          "equipo": 100,
+          "nombre": "Johnadis#LAS"
+        },
+        {
+          "amigo": "iskrat-las",
+          "campeon_id": 81,
+          "equipo": 100,
+          "nombre": "ISkrat#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 48,
+          "equipo": 100,
+          "nombre": "qwerty#EBQ7"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 83,
+          "equipo": 200,
+          "nombre": "Kim J0ng Kum#999"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 245,
+          "equipo": 200,
+          "nombre": "tutucaaaj#AAAJ"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 238,
+          "equipo": 200,
+          "nombre": "Mikau l Ω#XIX"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 429,
+          "equipo": 200,
+          "nombre": "TutePra#Pra"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 888,
+          "equipo": 200,
+          "nombre": "Momonga#unu"
+        }
+      ],
+      "queue_id": 400,
+      "resultado": "derrota",
+      "runas": {
+        "principal": 9923,
+        "secundaria": 8200
+      }
     }
   },
   "perfil": {
