@@ -38,6 +38,10 @@ Las tarjetas sin datos dicen «No existen partidas registradas en equipo esta se
 
 Se calculan en el recolector ([recolector/lolsapo/destacados.py](recolector/lolsapo/destacados.py)) a partir del registro completo de cada amigo, sin consultas extra a Riot.
 
+## Con quién gana más
+
+En el **Ranking** de la pestaña LoL, al hacer clic en el nombre de un amigo se abre una ventana con su sinergia con el resto del grupo: por cada compañero, cuántas partidas jugaron **en el mismo equipo** y el winrate juntos (solo Normal y Ranked, con todo lo registrado). Se puede ordenar por partidas o por winrate, y el botón «Ver sus últimas partidas» lleva a su historial. Se calcula en [recolector/lolsapo/sinergia.py](recolector/lolsapo/sinergia.py), juntando las partidas de los registros de todos sin repetirlas.
+
 ## Usarlo con tus amigos
 
 ¿Quieres tu propio LOLSapo? Haz un fork (o clónalo) y cambia estas cosas:
