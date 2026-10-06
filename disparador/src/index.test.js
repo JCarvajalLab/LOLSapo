@@ -19,7 +19,7 @@ const AHORA = Date.parse("2026-10-06T16:30:00Z");
 const MIN = 60 * 1000;
 
 function ejecucion(id, minutosAtras, status = "waiting") {
-  return { id, status, created_at: new Date(AHORA - minutosAtras * MIN).toISOString() };
+  return { id, status, updated_at: new Date(AHORA - minutosAtras * MIN).toISOString() };
 }
 
 function lista(...ejecuciones) {
@@ -110,7 +110,7 @@ describe("cancelarTrabadas", () => {
 
     const [urlLista, opcionesLista] = fetchFn.mock.calls[0];
     expect(urlLista).toBe(
-      "https://api.github.com/repos/JCarvajalLab/LOLSapo/actions/workflows/publicar.yml/runs?status=waiting&per_page=20",
+      "https://api.github.com/repos/JCarvajalLab/LOLSapo/actions/workflows/publicar.yml/runs?status=waiting&per_page=20&exclude_pull_requests=true",
     );
     expect(opcionesLista.headers.Authorization).toBe(`Bearer ${TOKEN}`);
     expect(opcionesLista.redirect).toBe("manual");
@@ -146,9 +146,9 @@ describe("cancelarTrabadas", () => {
 
   it("ignora ids o fechas raros", async () => {
     const raras = [
-      { id: "934", status: "waiting", created_at: "2026-10-06T09:00:00Z" },
-      { id: -1, status: "waiting", created_at: "2026-10-06T09:00:00Z" },
-      { id: 5, status: "waiting", created_at: "ayer" },
+      { id: "934", status: "waiting", updated_at: "2026-10-06T09:00:00Z" },
+      { id: -1, status: "waiting", updated_at: "2026-10-06T09:00:00Z" },
+      { id: 5, status: "waiting", updated_at: "ayer" },
     ];
     const fetchFn = vi.fn().mockResolvedValueOnce(lista(...raras));
     await expect(cancelarTrabadas(ENV, fetchFn, AHORA)).resolves.toEqual([]);
@@ -188,5 +188,38 @@ describe("handler programado", () => {
 
   it("no tiene handler fetch (sin URL pública)", () => {
     expect(trabajador.fetch).toBeUndefined();
+  });
+});
+
+describe("cancelarTrabadas, casos extra", () => {
+  it("sin configuración no lanza ni llama a GitHub", async () => {
+    vi.spyOn(console, "error").mockImplementation(() => {});
+    const fetchFn = vi.fn();
+    await expect(cancelarTrabadas({}, fetchFn, AHORA)).resolves.toEqual([]);
+    expect(fetchFn).not.toHaveBeenCalled();
+  });
+
+  it("las consultas llevan timeout", async () => {
+    vi.spyOn(console, "log").mockImplementation(() => {});
+    const fetchFn = vi
+      .fn()
+      .mockResolvedValueOnce(lista(ejecucion(1, 60)))
+      .mockResolvedValueOnce(respuesta(202));
+    await cancelarTrabadas(ENV, fetchFn, AHORA);
+    for (const [, opciones] of fetchFn.mock.calls) {
+      expect(opciones.signal).toBeInstanceOf(AbortSignal);
+    }
+  });
+
+  it("mide desde updated_at: una creada hace mucho pero recién en espera no se cancela", async () => {
+    const reciente = {
+      id: 9,
+      status: "waiting",
+      created_at: new Date(AHORA - 120 * MIN).toISOString(),
+      updated_at: new Date(AHORA - 2 * MIN).toISOString(),
+    };
+    const fetchFn = vi.fn().mockResolvedValueOnce(lista(reciente));
+    await expect(cancelarTrabadas(ENV, fetchFn, AHORA)).resolves.toEqual([]);
+    expect(fetchFn).toHaveBeenCalledTimes(1);
   });
 });

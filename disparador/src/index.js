@@ -46,21 +46,26 @@ function cabeceras(token) {
 // Una ejecución "esperando" (waiting) más de esto está trabada: el environment `produccion`
 // no pide aprobación, así que nunca debería esperar. GitHub a veces las deja colgadas y, como
 // solo corre una a la vez, bloquean todas las siguientes.
+// ⚠️ Si algún día se agregan revisores o un temporizador a `produccion`, esto cancelaría las
+// aprobaciones pendientes a los 15 minutos: habría que subir este valor o quitar la limpieza.
 export const MINUTOS_TRABADA = 15;
 const MAX_CANCELACIONES = 5;
+// Tiempo máximo de cada consulta a GitHub, para que una API colgada no retrase el disparo.
+const TIMEOUT_MS = 10_000;
 
 /**
- * Cancela las ejecuciones del workflow trabadas en "waiting" hace más de MINUTOS_TRABADA.
- * Nunca lanza: si algo falla, lo deja en el log y devuelve las que alcanzó a cancelar.
+ * Cancela las ejecuciones del workflow trabadas en "waiting" hace más de MINUTOS_TRABADA
+ * (contando desde su última actualización, `updated_at`). Nunca lanza: si algo falla, incluso
+ * la configuración, lo deja en el log y devuelve las que alcanzó a cancelar.
  */
 export async function cancelarTrabadas(env, fetchFn = fetch, ahora = Date.now()) {
-  const { repo, workflow, token } = configuracion(env);
-  const base = `${API_GITHUB}/repos/${repo}/actions`;
   const canceladas = [];
   try {
+    const { repo, workflow, token } = configuracion(env);
+    const base = `${API_GITHUB}/repos/${repo}/actions`;
     const respuesta = await fetchFn(
-      `${base}/workflows/${workflow}/runs?status=waiting&per_page=20`,
-      { headers: cabeceras(token), redirect: "manual" },
+      `${base}/workflows/${workflow}/runs?status=waiting&per_page=20&exclude_pull_requests=true`,
+      { headers: cabeceras(token), redirect: "manual", signal: AbortSignal.timeout(TIMEOUT_MS) },
     );
     if (respuesta.status !== 200) {
       console.error(`No se pudo revisar ejecuciones trabadas (GitHub respondió ${respuesta.status})`);
@@ -70,16 +75,15 @@ export async function cancelarTrabadas(env, fetchFn = fetch, ahora = Date.now())
     const ejecuciones = Array.isArray(datos?.workflow_runs) ? datos.workflow_runs : [];
     const limite = ahora - MINUTOS_TRABADA * 60 * 1000;
     const trabadas = ejecuciones.filter((e) => {
-      const creada = Date.parse(e?.created_at);
-      return (
-        Number.isSafeInteger(e?.id) && e.id > 0 && e?.status === "waiting" && creada < limite
-      );
+      const desde = Date.parse(e?.updated_at);
+      return Number.isSafeInteger(e?.id) && e.id > 0 && e?.status === "waiting" && desde < limite;
     });
     for (const ejecucion of trabadas.slice(0, MAX_CANCELACIONES)) {
       const cancelar = await fetchFn(`${base}/runs/${ejecucion.id}/cancel`, {
         method: "POST",
         headers: cabeceras(token),
         redirect: "manual",
+        signal: AbortSignal.timeout(TIMEOUT_MS),
       });
       if (cancelar.status >= 200 && cancelar.status < 300) {
         canceladas.push(ejecucion.id);
