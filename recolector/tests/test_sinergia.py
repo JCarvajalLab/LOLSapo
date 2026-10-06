@@ -207,3 +207,77 @@ def test_relleno_pagina_de_a_100(cliente, mapa, tmp_path):
     )
     ejecutar(cliente, KEY_FALSA, [JOHN], mapa, tmp_path, tmp_path / "lol.json", ahora=AHORA)
     assert pedidos == [0, 100]
+
+
+@responses.activate
+def test_un_error_en_una_partida_antigua_no_afecta_a_las_nuevas(cliente, mapa, tmp_path):
+    from urllib.parse import parse_qs, urlsplit
+
+    def ids(request):
+        q = parse_qs(urlsplit(request.url).query)
+        lista = ["LA2_100", "LA2_2", "LA2_1"] if "startTime" in q else ["LA2_100"]
+        return (200, {}, json.dumps(lista))
+
+    simular_amigo("Johnadis", P_JOHN, [])
+    url_ids = f"{URL_REGION}/lol/match/v5/matches/by-puuid/{P_JOHN}/ids"
+    responses.remove(responses.GET, url_ids)
+    responses.add_callback(responses.GET, url_ids, callback=ids)
+    simular_partida("LA2_100", P_JOHN, fin=AHORA_MS - HORA)
+    responses.get(f"{URL_REGION}/lol/match/v5/matches/LA2_2", status=404)
+    simular_partida("LA2_1", P_JOHN, fin=AHORA_MS - 3 * HORA)
+
+    salida = ejecutar(
+        cliente, KEY_FALSA, [JOHN], mapa, tmp_path, tmp_path / "lol.json", ahora=AHORA
+    )
+    assert salida["amigos"][0]["estado"] == "ok"
+    registro = json.loads((tmp_path / "registro" / "johnadis-las.json").read_text("utf-8"))
+    assert set(registro["partidas"]) == {"LA2_100", "LA2_1"}  # la del 404 se omite
+    assert registro["relleno_30_dias"] is True
+
+
+@responses.activate
+def test_si_falla_pedir_los_ids_antiguos_la_actualizacion_normal_sigue(cliente, mapa, tmp_path):
+    from urllib.parse import parse_qs, urlsplit
+
+    def ids(request):
+        if "startTime" in parse_qs(urlsplit(request.url).query):
+            return (503, {}, "")
+        return (200, {}, json.dumps(["LA2_100"]))
+
+    simular_amigo("Johnadis", P_JOHN, [])
+    url_ids = f"{URL_REGION}/lol/match/v5/matches/by-puuid/{P_JOHN}/ids"
+    responses.remove(responses.GET, url_ids)
+    responses.add_callback(responses.GET, url_ids, callback=ids)
+    simular_partida("LA2_100", P_JOHN, fin=AHORA_MS - HORA)
+
+    salida = ejecutar(
+        cliente, KEY_FALSA, [JOHN], mapa, tmp_path, tmp_path / "lol.json", ahora=AHORA
+    )
+    assert salida["amigos"][0]["estado"] == "ok"
+    registro = json.loads((tmp_path / "registro" / "johnadis-las.json").read_text("utf-8"))
+    assert set(registro["partidas"]) == {"LA2_100"}
+    assert "relleno_30_dias" not in registro  # se reintenta en la próxima ejecución
+
+
+@responses.activate
+def test_un_lote_que_falla_entero_da_la_carga_por_terminada(cliente, mapa, tmp_path):
+    from urllib.parse import parse_qs, urlsplit
+
+    antiguas = [f"LA2_{i}" for i in range(20, 0, -1)]
+
+    def ids(request):
+        q = parse_qs(urlsplit(request.url).query)
+        return (200, {}, json.dumps(antiguas if "startTime" in q else []))
+
+    simular_amigo("Johnadis", P_JOHN, [])
+    url_ids = f"{URL_REGION}/lol/match/v5/matches/by-puuid/{P_JOHN}/ids"
+    responses.remove(responses.GET, url_ids)
+    responses.add_callback(responses.GET, url_ids, callback=ids)
+    responses.add(
+        responses.GET,
+        re.compile(rf"{re.escape(URL_REGION)}/lol/match/v5/matches/LA2_\d+$"),
+        status=404,
+    )
+    ejecutar(cliente, KEY_FALSA, [JOHN], mapa, tmp_path, tmp_path / "lol.json", ahora=AHORA)
+    registro = json.loads((tmp_path / "registro" / "johnadis-las.json").read_text("utf-8"))
+    assert registro["relleno_30_dias"] is True

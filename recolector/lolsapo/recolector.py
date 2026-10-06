@@ -63,8 +63,18 @@ def _resolver_puuid(cliente: ClienteRiot, amigo: Amigo) -> str:
 
 
 def _resumir_nuevas(
-    cliente: ClienteRiot, puuid: str, ids: list[str], slug_por_puuid: dict
+    cliente: ClienteRiot,
+    puuid: str,
+    ids: list[str],
+    slug_por_puuid: dict,
+    *,
+    tolerante: bool = False,
 ) -> list[dict]:
+    """Descarga y resume las partidas `ids`.
+
+    Con `tolerante` (carga hacia atrás), un error de Riot en una partida solo la omite; si no,
+    se propaga como siempre (y el amigo queda con sus últimos datos).
+    """
     resumenes = []
     for id_partida in ids:
         try:
@@ -72,6 +82,13 @@ def _resumir_nuevas(
         except DatoInvalido as error:
             # Se omite; como no queda guardada, se reintenta en la próxima ejecución.
             log.warning("Partida %s omitida: %s", id_partida, error)
+            continue
+        except ErrorAutenticacion:
+            raise
+        except ErrorRiot as error:
+            if not tolerante:
+                raise
+            log.warning("Partida antigua %s omitida (%s)", id_partida, type(error).__name__)
             continue
         resumen["participantes"] = anonimizar_participantes(
             resumen["participantes"], slug_por_puuid
@@ -99,7 +116,12 @@ def _rellenar(
         if len(lote) < 100:
             break
     faltan = [i for i in ids_nuevos(ids, registro) if i not in ya_pedidas]
-    resumenes = _resumir_nuevas(cliente, puuid, faltan[:LOTE_RELLENO], slug_por_puuid)
+    lote = faltan[:LOTE_RELLENO]
+    resumenes = _resumir_nuevas(cliente, puuid, lote, slug_por_puuid, tolerante=True)
+    if lote and not resumenes:
+        # Ninguna del lote se pudo guardar: se da por terminada para no reintentar siempre.
+        log.warning("Carga de 30 días terminada sin poder guardar %d partidas", len(lote))
+        return [], True
     return resumenes, len(faltan) <= LOTE_RELLENO
 
 
@@ -124,10 +146,16 @@ def _consultar(
     resumenes = _resumir_nuevas(cliente, puuid, nuevas, slug_por_puuid)
     relleno_completo = bool(registro.get("relleno_30_dias"))
     if not relleno_completo and ahora_ms:
-        antiguas, relleno_completo = _rellenar(
-            cliente, puuid, registro, set(nuevas), slug_por_puuid, ahora_ms
-        )
-        resumenes += antiguas
+        # La carga hacia atrás nunca debe tumbar la actualización normal del amigo.
+        try:
+            antiguas, relleno_completo = _rellenar(
+                cliente, puuid, registro, set(nuevas), slug_por_puuid, ahora_ms
+            )
+            resumenes += antiguas
+        except ErrorAutenticacion:
+            raise
+        except (ErrorRiot, DatoInvalido) as error:
+            log.warning("Carga de 30 días pospuesta (%s)", type(error).__name__)
     return {
         "perfil": perfil,
         "rangos": rangos,
