@@ -25,7 +25,7 @@ from .registro import (
     ultimas_partidas,
     winrate,
 )
-from .riot_api import ClienteRiot, ErrorAutenticacion, ErrorRiot
+from .riot_api import ClienteRiot, ErrorAutenticacion, ErrorRiot, NoEncontrado
 from .sinergia import calcular_sinergia
 from .validacion import (
     DIVISIONES,
@@ -42,6 +42,12 @@ from .validacion import (
 from .validacion_tft import es_partida_tft
 
 VERSION_SALIDA = 1
+# Carga de una sola vez hacia atrás: las partidas de los últimos 30 días que no estén en el
+# registro (que empezó con las últimas 20 de cada uno). Se hace de a poco en cada ejecución y,
+# al terminar, se marca en el registro para no repetirla.
+DIAS_RELLENO = 30
+LOTE_RELLENO = 15  # partidas antiguas por amigo y por ejecución
+MAX_PAGINAS_RELLENO = 5  # hasta 500 ids en 30 días por amigo
 PARTIDAS_VISIBLES = 10
 MENSAJE_ERROR = "No se pudieron actualizar los datos de este jugador."
 
@@ -56,8 +62,75 @@ def _resolver_puuid(cliente: ClienteRiot, amigo: Amigo) -> str:
     return validar_cuenta(cliente.cuenta_por_riot_id(amigo.nombre, amigo.tag))["puuid"]
 
 
+def _resumir_nuevas(
+    cliente: ClienteRiot,
+    puuid: str,
+    ids: list[str],
+    slug_por_puuid: dict,
+    *,
+    tolerante: bool = False,
+) -> list[dict]:
+    """Descarga y resume las partidas `ids`.
+
+    Con `tolerante` (carga hacia atrás), una partida que Riot ya no tiene (404) solo se omite.
+    Los errores pasajeros (429, 5xx, red) se propagan siempre: la carga queda pospuesta para la
+    próxima ejecución en vez de darse por terminada.
+    """
+    resumenes = []
+    for id_partida in ids:
+        try:
+            resumen = resumir_partida(cliente.partida(id_partida), puuid, id_partida)
+        except DatoInvalido as error:
+            # Se omite; como no queda guardada, se reintenta en la próxima ejecución.
+            log.warning("Partida %s omitida: %s", id_partida, error)
+            continue
+        except NoEncontrado:
+            if not tolerante:
+                raise
+            log.warning("Partida antigua %s omitida (Riot ya no la tiene)", id_partida)
+            continue
+        resumen["participantes"] = anonimizar_participantes(
+            resumen["participantes"], slug_por_puuid
+        )
+        resumenes.append(resumen)
+    return resumenes
+
+
+def _rellenar(
+    cliente: ClienteRiot,
+    puuid: str,
+    registro: dict,
+    ya_pedidas: set[str],
+    slug_por_puuid: dict,
+    ahora_ms: int,
+) -> tuple[list[dict], bool]:
+    """Un lote de partidas de los últimos 30 días que faltan. Devuelve (resúmenes, terminó)."""
+    desde_s = (ahora_ms // 1000) - DIAS_RELLENO * 24 * 60 * 60
+    ids: list[str] = []
+    for pagina in range(MAX_PAGINAS_RELLENO):
+        lote = validar_ids_partidas(
+            cliente.ids_partidas(puuid, 100, inicio=pagina * 100, desde_s=desde_s)
+        )
+        ids += lote
+        if len(lote) < 100:
+            break
+    faltan = [i for i in ids_nuevos(ids, registro) if i not in ya_pedidas]
+    lote = faltan[:LOTE_RELLENO]
+    resumenes = _resumir_nuevas(cliente, puuid, lote, slug_por_puuid, tolerante=True)
+    if lote and not resumenes:
+        # Ninguna del lote se pudo guardar: se da por terminada para no reintentar siempre.
+        log.warning("Carga de 30 días terminada sin poder guardar %d partidas", len(lote))
+        return [], True
+    return resumenes, len(faltan) <= LOTE_RELLENO
+
+
 def _consultar(
-    cliente: ClienteRiot, puuid: str, registro: dict, cantidad: int, slug_por_puuid: dict
+    cliente: ClienteRiot,
+    puuid: str,
+    registro: dict,
+    cantidad: int,
+    slug_por_puuid: dict,
+    ahora_ms: int = 0,
 ) -> dict:
     perfil = validar_invocador(cliente.invocador(puuid))
     rangos = validar_ligas(cliente.ligas(puuid))
@@ -67,20 +140,28 @@ def _consultar(
         activa = None  # las partidas de TFT se muestran en tft.json
     jugando = validar_partida_activa(activa, puuid) if activa is not None else None
 
-    resumenes = []
     ids = validar_ids_partidas(cliente.ids_partidas(puuid, cantidad))
-    for id_partida in ids_nuevos(ids, registro):
+    nuevas = ids_nuevos(ids, registro)
+    resumenes = _resumir_nuevas(cliente, puuid, nuevas, slug_por_puuid)
+    relleno_completo = bool(registro.get("relleno_30_dias"))
+    if not relleno_completo and ahora_ms:
+        # La carga hacia atrás nunca debe tumbar la actualización normal del amigo.
         try:
-            resumen = resumir_partida(cliente.partida(id_partida), puuid, id_partida)
-        except DatoInvalido as error:
-            # Se omite; como no queda guardada, se reintenta en la próxima ejecución.
-            log.warning("Partida %s omitida: %s", id_partida, error)
-            continue
-        resumen["participantes"] = anonimizar_participantes(
-            resumen["participantes"], slug_por_puuid
-        )
-        resumenes.append(resumen)
-    return {"perfil": perfil, "rangos": rangos, "jugando": jugando, "resumenes": resumenes}
+            antiguas, relleno_completo = _rellenar(
+                cliente, puuid, registro, set(nuevas), slug_por_puuid, ahora_ms
+            )
+            resumenes += antiguas
+        except ErrorAutenticacion:
+            raise
+        except (ErrorRiot, DatoInvalido) as error:
+            log.warning("Carga de 30 días pospuesta (%s)", type(error).__name__)
+    return {
+        "perfil": perfil,
+        "rangos": rangos,
+        "jugando": jugando,
+        "resumenes": resumenes,
+        "relleno_completo": relleno_completo,
+    }
 
 
 def _resolver_puuids(cliente: ClienteRiot, amigos: list[Amigo]) -> dict[str, str | None]:
@@ -132,11 +213,13 @@ def procesar_amigo(
     try:
         if puuid is None:
             raise ErrorRiot("no se conoce su PUUID")
-        datos = _consultar(cliente, puuid, registro, cantidad, slug_por_puuid)
+        datos = _consultar(cliente, puuid, registro, cantidad, slug_por_puuid, ahora_ms)
         registro["perfil"] = datos["perfil"]
         registro["rangos"] = datos["rangos"]
         jugando = datos["jugando"]
         nuevas = agregar_partidas(registro, datos["resumenes"])
+        if datos["relleno_completo"]:
+            registro["relleno_30_dias"] = True
         log.info("%s: %d partidas nuevas", amigo.riot_id, nuevas)
     except ErrorAutenticacion:
         raise
@@ -485,7 +568,12 @@ def ejecutar(
         log.error("No se pudieron calcular los destacados (%s)", type(error).__name__)
         destacados = None
     try:
-        sinergia = calcular_sinergia(registradas, mapa)
+        sinergia = {
+            "ultimos_30_dias": calcular_sinergia(
+                registradas, mapa, ahora_ms - DIAS_RELLENO * 24 * 60 * 60 * 1000
+            ),
+            "todo": calcular_sinergia(registradas, mapa),
+        }
     except (TypeError, KeyError, AttributeError, ValueError) as error:
         log.error("No se pudo calcular la sinergia (%s)", type(error).__name__)
         sinergia = None
