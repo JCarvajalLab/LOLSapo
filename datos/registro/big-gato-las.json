@@ -2780,6 +2780,102 @@
         "principal": 8010,
         "secundaria": 8200
       }
+    },
+    "LA2_1628703554": {
+      "asesinatos": 0,
+      "asistencias": 0,
+      "campeon": "Xerath",
+      "campeon_id": 101,
+      "cs": 97,
+      "danio": 4059,
+      "duracion": 916,
+      "equipo": 100,
+      "fecha": 1791252457056,
+      "hechizos": [
+        12,
+        4
+      ],
+      "id": "LA2_1628703554",
+      "items": [
+        1056,
+        6655,
+        1001,
+        0,
+        0,
+        0,
+        3340
+      ],
+      "muertes": 3,
+      "nivel": 10,
+      "participacion": 0,
+      "participantes": [
+        {
+          "amigo": "iskrat-las",
+          "campeon_id": 41,
+          "equipo": 100,
+          "nombre": "ISkrat#LAS"
+        },
+        {
+          "amigo": "nic-las",
+          "campeon_id": 11,
+          "equipo": 100,
+          "nombre": "Nicø#LAS"
+        },
+        {
+          "amigo": "big-gato-las",
+          "campeon_id": 101,
+          "equipo": 100,
+          "nombre": "Big Gato#LAS"
+        },
+        {
+          "amigo": "gralmogeko-las",
+          "campeon_id": 202,
+          "equipo": 100,
+          "nombre": "GralMogeko#LAS"
+        },
+        {
+          "amigo": "johnadis-las",
+          "campeon_id": 26,
+          "equipo": 100,
+          "nombre": "Johnadis#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 75,
+          "equipo": 200,
+          "nombre": "AlvaxFish#Fizz"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 246,
+          "equipo": 200,
+          "nombre": "Domynix#5923"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 55,
+          "equipo": 200,
+          "nombre": "IVCK2110#KR01"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 110,
+          "equipo": 200,
+          "nombre": "Levken#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 53,
+          "equipo": 200,
+          "nombre": "Lizardraw#uwu"
+        }
+      ],
+      "queue_id": 400,
+      "resultado": "derrota",
+      "runas": {
+        "principal": 8229,
+        "secundaria": 8000
+      }
     }
   },
   "perfil": {
