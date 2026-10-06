@@ -1532,12 +1532,12 @@
     },
     "TFTEvent5YR_Brock": {
       "costo": 5,
-      "imagen": "TFTEvent5YR_Brock_splash_centered_0.TFT_Event_5YR_Set17.png",
+      "imagen": "TFTEvent5YR_Brock_splash_centered_0.png",
       "nombre": "Brock"
     },
     "TFTEvent5YR_Galio": {
       "costo": 5,
-      "imagen": "TFTEvent5YR_Galio_splash_centered_0.TFT_Event_5YR_Set17.png",
+      "imagen": "TFTEvent5YR_Galio_splash_centered_0.png",
       "nombre": "Galio"
     },
     "TFTTutorial_Ahri": {
@@ -5104,7 +5104,7 @@
     },
     "TFTEvent5YR_Explorer_TotalMRQuest": {
       "imagen": "TFTEvent5YR_Explorer_TotalMRQuest.png",
-      "nombre": "Haz que un campeón obtenga  @TFTUnitProperty.:TFT16_Explorer"
+      "nombre": "Haz que un campeón obtenga @TFTUnitProperty.:TFT16_Explorer_"
     },
     "TFTEvent5YR_Explorer_WinLateQuest": {
       "imagen": "TFTEvent5YR_Explorer_WinLateQuest.png",
@@ -7845,6 +7845,6 @@
       "nombre": "Yordle"
     }
   },
-  "version": "16.19.1",
+  "version": "16.20.1",
   "version_cache": 1
 }
