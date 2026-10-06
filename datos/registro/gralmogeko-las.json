@@ -3167,6 +3167,102 @@
         "principal": 8021,
         "secundaria": 8200
       }
+    },
+    "LA2_1628711606": {
+      "asesinatos": 5,
+      "asistencias": 7,
+      "campeon": "Gragas",
+      "campeon_id": 79,
+      "cs": 176,
+      "danio": 17496,
+      "duracion": 1482,
+      "equipo": 200,
+      "fecha": 1791254274935,
+      "hechizos": [
+        4,
+        14
+      ],
+      "id": "LA2_1628711606",
+      "items": [
+        3175,
+        3152,
+        4646,
+        3070,
+        1056,
+        1052,
+        3340
+      ],
+      "muertes": 4,
+      "nivel": 14,
+      "participacion": 46,
+      "participantes": [
+        {
+          "amigo": null,
+          "campeon_id": 126,
+          "equipo": 100,
+          "nombre": "K I Y A N A E#LASSS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 31,
+          "equipo": 100,
+          "nombre": "Nick Is Back#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 112,
+          "equipo": 100,
+          "nombre": "Tetsune Miku#MIKU"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 145,
+          "equipo": 100,
+          "nombre": "Sors#Jhin"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 43,
+          "equipo": 100,
+          "nombre": "アラン#Aran1"
+        },
+        {
+          "amigo": "nic-las",
+          "campeon_id": 85,
+          "equipo": 200,
+          "nombre": "Nicø#LAS"
+        },
+        {
+          "amigo": "big-gato-las",
+          "campeon_id": 121,
+          "equipo": 200,
+          "nombre": "Big Gato#LAS"
+        },
+        {
+          "amigo": "gralmogeko-las",
+          "campeon_id": 79,
+          "equipo": 200,
+          "nombre": "GralMogeko#LAS"
+        },
+        {
+          "amigo": "johnadis-las",
+          "campeon_id": 22,
+          "equipo": 200,
+          "nombre": "Johnadis#LAS"
+        },
+        {
+          "amigo": "iskrat-las",
+          "campeon_id": 115,
+          "equipo": 200,
+          "nombre": "ISkrat#LAS"
+        }
+      ],
+      "queue_id": 400,
+      "resultado": "victoria",
+      "runas": {
+        "principal": 8230,
+        "secundaria": 8100
+      }
     }
   },
   "perfil": {
