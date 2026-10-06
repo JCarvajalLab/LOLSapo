@@ -3640,6 +3640,102 @@
         "principal": 8351,
         "secundaria": 8400
       }
+    },
+    "LA2_1628680888": {
+      "asesinatos": 7,
+      "asistencias": 16,
+      "campeon": "Nocturne",
+      "campeon_id": 56,
+      "cs": 324,
+      "danio": 26199,
+      "duracion": 2878,
+      "equipo": 200,
+      "fecha": 1791250676401,
+      "hechizos": [
+        11,
+        4
+      ],
+      "id": "LA2_1628680888",
+      "items": [
+        6631,
+        3073,
+        3071,
+        3111,
+        6333,
+        3026,
+        3340
+      ],
+      "muertes": 9,
+      "nivel": 18,
+      "participacion": 47,
+      "participantes": [
+        {
+          "amigo": null,
+          "campeon_id": 223,
+          "equipo": 100,
+          "nombre": "Thαm Kirk#trolz"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 133,
+          "equipo": 100,
+          "nombre": "FaceCheck1#ff15"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 711,
+          "equipo": 100,
+          "nombre": "AlMujahïdVeigar#LOL"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 21,
+          "equipo": 100,
+          "nombre": "BlazeHeatnixGen#2408"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 89,
+          "equipo": 100,
+          "nombre": "Inaba Hyper#KINDR"
+        },
+        {
+          "amigo": "big-gato-las",
+          "campeon_id": 122,
+          "equipo": 200,
+          "nombre": "Big Gato#LAS"
+        },
+        {
+          "amigo": "nic-las",
+          "campeon_id": 56,
+          "equipo": 200,
+          "nombre": "Nicø#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 893,
+          "equipo": 200,
+          "nombre": "chuvi84#LAS"
+        },
+        {
+          "amigo": "iskrat-las",
+          "campeon_id": 236,
+          "equipo": 200,
+          "nombre": "ISkrat#LAS"
+        },
+        {
+          "amigo": "johnadis-las",
+          "campeon_id": 12,
+          "equipo": 200,
+          "nombre": "Johnadis#LAS"
+        }
+      ],
+      "queue_id": 400,
+      "resultado": "derrota",
+      "runas": {
+        "principal": 8010,
+        "secundaria": 8100
+      }
     }
   },
   "perfil": {
