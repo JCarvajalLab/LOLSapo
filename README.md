@@ -40,7 +40,7 @@ Se calculan en el recolector ([recolector/lolsapo/destacados.py](recolector/lols
 
 ## Con quién gana más
 
-En el **Ranking** de la pestaña LoL, al hacer clic en el nombre de un amigo se abre una ventana con su sinergia con el resto del grupo: por cada compañero, cuántas partidas jugaron **en el mismo equipo** y el winrate juntos (solo Normal y Ranked, con todo lo registrado). Se puede ordenar por partidas o por winrate, y el botón «Ver sus últimas partidas» lleva a su historial. Se calcula en [recolector/lolsapo/sinergia.py](recolector/lolsapo/sinergia.py), juntando las partidas de los registros de todos sin repetirlas.
+En el **Ranking** de la pestaña LoL, al hacer clic en el nombre de un amigo se abre una ventana con su sinergia con el resto del grupo: por cada compañero, cuántas partidas jugaron **en el mismo equipo** y el winrate juntos (solo Normal y Ranked). Tiene dos períodos: **últimos 30 días** (el que se abre primero) y **todo lo registrado**; los compañeros con los que no jugó en ese período aparecen al final con «No han jugado juntos». Al empezar, el recolector completó una sola vez las partidas de los últimos 30 días que faltaban en el registro. Se puede ordenar por partidas o por winrate, y el botón «Ver sus últimas partidas» lleva a su historial. Se calcula en [recolector/lolsapo/sinergia.py](recolector/lolsapo/sinergia.py), juntando las partidas de los registros de todos sin repetirlas.
 
 ## Usarlo con tus amigos
 
