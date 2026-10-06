@@ -4,35 +4,51 @@ import { nombreRango } from "../logica/formato.js";
 import {
   anchoPartidas,
   esWinratePositivo,
+  filasConTodos,
   formatearTasa,
-  ordenarSinergia,
+  ORDEN_INICIAL,
   siguienteOrden,
 } from "../logica/sinergia.js";
 import { ImagenDD } from "./ImagenDD.jsx";
 
-const ORDEN_INICIAL = { columna: "partidas", direccion: "desc" };
-
 /**
  * Tabla "Con quién gana más" de un amigo, al estilo "Jugado con" de op.gg.
  * No sabe dónde se muestra (modal o desplegado): recibe las filas ya validadas
- * (`logica/sinergia.js`) y los amigos para el ícono, el nombre y el rango.
- * Se ordena por "Jugadas" o "Tasa de victorias" haciendo clic en el encabezado.
+ * (`logica/sinergia.js`), los slugs de todos los compañeros del grupo (`companeros`)
+ * y los amigos para el ícono, el nombre y el rango. Los compañeros sin partidas juntos
+ * aparecen al final con `textoSinPartidas`.
+ * Se ordena por "Jugadas" o "Tasa de victorias" haciendo clic en el encabezado. El orden
+ * puede venir de afuera (`orden` + `onOrdenar`) para que sobreviva al cambio de período.
  */
-export function TablaSinergia({ filas, amigos, ddragon, etiqueta }) {
-  const [orden, setOrden] = useState(ORDEN_INICIAL);
+export function TablaSinergia({
+  filas,
+  companeros,
+  amigos,
+  ddragon,
+  etiqueta,
+  textoSinPartidas = "Todavía no han jugado juntos",
+  orden: ordenExterno,
+  onOrdenar,
+}) {
+  const [ordenInterno, setOrdenInterno] = useState(ORDEN_INICIAL);
+  const orden = ordenExterno ?? ordenInterno;
 
-  if (!filas || filas.length === 0) {
+  if (!companeros || companeros.length === 0) {
     return (
       <p className="rounded-lg border border-borde bg-fondo px-3 py-6 text-center text-sm text-texto-suave">
-        Todavía no hay partidas en equipo registradas con el grupo.
+        No hay otros amigos en el grupo.
       </p>
     );
   }
 
   const porSlug = new Map((amigos ?? []).map((a) => [a.slug, a]));
-  const maximo = Math.max(...filas.map((f) => f.partidas));
-  const ordenadas = ordenarSinergia(filas, orden.columna, orden.direccion);
-  const alOrdenar = (columna) => setOrden((actual) => siguienteOrden(actual, columna));
+  const lista = filasConTodos(filas, companeros, orden.columna, orden.direccion);
+  const maximo = Math.max(0, ...lista.map((f) => f.partidas));
+  const alOrdenar = (columna) => {
+    const siguiente = siguienteOrden(orden, columna);
+    if (onOrdenar) onOrdenar(siguiente);
+    else setOrdenInterno(siguiente);
+  };
 
   return (
     <table className="w-full table-fixed border-collapse text-sm">
@@ -61,13 +77,14 @@ export function TablaSinergia({ filas, amigos, ddragon, etiqueta }) {
         </tr>
       </thead>
       <tbody>
-        {ordenadas.map((fila) => (
+        {lista.map((fila) => (
           <FilaSinergia
             key={fila.amigo}
             fila={fila}
             companero={porSlug.get(fila.amigo)}
             ddragon={ddragon}
             maximo={maximo}
+            textoSinPartidas={textoSinPartidas}
           />
         ))}
       </tbody>
@@ -98,12 +115,12 @@ function EncabezadoOrdenable({ columna, orden, onOrdenar, className, children })
   );
 }
 
-function FilaSinergia({ fila, companero, ddragon, maximo }) {
+function FilaSinergia({ fila, companero, ddragon, maximo, textoSinPartidas }) {
   const riotId = companero?.riot_id ?? fila.amigo;
   const rango = nombreRango(companero?.rangos?.solo) ?? "Sin clasificar";
   const positivo = esWinratePositivo(fila.winrate);
   return (
-    <tr className="border-b border-borde last:border-b-0">
+    <tr className="border-b border-borde last:border-b-0" data-sin-partidas={fila.sinPartidas ? "" : undefined}>
       <th scope="row" className="py-2 pr-2 text-left font-normal">
         <span className="flex min-w-0 items-center gap-2">
           <ImagenDD
@@ -119,6 +136,20 @@ function FilaSinergia({ fila, companero, ddragon, maximo }) {
           </span>
         </span>
       </th>
+      {fila.sinPartidas ? (
+        <td colSpan={2} className="py-2 pl-2 align-middle text-xs text-texto-suave">
+          {textoSinPartidas}
+        </td>
+      ) : (
+        <CeldasCifras fila={fila} maximo={maximo} positivo={positivo} />
+      )}
+    </tr>
+  );
+}
+
+function CeldasCifras({ fila, maximo, positivo }) {
+  return (
+    <>
       <td className="py-2 pl-2 align-middle">
         <Barra ancho={anchoPartidas(fila.partidas, maximo)} clase="bg-ranked" />
         <span className="cifras mt-1 block text-xs">{fila.partidas}</span>
@@ -129,7 +160,7 @@ function FilaSinergia({ fila, companero, ddragon, maximo }) {
           {formatearTasa(fila.winrate)}
         </span>
       </td>
-    </tr>
+    </>
   );
 }
 

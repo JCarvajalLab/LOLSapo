@@ -342,3 +342,46 @@ export function crearDestacados(cambios = {}) {
     ...cambios,
   };
 }
+
+// Sinergia INVENTADA (lol.json → "sinergia"). Usa un cuarto amigo, `renacuajo`.
+export const renacuajo = {
+  riot_id: "Renacuajo#LAS",
+  nombre: "Renacuajo",
+  tag: "LAS",
+  slug: "renacuajo-las",
+  estado: "ok",
+  error: null,
+  perfil: { icono: 11, nivel: 40 },
+  rangos: { solo: { tier: "EMERALD", division: "II", lp: 12, victorias: 20, derrotas: 18 }, flex: null },
+  jugando: null,
+  estadisticas: null,
+  partidas: [],
+};
+
+const filaSinergia = (amigo, partidas, victorias, derrotas, winrate) => ({
+  amigo,
+  partidas,
+  victorias,
+  derrotas,
+  winrate,
+});
+
+/** Sinergia en el formato nuevo: { ultimos_30_dias, todo }. */
+export function crearSinergia(cambios = {}) {
+  return {
+    ultimos_30_dias: {
+      "rana-azul-las": [filaSinergia("sapito-las", 6, 2, 4, 33.3), filaSinergia("renacuajo-las", 4, 3, 1, 75)],
+      "sapito-las": [],
+    },
+    todo: {
+      "rana-azul-las": [
+        filaSinergia("sapito-las", 12, 5, 7, 41.7),
+        filaSinergia("renacuajo-las", 8, 6, 2, 75),
+        filaSinergia("charco-las", 3, 2, 1, null),
+        filaSinergia("desconocido-las", 99, 50, 49, 50.5),
+      ],
+      "sapito-las": [],
+    },
+    ...cambios,
+  };
+}

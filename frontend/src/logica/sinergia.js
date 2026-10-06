@@ -19,15 +19,18 @@ function validarFila(fila, slugs, propio) {
   return { amigo, partidas, victorias, derrotas, winrate: wr };
 }
 
+/** Períodos de la sinergia, en el orden de las pestañas. El primero es el de por defecto. */
+export const PERIODOS_SINERGIA = ["ultimos_30_dias", "todo"];
+
 /**
- * Valida la sinergia contra los amigos de lol.json.
- * - null si falta o no es un objeto (archivos anteriores a esta función).
- * - Si no, un objeto { <slug>: filas } con una entrada por cada amigo (lista vacía si no
- *   tiene compañeros). Se descartan slugs desconocidos, el propio amigo, repetidos y filas
- *   incoherentes. Las filas quedan ordenadas de más a menos partidas.
+ * Valida un período ({ <slug>: filas }) contra los amigos de lol.json.
+ * - null si falta o no es un objeto.
+ * - Si no, un objeto con una entrada por cada amigo (lista vacía si no tiene compañeros).
+ *   Se descartan slugs desconocidos, el propio amigo, repetidos y filas incoherentes.
+ *   Las filas quedan ordenadas de más a menos partidas.
  */
-export function validarSinergia(valor, amigos) {
-  if (!valor || typeof valor !== "object" || Array.isArray(valor)) return null;
+export function validarPeriodoSinergia(valor, amigos) {
+  if (!esObjeto(valor)) return null;
   const slugs = new Set((amigos ?? []).map((a) => a?.slug).filter((s) => typeof s === "string"));
   const resultado = {};
   for (const slug of slugs) {
@@ -44,6 +47,47 @@ export function validarSinergia(valor, amigos) {
   }
   return resultado;
 }
+
+const esObjeto = (v) => Boolean(v) && typeof v === "object" && !Array.isArray(v);
+
+/**
+ * Valida la sinergia completa: { ultimos_30_dias, todo }, cada período validado aparte
+ * (null si falta o no es un objeto).
+ * - Formato viejo (objeto { <slug>: filas } sin claves de período): se toma como "todo"
+ *   y "ultimos_30_dias" queda en null.
+ * - null si falta, no es un objeto o no trae ningún período: el ranking abre las partidas.
+ */
+export function validarSinergia(valor, amigos) {
+  if (!esObjeto(valor)) return null;
+  const formatoNuevo = PERIODOS_SINERGIA.some((p) => Object.hasOwn(valor, p));
+  const fuente = formatoNuevo ? valor : { ultimos_30_dias: null, todo: valor };
+  const resultado = {};
+  for (const periodo of PERIODOS_SINERGIA) {
+    resultado[periodo] = validarPeriodoSinergia(Object.hasOwn(fuente, periodo) ? fuente[periodo] : null, amigos);
+  }
+  return PERIODOS_SINERGIA.every((p) => resultado[p] === null) ? null : resultado;
+}
+
+/**
+ * Filas de la tabla para un amigo: todos los demás amigos del grupo, en `companeros`
+ * (lista de slugs). Los que tienen partidas juntos van primero, en el orden pedido;
+ * los que no, al final en el orden del grupo, con `sinPartidas: true` y cifras en null.
+ */
+export function filasConTodos(filas, companeros, columna = "partidas", direccion = "desc") {
+  const conPartidas = new Map((filas ?? []).map((f) => [f.amigo, f]));
+  const conDatos = ordenarSinergia(
+    (companeros ?? []).filter((slug) => conPartidas.has(slug)).map((slug) => conPartidas.get(slug)),
+    columna,
+    direccion,
+  );
+  const sinDatos = (companeros ?? [])
+    .filter((slug) => !conPartidas.has(slug))
+    .map((amigo) => ({ amigo, partidas: 0, victorias: 0, derrotas: 0, winrate: null, sinPartidas: true }));
+  return [...conDatos, ...sinDatos];
+}
+
+/** Orden con el que se abre la tabla: más partidas primero. */
+export const ORDEN_INICIAL = { columna: "partidas", direccion: "desc" };
 
 /** Columnas por las que se puede ordenar la tabla. */
 export const COLUMNAS_ORDEN = ["partidas", "winrate"];

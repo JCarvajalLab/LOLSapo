@@ -2,9 +2,11 @@ import { describe, expect, it } from "vitest";
 import {
   anchoPartidas,
   esWinratePositivo,
+  filasConTodos,
   formatearTasa,
   ordenarSinergia,
   siguienteOrden,
+  validarPeriodoSinergia,
   validarSinergia,
 } from "./sinergia.js";
 import { validarDatos } from "./datos.js";
@@ -13,16 +15,16 @@ import { crearDatos } from "../test/fixtures/lol.js";
 const AMIGOS = [{ slug: "rana-las" }, { slug: "sapo-las" }, { slug: "charco-las" }];
 const fila = (amigo, partidas, victorias, derrotas, winrate) => ({ amigo, partidas, victorias, derrotas, winrate });
 
-describe("validarSinergia", () => {
+describe("validarPeriodoSinergia", () => {
   it("devuelve null si falta, es null o no es un objeto", () => {
-    expect(validarSinergia(undefined, AMIGOS)).toBeNull();
-    expect(validarSinergia(null, AMIGOS)).toBeNull();
-    expect(validarSinergia([], AMIGOS)).toBeNull();
-    expect(validarSinergia("hola", AMIGOS)).toBeNull();
+    expect(validarPeriodoSinergia(undefined, AMIGOS)).toBeNull();
+    expect(validarPeriodoSinergia(null, AMIGOS)).toBeNull();
+    expect(validarPeriodoSinergia([], AMIGOS)).toBeNull();
+    expect(validarPeriodoSinergia("hola", AMIGOS)).toBeNull();
   });
 
   it("deja una lista por amigo conocido y descarta slugs desconocidos", () => {
-    const r = validarSinergia(
+    const r = validarPeriodoSinergia(
       {
         "rana-las": [fila("sapo-las", 10, 6, 4, 60), fila("intruso-las", 50, 25, 25, 50)],
         "intruso-las": [fila("rana-las", 3, 1, 2, 33.3)],
@@ -35,7 +37,7 @@ describe("validarSinergia", () => {
   });
 
   it("descarta al propio amigo, repetidos y filas incoherentes", () => {
-    const r = validarSinergia(
+    const r = validarPeriodoSinergia(
       {
         "rana-las": [
           fila("rana-las", 5, 3, 2, 60), // él mismo
@@ -57,7 +59,7 @@ describe("validarSinergia", () => {
   });
 
   it("calcula el winrate si viene null u omitido, y ordena por partidas", () => {
-    const r = validarSinergia(
+    const r = validarPeriodoSinergia(
       {
         "sapo-las": [
           { amigo: "rana-las", partidas: 3, victorias: 2, derrotas: 1 },
@@ -70,17 +72,93 @@ describe("validarSinergia", () => {
   });
 
   it("ignora claves heredadas del prototipo", () => {
-    const r = validarSinergia(JSON.parse('{"__proto__": [], "constructor": []}'), [{ slug: "constructor" }]);
+    const r = validarPeriodoSinergia(JSON.parse('{"__proto__": [], "constructor": []}'), [{ slug: "constructor" }]);
     expect(r).toEqual({ constructor: [] });
   });
 
-  it("validarDatos la incluye y deja null en archivos viejos", () => {
+});
+
+describe("validarSinergia", () => {
+  const periodo30 = { "rana-las": [fila("sapo-las", 4, 1, 3, 25)] };
+  const periodoTodo = { "rana-las": [fila("sapo-las", 10, 6, 4, 60), fila("charco-las", 2, 2, 0, 100)] };
+
+  it("devuelve null si falta, no es un objeto o no trae ningún período", () => {
+    expect(validarSinergia(undefined, AMIGOS)).toBeNull();
+    expect(validarSinergia(null, AMIGOS)).toBeNull();
+    expect(validarSinergia([], AMIGOS)).toBeNull();
+    expect(validarSinergia({ ultimos_30_dias: null, todo: null }, AMIGOS)).toBeNull();
+    expect(validarSinergia({ ultimos_30_dias: [], todo: "x" }, AMIGOS)).toBeNull();
+  });
+
+  it("valida cada período por separado con las mismas reglas", () => {
+    const r = validarSinergia(
+      {
+        ultimos_30_dias: { ...periodo30, "sapo-las": [fila("sapo-las", 1, 1, 0, 100), fila("intruso-las", 3, 1, 2, 33.3)] },
+        todo: { ...periodoTodo, "charco-las": [fila("rana-las", 3, 2, 2, 50)] },
+      },
+      AMIGOS,
+    );
+    expect(r.ultimos_30_dias).toEqual({ "rana-las": [fila("sapo-las", 4, 1, 3, 25)], "sapo-las": [], "charco-las": [] });
+    expect(r.todo["rana-las"]).toEqual([fila("sapo-las", 10, 6, 4, 60), fila("charco-las", 2, 2, 0, 100)]);
+    expect(r.todo["charco-las"]).toEqual([]); // 2 + 2 != 3
+    expect(r.todo["sapo-las"]).toEqual([]);
+  });
+
+  it("un período que falta o es null queda en null y el otro se conserva", () => {
+    expect(validarSinergia({ todo: periodoTodo }, AMIGOS).ultimos_30_dias).toBeNull();
+    const r = validarSinergia({ ultimos_30_dias: periodo30, todo: null }, AMIGOS);
+    expect(r.todo).toBeNull();
+    expect(r.ultimos_30_dias["rana-las"]).toEqual([fila("sapo-las", 4, 1, 3, 25)]);
+  });
+
+  it("compatibilidad: el formato viejo { slug: filas } se toma como «todo»", () => {
+    const r = validarSinergia(periodoTodo, AMIGOS);
+    expect(r.ultimos_30_dias).toBeNull();
+    expect(r.todo["rana-las"]).toEqual([fila("sapo-las", 10, 6, 4, 60), fila("charco-las", 2, 2, 0, 100)]);
+    expect(r.todo["sapo-las"]).toEqual([]);
+    // Un objeto viejo vacío sigue siendo válido: todos sin compañeros.
+    expect(validarSinergia({}, AMIGOS)).toEqual({
+      ultimos_30_dias: null,
+      todo: { "rana-las": [], "sapo-las": [], "charco-las": [] },
+    });
+  });
+
+  it("validarDatos la incluye y deja null en archivos sin sinergia", () => {
     expect(validarDatos(crearDatos()).sinergia).toBeNull();
     const datos = validarDatos(
-      crearDatos({ sinergia: { "rana-azul-las": [fila("sapito-las", 2, 1, 1, 50), fila("nadie-las", 1, 1, 0, 100)] } }),
+      crearDatos({
+        sinergia: {
+          ultimos_30_dias: { "rana-azul-las": [fila("sapito-las", 2, 1, 1, 50), fila("nadie-las", 1, 1, 0, 100)] },
+          todo: null,
+        },
+      }),
     );
-    expect(datos.sinergia["rana-azul-las"]).toEqual([fila("sapito-las", 2, 1, 1, 50)]);
-    expect(datos.sinergia["charco-las"]).toEqual([]);
+    expect(datos.sinergia.ultimos_30_dias["rana-azul-las"]).toEqual([fila("sapito-las", 2, 1, 1, 50)]);
+    expect(datos.sinergia.ultimos_30_dias["charco-las"]).toEqual([]);
+    expect(datos.sinergia.todo).toBeNull();
+  });
+});
+
+describe("filasConTodos", () => {
+  const filas = [fila("b", 5, 4, 1, 80), fila("a", 10, 4, 6, 40)];
+  const slugs = (lista) => lista.map((f) => f.amigo);
+
+  it("incluye a todos los compañeros y deja al final, en orden del grupo, a los sin partidas", () => {
+    const r = filasConTodos(filas, ["c", "a", "d", "b"], "partidas", "desc");
+    expect(slugs(r)).toEqual(["a", "b", "c", "d"]);
+    expect(r[2]).toEqual({ amigo: "c", partidas: 0, victorias: 0, derrotas: 0, winrate: null, sinPartidas: true });
+    expect(r[0].sinPartidas).toBeUndefined();
+  });
+
+  it("los sin partidas siguen al final en cualquier orden", () => {
+    expect(slugs(filasConTodos(filas, ["c", "a", "b"], "winrate", "asc"))).toEqual(["a", "b", "c"]);
+    expect(slugs(filasConTodos(filas, ["c", "a", "b"], "partidas", "asc"))).toEqual(["b", "a", "c"]);
+  });
+
+  it("ignora filas de quien no está entre los compañeros y tolera listas vacías", () => {
+    expect(slugs(filasConTodos(filas, ["b"]))).toEqual(["b"]);
+    expect(filasConTodos(null, null)).toEqual([]);
+    expect(slugs(filasConTodos([], ["x"]))).toEqual(["x"]);
   });
 });
 

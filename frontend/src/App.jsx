@@ -148,7 +148,7 @@ function VistaLol({ datos, error, ahora, abiertos, alternar, abrir, enfocar }) {
       {amigoSinergia && (
         <ModalSinergia
           amigo={amigoSinergia}
-          filas={datos.sinergia?.[amigoSinergia.slug] ?? []}
+          sinergia={datos.sinergia}
           amigos={datos.amigos}
           ddragon={datos.ddragon}
           onCerrar={cerrarSinergia}
