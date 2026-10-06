@@ -25,7 +25,7 @@ from .registro import (
     ultimas_partidas,
     winrate,
 )
-from .riot_api import ClienteRiot, ErrorAutenticacion, ErrorRiot
+from .riot_api import ClienteRiot, ErrorAutenticacion, ErrorRiot, NoEncontrado
 from .sinergia import calcular_sinergia
 from .validacion import (
     DIVISIONES,
@@ -72,8 +72,9 @@ def _resumir_nuevas(
 ) -> list[dict]:
     """Descarga y resume las partidas `ids`.
 
-    Con `tolerante` (carga hacia atrás), un error de Riot en una partida solo la omite; si no,
-    se propaga como siempre (y el amigo queda con sus últimos datos).
+    Con `tolerante` (carga hacia atrás), una partida que Riot ya no tiene (404) solo se omite.
+    Los errores pasajeros (429, 5xx, red) se propagan siempre: la carga queda pospuesta para la
+    próxima ejecución en vez de darse por terminada.
     """
     resumenes = []
     for id_partida in ids:
@@ -83,12 +84,10 @@ def _resumir_nuevas(
             # Se omite; como no queda guardada, se reintenta en la próxima ejecución.
             log.warning("Partida %s omitida: %s", id_partida, error)
             continue
-        except ErrorAutenticacion:
-            raise
-        except ErrorRiot as error:
+        except NoEncontrado:
             if not tolerante:
                 raise
-            log.warning("Partida antigua %s omitida (%s)", id_partida, type(error).__name__)
+            log.warning("Partida antigua %s omitida (Riot ya no la tiene)", id_partida)
             continue
         resumen["participantes"] = anonimizar_participantes(
             resumen["participantes"], slug_por_puuid

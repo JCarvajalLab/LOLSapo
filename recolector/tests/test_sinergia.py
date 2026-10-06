@@ -281,3 +281,35 @@ def test_un_lote_que_falla_entero_da_la_carga_por_terminada(cliente, mapa, tmp_p
     ejecutar(cliente, KEY_FALSA, [JOHN], mapa, tmp_path, tmp_path / "lol.json", ahora=AHORA)
     registro = json.loads((tmp_path / "registro" / "johnadis-las.json").read_text("utf-8"))
     assert registro["relleno_30_dias"] is True
+
+
+@responses.activate
+def test_un_error_pasajero_pospone_la_carga_sin_darla_por_terminada(cliente, mapa, tmp_path):
+    from urllib.parse import parse_qs, urlsplit
+
+    antiguas = [f"LA2_{i}" for i in range(20, 0, -1)]
+
+    def ids(request):
+        q = parse_qs(urlsplit(request.url).query)
+        return (200, {}, json.dumps(antiguas if "startTime" in q else ["LA2_100"]))
+
+    simular_amigo("Johnadis", P_JOHN, [])
+    url_ids = f"{URL_REGION}/lol/match/v5/matches/by-puuid/{P_JOHN}/ids"
+    responses.remove(responses.GET, url_ids)
+    responses.add_callback(responses.GET, url_ids, callback=ids)
+    simular_partida("LA2_100", P_JOHN, fin=AHORA_MS - HORA)
+    responses.add(
+        responses.GET,
+        re.compile(rf"{re.escape(URL_REGION)}/lol/match/v5/matches/LA2_\d{{1,2}}$"),
+        status=503,
+    )
+    salida = ejecutar(
+        cliente, KEY_FALSA, [JOHN], mapa, tmp_path, tmp_path / "lol.json", ahora=AHORA
+    )
+    assert salida["amigos"][0]["estado"] == "ok"
+    registro = json.loads((tmp_path / "registro" / "johnadis-las.json").read_text("utf-8"))
+    assert set(registro["partidas"]) == {"LA2_100"}  # la nueva se guarda igual
+    assert "relleno_30_dias" not in registro  # pospuesta, no terminada
+    # Se corta al primer error pasajero: no se intenta el lote completo.
+    pedidas = [c for c in responses.calls if re.search(r"/matches/LA2_\d{1,2}$", c.request.url)]
+    assert len(pedidas) <= 3  # 1 partida con sus reintentos
