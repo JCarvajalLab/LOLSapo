@@ -5,6 +5,7 @@
 // ejecuciones. El de Cloudflare es puntual.
 //
 // - No tiene handler `fetch` ni URL pública: solo corre en el horario de wrangler.jsonc.
+// - Antes de disparar, cancela ejecuciones trabadas en "waiting" (ver cancelarTrabadas).
 // - El token de GitHub vive como secret de Cloudflare (GH_TOKEN) y nunca se imprime.
 
 const API_GITHUB = "https://api.github.com";
@@ -32,6 +33,72 @@ export function configuracion(env) {
   return { repo: REPO, workflow: WORKFLOW, rama: RAMA, token: GH_TOKEN.trim() };
 }
 
+function cabeceras(token) {
+  return {
+    Accept: "application/vnd.github+json",
+    Authorization: `Bearer ${token}`,
+    "Content-Type": "application/json",
+    "User-Agent": "LOLSapo-disparador",
+    "X-GitHub-Api-Version": "2022-11-28",
+  };
+}
+
+// Una ejecución "esperando" (waiting) más de esto está trabada: el environment `produccion`
+// no pide aprobación, así que nunca debería esperar. GitHub a veces las deja colgadas y, como
+// solo corre una a la vez, bloquean todas las siguientes.
+// ⚠️ Si algún día se agregan revisores o un temporizador a `produccion`, esto cancelaría las
+// aprobaciones pendientes a los 15 minutos: habría que subir este valor o quitar la limpieza.
+export const MINUTOS_TRABADA = 15;
+const MAX_CANCELACIONES = 5;
+// Tiempo máximo de cada consulta a GitHub, para que una API colgada no retrase el disparo.
+const TIMEOUT_MS = 10_000;
+
+/**
+ * Cancela las ejecuciones del workflow trabadas en "waiting" hace más de MINUTOS_TRABADA
+ * (contando desde su última actualización, `updated_at`). Nunca lanza: si algo falla, incluso
+ * la configuración, lo deja en el log y devuelve las que alcanzó a cancelar.
+ */
+export async function cancelarTrabadas(env, fetchFn = fetch, ahora = Date.now()) {
+  const canceladas = [];
+  try {
+    const { repo, workflow, token } = configuracion(env);
+    const base = `${API_GITHUB}/repos/${repo}/actions`;
+    const respuesta = await fetchFn(
+      `${base}/workflows/${workflow}/runs?status=waiting&per_page=20&exclude_pull_requests=true`,
+      { headers: cabeceras(token), redirect: "manual", signal: AbortSignal.timeout(TIMEOUT_MS) },
+    );
+    if (respuesta.status !== 200) {
+      console.error(`No se pudo revisar ejecuciones trabadas (GitHub respondió ${respuesta.status})`);
+      return canceladas;
+    }
+    const datos = await respuesta.json();
+    const ejecuciones = Array.isArray(datos?.workflow_runs) ? datos.workflow_runs : [];
+    const limite = ahora - MINUTOS_TRABADA * 60 * 1000;
+    const trabadas = ejecuciones.filter((e) => {
+      const desde = Date.parse(e?.updated_at);
+      return Number.isSafeInteger(e?.id) && e.id > 0 && e?.status === "waiting" && desde < limite;
+    });
+    for (const ejecucion of trabadas.slice(0, MAX_CANCELACIONES)) {
+      const cancelar = await fetchFn(`${base}/runs/${ejecucion.id}/cancel`, {
+        method: "POST",
+        headers: cabeceras(token),
+        redirect: "manual",
+        signal: AbortSignal.timeout(TIMEOUT_MS),
+      });
+      if (cancelar.status >= 200 && cancelar.status < 300) {
+        canceladas.push(ejecucion.id);
+        console.log(`Ejecución trabada cancelada: ${ejecucion.id}`);
+      } else {
+        console.error(`No se pudo cancelar la ejecución ${ejecucion.id} (${cancelar.status})`);
+      }
+    }
+  } catch (error) {
+    // Solo el tipo de error: el mensaje podría incluir detalles de la petición.
+    console.error(`No se pudo revisar ejecuciones trabadas (${error?.name ?? "Error"})`);
+  }
+  return canceladas;
+}
+
 /** Pide a GitHub que ejecute el workflow. Lanza ErrorDisparador si GitHub no lo acepta. */
 export async function disparar(env, fetchFn = fetch) {
   const { repo, workflow, rama, token } = configuracion(env);
@@ -40,13 +107,7 @@ export async function disparar(env, fetchFn = fetch) {
   try {
     respuesta = await fetchFn(url, {
       method: "POST",
-      headers: {
-        Accept: "application/vnd.github+json",
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-        "User-Agent": "LOLSapo-disparador",
-        "X-GitHub-Api-Version": "2022-11-28",
-      },
+      headers: cabeceras(token),
       body: JSON.stringify({ ref: rama }),
       // Sin seguir redirecciones: no reenviar el token a otro sitio.
       redirect: "manual",
@@ -67,6 +128,8 @@ export default {
   // Cloudflare llama a esta función según "triggers.crons" de wrangler.jsonc. Si lanza un
   // error, la ejecución queda marcada como fallida en el panel de Cloudflare.
   async scheduled(_controlador, env) {
+    // Primero libera el turno si una ejecución quedó trabada; nunca bloquea el disparo.
+    await cancelarTrabadas(env);
     await disparar(env);
   },
 };

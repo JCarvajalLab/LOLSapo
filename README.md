@@ -164,6 +164,7 @@ La rama `datos` solo la escribe el workflow: no la borres, ahí vive el registro
 El cron propio de GitHub Actions es "lo mejor posible": cuando GitHub tiene mucha carga atrasa o salta ejecuciones (a veces pasan horas). Por eso el que manda es un [Cloudflare Worker](https://developers.cloudflare.com/workers/) gratuito en [disparador/](disparador/): cada 5 minutos le pide a la API de GitHub que ejecute `publicar.yml`, igual que apretar **Run workflow**. El cron de GitHub queda de respaldo cada 30 minutos.
 
 - No tiene URL pública: solo corre en su horario.
+- Antes de lanzar cada publicación, cancela las ejecuciones que GitHub haya dejado trabadas en "esperando" por más de 15 minutos (pasa a veces, y como corre una a la vez, bloquean a todas las siguientes).
 - Usa un *fine-grained token* de GitHub limitado al repo y al permiso **Actions: Read and write**, guardado como secret `GH_TOKEN` en Cloudflare. No da acceso al código ni a los secrets del repo.
 - **Cambiar el intervalo:** edita `"crons"` en [disparador/wrangler.jsonc](disparador/wrangler.jsonc) y vuelve a publicar. Menos de 5 minutos no conviene (cada publicación tarda ~3 min y la key de Riot tiene un límite).
 - **Ver si funciona:** panel de Cloudflare → Workers → `lolsapo-disparador` → Logs, o en GitHub, **Actions → Publicar** (las ejecuciones aparecen como `workflow_dispatch`).
