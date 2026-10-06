@@ -2,8 +2,9 @@
 
 Para cada amigo, por cada otro amigo del grupo: cuántas partidas jugaron juntos en el mismo
 equipo y cuántas ganaron. Solo Normal y Ranked (Solo/Dúo y Flex), sin remakes, con todo lo
-registrado. Las partidas se juntan desde los registros de todos (sin repetir): una partida que
-solo quedó en el registro de un amigo cuenta igual para todos los que la jugaron.
+registrado (o desde `desde_ms`). Las partidas se juntan desde los registros de todos (sin
+repetir): una partida que solo quedó en el registro de un amigo cuenta igual para todos los que
+la jugaron.
 """
 
 from collections.abc import Iterable
@@ -13,13 +14,15 @@ from .modos import MapaModos
 from .registro import winrate
 
 
-def calcular_sinergia(partidas_por_amigo: dict[str, Iterable[dict]], mapa: MapaModos) -> dict:
+def calcular_sinergia(
+    partidas_por_amigo: dict[str, Iterable[dict]], mapa: MapaModos, desde_ms: int = 0
+) -> dict:
     """{slug: [{"amigo", "partidas", "victorias", "derrotas", "winrate"}, ...]}.
 
     Cada lista va de quien jugó más partidas juntos a quien jugó menos (y por nombre si empatan).
     Los amigos con los que nunca jugó no aparecen.
     """
-    validas = {s: partidas_validas(p, mapa, 0) for s, p in partidas_por_amigo.items()}
+    validas = {s: partidas_validas(p, mapa, desde_ms) for s, p in partidas_por_amigo.items()}
     juntos: dict[str, dict[str, list[int]]] = {s: {} for s in validas}
     for partida, equipo in partidas_en_grupo(validas):
         gano = partida["resultado"] == "victoria"

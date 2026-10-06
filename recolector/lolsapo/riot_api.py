@@ -191,10 +191,19 @@ class ClienteRiot:
         """league-v4: rango, LP y W/L oficiales de Solo/Dúo y Flex."""
         return self._get(f"{URL_PLATAFORMA}/lol/league/v4/entries/by-puuid/{_segmento(puuid)}")
 
-    def ids_partidas(self, puuid: str, cantidad: int) -> list:
-        """match-v5: ids de las últimas partidas de cualquier modo (sin filtro de tipo)."""
+    def ids_partidas(
+        self, puuid: str, cantidad: int, *, inicio: int = 0, desde_s: int | None = None
+    ) -> list:
+        """match-v5: ids de las últimas partidas de cualquier modo (sin filtro de tipo).
+
+        `inicio` pagina (de a `cantidad`, máximo 100) y `desde_s` (segundos) limita a las
+        partidas desde esa fecha.
+        """
         url = f"{URL_REGION}/lol/match/v5/matches/by-puuid/{_segmento(puuid)}/ids"
-        return self._get(url, params={"start": 0, "count": cantidad})
+        params = {"start": int(inicio), "count": int(cantidad)}
+        if desde_s is not None:
+            params["startTime"] = int(desde_s)
+        return self._get(url, params=params)
 
     def partida(self, id_partida: str) -> dict:
         """match-v5: detalle de una partida."""

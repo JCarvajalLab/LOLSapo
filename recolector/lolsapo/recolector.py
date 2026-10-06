@@ -42,6 +42,12 @@ from .validacion import (
 from .validacion_tft import es_partida_tft
 
 VERSION_SALIDA = 1
+# Carga de una sola vez hacia atrás: las partidas de los últimos 30 días que no estén en el
+# registro (que empezó con las últimas 20 de cada uno). Se hace de a poco en cada ejecución y,
+# al terminar, se marca en el registro para no repetirla.
+DIAS_RELLENO = 30
+LOTE_RELLENO = 15  # partidas antiguas por amigo y por ejecución
+MAX_PAGINAS_RELLENO = 5  # hasta 500 ids en 30 días por amigo
 PARTIDAS_VISIBLES = 10
 MENSAJE_ERROR = "No se pudieron actualizar los datos de este jugador."
 
@@ -56,20 +62,11 @@ def _resolver_puuid(cliente: ClienteRiot, amigo: Amigo) -> str:
     return validar_cuenta(cliente.cuenta_por_riot_id(amigo.nombre, amigo.tag))["puuid"]
 
 
-def _consultar(
-    cliente: ClienteRiot, puuid: str, registro: dict, cantidad: int, slug_por_puuid: dict
-) -> dict:
-    perfil = validar_invocador(cliente.invocador(puuid))
-    rangos = validar_ligas(cliente.ligas(puuid))
-
-    activa = cliente.partida_activa(puuid)
-    if es_partida_tft(activa):
-        activa = None  # las partidas de TFT se muestran en tft.json
-    jugando = validar_partida_activa(activa, puuid) if activa is not None else None
-
+def _resumir_nuevas(
+    cliente: ClienteRiot, puuid: str, ids: list[str], slug_por_puuid: dict
+) -> list[dict]:
     resumenes = []
-    ids = validar_ids_partidas(cliente.ids_partidas(puuid, cantidad))
-    for id_partida in ids_nuevos(ids, registro):
+    for id_partida in ids:
         try:
             resumen = resumir_partida(cliente.partida(id_partida), puuid, id_partida)
         except DatoInvalido as error:
@@ -80,7 +77,64 @@ def _consultar(
             resumen["participantes"], slug_por_puuid
         )
         resumenes.append(resumen)
-    return {"perfil": perfil, "rangos": rangos, "jugando": jugando, "resumenes": resumenes}
+    return resumenes
+
+
+def _rellenar(
+    cliente: ClienteRiot,
+    puuid: str,
+    registro: dict,
+    ya_pedidas: set[str],
+    slug_por_puuid: dict,
+    ahora_ms: int,
+) -> tuple[list[dict], bool]:
+    """Un lote de partidas de los últimos 30 días que faltan. Devuelve (resúmenes, terminó)."""
+    desde_s = (ahora_ms // 1000) - DIAS_RELLENO * 24 * 60 * 60
+    ids: list[str] = []
+    for pagina in range(MAX_PAGINAS_RELLENO):
+        lote = validar_ids_partidas(
+            cliente.ids_partidas(puuid, 100, inicio=pagina * 100, desde_s=desde_s)
+        )
+        ids += lote
+        if len(lote) < 100:
+            break
+    faltan = [i for i in ids_nuevos(ids, registro) if i not in ya_pedidas]
+    resumenes = _resumir_nuevas(cliente, puuid, faltan[:LOTE_RELLENO], slug_por_puuid)
+    return resumenes, len(faltan) <= LOTE_RELLENO
+
+
+def _consultar(
+    cliente: ClienteRiot,
+    puuid: str,
+    registro: dict,
+    cantidad: int,
+    slug_por_puuid: dict,
+    ahora_ms: int = 0,
+) -> dict:
+    perfil = validar_invocador(cliente.invocador(puuid))
+    rangos = validar_ligas(cliente.ligas(puuid))
+
+    activa = cliente.partida_activa(puuid)
+    if es_partida_tft(activa):
+        activa = None  # las partidas de TFT se muestran en tft.json
+    jugando = validar_partida_activa(activa, puuid) if activa is not None else None
+
+    ids = validar_ids_partidas(cliente.ids_partidas(puuid, cantidad))
+    nuevas = ids_nuevos(ids, registro)
+    resumenes = _resumir_nuevas(cliente, puuid, nuevas, slug_por_puuid)
+    relleno_completo = bool(registro.get("relleno_30_dias"))
+    if not relleno_completo and ahora_ms:
+        antiguas, relleno_completo = _rellenar(
+            cliente, puuid, registro, set(nuevas), slug_por_puuid, ahora_ms
+        )
+        resumenes += antiguas
+    return {
+        "perfil": perfil,
+        "rangos": rangos,
+        "jugando": jugando,
+        "resumenes": resumenes,
+        "relleno_completo": relleno_completo,
+    }
 
 
 def _resolver_puuids(cliente: ClienteRiot, amigos: list[Amigo]) -> dict[str, str | None]:
@@ -132,11 +186,13 @@ def procesar_amigo(
     try:
         if puuid is None:
             raise ErrorRiot("no se conoce su PUUID")
-        datos = _consultar(cliente, puuid, registro, cantidad, slug_por_puuid)
+        datos = _consultar(cliente, puuid, registro, cantidad, slug_por_puuid, ahora_ms)
         registro["perfil"] = datos["perfil"]
         registro["rangos"] = datos["rangos"]
         jugando = datos["jugando"]
         nuevas = agregar_partidas(registro, datos["resumenes"])
+        if datos["relleno_completo"]:
+            registro["relleno_30_dias"] = True
         log.info("%s: %d partidas nuevas", amigo.riot_id, nuevas)
     except ErrorAutenticacion:
         raise
@@ -485,7 +541,12 @@ def ejecutar(
         log.error("No se pudieron calcular los destacados (%s)", type(error).__name__)
         destacados = None
     try:
-        sinergia = calcular_sinergia(registradas, mapa)
+        sinergia = {
+            "ultimos_30_dias": calcular_sinergia(
+                registradas, mapa, ahora_ms - DIAS_RELLENO * 24 * 60 * 60 * 1000
+            ),
+            "todo": calcular_sinergia(registradas, mapa),
+        }
     except (TypeError, KeyError, AttributeError, ValueError) as error:
         log.error("No se pudo calcular la sinergia (%s)", type(error).__name__)
         sinergia = None
