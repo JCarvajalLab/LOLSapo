@@ -1,11 +1,492 @@
 {
   "partidas": {
+    "LA2_1622442664": {
+      "asesinatos": 9,
+      "asistencias": 7,
+      "campeon": "Shyvana",
+      "campeon_id": 102,
+      "cs": 195,
+      "danio": 27108,
+      "duracion": 1641,
+      "equipo": 200,
+      "fecha": 1788743198054,
+      "hechizos": [
+        11,
+        4
+      ],
+      "id": "LA2_1622442664",
+      "items": [
+        3047,
+        3078,
+        3161,
+        6333,
+        1028,
+        1036,
+        3340
+      ],
+      "muertes": 3,
+      "nivel": 16,
+      "participacion": 59,
+      "participantes": [
+        {
+          "amigo": null,
+          "campeon_id": 14,
+          "equipo": 100,
+          "nombre": "Dieseel#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 104,
+          "equipo": 100,
+          "nombre": "DJ Mendez#Tusca"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 910,
+          "equipo": 100,
+          "nombre": "Guidø#uwu"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 8,
+          "equipo": 100,
+          "nombre": "BIRRA IN HAND#420"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 43,
+          "equipo": 100,
+          "nombre": "JUG1KING#LAS"
+        },
+        {
+          "amigo": "iskrat-las",
+          "campeon_id": 79,
+          "equipo": 200,
+          "nombre": "ISkrat#LAS"
+        },
+        {
+          "amigo": "nic-las",
+          "campeon_id": 102,
+          "equipo": 200,
+          "nombre": "Nicø#LAS"
+        },
+        {
+          "amigo": "johnadis-las",
+          "campeon_id": 112,
+          "equipo": 200,
+          "nombre": "Johnadis#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 157,
+          "equipo": 200,
+          "nombre": "Le Cold Bleed#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 53,
+          "equipo": 200,
+          "nombre": "NL doc#LAS"
+        }
+      ],
+      "queue_id": 400,
+      "resultado": "victoria",
+      "runas": {
+        "principal": 8005,
+        "secundaria": 8300
+      }
+    },
+    "LA2_1622454751": {
+      "asesinatos": 18,
+      "asistencias": 2,
+      "campeon": "Hecarim",
+      "campeon_id": 120,
+      "cs": 281,
+      "danio": 20230,
+      "duracion": 2299,
+      "equipo": 200,
+      "fecha": 1788746093304,
+      "hechizos": [
+        11,
+        6
+      ],
+      "id": "LA2_1622454751",
+      "items": [
+        3161,
+        6333,
+        3158,
+        2517,
+        3071,
+        1037,
+        3364
+      ],
+      "muertes": 4,
+      "nivel": 18,
+      "participacion": 42,
+      "participantes": [
+        {
+          "amigo": null,
+          "campeon_id": 31,
+          "equipo": 100,
+          "nombre": "Fritze#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 59,
+          "equipo": 100,
+          "nombre": "leviatan1500d#5467"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 238,
+          "equipo": 100,
+          "nombre": "PanConHuevito#666"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 101,
+          "equipo": 100,
+          "nombre": "Harasho007#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 17,
+          "equipo": 100,
+          "nombre": "Profeta Banana#Sora"
+        },
+        {
+          "amigo": "iskrat-las",
+          "campeon_id": 54,
+          "equipo": 200,
+          "nombre": "ISkrat#LAS"
+        },
+        {
+          "amigo": "nic-las",
+          "campeon_id": 120,
+          "equipo": 200,
+          "nombre": "Nicø#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 112,
+          "equipo": 200,
+          "nombre": "Burned Alive#LAS"
+        },
+        {
+          "amigo": "johnadis-las",
+          "campeon_id": 910,
+          "equipo": 200,
+          "nombre": "Johnadis#LAS"
+        },
+        {
+          "amigo": "big-gato-las",
+          "campeon_id": 80,
+          "equipo": 200,
+          "nombre": "Big Gato#LAS"
+        }
+      ],
+      "queue_id": 400,
+      "resultado": "victoria",
+      "runas": {
+        "principal": 8230,
+        "secundaria": 8000
+      }
+    },
+    "LA2_1622474385": {
+      "asesinatos": 2,
+      "asistencias": 7,
+      "campeon": "Nocturne",
+      "campeon_id": 56,
+      "cs": 228,
+      "danio": 10118,
+      "duracion": 1934,
+      "equipo": 200,
+      "fecha": 1788748573937,
+      "hechizos": [
+        11,
+        4
+      ],
+      "id": "LA2_1622474385",
+      "items": [
+        6698,
+        6696,
+        3158,
+        6699,
+        3035,
+        0,
+        3340
+      ],
+      "muertes": 5,
+      "nivel": 17,
+      "participacion": 39,
+      "participantes": [
+        {
+          "amigo": null,
+          "campeon_id": 114,
+          "equipo": 100,
+          "nombre": "noporfavor#nonon"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 876,
+          "equipo": 100,
+          "nombre": "Watencio#Mish"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 13,
+          "equipo": 100,
+          "nombre": "Dianassaurio Rex#PIO"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 222,
+          "equipo": 100,
+          "nombre": "La Tia Oushiet#mmdd"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 412,
+          "equipo": 100,
+          "nombre": "Sebastian#Noyer"
+        },
+        {
+          "amigo": "iskrat-las",
+          "campeon_id": 54,
+          "equipo": 200,
+          "nombre": "ISkrat#LAS"
+        },
+        {
+          "amigo": "nic-las",
+          "campeon_id": 56,
+          "equipo": 200,
+          "nombre": "Nicø#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 777,
+          "equipo": 200,
+          "nombre": "HeimerDingerDong#TRUZ"
+        },
+        {
+          "amigo": "johnadis-las",
+          "campeon_id": 112,
+          "equipo": 200,
+          "nombre": "Johnadis#LAS"
+        },
+        {
+          "amigo": "big-gato-las",
+          "campeon_id": 111,
+          "equipo": 200,
+          "nombre": "Big Gato#LAS"
+        }
+      ],
+      "queue_id": 400,
+      "resultado": "victoria",
+      "runas": {
+        "principal": 9923,
+        "secundaria": 8000
+      }
+    },
+    "LA2_1622639708": {
+      "asesinatos": 4,
+      "asistencias": 1,
+      "campeon": "Graves",
+      "campeon_id": 104,
+      "cs": 208,
+      "danio": 21124,
+      "duracion": 1815,
+      "equipo": 100,
+      "fecha": 1788827108481,
+      "hechizos": [
+        11,
+        4
+      ],
+      "id": "LA2_1622639708",
+      "items": [
+        3047,
+        6697,
+        6676,
+        3036,
+        1037,
+        0,
+        3340
+      ],
+      "muertes": 7,
+      "nivel": 15,
+      "participacion": 24,
+      "participantes": [
+        {
+          "amigo": null,
+          "campeon_id": 122,
+          "equipo": 100,
+          "nombre": "gonkokennanoi#mfdum"
+        },
+        {
+          "amigo": "nic-las",
+          "campeon_id": 104,
+          "equipo": 100,
+          "nombre": "Nicø#LAS"
+        },
+        {
+          "amigo": "iskrat-las",
+          "campeon_id": 4,
+          "equipo": 100,
+          "nombre": "ISkrat#LAS"
+        },
+        {
+          "amigo": "johnadis-las",
+          "campeon_id": 910,
+          "equipo": 100,
+          "nombre": "Johnadis#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 57,
+          "equipo": 100,
+          "nombre": "Exkalion1#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 420,
+          "equipo": 200,
+          "nombre": "Gon#2557"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 107,
+          "equipo": 200,
+          "nombre": "T1 Gabo#SKT"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 238,
+          "equipo": 200,
+          "nombre": "dawiseee#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 202,
+          "equipo": 200,
+          "nombre": "Yo era la toxica#feet"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 223,
+          "equipo": 200,
+          "nombre": "Doga#LAS"
+        }
+      ],
+      "queue_id": 400,
+      "resultado": "derrota",
+      "runas": {
+        "principal": 8128,
+        "secundaria": 8000
+      }
+    },
+    "LA2_1622653552": {
+      "asesinatos": 1,
+      "asistencias": 5,
+      "campeon": "Evelynn",
+      "campeon_id": 28,
+      "cs": 120,
+      "danio": 7755,
+      "duracion": 1368,
+      "equipo": 100,
+      "fecha": 1788829136951,
+      "hechizos": [
+        11,
+        4
+      ],
+      "id": "LA2_1622653552",
+      "items": [
+        3145,
+        3020,
+        3100,
+        1058,
+        0,
+        0,
+        3340
+      ],
+      "muertes": 6,
+      "nivel": 11,
+      "participacion": 40,
+      "participantes": [
+        {
+          "amigo": "iskrat-las",
+          "campeon_id": 79,
+          "equipo": 100,
+          "nombre": "ISkrat#LAS"
+        },
+        {
+          "amigo": "nic-las",
+          "campeon_id": 28,
+          "equipo": 100,
+          "nombre": "Nicø#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 91,
+          "equipo": 100,
+          "nombre": "nelnel#LAS"
+        },
+        {
+          "amigo": "johnadis-las",
+          "campeon_id": 112,
+          "equipo": 100,
+          "nombre": "Johnadis#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 350,
+          "equipo": 100,
+          "nombre": "Dark Sector#DSV"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 39,
+          "equipo": 200,
+          "nombre": "Chill Sorrow#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 427,
+          "equipo": 200,
+          "nombre": "Sra Paws#miau"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 517,
+          "equipo": 200,
+          "nombre": "capitancuy#ttas"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 147,
+          "equipo": 200,
+          "nombre": "NicolasMaiden#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 412,
+          "equipo": 200,
+          "nombre": "albertito1304#LAS"
+        }
+      ],
+      "queue_id": 400,
+      "resultado": "derrota",
+      "runas": {
+        "principal": 8112,
+        "secundaria": 8200
+      }
+    },
     "LA2_1622661812": {
       "asesinatos": 11,
       "asistencias": 6,
       "campeon": "Shyvana",
       "campeon_id": 102,
       "cs": 216,
+      "danio": 28409,
       "duracion": 2061,
       "equipo": 200,
       "fecha": 1788831503515,
@@ -101,6 +582,7 @@
       "campeon": "TahmKench",
       "campeon_id": 223,
       "cs": 105,
+      "danio": 7213,
       "duracion": 1043,
       "equipo": 200,
       "fecha": 1788833043580,
@@ -196,6 +678,7 @@
       "campeon": "Camille",
       "campeon_id": 164,
       "cs": 326,
+      "danio": 27225,
       "duracion": 2659,
       "equipo": 200,
       "fecha": 1788836298899,
@@ -291,6 +774,7 @@
       "campeon": "Hecarim",
       "campeon_id": 120,
       "cs": 28,
+      "danio": 717,
       "duracion": 299,
       "equipo": 200,
       "fecha": 1788997423458,
@@ -386,6 +870,7 @@
       "campeon": "MasterYi",
       "campeon_id": 11,
       "cs": 296,
+      "danio": 25140,
       "duracion": 2083,
       "equipo": 200,
       "fecha": 1789435485351,
@@ -481,6 +966,7 @@
       "campeon": "Warwick",
       "campeon_id": 19,
       "cs": 343,
+      "danio": 51397,
       "duracion": 3546,
       "equipo": 100,
       "fecha": 1789439836145,
@@ -576,6 +1062,7 @@
       "campeon": "Belveth",
       "campeon_id": 200,
       "cs": 0,
+      "danio": 0,
       "duracion": 72,
       "equipo": 200,
       "fecha": 1789518436747,
@@ -3856,6 +4343,7 @@
       "victorias": 9
     }
   },
+  "relleno_30_dias": true,
   "riot_id": "Nicø#LAS",
   "seguimiento_desde": 1790972179529,
   "version": 3
