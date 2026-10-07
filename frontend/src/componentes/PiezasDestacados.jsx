@@ -9,6 +9,7 @@ import {
   notaJugadas,
   plural,
   topDe,
+  topGlobalDe,
 } from "../logica/destacados.js";
 import { fechaCompleta } from "../logica/formato.js";
 import { ImagenDD } from "./ImagenDD.jsx";
@@ -122,6 +123,7 @@ export function ListaDestacados({ claves, destacados, amigos, ddragon, ahora, no
           titulo={TITULOS[abierta]}
           nota={nota}
           top={topAbierto}
+          topGlobal={topGlobalDe(destacados, abierta)}
           porSlug={porSlug}
           ddragon={ddragon}
           ahora={ahora}

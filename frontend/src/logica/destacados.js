@@ -179,6 +179,42 @@ export function validarTops(tops, slugs) {
   return resultado;
 }
 
+/** Tarjetas con top global (lol.json → "destacados.tops_global"): mejor y peor jugador. */
+export const CLAVES_TOPS_GLOBAL = CLAVES_TOPS.filter((clave) => esTopDePartida(clave));
+
+/**
+ * Tops globales validados ({ clave: [entradas] } solo con las claves de `CLAVES_TOPS_GLOBAL`)
+ * o null si el archivo no trae el campo. Son las mejores/peores partidas del período, así que
+ * un amigo puede repetirse. Se respeta el orden del recolector, se descartan las entradas
+ * inválidas y quedan como máximo 5.
+ */
+export function validarTopsGlobal(tops, slugs) {
+  if (!tops || typeof tops !== "object" || Array.isArray(tops)) return null;
+  const resultado = {};
+  for (const clave of CLAVES_TOPS_GLOBAL) {
+    const lista = Object.hasOwn(tops, clave) && Array.isArray(tops[clave]) ? tops[clave] : [];
+    const validas = [];
+    for (const entrada of lista) {
+      const ok = validarEntradaTop(clave, entrada, slugs);
+      if (!ok) continue;
+      validas.push(ok);
+      if (validas.length === MAX_TOP) break;
+    }
+    resultado[clave] = validas;
+  }
+  return resultado;
+}
+
+/**
+ * El top global de una tarjeta, o null si no hay: no es de mejor/peor jugador, la tarjeta
+ * está vacía o vencida, el archivo no trae tops globales o la lista está vacía.
+ */
+export function topGlobalDe(destacados, clave) {
+  if (!CLAVES_TOPS_GLOBAL.includes(clave) || !destacados?.[clave]) return null;
+  const lista = destacados.tops_global?.[clave];
+  return Array.isArray(lista) && lista.length > 0 ? lista : null;
+}
+
 /**
  * El top de una tarjeta, o null si no se puede abrir: rachas, tarjeta vacía o vencida,
  * archivo sin tops o lista vacía.
@@ -289,6 +325,7 @@ export function validarDestacados(destacados, amigos) {
     mes: validarMes(destacados.mes),
     ...tarjetas,
     tops: validarTops(destacados.tops, slugs),
+    tops_global: validarTopsGlobal(destacados.tops_global, slugs),
   };
 }
 
@@ -328,7 +365,8 @@ export function mesVencido(mes, ahora) {
 
 /**
  * Destacados con las tarjetas de hoy en null si su día ya terminó, las de la semana en
- * null si su semana ya terminó y las del mes en null si su mes quedó atrás (sus tops también).
+ * null si su semana ya terminó y las del mes en null si su mes quedó atrás (sus tops y
+ * tops globales también).
  * No modifica el original; si nada venció, lo devuelve tal cual.
  */
 export function destacadosVigentes(destacados, ahora) {
@@ -344,6 +382,12 @@ export function destacadosVigentes(destacados, ahora) {
   if (destacados.tops) {
     vigentes.tops = { ...destacados.tops };
     for (const clave of vencidas) if (Object.hasOwn(vigentes.tops, clave)) vigentes.tops[clave] = null;
+  }
+  if (destacados.tops_global) {
+    vigentes.tops_global = { ...destacados.tops_global };
+    for (const clave of vencidas) {
+      if (Object.hasOwn(vigentes.tops_global, clave)) vigentes.tops_global[clave] = null;
+    }
   }
   return vigentes;
 }

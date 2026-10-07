@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { urlIconoPerfil } from "../logica/ddragon.js";
 import { esTopDePartida, plural } from "../logica/destacados.js";
 import { anchoPartidas, esWinratePositivo, formatearTasa } from "../logica/sinergia.js";
@@ -8,14 +9,33 @@ import { PartidaDestacada } from "./PartidaDestacada.jsx";
 
 const esMejor = (clave) => clave.startsWith("mejor_jugador");
 
+/** Pestañas del top de mejor/peor jugador: una entrada por amigo o las partidas del período. */
+const VISTAS = [
+  { clave: "jugador", etiqueta: "Por jugador" },
+  { clave: "global", etiqueta: "Global" },
+];
+
+function ayudaVista(vista, mejor) {
+  const adjetivo = mejor ? "mejor" : "peor";
+  return vista === "global"
+    ? `Global: las ${adjetivo}es partidas, aunque se repita un jugador`
+    : `Por jugador: la ${adjetivo} partida de cada uno`;
+}
+
 /**
  * Top 5 del grupo de una tarjeta de destacados, en el `Dialogo` común (foco, Esc, clic fuera, ✕).
  * `top` ya viene validado y ordenado por el recolector (`logica/destacados.js`); la fila #1
  * es la de la tarjeta y va resaltada. Devolver el foco le toca a quien la abre.
+ * Con `topGlobal` (mejor/peor jugador) aparecen las pestañas «Por jugador» (`top`, por
+ * defecto) y «Global» (las mejores/peores partidas, aunque se repita un amigo).
  */
-export function ModalTopDestacado({ clave, titulo, nota, top, porSlug, ddragon, ahora, onCerrar }) {
+export function ModalTopDestacado({ clave, titulo, nota, top, topGlobal = null, porSlug, ddragon, ahora, onCerrar }) {
+  const [vista, setVista] = useState("jugador");
   const idTitulo = `titulo-top-${clave}`;
-  const maximo = Math.max(0, ...top.map((e) => e.partidas ?? 0));
+  const conPestañas = Array.isArray(topGlobal) && topGlobal.length > 0;
+  const global = conPestañas && vista === "global";
+  const lista = global ? topGlobal : top;
+  const maximo = Math.max(0, ...lista.map((e) => e.partidas ?? 0));
   return (
     <Dialogo
       idTitulo={idTitulo}
@@ -29,9 +49,38 @@ export function ModalTopDestacado({ clave, titulo, nota, top, porSlug, ddragon, 
         </>
       }
     >
+      {conPestañas && (
+        <div className="mb-3">
+          <div role="group" aria-label="Vista del top" className="inline-flex rounded-md border border-borde p-0.5">
+            {VISTAS.map((v) => {
+              const activo = v.clave === vista;
+              return (
+                <button
+                  key={v.clave}
+                  type="button"
+                  aria-pressed={activo}
+                  onClick={() => setVista(v.clave)}
+                  className={`min-h-9 rounded px-3 py-1 text-sm ${
+                    activo ? "bg-sapo-fondo font-semibold text-sapo" : "text-texto-suave hover:text-texto"
+                  }`}
+                >
+                  {v.etiqueta}
+                </button>
+              );
+            })}
+          </div>
+          <p className="mt-1 text-xs text-texto-suave">{ayudaVista(vista, esMejor(clave))}</p>
+        </div>
+      )}
       <ol className="space-y-2">
-        {top.map((entrada, i) => (
-          <FilaTop key={entrada.amigos[0]} posicion={i + 1} amigo={porSlug.get(entrada.amigos[0])} slug={entrada.amigos[0]} ddragon={ddragon}>
+        {lista.map((entrada, i) => (
+          <FilaTop
+            key={global ? `${i}-${entrada.partida_id ?? ""}` : entrada.amigos[0]}
+            posicion={i + 1}
+            amigo={porSlug.get(entrada.amigos[0])}
+            slug={entrada.amigos[0]}
+            ddragon={ddragon}
+          >
             {esTopDePartida(clave) ? (
               <PartidaDestacada t={entrada} ddragon={ddragon} ahora={ahora} mejor={esMejor(clave)} compacta />
             ) : (

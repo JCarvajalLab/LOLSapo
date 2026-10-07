@@ -505,3 +505,27 @@ export function crearTops(cambios = {}) {
     ...cambios,
   };
 }
+
+/**
+ * Tops globales INVENTADOS (lol.json → "destacados.tops_global"): las mejores/peores partidas
+ * del período, ya ordenadas, con Charco repetido (dos partidas en distinto modo y fecha).
+ */
+export function crearTopsGlobal(cambios = {}) {
+  const mejores = [
+    partidaTop("charco-las", 103, "Ahri", 15, 1, 9, "victoria"),
+    partidaTop("charco-las", 104, "Akali", 14, 1, 8, "victoria", { modo: "ARAM", fecha: AHORA - 5 * HORA }),
+    partidaTop("sapito-las", 11, "MasterYi", 12, 2, 4, "victoria"),
+    partidaTop("rana-azul-las", 51, "Caitlyn", 9, 3, 7, "derrota"),
+    partidaTop("renacuajo-las", 22, "Ashe", 6, 3, 5, "victoria"),
+  ];
+  const peores = [...mejores].reverse().map((p) => ({ ...p, resultado: "derrota" }));
+  return {
+    mejor_jugador_hoy: mejores,
+    peor_jugador_hoy: peores,
+    mejor_jugador_semana: mejores,
+    peor_jugador_semana: peores,
+    mejor_jugador_mes: mejores,
+    peor_jugador_mes: peores,
+    ...cambios,
+  };
+}
