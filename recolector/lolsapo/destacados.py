@@ -19,6 +19,11 @@ Bloque "semana" (de lunes a domingo; se reinicia el lunes a la 01:00 de Chile):
   partidas (que dicen qué amigos estaban en el equipo), no desde el registro de cada uno: así
   una partida registrada por un amigo cuenta para todos los que la jugaron.
 
+Bloque "mes" (del día 1 a la 01:00 de Chile al día 1 del mes siguiente; se actualiza durante
+todo el mes): mejor y peor jugador y balance del grupo, con las partidas en grupo del mes. Los
+días 1, 2 y 3 se muestra el mes anterior, ya cerrado, para que no quede vacío. Se cuenta desde
+octubre de 2026.
+
 Con empate exacto (después de los desempates) aparecen todos los amigos que lo ganan: lo normal,
 porque el grupo suele jugar junto.
 """
@@ -68,6 +73,62 @@ def inicio_de_la_semana(ahora_ms: int) -> int:
     if inicio > ahora:
         inicio = _a_las(inicio - timedelta(days=7), HORA_INICIO_SEMANA)
     return _ms(inicio)
+
+
+# El mes empieza el día 1 a la 01:00 de Chile (como la semana: lo jugado pasada la medianoche
+# del último día cuenta para el mes que termina). Los primeros días se muestra el anterior.
+HORA_INICIO_MES = 1
+DIAS_MES_ANTERIOR = 3
+PRIMER_MES = (2026, 10)  # antes de octubre de 2026 no hay registro completo
+MESES = (
+    "enero",
+    "febrero",
+    "marzo",
+    "abril",
+    "mayo",
+    "junio",
+    "julio",
+    "agosto",
+    "septiembre",
+    "octubre",
+    "noviembre",
+    "diciembre",
+)
+
+
+def _inicio_mes(anio: int, mes: int) -> datetime:
+    return datetime(anio, mes, 1, HORA_INICIO_MES, tzinfo=ZONA)
+
+
+def _mes_siguiente(anio: int, mes: int) -> tuple[int, int]:
+    return (anio + 1, 1) if mes == 12 else (anio, mes + 1)
+
+
+def mes_a_mostrar(ahora_ms: int) -> dict:
+    """El mes del bloque "mes": {"anio", "mes", "nombre", "desde", "hasta", "cerrado"}.
+
+    El mes en curso (con `hasta` = inicio del siguiente) o, los días 1 a 3, el anterior cerrado.
+    Nunca antes de PRIMER_MES.
+    """
+    ahora = _en_chile(ahora_ms)
+    anio, mes = ahora.year, ahora.month
+    if ahora < _inicio_mes(anio, mes):  # día 1 antes de la 01:00: sigue el mes anterior
+        anio, mes = (anio - 1, 12) if mes == 1 else (anio, mes - 1)
+    cerrado = False
+    if ahora < _inicio_mes(anio, mes) + timedelta(days=DIAS_MES_ANTERIOR):
+        anterior = (anio - 1, 12) if mes == 1 else (anio, mes - 1)
+        if anterior >= PRIMER_MES:
+            anio, mes, cerrado = *anterior, True
+    if (anio, mes) < PRIMER_MES:
+        anio, mes = PRIMER_MES
+    return {
+        "anio": anio,
+        "mes": mes,
+        "nombre": MESES[mes - 1],
+        "desde": _ms(_inicio_mes(anio, mes)),
+        "hasta": _ms(_inicio_mes(*_mes_siguiente(anio, mes))),
+        "cerrado": cerrado,
+    }
 
 
 RACHA_MINIMA = 2
@@ -208,8 +269,9 @@ def calcular_destacados(
 ) -> dict:
     hoy_desde = inicio_del_dia(ahora_ms)
     semana_desde = inicio_de_la_semana(ahora_ms)
-    # "Hoy" puede empezar antes que la semana (el lunes temprano): se leen ambos períodos.
-    desde = min(hoy_desde, semana_desde)
+    mes = mes_a_mostrar(ahora_ms)
+    # Los períodos se superponen distinto según el día: se leen todos desde el más antiguo.
+    desde = min(hoy_desde, semana_desde, mes["desde"])
     validas = {s: partidas_validas(p, mapa, desde) for s, p in partidas_por_amigo.items()}
     # Actuaciones en grupo: la partida de cada amigo, si la jugó con otro del grupo.
     en_grupo = {
@@ -220,6 +282,9 @@ def calcular_destacados(
     resumenes = {s: _resumen(p) for s, p in semana.items() if p}
     en_grupo_ordenadas = partidas_en_grupo(validas)
     en_grupo_semana = [(p, e) for p, e in en_grupo_ordenadas if p["fecha"] >= semana_desde]
+    en_el_mes = lambda f: mes["desde"] <= f < mes["hasta"]  # noqa: E731
+    del_mes = {s: [p for p in ps if en_el_mes(p["fecha"])] for s, ps in en_grupo.items()}
+    en_grupo_mes = [(p, e) for p, e in en_grupo_ordenadas if en_el_mes(p["fecha"])]
 
     return {
         "hoy_desde": hoy_desde,
@@ -241,6 +306,11 @@ def calcular_destacados(
         "racha_victorias_grupo": _racha_en_equipo(en_grupo_semana, "victoria"),
         "racha_derrotas_grupo": _racha_en_equipo(en_grupo_semana, "derrota"),
         "peor_jugador_semana": _partida_destacada(semana, mapa, mejor=False),
+        # Bloque "mes"
+        "mes": mes,
+        "mejor_jugador_mes": _partida_destacada(del_mes, mapa, mejor=True),
+        "peor_jugador_mes": _partida_destacada(del_mes, mapa, mejor=False),
+        "balance_mes": _balance(en_grupo_mes, mes["desde"]),
     }
 
 

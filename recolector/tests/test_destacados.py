@@ -17,6 +17,7 @@ from lolsapo.destacados import (
     inicio_de_la_semana,
     inicio_del_dia,
     kda,
+    mes_a_mostrar,
 )
 from lolsapo.recolector import _elementos_usados, ejecutar
 
@@ -549,3 +550,72 @@ def test_lunes_temprano_hoy_incluye_el_domingo_pero_la_semana_no(mapa):
     assert destacados["balance_hoy"]["partidas"] == 1
     for clave in ("mas_partidas", "mejor_jugador_semana", "peor_jugador_semana"):
         assert destacados[clave] is None
+
+
+# --- Bloque "mes" -----------------------------------------------------------------------------
+
+
+def test_mes_en_curso_desde_el_dia_1_a_la_01():
+    mes = mes_a_mostrar(ms(2026, 10, 15, 15, 0))  # 15 de octubre
+    assert (mes["anio"], mes["mes"], mes["nombre"], mes["cerrado"]) == (2026, 10, "octubre", False)
+    assert mes["desde"] == ms(2026, 10, 1, 4, 0)  # 1 de octubre, 01:00 en Chile (UTC-3)
+    assert mes["hasta"] == ms(2026, 11, 1, 4, 0)
+
+
+def test_los_dias_1_a_3_se_muestra_el_mes_anterior_cerrado():
+    mes = mes_a_mostrar(ms(2026, 11, 3, 23, 0))  # 3 de noviembre, 20:00 en Chile
+    assert (mes["nombre"], mes["cerrado"]) == ("octubre", True)
+    # Desde el día 4 a la 01:00, el mes en curso.
+    mes = mes_a_mostrar(ms(2026, 11, 4, 4, 0))
+    assert (mes["nombre"], mes["cerrado"]) == ("noviembre", False)
+
+
+def test_el_dia_1_antes_de_la_01_sigue_siendo_el_mes_anterior():
+    mes = mes_a_mostrar(ms(2026, 11, 1, 3, 30))  # 1 de noviembre, 00:30 en Chile
+    assert (mes["nombre"], mes["cerrado"]) == ("octubre", False)
+
+
+def test_octubre_de_2026_no_muestra_septiembre():
+    mes = mes_a_mostrar(ms(2026, 10, 2, 15, 0))  # 2 de octubre
+    assert (mes["nombre"], mes["cerrado"]) == ("octubre", False)
+
+
+def test_enero_muestra_diciembre_del_anio_anterior():
+    mes = mes_a_mostrar(ms(2027, 1, 2, 15, 0))
+    assert (mes["anio"], mes["nombre"], mes["cerrado"]) == (2026, "diciembre", True)
+    assert mes["hasta"] == ms(2027, 1, 1, 4, 0)
+
+
+def test_bloque_del_mes_con_mejor_peor_y_balance(mapa):
+    datos = {
+        "ana": [
+            hoy_en_grupo("g1", 10, 12, 1, 8),  # 1 de octubre a las 7:00: del mes, no de hoy
+            hoy_en_grupo("g2", 2, 3, 6, 2, "derrota"),
+        ],
+        "otro": [hoy_en_grupo("g1", 10, 2, 9, 1), hoy_en_grupo("g2", 2, 5, 5, 5, "derrota")],
+        # Del 30 de septiembre: no cuenta (el mes empieza el 1 de octubre a la 01:00).
+        "beto": [hoy_en_grupo("sep", 30, 40, 0, 40, con=("beto", "ana"))],
+    }
+    destacados = calcular_destacados(datos, mapa, AHORA_MS)
+    assert destacados["mes"]["nombre"] == "octubre"
+    assert destacados["mejor_jugador_hoy"]["partida_id"] == "g2"
+    assert destacados["mejor_jugador_mes"]["partida_id"] == "g1"
+    assert destacados["mejor_jugador_mes"]["amigos"] == ["ana"]
+    assert destacados["peor_jugador_mes"]["amigos"] == ["otro"]
+    assert destacados["balance_mes"]["partidas"] == 2
+    assert destacados["balance_mes"]["victorias"] == 1
+
+
+def test_bloque_del_mes_cerrado_no_mezcla_el_mes_nuevo(mapa):
+    tres_nov = ms(2026, 11, 3, 23, 0)
+    octubre = ms(2026, 10, 20, 23, 0)
+    noviembre = ms(2026, 11, 2, 23, 0)
+
+    def en(fecha, id_p, k):
+        return grupal([{**p(id_p, 0, k=k, d=1, a=1), "fecha": fecha}], "ana", "beto")[0]
+
+    datos = {"ana": [en(octubre, "oct", 3), en(noviembre, "nov", 20)], "beto": []}
+    destacados = calcular_destacados(datos, mapa, tres_nov)
+    assert destacados["mes"]["cerrado"] is True
+    assert destacados["mejor_jugador_mes"]["partida_id"] == "oct"
+    assert destacados["balance_mes"]["partidas"] == 1

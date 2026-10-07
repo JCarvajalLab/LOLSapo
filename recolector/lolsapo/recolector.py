@@ -509,6 +509,8 @@ def _elementos_usados(
         "peor_jugador_hoy",
         "mejor_jugador_semana",
         "peor_jugador_semana",
+        "mejor_jugador_mes",
+        "peor_jugador_mes",
     ):
         destacada = (destacados or {}).get(clave)
         if destacada:
