@@ -4799,6 +4799,102 @@
         "principal": 8992,
         "secundaria": 8000
       }
+    },
+    "LA2_1629047870": {
+      "asesinatos": 4,
+      "asistencias": 5,
+      "campeon": "Anivia",
+      "campeon_id": 34,
+      "cs": 186,
+      "danio": 11106,
+      "duracion": 1494,
+      "equipo": 200,
+      "fecha": 1791416313847,
+      "hechizos": [
+        4,
+        12
+      ],
+      "id": "LA2_1629047870",
+      "items": [
+        3175,
+        2055,
+        6657,
+        3802,
+        1056,
+        3040,
+        3363
+      ],
+      "muertes": 5,
+      "nivel": 15,
+      "participacion": 45,
+      "participantes": [
+        {
+          "amigo": null,
+          "campeon_id": 107,
+          "equipo": 100,
+          "nombre": "MrManjarate#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 141,
+          "equipo": 100,
+          "nombre": "bRoNdd#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 157,
+          "equipo": 100,
+          "nombre": "Pr0bl3mm#2011"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 110,
+          "equipo": 100,
+          "nombre": "FNC faker#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 54,
+          "equipo": 100,
+          "nombre": "Serj Tankian#777"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 517,
+          "equipo": 200,
+          "nombre": "Onlygod2#XJW"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 121,
+          "equipo": 200,
+          "nombre": "iBeat#LOL"
+        },
+        {
+          "amigo": "johnadis-las",
+          "campeon_id": 34,
+          "equipo": 200,
+          "nombre": "Johnadis#LAS"
+        },
+        {
+          "amigo": "iskrat-las",
+          "campeon_id": 115,
+          "equipo": 200,
+          "nombre": "ISkrat#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 57,
+          "equipo": 200,
+          "nombre": "MarkosDrl#LAS"
+        }
+      ],
+      "queue_id": 400,
+      "resultado": "derrota",
+      "runas": {
+        "principal": 8112,
+        "secundaria": 8200
+      }
     }
   },
   "perfil": {
