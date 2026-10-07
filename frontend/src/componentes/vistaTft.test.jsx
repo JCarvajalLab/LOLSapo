@@ -264,16 +264,17 @@ describe("partida de TFT", () => {
   }
 
   it.each([
-    [1, "primero", "text-oro", "border-l-oro"],
-    [2, "top4", "text-victoria", "border-l-victoria"],
-    [4, "top4", "text-victoria", "border-l-victoria"],
-    [5, "abajo", "text-derrota", "border-l-derrota"],
-    [8, "abajo", "text-derrota", "border-l-derrota"],
-  ])("puesto %i: número en texto y color %s", (puesto, grupo, texto, borde) => {
+    [1, "primero", "text-oro"],
+    [2, "top4", "text-victoria"],
+    [4, "top4", "text-victoria"],
+    [5, "abajo", "text-derrota"],
+    [8, "abajo", "text-derrota"],
+  ])("puesto %i: número en texto y color %s", (puesto, grupo, texto) => {
     renderPartida(puesto);
     const articulo = screen.getByRole("article");
+    // El tono del canto (oro, verde o rojo) sale de data-puesto en index.css.
     expect(articulo).toHaveAttribute("data-puesto", grupo);
-    expect(articulo).toHaveClass(borde);
+    expect(articulo).toHaveClass("canto");
     const marca = articulo.querySelector("[data-puesto]:not(article)");
     expect(marca).toHaveClass(texto);
     expect(marca).toHaveTextContent(`${puesto}.º puesto`);

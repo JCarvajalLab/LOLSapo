@@ -10,25 +10,25 @@ import {
 } from "../logica/ddragon.js";
 import { csPorMinuto, esNumero, fechaCompleta, formatearDuracion, haceCuanto, ratioKda } from "../logica/formato.js";
 import { agruparPorEquipo, nombreEquipo } from "../logica/partidas.js";
-import { EtiquetaModo, MarcaResultado } from "./Etiquetas.jsx";
+import { datosResultado, EtiquetaModo } from "./Etiquetas.jsx";
 import { ImagenDD } from "./ImagenDD.jsx";
 
-const TINTES = {
-  victoria: "border-l-victoria bg-victoria-fondo",
-  derrota: "border-l-derrota bg-derrota-fondo",
-  remake: "border-l-remake bg-superficie",
-};
+const RESULTADOS_CONOCIDOS = new Set(["victoria", "derrota", "remake"]);
 
-/** Una partida al estilo op.gg. Tolera partidas antiguas sin ítems, runas ni participantes. */
+/**
+ * Una partida al estilo op.gg. Tolera partidas antiguas sin ítems, runas ni participantes.
+ * El tono (verde, rojo o gris) va en un canto a la izquierda y un tinte leve (`.canto` en
+ * index.css); el resultado siempre se lee también en texto con su ícono.
+ */
 export function FilaPartida({ partida, ddragon, ahora, slugPropio }) {
   const p = partida ?? {};
   const campeon = nombreCampeon(ddragon, p.campeon_id, p.campeon);
-  const tinte = TINTES[p.resultado] ?? "border-l-borde bg-superficie";
 
   return (
     <article
       aria-label={`${campeon}, ${p.modo || "Modo especial"}`}
-      className={`flex flex-wrap items-center gap-x-4 gap-y-2 rounded-lg border-l-4 px-3 py-2 ${tinte}`}
+      data-resultado={RESULTADOS_CONOCIDOS.has(p.resultado) ? p.resultado : undefined}
+      className="canto flex flex-wrap items-center gap-x-4 gap-y-3 rounded-md py-2.5 pr-3 pl-3.5"
     >
       <BloqueInfo p={p} ahora={ahora} />
       <div className="flex flex-col gap-2">
@@ -44,12 +44,19 @@ export function FilaPartida({ partida, ddragon, ahora, slugPropio }) {
   );
 }
 
+/** Resultado en grande (ícono y palabra), el modo y cuándo fue. */
 function BloqueInfo({ p, ahora }) {
+  const r = datosResultado(p.resultado);
   return (
-    <div className="flex w-full flex-wrap items-center gap-x-2 gap-y-1 text-sm sm:w-32 sm:flex-col sm:items-start">
-      <MarcaResultado resultado={p.resultado} />
+    <div className="flex w-full flex-wrap items-center gap-x-3 gap-y-1 text-sm sm:w-32 sm:flex-col sm:items-start sm:gap-y-1.5 sm:self-stretch sm:border-r sm:border-borde sm:pr-3">
+      <p className={`titulo-sub inline-flex items-center gap-1.5 ${r.clase}`}>
+        <span aria-hidden="true" className="text-xs">
+          {r.icono}
+        </span>
+        {r.texto}
+      </p>
       <EtiquetaModo item={p} />
-      <span className="text-xs text-texto-suave">
+      <span className="text-xs text-texto-suave sm:mt-auto">
         <time className="whitespace-nowrap" dateTime={esNumero(p.fecha) ? new Date(p.fecha).toISOString() : undefined} title={fechaCompleta(p.fecha)}>
           {haceCuanto(p.fecha, ahora)}
         </time>
@@ -106,11 +113,12 @@ function BloqueKda({ p }) {
   const hay = ratio !== null;
   return (
     <div className="w-20 text-center">
-      <p className="cifras font-semibold" aria-label={hay ? `KDA ${p.asesinatos} / ${p.muertes} / ${p.asistencias}` : "KDA sin datos"}>
+      <p className="marcador text-xl leading-tight" aria-label={hay ? `KDA ${p.asesinatos} / ${p.muertes} / ${p.asistencias}` : "KDA sin datos"}>
         {hay ? (
           <>
-            {p.asesinatos} <span className="text-texto-suave">/</span> <span className="text-derrota">{p.muertes}</span>{" "}
-            <span className="text-texto-suave">/</span> {p.asistencias}
+            {p.asesinatos} <span className="font-normal text-texto-suave">/</span>{" "}
+            <span className="text-derrota">{p.muertes}</span> <span className="font-normal text-texto-suave">/</span>{" "}
+            {p.asistencias}
           </>
         ) : (
           "—"
@@ -145,15 +153,15 @@ function Items({ items, ddragon }) {
     <ul className="flex gap-0.5" aria-label="Ítems">
       {espacios.map((id, i) =>
         id > 0 ? (
-          <li key={i}>
+          <li key={i} className={i === 6 ? "ml-1.5" : undefined}>
             <ImagenDD src={urlItem(ddragon, id)} alt={nombreItem(ddragon, id)} tamaño={24} className={i === 6 ? "rounded-full" : ""} />
           </li>
         ) : (
-          <li key={i}>
+          <li key={i} className={i === 6 ? "ml-1.5" : undefined}>
             <span
               role="img"
               aria-label="Espacio vacío"
-              className={`block h-6 w-6 border border-borde bg-fondo/60 ${i === 6 ? "rounded-full" : "rounded-md"}`}
+              className={`block h-6 w-6 border border-borde/80 bg-fondo/70 ${i === 6 ? "rounded-full" : "rounded-md"}`}
             />
           </li>
         ),
@@ -168,7 +176,7 @@ function Participantes({ participantes, ddragon, slugPropio }) {
   return (
     <div className="grid w-full grid-cols-2 gap-x-3 gap-y-2 lg:ml-auto lg:w-60">
       {equipos.map((eq, i) => (
-        <ul key={eq.equipo} aria-label={nombreEquipo(eq.equipo, i)} className="min-w-0 space-y-px">
+        <ul key={eq.equipo} aria-label={nombreEquipo(eq.equipo, i)} className="min-w-0 space-y-0.5">
           {eq.jugadores.map((j, k) => {
             const campeon = nombreCampeon(ddragon, j.campeon_id);
             const nombre = typeof j.nombre === "string" && j.nombre ? j.nombre : campeon;
@@ -177,7 +185,7 @@ function Participantes({ participantes, ddragon, slugPropio }) {
             return (
               <li
                 key={`${j.campeon_id}-${k}`}
-                className="flex min-w-0 items-center gap-1 text-xs"
+                className="flex min-w-0 items-center gap-1.5 text-xs"
                 data-propio={propio ? "true" : undefined}
                 data-amigo={amigo ? "true" : undefined}
               >

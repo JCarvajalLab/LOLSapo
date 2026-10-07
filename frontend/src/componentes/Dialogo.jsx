@@ -67,15 +67,15 @@ export function Dialogo({ idTitulo, titulo, onCerrar, children }) {
         aria-labelledby={idTitulo}
         tabIndex={-1}
         onKeyDown={alTeclear}
-        className="w-full max-w-lg rounded-lg border border-borde bg-superficie p-3 shadow-2xl shadow-black/50 focus:outline-none sm:p-5"
+        className="losa dialogo-entra w-full max-w-lg rounded-xl border p-3 shadow-2xl shadow-black/60 focus:outline-none sm:p-5"
       >
-        <div className="mb-3 flex items-start gap-3">
+        <div className="mb-4 flex items-start gap-3 border-b border-borde pb-3">
           <div className="min-w-0 flex-1">{titulo}</div>
           <button
             type="button"
             onClick={onCerrar}
             aria-label="Cerrar"
-            className="-mt-1 -mr-1 flex size-9 shrink-0 items-center justify-center rounded-md text-lg text-texto-suave hover:bg-superficie-alta hover:text-texto"
+            className="-mt-1 -mr-1 flex size-9 shrink-0 items-center justify-center rounded-full border border-borde text-base text-texto-suave hover:border-texto-suave hover:bg-superficie-alta hover:text-texto"
           >
             <span aria-hidden="true">✕</span>
           </button>

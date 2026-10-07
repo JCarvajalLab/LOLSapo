@@ -30,7 +30,7 @@ export function SelectorJuego({ juego, onCambiar }) {
   }
 
   return (
-    <div role="tablist" aria-label="Juego" className="-ml-3 flex gap-1" onKeyDown={alTeclear}>
+    <div role="tablist" aria-label="Juego" className="-ml-3 flex gap-2" onKeyDown={alTeclear}>
       {JUEGOS.map((j) => {
         const activo = j.clave === juego;
         return (
@@ -46,8 +46,8 @@ export function SelectorJuego({ juego, onCambiar }) {
             aria-controls={idPanelJuego(j.clave)}
             tabIndex={activo ? 0 : -1}
             onClick={() => onCambiar(j.clave)}
-            className={`min-h-10 border-b-2 px-3 text-sm font-semibold ${
-              activo ? "border-sapo text-texto" : "border-transparent text-texto-suave hover:text-texto"
+            className={`pestana min-h-11 px-3 font-titulo text-[0.9375rem] font-bold ${
+              activo ? "text-texto" : "text-texto-suave hover:text-texto"
             }`}
           >
             {j.etiqueta}

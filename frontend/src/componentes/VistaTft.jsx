@@ -29,9 +29,9 @@ export function VistaTft({ datos, error, ahora, abiertos, alternar, abrir, enfoc
 
   const actualizadoMs = isoAMs(datos.actualizado);
   return (
-    <div className="space-y-6">
+    <div className="space-y-8 sm:space-y-10">
       {datos.error && (
-        <p role="status" className="rounded-md border border-sapo/40 bg-sapo-fondo px-3 py-2 text-sm text-sapo" data-aviso-global="true">
+        <p role="status" data-tono="aviso" className="canto rounded-lg py-2.5 pr-3 pl-4 text-sm text-sapo" data-aviso-global="true">
           <span aria-hidden="true" className="mr-1">
             ⚠
           </span>
@@ -47,7 +47,7 @@ export function VistaTft({ datos, error, ahora, abiertos, alternar, abrir, enfoc
         ahora={ahora}
       />
 
-      <div className="grid gap-6 lg:grid-cols-[18rem_minmax(0,1fr)] lg:items-start">
+      <div className="grid gap-x-8 gap-y-8 lg:grid-cols-[18rem_minmax(0,1fr)] lg:items-start">
         <Ranking
           ranking={datos.ranking}
           amigos={datos.amigos}
@@ -55,6 +55,7 @@ export function VistaTft({ datos, error, ahora, abiertos, alternar, abrir, enfoc
           idTitulo="titulo-tft-ranking"
           detalle={detalleTft}
           hrefDe={() => HASH_TFT}
+          criterio="Orden: rango de Ranked; sin rango, % de top 4."
         />
 
         <section aria-labelledby="titulo-tft-amigos" className="min-w-0">

@@ -13,7 +13,8 @@ describe("FilaPartida", () => {
   it("muestra una partida completa al estilo op.gg", () => {
     render(<FilaPartida partida={partidaCompleta} ddragon={ddragon} ahora={AHORA} slugPropio="rana-azul-las" />);
     const fila = screen.getByRole("article");
-    expect(fila).toHaveClass("bg-derrota-fondo");
+    expect(fila).toHaveAttribute("data-resultado", "derrota");
+    expect(fila).toHaveClass("canto");
     expect(within(fila).getByText("Derrota")).toBeInTheDocument();
     expect(within(fila).getByText("Normal (Reclutamiento)")).toBeInTheDocument();
     expect(within(fila).getByText("hace 18 horas")).toBeInTheDocument();
@@ -55,7 +56,7 @@ describe("FilaPartida", () => {
     expect(screen.getByText("Victoria")).toBeInTheDocument();
     expect(screen.getByText("(ranked)")).toBeInTheDocument();
     expect(screen.getByText("KDA perfecto")).toBeInTheDocument();
-    expect(screen.getByRole("article")).toHaveClass("bg-victoria-fondo");
+    expect(screen.getByRole("article")).toHaveAttribute("data-resultado", "victoria");
   });
 
   it("tolera partidas antiguas sin ítems, runas ni participantes", () => {

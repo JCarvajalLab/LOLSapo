@@ -98,7 +98,7 @@ describe("amigo con error", () => {
 });
 
 describe("móvil y accesibilidad", () => {
-  it("los separadores del encabezado de la partida se ocultan en móvil", () => {
+  it("el encabezado de la partida no deja separadores sueltos en móvil: se separa con espacio y se envuelve", () => {
     const { container } = render(
       <SeccionEnPartida
         enVivo={[partidaEnVivo]}
@@ -111,8 +111,8 @@ describe("móvil y accesibilidad", () => {
     const separadores = [...container.querySelectorAll("article header span[aria-hidden]")].filter(
       (s) => s.textContent.trim() === "·",
     );
-    expect(separadores).toHaveLength(2);
-    for (const s of separadores) expect(s).toHaveClass("hidden", "sm:inline");
+    expect(separadores).toHaveLength(0);
+    expect(container.querySelector("article header")).toHaveClass("flex-wrap");
   });
 
   it("los botones de filtro miden al menos 40 px de alto", () => {

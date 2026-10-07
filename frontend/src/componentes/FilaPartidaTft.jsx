@@ -19,10 +19,10 @@ export function FilaPartidaTft({ partida, ddragon, ahora, slugPropio }) {
   return (
     <article
       aria-label={`${textoPuesto(p.puesto)} puesto, ${p.modo || "Modo especial"}`}
-      className={`flex flex-wrap gap-x-4 gap-y-3 rounded-lg border-l-4 px-3 py-2 ${estilo.borde} ${estilo.fondo}`}
+      className="canto flex flex-wrap gap-x-4 gap-y-3 rounded-md py-2.5 pr-3 pl-4"
       data-puesto={estilo.grupo}
     >
-      <div className="flex w-full items-center gap-3 sm:w-28 sm:flex-col sm:items-start sm:gap-1.5">
+      <div className="flex w-full items-center gap-3 sm:w-32 sm:flex-col sm:items-start sm:gap-1.5 sm:border-r sm:border-borde sm:pr-3">
         <MarcaPuesto puesto={p.puesto} className="w-12 shrink-0 sm:w-auto" />
         <div className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1 text-xs text-texto-suave sm:flex-col sm:items-start">
           <EtiquetaModo item={p} />
@@ -86,7 +86,7 @@ function Lobby({ participantes, slugPropio }) {
   return (
     <ol
       aria-label="Lobby"
-      className="grid w-full min-w-0 auto-cols-[minmax(0,1fr)] grid-flow-col grid-rows-4 gap-x-3 gap-y-px text-xs lg:ml-auto lg:w-56 lg:self-center"
+      className="grid w-full min-w-0 auto-cols-[minmax(0,1fr)] grid-flow-col grid-rows-4 gap-x-3 gap-y-0.5 text-xs lg:ml-auto lg:w-56 lg:self-center"
     >
       {lista.map((j, i) => {
         const nombre = typeof j.nombre === "string" && j.nombre ? j.nombre : "Jugador oculto";
@@ -99,7 +99,7 @@ function Lobby({ participantes, slugPropio }) {
             data-propio={propio ? "true" : undefined}
             data-amigo={amigo ? "true" : undefined}
           >
-            <span className={`cifras w-3 shrink-0 text-right font-semibold ${estiloPuesto(j.puesto).texto}`}>
+            <span className={`marcador w-3 shrink-0 text-right ${estiloPuesto(j.puesto).texto}`}>
               {Number.isInteger(j.puesto) ? j.puesto : "—"}
             </span>
             <span

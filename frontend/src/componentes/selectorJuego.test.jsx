@@ -34,7 +34,7 @@ describe("SelectorJuego", () => {
     expect(lol).toHaveAttribute("tabindex", "0");
     expect(tft).toHaveAttribute("aria-selected", "false");
     expect(tft).toHaveAttribute("tabindex", "-1");
-    expect(lol).toHaveClass("min-h-10");
+    expect(lol).toHaveClass("min-h-11");
   });
 
   it("flechas, Inicio y Fin cambian de pestaña", async () => {

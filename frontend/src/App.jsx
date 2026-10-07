@@ -50,7 +50,7 @@ export default function App({ fetchFn }) {
         onCambiarJuego={cambiar}
       />
 
-      <main id="contenido" tabIndex={-1} aria-busy={actual.cargando} className="mx-auto w-full max-w-6xl flex-1 px-4 py-5 focus:outline-none">
+      <main id="contenido" tabIndex={-1} aria-busy={actual.cargando} className="mx-auto w-full max-w-6xl flex-1 px-4 pt-6 pb-12 focus:outline-none sm:pt-8">
         <PanelJuego clave="lol" activo={juego === "lol"}>
           <VistaLol datos={datos} error={error} ahora={ahora} {...amigosAbiertos} />
         </PanelJuego>
@@ -59,10 +59,17 @@ export default function App({ fetchFn }) {
         </PanelJuego>
       </main>
 
-      <footer className="border-t border-borde px-4 py-4 text-center text-xs text-texto-suave">
-        LOLSapo no está respaldado por Riot Games y no refleja las opiniones de Riot Games ni de nadie
-        involucrado oficialmente en la producción o gestión de League of Legends. League of Legends y Riot Games
-        son marcas registradas de Riot Games, Inc.
+      <footer className="border-t border-borde">
+        <div className="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-6 text-xs leading-relaxed text-texto-suave sm:flex-row sm:items-start sm:gap-6">
+          <p aria-hidden="true" className="marcador shrink-0 text-base leading-none text-texto">
+            LOL<span className="text-sapo">Sapo</span>
+          </p>
+          <p className="max-w-[72ch]">
+            LOLSapo no está respaldado por Riot Games y no refleja las opiniones de Riot Games ni de nadie
+            involucrado oficialmente en la producción o gestión de League of Legends. League of Legends y Riot Games
+            son marcas registradas de Riot Games, Inc.
+          </p>
+        </div>
       </footer>
     </div>
   );
@@ -106,7 +113,7 @@ function VistaLol({ datos, error, ahora, abiertos, alternar, abrir, enfocar }) {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8 sm:space-y-10">
       <SeccionEnPartida
         enVivo={datos.en_vivo}
         ddragon={datos.ddragon}
@@ -119,7 +126,7 @@ function VistaLol({ datos, error, ahora, abiertos, alternar, abrir, enfocar }) {
       <SeccionDestacadosSemana destacados={datos.destacados} amigos={datos.amigos} ddragon={datos.ddragon} ahora={ahora} />
       <SeccionDestacadosMes destacados={datos.destacados} amigos={datos.amigos} ddragon={datos.ddragon} ahora={ahora} />
 
-      <div className="grid gap-6 lg:grid-cols-[18rem_minmax(0,1fr)] lg:items-start">
+      <div className="grid gap-x-8 gap-y-8 lg:grid-cols-[18rem_minmax(0,1fr)] lg:items-start">
         <Ranking ranking={datos.ranking} amigos={datos.amigos} onElegir={alElegirRanking} />
 
         <section aria-labelledby="titulo-amigos" className="min-w-0">

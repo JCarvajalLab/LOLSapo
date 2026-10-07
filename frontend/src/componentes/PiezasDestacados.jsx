@@ -49,6 +49,13 @@ function vacioDe(clave) {
 
 const esBalance = (clave) => clave === "balance_hoy" || clave === "balance_mes";
 
+/** Filo de color arriba de la tarjeta: verde para lo mejor, rojo para lo peor, nada en lo neutro. */
+function filoDe(clave) {
+  if (clave.startsWith("mejor_") || clave === "racha_victorias_grupo") return "filo-victoria";
+  if (clave.startsWith("peor_") || clave === "racha_derrotas_grupo") return "filo-derrota";
+  return "";
+}
+
 /**
  * Fila de mejor jugador, balance y peor jugador (hoy y mes). En 2 columnas (tablet) el
  * balance baja a su propia fila a todo el ancho, para que mejor y peor jugador queden lado a
@@ -147,18 +154,23 @@ export function ListaDestacados({ claves, destacados, amigos, ddragon, ahora, no
 export function TarjetaDestacado({ clave, tarjeta, porSlug, ddragon, ahora, onVerTop = null, refBoton }) {
   const idTitulo = `destacado-${clave}`;
   const clicable = Boolean(tarjeta && onVerTop);
+  // Con datos: superficie y filo de color. Vacía: borde punteado sobre el fondo, para que se retire.
+  const caja = tarjeta ? `losa ${filoDe(clave)}` : "border-dashed border-borde bg-transparent";
   return (
     <article
       aria-labelledby={idTitulo}
       data-destacado={clave}
-      className="group relative flex h-full flex-col gap-2 rounded-lg border border-borde bg-superficie p-3"
+      className={`group relative flex h-full flex-col gap-2.5 rounded-lg border p-3 sm:p-4 ${caja}`.trim()}
     >
-      <div className="flex items-baseline justify-between gap-2">
-        <h3 id={idTitulo} className="text-sm font-semibold text-texto-suave">
+      <div className="flex items-center justify-between gap-2">
+        <h3 id={idTitulo} className="text-sm leading-5 text-texto-suave">
           {TITULOS[clave]}
         </h3>
         {clicable && (
-          <span aria-hidden="true" className="shrink-0 text-xs whitespace-nowrap text-texto-suave group-hover:text-sapo">
+          <span
+            aria-hidden="true"
+            className="shrink-0 rounded-full border border-borde px-2 py-0.5 text-xs whitespace-nowrap text-texto-suave group-hover:border-sapo/60 group-hover:text-sapo"
+          >
             Top 5 ›
           </span>
         )}
@@ -272,7 +284,7 @@ function Amigos({ slugs, porSlug, ddragon }) {
   );
 }
 
-const VALOR = "cifras font-titulo text-3xl leading-none font-bold";
+const VALOR = "marcador text-4xl leading-none";
 
 function Contenido({ clave, t, ddragon, ahora }) {
   switch (clave) {

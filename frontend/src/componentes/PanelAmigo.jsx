@@ -15,8 +15,8 @@ export function PanelAmigo({ amigo, ddragon, ahora }) {
   const hayPartidas = Array.isArray(amigo.partidas) && amigo.partidas.length > 0;
 
   return (
-    <div className="space-y-4 border-t border-borde px-3 py-4 sm:px-4">
-      <p className="text-sm text-texto-suave">
+    <div className="panel-hundido space-y-5 px-3 py-4 sm:px-4 sm:py-5">
+      <p className="max-w-prose text-xs text-texto-suave">
         Contando desde {fechaCorta(amigo.seguimiento_desde)}. Las estadísticas por modo solo incluyen partidas
         registradas por LOLSapo.
       </p>
@@ -25,14 +25,14 @@ export function PanelAmigo({ amigo, ddragon, ahora }) {
 
       <section aria-label="Estadísticas del filtro" className="space-y-3">
         <p className="text-sm">
-          {etiquetaFiltro(filtro)}: <span className="cifras text-texto-suave">{resumen.partidas} partidas · </span>
+          <span className="font-semibold">{etiquetaFiltro(filtro)}</span>: <span className="cifras text-texto-suave">{resumen.partidas} partidas · </span>
           <RegistroVD {...resumen} />
         </p>
         <DesgloseModos modos={modos} />
       </section>
 
       <section aria-label="Últimas partidas" className="space-y-2">
-        <h3 className="font-titulo font-bold">Últimas partidas</h3>
+        <h3 className="titulo-sub">Últimas partidas</h3>
         {!hayPartidas ? (
           <p className="text-sm text-texto-suave">Todavía no hay partidas registradas.</p>
         ) : partidas.length === 0 ? (

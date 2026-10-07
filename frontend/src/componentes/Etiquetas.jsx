@@ -23,12 +23,15 @@ export function MarcaResultado({ resultado }) {
   );
 }
 
-/** Nombre del modo; las ranked llevan borde Hextech y el ícono ◆. */
+/**
+ * Nombre del modo. Las ranked son una ficha Hextech con el ícono ◆; el resto, texto suave sin
+ * caja, para que la diferencia ranked / no ranked se lea de un vistazo.
+ */
 export function EtiquetaModo({ item }) {
   const nombre = item?.modo || "Modo especial";
   if (esRanked(item)) {
     return (
-      <span className="inline-flex items-center gap-1 rounded border border-ranked px-1.5 py-0.5 text-xs font-semibold text-ranked">
+      <span className="inline-flex items-center gap-1 rounded-md border border-ranked/70 bg-ranked/10 px-1.5 py-0.5 text-xs font-semibold text-ranked">
         <span aria-hidden="true">◆</span>
         {nombre}
         <span className="sr-only"> (ranked)</span>
@@ -36,7 +39,7 @@ export function EtiquetaModo({ item }) {
     );
   }
   return (
-    <span className="inline-flex items-center rounded border border-borde px-1.5 py-0.5 text-xs text-texto-suave">
+    <span className="inline-flex items-center py-0.5 text-xs text-texto-suave">
       {nombre}
     </span>
   );

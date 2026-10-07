@@ -33,7 +33,7 @@ export function PartidaDestacada({ t, ddragon, ahora, mejor, compacta = false })
     <div className={`flex items-center ${compacta ? "gap-2" : "mt-auto gap-3"}`}>
       <ImagenDD src={urlCampeon(ddragon, t.campeon_id, t.campeon)} alt={campeon} tamaño={compacta ? 36 : 44} />
       <div className="min-w-0">
-        <p className={`cifras font-titulo leading-tight font-bold ${compacta ? "text-base" : "text-lg"}`}>
+        <p className={`marcador leading-tight ${compacta ? "text-lg" : "text-xl"}`}>
           {campeon} <span className="text-texto-suave">·</span> <Kda a={t.asesinatos} m={t.muertes} asi={t.asistencias} />
         </p>
         <p className={`cifras text-sm font-semibold ${mejor ? "text-victoria" : "text-derrota"}`}>
