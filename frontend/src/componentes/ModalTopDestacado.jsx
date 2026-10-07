@@ -11,8 +11,8 @@ const esMejor = (clave) => clave.startsWith("mejor_jugador");
 
 /** Pestañas del top de mejor/peor jugador: una entrada por amigo o las partidas del período. */
 const VISTAS = [
-  { clave: "jugador", etiqueta: "Por jugador" },
   { clave: "global", etiqueta: "Global" },
+  { clave: "jugador", etiqueta: "Por jugador" },
 ];
 
 function ayudaVista(vista, mejor) {
@@ -26,11 +26,11 @@ function ayudaVista(vista, mejor) {
  * Top 5 del grupo de una tarjeta de destacados, en el `Dialogo` común (foco, Esc, clic fuera, ✕).
  * `top` ya viene validado y ordenado por el recolector (`logica/destacados.js`); la fila #1
  * es la de la tarjeta y va resaltada. Devolver el foco le toca a quien la abre.
- * Con `topGlobal` (mejor/peor jugador) aparecen las pestañas «Por jugador» (`top`, por
- * defecto) y «Global» (las mejores/peores partidas, aunque se repita un amigo).
+ * Con `topGlobal` (mejor/peor jugador) aparecen las pestañas «Global» (las mejores/peores
+ * partidas aunque se repita un amigo, por defecto) y «Por jugador» (`top`).
  */
 export function ModalTopDestacado({ clave, titulo, nota, top, topGlobal = null, porSlug, ddragon, ahora, onCerrar }) {
-  const [vista, setVista] = useState("jugador");
+  const [vista, setVista] = useState("global");
   const idTitulo = `titulo-top-${clave}`;
   const conPestañas = Array.isArray(topGlobal) && topGlobal.length > 0;
   const global = conPestañas && vista === "global";

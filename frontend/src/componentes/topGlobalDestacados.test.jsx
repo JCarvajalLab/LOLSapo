@@ -28,23 +28,17 @@ async function abrir(titulo) {
 }
 
 describe("Top 5 global de mejor y peor jugador", () => {
-  it("«Por jugador» va por defecto, con su ayuda y una fila por amigo", async () => {
+  it("las pestañas van «Global» primero y «Por jugador» después", async () => {
+    renderSeccion(SeccionDestacadosSemana, conGlobal());
+    const dialogo = await abrir("Mejor jugador de la semana");
+    const botones = within(grupoVista(dialogo)).getAllByRole("button");
+    expect(botones.map((b) => b.textContent)).toEqual(["Global", "Por jugador"]);
+  });
+
+  it("«Global» va por defecto: muestra las partidas de tops_global con el amigo repetido, su modo y fecha", async () => {
     renderSeccion(SeccionDestacadosSemana, conGlobal());
     const dialogo = await abrir("Mejor jugador de la semana");
     expect(grupoVista(dialogo)).toBeInTheDocument();
-    expect(boton(dialogo, "Por jugador")).toHaveAttribute("aria-pressed", "true");
-    expect(boton(dialogo, "Global")).toHaveAttribute("aria-pressed", "false");
-    expect(dialogo).toHaveTextContent(AYUDA_JUGADOR_MEJOR);
-    const lista = filas(dialogo);
-    ["Charco#LAS", "Sapito#LAS", "Rana Azul#LAS", "Renacuajo#LAS", "Pozo#LAS"].forEach((riotId, i) => {
-      expect(within(lista[i]).getAllByRole("img")[0]).toHaveAccessibleName(`Ícono de ${riotId}`);
-    });
-  });
-
-  it("«Global» muestra las partidas de tops_global con el amigo repetido, su modo y fecha", async () => {
-    renderSeccion(SeccionDestacadosSemana, conGlobal());
-    const dialogo = await abrir("Mejor jugador de la semana");
-    await userEvent.click(boton(dialogo, "Global"));
     expect(boton(dialogo, "Global")).toHaveAttribute("aria-pressed", "true");
     expect(boton(dialogo, "Por jugador")).toHaveAttribute("aria-pressed", "false");
     expect(dialogo).toHaveTextContent(AYUDA_GLOBAL_MEJOR);
@@ -65,18 +59,46 @@ describe("Top 5 global de mejor y peor jugador", () => {
     expect(lista[0]).toHaveAttribute("data-primero");
     for (const f of lista.slice(1)) expect(f).not.toHaveAttribute("data-primero");
 
+  });
+
+  it("«Por jugador» muestra los tops, con su ayuda y una fila por amigo", async () => {
+    renderSeccion(SeccionDestacadosSemana, conGlobal());
+    const dialogo = await abrir("Mejor jugador de la semana");
     await userEvent.click(boton(dialogo, "Por jugador"));
+    expect(boton(dialogo, "Por jugador")).toHaveAttribute("aria-pressed", "true");
+    expect(boton(dialogo, "Global")).toHaveAttribute("aria-pressed", "false");
     expect(dialogo).toHaveTextContent(AYUDA_JUGADOR_MEJOR);
-    expect(within(filas(dialogo)[1]).getByText("Sapito")).toBeInTheDocument();
+    expect(dialogo).not.toHaveTextContent(AYUDA_GLOBAL_MEJOR);
+    const lista = filas(dialogo);
+    expect(lista).toHaveLength(5);
+    ["Charco#LAS", "Sapito#LAS", "Rana Azul#LAS", "Renacuajo#LAS", "Pozo#LAS"].forEach((riotId, i) => {
+      expect(within(lista[i]).getAllByRole("img")[0]).toHaveAccessibleName(`Ícono de ${riotId}`);
+    });
+    expect(lista[0]).toHaveAttribute("data-primero");
+
+    await userEvent.click(boton(dialogo, "Global"));
+    expect(dialogo).toHaveTextContent(AYUDA_GLOBAL_MEJOR);
+    expect(within(filas(dialogo)[1]).getByText("Charco")).toBeInTheDocument();
   });
 
   it("en peor jugador la ayuda dice «peor»", async () => {
     renderSeccion(SeccionDestacadosMes, conGlobal());
     const dialogo = await abrir("Peor jugador del mes");
-    expect(dialogo).toHaveTextContent("Por jugador: la peor partida de cada uno");
-    await userEvent.click(boton(dialogo, "Global"));
     expect(dialogo).toHaveTextContent("Global: las peores partidas, aunque se repita un jugador");
     expect(within(filas(dialogo)[0]).getByText("Renacuajo")).toBeInTheDocument();
+    await userEvent.click(boton(dialogo, "Por jugador"));
+    expect(dialogo).toHaveTextContent("Por jugador: la peor partida de cada uno");
+  });
+
+  it("al cerrar con Escape el foco vuelve a la tarjeta y al reabrir vuelve a «Global»", async () => {
+    renderSeccion(SeccionDestacadosSemana, conGlobal());
+    let dialogo = await abrir("Mejor jugador de la semana");
+    await userEvent.click(boton(dialogo, "Por jugador"));
+    await userEvent.keyboard("{Escape}");
+    expect(screen.queryByRole("dialog")).toBeNull();
+    expect(screen.getByRole("button", { name: "Ver top 5: Mejor jugador de la semana" })).toHaveFocus();
+    dialogo = await abrir("Mejor jugador de la semana");
+    expect(boton(dialogo, "Global")).toHaveAttribute("aria-pressed", "true");
   });
 
   it("las tarjetas de récord no tienen pestañas", async () => {
