@@ -4,10 +4,14 @@ import { validarDatos } from "./datos.js";
 import {
   CLAVES_DESTACADOS,
   CLAVES_HOY,
+  CLAVES_MES,
   CLAVES_SEMANA,
+  DIAS_MES_CERRADO,
+  MESES,
   destacadosVacios,
   destacadosVigentes,
   hoyVencido,
+  mesVencido,
   semanaVencida,
   fechaRacha,
   colorResultado,
@@ -17,6 +21,7 @@ import {
   notaJugadas,
   plural,
   validarDestacados,
+  validarMes,
 } from "./destacados.js";
 
 const AMIGOS = crearDatos().amigos;
@@ -626,11 +631,12 @@ describe("destacadosVigentes con la semana vencida", () => {
     for (const clave of CLAVES_SEMANA) expect(v[clave]).toEqual(d[clave]);
   });
 
-  it("ambos vencidos: anula todas las tarjetas y conserva las fechas", () => {
+  it("ambos vencidos: anula hoy y semana, deja el mes vigente y conserva las fechas", () => {
     const d = base({ semana_desde: AHORA_T - 9 * DIA, hoy_desde: AHORA_T - 30 * 3600 * 1000 });
     const copia = structuredClone(d);
     const v = destacadosVigentes(d, AHORA_T);
-    for (const clave of CLAVES_DESTACADOS) expect(v[clave]).toBeNull();
+    for (const clave of [...CLAVES_HOY, ...CLAVES_SEMANA]) expect(v[clave]).toBeNull();
+    for (const clave of CLAVES_MES) expect(v[clave]).toEqual(d[clave]);
     expect(v.semana_desde).toBe(d.semana_desde);
     expect(v.hoy_desde).toBe(d.hoy_desde);
     expect(d).toEqual(copia);
@@ -639,5 +645,124 @@ describe("destacadosVigentes con la semana vencida", () => {
   it("sin semana_desde (archivos viejos) no anula la semana", () => {
     const d = base({ semana_desde: null, hoy_desde: null });
     expect(destacadosVigentes(d, AHORA_T + 100 * DIA)).toBe(d);
+  });
+});
+
+describe("validarMes", () => {
+  const MES = crearDestacados().mes;
+
+  it("acepta el mes completo y deja solo los campos conocidos", () => {
+    expect(validarMes({ ...MES, extra: "<b>x</b>" })).toEqual(MES);
+    expect(validarMes({ ...MES, cerrado: true }).cerrado).toBe(true);
+    expect(validarDestacados(crearDestacados(), AMIGOS).mes).toEqual(MES);
+  });
+
+  it("los 12 meses en español, en orden", () => {
+    expect(MESES).toHaveLength(12);
+    expect(MESES[0]).toBe("enero");
+    expect(MESES[8]).toBe("septiembre");
+    expect(MESES[11]).toBe("diciembre");
+    expect(validarMes({ ...MES, mes: 1, nombre: "enero", anio: 2027 })).not.toBeNull();
+    expect(validarMes({ ...MES, mes: 12, nombre: "diciembre", anio: 2100 })).not.toBeNull();
+  });
+
+  it.each([
+    ["sin mes", undefined],
+    ["null", null],
+    ["texto", "octubre"],
+    ["lista", []],
+    ["año antes de 2026", { ...MES, anio: 2025 }],
+    ["año después de 2100", { ...MES, anio: 2101 }],
+    ["año decimal", { ...MES, anio: 2026.5 }],
+    ["año en texto", { ...MES, anio: "2026" }],
+    ["mes 0", { ...MES, mes: 0 }],
+    ["mes 13", { ...MES, mes: 13, nombre: "diciembre" }],
+    ["nombre de otro mes", { ...MES, nombre: "noviembre" }],
+    ["nombre con mayúscula", { ...MES, nombre: "Octubre" }],
+    ["nombre inventado", { ...MES, nombre: "<script>" }],
+    ["sin nombre", { ...MES, nombre: undefined }],
+    ["desde igual a hasta", { ...MES, desde: MES.hasta }],
+    ["desde después de hasta", { ...MES, desde: MES.hasta + 1 }],
+    ["desde decimal", { ...MES, desde: MES.desde + 0.5 }],
+    ["hasta fuera del rango de Date", { ...MES, hasta: 9e15 }],
+    ["desde negativo", { ...MES, desde: -1 }],
+    ["cerrado en texto", { ...MES, cerrado: "false" }],
+    ["sin cerrado", { ...MES, cerrado: undefined }],
+  ])("%s: null", (_, valor) => {
+    expect(validarMes(valor)).toBeNull();
+    expect(validarDestacados(crearDestacados({ mes: valor }), AMIGOS).mes).toBeNull();
+  });
+
+  it("valida las tres tarjetas del mes con los validadores de hoy", () => {
+    const d = validarDestacados(
+      crearDestacados({
+        mejor_jugador_mes: { ...crearDestacados().mejor_jugador_mes, resultado: "empate" },
+        peor_jugador_mes: { ...crearDestacados().peor_jugador_mes, amigos: ["intruso-las"] },
+        balance_mes: { ...crearDestacados().balance_mes, victorias: 20 },
+      }),
+      AMIGOS,
+    );
+    for (const clave of CLAVES_MES) expect(d[clave]).toBeNull();
+
+    const ok = validarDestacados(crearDestacados(), AMIGOS);
+    expect(ok.balance_mes).toEqual({
+      partidas: 28,
+      victorias: 15,
+      derrotas: 13,
+      winrate: 53.6,
+      amigos: ["sapito-las", "rana-azul-las", "charco-las"],
+      jugadas: { "sapito-las": 28, "rana-azul-las": 25, "charco-las": 9 },
+    });
+    expect(ok.mejor_jugador_mes).toMatchObject({ campeon_id: 51, kda: 12, danio: 52300 });
+    expect(ok.peor_jugador_mes).toMatchObject({ campeon_id: 54, kda: 0.27, danio: 3900 });
+  });
+
+  it("las claves del mes están en el orden de las tarjetas", () => {
+    expect(CLAVES_MES).toEqual(["mejor_jugador_mes", "balance_mes", "peor_jugador_mes"]);
+  });
+});
+
+describe("mesVencido", () => {
+  const DIA = 24 * 3600 * 1000;
+  const MES = crearDestacados().mes;
+
+  it("durante el mes y los 3 días siguientes no está vencido", () => {
+    expect(DIAS_MES_CERRADO).toBe(3);
+    expect(mesVencido(MES, MES.desde)).toBe(false);
+    expect(mesVencido(MES, MES.hasta)).toBe(false);
+    expect(mesVencido(MES, MES.hasta + 3 * DIA - 1)).toBe(false);
+  });
+
+  it("desde 3 días después de hasta está vencido", () => {
+    expect(mesVencido(MES, MES.hasta + 3 * DIA)).toBe(true);
+    expect(mesVencido(MES, MES.hasta + 40 * DIA)).toBe(true);
+  });
+
+  it("sin mes o sin ahora no está vencido", () => {
+    expect(mesVencido(null, MES.hasta + 40 * DIA)).toBe(false);
+    expect(mesVencido(undefined, MES.hasta + 40 * DIA)).toBe(false);
+    expect(mesVencido(MES, undefined)).toBe(false);
+    expect(mesVencido(MES, null)).toBe(false);
+  });
+});
+
+describe("destacadosVigentes con el mes vencido", () => {
+  const DIA = 24 * 3600 * 1000;
+  const MES = crearDestacados().mes;
+
+  it("anula solo las tarjetas del mes, sin mutar, y conserva el mes", () => {
+    const ahora = MES.hasta + 3 * DIA;
+    const d = validarDestacados(crearDestacados({ hoy_desde: ahora - DIA / 2, semana_desde: ahora - DIA }), AMIGOS);
+    const copia = structuredClone(d);
+    const v = destacadosVigentes(d, ahora);
+    for (const clave of CLAVES_MES) expect(v[clave]).toBeNull();
+    for (const clave of [...CLAVES_HOY, ...CLAVES_SEMANA]) expect(v[clave]).toEqual(d[clave]);
+    expect(v.mes).toEqual(d.mes);
+    expect(d).toEqual(copia);
+  });
+
+  it("sin mes válido no anula las tarjetas del mes", () => {
+    const d = validarDestacados(crearDestacados({ mes: null, hoy_desde: null, semana_desde: null }), AMIGOS);
+    expect(destacadosVigentes(d, MES.hasta + 100 * DIA)).toBe(d);
   });
 });

@@ -248,7 +248,7 @@ export const partidaEnVivo = {
   ],
 };
 
-/** Destacados de hoy y de la semana INVENTADOS, con la forma que escribe el recolector. */
+/** Destacados de hoy, de la semana y del mes INVENTADOS, con la forma que escribe el recolector. */
 export function crearDestacados(cambios = {}) {
   return {
     // Inicio de la semana (lunes a la 01:00 de Chile), inventado.
@@ -338,6 +338,52 @@ export function crearDestacados(cambios = {}) {
       resultado: "derrota",
       modo: "Normal (Selección oculta)",
       fecha: AHORA - 6 * 24 * HORA,
+    },
+    // Mes en curso (octubre de 2026, del día 1 a la 01:00 de Chile al 1 de noviembre), inventado.
+    mes: {
+      anio: 2026,
+      mes: 10,
+      nombre: "octubre",
+      desde: Date.UTC(2026, 9, 1, 4),
+      hasta: Date.UTC(2026, 10, 1, 4),
+      cerrado: false,
+    },
+    mejor_jugador_mes: {
+      amigos: ["rana-azul-las"],
+      partida_id: "LA2_33",
+      campeon_id: 51,
+      campeon: "Caitlyn",
+      asesinatos: 18,
+      muertes: 2,
+      asistencias: 6,
+      kda: 12,
+      danio: 52300,
+      resultado: "victoria",
+      modo: "Clasificatoria Flex",
+      fecha: AHORA - 6 * HORA,
+    },
+    // Partidas en equipo del mes: cada una cuenta una vez.
+    balance_mes: {
+      partidas: 28,
+      victorias: 15,
+      derrotas: 13,
+      winrate: 53.6,
+      amigos: ["sapito-las", "rana-azul-las", "charco-las"],
+      jugadas: { "sapito-las": 28, "rana-azul-las": 25, "charco-las": 9 },
+    },
+    peor_jugador_mes: {
+      amigos: ["charco-las"],
+      partida_id: "LA2_22",
+      campeon_id: 54,
+      campeon: "Malphite",
+      asesinatos: 0,
+      muertes: 11,
+      asistencias: 3,
+      kda: 0.27,
+      danio: 3900,
+      resultado: "derrota",
+      modo: "Normal (Reclutamiento)",
+      fecha: AHORA - 7 * HORA,
     },
     ...cambios,
   };

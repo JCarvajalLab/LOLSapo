@@ -2,6 +2,7 @@
 import { nombreCampeon, urlCampeon, urlIconoPerfil } from "../logica/ddragon.js";
 import {
   CLAVES_HOY,
+  CLAVES_MES,
   colorResultado,
   fechaRacha,
   formatearDanio,
@@ -25,20 +26,43 @@ const TITULOS = {
   racha_victorias_grupo: "Racha de victorias en equipo",
   racha_derrotas_grupo: "Racha de derrotas en equipo",
   peor_jugador_semana: "Peor jugador de la semana",
+  mejor_jugador_mes: "Mejor jugador del mes",
+  balance_mes: "Balance del grupo del mes",
+  peor_jugador_mes: "Peor jugador del mes",
 };
 
 /** Vacío de cualquier tarjeta de la semana (y de la sección entera si todas vienen vacías). */
 export const VACIO_SEMANA = "No existen partidas registradas en equipo esta semana";
 
-/** Tarjetas de hoy: el día se reinicia a las 12:00 de Chile. */
-const esHoy = (clave) => CLAVES_HOY.includes(clave);
+/** Vacío de cada tarjeta del mes. */
+export const VACIO_MES = "No existen partidas registradas en equipo este mes";
 
-/** Estado vacío de una tarjeta: mensaje principal y, debajo en chico, cuándo se reinicia. */
+/** Estado vacío según el bloque de la tarjeta: el día se reinicia a las 12:00 de Chile. */
+function vacioDe(clave) {
+  if (CLAVES_HOY.includes(clave)) {
+    return { mensaje: "No hay partidas en grupo registradas hoy", reinicio: "Se reinicia a las 12:00" };
+  }
+  if (CLAVES_MES.includes(clave)) return { mensaje: VACIO_MES };
+  return { mensaje: VACIO_SEMANA, reinicio: "Se reinicia el lunes a la 01:00" };
+}
+
+const esBalance = (clave) => clave === "balance_hoy" || clave === "balance_mes";
+
+/**
+ * Fila de mejor jugador, balance y peor jugador (hoy y mes). En 2 columnas (tablet) el
+ * balance baja a su propia fila a todo el ancho, para que mejor y peor jugador queden lado a
+ * lado; en 1 columna (móvil) y en 3 (escritorio) va al centro, igual que en el orden del
+ * documento que leen los lectores de pantalla.
+ */
+export const claseItemBalance = (clave) =>
+  esBalance(clave) ? "sm:order-last sm:col-span-2 lg:order-none lg:col-span-1" : "";
+
+/** Estado vacío de una tarjeta: mensaje principal y, si hay, debajo en chico cuándo se reinicia. */
 function Vacio({ mensaje, reinicio }) {
   return (
     <div className="flex flex-1 flex-col justify-center">
       <p className="text-texto-suave">{mensaje}</p>
-      <p className="text-xs text-texto-suave">{reinicio}</p>
+      {reinicio && <p className="text-xs text-texto-suave">{reinicio}</p>}
     </div>
   );
 }
@@ -100,7 +124,7 @@ export function TarjetaDestacado({ clave, tarjeta, porSlug, ddragon, ahora }) {
               porSlug={porSlug}
               ddragon={ddragon}
             />
-          ) : clave === "balance_hoy" ? (
+          ) : esBalance(clave) ? (
             <NombresCompletos
               marca="jugadores"
               slugs={tarjeta.amigos}
@@ -115,10 +139,8 @@ export function TarjetaDestacado({ clave, tarjeta, porSlug, ddragon, ahora }) {
           )}
           <Contenido clave={clave} t={tarjeta} ddragon={ddragon} ahora={ahora} />
         </>
-      ) : esHoy(clave) ? (
-        <Vacio mensaje="No hay partidas en grupo registradas hoy" reinicio="Se reinicia a las 12:00" />
       ) : (
-        <Vacio mensaje={VACIO_SEMANA} reinicio="Se reinicia el lunes a la 01:00" />
+        <Vacio {...vacioDe(clave)} />
       )}
     </article>
   );
@@ -219,8 +241,10 @@ function Contenido({ clave, t, ddragon, ahora }) {
       );
     case "mejor_jugador_hoy":
     case "mejor_jugador_semana":
+    case "mejor_jugador_mes":
       return <Partida t={t} ddragon={ddragon} ahora={ahora} mejor />;
     case "balance_hoy":
+    case "balance_mes":
       return <Balance t={t} />;
     case "racha_victorias_grupo":
       return <Racha icono="🔥" t={t} texto="victorias seguidas" color="text-victoria" />;
@@ -228,6 +252,7 @@ function Contenido({ clave, t, ddragon, ahora }) {
       return <Racha icono="🧊" t={t} texto="derrotas seguidas" color="text-derrota" />;
     case "peor_jugador_hoy":
     case "peor_jugador_semana":
+    case "peor_jugador_mes":
       return <Partida t={t} ddragon={ddragon} ahora={ahora} mejor={false} />;
     default:
       return null;
@@ -235,7 +260,7 @@ function Contenido({ clave, t, ddragon, ahora }) {
 }
 
 /**
- * Balance del grupo hoy: «4 V – 2 D» grande (la letra dice el resultado, el color lo refuerza)
+ * Balance del grupo (hoy o del mes): «4 V – 2 D» grande (la letra dice el resultado, el color lo refuerza)
  * y debajo «66,7 % · 6 partidas en grupo».
  */
 function Balance({ t }) {
@@ -297,7 +322,7 @@ function Kda({ a, m, asi }) {
 }
 
 /**
- * Mejor o peor jugador de la partida (de hoy o de la semana): misma tarjeta, cambia el color del KDA.
+ * Mejor o peor jugador de la partida (de hoy, de la semana o del mes): misma tarjeta, cambia el color del KDA.
  * El nombre del campeón sale de Data Dragon ("Maestro Yi"), con `campeon` de respaldo.
  * El daño a campeones va en su línea bajo el KDA, en color del resultado de esa partida
  * (el texto «Victoria»/«Derrota» de abajo lo dice sin depender del color); sin dato no se muestra.
