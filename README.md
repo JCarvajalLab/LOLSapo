@@ -36,6 +36,12 @@ En la pestaña LoL, bajo "En partida", dos secciones resumen lo que hizo el grup
 
 Las tarjetas sin datos dicen «No existen partidas registradas en equipo esta semana» (o «…hoy»).
 
+**Destacados del mes** (del día 1 a la 01:00 de Chile hasta fin de mes; se actualiza durante todo el mes): **Mejor jugador del mes**, **Balance del grupo del mes** y **Peor jugador del mes**, con las mismas reglas que los de hoy. Los días 1 a 3 se muestra el mes anterior, cerrado, para que no quede vacío. Se cuenta desde octubre de 2026.
+
+**Top 5:** al hacer clic en una tarjeta (menos las rachas) se abre el ranking del grupo de esa categoría. En mejor y peor jugador hay dos pestañas: **Global** (las 5 mejores o peores partidas, aunque se repita un amigo) y **Por jugador** (la mejor o peor partida de cada uno).
+
+**Cómo se elige el mejor y el peor jugador:** solo por KDA de la partida, gane o pierda: (asesinatos + asistencias) ÷ muertes (mínimo 1). Con empate, el mejor es el de más asesinatos + asistencias, luego menos muertes y luego **más daño**; el peor es el de más muertes y luego **menos daño**.
+
 Se calculan en el recolector ([recolector/lolsapo/destacados.py](recolector/lolsapo/destacados.py)) a partir del registro completo de cada amigo, sin consultas extra a Riot.
 
 ## Con quién gana más
