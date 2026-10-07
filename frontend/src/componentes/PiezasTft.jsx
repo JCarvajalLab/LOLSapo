@@ -18,7 +18,7 @@ export function MarcaPuesto({ puesto, className = "" }) {
   const estilo = estiloPuesto(puesto);
   return (
     <p
-      className={`cifras font-titulo text-3xl leading-none font-extrabold ${estilo.texto} ${className}`}
+      className={`marcador text-4xl leading-none ${estilo.texto} ${className}`}
       data-puesto={estilo.grupo}
     >
       {textoPuesto(puesto)}

@@ -49,7 +49,7 @@ export function ModalSinergia({ amigo, sinergia, amigos, ddragon, onCerrar, onVe
               tamaño={32}
               redonda
             />
-            <h2 id={ID_TITULO} className="min-w-0 font-titulo text-lg leading-tight font-bold break-words">
+            <h2 id={ID_TITULO} className="titulo-seccion min-w-0 text-lg break-words">
               Con quién gana más <span className="text-texto-suave">·</span> {riotId}
             </h2>
           </div>
@@ -57,7 +57,7 @@ export function ModalSinergia({ amigo, sinergia, amigos, ddragon, onCerrar, onVe
         </>
       }
     >
-      <div role="group" aria-label="Período" className="mb-3 inline-flex rounded-md border border-borde p-0.5">
+      <div role="group" aria-label="Período" className="segmentos mb-3">
         {PERIODOS_SINERGIA.map((clave) => {
           const activo = clave === periodo;
           return (
@@ -66,9 +66,7 @@ export function ModalSinergia({ amigo, sinergia, amigos, ddragon, onCerrar, onVe
               type="button"
               aria-pressed={activo}
               onClick={() => setPeriodo(clave)}
-              className={`min-h-9 rounded px-3 py-1 text-sm ${
-                activo ? "bg-sapo-fondo font-semibold text-sapo" : "text-texto-suave hover:text-texto"
-              }`}
+              className="segmento min-h-9"
             >
               {TEXTOS_PERIODO[clave].boton}
             </button>
@@ -77,6 +75,7 @@ export function ModalSinergia({ amigo, sinergia, amigos, ddragon, onCerrar, onVe
       </div>
       {datosPeriodo ? (
         <TablaSinergia
+          key={periodo}
           filas={datosPeriodo[amigo?.slug] ?? []}
           companeros={companeros}
           amigos={amigos}
@@ -87,7 +86,7 @@ export function ModalSinergia({ amigo, sinergia, amigos, ddragon, onCerrar, onVe
           onOrdenar={setOrden}
         />
       ) : (
-        <p className="rounded-lg border border-borde bg-fondo px-3 py-6 text-center text-sm text-texto-suave">
+        <p className="rounded-lg border border-dashed border-borde px-3 py-6 text-center text-sm text-texto-suave">
           Sin datos para este período. Se calculan en la próxima actualización.
         </p>
       )}
@@ -95,7 +94,7 @@ export function ModalSinergia({ amigo, sinergia, amigos, ddragon, onCerrar, onVe
         <button
           type="button"
           onClick={onVerPartidas}
-          className="rounded-md border border-sapo/60 bg-sapo-fondo px-3 py-2 text-sm font-semibold text-sapo hover:bg-sapo/20"
+          className="min-h-10 rounded-lg border border-sapo/60 bg-sapo-fondo px-4 py-2 text-sm font-semibold text-sapo hover:bg-sapo/20"
         >
           Ver sus últimas partidas
         </button>

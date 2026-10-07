@@ -1,5 +1,6 @@
 @import "tailwindcss";
-@import "@fontsource-variable/bricolage-grotesque/wght.css";
+/* Ejes peso + ancho: igual que antes a 100 %, y permite la versión estrecha de los marcadores. */
+@import "@fontsource-variable/bricolage-grotesque/wdth.css";
 @import "@fontsource/ibm-plex-sans/latin-400.css";
 @import "@fontsource/ibm-plex-sans/latin-600.css";
 
@@ -14,6 +15,7 @@
   --color-superficie: #182027; /* Piedra mojada: paneles y filas */
   --color-superficie-alta: #1f2932; /* Paneles destacados y hover */
   --color-borde: #24303a; /* Bordes y separadores */
+  --color-luz: rgb(232 237 240 / 0.06); /* Brillo de piedra mojada: canto superior de las losas */
   --color-texto: #e8edf0; /* Niebla: texto principal */
   --color-texto-suave: #8c98a4; /* Junco: texto secundario */
 
@@ -73,7 +75,313 @@ body {
 }
 
 /*
-  "Saco vocal": la única animación de la web.
+  Marcador: cifras grandes de los destacados (balance, rachas, winrate, KDA, puesto del top 5).
+  Bricolage estrecha y gruesa, como el marcador de fin de partida. Es el único lugar donde se
+  usa el ancho reducido; el resto de los títulos sigue al 100 %.
+*/
+@layer components {
+  .marcador {
+    font-family: var(--font-titulo);
+    font-stretch: 78%;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /*
+    Losa: superficie con profundidad sin sombra gris. Un canto de luz arriba, como piedra
+    mojada en la charca. Se combina con el filo de color de los destacados (--filo).
+  */
+  .losa {
+    border-color: var(--color-borde);
+    background-color: var(--color-superficie);
+    box-shadow:
+      var(--filo, 0 0 #0000),
+      inset 0 1px 0 0 var(--color-luz);
+  }
+
+  /* Filo superior de las tarjetas de destacados: verde lo bueno, rojo lo malo. */
+  .filo-victoria {
+    --filo: inset 0 2px 0 0 var(--color-victoria);
+    box-shadow: var(--filo);
+  }
+  .filo-derrota {
+    --filo: inset 0 2px 0 0 var(--color-derrota);
+    box-shadow: var(--filo);
+  }
+  .losa.filo-victoria,
+  .losa.filo-derrota {
+    box-shadow:
+      var(--filo),
+      inset 0 1px 0 0 var(--color-luz);
+  }
+
+  /* Títulos de sección: Bricolage algo estrecha y gruesa, más presencia sin subir mucho el tamaño. */
+  .titulo-seccion {
+    font-family: var(--font-titulo);
+    font-size: 1.3125rem;
+    line-height: 1.2;
+    font-stretch: 88%;
+    font-weight: 760;
+    letter-spacing: -0.015em;
+  }
+
+  /* Luz fija (sin parpadeo) de "hay alguien en partida". */
+  .led {
+    text-shadow: 0 0 10px color-mix(in srgb, var(--color-sapo) 70%, transparent);
+  }
+
+  /* Subtítulo dentro de un panel (Últimas partidas, Por modo): un escalón bajo .titulo-seccion. */
+  .titulo-sub {
+    font-family: var(--font-titulo);
+    font-size: 1rem;
+    line-height: 1.25;
+    font-stretch: 88%;
+    font-weight: 720;
+    letter-spacing: -0.01em;
+  }
+
+  /*
+    Canto: el mismo recurso que los estandartes de la partida en vivo, para todo lo que tiene
+    un tono propio (resultado de una partida, puesto de TFT, error, aviso). Un tinte leve del
+    tono sobre la superficie y una franja de 3 px a la izquierda. El texto siempre dice el
+    resultado; el tono solo lo refuerza.
+  */
+  .canto {
+    --tono: var(--color-borde);
+    background-color: color-mix(in srgb, var(--tono) 9%, var(--color-superficie));
+    box-shadow:
+      inset 3px 0 0 0 var(--tono),
+      inset 0 1px 0 0 var(--color-luz);
+  }
+  .canto[data-resultado="victoria"],
+  .canto[data-puesto="top4"] {
+    --tono: var(--color-victoria);
+  }
+  .canto[data-resultado="derrota"],
+  .canto[data-puesto="abajo"],
+  .canto[data-tono="error"] {
+    --tono: var(--color-derrota);
+  }
+  .canto[data-resultado="remake"] {
+    --tono: var(--color-remake);
+    background-color: var(--color-superficie);
+  }
+  .canto[data-puesto="primero"] {
+    --tono: var(--color-oro);
+  }
+  .canto[data-tono="aviso"] {
+    --tono: var(--color-sapo);
+  }
+
+  /*
+    Segmentos: un grupo de botones excluyentes (filtro por modo, período, vista del top).
+    El activo se marca con relleno ámbar y texto ámbar en negrita, no solo con color.
+  */
+  .segmentos {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 2px;
+    padding: 2px;
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radius-lg);
+    background-color: color-mix(in srgb, var(--color-fondo) 60%, transparent);
+  }
+  .segmento {
+    border-radius: var(--radius-md);
+    padding-inline: 0.75rem;
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+    color: var(--color-texto-suave);
+  }
+  .segmento:hover {
+    color: var(--color-texto);
+    background-color: var(--color-superficie-alta);
+  }
+  .segmento[aria-pressed="true"] {
+    background-color: var(--color-sapo-fondo);
+    color: var(--color-sapo);
+    font-weight: 600;
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-sapo) 45%, transparent);
+  }
+  .segmento:focus-visible {
+    border-radius: var(--radius-md);
+  }
+}
+
+/*
+  Panel abierto de un amigo: queda "hundido" un escalón bajo su fila, para que se lea como
+  el interior de la fila y no como otra tarjeta.
+*/
+.panel-hundido {
+  background-color: color-mix(in srgb, var(--color-fondo) 55%, var(--color-superficie));
+  box-shadow: inset 0 1px 0 0 var(--color-borde);
+}
+
+/* Fila abierta: borde algo más claro y su cabecera con el tono de hover fijo. */
+.fila-abierta {
+  border-color: color-mix(in srgb, var(--color-texto-suave) 45%, var(--color-borde));
+}
+
+/* Chevron de las filas de amigo: gira al abrir (responde al clic). */
+.chevron {
+  transition: rotate 160ms ease-out, transform 160ms ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .chevron {
+    transition: none;
+  }
+}
+
+/*
+  Pestañas de juego: la activa lleva una barra ámbar de 3 px que se apoya sobre el borde
+  inferior del encabezado.
+*/
+.pestana {
+  position: relative;
+}
+.pestana[aria-selected="true"]::after {
+  content: "";
+  position: absolute;
+  left: 0.75rem;
+  right: 0.75rem;
+  bottom: -1px;
+  height: 3px;
+  border-radius: 3px 3px 0 0;
+  background-color: var(--color-sapo);
+}
+
+/* Podio del ranking: el 1.º lleva el canto ámbar de la marca; 2.º y 3.º, superficie normal. */
+.podio-1 {
+  box-shadow:
+    inset 3px 0 0 0 var(--color-sapo),
+    inset 0 1px 0 0 var(--color-luz);
+}
+
+/* Entrada de las ventanas: aparece al abrirlas (responde al clic), sin rebote. */
+.dialogo-entra {
+  animation: dialogo-entra 180ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+@keyframes dialogo-entra {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.985);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dialogo-entra {
+    animation: none;
+  }
+}
+
+/*
+  Partida en vivo: cada equipo es un estandarte con su color.
+  El azul lleva la franja a la izquierda y el rojo a la derecha (en escritorio quedan
+  enfrentados, como en la pantalla de carga); en móvil, apilados, ambos a la izquierda.
+*/
+.estandarte {
+  --tono: var(--color-borde);
+  background-color: color-mix(in srgb, var(--tono) 7%, var(--color-fondo));
+  box-shadow:
+    inset 3px 0 0 0 var(--tono),
+    inset 0 1px 0 0 var(--color-luz);
+}
+.estandarte[data-equipo="100"] {
+  --tono: var(--color-ranked);
+}
+.estandarte[data-equipo="200"] {
+  --tono: var(--color-derrota);
+}
+@media (min-width: 48rem) {
+  .enfrentados > .estandarte[data-equipo="200"] {
+    box-shadow:
+      inset -3px 0 0 0 var(--tono),
+      inset 0 1px 0 0 var(--color-luz);
+  }
+}
+
+/* Fila de un amigo dentro de la partida: además del fondo ámbar, un canto ámbar a la izquierda. */
+.estandarte li[data-amigo="true"] {
+  box-shadow: inset 2px 0 0 0 var(--color-sapo);
+}
+
+/* Campeón bloqueado: tachado en diagonal, como en la selección de campeones. */
+.baneo {
+  position: relative;
+  display: block;
+}
+.baneo::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -2px;
+  bottom: -2px;
+  width: 2px;
+  border-radius: 1px;
+  background-color: var(--color-derrota);
+  transform: translateX(-50%) rotate(45deg);
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+/* El foco de la tarjeta clicable sigue su borde redondeado (el global usa 4 px). */
+[data-destacado] > button:focus-visible {
+  border-radius: var(--radius-lg);
+}
+
+/*
+  Cascada del top 5: al abrir la ventana o cambiar de pestaña, las filas entran en orden y
+  las barras crecen desde cero. Responde a un clic; con movimiento reducido no se anima.
+*/
+.cascada > li,
+.cascada > tr {
+  animation: entra-fila 280ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: var(--retraso, 0ms);
+}
+.cascada > :nth-child(2) {
+  --retraso: 50ms;
+}
+.cascada > :nth-child(3) {
+  --retraso: 100ms;
+}
+.cascada > :nth-child(4) {
+  --retraso: 150ms;
+}
+.cascada > :nth-child(5) {
+  --retraso: 200ms;
+}
+.cascada > :nth-child(n + 6) {
+  --retraso: 250ms;
+}
+.cascada [data-barra] {
+  transform-origin: left center;
+  animation: crece-barra 520ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: calc(var(--retraso, 0ms) + 140ms);
+}
+
+@keyframes entra-fila {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+@keyframes crece-barra {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cascada > li,
+  .cascada > tr,
+  .cascada [data-barra] {
+    animation: none;
+  }
+}
+
+/*
+  "Saco vocal": la única animación que corre sola en la web.
   Un anillo ámbar que se infla alrededor del ícono de quien está en partida.
 */
 .saco-vocal {

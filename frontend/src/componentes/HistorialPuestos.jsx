@@ -14,7 +14,7 @@ export function HistorialPuestos({ historial, filtro = "todos" }) {
   return (
     <section aria-label="Historial de puestos" className="w-full max-w-sm space-y-2 lg:w-80">
       <div>
-        <h3 className="font-titulo font-bold">{tituloHistorial(puestos.length)}</h3>
+        <h3 className="titulo-sub">{tituloHistorial(puestos.length)}</h3>
         <p className="text-xs text-texto-suave">
           {filtrado && `${etiquetaFiltro(filtro)} · `}Más reciente primero
         </p>
@@ -43,7 +43,7 @@ function CeldaPuesto({ indice, puesto, modo }) {
     <li
       title={descripcion}
       data-puesto={estilo.grupo}
-      className={`cifras flex aspect-square min-w-0 items-center justify-center rounded border text-xs ${estilo.celda}`}
+      className={`marcador flex aspect-square min-w-0 items-center justify-center rounded-md border text-sm ${estilo.celda}`}
     >
       <span aria-hidden="true">#{puesto}</span>
       <span className="sr-only">{descripcion}</span>

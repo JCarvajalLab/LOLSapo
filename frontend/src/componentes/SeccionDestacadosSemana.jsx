@@ -20,7 +20,7 @@ export function SeccionDestacadosSemana({ destacados, amigos, ddragon, ahora }) 
       nota={NOTA}
     >
       {destacadosVacios(vigentes, CLAVES_SEMANA) ? (
-        <p className="flex min-h-20 items-center justify-center rounded-lg border border-borde bg-superficie px-3 text-center text-sm text-texto-suave">
+        <p className="flex min-h-20 items-center justify-center rounded-lg border border-dashed border-borde px-3 text-center text-sm text-texto-suave">
           {VACIO_SEMANA}
         </p>
       ) : (

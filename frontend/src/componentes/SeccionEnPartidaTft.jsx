@@ -28,7 +28,7 @@ export function SeccionEnPartidaTft({ enVivo, disponible = true, amigos, actuali
           </span>
           En partida
         </TituloSeccion>
-        <p className="text-sm text-texto-suave" data-en-vivo-no-disponible="true">
+        <p className="rounded-lg border border-dashed border-borde px-4 py-3 text-sm text-texto-suave" data-en-vivo-no-disponible="true">
           «Jugando ahora» no está disponible por el momento.
         </p>
       </section>
@@ -38,13 +38,13 @@ export function SeccionEnPartidaTft({ enVivo, disponible = true, amigos, actuali
   return (
     <section aria-labelledby="titulo-tft-en-partida">
       <TituloSeccion id="titulo-tft-en-partida">
-        <span aria-hidden="true" className={visibles.length && !viejo ? "text-sapo" : "text-texto-suave"}>
+        <span aria-hidden="true" className={visibles.length && !viejo ? "led text-sapo" : "text-texto-suave"}>
           ●
         </span>
         En partida
         {visibles.length > 0 && <span className="cifras text-sm font-normal text-texto-suave">({visibles.length})</span>}
       </TituloSeccion>
-      <div className="min-h-32 rounded-lg border border-borde bg-superficie p-2 sm:p-4">
+      <div className="losa min-h-32 rounded-lg border p-2 sm:p-4">
         {caduco ? (
           <AvisoAntiguedad>
             {antiguedad === null
@@ -59,7 +59,7 @@ export function SeccionEnPartidaTft({ enVivo, disponible = true, amigos, actuali
         ) : (
           <>
             {viejo && (
-              <p className="mb-3 rounded-md border border-sapo/40 bg-sapo-fondo px-3 py-2 text-sm text-sapo">
+              <p data-tono="aviso" className="canto mb-3 rounded-md py-2 pr-3 pl-4 text-sm text-sapo">
                 <span aria-hidden="true" className="mr-1">
                   ⚠
                 </span>
@@ -96,7 +96,7 @@ function PartidaEnVivoTft({ partida, amigos, actualizadoMs, ahora, atenuada }) {
 
   return (
     <article
-      className={`w-full rounded-md border border-sapo/40 bg-fondo/40 p-2 sm:p-3 ${atenuada ? "opacity-90 grayscale" : ""}`}
+      className={`w-full rounded-lg border border-sapo/35 bg-fondo/60 p-2 sm:p-3 ${atenuada ? "opacity-90 grayscale" : ""}`}
       data-atenuada={atenuada ? "true" : undefined}
     >
       <header className="mb-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm">

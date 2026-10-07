@@ -42,7 +42,7 @@ export function ModalTopDestacado({ clave, titulo, nota, top, topGlobal = null, 
       onCerrar={onCerrar}
       titulo={
         <>
-          <h2 id={idTitulo} className="font-titulo text-lg leading-tight font-bold break-words">
+          <h2 id={idTitulo} className="titulo-seccion text-lg break-words">
             Top 5 <span className="text-texto-suave">·</span> {titulo}
           </h2>
           {nota && <p className="mt-1 text-xs break-words text-texto-suave">{nota}</p>}
@@ -51,7 +51,7 @@ export function ModalTopDestacado({ clave, titulo, nota, top, topGlobal = null, 
     >
       {conPestañas && (
         <div className="mb-3">
-          <div role="group" aria-label="Vista del top" className="inline-flex rounded-md border border-borde p-0.5">
+          <div role="group" aria-label="Vista del top" className="segmentos">
             {VISTAS.map((v) => {
               const activo = v.clave === vista;
               return (
@@ -60,9 +60,7 @@ export function ModalTopDestacado({ clave, titulo, nota, top, topGlobal = null, 
                   type="button"
                   aria-pressed={activo}
                   onClick={() => setVista(v.clave)}
-                  className={`min-h-9 rounded px-3 py-1 text-sm ${
-                    activo ? "bg-sapo-fondo font-semibold text-sapo" : "text-texto-suave hover:text-texto"
-                  }`}
+                  className="segmento min-h-9"
                 >
                   {v.etiqueta}
                 </button>
@@ -72,7 +70,7 @@ export function ModalTopDestacado({ clave, titulo, nota, top, topGlobal = null, 
           <p className="mt-1 text-xs text-texto-suave">{ayudaVista(vista, esMejor(clave))}</p>
         </div>
       )}
-      <ol className="space-y-2">
+      <ol className="cascada space-y-2">
         {lista.map((entrada, i) => (
           <FilaTop
             key={global ? `${i}-${entrada.partida_id ?? ""}` : entrada.amigos[0]}
@@ -106,7 +104,7 @@ function FilaTop({ posicion, amigo, slug, ddragon, children }) {
       }`}
     >
       <span
-        className={`cifras w-7 shrink-0 pt-0.5 font-titulo text-base font-bold ${primero ? "text-sapo" : "text-texto-suave"}`}
+        className={`marcador w-8 shrink-0 leading-none ${primero ? "text-3xl text-sapo" : "pt-1 text-xl text-texto-suave"}`}
       >
         #{posicion}
       </span>

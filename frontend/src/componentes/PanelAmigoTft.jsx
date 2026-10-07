@@ -16,8 +16,8 @@ export function PanelAmigoTft({ amigo, ddragon, ahora }) {
   const resumen = resumenTftDe(amigo.estadisticas, filtro);
   const modos = modosDe(amigo.estadisticas, filtro);
   return (
-    <div className="space-y-4 border-t border-borde px-3 py-4 sm:px-4">
-      <p className="text-sm text-texto-suave">
+    <div className="panel-hundido space-y-5 px-3 py-4 sm:px-4 sm:py-5">
+      <p className="max-w-prose text-xs text-texto-suave">
         Contando desde {fechaCorta(amigo.seguimiento_desde)}. Las estadísticas por modo solo incluyen partidas
         registradas por LOLSapo.
       </p>
@@ -32,13 +32,13 @@ export function PanelAmigoTft({ amigo, ddragon, ahora }) {
       </div>
 
       <section aria-label="Estadísticas del filtro" className="space-y-2">
-        <h3 className="font-titulo font-bold">Por modo</h3>
+        <h3 className="titulo-sub">Por modo</h3>
         <ResumenFiltroTft etiqueta={etiquetaFiltro(filtro)} resumen={resumen} />
         <DesgloseModosTft modos={modos} filtrado={filtro !== "todos"} />
       </section>
 
       <section aria-label="Últimas partidas" className="space-y-2">
-        <h3 className="font-titulo font-bold">Últimas partidas</h3>
+        <h3 className="titulo-sub">Últimas partidas</h3>
         {todas.length === 0 ? (
           <p className="text-sm text-texto-suave">Todavía no hay partidas de TFT registradas.</p>
         ) : partidas.length === 0 ? (
@@ -63,7 +63,7 @@ export function PanelAmigoTft({ amigo, ddragon, ahora }) {
 function ResumenFiltroTft({ etiqueta, resumen }) {
   return (
     <p className="cifras text-sm">
-      {etiqueta}:{" "}
+      <span className="font-semibold">{etiqueta}</span>:{" "}
       <span className="text-texto-suave">
         {resumen.partidas} {resumen.partidas === 1 ? "partida" : "partidas"} · top 4{" "}
       </span>
@@ -85,9 +85,9 @@ export function DesgloseModosTft({ modos, filtrado = false }) {
     );
   }
   return (
-    <ul className="space-y-2" aria-label="Desglose por modo">
+    <ul className="divide-y divide-borde/70" aria-label="Desglose por modo">
       {lista.map((m) => (
-        <li key={m.queue_id ?? m.nombre} className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-3 gap-y-1 text-sm">
+        <li key={m.queue_id ?? m.nombre} className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-3 gap-y-1.5 py-2 text-sm first:pt-0">
           <span className="truncate">
             {esRanked(m) && (
               <span aria-hidden="true" className="mr-1 text-ranked">

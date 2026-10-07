@@ -45,8 +45,8 @@ export function FilaAmigo({ amigo, ddragon, ahora, actualizadoMs, abierto, onAlt
   }, [enfocar]);
 
   return (
-    <li ref={ref} className="scroll-mt-4 overflow-hidden rounded-lg border border-borde bg-superficie">
-      <div className={`relative items-center px-3 py-3 text-xs hover:bg-superficie-alta sm:px-4 sm:py-0 sm:text-sm ${GRILLA}`}>
+    <li ref={ref} className={`losa scroll-mt-4 overflow-hidden rounded-lg border ${abierto ? "fila-abierta" : ""}`}>
+      <div className={`relative items-center px-3 py-3 text-xs hover:bg-superficie-alta ${abierto ? "bg-superficie-alta" : ""} sm:px-4 sm:py-0 sm:text-sm ${GRILLA}`}>
         <span className="col-start-1 row-start-1 sm:row-span-3">
           <IconoConSaco
             src={urlIconoPerfil(ddragon, amigo.perfil?.icono)}
@@ -99,11 +99,11 @@ export function FilaAmigo({ amigo, ddragon, ahora, actualizadoMs, abierto, onAlt
 
         <span
           aria-hidden="true"
-          className={`col-start-4 row-start-1 justify-self-end text-texto-suave sm:col-start-8 sm:row-span-3 ${
-            abierto ? "rotate-180" : ""
+          className={`col-start-4 row-start-1 justify-self-end flex size-7 items-center justify-center rounded-full border border-borde text-texto-suave sm:col-start-8 sm:row-span-3 ${
+            abierto ? "border-sapo/50 text-sapo" : ""
           }`}
         >
-          ▾
+          <span className={`chevron text-xs leading-none ${abierto ? "rotate-180" : ""}`}>▾</span>
         </span>
       </div>
 

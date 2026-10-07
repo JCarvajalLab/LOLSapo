@@ -36,7 +36,7 @@ export function TablaSinergia({
 
   if (!companeros || companeros.length === 0) {
     return (
-      <p className="rounded-lg border border-borde bg-fondo px-3 py-6 text-center text-sm text-texto-suave">
+      <p className="rounded-lg border border-dashed border-borde px-3 py-6 text-center text-sm text-texto-suave">
         No hay otros amigos en el grupo.
       </p>
     );
@@ -77,7 +77,7 @@ export function TablaSinergia({
           </EncabezadoOrdenable>
         </tr>
       </thead>
-      <tbody>
+      <tbody className="cascada">
         {lista.map((fila) => (
           <FilaSinergia
             key={fila.amigo}
@@ -132,7 +132,7 @@ function FilaSinergia({ fila, companero, ddragon, maximo, textoSinPartidas }) {
             redonda
           />
           <span className="min-w-0">
-            <span className="block truncate font-semibold">{riotId}</span>
+            <span className="block truncate font-titulo font-bold">{riotId}</span>
             <span className="block truncate text-xs text-texto-suave">{rango}</span>
           </span>
         </span>
@@ -153,11 +153,11 @@ function CeldasCifras({ fila, maximo, positivo }) {
     <>
       <td className="py-2 pl-2 align-middle">
         <Barra ancho={anchoPartidas(fila.partidas, maximo)} clase="bg-ranked" />
-        <span className="cifras mt-1 block text-xs">{fila.partidas}</span>
+        <span className="marcador mt-1 block text-base leading-none">{fila.partidas}</span>
       </td>
       <td className="py-2 pl-2 align-middle">
         <Barra ancho={fila.winrate ?? 0} clase={positivo ? "bg-victoria" : "bg-derrota"} />
-        <span className={`cifras mt-1 block text-xs font-semibold ${positivo ? "text-victoria" : "text-derrota"}`}>
+        <span className={`marcador mt-1 block text-base leading-none ${positivo ? "text-victoria" : "text-derrota"}`}>
           {formatearTasa(fila.winrate)}
         </span>
       </td>

@@ -6,7 +6,7 @@ import { FILTROS } from "../logica/filtros.js";
  */
 export function FiltroModos({ valor, onCambiar, opciones = FILTROS }) {
   return (
-    <div role="group" aria-label="Filtrar por modo" className="flex flex-wrap gap-1">
+    <div role="group" aria-label="Filtrar por modo" className="segmentos flex w-full sm:inline-flex sm:w-auto">
       {opciones.map((f) => {
         const activo = f.clave === valor;
         return (
@@ -15,11 +15,7 @@ export function FiltroModos({ valor, onCambiar, opciones = FILTROS }) {
             type="button"
             aria-pressed={activo}
             onClick={() => onCambiar(f.clave)}
-            className={`min-h-10 rounded-md border px-3 py-1 text-sm ${
-              activo
-                ? "border-sapo bg-sapo-fondo font-semibold text-sapo"
-                : "border-borde text-texto-suave hover:border-texto-suave hover:text-texto"
-            }`}
+            className="segmento min-h-10 flex-auto sm:flex-none"
           >
             {f.etiqueta}
           </button>

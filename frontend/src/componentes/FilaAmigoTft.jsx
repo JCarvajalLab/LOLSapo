@@ -13,8 +13,8 @@ import { PanelAmigoTft } from "./PanelAmigoTft.jsx";
   Las clases están escritas completas para que Tailwind las detecte.
 */
 const GRILLA =
-  "grid grid-cols-[3rem_minmax(0,1fr)_1.5rem] items-center gap-x-3 gap-y-2 " +
-  "sm:h-[78px] sm:grid-cols-[3rem_minmax(0,1fr)_minmax(0,26rem)_1.5rem] sm:gap-y-0";
+  "grid grid-cols-[3rem_minmax(0,1fr)_1.75rem] items-center gap-x-3 gap-y-2 " +
+  "sm:h-[78px] sm:grid-cols-[3rem_minmax(0,1fr)_minmax(0,26rem)_1.75rem] sm:gap-y-0";
 
 const CIFRAS = "col-span-3 row-start-2 grid grid-cols-[minmax(0,1.5fr)_repeat(3,minmax(0,1fr))] gap-x-3 sm:col-span-1 sm:col-start-3 sm:row-start-1";
 
@@ -34,8 +34,8 @@ export function FilaAmigoTft({ amigo, ddragon, ahora, actualizadoMs, abierto, on
   }, [enfocar]);
 
   return (
-    <li ref={ref} className="scroll-mt-4 overflow-hidden rounded-lg border border-borde bg-superficie">
-      <div className={`relative px-3 py-3 text-sm hover:bg-superficie-alta sm:px-4 sm:py-0 ${GRILLA}`}>
+    <li ref={ref} className={`losa scroll-mt-4 overflow-hidden rounded-lg border ${abierto ? "fila-abierta" : ""}`}>
+      <div className={`relative px-3 py-3 text-sm hover:bg-superficie-alta ${abierto ? "bg-superficie-alta" : ""} sm:px-4 sm:py-0 ${GRILLA}`}>
         <span className="col-start-1 row-start-1">
           <IconoConSaco
             src={urlIconoPerfil(ddragon, amigo.perfil?.icono)}
@@ -101,9 +101,11 @@ export function FilaAmigoTft({ amigo, ddragon, ahora, actualizadoMs, abierto, on
 
         <span
           aria-hidden="true"
-          className={`col-start-3 row-start-1 justify-self-end text-texto-suave sm:col-start-4 ${abierto ? "rotate-180" : ""}`}
+          className={`col-start-3 row-start-1 justify-self-end flex size-7 items-center justify-center rounded-full border border-borde text-texto-suave sm:col-start-4 ${
+            abierto ? "border-sapo/50 text-sapo" : ""
+          }`}
         >
-          ▾
+          <span className={`chevron text-xs leading-none ${abierto ? "rotate-180" : ""}`}>▾</span>
         </span>
       </div>
 

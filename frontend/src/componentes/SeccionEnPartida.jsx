@@ -24,9 +24,10 @@ const GRILLA_JUGADOR =
   "grid h-12 grid-cols-[2.25rem_1.125rem_minmax(0,1fr)_auto] items-center gap-x-2 px-2 " +
   "sm:grid-cols-[2.5rem_1.125rem_1.125rem_minmax(0,1fr)_10.5rem]";
 
+/** Color del nombre de cada equipo; la franja y el tinte del estandarte salen del CSS. */
 const ACENTOS = {
-  100: { borde: "border-t-ranked/60", texto: "text-ranked" },
-  200: { borde: "border-t-derrota/50", texto: "text-derrota" },
+  100: "text-ranked",
+  200: "text-derrota",
 };
 
 /**
@@ -48,13 +49,13 @@ export function SeccionEnPartida({ enVivo, ddragon, amigos, actualizadoMs, ahora
   return (
     <section aria-labelledby="titulo-en-partida">
       <TituloSeccion id="titulo-en-partida">
-        <span aria-hidden="true" className={visibles.length && !viejo ? "text-sapo" : "text-texto-suave"}>
+        <span aria-hidden="true" className={visibles.length && !viejo ? "led text-sapo" : "text-texto-suave"}>
           ●
         </span>
         En partida
         {visibles.length > 0 && <span className="cifras text-sm font-normal text-texto-suave">({visibles.length})</span>}
       </TituloSeccion>
-      <div className="min-h-32 rounded-lg border border-borde bg-superficie p-2 sm:p-4">
+      <div className="losa min-h-32 rounded-lg border p-2 sm:p-4">
         {caduco ? (
           <AvisoAntiguedad>
             {antiguedad === null
@@ -69,7 +70,7 @@ export function SeccionEnPartida({ enVivo, ddragon, amigos, actualizadoMs, ahora
         ) : (
           <>
             {viejo && (
-              <p className="mb-3 rounded-md border border-sapo/40 bg-sapo-fondo px-3 py-2 text-sm text-sapo">
+              <p data-tono="aviso" className="canto mb-3 rounded-md py-2 pr-3 pl-4 text-sm text-sapo">
                 <span aria-hidden="true" className="mr-1">
                   ⚠
                 </span>
@@ -114,35 +115,33 @@ function PartidaEnVivo({ partida, ddragon, amigos, actualizadoMs, ahora, atenuad
   const minutos = minutosEnPartida(partida, actualizadoMs, ahora);
   const equipos = equiposEnVivo(partida);
   const quienes = nombresAmigos(partida.amigos, amigos);
+  // Dos equipos quedan enfrentados en escritorio; Arena (más equipos) llena columnas.
   const columnas =
-    equipos.length > 2 ? "grid-cols-[repeat(auto-fill,minmax(17rem,1fr))]" : "md:grid-cols-2";
+    equipos.length > 2 ? "grid-cols-[repeat(auto-fill,minmax(17rem,1fr))]" : "enfrentados md:grid-cols-2";
   const textoMinutos =
     minutos === null ? "Tiempo desconocido" : `${minutos} min de partida${atenuada ? " (al consultar)" : ""}`;
 
   return (
     <article
-      className={`w-full rounded-md border border-sapo/40 bg-fondo/40 p-2 sm:p-3 ${atenuada ? "opacity-90 grayscale" : ""}`}
+      className={`w-full rounded-lg border border-sapo/35 bg-fondo/60 p-2 sm:p-3 ${atenuada ? "opacity-90 grayscale" : ""}`}
       data-atenuada={atenuada ? "true" : undefined}
     >
-      <header className="mb-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm">
+      <header className="mb-3 flex flex-wrap items-center gap-x-3 gap-y-1.5 text-sm">
         <EtiquetaModo item={partida} />
-        <span aria-hidden="true" className="hidden text-texto-suave sm:inline">
-          ·
-        </span>
-        <span className="cifras text-texto-suave">{textoMinutos}</span>
-        {quienes && (
-          <>
-            <span aria-hidden="true" className="hidden text-texto-suave sm:inline">
-              ·
+        <span className="cifras inline-flex items-center gap-1.5 text-texto">
+          {minutos !== null && !atenuada && (
+            <span aria-hidden="true" className="led text-[0.625rem] leading-none text-sapo">
+              ●
             </span>
-            <span className="min-w-0 truncate font-semibold text-sapo">{quienes}</span>
-          </>
-        )}
+          )}
+          {textoMinutos}
+        </span>
+        {quienes && <span className="min-w-0 truncate font-semibold text-sapo sm:ml-auto">{quienes}</span>}
       </header>
       {equipos.length === 0 ? (
         <p className="text-sm text-texto-suave">No hay datos de los equipos.</p>
       ) : (
-        <div className={`grid gap-4 ${columnas}`}>
+        <div className={`grid gap-2 sm:gap-3 ${columnas}`}>
           {equipos.map((eq, i) => (
             <Equipo key={eq.equipo} equipo={eq} indice={i} ddragon={ddragon} sinAnillo={atenuada} />
           ))}
@@ -153,12 +152,21 @@ function PartidaEnVivo({ partida, ddragon, amigos, actualizadoMs, ahora, atenuad
 }
 
 function Equipo({ equipo, indice, ddragon, sinAnillo }) {
-  const acento = ACENTOS[equipo.equipo] ?? { borde: "border-t-borde", texto: "text-texto-suave" };
+  const texto = ACENTOS[equipo.equipo] ?? "text-texto-suave";
   const nombre = nombreEquipo(equipo.equipo, indice);
+  // El equipo donde juega alguien del grupo lleva el ojo de sapo junto al nombre.
+  const conAmigos = equipo.jugadores.some((j) => Boolean(j.amigo));
   return (
-    <div className={`min-w-0 border-t-2 pt-2 ${acento.borde}`}>
-      <h3 className={`mb-1 px-2 text-xs font-semibold ${acento.texto}`}>{nombre}</h3>
-      <ul className="space-y-1" aria-label={`Jugadores del ${nombre.toLowerCase()}`}>
+    <div className="estandarte min-w-0 rounded-md py-2 pr-1 pl-1.5" data-equipo={equipo.equipo}>
+      <h3 className={`mb-1 flex items-center gap-1.5 px-2 font-titulo text-sm font-bold ${texto}`}>
+        {nombre}
+        {conAmigos && (
+          <span aria-hidden="true" className="text-[0.625rem] leading-none text-sapo">
+            ●
+          </span>
+        )}
+      </h3>
+      <ul className="space-y-0.5" aria-label={`Jugadores del ${nombre.toLowerCase()}`}>
         {equipo.jugadores.map((j, k) => (
           <JugadorEnVivo key={`${j.campeon_id}-${k}`} jugador={j} ddragon={ddragon} sinAnillo={sinAnillo} />
         ))}
@@ -166,9 +174,9 @@ function Equipo({ equipo, indice, ddragon, sinAnillo }) {
       {equipo.bloqueos.length > 0 && (
         <div className="mt-2 flex flex-wrap items-center gap-1 px-2 text-xs text-texto-suave">
           <span className="mr-1">Baneos:</span>
-          <ul className="flex flex-wrap gap-1" aria-label={`Baneos del ${nombre.toLowerCase()}`}>
+          <ul className="flex flex-wrap gap-1.5" aria-label={`Baneos del ${nombre.toLowerCase()}`}>
             {equipo.bloqueos.map((id, k) => (
-              <li key={`${id}-${k}`}>
+              <li key={`${id}-${k}`} className="baneo">
                 <ImagenDD
                   src={urlCampeon(ddragon, id)}
                   alt={nombreCampeon(ddragon, id)}
