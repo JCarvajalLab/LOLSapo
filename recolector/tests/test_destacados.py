@@ -619,3 +619,65 @@ def test_bloque_del_mes_cerrado_no_mezcla_el_mes_nuevo(mapa):
     assert destacados["mes"]["cerrado"] is True
     assert destacados["mejor_jugador_mes"]["partida_id"] == "oct"
     assert destacados["balance_mes"]["partidas"] == 1
+
+
+# --- Rankings de las tarjetas (tops) ------------------------------------------------------------
+
+
+def test_top_de_mejor_y_peor_jugador_una_entrada_por_amigo(mapa):
+    trio = ("ana", "beto", "carla")
+    datos = {
+        "ana": [
+            hoy_en_grupo("g1", 3, 10, 2, 8, con=trio),
+            hoy_en_grupo("g2", 2, 1, 8, 1, con=trio),
+        ],
+        "beto": [
+            hoy_en_grupo("g1", 3, 4, 4, 4, con=trio),
+            hoy_en_grupo("g2", 2, 6, 1, 6, con=trio),
+        ],
+        "carla": [hoy_en_grupo("g1", 3, 2, 6, 3, con=trio)],
+    }
+    tops = calcular_destacados(datos, mapa, AHORA_MS)["tops"]
+    mejores = tops["mejor_jugador_hoy"]
+    # La mejor partida de cada uno: beto 12/1 (12), ana 18/2 (9), carla 5/6 (0,83).
+    assert [(e["amigos"][0], e["kda"]) for e in mejores] == [
+        ("beto", 12.0),
+        ("ana", 9.0),
+        ("carla", 0.83),
+    ]
+    assert mejores[0] == calcular_destacados(datos, mapa, AHORA_MS)["mejor_jugador_hoy"]
+    peores = tops["peor_jugador_hoy"]
+    assert [e["amigos"][0] for e in peores] == ["ana", "carla", "beto"]
+
+
+def test_top_de_records_y_partidas(mapa):
+    juntos = ("ana", "beto")
+    datos = {
+        "ana": [
+            hoy_en_grupo(f"a{i}", i, 5, 5, 5, r, con=juntos)
+            for i, r in enumerate(["victoria", "victoria", "derrota", "victoria"], 1)
+        ],
+        "beto": [hoy_en_grupo("b1", 1, 5, 5, 5, "victoria", con=juntos)],
+    }
+    tops = calcular_destacados(datos, mapa, AHORA_MS)["tops"]
+    assert [(f["amigos"][0], f["partidas"]) for f in tops["mas_partidas"]] == [
+        ("ana", 4),
+        ("beto", 1),
+    ]
+    # Mejor winrate: beto tiene 1 partida (mínimo 2): no aparece.
+    assert [(f["amigos"][0], f["winrate"]) for f in tops["mejor_winrate"]] == [("ana", 75.0)]
+    assert tops["balance_hoy"][0] == {
+        "amigos": ["ana"],
+        "partidas": 4,
+        "victorias": 3,
+        "derrotas": 1,
+        "winrate": 75.0,
+    }
+
+
+def test_tops_vacios_sin_partidas_y_como_maximo_5(mapa):
+    vacio = calcular_destacados({"a": []}, mapa, AHORA_MS)["tops"]
+    assert all(lista == [] for lista in vacio.values())
+    seis = [f"a{i}" for i in range(6)]
+    datos = {s: [hoy_en_grupo("g1", 1, 5, 5, 5, con=tuple(seis))] for s in seis}
+    assert len(calcular_destacados(datos, mapa, AHORA_MS)["tops"]["mejor_jugador_hoy"]) == 5

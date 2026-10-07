@@ -24,6 +24,9 @@ todo el mes): mejor y peor jugador y balance del grupo, con las partidas en grup
 días 1, 2 y 3 se muestra el mes anterior, ya cerrado, para que no quede vacío. Se cuenta desde
 octubre de 2026.
 
+Además, `tops` trae el ranking del grupo de cada tarjeta (menos las rachas), con una entrada
+por amigo: su mejor o peor partida, su récord o sus partidas en el período.
+
 Con empate exacto (después de los desempates) aparecen todos los amigos que lo ganan: lo normal,
 porque el grupo suele jugar junto.
 """
@@ -311,7 +314,69 @@ def calcular_destacados(
         "mejor_jugador_mes": _partida_destacada(del_mes, mapa, mejor=True),
         "peor_jugador_mes": _partida_destacada(del_mes, mapa, mejor=False),
         "balance_mes": _balance(en_grupo_mes, mes["desde"]),
+        # Ranking del grupo de cada tarjeta (se ve al hacer clic en ella)
+        "tops": {
+            "mejor_jugador_hoy": _top_partidas(hoy, mapa, mejor=True),
+            "peor_jugador_hoy": _top_partidas(hoy, mapa, mejor=False),
+            "balance_hoy": _top_records(hoy, por_winrate=False),
+            "mas_partidas": _top_records(semana, por_winrate=False),
+            "mejor_winrate": _top_records(semana, minimo=MINIMO_PARTIDAS),
+            "mejor_jugador_semana": _top_partidas(semana, mapa, mejor=True),
+            "peor_jugador_semana": _top_partidas(semana, mapa, mejor=False),
+            "mejor_jugador_mes": _top_partidas(del_mes, mapa, mejor=True),
+            "peor_jugador_mes": _top_partidas(del_mes, mapa, mejor=False),
+            "balance_mes": _top_records(del_mes, por_winrate=False),
+        },
     }
+
+
+TOP = 5
+
+
+def _top_partidas(actuaciones: dict[str, list[dict]], mapa: MapaModos, *, mejor: bool) -> list:
+    """La mejor (o peor) partida de cada amigo en el período, ordenadas como la tarjeta."""
+    entradas = [
+        _partida_destacada({slug: partidas}, mapa, mejor=mejor)
+        for slug, partidas in actuaciones.items()
+        if partidas
+    ]
+
+    def orden(e: dict):
+        if mejor:
+            return (-e["kda"], -(e["asesinatos"] + e["asistencias"]), e["muertes"], -e["fecha"])
+        return (e["kda"], -e["muertes"], -e["fecha"])
+
+    return sorted(entradas, key=lambda e: (*orden(e), e["amigos"][0]))[:TOP]
+
+
+def _top_records(
+    actuaciones: dict[str, list[dict]], *, minimo: int = 1, por_winrate: bool = True
+) -> list:
+    """El récord de cada amigo en el período (partidas, V, D, winrate).
+
+    Ordenado por winrate y luego partidas, o por partidas y luego winrate.
+    """
+    filas = []
+    for slug, partidas in actuaciones.items():
+        if len(partidas) < minimo:
+            continue
+        r = _resumen(partidas)
+        filas.append(
+            {
+                "amigos": [slug],
+                "partidas": r["partidas"],
+                "victorias": r["victorias"],
+                "derrotas": r["derrotas"],
+                "winrate": r["winrate"],
+            }
+        )
+
+    def orden(f: dict):
+        w = f["winrate"] if f["winrate"] is not None else -1
+        principal = (-w, -f["partidas"]) if por_winrate else (-f["partidas"], -w)
+        return (*principal, f["amigos"][0])
+
+    return sorted(filas, key=orden)[:TOP]
 
 
 def _balance(en_grupo_ordenadas: list[tuple[dict, set[str]]], desde_ms: int) -> dict | None:
