@@ -13,11 +13,12 @@ const NOTA = "Partidas en equipo (2 o más del grupo) de Normal y Ranked del mes
 export function SeccionDestacadosMes({ destacados, amigos, ddragon, ahora }) {
   const mes = destacados?.mes;
   if (!mes) return null;
+  const nota = `${NOTA} · ${mes.cerrado ? "Mes cerrado; el actual aparece desde el día 4" : "Se actualiza hasta fin de mes"}`;
   return (
     <BloqueDestacados
       id="destacados-mes"
       titulo={`Destacados de ${mes.nombre}${mes.cerrado ? " (cerrado)" : ""}`}
-      nota={`${NOTA} · ${mes.cerrado ? "Mes cerrado; el actual aparece desde el día 4" : "Se actualiza hasta fin de mes"}`}
+      nota={nota}
     >
       <ListaDestacados
         claves={CLAVES_MES}
@@ -25,6 +26,7 @@ export function SeccionDestacadosMes({ destacados, amigos, ddragon, ahora }) {
         amigos={amigos}
         ddragon={ddragon}
         ahora={ahora}
+        nota={nota}
         claseLista="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
         claseItem={claseItemBalance}
       />

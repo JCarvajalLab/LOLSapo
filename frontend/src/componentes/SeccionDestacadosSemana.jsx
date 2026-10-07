@@ -1,6 +1,9 @@
 import { CLAVES_SEMANA, destacadosVacios, destacadosVigentes } from "../logica/destacados.js";
 import { BloqueDestacados, ListaDestacados, VACIO_SEMANA } from "./PiezasDestacados.jsx";
 
+const NOTA =
+  "Partidas en equipo (2 o más del grupo) de Normal y Ranked, de lunes a domingo · Se reinicia el lunes a la 01:00";
+
 /**
  * Destacados de la semana (solo LoL, Normal y Ranked): todas las tarjetas cuentan solo
  * partidas en equipo (2 o más del grupo), de lunes a domingo; el recolector reinicia la
@@ -14,7 +17,7 @@ export function SeccionDestacadosSemana({ destacados, amigos, ddragon, ahora }) 
     <BloqueDestacados
       id="destacados-semana"
       titulo="Destacados de la semana"
-      nota="Partidas en equipo (2 o más del grupo) de Normal y Ranked, de lunes a domingo · Se reinicia el lunes a la 01:00"
+      nota={NOTA}
     >
       {destacadosVacios(vigentes, CLAVES_SEMANA) ? (
         <p className="flex min-h-20 items-center justify-center rounded-lg border border-borde bg-superficie px-3 text-center text-sm text-texto-suave">
@@ -27,6 +30,7 @@ export function SeccionDestacadosSemana({ destacados, amigos, ddragon, ahora }) 
           amigos={amigos}
           ddragon={ddragon}
           ahora={ahora}
+          nota={NOTA}
           claseLista="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
         />
       )}

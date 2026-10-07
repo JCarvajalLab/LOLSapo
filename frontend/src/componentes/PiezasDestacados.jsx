@@ -1,19 +1,19 @@
 // Piezas comunes de los destacados de LoL: sección, lista y tarjeta.
-import { nombreCampeon, urlCampeon, urlIconoPerfil } from "../logica/ddragon.js";
+import { useRef, useState } from "react";
+import { urlIconoPerfil } from "../logica/ddragon.js";
 import {
   CLAVES_HOY,
   CLAVES_MES,
-  colorResultado,
   fechaRacha,
-  formatearDanio,
-  formatearKdaDestacado,
   formatearPorcentaje,
   notaJugadas,
   plural,
+  topDe,
 } from "../logica/destacados.js";
-import { esNumero, fechaCompleta, haceCuanto } from "../logica/formato.js";
-import { MarcaResultado } from "./Etiquetas.jsx";
+import { fechaCompleta } from "../logica/formato.js";
 import { ImagenDD } from "./ImagenDD.jsx";
+import { ModalTopDestacado } from "./ModalTopDestacado.jsx";
+import { PartidaDestacada } from "./PartidaDestacada.jsx";
 import { TituloSeccion } from "./TituloSeccion.jsx";
 
 const TITULOS = {
@@ -83,37 +83,78 @@ export function BloqueDestacados({ id, titulo, nota, children }) {
 /**
  * Lista de tarjetas en el orden de `claves`. `claseLista` define la grilla y
  * `claseItem` (opcional) ajusta el `li` de una tarjeta según su clave.
+ * Las tarjetas con top 5 (`topDe`) se pueden abrir: la ventana lleva el título de la tarjeta
+ * y la `nota` del bloque; al cerrarla, el foco vuelve al botón de la tarjeta.
  */
-export function ListaDestacados({ claves, destacados, amigos, ddragon, ahora, claseLista, claseItem = () => "" }) {
+export function ListaDestacados({ claves, destacados, amigos, ddragon, ahora, nota, claseLista, claseItem = () => "" }) {
+  const [abierta, setAbierta] = useState(null);
+  const botones = useRef({});
   const porSlug = new Map((amigos ?? []).map((a) => [a.slug, a]));
+  // Si con datos nuevos el top abierto desaparece, la ventana se cierra sola.
+  const topAbierto = abierta ? topDe(destacados, abierta) : null;
+  const cerrar = () => {
+    const clave = abierta;
+    setAbierta(null);
+    botones.current[clave]?.focus();
+  };
   return (
-    <ul className={`grid auto-rows-fr gap-3 ${claseLista}`}>
-      {claves.map((clave) => (
-        <li key={clave} className={`min-w-0 ${claseItem(clave)}`.trim()}>
-          <TarjetaDestacado
-            clave={clave}
-            tarjeta={destacados[clave]}
-            porSlug={porSlug}
-            ddragon={ddragon}
-            ahora={ahora}
-          />
-        </li>
-      ))}
-    </ul>
+    <>
+      <ul className={`grid auto-rows-fr gap-3 ${claseLista}`}>
+        {claves.map((clave) => (
+          <li key={clave} className={`min-w-0 ${claseItem(clave)}`.trim()}>
+            <TarjetaDestacado
+              clave={clave}
+              tarjeta={destacados[clave]}
+              porSlug={porSlug}
+              ddragon={ddragon}
+              ahora={ahora}
+              onVerTop={topDe(destacados, clave) ? () => setAbierta(clave) : null}
+              refBoton={(el) => {
+                botones.current[clave] = el;
+              }}
+            />
+          </li>
+        ))}
+      </ul>
+      {topAbierto && (
+        <ModalTopDestacado
+          clave={abierta}
+          titulo={TITULOS[abierta]}
+          nota={nota}
+          top={topAbierto}
+          porSlug={porSlug}
+          ddragon={ddragon}
+          ahora={ahora}
+          onCerrar={cerrar}
+        />
+      )}
+    </>
   );
 }
 
-export function TarjetaDestacado({ clave, tarjeta, porSlug, ddragon, ahora }) {
+/**
+ * Una tarjeta de destacados. Con `onVerTop` es clicable entera: un botón transparente la
+ * cubre (nombre «Ver top 5: <título>») y arriba a la derecha se lee «Top 5 ›».
+ */
+export function TarjetaDestacado({ clave, tarjeta, porSlug, ddragon, ahora, onVerTop = null, refBoton }) {
   const idTitulo = `destacado-${clave}`;
+  const clicable = Boolean(tarjeta && onVerTop);
   return (
     <article
       aria-labelledby={idTitulo}
       data-destacado={clave}
-      className="flex h-full flex-col gap-2 rounded-lg border border-borde bg-superficie p-3"
+      className="group relative flex h-full flex-col gap-2 rounded-lg border border-borde bg-superficie p-3"
     >
-      <h3 id={idTitulo} className="text-sm font-semibold text-texto-suave">
-        {TITULOS[clave]}
-      </h3>
+      <div className="flex items-baseline justify-between gap-2">
+        <h3 id={idTitulo} className="text-sm font-semibold text-texto-suave">
+          {TITULOS[clave]}
+        </h3>
+        {clicable && (
+          <span aria-hidden="true" className="shrink-0 text-xs whitespace-nowrap text-texto-suave group-hover:text-sapo">
+            Top 5 ›
+          </span>
+        )}
+      </div>
       {tarjeta ? (
         <>
           {esRacha(clave) ? (
@@ -141,6 +182,15 @@ export function TarjetaDestacado({ clave, tarjeta, porSlug, ddragon, ahora }) {
         </>
       ) : (
         <Vacio {...vacioDe(clave)} />
+      )}
+      {clicable && (
+        <button
+          ref={refBoton}
+          type="button"
+          onClick={onVerTop}
+          aria-label={`Ver top 5: ${TITULOS[clave]}`}
+          className="absolute -inset-px cursor-pointer rounded-lg border border-transparent hover:border-sapo/60"
+        />
       )}
     </article>
   );
@@ -242,7 +292,7 @@ function Contenido({ clave, t, ddragon, ahora }) {
     case "mejor_jugador_hoy":
     case "mejor_jugador_semana":
     case "mejor_jugador_mes":
-      return <Partida t={t} ddragon={ddragon} ahora={ahora} mejor />;
+      return <PartidaDestacada t={t} ddragon={ddragon} ahora={ahora} mejor />;
     case "balance_hoy":
     case "balance_mes":
       return <Balance t={t} />;
@@ -253,7 +303,7 @@ function Contenido({ clave, t, ddragon, ahora }) {
     case "peor_jugador_hoy":
     case "peor_jugador_semana":
     case "peor_jugador_mes":
-      return <Partida t={t} ddragon={ddragon} ahora={ahora} mejor={false} />;
+      return <PartidaDestacada t={t} ddragon={ddragon} ahora={ahora} mejor={false} />;
     default:
       return null;
   }
@@ -303,60 +353,6 @@ function Racha({ icono, t, texto, color }) {
           </time>
         </p>
       )}
-    </div>
-  );
-}
-
-/** "85 / 48 / 60" con las muertes en color derrota, como en las partidas. */
-function Kda({ a, m, asi }) {
-  return (
-    <>
-      <span aria-hidden="true">
-        <span className="text-texto">{a}</span> / <span className="text-derrota">{m}</span> / <span className="text-texto">{asi}</span>
-      </span>
-      <span className="sr-only">
-        {a} asesinatos, {m} muertes, {asi} asistencias
-      </span>
-    </>
-  );
-}
-
-/**
- * Mejor o peor jugador de la partida (de hoy, de la semana o del mes): misma tarjeta, cambia el color del KDA.
- * El nombre del campeón sale de Data Dragon ("Maestro Yi"), con `campeon` de respaldo.
- * El daño a campeones va en su línea bajo el KDA, en color del resultado de esa partida
- * (el texto «Victoria»/«Derrota» de abajo lo dice sin depender del color); sin dato no se muestra.
- */
-function Partida({ t, ddragon, ahora, mejor }) {
-  const campeon = nombreCampeon(ddragon, t.campeon_id, t.campeon);
-  const danio = formatearDanio(t.danio);
-  return (
-    <div className="mt-auto flex items-center gap-3">
-      <ImagenDD src={urlCampeon(ddragon, t.campeon_id, t.campeon)} alt={campeon} tamaño={44} />
-      <div className="min-w-0">
-        <p className="cifras font-titulo text-lg leading-tight font-bold">
-          {campeon} <span className="text-texto-suave">·</span> <Kda a={t.asesinatos} m={t.muertes} asi={t.asistencias} />
-        </p>
-        <p className={`cifras text-sm font-semibold ${mejor ? "text-victoria" : "text-derrota"}`}>
-          KDA {formatearKdaDestacado(t.kda)}
-        </p>
-        {danio && (
-          <p data-danio="" className={`cifras text-sm font-semibold ${colorResultado(t.resultado)}`}>
-            {danio}
-          </p>
-        )}
-        <p className="flex flex-wrap items-center gap-x-2 text-xs text-texto-suave">
-          <span>{t.modo || "Modo especial"}</span>
-          <time
-            dateTime={esNumero(t.fecha) ? new Date(t.fecha).toISOString() : undefined}
-            title={fechaCompleta(t.fecha)}
-            className="whitespace-nowrap"
-          >
-            {haceCuanto(t.fecha, ahora)}
-          </time>
-          <MarcaResultado resultado={t.resultado} />
-        </p>
-      </div>
     </div>
   );
 }
