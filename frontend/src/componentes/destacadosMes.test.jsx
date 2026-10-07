@@ -35,19 +35,19 @@ function esperarVacio(titulo) {
 describe("Destacados del mes", () => {
   it("título con el nombre del mes y nota de mes abierto", () => {
     renderMes(crearDestacados());
-    expect(screen.getByRole("heading", { level: 2 })).toHaveTextContent(new RegExp(`^${TITULO}$`));
+    expect(screen.getByRole("heading", { level: 2 }).textContent.trim()).toBe(TITULO);
     expect(screen.getByRole("region", { name: TITULO })).toHaveAccessibleDescription(NOTA);
   });
 
   it("mes cerrado: título con «(cerrado)» y nota del día 4", () => {
     renderMes(crearDestacados({ mes: { ...MES, cerrado: true } }));
-    expect(screen.getByRole("heading", { level: 2 })).toHaveTextContent(new RegExp(`^${TITULO_CERRADO.replace(/[()]/g, "\\$&")}$`));
+    expect(screen.getByRole("heading", { level: 2 }).textContent.trim()).toBe(TITULO_CERRADO);
     expect(screen.getByRole("region", { name: TITULO_CERRADO })).toHaveAccessibleDescription(NOTA_CERRADO);
   });
 
   it("lol.json viejo: desde mes.hasta se ve cerrado aunque cerrado venga en false", () => {
     const r = renderMes(crearDestacados(), MES.hasta - 1);
-    expect(screen.getByRole("heading", { level: 2 })).toHaveTextContent(new RegExp(`^${TITULO}$`));
+    expect(screen.getByRole("heading", { level: 2 }).textContent.trim()).toBe(TITULO);
     r.unmount();
     renderMes(crearDestacados(), MES.hasta);
     expect(screen.getByRole("heading", { level: 2, name: TITULO_CERRADO })).toBeInTheDocument();
