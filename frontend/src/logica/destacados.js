@@ -364,6 +364,16 @@ export function mesVencido(mes, ahora) {
 }
 
 /**
+ * true si el mes ya terminó: el recolector lo marcó `cerrado` o `ahora` llegó a `mes.hasta`
+ * (lol.json quedó viejo al cambiar de mes). Sin mes, false; sin `ahora`, solo cuenta `cerrado`.
+ */
+export function mesCerrado(mes, ahora) {
+  if (!mes) return false;
+  if (mes.cerrado === true) return true;
+  return esNumero(mes.hasta) && esNumero(ahora) && ahora >= mes.hasta;
+}
+
+/**
  * Destacados con las tarjetas de hoy en null si su día ya terminó, las de la semana en
  * null si su semana ya terminó y las del mes en null si su mes quedó atrás (sus tops y
  * tops globales también).

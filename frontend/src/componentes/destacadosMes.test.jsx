@@ -45,6 +45,16 @@ describe("Destacados del mes", () => {
     expect(screen.getByRole("region", { name: TITULO_CERRADO })).toHaveAccessibleDescription(NOTA_CERRADO);
   });
 
+  it("lol.json viejo: desde mes.hasta se ve cerrado aunque cerrado venga en false", () => {
+    const r = renderMes(crearDestacados(), MES.hasta - 1);
+    expect(screen.getByRole("heading", { level: 2 })).toHaveTextContent(new RegExp(`^${TITULO}$`));
+    r.unmount();
+    renderMes(crearDestacados(), MES.hasta);
+    expect(screen.getByRole("heading", { level: 2, name: TITULO_CERRADO })).toBeInTheDocument();
+    expect(screen.getByRole("region", { name: TITULO_CERRADO })).toHaveAccessibleDescription(NOTA_CERRADO);
+    expect(tarjeta("Mejor jugador del mes")).toHaveTextContent("Caitlyn");
+  });
+
   it("usa el nombre del mes que manda el recolector", () => {
     renderMes(crearDestacados({ mes: { ...MES, mes: 9, nombre: "septiembre", cerrado: true } }));
     expect(screen.getByRole("heading", { name: "Destacados de septiembre (cerrado)" })).toBeInTheDocument();
@@ -154,7 +164,7 @@ describe("Destacados del mes", () => {
 
   it("vencido (3 días o más después del fin del mes): las 3 tarjetas quedan vacías", () => {
     renderMes(crearDestacados(), MES.hasta + 3 * DIA);
-    expect(screen.getByRole("heading", { name: TITULO })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: TITULO_CERRADO })).toBeInTheDocument();
     for (const titulo of TITULOS) esperarVacio(titulo);
     expect(screen.queryByText("Charco")).toBeNull();
   });

@@ -11,6 +11,7 @@ import {
   destacadosVacios,
   destacadosVigentes,
   hoyVencido,
+  mesCerrado,
   mesVencido,
   semanaVencida,
   fechaRacha,
@@ -743,6 +744,34 @@ describe("mesVencido", () => {
     expect(mesVencido(undefined, MES.hasta + 40 * DIA)).toBe(false);
     expect(mesVencido(MES, undefined)).toBe(false);
     expect(mesVencido(MES, null)).toBe(false);
+  });
+});
+
+describe("mesCerrado", () => {
+  const DIA = 24 * 3600 * 1000;
+  const MES = crearDestacados().mes;
+
+  it("abierto mientras ahora es anterior a hasta", () => {
+    expect(MES.cerrado).toBe(false);
+    expect(mesCerrado(MES, MES.desde)).toBe(false);
+    expect(mesCerrado(MES, MES.hasta - 1)).toBe(false);
+  });
+
+  it("cerrado desde hasta aunque el archivo diga cerrado: false", () => {
+    expect(mesCerrado(MES, MES.hasta)).toBe(true);
+    expect(mesCerrado(MES, MES.hasta + 40 * DIA)).toBe(true);
+  });
+
+  it("cerrado si el recolector lo marca, aunque ahora sea anterior a hasta", () => {
+    expect(mesCerrado({ ...MES, cerrado: true }, MES.desde)).toBe(true);
+  });
+
+  it("sin mes, false; sin ahora, solo cuenta cerrado", () => {
+    expect(mesCerrado(null, MES.hasta)).toBe(false);
+    expect(mesCerrado(undefined, MES.hasta)).toBe(false);
+    expect(mesCerrado(MES, undefined)).toBe(false);
+    expect(mesCerrado(MES, null)).toBe(false);
+    expect(mesCerrado({ ...MES, cerrado: true }, undefined)).toBe(true);
   });
 });
 

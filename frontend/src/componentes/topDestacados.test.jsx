@@ -151,6 +151,40 @@ describe("Top 5 de los destacados", () => {
     expect(boton).toHaveFocus();
   });
 
+  it("si el top abierto desaparece se cierra y no se reabre solo cuando vuelve", async () => {
+    const datosCon = validarDatos(crearDatos({ amigos: AMIGOS_TOPS, destacados: conTops() }));
+    const datosSin = validarDatos(
+      crearDatos({ amigos: AMIGOS_TOPS, destacados: conTops({}, crearTops({ mejor_jugador_mes: null })) }),
+    );
+    const vista = (datos) => (
+      <SeccionDestacadosMes destacados={datos.destacados} amigos={datos.amigos} ddragon={datos.ddragon} ahora={AHORA} />
+    );
+    const { rerender } = render(vista(datosCon));
+    await abrir("Mejor jugador del mes");
+    rerender(vista(datosSin));
+    expect(screen.queryByRole("dialog")).toBeNull();
+    expect(botonTop("Mejor jugador del mes")).toBeNull();
+    expect(tarjeta("Mejor jugador del mes")).toHaveTextContent("Caitlyn");
+    rerender(vista(datosCon));
+    expect(screen.queryByRole("dialog")).toBeNull();
+    expect(botonTop("Mejor jugador del mes")).toBeInTheDocument();
+    const dialogo = await abrir("Mejor jugador del mes");
+    expect(dialogo).toBeInTheDocument();
+  });
+
+  it("si el top abierto vence por la hora, se cierra y no se reabre al volver datos vigentes", async () => {
+    const datos = validarDatos(crearDatos({ amigos: AMIGOS_TOPS, destacados: conTops() }));
+    const vista = (ahora) => (
+      <SeccionDestacadosHoy destacados={datos.destacados} amigos={datos.amigos} ddragon={datos.ddragon} ahora={ahora} />
+    );
+    const { rerender } = render(vista(AHORA));
+    await abrir("Mejor jugador de la partida - Hoy");
+    rerender(vista(AHORA + 24 * 3600 * 1000));
+    expect(screen.queryByRole("dialog")).toBeNull();
+    rerender(vista(AHORA));
+    expect(screen.queryByRole("dialog")).toBeNull();
+  });
+
   it("si el día venció, las tarjetas de hoy quedan vacías y sin clic", () => {
     renderSeccion(SeccionDestacadosHoy, conTops(), AHORA + 24 * 3600 * 1000);
     expect(screen.queryAllByRole("button")).toHaveLength(0);

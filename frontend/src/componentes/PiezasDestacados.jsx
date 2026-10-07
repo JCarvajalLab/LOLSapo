@@ -85,7 +85,9 @@ export function BloqueDestacados({ id, titulo, nota, children }) {
  * Lista de tarjetas en el orden de `claves`. `claseLista` define la grilla y
  * `claseItem` (opcional) ajusta el `li` de una tarjeta según su clave.
  * Las tarjetas con top 5 (`topDe`) se pueden abrir: la ventana lleva el título de la tarjeta
- * y la `nota` del bloque; al cerrarla, el foco vuelve al botón de la tarjeta.
+ * y la `nota` del bloque; al cerrarla, el foco vuelve al botón de la tarjeta. Si el top
+ * abierto deja de existir (vence o llega otro lol.json), la ventana se cierra y no se reabre
+ * sola aunque el top vuelva.
  */
 export function ListaDestacados({ claves, destacados, amigos, ddragon, ahora, nota, claseLista, claseItem = () => "" }) {
   const [abierta, setAbierta] = useState(null);
@@ -93,6 +95,10 @@ export function ListaDestacados({ claves, destacados, amigos, ddragon, ahora, no
   const porSlug = new Map((amigos ?? []).map((a) => [a.slug, a]));
   // Si con datos nuevos el top abierto desaparece, la ventana se cierra sola.
   const topAbierto = abierta ? topDe(destacados, abierta) : null;
+  // Y se olvida cuál estaba abierta, para que si el top vuelve la ventana no se reabra sin
+  // clic. Se ajusta durante el render (patrón de React para estado derivado de props) y no
+  // en un efecto. No hay foco que devolver: sin top la tarjeta no tiene botón.
+  if (abierta && !topAbierto) setAbierta(null);
   const cerrar = () => {
     const clave = abierta;
     setAbierta(null);
