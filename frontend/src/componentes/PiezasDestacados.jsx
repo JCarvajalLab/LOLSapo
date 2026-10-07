@@ -1,18 +1,20 @@
 // Piezas comunes de los destacados de LoL: sección, lista y tarjeta.
-import { nombreCampeon, urlCampeon, urlIconoPerfil } from "../logica/ddragon.js";
+import { useRef, useState } from "react";
+import { urlIconoPerfil } from "../logica/ddragon.js";
 import {
   CLAVES_HOY,
-  colorResultado,
+  CLAVES_MES,
   fechaRacha,
-  formatearDanio,
-  formatearKdaDestacado,
   formatearPorcentaje,
   notaJugadas,
   plural,
+  topDe,
+  topGlobalDe,
 } from "../logica/destacados.js";
-import { esNumero, fechaCompleta, haceCuanto } from "../logica/formato.js";
-import { MarcaResultado } from "./Etiquetas.jsx";
+import { fechaCompleta } from "../logica/formato.js";
 import { ImagenDD } from "./ImagenDD.jsx";
+import { ModalTopDestacado } from "./ModalTopDestacado.jsx";
+import { PartidaDestacada } from "./PartidaDestacada.jsx";
 import { TituloSeccion } from "./TituloSeccion.jsx";
 
 const TITULOS = {
@@ -25,20 +27,43 @@ const TITULOS = {
   racha_victorias_grupo: "Racha de victorias en equipo",
   racha_derrotas_grupo: "Racha de derrotas en equipo",
   peor_jugador_semana: "Peor jugador de la semana",
+  mejor_jugador_mes: "Mejor jugador del mes",
+  balance_mes: "Balance del grupo del mes",
+  peor_jugador_mes: "Peor jugador del mes",
 };
 
 /** Vacío de cualquier tarjeta de la semana (y de la sección entera si todas vienen vacías). */
 export const VACIO_SEMANA = "No existen partidas registradas en equipo esta semana";
 
-/** Tarjetas de hoy: el día se reinicia a las 12:00 de Chile. */
-const esHoy = (clave) => CLAVES_HOY.includes(clave);
+/** Vacío de cada tarjeta del mes. */
+export const VACIO_MES = "No existen partidas registradas en equipo este mes";
 
-/** Estado vacío de una tarjeta: mensaje principal y, debajo en chico, cuándo se reinicia. */
+/** Estado vacío según el bloque de la tarjeta: el día se reinicia a las 12:00 de Chile. */
+function vacioDe(clave) {
+  if (CLAVES_HOY.includes(clave)) {
+    return { mensaje: "No hay partidas en grupo registradas hoy", reinicio: "Se reinicia a las 12:00" };
+  }
+  if (CLAVES_MES.includes(clave)) return { mensaje: VACIO_MES };
+  return { mensaje: VACIO_SEMANA, reinicio: "Se reinicia el lunes a la 01:00" };
+}
+
+const esBalance = (clave) => clave === "balance_hoy" || clave === "balance_mes";
+
+/**
+ * Fila de mejor jugador, balance y peor jugador (hoy y mes). En 2 columnas (tablet) el
+ * balance baja a su propia fila a todo el ancho, para que mejor y peor jugador queden lado a
+ * lado; en 1 columna (móvil) y en 3 (escritorio) va al centro, igual que en el orden del
+ * documento que leen los lectores de pantalla.
+ */
+export const claseItemBalance = (clave) =>
+  esBalance(clave) ? "sm:order-last sm:col-span-2 lg:order-none lg:col-span-1" : "";
+
+/** Estado vacío de una tarjeta: mensaje principal y, si hay, debajo en chico cuándo se reinicia. */
 function Vacio({ mensaje, reinicio }) {
   return (
     <div className="flex flex-1 flex-col justify-center">
       <p className="text-texto-suave">{mensaje}</p>
-      <p className="text-xs text-texto-suave">{reinicio}</p>
+      {reinicio && <p className="text-xs text-texto-suave">{reinicio}</p>}
     </div>
   );
 }
@@ -59,37 +84,85 @@ export function BloqueDestacados({ id, titulo, nota, children }) {
 /**
  * Lista de tarjetas en el orden de `claves`. `claseLista` define la grilla y
  * `claseItem` (opcional) ajusta el `li` de una tarjeta según su clave.
+ * Las tarjetas con top 5 (`topDe`) se pueden abrir: la ventana lleva el título de la tarjeta
+ * y la `nota` del bloque; al cerrarla, el foco vuelve al botón de la tarjeta. Si el top
+ * abierto deja de existir (vence o llega otro lol.json), la ventana se cierra y no se reabre
+ * sola aunque el top vuelva.
  */
-export function ListaDestacados({ claves, destacados, amigos, ddragon, ahora, claseLista, claseItem = () => "" }) {
+export function ListaDestacados({ claves, destacados, amigos, ddragon, ahora, nota, claseLista, claseItem = () => "" }) {
+  const [abierta, setAbierta] = useState(null);
+  const botones = useRef({});
   const porSlug = new Map((amigos ?? []).map((a) => [a.slug, a]));
+  // Si con datos nuevos el top abierto desaparece, la ventana se cierra sola.
+  const topAbierto = abierta ? topDe(destacados, abierta) : null;
+  // Y se olvida cuál estaba abierta, para que si el top vuelve la ventana no se reabra sin
+  // clic. Se ajusta durante el render (patrón de React para estado derivado de props) y no
+  // en un efecto. No hay foco que devolver: sin top la tarjeta no tiene botón.
+  if (abierta && !topAbierto) setAbierta(null);
+  const cerrar = () => {
+    const clave = abierta;
+    setAbierta(null);
+    botones.current[clave]?.focus();
+  };
   return (
-    <ul className={`grid auto-rows-fr gap-3 ${claseLista}`}>
-      {claves.map((clave) => (
-        <li key={clave} className={`min-w-0 ${claseItem(clave)}`.trim()}>
-          <TarjetaDestacado
-            clave={clave}
-            tarjeta={destacados[clave]}
-            porSlug={porSlug}
-            ddragon={ddragon}
-            ahora={ahora}
-          />
-        </li>
-      ))}
-    </ul>
+    <>
+      <ul className={`grid auto-rows-fr gap-3 ${claseLista}`}>
+        {claves.map((clave) => (
+          <li key={clave} className={`min-w-0 ${claseItem(clave)}`.trim()}>
+            <TarjetaDestacado
+              clave={clave}
+              tarjeta={destacados[clave]}
+              porSlug={porSlug}
+              ddragon={ddragon}
+              ahora={ahora}
+              onVerTop={topDe(destacados, clave) ? () => setAbierta(clave) : null}
+              refBoton={(el) => {
+                botones.current[clave] = el;
+              }}
+            />
+          </li>
+        ))}
+      </ul>
+      {topAbierto && (
+        <ModalTopDestacado
+          clave={abierta}
+          titulo={TITULOS[abierta]}
+          nota={nota}
+          top={topAbierto}
+          topGlobal={topGlobalDe(destacados, abierta)}
+          porSlug={porSlug}
+          ddragon={ddragon}
+          ahora={ahora}
+          onCerrar={cerrar}
+        />
+      )}
+    </>
   );
 }
 
-export function TarjetaDestacado({ clave, tarjeta, porSlug, ddragon, ahora }) {
+/**
+ * Una tarjeta de destacados. Con `onVerTop` es clicable entera: un botón transparente la
+ * cubre (nombre «Ver top 5: <título>») y arriba a la derecha se lee «Top 5 ›».
+ */
+export function TarjetaDestacado({ clave, tarjeta, porSlug, ddragon, ahora, onVerTop = null, refBoton }) {
   const idTitulo = `destacado-${clave}`;
+  const clicable = Boolean(tarjeta && onVerTop);
   return (
     <article
       aria-labelledby={idTitulo}
       data-destacado={clave}
-      className="flex h-full flex-col gap-2 rounded-lg border border-borde bg-superficie p-3"
+      className="group relative flex h-full flex-col gap-2 rounded-lg border border-borde bg-superficie p-3"
     >
-      <h3 id={idTitulo} className="text-sm font-semibold text-texto-suave">
-        {TITULOS[clave]}
-      </h3>
+      <div className="flex items-baseline justify-between gap-2">
+        <h3 id={idTitulo} className="text-sm font-semibold text-texto-suave">
+          {TITULOS[clave]}
+        </h3>
+        {clicable && (
+          <span aria-hidden="true" className="shrink-0 text-xs whitespace-nowrap text-texto-suave group-hover:text-sapo">
+            Top 5 ›
+          </span>
+        )}
+      </div>
       {tarjeta ? (
         <>
           {esRacha(clave) ? (
@@ -100,7 +173,7 @@ export function TarjetaDestacado({ clave, tarjeta, porSlug, ddragon, ahora }) {
               porSlug={porSlug}
               ddragon={ddragon}
             />
-          ) : clave === "balance_hoy" ? (
+          ) : esBalance(clave) ? (
             <NombresCompletos
               marca="jugadores"
               slugs={tarjeta.amigos}
@@ -115,10 +188,17 @@ export function TarjetaDestacado({ clave, tarjeta, porSlug, ddragon, ahora }) {
           )}
           <Contenido clave={clave} t={tarjeta} ddragon={ddragon} ahora={ahora} />
         </>
-      ) : esHoy(clave) ? (
-        <Vacio mensaje="No hay partidas en grupo registradas hoy" reinicio="Se reinicia a las 12:00" />
       ) : (
-        <Vacio mensaje={VACIO_SEMANA} reinicio="Se reinicia el lunes a la 01:00" />
+        <Vacio {...vacioDe(clave)} />
+      )}
+      {clicable && (
+        <button
+          ref={refBoton}
+          type="button"
+          onClick={onVerTop}
+          aria-label={`Ver top 5: ${TITULOS[clave]}`}
+          className="absolute -inset-px cursor-pointer rounded-lg border border-transparent hover:border-sapo/60"
+        />
       )}
     </article>
   );
@@ -219,8 +299,10 @@ function Contenido({ clave, t, ddragon, ahora }) {
       );
     case "mejor_jugador_hoy":
     case "mejor_jugador_semana":
-      return <Partida t={t} ddragon={ddragon} ahora={ahora} mejor />;
+    case "mejor_jugador_mes":
+      return <PartidaDestacada t={t} ddragon={ddragon} ahora={ahora} mejor />;
     case "balance_hoy":
+    case "balance_mes":
       return <Balance t={t} />;
     case "racha_victorias_grupo":
       return <Racha icono="🔥" t={t} texto="victorias seguidas" color="text-victoria" />;
@@ -228,14 +310,15 @@ function Contenido({ clave, t, ddragon, ahora }) {
       return <Racha icono="🧊" t={t} texto="derrotas seguidas" color="text-derrota" />;
     case "peor_jugador_hoy":
     case "peor_jugador_semana":
-      return <Partida t={t} ddragon={ddragon} ahora={ahora} mejor={false} />;
+    case "peor_jugador_mes":
+      return <PartidaDestacada t={t} ddragon={ddragon} ahora={ahora} mejor={false} />;
     default:
       return null;
   }
 }
 
 /**
- * Balance del grupo hoy: «4 V – 2 D» grande (la letra dice el resultado, el color lo refuerza)
+ * Balance del grupo (hoy o del mes): «4 V – 2 D» grande (la letra dice el resultado, el color lo refuerza)
  * y debajo «66,7 % · 6 partidas en grupo».
  */
 function Balance({ t }) {
@@ -278,60 +361,6 @@ function Racha({ icono, t, texto, color }) {
           </time>
         </p>
       )}
-    </div>
-  );
-}
-
-/** "85 / 48 / 60" con las muertes en color derrota, como en las partidas. */
-function Kda({ a, m, asi }) {
-  return (
-    <>
-      <span aria-hidden="true">
-        <span className="text-texto">{a}</span> / <span className="text-derrota">{m}</span> / <span className="text-texto">{asi}</span>
-      </span>
-      <span className="sr-only">
-        {a} asesinatos, {m} muertes, {asi} asistencias
-      </span>
-    </>
-  );
-}
-
-/**
- * Mejor o peor jugador de la partida (de hoy o de la semana): misma tarjeta, cambia el color del KDA.
- * El nombre del campeón sale de Data Dragon ("Maestro Yi"), con `campeon` de respaldo.
- * El daño a campeones va en su línea bajo el KDA, en color del resultado de esa partida
- * (el texto «Victoria»/«Derrota» de abajo lo dice sin depender del color); sin dato no se muestra.
- */
-function Partida({ t, ddragon, ahora, mejor }) {
-  const campeon = nombreCampeon(ddragon, t.campeon_id, t.campeon);
-  const danio = formatearDanio(t.danio);
-  return (
-    <div className="mt-auto flex items-center gap-3">
-      <ImagenDD src={urlCampeon(ddragon, t.campeon_id, t.campeon)} alt={campeon} tamaño={44} />
-      <div className="min-w-0">
-        <p className="cifras font-titulo text-lg leading-tight font-bold">
-          {campeon} <span className="text-texto-suave">·</span> <Kda a={t.asesinatos} m={t.muertes} asi={t.asistencias} />
-        </p>
-        <p className={`cifras text-sm font-semibold ${mejor ? "text-victoria" : "text-derrota"}`}>
-          KDA {formatearKdaDestacado(t.kda)}
-        </p>
-        {danio && (
-          <p data-danio="" className={`cifras text-sm font-semibold ${colorResultado(t.resultado)}`}>
-            {danio}
-          </p>
-        )}
-        <p className="flex flex-wrap items-center gap-x-2 text-xs text-texto-suave">
-          <span>{t.modo || "Modo especial"}</span>
-          <time
-            dateTime={esNumero(t.fecha) ? new Date(t.fecha).toISOString() : undefined}
-            title={fechaCompleta(t.fecha)}
-            className="whitespace-nowrap"
-          >
-            {haceCuanto(t.fecha, ahora)}
-          </time>
-          <MarcaResultado resultado={t.resultado} />
-        </p>
-      </div>
     </div>
   );
 }

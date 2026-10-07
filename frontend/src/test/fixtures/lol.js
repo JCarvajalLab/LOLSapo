@@ -248,7 +248,7 @@ export const partidaEnVivo = {
   ],
 };
 
-/** Destacados de hoy y de la semana INVENTADOS, con la forma que escribe el recolector. */
+/** Destacados de hoy, de la semana y del mes INVENTADOS, con la forma que escribe el recolector. */
 export function crearDestacados(cambios = {}) {
   return {
     // Inicio de la semana (lunes a la 01:00 de Chile), inventado.
@@ -339,6 +339,52 @@ export function crearDestacados(cambios = {}) {
       modo: "Normal (Selección oculta)",
       fecha: AHORA - 6 * 24 * HORA,
     },
+    // Mes en curso (octubre de 2026, del día 1 a la 01:00 de Chile al 1 de noviembre), inventado.
+    mes: {
+      anio: 2026,
+      mes: 10,
+      nombre: "octubre",
+      desde: Date.UTC(2026, 9, 1, 4),
+      hasta: Date.UTC(2026, 10, 1, 4),
+      cerrado: false,
+    },
+    mejor_jugador_mes: {
+      amigos: ["rana-azul-las"],
+      partida_id: "LA2_33",
+      campeon_id: 51,
+      campeon: "Caitlyn",
+      asesinatos: 18,
+      muertes: 2,
+      asistencias: 6,
+      kda: 12,
+      danio: 52300,
+      resultado: "victoria",
+      modo: "Clasificatoria Flex",
+      fecha: AHORA - 6 * HORA,
+    },
+    // Partidas en equipo del mes: cada una cuenta una vez.
+    balance_mes: {
+      partidas: 28,
+      victorias: 15,
+      derrotas: 13,
+      winrate: 53.6,
+      amigos: ["sapito-las", "rana-azul-las", "charco-las"],
+      jugadas: { "sapito-las": 28, "rana-azul-las": 25, "charco-las": 9 },
+    },
+    peor_jugador_mes: {
+      amigos: ["charco-las"],
+      partida_id: "LA2_22",
+      campeon_id: 54,
+      campeon: "Malphite",
+      asesinatos: 0,
+      muertes: 11,
+      asistencias: 3,
+      kda: 0.27,
+      danio: 3900,
+      resultado: "derrota",
+      modo: "Normal (Reclutamiento)",
+      fecha: AHORA - 7 * HORA,
+    },
     ...cambios,
   };
 }
@@ -382,6 +428,104 @@ export function crearSinergia(cambios = {}) {
       ],
       "sapito-las": [],
     },
+    ...cambios,
+  };
+}
+
+// Tops de los destacados INVENTADOS (lol.json → "destacados.tops"). Usan cinco amigos:
+// los tres de `crearDatos`, `renacuajo` y `pozo`.
+export const pozo = { ...renacuajo, riot_id: "Pozo#LAS", nombre: "Pozo", slug: "pozo-las", perfil: { icono: 12, nivel: 9 } };
+
+/** Amigos para los tops: los de `crearDatos` más renacuajo y pozo. */
+export const AMIGOS_TOPS = [...crearDatos().amigos, renacuajo, pozo];
+
+/** Una partida de un top: la de un amigo con un campeón y un KDA inventados. */
+export function partidaTop(slug, campeon_id, campeon, asesinatos, muertes, asistencias, resultado, cambios = {}) {
+  return {
+    amigos: [slug],
+    partida_id: `LA2_${campeon_id}`,
+    campeon_id,
+    campeon,
+    asesinatos,
+    muertes,
+    asistencias,
+    kda: Math.round(((asesinatos + asistencias) / Math.max(1, muertes)) * 100) / 100,
+    danio: 10000 + asesinatos * 1000,
+    resultado,
+    modo: "Clasificatoria Solo/Dúo",
+    fecha: AHORA - 3 * HORA,
+    ...cambios,
+  };
+}
+
+/** Un récord de un amigo en un top. */
+export const recordTop = (slug, victorias, derrotas) => ({
+  amigos: [slug],
+  partidas: victorias + derrotas,
+  victorias,
+  derrotas,
+  winrate: Math.round((victorias / (victorias + derrotas)) * 1000) / 10,
+});
+
+/** Los tops completos, ya ordenados como los manda el recolector. */
+export function crearTops(cambios = {}) {
+  const mejores = [
+    partidaTop("charco-las", 103, "Ahri", 15, 1, 9, "victoria"),
+    partidaTop("sapito-las", 11, "MasterYi", 12, 2, 4, "victoria"),
+    partidaTop("rana-azul-las", 51, "Caitlyn", 9, 3, 7, "derrota"),
+    partidaTop("renacuajo-las", 22, "Ashe", 6, 3, 5, "victoria"),
+    partidaTop("pozo-las", 1, "Annie", 4, 4, 4, "derrota", { danio: null }),
+  ];
+  const peores = [...mejores].reverse().map((p) => ({ ...p, resultado: "derrota" }));
+  const records = [
+    recordTop("sapito-las", 3, 1),
+    recordTop("rana-azul-las", 2, 2),
+    recordTop("charco-las", 1, 2),
+    recordTop("renacuajo-las", 1, 3),
+    recordTop("pozo-las", 0, 2),
+  ];
+  const masPartidas = [
+    recordTop("rana-azul-las", 12, 8),
+    recordTop("sapito-las", 6, 4),
+    recordTop("charco-las", 2, 3),
+    recordTop("renacuajo-las", 1, 1),
+    recordTop("pozo-las", 0, 1),
+  ];
+  return {
+    mejor_jugador_hoy: mejores,
+    peor_jugador_hoy: peores,
+    balance_hoy: records,
+    mas_partidas: masPartidas,
+    mejor_winrate: records,
+    mejor_jugador_semana: mejores,
+    peor_jugador_semana: peores,
+    mejor_jugador_mes: mejores,
+    peor_jugador_mes: peores,
+    balance_mes: records,
+    ...cambios,
+  };
+}
+
+/**
+ * Tops globales INVENTADOS (lol.json → "destacados.tops_global"): las mejores/peores partidas
+ * del período, ya ordenadas, con Charco repetido (dos partidas en distinto modo y fecha).
+ */
+export function crearTopsGlobal(cambios = {}) {
+  const mejores = [
+    partidaTop("charco-las", 103, "Ahri", 15, 1, 9, "victoria"),
+    partidaTop("charco-las", 104, "Akali", 14, 1, 8, "victoria", { modo: "ARAM", fecha: AHORA - 5 * HORA }),
+    partidaTop("sapito-las", 11, "MasterYi", 12, 2, 4, "victoria"),
+    partidaTop("rana-azul-las", 51, "Caitlyn", 9, 3, 7, "derrota"),
+    partidaTop("renacuajo-las", 22, "Ashe", 6, 3, 5, "victoria"),
+  ];
+  const peores = [...mejores].reverse().map((p) => ({ ...p, resultado: "derrota" }));
+  return {
+    mejor_jugador_hoy: mejores,
+    peor_jugador_hoy: peores,
+    mejor_jugador_semana: mejores,
+    peor_jugador_semana: peores,
+    mejor_jugador_mes: mejores,
+    peor_jugador_mes: peores,
     ...cambios,
   };
 }

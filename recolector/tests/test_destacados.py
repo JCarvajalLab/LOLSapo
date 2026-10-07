@@ -17,6 +17,7 @@ from lolsapo.destacados import (
     inicio_de_la_semana,
     inicio_del_dia,
     kda,
+    mes_a_mostrar,
 )
 from lolsapo.recolector import _elementos_usados, ejecutar
 
@@ -549,3 +550,188 @@ def test_lunes_temprano_hoy_incluye_el_domingo_pero_la_semana_no(mapa):
     assert destacados["balance_hoy"]["partidas"] == 1
     for clave in ("mas_partidas", "mejor_jugador_semana", "peor_jugador_semana"):
         assert destacados[clave] is None
+
+
+# --- Bloque "mes" -----------------------------------------------------------------------------
+
+
+def test_mes_en_curso_desde_el_dia_1_a_la_01():
+    mes = mes_a_mostrar(ms(2026, 10, 15, 15, 0))  # 15 de octubre
+    assert (mes["anio"], mes["mes"], mes["nombre"], mes["cerrado"]) == (2026, 10, "octubre", False)
+    assert mes["desde"] == ms(2026, 10, 1, 4, 0)  # 1 de octubre, 01:00 en Chile (UTC-3)
+    assert mes["hasta"] == ms(2026, 11, 1, 4, 0)
+
+
+def test_los_dias_1_a_3_se_muestra_el_mes_anterior_cerrado():
+    mes = mes_a_mostrar(ms(2026, 11, 3, 23, 0))  # 3 de noviembre, 20:00 en Chile
+    assert (mes["nombre"], mes["cerrado"]) == ("octubre", True)
+    # Desde el día 4 a la 01:00, el mes en curso.
+    mes = mes_a_mostrar(ms(2026, 11, 4, 4, 0))
+    assert (mes["nombre"], mes["cerrado"]) == ("noviembre", False)
+
+
+def test_el_dia_1_antes_de_la_01_sigue_siendo_el_mes_anterior():
+    mes = mes_a_mostrar(ms(2026, 11, 1, 3, 30))  # 1 de noviembre, 00:30 en Chile
+    assert (mes["nombre"], mes["cerrado"]) == ("octubre", False)
+
+
+def test_octubre_de_2026_no_muestra_septiembre():
+    mes = mes_a_mostrar(ms(2026, 10, 2, 15, 0))  # 2 de octubre
+    assert (mes["nombre"], mes["cerrado"]) == ("octubre", False)
+
+
+def test_enero_muestra_diciembre_del_anio_anterior():
+    mes = mes_a_mostrar(ms(2027, 1, 2, 15, 0))
+    assert (mes["anio"], mes["nombre"], mes["cerrado"]) == (2026, "diciembre", True)
+    assert mes["hasta"] == ms(2027, 1, 1, 4, 0)
+
+
+def test_bloque_del_mes_con_mejor_peor_y_balance(mapa):
+    datos = {
+        "ana": [
+            hoy_en_grupo("g1", 10, 12, 1, 8),  # 1 de octubre a las 7:00: del mes, no de hoy
+            hoy_en_grupo("g2", 2, 3, 6, 2, "derrota"),
+        ],
+        "otro": [hoy_en_grupo("g1", 10, 2, 9, 1), hoy_en_grupo("g2", 2, 5, 5, 5, "derrota")],
+        # Del 30 de septiembre: no cuenta (el mes empieza el 1 de octubre a la 01:00).
+        "beto": [hoy_en_grupo("sep", 30, 40, 0, 40, con=("beto", "ana"))],
+    }
+    destacados = calcular_destacados(datos, mapa, AHORA_MS)
+    assert destacados["mes"]["nombre"] == "octubre"
+    assert destacados["mejor_jugador_hoy"]["partida_id"] == "g2"
+    assert destacados["mejor_jugador_mes"]["partida_id"] == "g1"
+    assert destacados["mejor_jugador_mes"]["amigos"] == ["ana"]
+    assert destacados["peor_jugador_mes"]["amigos"] == ["otro"]
+    assert destacados["balance_mes"]["partidas"] == 2
+    assert destacados["balance_mes"]["victorias"] == 1
+
+
+def test_bloque_del_mes_cerrado_no_mezcla_el_mes_nuevo(mapa):
+    tres_nov = ms(2026, 11, 3, 23, 0)
+    octubre = ms(2026, 10, 20, 23, 0)
+    noviembre = ms(2026, 11, 2, 23, 0)
+
+    def en(fecha, id_p, k):
+        return grupal([{**p(id_p, 0, k=k, d=1, a=1), "fecha": fecha}], "ana", "beto")[0]
+
+    datos = {"ana": [en(octubre, "oct", 3), en(noviembre, "nov", 20)], "beto": []}
+    destacados = calcular_destacados(datos, mapa, tres_nov)
+    assert destacados["mes"]["cerrado"] is True
+    assert destacados["mejor_jugador_mes"]["partida_id"] == "oct"
+    assert destacados["balance_mes"]["partidas"] == 1
+
+
+# --- Rankings de las tarjetas (tops) ------------------------------------------------------------
+
+
+def test_top_de_mejor_y_peor_jugador_una_entrada_por_amigo(mapa):
+    trio = ("ana", "beto", "carla")
+    datos = {
+        "ana": [
+            hoy_en_grupo("g1", 3, 10, 2, 8, con=trio),
+            hoy_en_grupo("g2", 2, 1, 8, 1, con=trio),
+        ],
+        "beto": [
+            hoy_en_grupo("g1", 3, 4, 4, 4, con=trio),
+            hoy_en_grupo("g2", 2, 6, 1, 6, con=trio),
+        ],
+        "carla": [hoy_en_grupo("g1", 3, 2, 6, 3, con=trio)],
+    }
+    tops = calcular_destacados(datos, mapa, AHORA_MS)["tops"]
+    mejores = tops["mejor_jugador_hoy"]
+    # La mejor partida de cada uno: beto 12/1 (12), ana 18/2 (9), carla 5/6 (0,83).
+    assert [(e["amigos"][0], e["kda"]) for e in mejores] == [
+        ("beto", 12.0),
+        ("ana", 9.0),
+        ("carla", 0.83),
+    ]
+    assert mejores[0] == calcular_destacados(datos, mapa, AHORA_MS)["mejor_jugador_hoy"]
+    peores = tops["peor_jugador_hoy"]
+    assert [e["amigos"][0] for e in peores] == ["ana", "carla", "beto"]
+
+
+def test_top_de_records_y_partidas(mapa):
+    juntos = ("ana", "beto")
+    datos = {
+        "ana": [
+            hoy_en_grupo(f"a{i}", i, 5, 5, 5, r, con=juntos)
+            for i, r in enumerate(["victoria", "victoria", "derrota", "victoria"], 1)
+        ],
+        "beto": [hoy_en_grupo("b1", 1, 5, 5, 5, "victoria", con=juntos)],
+    }
+    tops = calcular_destacados(datos, mapa, AHORA_MS)["tops"]
+    assert [(f["amigos"][0], f["partidas"]) for f in tops["mas_partidas"]] == [
+        ("ana", 4),
+        ("beto", 1),
+    ]
+    # Mejor winrate: beto tiene 1 partida (mínimo 2): no aparece.
+    assert [(f["amigos"][0], f["winrate"]) for f in tops["mejor_winrate"]] == [("ana", 75.0)]
+    assert tops["balance_hoy"][0] == {
+        "amigos": ["ana"],
+        "partidas": 4,
+        "victorias": 3,
+        "derrotas": 1,
+        "winrate": 75.0,
+    }
+
+
+def test_tops_vacios_sin_partidas_y_como_maximo_5(mapa):
+    vacio = calcular_destacados({"a": []}, mapa, AHORA_MS)["tops"]
+    assert all(lista == [] for lista in vacio.values())
+    seis = [f"a{i}" for i in range(6)]
+    datos = {s: [hoy_en_grupo("g1", 1, 5, 5, 5, con=tuple(seis))] for s in seis}
+    assert len(calcular_destacados(datos, mapa, AHORA_MS)["tops"]["mejor_jugador_hoy"]) == 5
+
+
+def test_peor_jugador_con_empate_desempata_por_menos_danio(mapa):
+    # El caso real: tres 0/3/0 en la misma partida. Gana (como peor) el de menos daño.
+    trio = ("big", "gral", "isk")
+
+    def actuacion(danio):
+        return {**hoy_en_grupo("g1", 1, 0, 3, 0, "derrota", con=trio), "danio": danio}
+
+    datos = {"big": [actuacion(4059)], "gral": [actuacion(3618)], "isk": [actuacion(9175)]}
+    destacados = calcular_destacados(datos, mapa, AHORA_MS)
+    assert destacados["peor_jugador_hoy"]["amigos"] == ["gral"]
+    assert [e["amigos"][0] for e in destacados["tops"]["peor_jugador_hoy"]] == [
+        "gral",
+        "big",
+        "isk",
+    ]
+
+
+def test_mejor_jugador_con_empate_desempata_por_mas_danio(mapa):
+    juntos = ("ana", "beto")
+    datos = {
+        "ana": [{**hoy_en_grupo("g1", 1, 5, 1, 5, con=juntos), "danio": 20_000}],
+        "beto": [{**hoy_en_grupo("g1", 1, 5, 1, 5, con=juntos), "danio": 30_000}],
+    }
+    assert calcular_destacados(datos, mapa, AHORA_MS)["mejor_jugador_hoy"]["amigos"] == ["beto"]
+
+
+def test_sin_danio_no_gana_el_desempate(mapa):
+    juntos = ("ana", "beto")
+    datos = {
+        "ana": [{**hoy_en_grupo("g1", 1, 0, 3, 0, "derrota", con=juntos), "danio": None}],
+        "beto": [{**hoy_en_grupo("g1", 1, 0, 3, 0, "derrota", con=juntos), "danio": 5000}],
+    }
+    assert calcular_destacados(datos, mapa, AHORA_MS)["peor_jugador_hoy"]["amigos"] == ["beto"]
+
+
+def test_top_global_puede_repetir_al_mismo_amigo(mapa):
+    juntos = ("ana", "beto")
+    datos = {
+        "ana": [hoy_en_grupo(f"a{i}", i, 0, 5 + i, 0, "derrota", con=juntos) for i in range(1, 5)],
+        "beto": [hoy_en_grupo("b1", 1, 10, 1, 10, con=juntos)],
+    }
+    destacados = calcular_destacados(datos, mapa, AHORA_MS)
+    globales = destacados["tops_global"]["peor_jugador_hoy"]
+    assert [e["amigos"][0] for e in globales] == ["ana", "ana", "ana", "ana", "beto"]
+    # Más muertes primero con el mismo KDA (0).
+    assert [e["muertes"] for e in globales[:4]] == [9, 8, 7, 6]
+    # Por jugador, en cambio, una entrada por amigo.
+    assert [e["amigos"][0] for e in destacados["tops"]["peor_jugador_hoy"]] == ["ana", "beto"]
+    assert globales[0] == destacados["peor_jugador_hoy"]
+    assert set(destacados["tops_global"]) == {
+        f"{t}_jugador_{p}" for t in ("mejor", "peor") for p in ("hoy", "semana", "mes")
+    }

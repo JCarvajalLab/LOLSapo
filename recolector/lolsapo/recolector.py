@@ -509,10 +509,18 @@ def _elementos_usados(
         "peor_jugador_hoy",
         "mejor_jugador_semana",
         "peor_jugador_semana",
+        "mejor_jugador_mes",
+        "peor_jugador_mes",
     ):
         destacada = (destacados or {}).get(clave)
         if destacada:
             usados["campeones"].add(destacada["campeon_id"])
+    # Los campeones de los rankings de las tarjetas (ventana al hacer clic).
+    for grupo in ("tops", "tops_global"):
+        for entradas in ((destacados or {}).get(grupo) or {}).values():
+            for entrada in entradas:
+                if "campeon_id" in entrada:
+                    usados["campeones"].add(entrada["campeon_id"])
     for partida in en_vivo:
         for equipo in partida["equipos"]:
             usados["campeones"].update(equipo["bloqueos"])

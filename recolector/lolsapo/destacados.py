@@ -19,6 +19,14 @@ Bloque "semana" (de lunes a domingo; se reinicia el lunes a la 01:00 de Chile):
   partidas (que dicen qué amigos estaban en el equipo), no desde el registro de cada uno: así
   una partida registrada por un amigo cuenta para todos los que la jugaron.
 
+Bloque "mes" (del día 1 a la 01:00 de Chile al día 1 del mes siguiente; se actualiza durante
+todo el mes): mejor y peor jugador y balance del grupo, con las partidas en grupo del mes. Los
+días 1, 2 y 3 se muestra el mes anterior, ya cerrado, para que no quede vacío. Se cuenta desde
+octubre de 2026.
+
+Además, `tops` trae el ranking del grupo de cada tarjeta (menos las rachas), con una entrada
+por amigo: su mejor o peor partida, su récord o sus partidas en el período.
+
 Con empate exacto (después de los desempates) aparecen todos los amigos que lo ganan: lo normal,
 porque el grupo suele jugar junto.
 """
@@ -68,6 +76,62 @@ def inicio_de_la_semana(ahora_ms: int) -> int:
     if inicio > ahora:
         inicio = _a_las(inicio - timedelta(days=7), HORA_INICIO_SEMANA)
     return _ms(inicio)
+
+
+# El mes empieza el día 1 a la 01:00 de Chile (como la semana: lo jugado pasada la medianoche
+# del último día cuenta para el mes que termina). Los primeros días se muestra el anterior.
+HORA_INICIO_MES = 1
+DIAS_MES_ANTERIOR = 3
+PRIMER_MES = (2026, 10)  # antes de octubre de 2026 no hay registro completo
+MESES = (
+    "enero",
+    "febrero",
+    "marzo",
+    "abril",
+    "mayo",
+    "junio",
+    "julio",
+    "agosto",
+    "septiembre",
+    "octubre",
+    "noviembre",
+    "diciembre",
+)
+
+
+def _inicio_mes(anio: int, mes: int) -> datetime:
+    return datetime(anio, mes, 1, HORA_INICIO_MES, tzinfo=ZONA)
+
+
+def _mes_siguiente(anio: int, mes: int) -> tuple[int, int]:
+    return (anio + 1, 1) if mes == 12 else (anio, mes + 1)
+
+
+def mes_a_mostrar(ahora_ms: int) -> dict:
+    """El mes del bloque "mes": {"anio", "mes", "nombre", "desde", "hasta", "cerrado"}.
+
+    El mes en curso (con `hasta` = inicio del siguiente) o, los días 1 a 3, el anterior cerrado.
+    Nunca antes de PRIMER_MES.
+    """
+    ahora = _en_chile(ahora_ms)
+    anio, mes = ahora.year, ahora.month
+    if ahora < _inicio_mes(anio, mes):  # día 1 antes de la 01:00: sigue el mes anterior
+        anio, mes = (anio - 1, 12) if mes == 1 else (anio, mes - 1)
+    cerrado = False
+    if ahora < _inicio_mes(anio, mes) + timedelta(days=DIAS_MES_ANTERIOR):
+        anterior = (anio - 1, 12) if mes == 1 else (anio, mes - 1)
+        if anterior >= PRIMER_MES:
+            anio, mes, cerrado = *anterior, True
+    if (anio, mes) < PRIMER_MES:
+        anio, mes = PRIMER_MES
+    return {
+        "anio": anio,
+        "mes": mes,
+        "nombre": MESES[mes - 1],
+        "desde": _ms(_inicio_mes(anio, mes)),
+        "hasta": _ms(_inicio_mes(*_mes_siguiente(anio, mes))),
+        "cerrado": cerrado,
+    }
 
 
 RACHA_MINIMA = 2
@@ -208,8 +272,9 @@ def calcular_destacados(
 ) -> dict:
     hoy_desde = inicio_del_dia(ahora_ms)
     semana_desde = inicio_de_la_semana(ahora_ms)
-    # "Hoy" puede empezar antes que la semana (el lunes temprano): se leen ambos períodos.
-    desde = min(hoy_desde, semana_desde)
+    mes = mes_a_mostrar(ahora_ms)
+    # Los períodos se superponen distinto según el día: se leen todos desde el más antiguo.
+    desde = min(hoy_desde, semana_desde, mes["desde"])
     validas = {s: partidas_validas(p, mapa, desde) for s, p in partidas_por_amigo.items()}
     # Actuaciones en grupo: la partida de cada amigo, si la jugó con otro del grupo.
     en_grupo = {
@@ -220,6 +285,9 @@ def calcular_destacados(
     resumenes = {s: _resumen(p) for s, p in semana.items() if p}
     en_grupo_ordenadas = partidas_en_grupo(validas)
     en_grupo_semana = [(p, e) for p, e in en_grupo_ordenadas if p["fecha"] >= semana_desde]
+    en_el_mes = lambda f: mes["desde"] <= f < mes["hasta"]  # noqa: E731
+    del_mes = {s: [p for p in ps if en_el_mes(p["fecha"])] for s, ps in en_grupo.items()}
+    en_grupo_mes = [(p, e) for p, e in en_grupo_ordenadas if en_el_mes(p["fecha"])]
 
     return {
         "hoy_desde": hoy_desde,
@@ -241,7 +309,81 @@ def calcular_destacados(
         "racha_victorias_grupo": _racha_en_equipo(en_grupo_semana, "victoria"),
         "racha_derrotas_grupo": _racha_en_equipo(en_grupo_semana, "derrota"),
         "peor_jugador_semana": _partida_destacada(semana, mapa, mejor=False),
+        # Bloque "mes"
+        "mes": mes,
+        "mejor_jugador_mes": _partida_destacada(del_mes, mapa, mejor=True),
+        "peor_jugador_mes": _partida_destacada(del_mes, mapa, mejor=False),
+        "balance_mes": _balance(en_grupo_mes, mes["desde"]),
+        # Ranking del grupo de cada tarjeta (se ve al hacer clic en ella)
+        "tops": {
+            "mejor_jugador_hoy": _top_partidas(hoy, mapa, mejor=True),
+            "peor_jugador_hoy": _top_partidas(hoy, mapa, mejor=False),
+            "balance_hoy": _top_records(hoy, por_winrate=False),
+            "mas_partidas": _top_records(semana, por_winrate=False),
+            "mejor_winrate": _top_records(semana, minimo=MINIMO_PARTIDAS),
+            "mejor_jugador_semana": _top_partidas(semana, mapa, mejor=True),
+            "peor_jugador_semana": _top_partidas(semana, mapa, mejor=False),
+            "mejor_jugador_mes": _top_partidas(del_mes, mapa, mejor=True),
+            "peor_jugador_mes": _top_partidas(del_mes, mapa, mejor=False),
+            "balance_mes": _top_records(del_mes, por_winrate=False),
+        },
+        # Las 5 mejores/peores partidas del período, aunque se repita un amigo (pestaña "Global").
+        "tops_global": {
+            "mejor_jugador_hoy": _top_global(hoy, mapa, mejor=True),
+            "peor_jugador_hoy": _top_global(hoy, mapa, mejor=False),
+            "mejor_jugador_semana": _top_global(semana, mapa, mejor=True),
+            "peor_jugador_semana": _top_global(semana, mapa, mejor=False),
+            "mejor_jugador_mes": _top_global(del_mes, mapa, mejor=True),
+            "peor_jugador_mes": _top_global(del_mes, mapa, mejor=False),
+        },
     }
+
+
+TOP = 5
+
+
+def _top_partidas(actuaciones: dict[str, list[dict]], mapa: MapaModos, *, mejor: bool) -> list:
+    """La mejor (o peor) partida de cada amigo en el período, ordenadas como la tarjeta."""
+    primeras: dict[str, dict] = {}
+    for slug, partida in _partidas_ordenadas(actuaciones, mejor=mejor):
+        primeras.setdefault(slug, partida)
+    return [_entrada_partida(slug, partida, mapa) for slug, partida in primeras.items()][:TOP]
+
+
+def _top_global(actuaciones: dict[str, list[dict]], mapa: MapaModos, *, mejor: bool) -> list:
+    """Las mejores (o peores) partidas del período, aunque varias sean del mismo amigo."""
+    ordenadas = _partidas_ordenadas(actuaciones, mejor=mejor)[:TOP]
+    return [_entrada_partida(slug, partida, mapa) for slug, partida in ordenadas]
+
+
+def _top_records(
+    actuaciones: dict[str, list[dict]], *, minimo: int = 1, por_winrate: bool = True
+) -> list:
+    """El récord de cada amigo en el período (partidas, V, D, winrate).
+
+    Ordenado por winrate y luego partidas, o por partidas y luego winrate.
+    """
+    filas = []
+    for slug, partidas in actuaciones.items():
+        if len(partidas) < minimo:
+            continue
+        r = _resumen(partidas)
+        filas.append(
+            {
+                "amigos": [slug],
+                "partidas": r["partidas"],
+                "victorias": r["victorias"],
+                "derrotas": r["derrotas"],
+                "winrate": r["winrate"],
+            }
+        )
+
+    def orden(f: dict):
+        w = f["winrate"] if f["winrate"] is not None else -1
+        principal = (-w, -f["partidas"]) if por_winrate else (-f["partidas"], -w)
+        return (*principal, f["amigos"][0])
+
+    return sorted(filas, key=orden)[:TOP]
 
 
 def _balance(en_grupo_ordenadas: list[tuple[dict, set[str]]], desde_ms: int) -> dict | None:
@@ -274,26 +416,40 @@ def _en_grupo_actual(partida: dict, validas: dict) -> bool:
     return len(companeros(partida) & validas.keys()) >= MINIMO_EN_GRUPO
 
 
-def _partida_destacada(
-    validas: dict[str, list[dict]], mapa: MapaModos, *, mejor: bool
-) -> dict | None:
-    """La partida individual con mejor o peor KDA del grupo (gane o pierda).
+def _danio(partida: dict) -> int | None:
+    danio = partida.get("danio")
+    return danio if isinstance(danio, int) and not isinstance(danio, bool) else None
 
-    Desempates: mejor -> más asesinatos + asistencias, menos muertes, la más reciente.
-                peor  -> más muertes, la más reciente.
+
+def _orden_partida(slug: str, p: dict, *, mejor: bool) -> tuple:
+    """Orden para elegir la mejor (o peor) actuación: la primera es la que gana.
+
+    Mejor: KDA más alto, más asesinatos + asistencias, menos muertes, más daño, la más reciente.
+    Peor:  KDA más bajo, más muertes, menos daño, la más reciente.
+    Sin daño guardado, cuenta como si no desempatara (va después de las que sí lo tienen).
+    Al final, el nombre, para que el orden sea siempre el mismo.
     """
+    valor = kda(p["asesinatos"], p["muertes"], p["asistencias"])
+    danio = _danio(p)
+    if mejor:
+        return (
+            -valor,
+            -(p["asesinatos"] + p["asistencias"]),
+            p["muertes"],
+            -(danio if danio is not None else -1),
+            -p["fecha"],
+            slug,
+        )
+    return (
+        valor,
+        -p["muertes"],
+        danio if danio is not None else float("inf"),
+        -p["fecha"],
+        slug,
+    )
 
-    def orden(slug: str, p: dict):
-        valor = kda(p["asesinatos"], p["muertes"], p["asistencias"])
-        if mejor:
-            return (-valor, -(p["asesinatos"] + p["asistencias"]), p["muertes"], -p["fecha"], slug)
-        return (valor, -p["muertes"], -p["fecha"], slug)
 
-    candidatas = [(orden(s, p), s, p) for s, partidas in validas.items() for p in partidas]
-    if not candidatas:
-        return None
-    _, slug, partida = min(candidatas, key=lambda c: c[0])
-    valor = kda(partida["asesinatos"], partida["muertes"], partida["asistencias"])
+def _entrada_partida(slug: str, partida: dict, mapa: MapaModos) -> dict:
     return {
         "amigos": [slug],
         "partida_id": partida["id"],
@@ -302,10 +458,25 @@ def _partida_destacada(
         "asesinatos": partida["asesinatos"],
         "muertes": partida["muertes"],
         "asistencias": partida["asistencias"],
-        "kda": valor,
+        "kda": kda(partida["asesinatos"], partida["muertes"], partida["asistencias"]),
         "resultado": partida["resultado"],
         "modo": mapa.obtener(partida.get("queue_id")).nombre,
         "fecha": partida["fecha"],
         # Solo las partidas guardadas desde que se agregó el daño lo traen.
-        "danio": partida.get("danio") if isinstance(partida.get("danio"), int) else None,
+        "danio": _danio(partida),
     }
+
+
+def _partidas_ordenadas(
+    actuaciones: dict[str, list[dict]], *, mejor: bool
+) -> list[tuple[str, dict]]:
+    candidatas = [(s, p) for s, partidas in actuaciones.items() for p in partidas]
+    return sorted(candidatas, key=lambda c: _orden_partida(*c, mejor=mejor))
+
+
+def _partida_destacada(
+    validas: dict[str, list[dict]], mapa: MapaModos, *, mejor: bool
+) -> dict | None:
+    """La partida individual con mejor o peor KDA del grupo (gane o pierda)."""
+    ordenadas = _partidas_ordenadas(validas, mejor=mejor)
+    return _entrada_partida(*ordenadas[0], mapa) if ordenadas else None
