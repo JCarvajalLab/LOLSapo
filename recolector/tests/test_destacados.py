@@ -681,3 +681,57 @@ def test_tops_vacios_sin_partidas_y_como_maximo_5(mapa):
     seis = [f"a{i}" for i in range(6)]
     datos = {s: [hoy_en_grupo("g1", 1, 5, 5, 5, con=tuple(seis))] for s in seis}
     assert len(calcular_destacados(datos, mapa, AHORA_MS)["tops"]["mejor_jugador_hoy"]) == 5
+
+
+def test_peor_jugador_con_empate_desempata_por_menos_danio(mapa):
+    # El caso real: tres 0/3/0 en la misma partida. Gana (como peor) el de menos daño.
+    trio = ("big", "gral", "isk")
+
+    def actuacion(danio):
+        return {**hoy_en_grupo("g1", 1, 0, 3, 0, "derrota", con=trio), "danio": danio}
+
+    datos = {"big": [actuacion(4059)], "gral": [actuacion(3618)], "isk": [actuacion(9175)]}
+    destacados = calcular_destacados(datos, mapa, AHORA_MS)
+    assert destacados["peor_jugador_hoy"]["amigos"] == ["gral"]
+    assert [e["amigos"][0] for e in destacados["tops"]["peor_jugador_hoy"]] == [
+        "gral",
+        "big",
+        "isk",
+    ]
+
+
+def test_mejor_jugador_con_empate_desempata_por_mas_danio(mapa):
+    juntos = ("ana", "beto")
+    datos = {
+        "ana": [{**hoy_en_grupo("g1", 1, 5, 1, 5, con=juntos), "danio": 20_000}],
+        "beto": [{**hoy_en_grupo("g1", 1, 5, 1, 5, con=juntos), "danio": 30_000}],
+    }
+    assert calcular_destacados(datos, mapa, AHORA_MS)["mejor_jugador_hoy"]["amigos"] == ["beto"]
+
+
+def test_sin_danio_no_gana_el_desempate(mapa):
+    juntos = ("ana", "beto")
+    datos = {
+        "ana": [{**hoy_en_grupo("g1", 1, 0, 3, 0, "derrota", con=juntos), "danio": None}],
+        "beto": [{**hoy_en_grupo("g1", 1, 0, 3, 0, "derrota", con=juntos), "danio": 5000}],
+    }
+    assert calcular_destacados(datos, mapa, AHORA_MS)["peor_jugador_hoy"]["amigos"] == ["beto"]
+
+
+def test_top_global_puede_repetir_al_mismo_amigo(mapa):
+    juntos = ("ana", "beto")
+    datos = {
+        "ana": [hoy_en_grupo(f"a{i}", i, 0, 5 + i, 0, "derrota", con=juntos) for i in range(1, 5)],
+        "beto": [hoy_en_grupo("b1", 1, 10, 1, 10, con=juntos)],
+    }
+    destacados = calcular_destacados(datos, mapa, AHORA_MS)
+    globales = destacados["tops_global"]["peor_jugador_hoy"]
+    assert [e["amigos"][0] for e in globales] == ["ana", "ana", "ana", "ana", "beto"]
+    # Más muertes primero con el mismo KDA (0).
+    assert [e["muertes"] for e in globales[:4]] == [9, 8, 7, 6]
+    # Por jugador, en cambio, una entrada por amigo.
+    assert [e["amigos"][0] for e in destacados["tops"]["peor_jugador_hoy"]] == ["ana", "beto"]
+    assert globales[0] == destacados["peor_jugador_hoy"]
+    assert set(destacados["tops_global"]) == {
+        f"{t}_jugador_{p}" for t in ("mejor", "peor") for p in ("hoy", "semana", "mes")
+    }

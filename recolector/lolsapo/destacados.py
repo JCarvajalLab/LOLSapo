@@ -327,6 +327,15 @@ def calcular_destacados(
             "peor_jugador_mes": _top_partidas(del_mes, mapa, mejor=False),
             "balance_mes": _top_records(del_mes, por_winrate=False),
         },
+        # Las 5 mejores/peores partidas del período, aunque se repita un amigo (pestaña "Global").
+        "tops_global": {
+            "mejor_jugador_hoy": _top_global(hoy, mapa, mejor=True),
+            "peor_jugador_hoy": _top_global(hoy, mapa, mejor=False),
+            "mejor_jugador_semana": _top_global(semana, mapa, mejor=True),
+            "peor_jugador_semana": _top_global(semana, mapa, mejor=False),
+            "mejor_jugador_mes": _top_global(del_mes, mapa, mejor=True),
+            "peor_jugador_mes": _top_global(del_mes, mapa, mejor=False),
+        },
     }
 
 
@@ -335,18 +344,16 @@ TOP = 5
 
 def _top_partidas(actuaciones: dict[str, list[dict]], mapa: MapaModos, *, mejor: bool) -> list:
     """La mejor (o peor) partida de cada amigo en el período, ordenadas como la tarjeta."""
-    entradas = [
-        _partida_destacada({slug: partidas}, mapa, mejor=mejor)
-        for slug, partidas in actuaciones.items()
-        if partidas
-    ]
+    primeras: dict[str, dict] = {}
+    for slug, partida in _partidas_ordenadas(actuaciones, mejor=mejor):
+        primeras.setdefault(slug, partida)
+    return [_entrada_partida(slug, partida, mapa) for slug, partida in primeras.items()][:TOP]
 
-    def orden(e: dict):
-        if mejor:
-            return (-e["kda"], -(e["asesinatos"] + e["asistencias"]), e["muertes"], -e["fecha"])
-        return (e["kda"], -e["muertes"], -e["fecha"])
 
-    return sorted(entradas, key=lambda e: (*orden(e), e["amigos"][0]))[:TOP]
+def _top_global(actuaciones: dict[str, list[dict]], mapa: MapaModos, *, mejor: bool) -> list:
+    """Las mejores (o peores) partidas del período, aunque varias sean del mismo amigo."""
+    ordenadas = _partidas_ordenadas(actuaciones, mejor=mejor)[:TOP]
+    return [_entrada_partida(slug, partida, mapa) for slug, partida in ordenadas]
 
 
 def _top_records(
@@ -409,26 +416,40 @@ def _en_grupo_actual(partida: dict, validas: dict) -> bool:
     return len(companeros(partida) & validas.keys()) >= MINIMO_EN_GRUPO
 
 
-def _partida_destacada(
-    validas: dict[str, list[dict]], mapa: MapaModos, *, mejor: bool
-) -> dict | None:
-    """La partida individual con mejor o peor KDA del grupo (gane o pierda).
+def _danio(partida: dict) -> int | None:
+    danio = partida.get("danio")
+    return danio if isinstance(danio, int) and not isinstance(danio, bool) else None
 
-    Desempates: mejor -> más asesinatos + asistencias, menos muertes, la más reciente.
-                peor  -> más muertes, la más reciente.
+
+def _orden_partida(slug: str, p: dict, *, mejor: bool) -> tuple:
+    """Orden para elegir la mejor (o peor) actuación: la primera es la que gana.
+
+    Mejor: KDA más alto, más asesinatos + asistencias, menos muertes, más daño, la más reciente.
+    Peor:  KDA más bajo, más muertes, menos daño, la más reciente.
+    Sin daño guardado, cuenta como si no desempatara (va después de las que sí lo tienen).
+    Al final, el nombre, para que el orden sea siempre el mismo.
     """
+    valor = kda(p["asesinatos"], p["muertes"], p["asistencias"])
+    danio = _danio(p)
+    if mejor:
+        return (
+            -valor,
+            -(p["asesinatos"] + p["asistencias"]),
+            p["muertes"],
+            -(danio if danio is not None else -1),
+            -p["fecha"],
+            slug,
+        )
+    return (
+        valor,
+        -p["muertes"],
+        danio if danio is not None else float("inf"),
+        -p["fecha"],
+        slug,
+    )
 
-    def orden(slug: str, p: dict):
-        valor = kda(p["asesinatos"], p["muertes"], p["asistencias"])
-        if mejor:
-            return (-valor, -(p["asesinatos"] + p["asistencias"]), p["muertes"], -p["fecha"], slug)
-        return (valor, -p["muertes"], -p["fecha"], slug)
 
-    candidatas = [(orden(s, p), s, p) for s, partidas in validas.items() for p in partidas]
-    if not candidatas:
-        return None
-    _, slug, partida = min(candidatas, key=lambda c: c[0])
-    valor = kda(partida["asesinatos"], partida["muertes"], partida["asistencias"])
+def _entrada_partida(slug: str, partida: dict, mapa: MapaModos) -> dict:
     return {
         "amigos": [slug],
         "partida_id": partida["id"],
@@ -437,10 +458,25 @@ def _partida_destacada(
         "asesinatos": partida["asesinatos"],
         "muertes": partida["muertes"],
         "asistencias": partida["asistencias"],
-        "kda": valor,
+        "kda": kda(partida["asesinatos"], partida["muertes"], partida["asistencias"]),
         "resultado": partida["resultado"],
         "modo": mapa.obtener(partida.get("queue_id")).nombre,
         "fecha": partida["fecha"],
         # Solo las partidas guardadas desde que se agregó el daño lo traen.
-        "danio": partida.get("danio") if isinstance(partida.get("danio"), int) else None,
+        "danio": _danio(partida),
     }
+
+
+def _partidas_ordenadas(
+    actuaciones: dict[str, list[dict]], *, mejor: bool
+) -> list[tuple[str, dict]]:
+    candidatas = [(s, p) for s, partidas in actuaciones.items() for p in partidas]
+    return sorted(candidatas, key=lambda c: _orden_partida(*c, mejor=mejor))
+
+
+def _partida_destacada(
+    validas: dict[str, list[dict]], mapa: MapaModos, *, mejor: bool
+) -> dict | None:
+    """La partida individual con mejor o peor KDA del grupo (gane o pierda)."""
+    ordenadas = _partidas_ordenadas(validas, mejor=mejor)
+    return _entrada_partida(*ordenadas[0], mapa) if ordenadas else None
