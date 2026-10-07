@@ -28,6 +28,17 @@ export const CLAVES_MES = ["mejor_jugador_mes", "balance_mes", "peor_jugador_mes
 /** Todas las tarjetas que se validan. */
 export const CLAVES_DESTACADOS = [...CLAVES_HOY, ...CLAVES_SEMANA, ...CLAVES_MES];
 
+/**
+ * Tarjetas que abren un top 5 del grupo (lol.json → "destacados.tops"). Las rachas no:
+ * son del equipo, no de un amigo.
+ */
+export const CLAVES_TOPS = CLAVES_DESTACADOS.filter(
+  (clave) => clave !== "racha_victorias_grupo" && clave !== "racha_derrotas_grupo",
+);
+
+/** Máximo de filas de un top. */
+export const MAX_TOP = 5;
+
 /** Nombres de los meses en español, en el orden del calendario (los mismos del recolector). */
 export const MESES = [
   "enero",
@@ -117,6 +128,65 @@ function completarBalance(t, amigos) {
   const winrate = esNumero(t.winrate) ? t.winrate : (t.victorias / t.partidas) * 100;
   const jugadas = partidasPorAmigo(t.jugadas, amigos, t.partidas);
   return { partidas: t.partidas, victorias: t.victorias, derrotas: t.derrotas, winrate, amigos, jugadas };
+}
+
+/**
+ * Récord de un amigo en un top (balance, más partidas y mejor winrate): enteros coherentes
+ * (victorias + derrotas = partidas, al menos 1) y winrate de 0 a 100.
+ */
+function validarRecord(t) {
+  return validarBalance(t) && decimal(t.winrate) && t.winrate <= 100;
+}
+
+/** Tops que son de partidas (mejor y peor jugador); el resto son récords. */
+export const esTopDePartida = (clave) => VALIDADORES[clave] === validarPartida;
+
+/**
+ * Una entrada de un top validada o null: un solo slug, conocido, en `amigos`; la partida con
+ * los mismos validadores de la tarjeta y el récord solo con sus campos conocidos.
+ */
+function validarEntradaTop(clave, entrada, slugs) {
+  if (!entrada || typeof entrada !== "object" || Array.isArray(entrada)) return null;
+  const { amigos } = entrada;
+  if (!Array.isArray(amigos) || amigos.length !== 1 || !slugs.has(amigos[0])) return null;
+  if (esTopDePartida(clave)) return validarTarjeta(clave, entrada, slugs);
+  if (!validarRecord(entrada)) return null;
+  const { partidas, victorias, derrotas, winrate } = entrada;
+  return { amigos: [amigos[0]], partidas, victorias, derrotas, winrate };
+}
+
+/**
+ * Tops validados ({ clave: [entradas] } solo con las claves de `CLAVES_TOPS`) o null si el
+ * archivo no trae el campo (archivos viejos). Se respeta el orden del recolector; se
+ * descartan las entradas inválidas y las de un amigo repetido, y quedan como máximo 5.
+ */
+export function validarTops(tops, slugs) {
+  if (!tops || typeof tops !== "object" || Array.isArray(tops)) return null;
+  const resultado = {};
+  for (const clave of CLAVES_TOPS) {
+    const lista = Object.hasOwn(tops, clave) && Array.isArray(tops[clave]) ? tops[clave] : [];
+    const vistos = new Set();
+    const validas = [];
+    for (const entrada of lista) {
+      const ok = validarEntradaTop(clave, entrada, slugs);
+      if (!ok || vistos.has(ok.amigos[0])) continue;
+      vistos.add(ok.amigos[0]);
+      validas.push(ok);
+      if (validas.length === MAX_TOP) break;
+    }
+    resultado[clave] = validas;
+  }
+  return resultado;
+}
+
+/**
+ * El top de una tarjeta, o null si no se puede abrir: rachas, tarjeta vacía o vencida,
+ * archivo sin tops o lista vacía.
+ */
+export function topDe(destacados, clave) {
+  if (!CLAVES_TOPS.includes(clave) || !destacados?.[clave]) return null;
+  const lista = destacados.tops?.[clave];
+  return Array.isArray(lista) && lista.length > 0 ? lista : null;
 }
 
 // Los formatos viejos ("mejor_kda", "peor_kda", "mejor_partida", "peor_partida") se ignoran.
@@ -218,6 +288,7 @@ export function validarDestacados(destacados, amigos) {
     hoy_desde: fechaMs(destacados.hoy_desde),
     mes: validarMes(destacados.mes),
     ...tarjetas,
+    tops: validarTops(destacados.tops, slugs),
   };
 }
 
@@ -257,8 +328,8 @@ export function mesVencido(mes, ahora) {
 
 /**
  * Destacados con las tarjetas de hoy en null si su día ya terminó, las de la semana en
- * null si su semana ya terminó y las del mes en null si su mes quedó atrás. No modifica el
- * original; si nada venció, lo devuelve tal cual.
+ * null si su semana ya terminó y las del mes en null si su mes quedó atrás (sus tops también).
+ * No modifica el original; si nada venció, lo devuelve tal cual.
  */
 export function destacadosVigentes(destacados, ahora) {
   if (!destacados) return destacados;
@@ -270,6 +341,10 @@ export function destacadosVigentes(destacados, ahora) {
   if (vencidas.length === 0) return destacados;
   const vigentes = { ...destacados };
   for (const clave of vencidas) vigentes[clave] = null;
+  if (destacados.tops) {
+    vigentes.tops = { ...destacados.tops };
+    for (const clave of vencidas) if (Object.hasOwn(vigentes.tops, clave)) vigentes.tops[clave] = null;
+  }
   return vigentes;
 }
 

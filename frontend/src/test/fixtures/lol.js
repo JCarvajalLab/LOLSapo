@@ -431,3 +431,77 @@ export function crearSinergia(cambios = {}) {
     ...cambios,
   };
 }
+
+// Tops de los destacados INVENTADOS (lol.json → "destacados.tops"). Usan cinco amigos:
+// los tres de `crearDatos`, `renacuajo` y `pozo`.
+export const pozo = { ...renacuajo, riot_id: "Pozo#LAS", nombre: "Pozo", slug: "pozo-las", perfil: { icono: 12, nivel: 9 } };
+
+/** Amigos para los tops: los de `crearDatos` más renacuajo y pozo. */
+export const AMIGOS_TOPS = [...crearDatos().amigos, renacuajo, pozo];
+
+/** Una partida de un top: la de un amigo con un campeón y un KDA inventados. */
+export function partidaTop(slug, campeon_id, campeon, asesinatos, muertes, asistencias, resultado, cambios = {}) {
+  return {
+    amigos: [slug],
+    partida_id: `LA2_${campeon_id}`,
+    campeon_id,
+    campeon,
+    asesinatos,
+    muertes,
+    asistencias,
+    kda: Math.round(((asesinatos + asistencias) / Math.max(1, muertes)) * 100) / 100,
+    danio: 10000 + asesinatos * 1000,
+    resultado,
+    modo: "Clasificatoria Solo/Dúo",
+    fecha: AHORA - 3 * HORA,
+    ...cambios,
+  };
+}
+
+/** Un récord de un amigo en un top. */
+export const recordTop = (slug, victorias, derrotas) => ({
+  amigos: [slug],
+  partidas: victorias + derrotas,
+  victorias,
+  derrotas,
+  winrate: Math.round((victorias / (victorias + derrotas)) * 1000) / 10,
+});
+
+/** Los tops completos, ya ordenados como los manda el recolector. */
+export function crearTops(cambios = {}) {
+  const mejores = [
+    partidaTop("charco-las", 103, "Ahri", 15, 1, 9, "victoria"),
+    partidaTop("sapito-las", 11, "MasterYi", 12, 2, 4, "victoria"),
+    partidaTop("rana-azul-las", 51, "Caitlyn", 9, 3, 7, "derrota"),
+    partidaTop("renacuajo-las", 22, "Ashe", 6, 3, 5, "victoria"),
+    partidaTop("pozo-las", 1, "Annie", 4, 4, 4, "derrota", { danio: null }),
+  ];
+  const peores = [...mejores].reverse().map((p) => ({ ...p, resultado: "derrota" }));
+  const records = [
+    recordTop("sapito-las", 3, 1),
+    recordTop("rana-azul-las", 2, 2),
+    recordTop("charco-las", 1, 2),
+    recordTop("renacuajo-las", 1, 3),
+    recordTop("pozo-las", 0, 2),
+  ];
+  const masPartidas = [
+    recordTop("rana-azul-las", 12, 8),
+    recordTop("sapito-las", 6, 4),
+    recordTop("charco-las", 2, 3),
+    recordTop("renacuajo-las", 1, 1),
+    recordTop("pozo-las", 0, 1),
+  ];
+  return {
+    mejor_jugador_hoy: mejores,
+    peor_jugador_hoy: peores,
+    balance_hoy: records,
+    mas_partidas: masPartidas,
+    mejor_winrate: records,
+    mejor_jugador_semana: mejores,
+    peor_jugador_semana: peores,
+    mejor_jugador_mes: mejores,
+    peor_jugador_mes: peores,
+    balance_mes: records,
+    ...cambios,
+  };
+}
