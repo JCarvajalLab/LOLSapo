@@ -5183,6 +5183,102 @@
         "principal": 8005,
         "secundaria": 8200
       }
+    },
+    "LA2_1629084242": {
+      "asesinatos": 3,
+      "asistencias": 1,
+      "campeon": "Hwei",
+      "campeon_id": 910,
+      "cs": 115,
+      "danio": 9289,
+      "duracion": 895,
+      "equipo": 200,
+      "fecha": 1791423779438,
+      "hechizos": [
+        4,
+        12
+      ],
+      "id": "LA2_1629084242",
+      "items": [
+        6655,
+        3175,
+        1052,
+        1056,
+        1052,
+        0,
+        3340
+      ],
+      "muertes": 2,
+      "nivel": 11,
+      "participacion": 44,
+      "participantes": [
+        {
+          "amigo": null,
+          "campeon_id": 82,
+          "equipo": 100,
+          "nombre": "Darkest Night#1516"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 121,
+          "equipo": 100,
+          "nombre": "Kyo#俺の勝ちだ"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 61,
+          "equipo": 100,
+          "nombre": "Citoplasma#AAA"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 18,
+          "equipo": 100,
+          "nombre": "sHot0up#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 111,
+          "equipo": 100,
+          "nombre": "myliano#UCH"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 39,
+          "equipo": 200,
+          "nombre": "bladesito#RELIA"
+        },
+        {
+          "amigo": "iskrat-las",
+          "campeon_id": 113,
+          "equipo": 200,
+          "nombre": "ISkrat#LAS"
+        },
+        {
+          "amigo": "johnadis-las",
+          "campeon_id": 910,
+          "equipo": 200,
+          "nombre": "Johnadis#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 222,
+          "equipo": 200,
+          "nombre": "Hazfid#HAZ"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 3,
+          "equipo": 200,
+          "nombre": "CazaFlaquitas69#MATC5"
+        }
+      ],
+      "queue_id": 400,
+      "resultado": "derrota",
+      "runas": {
+        "principal": 8229,
+        "secundaria": 8300
+      }
     }
   },
   "perfil": {
