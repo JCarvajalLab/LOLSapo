@@ -5087,6 +5087,102 @@
         "principal": 8112,
         "secundaria": 8000
       }
+    },
+    "LA2_1629081266": {
+      "asesinatos": 0,
+      "asistencias": 0,
+      "campeon": "Akshan",
+      "campeon_id": 166,
+      "cs": 75,
+      "danio": 2041,
+      "duracion": 657,
+      "equipo": 100,
+      "fecha": 1791422552825,
+      "hechizos": [
+        4,
+        14
+      ],
+      "id": "LA2_1629081266",
+      "items": [
+        1086,
+        0,
+        3134,
+        1018,
+        1001,
+        0,
+        3340
+      ],
+      "muertes": 0,
+      "nivel": 8,
+      "participacion": 0,
+      "participantes": [
+        {
+          "amigo": null,
+          "campeon_id": 13,
+          "equipo": 100,
+          "nombre": "Citoplasma#AAA"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 517,
+          "equipo": 100,
+          "nombre": "MATATOKOS300#TOKK"
+        },
+        {
+          "amigo": "johnadis-las",
+          "campeon_id": 166,
+          "equipo": 100,
+          "nombre": "Johnadis#LAS"
+        },
+        {
+          "amigo": "iskrat-las",
+          "campeon_id": 81,
+          "equipo": 100,
+          "nombre": "ISkrat#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 235,
+          "equipo": 100,
+          "nombre": "Benelli#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 799,
+          "equipo": 200,
+          "nombre": "WiKi2391#EaSy"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 64,
+          "equipo": 200,
+          "nombre": "Soleil#Segs"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 4,
+          "equipo": 200,
+          "nombre": "Silent hill 2#cvod"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 51,
+          "equipo": 200,
+          "nombre": "Agito#Sus"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 53,
+          "equipo": 200,
+          "nombre": "TrashTierPerson#LAS"
+        }
+      ],
+      "queue_id": 400,
+      "resultado": "derrota",
+      "runas": {
+        "principal": 8005,
+        "secundaria": 8200
+      }
     }
   },
   "perfil": {
