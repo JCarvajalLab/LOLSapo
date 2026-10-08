@@ -4895,6 +4895,102 @@
         "principal": 8112,
         "secundaria": 8200
       }
+    },
+    "LA2_1629057306": {
+      "asesinatos": 17,
+      "asistencias": 13,
+      "campeon": "Vex",
+      "campeon_id": 711,
+      "cs": 240,
+      "danio": 54341,
+      "duracion": 2080,
+      "equipo": 100,
+      "fecha": 1791418894691,
+      "hechizos": [
+        4,
+        14
+      ],
+      "id": "LA2_1629057306",
+      "items": [
+        4645,
+        3157,
+        3175,
+        6655,
+        4646,
+        3089,
+        3363
+      ],
+      "muertes": 6,
+      "nivel": 18,
+      "participacion": 61,
+      "participantes": [
+        {
+          "amigo": null,
+          "campeon_id": 799,
+          "equipo": 100,
+          "nombre": "Serj Tankian#777"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 234,
+          "equipo": 100,
+          "nombre": "RICARD00#4557"
+        },
+        {
+          "amigo": "johnadis-las",
+          "campeon_id": 711,
+          "equipo": 100,
+          "nombre": "Johnadis#LAS"
+        },
+        {
+          "amigo": "iskrat-las",
+          "campeon_id": 51,
+          "equipo": 100,
+          "nombre": "ISkrat#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 89,
+          "equipo": 100,
+          "nombre": "KURO QQQQQQ#6735"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 104,
+          "equipo": 200,
+          "nombre": "Gravinho#PPG"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 246,
+          "equipo": 200,
+          "nombre": "Kassadinho#ppg"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 238,
+          "equipo": 200,
+          "nombre": "ElmiilløR Fanbøy#SAD"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 50,
+          "equipo": 200,
+          "nombre": "Rudo Surebrec#Keyt"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 412,
+          "equipo": 200,
+          "nombre": "5Derrek#RNM"
+        }
+      ],
+      "queue_id": 400,
+      "resultado": "derrota",
+      "runas": {
+        "principal": 8112,
+        "secundaria": 8200
+      }
     }
   },
   "perfil": {
