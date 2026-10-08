@@ -4991,6 +4991,102 @@
         "principal": 8112,
         "secundaria": 8200
       }
+    },
+    "LA2_1629068252": {
+      "asesinatos": 14,
+      "asistencias": 6,
+      "campeon": "Locke",
+      "campeon_id": 805,
+      "cs": 181,
+      "danio": 32470,
+      "duracion": 1835,
+      "equipo": 100,
+      "fecha": 1791421224649,
+      "hechizos": [
+        4,
+        14
+      ],
+      "id": "LA2_1629068252",
+      "items": [
+        3100,
+        2055,
+        3175,
+        4646,
+        3102,
+        4645,
+        3363
+      ],
+      "muertes": 4,
+      "nivel": 17,
+      "participacion": 48,
+      "participantes": [
+        {
+          "amigo": null,
+          "campeon_id": 122,
+          "equipo": 100,
+          "nombre": "Wifey 愛#Lucas"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 102,
+          "equipo": 100,
+          "nombre": "FercaderReal#pati"
+        },
+        {
+          "amigo": "johnadis-las",
+          "campeon_id": 805,
+          "equipo": 100,
+          "nombre": "Johnadis#LAS"
+        },
+        {
+          "amigo": "iskrat-las",
+          "campeon_id": 81,
+          "equipo": 100,
+          "nombre": "ISkrat#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 412,
+          "equipo": 100,
+          "nombre": "Sha07#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 897,
+          "equipo": 200,
+          "nombre": "pancito tostado0#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 904,
+          "equipo": 200,
+          "nombre": "rodeadoDprimates#gug"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 84,
+          "equipo": 200,
+          "nombre": "Alvaro2415#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 51,
+          "equipo": 200,
+          "nombre": "SPANKY TU TILINA#030"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 517,
+          "equipo": 200,
+          "nombre": "Chibolo#VKT"
+        }
+      ],
+      "queue_id": 400,
+      "resultado": "victoria",
+      "runas": {
+        "principal": 8112,
+        "secundaria": 8000
+      }
     }
   },
   "perfil": {
