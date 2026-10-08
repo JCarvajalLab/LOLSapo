@@ -5375,6 +5375,102 @@
         "principal": 8112,
         "secundaria": 8200
       }
+    },
+    "LA2_1629262372": {
+      "asesinatos": 3,
+      "asistencias": 0,
+      "campeon": "Locke",
+      "campeon_id": 805,
+      "cs": 36,
+      "danio": 2668,
+      "duracion": 459,
+      "equipo": 200,
+      "fecha": 1791502225355,
+      "hechizos": [
+        4,
+        14
+      ],
+      "id": "LA2_1629262372",
+      "items": [
+        1056,
+        0,
+        1001,
+        3145,
+        0,
+        0,
+        3340
+      ],
+      "muertes": 1,
+      "nivel": 6,
+      "participacion": 25,
+      "participantes": [
+        {
+          "amigo": null,
+          "campeon_id": 98,
+          "equipo": 100,
+          "nombre": "Galtyeh Sedai#4286"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 107,
+          "equipo": 100,
+          "nombre": "brockk#2887"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 238,
+          "equipo": 100,
+          "nombre": "Alan Wake#HEX"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 81,
+          "equipo": 100,
+          "nombre": "Jungle Pocket#PER"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 37,
+          "equipo": 100,
+          "nombre": "Karigura#SettD"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 82,
+          "equipo": 200,
+          "nombre": "NothingN New#New"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 72,
+          "equipo": 200,
+          "nombre": "HECKCW#LAN9"
+        },
+        {
+          "amigo": "johnadis-las",
+          "campeon_id": 805,
+          "equipo": 200,
+          "nombre": "Johnadis#LAS"
+        },
+        {
+          "amigo": "iskrat-las",
+          "campeon_id": 15,
+          "equipo": 200,
+          "nombre": "ISkrat#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 142,
+          "equipo": 200,
+          "nombre": "Wichipirichi#LoL"
+        }
+      ],
+      "queue_id": 400,
+      "resultado": "victoria",
+      "runas": {
+        "principal": 8112,
+        "secundaria": 8000
+      }
     }
   },
   "perfil": {
