@@ -4511,6 +4511,102 @@
         "principal": 8439,
         "secundaria": 8300
       }
+    },
+    "LA2_1629093549": {
+      "asesinatos": 24,
+      "asistencias": 2,
+      "campeon": "MasterYi",
+      "campeon_id": 11,
+      "cs": 292,
+      "danio": 49291,
+      "duracion": 2210,
+      "equipo": 200,
+      "fecha": 1791426555123,
+      "hechizos": [
+        11,
+        4
+      ],
+      "id": "LA2_1629093549",
+      "items": [
+        6676,
+        6672,
+        3008,
+        3031,
+        3036,
+        3153,
+        3364
+      ],
+      "muertes": 5,
+      "nivel": 18,
+      "participacion": 65,
+      "participantes": [
+        {
+          "amigo": null,
+          "campeon_id": 41,
+          "equipo": 100,
+          "nombre": "myliano#UCH"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 141,
+          "equipo": 100,
+          "nombre": "Sniper 愛#Rossi"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 238,
+          "equipo": 100,
+          "nombre": "Kyo#俺の勝ちだ"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 22,
+          "equipo": 100,
+          "nombre": "FercaderReal#pati"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 63,
+          "equipo": 100,
+          "nombre": "Wifey 愛#Lucas"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 875,
+          "equipo": 200,
+          "nombre": "Shogunn#8476"
+        },
+        {
+          "amigo": "nic-las",
+          "campeon_id": 11,
+          "equipo": 200,
+          "nombre": "Nicø#LAS"
+        },
+        {
+          "amigo": "johnadis-las",
+          "campeon_id": 711,
+          "equipo": 200,
+          "nombre": "Johnadis#LAS"
+        },
+        {
+          "amigo": "iskrat-las",
+          "campeon_id": 202,
+          "equipo": 200,
+          "nombre": "ISkrat#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 902,
+          "equipo": 200,
+          "nombre": "pastelito#mimi"
+        }
+      ],
+      "queue_id": 400,
+      "resultado": "victoria",
+      "runas": {
+        "principal": 9923,
+        "secundaria": 8000
+      }
     }
   },
   "perfil": {
