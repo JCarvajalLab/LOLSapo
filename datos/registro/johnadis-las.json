@@ -5471,6 +5471,102 @@
         "principal": 8112,
         "secundaria": 8000
       }
+    },
+    "LA2_1629265105": {
+      "asesinatos": 5,
+      "asistencias": 4,
+      "campeon": "Locke",
+      "campeon_id": 805,
+      "cs": 206,
+      "danio": 19141,
+      "duracion": 1944,
+      "equipo": 100,
+      "fecha": 1791504626313,
+      "hechizos": [
+        4,
+        14
+      ],
+      "id": "LA2_1629265105",
+      "items": [
+        4646,
+        4645,
+        3135,
+        2022,
+        3173,
+        0,
+        3363
+      ],
+      "muertes": 6,
+      "nivel": 16,
+      "participacion": 31,
+      "participantes": [
+        {
+          "amigo": null,
+          "campeon_id": 75,
+          "equipo": 100,
+          "nombre": "Jim Halpert#1210"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 203,
+          "equipo": 100,
+          "nombre": "C0cAIneBeaR#BOB"
+        },
+        {
+          "amigo": "johnadis-las",
+          "campeon_id": 805,
+          "equipo": 100,
+          "nombre": "Johnadis#LAS"
+        },
+        {
+          "amigo": "iskrat-las",
+          "campeon_id": 81,
+          "equipo": 100,
+          "nombre": "ISkrat#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 142,
+          "equipo": 100,
+          "nombre": "Wichipirichi#LoL"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 82,
+          "equipo": 200,
+          "nombre": "R0COS0#ATP"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 121,
+          "equipo": 200,
+          "nombre": "Bloodhound#CPPLS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 777,
+          "equipo": 200,
+          "nombre": "Jerelolx3#Zoe"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 55,
+          "equipo": 200,
+          "nombre": "Joey Tribbiani#ML164"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 57,
+          "equipo": 200,
+          "nombre": "ROMAN#indio"
+        }
+      ],
+      "queue_id": 400,
+      "resultado": "derrota",
+      "runas": {
+        "principal": 8112,
+        "secundaria": 8000
+      }
     }
   },
   "perfil": {
