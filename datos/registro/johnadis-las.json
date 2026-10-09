@@ -5567,6 +5567,102 @@
         "principal": 8112,
         "secundaria": 8000
       }
+    },
+    "LA2_1629275691": {
+      "asesinatos": 20,
+      "asistencias": 16,
+      "campeon": "Viktor",
+      "campeon_id": 112,
+      "cs": 384,
+      "danio": 92922,
+      "duracion": 2849,
+      "equipo": 100,
+      "fecha": 1791507991958,
+      "hechizos": [
+        4,
+        12
+      ],
+      "id": "LA2_1629275691",
+      "items": [
+        6653,
+        3157,
+        3175,
+        3089,
+        3100,
+        4645,
+        3364
+      ],
+      "muertes": 6,
+      "nivel": 18,
+      "participacion": 61,
+      "participantes": [
+        {
+          "amigo": null,
+          "campeon_id": 41,
+          "equipo": 100,
+          "nombre": "Haler#LAS"
+        },
+        {
+          "amigo": "nic-las",
+          "campeon_id": 24,
+          "equipo": 100,
+          "nombre": "Nicø#LAS"
+        },
+        {
+          "amigo": "johnadis-las",
+          "campeon_id": 112,
+          "equipo": 100,
+          "nombre": "Johnadis#LAS"
+        },
+        {
+          "amigo": "iskrat-las",
+          "campeon_id": 51,
+          "equipo": 100,
+          "nombre": "ISkrat#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 235,
+          "equipo": 100,
+          "nombre": "北海虽赊#桑榆非晚"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 14,
+          "equipo": 200,
+          "nombre": "Jim Halpert#1210"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 203,
+          "equipo": 200,
+          "nombre": "Arvboy#TCO"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 13,
+          "equipo": 200,
+          "nombre": "Our Future#4185"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 246,
+          "equipo": 200,
+          "nombre": "costearremix#3845"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 76,
+          "equipo": 200,
+          "nombre": "el que todo love#123"
+        }
+      ],
+      "queue_id": 400,
+      "resultado": "derrota",
+      "runas": {
+        "principal": 8992,
+        "secundaria": 8000
+      }
     }
   },
   "perfil": {
