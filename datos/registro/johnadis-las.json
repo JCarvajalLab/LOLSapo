@@ -5855,6 +5855,102 @@
         "principal": 8992,
         "secundaria": 8000
       }
+    },
+    "LA2_1629318439": {
+      "asesinatos": 6,
+      "asistencias": 16,
+      "campeon": "Viktor",
+      "campeon_id": 112,
+      "cs": 342,
+      "danio": 66130,
+      "duracion": 2447,
+      "equipo": 200,
+      "fecha": 1791515719951,
+      "hechizos": [
+        4,
+        12
+      ],
+      "id": "LA2_1629318439",
+      "items": [
+        6655,
+        3157,
+        3135,
+        4645,
+        3175,
+        1058,
+        3363
+      ],
+      "muertes": 5,
+      "nivel": 18,
+      "participacion": 67,
+      "participantes": [
+        {
+          "amigo": null,
+          "campeon_id": 84,
+          "equipo": 100,
+          "nombre": "Galletita#PdeA"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 77,
+          "equipo": 100,
+          "nombre": "AxelSout#exa"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 91,
+          "equipo": 100,
+          "nombre": "BigsJ729#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 51,
+          "equipo": 100,
+          "nombre": "Youngoro24#2005"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 50,
+          "equipo": 100,
+          "nombre": "aguschuky#LAS"
+        },
+        {
+          "amigo": "big-gato-las",
+          "campeon_id": 516,
+          "equipo": 200,
+          "nombre": "Big Gato#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 421,
+          "equipo": 200,
+          "nombre": "FeloSd#FAS"
+        },
+        {
+          "amigo": "johnadis-las",
+          "campeon_id": 112,
+          "equipo": 200,
+          "nombre": "Johnadis#LAS"
+        },
+        {
+          "amigo": "iskrat-las",
+          "campeon_id": 18,
+          "equipo": 200,
+          "nombre": "ISkrat#LAS"
+        },
+        {
+          "amigo": "nic-las",
+          "campeon_id": 44,
+          "equipo": 200,
+          "nombre": "Nicø#LAS"
+        }
+      ],
+      "queue_id": 400,
+      "resultado": "victoria",
+      "runas": {
+        "principal": 8992,
+        "secundaria": 8000
+      }
     }
   },
   "perfil": {
