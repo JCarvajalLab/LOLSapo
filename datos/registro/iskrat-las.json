@@ -6047,6 +6047,102 @@
         "principal": 8005,
         "secundaria": 8100
       }
+    },
+    "LA2_1629338018": {
+      "asesinatos": 6,
+      "asistencias": 16,
+      "campeon": "Ziggs",
+      "campeon_id": 115,
+      "cs": 202,
+      "danio": 42126,
+      "duracion": 2098,
+      "equipo": 100,
+      "fecha": 1791518379999,
+      "hechizos": [
+        4,
+        12
+      ],
+      "id": "LA2_1629338018",
+      "items": [
+        1056,
+        2503,
+        3040,
+        3175,
+        4645,
+        1052,
+        3340
+      ],
+      "muertes": 7,
+      "nivel": 17,
+      "participacion": 51,
+      "participantes": [
+        {
+          "amigo": "gralmogeko-las",
+          "campeon_id": 72,
+          "equipo": 100,
+          "nombre": "GralMogeko#LAS"
+        },
+        {
+          "amigo": "johnadis-las",
+          "campeon_id": 33,
+          "equipo": 100,
+          "nombre": "Johnadis#LAS"
+        },
+        {
+          "amigo": "iskrat-las",
+          "campeon_id": 115,
+          "equipo": 100,
+          "nombre": "ISkrat#LAS"
+        },
+        {
+          "amigo": "nic-las",
+          "campeon_id": 498,
+          "equipo": 100,
+          "nombre": "Nicø#LAS"
+        },
+        {
+          "amigo": "big-gato-las",
+          "campeon_id": 89,
+          "equipo": 100,
+          "nombre": "Big Gato#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 41,
+          "equipo": 200,
+          "nombre": "Morï Buntaro#JEAN"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 120,
+          "equipo": 200,
+          "nombre": "Tokitou#Mist"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 38,
+          "equipo": 200,
+          "nombre": "안녕 마크#AO3"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 96,
+          "equipo": 200,
+          "nombre": "zoipapuklasista#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 12,
+          "equipo": 200,
+          "nombre": "Arbusto PinoShen#LAS"
+        }
+      ],
+      "queue_id": 400,
+      "resultado": "victoria",
+      "runas": {
+        "principal": 8229,
+        "secundaria": 8000
+      }
     }
   },
   "perfil": {
