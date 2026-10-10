@@ -6239,6 +6239,102 @@
         "principal": 8229,
         "secundaria": 8000
       }
+    },
+    "LA2_1629524751": {
+      "asesinatos": 2,
+      "asistencias": 2,
+      "campeon": "Tristana",
+      "campeon_id": 18,
+      "cs": 190,
+      "danio": 5528,
+      "duracion": 1664,
+      "equipo": 100,
+      "fecha": 1791601795887,
+      "hechizos": [
+        4,
+        1
+      ],
+      "id": "LA2_1629524751",
+      "items": [
+        1086,
+        6676,
+        6675,
+        1038,
+        1018,
+        0,
+        3340
+      ],
+      "muertes": 6,
+      "nivel": 13,
+      "participacion": 27,
+      "participantes": [
+        {
+          "amigo": "big-gato-las",
+          "campeon_id": 58,
+          "equipo": 100,
+          "nombre": "Big Gato#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 141,
+          "equipo": 100,
+          "nombre": "Yo vs 9 pelotu2#ff15"
+        },
+        {
+          "amigo": "johnadis-las",
+          "campeon_id": 805,
+          "equipo": 100,
+          "nombre": "Johnadis#LAS"
+        },
+        {
+          "amigo": "iskrat-las",
+          "campeon_id": 18,
+          "equipo": 100,
+          "nombre": "ISkrat#LAS"
+        },
+        {
+          "amigo": "nic-las",
+          "campeon_id": 143,
+          "equipo": 100,
+          "nombre": "Nicø#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 79,
+          "equipo": 200,
+          "nombre": "pedroben10xD#GANAR"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 122,
+          "equipo": 200,
+          "nombre": "Zeta#346CG"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 84,
+          "equipo": 200,
+          "nombre": "minicasquitolvl3#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 202,
+          "equipo": 200,
+          "nombre": "radiohead#mfpl"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 142,
+          "equipo": 200,
+          "nombre": "Wichipirichi#LoL"
+        }
+      ],
+      "queue_id": 400,
+      "resultado": "derrota",
+      "runas": {
+        "principal": 8008,
+        "secundaria": 8100
+      }
     }
   },
   "perfil": {
