@@ -6623,6 +6623,102 @@
         "principal": 8229,
         "secundaria": 8000
       }
+    },
+    "LA2_1629571870": {
+      "asesinatos": 2,
+      "asistencias": 1,
+      "campeon": "Tristana",
+      "campeon_id": 18,
+      "cs": 258,
+      "danio": 9997,
+      "duracion": 2130,
+      "equipo": 100,
+      "fecha": 1791611695826,
+      "hechizos": [
+        4,
+        21
+      ],
+      "id": "LA2_1629571870",
+      "items": [
+        1086,
+        3032,
+        6675,
+        3031,
+        3035,
+        0,
+        3340
+      ],
+      "muertes": 6,
+      "nivel": 15,
+      "participacion": 23,
+      "participantes": [
+        {
+          "amigo": null,
+          "campeon_id": 68,
+          "equipo": 100,
+          "nombre": "Eduado Niuguéito#Shhhh"
+        },
+        {
+          "amigo": "big-gato-las",
+          "campeon_id": 31,
+          "equipo": 100,
+          "nombre": "Big Gato#LAS"
+        },
+        {
+          "amigo": "johnadis-las",
+          "campeon_id": 112,
+          "equipo": 100,
+          "nombre": "Johnadis#LAS"
+        },
+        {
+          "amigo": "iskrat-las",
+          "campeon_id": 18,
+          "equipo": 100,
+          "nombre": "ISkrat#LAS"
+        },
+        {
+          "amigo": "nic-las",
+          "campeon_id": 44,
+          "equipo": 100,
+          "nombre": "Nicø#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 79,
+          "equipo": 200,
+          "nombre": "Mirrro#RRR"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 113,
+          "equipo": 200,
+          "nombre": "Almaster#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 910,
+          "equipo": 200,
+          "nombre": "Clomifenovaron#200MG"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 51,
+          "equipo": 200,
+          "nombre": "shaolo#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 902,
+          "equipo": 200,
+          "nombre": "Coovarto#oover"
+        }
+      ],
+      "queue_id": 400,
+      "resultado": "derrota",
+      "runas": {
+        "principal": 8008,
+        "secundaria": 8100
+      }
     }
   },
   "perfil": {
