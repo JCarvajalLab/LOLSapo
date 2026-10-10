@@ -5087,6 +5087,102 @@
         "principal": 8008,
         "secundaria": 8300
       }
+    },
+    "LA2_1629516024": {
+      "asesinatos": 7,
+      "asistencias": 8,
+      "campeon": "Shaco",
+      "campeon_id": 35,
+      "cs": 177,
+      "danio": 15274,
+      "duracion": 1660,
+      "equipo": 100,
+      "fecha": 1791599678208,
+      "hechizos": [
+        11,
+        14
+      ],
+      "id": "LA2_1629516024",
+      "items": [
+        3006,
+        3179,
+        6699,
+        6676,
+        6670,
+        0,
+        3340
+      ],
+      "muertes": 3,
+      "nivel": 16,
+      "participacion": 58,
+      "participantes": [
+        {
+          "amigo": null,
+          "campeon_id": 114,
+          "equipo": 100,
+          "nombre": "Hide on blud#HGK"
+        },
+        {
+          "amigo": "nic-las",
+          "campeon_id": 35,
+          "equipo": 100,
+          "nombre": "Nicø#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 777,
+          "equipo": 100,
+          "nombre": "etherealTWIN#bop"
+        },
+        {
+          "amigo": "iskrat-las",
+          "campeon_id": 115,
+          "equipo": 100,
+          "nombre": "ISkrat#LAS"
+        },
+        {
+          "amigo": "johnadis-las",
+          "campeon_id": 57,
+          "equipo": 100,
+          "nombre": "Johnadis#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 904,
+          "equipo": 200,
+          "nombre": "quetro lazo#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 517,
+          "equipo": 200,
+          "nombre": "CaramelMacchiato#GLCFF"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 105,
+          "equipo": 200,
+          "nombre": "Santa Ana#GLCFF"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 523,
+          "equipo": 200,
+          "nombre": "Mokaccino#GLCFF"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 267,
+          "equipo": 200,
+          "nombre": "ElCaféMasDulce#Alt"
+        }
+      ],
+      "queue_id": 400,
+      "resultado": "derrota",
+      "runas": {
+        "principal": 9923,
+        "secundaria": 8000
+      }
     }
   },
   "perfil": {
