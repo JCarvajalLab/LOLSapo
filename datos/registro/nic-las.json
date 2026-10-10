@@ -5279,6 +5279,102 @@
         "principal": 8229,
         "secundaria": 8300
       }
+    },
+    "LA2_1629536767": {
+      "asesinatos": 1,
+      "asistencias": 7,
+      "campeon": "Blitzcrank",
+      "campeon_id": 53,
+      "cs": 38,
+      "danio": 7524,
+      "duracion": 2354,
+      "equipo": 200,
+      "fecha": 1791604468117,
+      "hechizos": [
+        14,
+        4
+      ],
+      "id": "LA2_1629536767",
+      "items": [
+        3190,
+        3009,
+        3110,
+        2524,
+        0,
+        3876,
+        3364
+      ],
+      "muertes": 8,
+      "nivel": 14,
+      "participacion": 33,
+      "participantes": [
+        {
+          "amigo": null,
+          "campeon_id": 24,
+          "equipo": 100,
+          "nombre": "Weel#ZAZA"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 950,
+          "equipo": 100,
+          "nombre": "Garredox#123"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 517,
+          "equipo": 100,
+          "nombre": "ˉˉˉ#DEV"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 145,
+          "equipo": 100,
+          "nombre": "WovenDrake#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 99,
+          "equipo": 100,
+          "nombre": "Akhilleus#ARG"
+        },
+        {
+          "amigo": "big-gato-las",
+          "campeon_id": 48,
+          "equipo": 200,
+          "nombre": "Big Gato#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 35,
+          "equipo": 200,
+          "nombre": "KPG Peak0ck#SEED"
+        },
+        {
+          "amigo": "johnadis-las",
+          "campeon_id": 112,
+          "equipo": 200,
+          "nombre": "Johnadis#LAS"
+        },
+        {
+          "amigo": "iskrat-las",
+          "campeon_id": 21,
+          "equipo": 200,
+          "nombre": "ISkrat#LAS"
+        },
+        {
+          "amigo": "nic-las",
+          "campeon_id": 53,
+          "equipo": 200,
+          "nombre": "Nicø#LAS"
+        }
+      ],
+      "queue_id": 400,
+      "resultado": "derrota",
+      "runas": {
+        "principal": 8351,
+        "secundaria": 8200
+      }
     }
   },
   "perfil": {
