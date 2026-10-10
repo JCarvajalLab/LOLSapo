@@ -6527,6 +6527,102 @@
         "principal": 8010,
         "secundaria": 8300
       }
+    },
+    "LA2_1629565455": {
+      "asesinatos": 9,
+      "asistencias": 9,
+      "campeon": "Ziggs",
+      "campeon_id": 115,
+      "cs": 196,
+      "danio": 22773,
+      "duracion": 1737,
+      "equipo": 100,
+      "fecha": 1791609201674,
+      "hechizos": [
+        4,
+        12
+      ],
+      "id": "LA2_1629565455",
+      "items": [
+        1056,
+        3157,
+        3089,
+        2503,
+        0,
+        0,
+        3340
+      ],
+      "muertes": 7,
+      "nivel": 15,
+      "participacion": 64,
+      "participantes": [
+        {
+          "amigo": "big-gato-las",
+          "campeon_id": 54,
+          "equipo": 100,
+          "nombre": "Big Gato#LAS"
+        },
+        {
+          "amigo": "nic-las",
+          "campeon_id": 11,
+          "equipo": 100,
+          "nombre": "Nicø#LAS"
+        },
+        {
+          "amigo": "johnadis-las",
+          "campeon_id": 268,
+          "equipo": 100,
+          "nombre": "Johnadis#LAS"
+        },
+        {
+          "amigo": "iskrat-las",
+          "campeon_id": 115,
+          "equipo": 100,
+          "nombre": "ISkrat#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 111,
+          "equipo": 100,
+          "nombre": "srdelamuerte#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 82,
+          "equipo": 200,
+          "nombre": "WhodHod21#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 107,
+          "equipo": 200,
+          "nombre": "ChilenitoWnQiaoo#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 157,
+          "equipo": 200,
+          "nombre": "TheDonGato#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 145,
+          "equipo": 200,
+          "nombre": "Guzzman#Ing"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 63,
+          "equipo": 200,
+          "nombre": "Crowllex#LAS"
+        }
+      ],
+      "queue_id": 400,
+      "resultado": "derrota",
+      "runas": {
+        "principal": 8229,
+        "secundaria": 8000
+      }
     }
   },
   "perfil": {
