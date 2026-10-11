@@ -4412,6 +4412,102 @@
         "principal": 8229,
         "secundaria": 8100
       }
+    },
+    "LA2_1629814650": {
+      "asesinatos": 17,
+      "asistencias": 11,
+      "campeon": "Veigar",
+      "campeon_id": 45,
+      "cs": 299,
+      "danio": 45439,
+      "duracion": 2242,
+      "equipo": 200,
+      "fecha": 1791701233695,
+      "hechizos": [
+        12,
+        4
+      ],
+      "id": "LA2_1629814650",
+      "items": [
+        3135,
+        3089,
+        6655,
+        4646,
+        3041,
+        3157,
+        3363
+      ],
+      "muertes": 8,
+      "nivel": 18,
+      "participacion": 56,
+      "participantes": [
+        {
+          "amigo": null,
+          "campeon_id": 904,
+          "equipo": 100,
+          "nombre": "BALLADS1#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 141,
+          "equipo": 100,
+          "nombre": "Caeelum#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 555,
+          "equipo": 100,
+          "nombre": "Kelo#Phos"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 21,
+          "equipo": 100,
+          "nombre": "Patas De Pollo#POLLO"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 32,
+          "equipo": 100,
+          "nombre": "Leonidas#LLA"
+        },
+        {
+          "amigo": "johnadis-las",
+          "campeon_id": 875,
+          "equipo": 200,
+          "nombre": "Johnadis#LAS"
+        },
+        {
+          "amigo": "iskrat-las",
+          "campeon_id": 72,
+          "equipo": 200,
+          "nombre": "ISkrat#LAS"
+        },
+        {
+          "amigo": "nic-las",
+          "campeon_id": 238,
+          "equipo": 200,
+          "nombre": "Nicø#LAS"
+        },
+        {
+          "amigo": "big-gato-las",
+          "campeon_id": 45,
+          "equipo": 200,
+          "nombre": "Big Gato#LAS"
+        },
+        {
+          "amigo": "gralmogeko-las",
+          "campeon_id": 115,
+          "equipo": 200,
+          "nombre": "GralMogeko#LAS"
+        }
+      ],
+      "queue_id": 400,
+      "resultado": "victoria",
+      "runas": {
+        "principal": 8369,
+        "secundaria": 8200
+      }
     }
   },
   "perfil": {
