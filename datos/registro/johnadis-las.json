@@ -7007,6 +7007,102 @@
         "principal": 8369,
         "secundaria": 8200
       }
+    },
+    "LA2_1629809278": {
+      "asesinatos": 6,
+      "asistencias": 9,
+      "campeon": "Shyvana",
+      "campeon_id": 102,
+      "cs": 239,
+      "danio": 17964,
+      "duracion": 1874,
+      "equipo": 200,
+      "fecha": 1791698580389,
+      "hechizos": [
+        4,
+        11
+      ],
+      "id": "LA2_1629809278",
+      "items": [
+        4633,
+        6653,
+        3047,
+        3161,
+        8010,
+        1043,
+        3364
+      ],
+      "muertes": 2,
+      "nivel": 17,
+      "participacion": 33,
+      "participantes": [
+        {
+          "amigo": null,
+          "campeon_id": 42,
+          "equipo": 100,
+          "nombre": "Mitridan#Mitri"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 91,
+          "equipo": 100,
+          "nombre": "LentejasHater#1970"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 800,
+          "equipo": 100,
+          "nombre": "BirdieAP#Yuumi"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 145,
+          "equipo": 100,
+          "nombre": "Noys#LASS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 147,
+          "equipo": 100,
+          "nombre": "Momonga#mitte"
+        },
+        {
+          "amigo": "gralmogeko-las",
+          "campeon_id": 166,
+          "equipo": 200,
+          "nombre": "GralMogeko#LAS"
+        },
+        {
+          "amigo": "johnadis-las",
+          "campeon_id": 102,
+          "equipo": 200,
+          "nombre": "Johnadis#LAS"
+        },
+        {
+          "amigo": "iskrat-las",
+          "campeon_id": 115,
+          "equipo": 200,
+          "nombre": "ISkrat#LAS"
+        },
+        {
+          "amigo": "nic-las",
+          "campeon_id": 360,
+          "equipo": 200,
+          "nombre": "Nicø#LAS"
+        },
+        {
+          "amigo": "big-gato-las",
+          "campeon_id": 57,
+          "equipo": 200,
+          "nombre": "Big Gato#LAS"
+        }
+      ],
+      "queue_id": 400,
+      "resultado": "victoria",
+      "runas": {
+        "principal": 8010,
+        "secundaria": 8300
+      }
     }
   },
   "perfil": {
