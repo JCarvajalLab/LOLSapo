@@ -7007,6 +7007,102 @@
         "principal": 8214,
         "secundaria": 8400
       }
+    },
+    "LA2_1629795553": {
+      "asesinatos": 13,
+      "asistencias": 16,
+      "campeon": "Caitlyn",
+      "campeon_id": 51,
+      "cs": 257,
+      "danio": 49684,
+      "duracion": 2541,
+      "equipo": 100,
+      "fecha": 1791696318399,
+      "hechizos": [
+        4,
+        21
+      ],
+      "id": "LA2_1629795553",
+      "items": [
+        1086,
+        2523,
+        3094,
+        3031,
+        3036,
+        6676,
+        3340
+      ],
+      "muertes": 2,
+      "nivel": 18,
+      "participacion": 45,
+      "participantes": [
+        {
+          "amigo": "big-gato-las",
+          "campeon_id": 223,
+          "equipo": 100,
+          "nombre": "Big Gato#LAS"
+        },
+        {
+          "amigo": "gralmogeko-las",
+          "campeon_id": 74,
+          "equipo": 100,
+          "nombre": "GralMogeko#LAS"
+        },
+        {
+          "amigo": "johnadis-las",
+          "campeon_id": 134,
+          "equipo": 100,
+          "nombre": "Johnadis#LAS"
+        },
+        {
+          "amigo": "iskrat-las",
+          "campeon_id": 51,
+          "equipo": 100,
+          "nombre": "ISkrat#LAS"
+        },
+        {
+          "amigo": "nic-las",
+          "campeon_id": 25,
+          "equipo": 100,
+          "nombre": "Nicø#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 157,
+          "equipo": 200,
+          "nombre": "ffkgny1#001"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 126,
+          "equipo": 200,
+          "nombre": "El Watón Cerveza#LtsGo"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 61,
+          "equipo": 200,
+          "nombre": "MUALANI#Egirl"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 222,
+          "equipo": 200,
+          "nombre": "Tharkun#Ako"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 12,
+          "equipo": 200,
+          "nombre": "MentalOso#3003"
+        }
+      ],
+      "queue_id": 400,
+      "resultado": "victoria",
+      "runas": {
+        "principal": 8008,
+        "secundaria": 8200
+      }
     }
   },
   "perfil": {
