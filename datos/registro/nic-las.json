@@ -5759,6 +5759,102 @@
         "principal": 8112,
         "secundaria": 8200
       }
+    },
+    "LA2_1629772656": {
+      "asesinatos": 5,
+      "asistencias": 3,
+      "campeon": "Hecarim",
+      "campeon_id": 120,
+      "cs": 142,
+      "danio": 8125,
+      "duracion": 1447,
+      "equipo": 200,
+      "fecha": 1791690654527,
+      "hechizos": [
+        11,
+        6
+      ],
+      "id": "LA2_1629772656",
+      "items": [
+        3158,
+        3161,
+        2517,
+        3044,
+        2022,
+        0,
+        3340
+      ],
+      "muertes": 6,
+      "nivel": 12,
+      "participacion": 42,
+      "participantes": [
+        {
+          "amigo": null,
+          "campeon_id": 83,
+          "equipo": 100,
+          "nombre": "ElBarrrSinso#LAS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 233,
+          "equipo": 100,
+          "nombre": "Lisa Egirl#Diosa"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 7,
+          "equipo": 100,
+          "nombre": "ArmyPou#BTS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 92,
+          "equipo": 100,
+          "nombre": "Viktor#BCS"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 54,
+          "equipo": 100,
+          "nombre": "waren on bush#ATG"
+        },
+        {
+          "amigo": "iskrat-las",
+          "campeon_id": 79,
+          "equipo": 200,
+          "nombre": "ISkrat#LAS"
+        },
+        {
+          "amigo": "nic-las",
+          "campeon_id": 120,
+          "equipo": 200,
+          "nombre": "Nicø#LAS"
+        },
+        {
+          "amigo": "big-gato-las",
+          "campeon_id": 3,
+          "equipo": 200,
+          "nombre": "Big Gato#LAS"
+        },
+        {
+          "amigo": "gralmogeko-las",
+          "campeon_id": 105,
+          "equipo": 200,
+          "nombre": "GralMogeko#LAS"
+        },
+        {
+          "amigo": "johnadis-las",
+          "campeon_id": 142,
+          "equipo": 200,
+          "nombre": "Johnadis#LAS"
+        }
+      ],
+      "queue_id": 400,
+      "resultado": "derrota",
+      "runas": {
+        "principal": 8230,
+        "secundaria": 8000
+      }
     }
   },
   "perfil": {
