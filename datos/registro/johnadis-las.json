@@ -6623,6 +6623,102 @@
         "principal": 8992,
         "secundaria": 8000
       }
+    },
+    "LA2_1629761589": {
+      "asesinatos": 5,
+      "asistencias": 2,
+      "campeon": "Ambessa",
+      "campeon_id": 799,
+      "cs": 216,
+      "danio": 19794,
+      "duracion": 1674,
+      "equipo": 200,
+      "fecha": 1791688768557,
+      "hechizos": [
+        4,
+        12
+      ],
+      "id": "LA2_1629761589",
+      "items": [
+        6692,
+        3161,
+        3047,
+        2019,
+        1036,
+        1036,
+        3363
+      ],
+      "muertes": 2,
+      "nivel": 17,
+      "participacion": 19,
+      "participantes": [
+        {
+          "amigo": null,
+          "campeon_id": 86,
+          "equipo": 100,
+          "nombre": "NotKrank0#Jgdif"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 54,
+          "equipo": 100,
+          "nombre": "ATG WAREN#023"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 163,
+          "equipo": 100,
+          "nombre": "Lisa Egirl#Diosa"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 51,
+          "equipo": 100,
+          "nombre": "CHIQUI TAPIA#GENIO"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 25,
+          "equipo": 100,
+          "nombre": "Milky#Dolly"
+        },
+        {
+          "amigo": "johnadis-las",
+          "campeon_id": 799,
+          "equipo": 200,
+          "nombre": "Johnadis#LAS"
+        },
+        {
+          "amigo": "iskrat-las",
+          "campeon_id": 59,
+          "equipo": 200,
+          "nombre": "ISkrat#LAS"
+        },
+        {
+          "amigo": "nic-las",
+          "campeon_id": 7,
+          "equipo": 200,
+          "nombre": "Nicø#LAS"
+        },
+        {
+          "amigo": "big-gato-las",
+          "campeon_id": 222,
+          "equipo": 200,
+          "nombre": "Big Gato#LAS"
+        },
+        {
+          "amigo": "gralmogeko-las",
+          "campeon_id": 497,
+          "equipo": 200,
+          "nombre": "GralMogeko#LAS"
+        }
+      ],
+      "queue_id": 400,
+      "resultado": "victoria",
+      "runas": {
+        "principal": 8437,
+        "secundaria": 8300
+      }
     }
   },
   "perfil": {
