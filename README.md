@@ -4,7 +4,7 @@ Web estilo op.gg para un grupo cerrado de amigos del servidor **LAS**. Muestra q
 
 **Sitio:** https://jcarvajallab.github.io/LOLSapo/ (se actualiza solo cada ~5 minutos).
 
-> Fase 7 (extras) en curso: ya están los destacados de hoy y de la semana. El detalle del proyecto está en [docs/REQUERIMIENTOS.md](docs/REQUERIMIENTOS.md).
+> Fase 7 (extras) en curso: ya están los destacados de hoy, de la semana y del mes. El detalle del proyecto está en [docs/REQUERIMIENTOS.md](docs/REQUERIMIENTOS.md).
 
 ## Cómo funciona
 
