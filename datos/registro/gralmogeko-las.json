@@ -4031,6 +4031,102 @@
         "principal": 8992,
         "secundaria": 8000
       }
+    },
+    "LA2_1630239305": {
+      "asesinatos": 10,
+      "asistencias": 8,
+      "campeon": "Draven",
+      "campeon_id": 119,
+      "cs": 252,
+      "danio": 29366,
+      "duracion": 2002,
+      "equipo": 200,
+      "fecha": 1791856065093,
+      "hechizos": [
+        4,
+        7
+      ],
+      "id": "LA2_1630239305",
+      "items": [
+        3031,
+        3094,
+        1055,
+        3072,
+        3036,
+        3134,
+        3363
+      ],
+      "muertes": 7,
+      "nivel": 16,
+      "participacion": 44,
+      "participantes": [
+        {
+          "amigo": null,
+          "campeon_id": 141,
+          "equipo": 100,
+          "nombre": "latomort27#5466"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 48,
+          "equipo": 100,
+          "nombre": "Dexen#carp"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 800,
+          "equipo": 100,
+          "nombre": "Kuroda#4399"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 21,
+          "equipo": 100,
+          "nombre": "Inmortal#LAX"
+        },
+        {
+          "amigo": null,
+          "campeon_id": 63,
+          "equipo": 100,
+          "nombre": "PapitoLuchon#help"
+        },
+        {
+          "amigo": "iskrat-las",
+          "campeon_id": 85,
+          "equipo": 200,
+          "nombre": "ISkrat#LAS"
+        },
+        {
+          "amigo": "nic-las",
+          "campeon_id": 11,
+          "equipo": 200,
+          "nombre": "Nicø#LAS"
+        },
+        {
+          "amigo": "big-gato-las",
+          "campeon_id": 777,
+          "equipo": 200,
+          "nombre": "Big Gato#LAS"
+        },
+        {
+          "amigo": "gralmogeko-las",
+          "campeon_id": 119,
+          "equipo": 200,
+          "nombre": "GralMogeko#LAS"
+        },
+        {
+          "amigo": "johnadis-las",
+          "campeon_id": 142,
+          "equipo": 200,
+          "nombre": "Johnadis#LAS"
+        }
+      ],
+      "queue_id": 400,
+      "resultado": "victoria",
+      "runas": {
+        "principal": 8008,
+        "secundaria": 8100
+      }
     }
   },
   "perfil": {
