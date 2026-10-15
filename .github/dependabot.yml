@@ -1,4 +1,4 @@
-# Dependabot revisa cada semana si hay versiones nuevas o con vulnerabilidades.
+# Dependabot revisa cada mes si hay versiones nuevas o con vulnerabilidades.
 # Los rev de .pre-commit-config.yaml se
 # actualizan a mano con: pre-commit autoupdate --freeze
 version: 2
@@ -6,14 +6,14 @@ updates:
   - package-ecosystem: github-actions
     directory: /
     schedule:
-      interval: weekly
+      interval: monthly
     commit-message:
       prefix: ci
 
   - package-ecosystem: npm
     directory: /frontend
     schedule:
-      interval: weekly
+      interval: monthly
     # Esperar unos días antes de proponer una versión recién publicada: los paquetes
     # comprometidos suelen detectarse en ese plazo. No afecta a las de seguridad.
     cooldown:
@@ -21,7 +21,7 @@ updates:
     commit-message:
       prefix: chore
     groups:
-      # Un solo PR semanal con las versiones menores y parches (seguras). Las versiones
+      # Un solo PR mensual con las versiones menores y parches (seguras). Las versiones
       # mayores (ej. ESLint 9 -> 10) llegan en PRs separados para revisarlas una por una.
       # Las actualizaciones de seguridad siempre llegan, sin importar el tipo.
       menores:
@@ -32,7 +32,7 @@ updates:
   - package-ecosystem: npm
     directory: /disparador
     schedule:
-      interval: weekly
+      interval: monthly
     cooldown:
       default-days: 3
     commit-message:
@@ -46,7 +46,7 @@ updates:
   - package-ecosystem: pip
     directory: /recolector
     schedule:
-      interval: weekly
+      interval: monthly
     cooldown:
       default-days: 3
     commit-message:
