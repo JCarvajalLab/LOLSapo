@@ -4,7 +4,7 @@ import { SelectorJuego } from "./SelectorJuego.jsx";
 
 /** Color del punto junto a la antigüedad: el texto ya dice cuánto hace; el punto solo lo refuerza. */
 const PUNTO = {
-  fresco: "bg-texto-suave",
+  fresco: "bg-victoria",
   viejo: "bg-sapo",
   caduco: "bg-derrota",
 };
