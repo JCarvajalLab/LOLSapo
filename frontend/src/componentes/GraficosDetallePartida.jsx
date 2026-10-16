@@ -23,7 +23,6 @@ function generarCurvaEstimada(partida, jugadoresAzul, jugadoresRojo) {
   const curva = [0];
   for (let m = 1; m <= minutos; m++) {
     const progreso = m / minutos;
-    // Curva en forma de S con fluctuación determinista basada en el minuto
     const fluctuacion = Math.sin(m * 0.9) * 450 + Math.cos(m * 1.5) * 300;
     const base = diffFinal * Math.pow(progreso, 1.35);
     const val = m === minutos ? diffFinal : Math.round(base + fluctuacion * (1 - progreso * 0.3));
@@ -32,7 +31,7 @@ function generarCurvaEstimada(partida, jugadoresAzul, jugadoresRojo) {
   return curva;
 }
 
-/** Formatea números con separador de miles en español (ej: 12.449) */
+/** Formatea números con separador de miles (ej: 8,544 o 12,449) */
 function formatearNumero(num) {
   return Math.abs(Math.round(num)).toLocaleString("es-CL");
 }
@@ -49,14 +48,14 @@ export function GraficoVentajaOro({ partida, jugadoresAzul, jugadoresRojo }) {
       ? partida.curva_oro
       : generarCurvaEstimada(partida, jugadoresAzul, jugadoresRojo);
 
-  const duracionMin = curva.length - 1;
+  const duracionMin = Math.max(1, curva.length - 1);
 
   // Rango Y dinámico centrado en 0
   const minVal = Math.min(0, ...curva);
   const maxVal = Math.max(0, ...curva);
 
-  // Escala en tramos de 5000 o 2500
-  const pasoY = Math.max(minVal * -1, maxVal) > 8000 ? 5000 : 2500;
+  // Escala en tramos de 2500 o 5000 (igual que OP.GG)
+  const pasoY = Math.max(Math.abs(minVal), maxVal) > 12000 ? 5000 : 2500;
   const rangoMin = Math.floor(minVal / pasoY) * pasoY;
   const rangoMax = Math.ceil(maxVal / pasoY) * pasoY;
   const amplitudTotal = Math.max(pasoY * 2, rangoMax - rangoMin);
@@ -64,9 +63,9 @@ export function GraficoVentajaOro({ partida, jugadoresAzul, jugadoresRojo }) {
   // Dimensiones del SVG
   const anchoSvg = 520;
   const altoSvg = 220;
-  const padLeft = 48;
-  const padRight = 18;
-  const padTop = 20;
+  const padLeft = 46;
+  const padRight = 14;
+  const padTop = 18;
   const padBottom = 35;
   const anchoGrafico = anchoSvg - padLeft - padRight;
   const altoGrafico = altoSvg - padTop - padBottom;
@@ -104,7 +103,7 @@ export function GraficoVentajaOro({ partida, jugadoresAzul, jugadoresRojo }) {
   const alMoverMouse = (e) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const xRel = e.clientX - rect.left;
-    const xProporcion = xRel / rect.width;
+    const xProporcion = Math.max(0, Math.min(1, xRel / rect.width));
     const xSvg = xProporcion * anchoSvg;
 
     // Buscar el punto más cercano en X
@@ -120,13 +119,37 @@ export function GraficoVentajaOro({ partida, jugadoresAzul, jugadoresRojo }) {
     setHoverPunto(puntoCercano);
   };
 
+  // Posicionamiento inteligente del tooltip para que no se corte en los bordes
+  const pctX = hoverPunto ? (hoverPunto.x / anchoSvg) * 100 : 50;
+  let transformX = "-translate-x-1/2";
+  if (pctX > 75) {
+    transformX = "-translate-x-[92%]";
+  } else if (pctX < 25) {
+    transformX = "-translate-x-[8%]";
+  }
+
   return (
     <div className="rounded-lg border border-borde/60 bg-superficie/40 p-4">
       <h3 className="text-sm font-bold text-texto mb-3">Ventaja de oro del equipo</h3>
 
-      <div className="relative w-full overflow-hidden select-none" onMouseMove={alMoverMouse} onMouseLeave={() => setHoverPunto(null)}>
+      <div
+        className="relative w-full overflow-hidden select-none"
+        onMouseMove={alMoverMouse}
+        onMouseLeave={() => setHoverPunto(null)}
+      >
         <svg viewBox={`0 0 ${anchoSvg} ${altoSvg}`} className="w-full h-auto overflow-visible">
           <defs>
+            {/* Gradientes con desvanecimiento hacia el eje cero */}
+            <linearGradient id={`grad-azul-${idUnico}`} x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.45" />
+              <stop offset="100%" stopColor="#38bdf8" stopOpacity="0.08" />
+            </linearGradient>
+
+            <linearGradient id={`grad-rojo-${idUnico}`} x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#f87171" stopOpacity="0.08" />
+              <stop offset="100%" stopColor="#f87171" stopOpacity="0.45" />
+            </linearGradient>
+
             {/* Máscara para el área azul (arriba del cero) */}
             <clipPath id={`clip-azul-${idUnico}`}>
               <rect x={padLeft} y={padTop} width={anchoGrafico} height={Math.max(0, yZero - padTop)} />
@@ -149,7 +172,7 @@ export function GraficoVentajaOro({ partida, jugadoresAzul, jugadoresRojo }) {
                 stroke={t.valor === 0 ? "#64748b" : "#334155"}
                 strokeWidth={t.valor === 0 ? 1.5 : 1}
                 strokeDasharray={t.valor === 0 ? "none" : "3,3"}
-                opacity={t.valor === 0 ? 0.6 : 0.25}
+                opacity={t.valor === 0 ? 0.7 : 0.25}
               />
               <text
                 x={padLeft - 8}
@@ -175,13 +198,29 @@ export function GraficoVentajaOro({ partida, jugadoresAzul, jugadoresRojo }) {
             </text>
           ))}
 
-          {/* Áreas sombreadas */}
-          <path d={dPoligono} fill="#539dfc" fillOpacity="0.25" clipPath={`url(#clip-azul-${idUnico})`} />
-          <path d={dPoligono} fill="#e05660" fillOpacity="0.30" clipPath={`url(#clip-rojo-${idUnico})`} />
+          {/* Áreas sombreadas con gradientes */}
+          <path d={dPoligono} fill={`url(#grad-azul-${idUnico})`} clipPath={`url(#clip-azul-${idUnico})`} />
+          <path d={dPoligono} fill={`url(#grad-rojo-${idUnico})`} clipPath={`url(#clip-rojo-${idUnico})`} />
 
           {/* Líneas de contorno */}
-          <path d={dLinea} fill="none" stroke="#539dfc" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" clipPath={`url(#clip-azul-${idUnico})`} />
-          <path d={dLinea} fill="none" stroke="#e05660" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" clipPath={`url(#clip-rojo-${idUnico})`} />
+          <path
+            d={dLinea}
+            fill="none"
+            stroke="#38bdf8"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            clipPath={`url(#clip-azul-${idUnico})`}
+          />
+          <path
+            d={dLinea}
+            fill="none"
+            stroke="#f87171"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            clipPath={`url(#clip-rojo-${idUnico})`}
+          />
 
           {/* Indicador interactivo al pasar el mouse */}
           {hoverPunto && (
@@ -200,7 +239,7 @@ export function GraficoVentajaOro({ partida, jugadoresAzul, jugadoresRojo }) {
                 cx={hoverPunto.x}
                 cy={hoverPunto.y}
                 r="5"
-                fill={hoverPunto.valor >= 0 ? "#539dfc" : "#e05660"}
+                fill={hoverPunto.valor >= 0 ? "#38bdf8" : "#f87171"}
                 stroke="#0f172a"
                 strokeWidth="2"
               />
@@ -208,24 +247,22 @@ export function GraficoVentajaOro({ partida, jugadoresAzul, jugadoresRojo }) {
           )}
         </svg>
 
-        {/* Tooltip flotante interactivo */}
+        {/* Tooltip flotante interactivo con diseño idéntico a la imagen de referencia */}
         {hoverPunto && (
           <div
-            className="pointer-events-none absolute z-10 -translate-x-1/2 -translate-y-full rounded border border-borde/90 bg-fondo/95 px-2.5 py-1 text-center shadow-lg backdrop-blur-sm transition-all"
+            className={`pointer-events-none absolute z-10 ${transformX} -translate-y-full rounded-md border border-borde/90 bg-[#0f172a]/95 px-3 py-1.5 shadow-2xl backdrop-blur-md transition-all`}
             style={{
-              left: `${(hoverPunto.x / anchoSvg) * 100}%`,
-              top: `${Math.max(28, (hoverPunto.y / altoSvg) * 100 - 8)}%`,
+              left: `${pctX}%`,
+              top: `${Math.max(26, (hoverPunto.y / altoSvg) * 100 - 8)}%`,
             }}
           >
-            <p className="text-[10px] text-texto-suave font-medium">Minuto {hoverPunto.minuto}:00</p>
-            <p
-              className={`text-xs font-bold ${
-                hoverPunto.valor >= 0 ? "text-azul" : "text-derrota"
-              }`}
-            >
-              {hoverPunto.valor >= 0 ? "+" : "-"}
-              {formatearNumero(hoverPunto.valor)} oro ({hoverPunto.valor >= 0 ? "Azul" : "Rojo"})
-            </p>
+            <div className="flex items-center gap-2 text-xs font-bold">
+              <span className="text-texto-suave font-mono">{hoverPunto.minuto}:00</span>
+              <span className={hoverPunto.valor >= 0 ? "text-[#38bdf8]" : "text-[#f87171]"}>
+                {hoverPunto.valor >= 0 ? "+" : "-"}
+                {formatearNumero(hoverPunto.valor)}
+              </span>
+            </div>
           </div>
         )}
       </div>
@@ -234,7 +271,7 @@ export function GraficoVentajaOro({ partida, jugadoresAzul, jugadoresRojo }) {
 }
 
 /**
- * Gráfico de Daño Infligido a Campeones (10 barras comparativas con íconos de campeones).
+ * Gráfico de Daño Infligido a Campeones (10 barras distribuidas al 100% del ancho con íconos).
  */
 export function GraficoDanioInfligido({ jugadoresAzul, jugadoresRojo, ddragon }) {
   const [hoverJugador, setHoverJugador] = useState(null);
@@ -254,11 +291,11 @@ export function GraficoDanioInfligido({ jugadoresAzul, jugadoresRojo, ddragon })
 
   const anchoSvg = 520;
   const altoSvg = 220;
-  const padLeft = 48;
-  const padRight = 18;
-  const padTop = 20;
-  const padBottom = 42; // Espacio para los avatares de los campeones
-  const anchoGrafico = anchoSvg - padLeft - padRight;
+  const padLeft = 46;
+  const padRight = 14;
+  const padTop = 18;
+  const padBottom = 44; // Espacio para los avatares grandes
+  const anchoGrafico = anchoSvg - padLeft - padRight; // 460px
   const altoGrafico = altoSvg - padTop - padBottom;
 
   const yZero = padTop + altoGrafico;
@@ -270,13 +307,19 @@ export function GraficoDanioInfligido({ jugadoresAzul, jugadoresRojo, ddragon })
     ticksY.push({ valor: t, y });
   }
 
-  // Geometría de las 10 barras (5 azul, separación central, 5 rojo)
-  const barWidth = 28;
-  const stepBar = 37;
+  // Geometría para ocupar el 100% del espacio disponible
+  // anchoGrafico = 460px.
+  // Separación central entre equipos: 24px
+  // Cada equipo dispone de: (460 - 24) / 2 = 218px
+  // Para 5 barras y 4 espacios internos: 5 * 37px + 4 * 8.25px = 185 + 33 = 218px
+  const barWidth = 37;
+  const stepBar = 45.25;
+  const anchoEquipo = 218;
   const gapCentral = 24;
+  const avatarSize = 30;
 
   const barrasAzul = azul.map((j, i) => {
-    const x = padLeft + 12 + i * stepBar;
+    const x = padLeft + i * stepBar;
     const danio = j.danio || 0;
     const alto = (danio / scaleMax) * altoGrafico;
     const y = yZero - alto;
@@ -285,7 +328,7 @@ export function GraficoDanioInfligido({ jugadoresAzul, jugadoresRojo, ddragon })
   });
 
   const barrasRojo = rojo.map((j, i) => {
-    const x = padLeft + 12 + 5 * stepBar + gapCentral + i * stepBar;
+    const x = padLeft + anchoEquipo + gapCentral + i * stepBar;
     const danio = j.danio || 0;
     const alto = (danio / scaleMax) * altoGrafico;
     const y = yZero - alto;
@@ -304,7 +347,13 @@ export function GraficoDanioInfligido({ jugadoresAzul, jugadoresRojo, ddragon })
           <defs>
             {todasLasBarras.map((b, idx) => (
               <clipPath key={idx} id={`avatar-clip-${idUnico}-${idx}`}>
-                <rect x={b.x + (barWidth - 24) / 2} y={yZero + 6} width={24} height={24} rx={4} />
+                <rect
+                  x={b.x + (barWidth - avatarSize) / 2}
+                  y={yZero + 6}
+                  width={avatarSize}
+                  height={avatarSize}
+                  rx={4}
+                />
               </clipPath>
             ))}
           </defs>
@@ -336,10 +385,11 @@ export function GraficoDanioInfligido({ jugadoresAzul, jugadoresRojo, ddragon })
           {/* Barras de daño */}
           {todasLasBarras.map((b, idx) => {
             const esAzul = b.equipo === "azul";
-            const colorStroke = esAzul ? "#539dfc" : "#e05660";
-            const colorFill = esAzul ? "rgba(83, 157, 252, 0.25)" : "rgba(224, 86, 96, 0.28)";
-            const colorFillHover = esAzul ? "rgba(83, 157, 252, 0.60)" : "rgba(224, 86, 96, 0.60)";
+            const colorStroke = esAzul ? "#38bdf8" : "#f87171";
+            const colorFill = esAzul ? "rgba(56, 189, 248, 0.25)" : "rgba(248, 113, 113, 0.28)";
+            const colorFillHover = esAzul ? "rgba(56, 189, 248, 0.60)" : "rgba(248, 113, 113, 0.60)";
             const activo = hoverJugador?.jugador === b.jugador;
+            const avatarX = b.x + (barWidth - avatarSize) / 2;
 
             return (
               <g
@@ -348,7 +398,7 @@ export function GraficoDanioInfligido({ jugadoresAzul, jugadoresRojo, ddragon })
                 onMouseEnter={() => setHoverJugador(b)}
                 onMouseLeave={() => setHoverJugador(null)}
               >
-                {/* Barra vertical */}
+                {/* Barra vertical ocupando ancho completo */}
                 <rect
                   x={b.x}
                   y={b.y}
@@ -361,21 +411,21 @@ export function GraficoDanioInfligido({ jugadoresAzul, jugadoresRojo, ddragon })
                   className="transition-all duration-150"
                 />
 
-                {/* Ícono de campeón abajo */}
+                {/* Ícono de campeón ampliado abajo */}
                 <image
-                  x={b.x + (barWidth - 24) / 2}
+                  x={avatarX}
                   y={yZero + 6}
-                  width={24}
-                  height={24}
+                  width={avatarSize}
+                  height={avatarSize}
                   href={urlCampeon(ddragon, b.jugador.campeon_id)}
                   clipPath={`url(#avatar-clip-${idUnico}-${idx})`}
                   preserveAspectRatio="xMidYMid slice"
                 />
                 <rect
-                  x={b.x + (barWidth - 24) / 2}
+                  x={avatarX}
                   y={yZero + 6}
-                  width={24}
-                  height={24}
+                  width={avatarSize}
+                  height={avatarSize}
                   rx={4}
                   fill="none"
                   stroke={colorStroke}
@@ -390,7 +440,7 @@ export function GraficoDanioInfligido({ jugadoresAzul, jugadoresRojo, ddragon })
         {/* Tooltip flotante interactivo */}
         {hoverJugador && (
           <div
-            className="pointer-events-none absolute z-10 -translate-x-1/2 -translate-y-full rounded-md border border-borde/90 bg-fondo/95 p-2 text-center shadow-xl backdrop-blur-md transition-all"
+            className="pointer-events-none absolute z-10 -translate-x-1/2 -translate-y-full rounded-md border border-borde/90 bg-[#0f172a]/95 p-2 text-center shadow-2xl backdrop-blur-md transition-all"
             style={{
               left: `${((hoverJugador.x + barWidth / 2) / anchoSvg) * 100}%`,
               top: `${Math.max(20, (hoverJugador.y / altoSvg) * 100 - 6)}%`,
@@ -407,7 +457,7 @@ export function GraficoDanioInfligido({ jugadoresAzul, jugadoresRojo, ddragon })
             </p>
             <p
               className={`text-xs font-bold mt-0.5 ${
-                hoverJugador.equipo === "azul" ? "text-azul" : "text-derrota"
+                hoverJugador.equipo === "azul" ? "text-[#38bdf8]" : "text-[#f87171]"
               }`}
             >
               {formatearNumero(hoverJugador.danio)} daño

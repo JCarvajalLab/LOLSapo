@@ -120,12 +120,12 @@ describe("GraficosDetallePartida", () => {
     fireEvent.mouseMove(contenedor, { clientX: 200, clientY: 100 });
 
     // Verifica que aparezca el tooltip de minuto y ventaja de oro
-    expect(screen.getByText(/Minuto \d+:00/)).toBeInTheDocument();
-    expect(screen.getByText(/\d+ oro \((Azul|Rojo)\)/)).toBeInTheDocument();
+    expect(screen.getByText("2:00")).toBeInTheDocument();
+    expect(screen.getByText("-500")).toBeInTheDocument();
 
     // Al salir el mouse se oculta el tooltip
     fireEvent.mouseLeave(contenedor);
-    expect(screen.queryByText(/Minuto \d+:00/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/\d+:00/)).not.toBeInTheDocument();
   });
 
   it("GraficoDanioInfligido muestra título, barras y responde a hover de jugador", () => {
