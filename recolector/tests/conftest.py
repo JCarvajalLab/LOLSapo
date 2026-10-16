@@ -84,10 +84,23 @@ def partida(
             "summoner1Id": 4,
             "summoner2Id": 14,
             "perks": {
-                "statPerks": {},
+                "statPerks": {"offense": 5008, "flex": 5008, "defense": 5001},
                 "styles": [
-                    {"style": 8100, "selections": [{"perk": 8112}], "description": "primaryStyle"},
-                    {"style": 8000, "selections": [], "description": "subStyle"},
+                    {
+                        "style": 8100,
+                        "selections": [
+                            {"perk": 8112},
+                            {"perk": 8143},
+                            {"perk": 8138},
+                            {"perk": 8105},
+                        ],
+                        "description": "primaryStyle",
+                    },
+                    {
+                        "style": 8000,
+                        "selections": [{"perk": 9111}, {"perk": 9104}],
+                        "description": "subStyle",
+                    },
                 ],
             },
         }

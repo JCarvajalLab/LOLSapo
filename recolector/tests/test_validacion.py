@@ -34,7 +34,11 @@ def test_resumen_de_victoria():
     assert resumen["equipo"] == 100
     assert resumen["items"] == [3031, 3006, 0, 0, 0, 0, 3340]
     assert resumen["hechizos"] == [4, 14]
-    assert resumen["runas"] == {"principal": 8112, "secundaria": 8000}
+    assert resumen["runas"]["principal"] == 8112
+    assert resumen["runas"]["secundaria"] == 8000
+    assert resumen["runas"]["primarias"] == [8112, 8143, 8138, 8105]
+    assert resumen["runas"]["secundarias"] == [9111, 9104]
+    assert resumen["runas"]["fragmentos"] == [5008, 5008, 5001]
     assert resumen["equipos"]["100"]["victoria"] is True
     assert resumen["equipos"]["100"]["torres"] == 8
     assert resumen["equipos"]["100"]["baneos"] == [157]

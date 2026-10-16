@@ -507,12 +507,20 @@ def _elementos_usados(
             usados["hechizos"].update(h for h in partida.get("hechizos", []) if h)
             usados["items"].update(i for i in partida.get("items", []) if i)
             runas = partida.get("runas") or {}
-            usados["runas"].update(r for r in runas.values() if r)
+            usados["runas"].update(r for r in runas.values() if isinstance(r, int))
+            usados["runas"].update(r for r in runas.get("primarias", []) if isinstance(r, int))
+            usados["runas"].update(r for r in runas.get("secundarias", []) if isinstance(r, int))
             for p in partida.get("participantes", []):
                 usados["hechizos"].update(h for h in p.get("hechizos", []) if h)
                 usados["items"].update(i for i in p.get("items", []) if i)
                 p_runas = p.get("runas") or {}
-                usados["runas"].update(r for r in p_runas.values() if r)
+                usados["runas"].update(r for r in p_runas.values() if isinstance(r, int))
+                usados["runas"].update(
+                    r for r in p_runas.get("primarias", []) if isinstance(r, int)
+                )
+                usados["runas"].update(
+                    r for r in p_runas.get("secundarias", []) if isinstance(r, int)
+                )
     for clave in (
         "mejor_jugador_hoy",
         "peor_jugador_hoy",

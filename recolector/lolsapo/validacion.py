@@ -165,17 +165,47 @@ def _equipo(participante: dict) -> int:
 
 
 def _runas(perks) -> dict:
-    """Runa principal (keystone) y estilo secundario. Si no vienen, quedan en None."""
+    """Runa principal, estilo secundario, y selecciones completas de runas y fragmentos."""
     principal = secundaria = None
-    estilos = perks.get("styles") if isinstance(perks, dict) else None
-    if isinstance(estilos, list) and estilos:
-        primero = estilos[0] if isinstance(estilos[0], dict) else {}
-        selecciones = primero.get("selections")
-        if isinstance(selecciones, list) and selecciones and isinstance(selecciones[0], dict):
-            principal = _entero_opcional(selecciones[0].get("perk"), "perk")
-        if len(estilos) > 1 and isinstance(estilos[1], dict):
-            secundaria = _entero_opcional(estilos[1].get("style"), "style")
-    return {"principal": principal, "secundaria": secundaria}
+    seleccionadas_primarias = []
+    seleccionadas_secundarias = []
+    fragmentos = []
+
+    if isinstance(perks, dict):
+        estilos = perks.get("styles")
+        if isinstance(estilos, list) and estilos:
+            primero = estilos[0] if isinstance(estilos[0], dict) else {}
+            selecciones = primero.get("selections")
+            if isinstance(selecciones, list):
+                for s in selecciones:
+                    if isinstance(s, dict) and isinstance(s.get("perk"), int):
+                        seleccionadas_primarias.append(s["perk"])
+                if seleccionadas_primarias:
+                    principal = seleccionadas_primarias[0]
+
+            if len(estilos) > 1 and isinstance(estilos[1], dict):
+                secundaria = _entero_opcional(estilos[1].get("style"), "style")
+                selecciones_sec = estilos[1].get("selections")
+                if isinstance(selecciones_sec, list):
+                    for s in selecciones_sec:
+                        if isinstance(s, dict) and isinstance(s.get("perk"), int):
+                            seleccionadas_secundarias.append(s["perk"])
+
+        stats = perks.get("statPerks")
+        if isinstance(stats, dict):
+            for k in ("offense", "flex", "defense"):
+                v = stats.get(k)
+                if isinstance(v, int):
+                    fragmentos.append(v)
+
+    res = {"principal": principal, "secundaria": secundaria}
+    if seleccionadas_primarias:
+        res["primarias"] = seleccionadas_primarias
+    if seleccionadas_secundarias:
+        res["secundarias"] = seleccionadas_secundarias
+    if fragmentos:
+        res["fragmentos"] = fragmentos
+    return res
 
 
 def _kills_objetivo(objs: dict, nombre_obj: str) -> int:
