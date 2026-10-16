@@ -88,38 +88,30 @@ function PortalTooltip({ rect, children }) {
   );
 }
 
-/** Presets de runas por si una partida antigua solo tiene id de keystone */
+/** Presets completos de árboles de runas basados en la runa clave (Champ Select / OP.GG) */
 const PRESETS_RUNAS = {
-  8010: { // Conquistador
-    primarias: [8010, 9111, 9104, 8299], // Conquistador, Triunfo, Leyenda: Presteza, Último esfuerzo
-    secundarias: [8345, 8304], // Perspicacia cósmica, Calzado mágico
-    fragmentos: [5005, 5008, 5001],
-  },
-  8112: { // Electrocutar
-    primarias: [8112, 8143, 8138, 8105],
-    secundarias: [8275, 8234],
-    fragmentos: [5008, 5008, 5002],
-  },
-  8229: { // Cometa Arcano
-    primarias: [8229, 8224, 8210, 8237],
-    secundarias: [8304, 8345],
-    fragmentos: [5008, 5008, 5003],
-  },
-  8437: { // Garras del Inmortal
-    primarias: [8437, 8401, 8429, 8451],
-    secundarias: [9111, 8014],
-    fragmentos: [5007, 5008, 5001],
-  },
-  8008: { // Cadencia Letal
-    primarias: [8008, 9104, 9105, 8299],
-    secundarias: [8304, 8345],
-    fragmentos: [5005, 5008, 5001],
-  },
-  8214: { // Aery
-    primarias: [8214, 8226, 8210, 8237],
-    secundarias: [8444, 8453],
-    fragmentos: [5008, 5008, 5001],
-  },
+  // Precisión (8000)
+  8010: { primarias: [8010, 9111, 9104, 8299], secundarias: [8446, 8451], fragmentos: [5005, 5008, 5001] }, // Conquistador
+  8005: { primarias: [8005, 9111, 9104, 8014], secundarias: [8275, 8236], fragmentos: [5005, 5008, 5001] }, // Estrategia Ofensiva
+  8008: { primarias: [8008, 9111, 9104, 8299], secundarias: [8304, 8347], fragmentos: [5005, 5008, 5001] }, // Cadencia Letal
+  8021: { primarias: [8021, 9111, 9103, 8014], secundarias: [8234, 8236], fragmentos: [5008, 5008, 5001] }, // Sobre la Marcha
+  // Dominación (8100)
+  8112: { primarias: [8112, 8143, 8140, 8105], secundarias: [8275, 8236], fragmentos: [5008, 5008, 5002] }, // Electrocutar
+  8128: { primarias: [8128, 8143, 8140, 8106], secundarias: [8009, 8014], fragmentos: [5008, 5008, 5002] }, // Cosecha Oscura
+  9923: { primarias: [9923, 8143, 8140, 8105], secundarias: [9111, 8014], fragmentos: [5005, 5008, 5002] }, // Lluvia de Espadas
+  8992: { primarias: [8992, 8143, 8140, 8105], secundarias: [9111, 8014], fragmentos: [5005, 5008, 5002] },
+  // Brujería (8200)
+  8214: { primarias: [8214, 8226, 8210, 8237], secundarias: [8444, 8453], fragmentos: [5008, 5008, 5001] }, // Aery
+  8229: { primarias: [8229, 8226, 8210, 8237], secundarias: [8304, 8347], fragmentos: [5008, 5008, 5003] }, // Cometa Arcano
+  8230: { primarias: [8230, 8226, 8210, 8236], secundarias: [8304, 8347], fragmentos: [5007, 5008, 5001] }, // Fase Veloz
+  // Valor (8400)
+  8437: { primarias: [8437, 8446, 8429, 8451], secundarias: [9111, 8299], fragmentos: [5007, 5008, 5001] }, // Agarre del Perpetuo
+  8439: { primarias: [8439, 8463, 8429, 8453], secundarias: [8304, 8347], fragmentos: [5007, 5002, 5001] }, // Réplica
+  8465: { primarias: [8465, 8463, 8429, 8453], secundarias: [8304, 8347], fragmentos: [5007, 5002, 5001] }, // Guardián
+  // Inspiración (8300)
+  8351: { primarias: [8351, 8306, 8345, 8410], secundarias: [8444, 8453], fragmentos: [5007, 5002, 5001] }, // Aumento Glacial
+  8360: { primarias: [8360, 8304, 8345, 8347], secundarias: [8444, 8451], fragmentos: [5007, 5008, 5001] }, // Libro de Hechizos
+  8369: { primarias: [8369, 8304, 8345, 8347], secundarias: [8143, 8105], fragmentos: [5008, 5008, 5002] }, // Primer Golpe
 };
 
 /**
@@ -240,10 +232,15 @@ export function ContenidoTooltipArbolRunas({ runas, ddragon }) {
   const keystone = runas.principal || (Array.isArray(runas.primarias) ? runas.primarias[0] : null);
   const preset = keystone ? PRESETS_RUNAS[keystone] : null;
 
-  const primarias =
+  let primarias =
     Array.isArray(runas.primarias) && runas.primarias.length > 1
       ? runas.primarias
-      : preset?.primarias || (runas.principal ? [runas.principal] : []);
+      : preset?.primarias || (keystone ? [keystone] : []);
+
+  // Si existe keystone visible, garantizar que el árbol empiece con él
+  if (keystone && primarias[0] !== keystone) {
+    primarias = preset?.primarias || [keystone, ...primarias.slice(1)];
+  }
 
   const secundarias =
     Array.isArray(runas.secundarias) && runas.secundarias.length > 0
