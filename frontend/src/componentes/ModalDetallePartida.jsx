@@ -18,6 +18,10 @@ import {
   ContenidoTooltipItem,
   ElementoConTooltip,
 } from "./TooltipFlotante.jsx";
+import {
+  GraficoDanioInfligido,
+  GraficoVentajaOro,
+} from "./GraficosDetallePartida.jsx";
 
 const ORDEN_POSICIONES = ["TOP", "JUNGLE", "MIDDLE", "BOTTOM", "UTILITY"];
 
@@ -256,6 +260,20 @@ export function ModalDetallePartida({ partida, ddragon, ahora, slugPropio, onCer
               )}
             </div>
           </div>
+        </div>
+
+        {/* Gráficos comparativos: Ventaja de oro y Daño infligido */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 border-t border-borde/60 pt-3">
+          <GraficoVentajaOro
+            partida={p}
+            jugadoresAzul={jugadoresAzul}
+            jugadoresRojo={jugadoresRojo}
+          />
+          <GraficoDanioInfligido
+            jugadoresAzul={jugadoresAzul}
+            jugadoresRojo={jugadoresRojo}
+            ddragon={ddragon}
+          />
         </div>
       </div>
     </Dialogo>
