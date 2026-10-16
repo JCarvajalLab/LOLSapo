@@ -86,9 +86,20 @@ def completa(partida: dict) -> bool:
     """True si la partida ya tiene el detalle de la versión actual del registro.
 
     Las que no lo tienen se vuelven a descargar una vez si siguen entre las recientes (por
-    ejemplo, las guardadas antes de agregar el daño).
+    ejemplo, las guardadas antes de agregar el daño o el desglose de participantes).
     """
-    return "participantes" in partida and "danio" in partida
+    if not (isinstance(partida, dict) and "participantes" in partida and "danio" in partida):
+        return False
+    # En TFT las partidas traen "puesto" o "unidades", y sus participantes
+    # no llevan items ni asesinatos.
+    if "puesto" in partida or "unidades" in partida:
+        return True
+    parts = partida.get("participantes")
+    if isinstance(parts, list) and parts:
+        p0 = parts[0]
+        if isinstance(p0, dict) and "items" not in p0 and "asesinatos" not in p0:
+            return False
+    return True
 
 
 def escribir_json_atomico(ruta: Path, datos) -> None:
