@@ -322,6 +322,7 @@ function TarjetaJugador({ jugador, ddragon, slugPropio, duracion, maxDanio, lado
             <ImagenDD
               src={urlRuna(ddragon, j.runas.principal || j.runas.primarias?.[0])}
               alt={nombreRuna(ddragon, j.runas.principal || j.runas.primarias?.[0])}
+              sinTitulo
               tamaño={20}
               redonda
               className="cursor-help ring-1 ring-dorado/40"
@@ -370,7 +371,7 @@ function TarjetaJugador({ jugador, ddragon, slugPropio, duracion, maxDanio, lado
           Visión: {j.vision ?? "—"}
         </p>
 
-        {/* Barra de daño conservada */}
+        {/* Barra de daño conservada (roja en ambos equipos con su valor numérico) */}
         {danio > 0 && (
           <div className="flex items-center gap-1.5 mt-0.5">
             <span className="cifras text-[10px] text-texto-suave">
@@ -378,7 +379,7 @@ function TarjetaJugador({ jugador, ddragon, slugPropio, duracion, maxDanio, lado
             </span>
             <div className="h-1.5 w-16 overflow-hidden rounded-full bg-borde/50">
               <div
-                className={`h-full ${esAzul ? "bg-azul" : "bg-derrota"}`}
+                className="h-full bg-derrota"
                 style={{ width: `${pctDanio}%` }}
               />
             </div>
@@ -411,6 +412,7 @@ function RejillaItems({ items, ddragon }) {
               <ImagenDD
                 src={urlItem(ddragon, id)}
                 alt={nombreItem(ddragon, id)}
+                sinTitulo
                 tamaño={20}
                 className="rounded border border-borde/70"
               />
@@ -435,6 +437,7 @@ function RejillaItems({ items, ddragon }) {
             <ImagenDD
               src={urlItem(ddragon, trinket)}
               alt={nombreItem(ddragon, trinket)}
+              sinTitulo
               tamaño={20}
               className="rounded-full border border-borde/70"
             />

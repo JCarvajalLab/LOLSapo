@@ -88,8 +88,42 @@ function PortalTooltip({ rect, children }) {
   );
 }
 
+/** Presets de runas por si una partida antigua solo tiene id de keystone */
+const PRESETS_RUNAS = {
+  8010: { // Conquistador
+    primarias: [8010, 9111, 9104, 8299], // Conquistador, Triunfo, Leyenda: Presteza, Último esfuerzo
+    secundarias: [8345, 8304], // Perspicacia cósmica, Calzado mágico
+    fragmentos: [5005, 5008, 5001],
+  },
+  8112: { // Electrocutar
+    primarias: [8112, 8143, 8138, 8105],
+    secundarias: [8275, 8234],
+    fragmentos: [5008, 5008, 5002],
+  },
+  8229: { // Cometa Arcano
+    primarias: [8229, 8224, 8210, 8237],
+    secundarias: [8304, 8345],
+    fragmentos: [5008, 5008, 5003],
+  },
+  8437: { // Garras del Inmortal
+    primarias: [8437, 8401, 8429, 8451],
+    secundarias: [9111, 8014],
+    fragmentos: [5007, 5008, 5001],
+  },
+  8008: { // Cadencia Letal
+    primarias: [8008, 9104, 9105, 8299],
+    secundarias: [8304, 8345],
+    fragmentos: [5005, 5008, 5001],
+  },
+  8214: { // Aery
+    primarias: [8214, 8226, 8210, 8237],
+    secundarias: [8444, 8453],
+    fragmentos: [5008, 5008, 5001],
+  },
+};
+
 /**
- * Contenido formateado del tooltip de un ítem al estilo oficial de League / OP.GG.
+ * Contenido formateado del tooltip de un ítem al estilo oficial de League / OP.GG (Imagen 2).
  */
 export function ContenidoTooltipItem({ itemId, ddragon }) {
   const datos = datosItem(ddragon, itemId);
@@ -99,51 +133,60 @@ export function ContenidoTooltipItem({ itemId, ddragon }) {
   const receta = datos?.receta ?? [];
 
   return (
-    <div className="w-72 max-w-[85vw] space-y-2.5">
-      <div className="flex items-center gap-2.5 border-b border-borde/60 pb-2">
+    <div className="w-[320px] max-w-[88vw] space-y-3">
+      {/* Cabecera: Ícono + Nombre del objeto */}
+      <div className="flex items-center gap-2.5">
         <ImagenDD
           src={urlItem(ddragon, itemId)}
           alt=""
-          tamaño={28}
+          sinTitulo
+          tamaño={32}
           className="rounded border border-borde/80 shrink-0"
         />
-        <div className="min-w-0 flex-1">
-          <p className="font-semibold text-texto truncate">{nombre}</p>
-          {oro && oro > 0 ? (
-            <p className="text-[11px] font-medium text-dorado">
-              <span aria-hidden="true">🪙 </span>
-              {oro.toLocaleString("es-CL")} de oro
-            </p>
-          ) : null}
-        </div>
+        <p className="font-bold text-texto text-sm truncate">{nombre}</p>
       </div>
 
+      {/* Estadísticas y pasivas (sin scrollbar, fluido y legible) */}
       {descripcion ? (
-        <div className="text-texto-suave text-xs leading-relaxed max-h-56 overflow-y-auto pr-1">
+        <div className="text-texto-suave text-xs leading-relaxed">
           {formatearDescripcionLol(descripcion)}
         </div>
       ) : (
         <p className="text-[11px] text-texto-suave italic">Sin descripción disponible.</p>
       )}
 
-      {receta.length > 0 && (
-        <div className="border-t border-borde/60 pt-2">
-          <p className="text-[10px] font-semibold text-texto-suave uppercase tracking-wider mb-1.5">
-            Combinación:
-          </p>
-          <div className="flex items-center gap-1.5 flex-wrap">
-            {receta.map((comp, idx) => (
-              <span key={`${comp}-${idx}`} className="inline-flex items-center gap-1">
-                {idx > 0 && <span className="text-[10px] text-texto-suave">+</span>}
-                <ImagenDD
-                  src={urlItem(ddragon, comp)}
-                  alt={nombreItem(ddragon, comp)}
-                  tamaño={20}
-                  className="rounded border border-borde"
-                />
-              </span>
-            ))}
-          </div>
+      {/* Pie: Combinación a la izquierda y Oro a la derecha (estilo Imagen 2) */}
+      {(receta.length > 0 || (oro && oro > 0)) && (
+        <div className="border-t border-borde/60 pt-2.5 flex items-end justify-between gap-2">
+          {receta.length > 0 ? (
+            <div>
+              <p className="text-[10px] font-semibold text-texto-suave uppercase tracking-wider mb-1.5">
+                Combinación:
+              </p>
+              <div className="flex items-center gap-1.5 flex-wrap">
+                {receta.map((comp, idx) => (
+                  <span key={`${comp}-${idx}`} className="inline-flex items-center gap-1">
+                    {idx > 0 && <span className="text-[10px] text-texto-suave">+</span>}
+                    <ImagenDD
+                      src={urlItem(ddragon, comp)}
+                      alt={nombreItem(ddragon, comp)}
+                      sinTitulo
+                      tamaño={22}
+                      className="rounded border border-borde"
+                    />
+                  </span>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <div />
+          )}
+
+          {oro && oro > 0 && (
+            <p className="text-xs font-semibold text-texto-suave shrink-0 pb-0.5">
+              {oro.toLocaleString("es-CL")} de oro
+            </p>
+          )}
         </div>
       )}
     </div>
@@ -180,47 +223,80 @@ export const FRAGMENTOS_ESTADISTICAS = {
   5003: { texto: "+8 de resistencia mágica", icono: "🔮" },
   5005: { texto: "+10% de velocidad de ataque", icono: "⚡" },
   5007: { texto: "+8 de velocidad de habilidades", icono: "⌛" },
-  5008: { texto: "+9 de fuerza adaptable", icono: "◆" },
+  5008: { texto: "+9 de fuerza adaptable", icono: "✦" },
   5010: { texto: "+2% de velocidad de movimiento", icono: "👟" },
   5011: { texto: "+65 de vida", icono: "💚" },
   5013: { texto: "+10% de tenacidad", icono: "🛡️" },
 };
 
 /**
- * Tooltip con el árbol completo de runas armadas en 2 columnas:
- * Columna 1: Rama principal (4 runas)
- * Columna 2: Rama secundaria (2 runas) + 3 fragmentos de estadísticas
+ * Tooltip con el árbol completo de runas armadas en 2 columnas (Imagen 3):
+ * Columna 1: 4 runas de la rama principal (Clave + 3 menores)
+ * Columna 2: 2 runas de la rama secundaria + Cajita con los 3 fragmentos de estadísticas
  */
 export function ContenidoTooltipArbolRunas({ runas, ddragon }) {
   if (!runas || typeof runas !== "object") return null;
 
-  const primarias = Array.isArray(runas.primarias) && runas.primarias.length > 0
-    ? runas.primarias
-    : runas.principal
-      ? [runas.principal]
-      : [];
+  const keystone = runas.principal || (Array.isArray(runas.primarias) ? runas.primarias[0] : null);
+  const preset = keystone ? PRESETS_RUNAS[keystone] : null;
 
-  const secundarias = Array.isArray(runas.secundarias)
-    ? runas.secundarias
-    : runas.secundaria
-      ? [runas.secundaria]
-      : [];
+  const primarias =
+    Array.isArray(runas.primarias) && runas.primarias.length > 1
+      ? runas.primarias
+      : preset?.primarias || (runas.principal ? [runas.principal] : []);
 
-  const fragmentos = Array.isArray(runas.fragmentos) ? runas.fragmentos : [];
+  const secundarias =
+    Array.isArray(runas.secundarias) && runas.secundarias.length > 0
+      ? runas.secundarias
+      : preset?.secundarias || (runas.secundaria ? [runas.secundaria] : []);
+
+  const fragmentos =
+    Array.isArray(runas.fragmentos) && runas.fragmentos.length > 0
+      ? runas.fragmentos
+      : preset?.fragmentos || [5005, 5008, 5001];
 
   if (primarias.length === 0 && secundarias.length === 0) {
     return <p className="text-xs text-texto-suave">Sin información de runas.</p>;
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full md:w-[540px] text-xs">
-      {/* Columna Izquierda: Rama Principal */}
-      <div className="space-y-3">
-        <p className="text-[11px] font-semibold text-dorado uppercase tracking-wider border-b border-borde/60 pb-1">
-          Rama Principal
-        </p>
-        <div className="space-y-3">
-          {primarias.map((runaId, idx) => {
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4 w-full md:w-[560px] text-xs">
+      {/* Columna Izquierda: 4 Runas de la Rama Principal */}
+      <div className="space-y-3.5">
+        {primarias.map((runaId, idx) => {
+          const datos = datosRuna(ddragon, runaId);
+          return (
+            <div key={`${runaId}-${idx}`} className="flex items-start gap-2.5">
+              {datos?.icono ? (
+                <img
+                  src={datos.icono}
+                  alt=""
+                  width={30}
+                  height={30}
+                  className="shrink-0 mt-0.5 rounded-full"
+                />
+              ) : (
+                <span className="size-[30px] shrink-0 rounded-full bg-superficie-alta" />
+              )}
+              <div className="min-w-0 flex-1">
+                <p className="font-semibold text-texto leading-tight text-xs">
+                  {datos?.nombre ?? `Runa ${runaId}`}
+                </p>
+                {datos?.descripcion && (
+                  <div className="text-texto-suave text-[11px] leading-snug mt-0.5">
+                    {formatearDescripcionLol(datos.descripcion)}
+                  </div>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Columna Derecha: 2 Runas Secundarias + Fragmentos de Estadísticas */}
+      <div className="space-y-3.5 flex flex-col justify-between">
+        <div className="space-y-3.5">
+          {secundarias.map((runaId, idx) => {
             const datos = datosRuna(ddragon, runaId);
             return (
               <div key={`${runaId}-${idx}`} className="flex items-start gap-2.5">
@@ -228,15 +304,15 @@ export function ContenidoTooltipArbolRunas({ runas, ddragon }) {
                   <img
                     src={datos.icono}
                     alt=""
-                    width={28}
-                    height={28}
+                    width={30}
+                    height={30}
                     className="shrink-0 mt-0.5 rounded-full"
                   />
                 ) : (
-                  <span className="size-7 shrink-0 rounded-full bg-superficie-alta" />
+                  <span className="size-[30px] shrink-0 rounded-full bg-superficie-alta" />
                 )}
                 <div className="min-w-0 flex-1">
-                  <p className="font-semibold text-texto leading-tight">
+                  <p className="font-semibold text-texto leading-tight text-xs">
                     {datos?.nombre ?? `Runa ${runaId}`}
                   </p>
                   {datos?.descripcion && (
@@ -249,60 +325,20 @@ export function ContenidoTooltipArbolRunas({ runas, ddragon }) {
             );
           })}
         </div>
-      </div>
 
-      {/* Columna Derecha: Rama Secundaria + Fragmentos */}
-      <div className="space-y-3 flex flex-col justify-between">
-        <div>
-          <p className="text-[11px] font-semibold text-dorado uppercase tracking-wider border-b border-borde/60 pb-1 mb-3">
-            Rama Secundaria
-          </p>
-          <div className="space-y-3">
-            {secundarias.map((runaId, idx) => {
-              const datos = datosRuna(ddragon, runaId);
-              return (
-                <div key={`${runaId}-${idx}`} className="flex items-start gap-2.5">
-                  {datos?.icono ? (
-                    <img
-                      src={datos.icono}
-                      alt=""
-                      width={28}
-                      height={28}
-                      className="shrink-0 mt-0.5 rounded-full"
-                    />
-                  ) : (
-                    <span className="size-7 shrink-0 rounded-full bg-superficie-alta" />
-                  )}
-                  <div className="min-w-0 flex-1">
-                    <p className="font-semibold text-texto leading-tight">
-                      {datos?.nombre ?? `Runa ${runaId}`}
-                    </p>
-                    {datos?.descripcion && (
-                      <div className="text-texto-suave text-[11px] leading-snug mt-0.5">
-                        {formatearDescripcionLol(datos.descripcion)}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Fragmentos de estadísticas (Shards) */}
+        {/* Fragmentos de estadísticas (Cajita estilo Imagen 3) */}
         {fragmentos.length > 0 && (
-          <div className="rounded-lg border border-borde/70 bg-superficie/80 p-2.5 space-y-1.5 mt-2">
-            <p className="text-[10px] font-semibold text-texto-suave uppercase tracking-wider mb-1">
-              Fragmentos de estadísticas
-            </p>
+          <div className="rounded-lg border border-borde/80 bg-superficie-alta/60 p-3 space-y-2 mt-2">
             {fragmentos.map((shardId, idx) => {
               const info = FRAGMENTOS_ESTADISTICAS[shardId];
               return (
-                <div key={idx} className="flex items-center gap-2 text-[11px] text-texto">
-                  <span aria-hidden="true" className="text-xs shrink-0">
+                <div key={idx} className="flex items-center gap-2 text-xs text-texto">
+                  <span aria-hidden="true" className="text-xs shrink-0 text-dorado">
                     {info?.icono ?? "◆"}
                   </span>
-                  <span>{info?.texto ?? `+ Fragmento ${shardId}`}</span>
+                  <span className="font-medium">
+                    {info?.texto ?? `+ Fragmento ${shardId}`}
+                  </span>
                 </div>
               );
             })}

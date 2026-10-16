@@ -144,6 +144,7 @@ function BloqueCampeon({ p, ddragon, campeon }) {
                 <ImagenDD
                   src={urlRuna(ddragon, r)}
                   alt={nombreRuna(ddragon, r)}
+                  sinTitulo
                   tamaño={22}
                   redonda
                   className={i === 1 ? "p-0.5" : ""}
@@ -206,7 +207,7 @@ function Items({ items, ddragon }) {
             <ElementoConTooltip
               tooltip={<ContenidoTooltipItem itemId={id} ddragon={ddragon} />}
             >
-              <ImagenDD src={urlItem(ddragon, id)} alt={nombreItem(ddragon, id)} tamaño={24} className={i === 6 ? "rounded-full" : ""} />
+              <ImagenDD src={urlItem(ddragon, id)} alt={nombreItem(ddragon, id)} sinTitulo tamaño={24} className={i === 6 ? "rounded-full" : ""} />
             </ElementoConTooltip>
           </li>
         ) : (
