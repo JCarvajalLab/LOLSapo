@@ -390,9 +390,21 @@ def test_registro_v2_con_puuid_se_migra_sin_puuid(cliente, mapa, tmp_path):
         "campeon_id": 103,
         "danio": 15_000,
         "participantes": [
-            {"puuid": P_JOHN, "campeon_id": 103, "equipo": 100, "nombre": "Yo#LAS"},
-            {"puuid": P_GATO, "campeon_id": 86, "equipo": 100, "nombre": "Gato#LAS"},
-            {"puuid": None, "campeon_id": 1, "equipo": 200, "nombre": None},
+            {
+                "puuid": P_JOHN,
+                "campeon_id": 103,
+                "equipo": 100,
+                "nombre": "Yo#LAS",
+                "items": [0] * 7,
+            },
+            {
+                "puuid": P_GATO,
+                "campeon_id": 86,
+                "equipo": 100,
+                "nombre": "Gato#LAS",
+                "items": [0] * 7,
+            },
+            {"puuid": None, "campeon_id": 1, "equipo": 200, "nombre": None, "items": [0] * 7},
         ],
     }
     ruta.write_text(
