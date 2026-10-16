@@ -11,6 +11,7 @@ import {
 import { csPorMinuto, esNumero, fechaCompleta, formatearDuracion, haceCuanto, ratioKda } from "../logica/formato.js";
 import { agruparPorEquipo } from "../logica/partidas.js";
 import { Dialogo } from "./Dialogo.jsx";
+import { IconoPosicion } from "./IconoPosicion.jsx";
 import { ImagenDD } from "./ImagenDD.jsx";
 import {
   ContenidoTooltipArbolRunas,
@@ -20,12 +21,12 @@ import {
 
 const ORDEN_POSICIONES = ["TOP", "JUNGLE", "MIDDLE", "BOTTOM", "UTILITY"];
 
-const ICONOS_ROL = {
-  TOP: { icono: "🛡️", nombre: "Superior" },
-  JUNGLE: { icono: "🌲", nombre: "Jungla" },
-  MIDDLE: { icono: "⚡", nombre: "Central" },
-  BOTTOM: { icono: "🏹", nombre: "Inferior / ADC" },
-  UTILITY: { icono: "💚", nombre: "Soporte" },
+const NOMBRES_ROL = {
+  TOP: "Carril Superior",
+  JUNGLE: "Jungla",
+  MIDDLE: "Carril Central",
+  BOTTOM: "Carril Inferior",
+  UTILITY: "Soporte",
 };
 
 function ordenarPorRol(jugadores) {
@@ -165,7 +166,7 @@ export function ModalDetallePartida({ partida, ddragon, ahora, slugPropio, onCer
             const jRojo = jugadoresRojo[i];
             const rol =
               (jAzul?.posicion || jRojo?.posicion || ORDEN_POSICIONES[i] || "").toUpperCase();
-            const rolInfo = ICONOS_ROL[rol] || { icono: "⚔️", nombre: rol };
+            const nombreRol = NOMBRES_ROL[rol] || rol;
 
             return (
               <div
@@ -186,12 +187,12 @@ export function ModalDetallePartida({ partida, ddragon, ahora, slugPropio, onCer
                   <div className="p-2 text-xs text-texto-suave italic">Sin jugador</div>
                 )}
 
-                {/* Ícono Central de Rol */}
+                {/* Ícono Central de Rol oficial (SVG Champ Select / OP.GG) */}
                 <div
-                  className="hidden md:flex size-7 shrink-0 items-center justify-center rounded-md border border-borde/60 bg-superficie/80 text-sm"
-                  title={rolInfo.nombre}
+                  className="hidden md:flex size-8 shrink-0 items-center justify-center rounded-md border border-borde/40 bg-superficie/60 text-texto-suave"
+                  title={nombreRol}
                 >
-                  <span aria-hidden="true">{rolInfo.icono}</span>
+                  <IconoPosicion posicion={rol} className="size-5" />
                 </div>
 
                 {/* Lado Rojo (Jugador Derecha) */}
