@@ -22,6 +22,7 @@ def resumen(id_partida: str, resultado="victoria", queue_id=420, fecha=1) -> dic
         "fecha": fecha,
         "danio": 1000,
         "participantes": [],
+        "curva_oro": [0, 100],
     }
 
 
@@ -43,6 +44,18 @@ def test_partidas_sin_danio_se_completan_una_vez():
     assert ids_nuevos(["LA2_1"], registro) == []
     # Las partidas con daño vacío (Riot no lo mandó) no se vuelven a pedir.
     registro["partidas"]["LA2_2"] = {**resumen("LA2_2"), "danio": None}
+    assert ids_nuevos(["LA2_2"], registro) == []
+
+
+def test_partidas_sin_curva_oro_se_completan_una_vez():
+    registro = registro_vacio("A#LAS", 0)
+    sin_curva = {k: v for k, v in resumen("LA2_1").items() if k != "curva_oro"}
+    registro["partidas"]["LA2_1"] = sin_curva
+    assert ids_nuevos(["LA2_1"], registro) == ["LA2_1"]
+    assert agregar_partidas(registro, [resumen("LA2_1")]) == 1
+    assert ids_nuevos(["LA2_1"], registro) == []
+    # Las partidas con curva_oro None (no disponible en la API) no se vuelven a pedir.
+    registro["partidas"]["LA2_2"] = {**resumen("LA2_2"), "curva_oro": None}
     assert ids_nuevos(["LA2_2"], registro) == []
 
 

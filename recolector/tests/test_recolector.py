@@ -51,10 +51,23 @@ def simular_partida(id_partida, puuid, **kwargs):
     responses.get(
         f"{URL_REGION}/lol/match/v5/matches/{id_partida}", json=partida(id_partida, puuid, **kwargs)
     )
+    responses.get(
+        f"{URL_REGION}/lol/match/v5/matches/{id_partida}/timeline",
+        json={
+            "info": {
+                "frames": [
+                    {"participantFrames": {str(i): {"totalGold": 500} for i in range(1, 11)}}
+                ]
+            }
+        },
+    )
 
 
 def llamadas_a(fragmento: str) -> int:
-    return sum(fragmento in llamada.request.url for llamada in responses.calls)
+    return sum(
+        fragmento in llamada.request.url and not llamada.request.url.endswith("/timeline")
+        for llamada in responses.calls
+    )
 
 
 @responses.activate
@@ -406,6 +419,7 @@ def test_registro_v2_con_puuid_se_migra_sin_puuid(cliente, mapa, tmp_path):
             },
             {"puuid": None, "campeon_id": 1, "equipo": 200, "nombre": None, "items": [0] * 7},
         ],
+        "curva_oro": [0, 100],
     }
     ruta.write_text(
         json.dumps(

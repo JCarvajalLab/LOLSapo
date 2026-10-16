@@ -62,6 +62,34 @@ def _resolver_puuid(cliente: ClienteRiot, amigo: Amigo) -> str:
     return validar_cuenta(cliente.cuenta_por_riot_id(amigo.nombre, amigo.tag))["puuid"]
 
 
+def _curva_oro(timeline: dict | None) -> list[int] | None:
+    """Extrae la diferencia de oro minuto a minuto (Azul - Rojo) del timeline de match-v5."""
+    if not isinstance(timeline, dict):
+        return None
+    frames = timeline.get("info", {}).get("frames", [])
+    if not isinstance(frames, list) or not frames:
+        return None
+    curva = []
+    for f in frames:
+        if not isinstance(f, dict):
+            continue
+        pf = f.get("participantFrames", {})
+        if not isinstance(pf, dict):
+            continue
+        g100 = sum(
+            pf.get(str(i), {}).get("totalGold", 0)
+            for i in range(1, 6)
+            if isinstance(pf.get(str(i)), dict)
+        )
+        g200 = sum(
+            pf.get(str(i), {}).get("totalGold", 0)
+            for i in range(6, 11)
+            if isinstance(pf.get(str(i)), dict)
+        )
+        curva.append(g100 - g200)
+    return curva if len(curva) > 1 else None
+
+
 def _resumir_nuevas(
     cliente: ClienteRiot,
     puuid: str,
@@ -89,6 +117,11 @@ def _resumir_nuevas(
                 raise
             log.warning("Partida antigua %s omitida (Riot ya no la tiene)", id_partida)
             continue
+        try:
+            resumen["curva_oro"] = _curva_oro(cliente.timeline(id_partida))
+        except (ErrorRiot, DatoInvalido, Exception) as error:
+            log.debug("No se pudo obtener timeline de %s: %s", id_partida, error)
+            resumen["curva_oro"] = None
         resumen["participantes"] = anonimizar_participantes(
             resumen["participantes"], slug_por_puuid
         )
