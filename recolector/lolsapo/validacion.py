@@ -178,11 +178,74 @@ def _runas(perks) -> dict:
     return {"principal": principal, "secundaria": secundaria}
 
 
+def _kills_objetivo(objs: dict, nombre_obj: str) -> int:
+    obj = objs.get(nombre_obj)
+    if isinstance(obj, dict) and isinstance(obj.get("kills"), int):
+        return obj["kills"]
+    return 0
+
+
+def _equipos(teams) -> dict[str, dict] | None:
+    if not isinstance(teams, list) or not teams:
+        return None
+    res = {}
+    for t in teams:
+        if not isinstance(t, dict):
+            continue
+        tid = str(t.get("teamId"))
+        objs = t.get("objectives") if isinstance(t.get("objectives"), dict) else {}
+        bans_raw = t.get("bans") if isinstance(t.get("bans"), list) else []
+        bans = [
+            b.get("championId")
+            for b in bans_raw
+            if isinstance(b, dict)
+            and isinstance(b.get("championId"), int)
+            and b.get("championId") > 0
+        ]
+
+        res[tid] = {
+            "victoria": t.get("win") is True,
+            "baneos": bans,
+            "torres": _kills_objetivo(objs, "tower"),
+            "dragones": _kills_objetivo(objs, "dragon"),
+            "barones": _kills_objetivo(objs, "baron"),
+            "heraldos": _kills_objetivo(objs, "riftHerald"),
+            "larvas": _kills_objetivo(objs, "horde"),
+            "inhibidores": _kills_objetivo(objs, "inhibitor"),
+        }
+    return res if res else None
+
+
+def _participante(p: dict) -> dict:
+    return {
+        "puuid": _puuid_opcional(p.get("puuid")),
+        "campeon_id": _entero(p.get("championId"), "championId"),
+        "equipo": _equipo(p),
+        "nombre": _nombre_visible(p.get("riotIdGameName"), p.get("riotIdTagline")),
+        "nivel": _entero(p.get("champLevel") or 0, "champLevel"),
+        "asesinatos": _entero(p.get("kills") or 0, "kills"),
+        "muertes": _entero(p.get("deaths") or 0, "deaths"),
+        "asistencias": _entero(p.get("assists") or 0, "assists"),
+        "cs": _entero(p.get("totalMinionsKilled") or 0, "totalMinionsKilled")
+        + _entero(p.get("neutralMinionsKilled") or 0, "neutralMinionsKilled"),
+        "oro": _entero(p.get("goldEarned") or 0, "goldEarned"),
+        "danio": _danio(p.get("totalDamageDealtToChampions")),
+        "vision": _entero(p.get("visionScore") or 0, "visionScore"),
+        "posicion": str(p.get("teamPosition") or p.get("individualPosition") or ""),
+        "items": [_entero(p.get(f"item{i}") or 0, f"item{i}") for i in range(7)],
+        "hechizos": [
+            _entero(p.get("summoner1Id") or 0, "summoner1Id"),
+            _entero(p.get("summoner2Id") or 0, "summoner2Id"),
+        ],
+        "runas": _runas(p.get("perks")),
+    }
+
+
 def resumir_partida(datos, puuid: str, id_esperado: str | None = None) -> dict:
     """match-v5 -> resumen de la partida desde el punto de vista de `puuid`.
 
-    Incluye lo que muestra la fila de partida: KDA, CS, participación en asesinatos, ítems,
-    hechizos, runas y los participantes (campeón, equipo y nombre visible).
+    Incluye lo que muestra la fila de partida y el detalle para el modal: KDA, CS,
+    participación en asesinatos, ítems, hechizos, runas, participantes y objetivos de equipo.
     """
     datos = _dict(datos, "partida")
     metadata = _dict(datos.get("metadata"), "metadata")
@@ -256,15 +319,8 @@ def resumir_partida(datos, puuid: str, id_esperado: str | None = None) -> dict:
             _entero(jugador.get("summoner2Id", 0), "summoner2Id"),
         ],
         "runas": _runas(jugador.get("perks")),
-        "participantes": [
-            {
-                "puuid": _puuid_opcional(p.get("puuid")),
-                "campeon_id": _entero(p.get("championId"), "championId"),
-                "equipo": _equipo(p),
-                "nombre": _nombre_visible(p.get("riotIdGameName"), p.get("riotIdTagline")),
-            }
-            for p in participantes
-        ],
+        "equipos": _equipos(info.get("teams")),
+        "participantes": [_participante(p) for p in participantes],
     }
 
 

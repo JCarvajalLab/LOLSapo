@@ -184,3 +184,62 @@ def test_para_salida_incluye_solo_lo_usado():
         },
     }
     assert ddragon.para_salida(None, {}) is None
+
+
+def test_validar_items_con_descripcion_oro_y_receta():
+    datos = {
+        "data": {
+            "3156": {
+                "name": "Fauces de Malmortius",
+                "description": "<stats>+60 AD</stats>",
+                "gold": {"total": 3100},
+                "from": ["3155", "3134"],
+            }
+        }
+    }
+    resultado = ddragon.validar_items(datos)
+    assert resultado["3156"] == {
+        "nombre": "Fauces de Malmortius",
+        "descripcion": "<stats>+60 AD</stats>",
+        "oro": 3100,
+        "receta": [3155, 3134],
+    }
+
+
+def test_validar_runas_con_descripcion():
+    runas = [
+        {
+            "id": 8100,
+            "icon": "perk-images/Styles/7200_Domination.png",
+            "name": "Dominación",
+            "shortDesc": "Daño explosivo y acceso a objetivos",
+            "slots": [],
+        }
+    ]
+    resultado = ddragon.validar_runas(runas)
+    assert resultado["8100"]["descripcion"] == "Daño explosivo y acceso a objetivos"
+
+
+def test_para_salida_expande_componentes_de_receta():
+    datos = {
+        "version": "16.19.1",
+        "campeones": {},
+        "hechizos": {},
+        "items": {
+            "3156": {
+                "nombre": "Fauces de Malmortius",
+                "receta": [3155, 3134],
+            },
+            "3155": {"nombre": "Sorbechuzos"},
+            "3134": {"nombre": "Daga dentada"},
+            "9999": {"nombre": "No usado"},
+        },
+        "runas": {},
+    }
+    salida = ddragon.para_salida(
+        datos, {"campeones": set(), "items": {3156}, "runas": set(), "hechizos": set()}
+    )
+    assert "3156" in salida["items"]
+    assert "3155" in salida["items"]
+    assert "3134" in salida["items"]
+    assert "9999" not in salida["items"]

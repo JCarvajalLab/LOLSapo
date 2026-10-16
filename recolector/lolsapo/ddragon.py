@@ -18,7 +18,7 @@ from .validacion import DatoInvalido, texto_limpio
 
 URL_DDRAGON = "https://ddragon.leagueoflegends.com"
 IDIOMA = "es_MX"
-VERSION_CACHE = 2
+VERSION_CACHE = 3
 
 _PATRON_VERSION = re.compile(r"[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}")
 _PATRON_ID = re.compile(r"[A-Za-z0-9_]{1,40}")
@@ -81,7 +81,7 @@ def validar_hechizos(datos) -> dict[str, dict]:
 
 
 def validar_items(datos) -> dict[str, dict]:
-    """item.json -> {"3031": {"nombre": "Filo del Infinito"}, ...}."""
+    """item.json -> {"3031": {"nombre": "Filo del Infinito", ...}, ...}."""
     items = {}
     for clave, item in _datos(datos).items():
         if not isinstance(item, dict):
@@ -90,7 +90,24 @@ def validar_items(datos) -> dict[str, dict]:
             nombre = texto_limpio(item.get("name"), "name", 60)
         except DatoInvalido:
             continue  # Riot incluye algunos ítems internos sin nombre: se omiten.
-        items[_clave_numerica(clave)] = {"nombre": nombre}
+        info = {"nombre": nombre}
+        desc = item.get("description")
+        if isinstance(desc, str) and desc.strip():
+            info["descripcion"] = desc.strip()
+        gold = item.get("gold")
+        if isinstance(gold, dict) and isinstance(gold.get("total"), int) and gold["total"] > 0:
+            info["oro"] = gold["total"]
+        receta_raw = item.get("from")
+        if isinstance(receta_raw, list):
+            receta = []
+            for r in receta_raw:
+                try:
+                    receta.append(int(r))
+                except (ValueError, TypeError):
+                    pass
+            if receta:
+                info["receta"] = receta
+        items[_clave_numerica(clave)] = info
     return items
 
 
@@ -101,7 +118,11 @@ def _runa(datos) -> tuple[str, dict]:
     if not isinstance(icono, str) or not _PATRON_ICONO_RUNA.fullmatch(icono):
         raise DatoInvalido(f"ícono de runa inesperado: {icono!r}")
     nombre = texto_limpio(datos.get("name"), "name", 40)
-    return _clave_numerica(datos.get("id")), {"nombre": nombre, "icono": icono}
+    info = {"nombre": nombre, "icono": icono}
+    desc = datos.get("shortDesc") or datos.get("longDesc")
+    if isinstance(desc, str) and desc.strip():
+        info["descripcion"] = desc.strip()
+    return _clave_numerica(datos.get("id")), info
 
 
 def validar_runas(datos) -> dict[str, dict]:
@@ -192,8 +213,20 @@ def para_salida(ddragon: dict | None, usados: dict[str, set[int]]) -> dict | Non
     if ddragon is None:
         return None
     salida = {"version": ddragon["version"]}
+
+    # Expandir items para incluir componentes de recetas
+    items_disponibles = ddragon.get("items") or {}
+    ids_items = set(usados.get("items", set()))
+    for id_item in list(ids_items):
+        item_data = items_disponibles.get(str(id_item))
+        if item_data and "receta" in item_data:
+            ids_items.update(item_data["receta"])
+
+    usados_exp = dict(usados)
+    usados_exp["items"] = ids_items
+
     for clave in _ARCHIVOS:
         disponibles = ddragon.get(clave) or {}
-        ids = sorted(usados.get(clave, set()))
+        ids = sorted(usados_exp.get(clave, set()))
         salida[clave] = {str(i): disponibles[str(i)] for i in ids if str(i) in disponibles}
     return salida

@@ -77,6 +77,9 @@ def partida(
             "totalMinionsKilled": 150,
             "totalDamageDealtToChampions": 21_345,
             "neutralMinionsKilled": 27,
+            "goldEarned": 12_000,
+            "visionScore": 25,
+            "teamPosition": "MIDDLE",
             **{f"item{i}": item for i, item in enumerate([3031, 3006, 0, 0, 0, 0, 3340])},
             "summoner1Id": 4,
             "summoner2Id": 14,
@@ -104,6 +107,34 @@ def partida(
             "gameStartTimestamp": fin - duracion * 1000,
             "gameEndTimestamp": fin,
             "participants": participantes,
+            "teams": [
+                {
+                    "teamId": 100,
+                    "win": win,
+                    "bans": [{"championId": 157, "pickTurn": 1}],
+                    "objectives": {
+                        "baron": {"kills": 1 if win else 0},
+                        "dragon": {"kills": 2 if win else 1},
+                        "tower": {"kills": 8 if win else 3},
+                        "riftHerald": {"kills": 1 if win else 0},
+                        "horde": {"kills": 3 if win else 0},
+                        "inhibitor": {"kills": 1 if win else 0},
+                    },
+                },
+                {
+                    "teamId": 200,
+                    "win": not win,
+                    "bans": [{"championId": 238, "pickTurn": 2}],
+                    "objectives": {
+                        "baron": {"kills": 0 if win else 1},
+                        "dragon": {"kills": 1 if win else 2},
+                        "tower": {"kills": 3 if win else 8},
+                        "riftHerald": {"kills": 0 if win else 1},
+                        "horde": {"kills": 0 if win else 3},
+                        "inhibitor": {"kills": 0 if win else 1},
+                    },
+                },
+            ],
         },
     }
 

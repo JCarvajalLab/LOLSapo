@@ -499,11 +499,20 @@ def _elementos_usados(
             usados["campeones"].add(entrada["jugando"]["campeon_id"])
         for partida in entrada["partidas"]:
             usados["campeones"].add(partida["campeon_id"])
-            usados["campeones"].update(p["campeon_id"] for p in partida.get("participantes", []))
+            usados["campeones"].update(
+                p["campeon_id"] for p in partida.get("participantes", []) if p.get("campeon_id")
+            )
+            for eq in (partida.get("equipos") or {}).values():
+                usados["campeones"].update(b for b in eq.get("baneos", []) if b)
             usados["hechizos"].update(h for h in partida.get("hechizos", []) if h)
             usados["items"].update(i for i in partida.get("items", []) if i)
             runas = partida.get("runas") or {}
             usados["runas"].update(r for r in runas.values() if r)
+            for p in partida.get("participantes", []):
+                usados["hechizos"].update(h for h in p.get("hechizos", []) if h)
+                usados["items"].update(i for i in p.get("items", []) if i)
+                p_runas = p.get("runas") or {}
+                usados["runas"].update(r for r in p_runas.values() if r)
     for clave in (
         "mejor_jugador_hoy",
         "peor_jugador_hoy",
