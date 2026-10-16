@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   nombreCampeon,
   nombreHechizo,
@@ -12,6 +13,13 @@ import { csPorMinuto, esNumero, fechaCompleta, formatearDuracion, haceCuanto, ra
 import { agruparPorEquipo, nombreEquipo } from "../logica/partidas.js";
 import { datosResultado, EtiquetaModo } from "./Etiquetas.jsx";
 import { ImagenDD } from "./ImagenDD.jsx";
+import { ModalDetallePartida } from "./ModalDetallePartida.jsx";
+import {
+  ContenidoTooltipArbolRunas,
+  ContenidoTooltipItem,
+  ContenidoTooltipRuna,
+  ElementoConTooltip,
+} from "./TooltipFlotante.jsx";
 
 const RESULTADOS_CONOCIDOS = new Set(["victoria", "derrota", "remake"]);
 
@@ -19,28 +27,57 @@ const RESULTADOS_CONOCIDOS = new Set(["victoria", "derrota", "remake"]);
  * Una partida al estilo op.gg. Tolera partidas antiguas sin ítems, runas ni participantes.
  * El tono (verde, rojo o gris) va en un canto a la izquierda y un tinte leve (`.canto` en
  * index.css); el resultado siempre se lee también en texto con su ícono.
+ * Toda la tarjeta es interactiva y al hacer clic abre el modal de detalle completo.
  */
 export function FilaPartida({ partida, ddragon, ahora, slugPropio }) {
+  const [modalAbierto, setModalAbierto] = useState(false);
   const p = partida ?? {};
   const campeon = nombreCampeon(ddragon, p.campeon_id, p.campeon);
 
+  const alHacerClic = () => {
+    setModalAbierto(true);
+  };
+
+  const alTeclear = (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      setModalAbierto(true);
+    }
+  };
+
   return (
-    <article
-      aria-label={`${campeon}, ${p.modo || "Modo especial"}`}
-      data-resultado={RESULTADOS_CONOCIDOS.has(p.resultado) ? p.resultado : undefined}
-      className="canto flex flex-wrap items-center gap-x-4 gap-y-3 rounded-md py-2.5 pr-3 pl-3.5"
-    >
-      <BloqueInfo p={p} ahora={ahora} />
-      <div className="flex flex-col gap-2">
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-          <BloqueCampeon p={p} ddragon={ddragon} campeon={campeon} />
-          <BloqueKda p={p} />
-          <BloqueCifras p={p} />
+    <>
+      <article
+        tabIndex={0}
+        aria-label={`${campeon}, ${p.modo || "Modo especial"}`}
+        aria-haspopup="dialog"
+        data-resultado={RESULTADOS_CONOCIDOS.has(p.resultado) ? p.resultado : undefined}
+        onClick={alHacerClic}
+        onKeyDown={alTeclear}
+        className="canto flex flex-wrap items-center gap-x-4 gap-y-3 rounded-md py-2.5 pr-3 pl-3.5 cursor-pointer transition-all hover:brightness-110 hover:shadow-md focus:outline-none focus:ring-1 focus:ring-dorado/50 select-none"
+      >
+        <BloqueInfo p={p} ahora={ahora} />
+        <div className="flex flex-col gap-2">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+            <BloqueCampeon p={p} ddragon={ddragon} campeon={campeon} />
+            <BloqueKda p={p} />
+            <BloqueCifras p={p} />
+          </div>
+          <Items items={p.items} ddragon={ddragon} />
         </div>
-        <Items items={p.items} ddragon={ddragon} />
-      </div>
-      <Participantes participantes={p.participantes} ddragon={ddragon} slugPropio={slugPropio} />
-    </article>
+        <Participantes participantes={p.participantes} ddragon={ddragon} slugPropio={slugPropio} />
+      </article>
+
+      {modalAbierto && (
+        <ModalDetallePartida
+          partida={p}
+          ddragon={ddragon}
+          ahora={ahora}
+          slugPropio={slugPropio}
+          onCerrar={() => setModalAbierto(false)}
+        />
+      )}
+    </>
   );
 }
 
@@ -92,16 +129,29 @@ function BloqueCampeon({ p, ddragon, campeon }) {
       )}
       {runas.some((r) => r !== null && r !== undefined) && (
         <span className="flex flex-col gap-0.5">
-          {runas.map((r, i) => (
-            <ImagenDD
-              key={i}
-              src={urlRuna(ddragon, r)}
-              alt={nombreRuna(ddragon, r)}
-              tamaño={22}
-              redonda
-              className={i === 1 ? "p-0.5" : ""}
-            />
-          ))}
+          {runas.map((r, i) =>
+            r ? (
+              <ElementoConTooltip
+                key={i}
+                tooltip={
+                  i === 0 && (p.runas?.primarias || p.runas?.secundarias) ? (
+                    <ContenidoTooltipArbolRunas runas={p.runas} ddragon={ddragon} />
+                  ) : (
+                    <ContenidoTooltipRuna runaId={r} ddragon={ddragon} />
+                  )
+                }
+              >
+                <ImagenDD
+                  src={urlRuna(ddragon, r)}
+                  alt={nombreRuna(ddragon, r)}
+                  sinTitulo
+                  tamaño={22}
+                  redonda
+                  className={i === 1 ? "p-0.5" : ""}
+                />
+              </ElementoConTooltip>
+            ) : null,
+          )}
         </span>
       )}
     </div>
@@ -154,7 +204,11 @@ function Items({ items, ddragon }) {
       {espacios.map((id, i) =>
         id > 0 ? (
           <li key={i} className={i === 6 ? "ml-1.5" : undefined}>
-            <ImagenDD src={urlItem(ddragon, id)} alt={nombreItem(ddragon, id)} tamaño={24} className={i === 6 ? "rounded-full" : ""} />
+            <ElementoConTooltip
+              tooltip={<ContenidoTooltipItem itemId={id} ddragon={ddragon} />}
+            >
+              <ImagenDD src={urlItem(ddragon, id)} alt={nombreItem(ddragon, id)} sinTitulo tamaño={24} className={i === 6 ? "rounded-full" : ""} />
+            </ElementoConTooltip>
           </li>
         ) : (
           <li key={i} className={i === 6 ? "ml-1.5" : undefined}>

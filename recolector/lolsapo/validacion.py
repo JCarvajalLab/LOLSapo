@@ -165,24 +165,117 @@ def _equipo(participante: dict) -> int:
 
 
 def _runas(perks) -> dict:
-    """Runa principal (keystone) y estilo secundario. Si no vienen, quedan en None."""
+    """Runa principal, estilo secundario, y selecciones completas de runas y fragmentos."""
     principal = secundaria = None
-    estilos = perks.get("styles") if isinstance(perks, dict) else None
-    if isinstance(estilos, list) and estilos:
-        primero = estilos[0] if isinstance(estilos[0], dict) else {}
-        selecciones = primero.get("selections")
-        if isinstance(selecciones, list) and selecciones and isinstance(selecciones[0], dict):
-            principal = _entero_opcional(selecciones[0].get("perk"), "perk")
-        if len(estilos) > 1 and isinstance(estilos[1], dict):
-            secundaria = _entero_opcional(estilos[1].get("style"), "style")
-    return {"principal": principal, "secundaria": secundaria}
+    seleccionadas_primarias = []
+    seleccionadas_secundarias = []
+    fragmentos = []
+
+    if isinstance(perks, dict):
+        estilos = perks.get("styles")
+        if isinstance(estilos, list) and estilos:
+            primero = estilos[0] if isinstance(estilos[0], dict) else {}
+            selecciones = primero.get("selections")
+            if isinstance(selecciones, list):
+                for s in selecciones:
+                    if isinstance(s, dict) and isinstance(s.get("perk"), int):
+                        seleccionadas_primarias.append(s["perk"])
+                if seleccionadas_primarias:
+                    principal = seleccionadas_primarias[0]
+
+            if len(estilos) > 1 and isinstance(estilos[1], dict):
+                secundaria = _entero_opcional(estilos[1].get("style"), "style")
+                selecciones_sec = estilos[1].get("selections")
+                if isinstance(selecciones_sec, list):
+                    for s in selecciones_sec:
+                        if isinstance(s, dict) and isinstance(s.get("perk"), int):
+                            seleccionadas_secundarias.append(s["perk"])
+
+        stats = perks.get("statPerks")
+        if isinstance(stats, dict):
+            for k in ("offense", "flex", "defense"):
+                v = stats.get(k)
+                if isinstance(v, int):
+                    fragmentos.append(v)
+
+    res = {"principal": principal, "secundaria": secundaria}
+    if seleccionadas_primarias:
+        res["primarias"] = seleccionadas_primarias
+    if seleccionadas_secundarias:
+        res["secundarias"] = seleccionadas_secundarias
+    if fragmentos:
+        res["fragmentos"] = fragmentos
+    return res
+
+
+def _kills_objetivo(objs: dict, nombre_obj: str) -> int:
+    obj = objs.get(nombre_obj)
+    if isinstance(obj, dict) and isinstance(obj.get("kills"), int):
+        return obj["kills"]
+    return 0
+
+
+def _equipos(teams) -> dict[str, dict] | None:
+    if not isinstance(teams, list) or not teams:
+        return None
+    res = {}
+    for t in teams:
+        if not isinstance(t, dict):
+            continue
+        tid = str(t.get("teamId"))
+        objs = t.get("objectives") if isinstance(t.get("objectives"), dict) else {}
+        bans_raw = t.get("bans") if isinstance(t.get("bans"), list) else []
+        bans = [
+            b.get("championId")
+            for b in bans_raw
+            if isinstance(b, dict)
+            and isinstance(b.get("championId"), int)
+            and b.get("championId") > 0
+        ]
+
+        res[tid] = {
+            "victoria": t.get("win") is True,
+            "baneos": bans,
+            "torres": _kills_objetivo(objs, "tower"),
+            "dragones": _kills_objetivo(objs, "dragon"),
+            "barones": _kills_objetivo(objs, "baron"),
+            "heraldos": _kills_objetivo(objs, "riftHerald"),
+            "larvas": _kills_objetivo(objs, "horde"),
+            "inhibidores": _kills_objetivo(objs, "inhibitor"),
+        }
+    return res if res else None
+
+
+def _participante(p: dict) -> dict:
+    return {
+        "puuid": _puuid_opcional(p.get("puuid")),
+        "campeon_id": _entero(p.get("championId"), "championId"),
+        "equipo": _equipo(p),
+        "nombre": _nombre_visible(p.get("riotIdGameName"), p.get("riotIdTagline")),
+        "nivel": _entero(p.get("champLevel") or 0, "champLevel"),
+        "asesinatos": _entero(p.get("kills") or 0, "kills"),
+        "muertes": _entero(p.get("deaths") or 0, "deaths"),
+        "asistencias": _entero(p.get("assists") or 0, "assists"),
+        "cs": _entero(p.get("totalMinionsKilled") or 0, "totalMinionsKilled")
+        + _entero(p.get("neutralMinionsKilled") or 0, "neutralMinionsKilled"),
+        "oro": _entero(p.get("goldEarned") or 0, "goldEarned"),
+        "danio": _danio(p.get("totalDamageDealtToChampions")),
+        "vision": _entero(p.get("visionScore") or 0, "visionScore"),
+        "posicion": str(p.get("teamPosition") or p.get("individualPosition") or ""),
+        "items": [_entero(p.get(f"item{i}") or 0, f"item{i}") for i in range(7)],
+        "hechizos": [
+            _entero(p.get("summoner1Id") or 0, "summoner1Id"),
+            _entero(p.get("summoner2Id") or 0, "summoner2Id"),
+        ],
+        "runas": _runas(p.get("perks")),
+    }
 
 
 def resumir_partida(datos, puuid: str, id_esperado: str | None = None) -> dict:
     """match-v5 -> resumen de la partida desde el punto de vista de `puuid`.
 
-    Incluye lo que muestra la fila de partida: KDA, CS, participación en asesinatos, ítems,
-    hechizos, runas y los participantes (campeón, equipo y nombre visible).
+    Incluye lo que muestra la fila de partida y el detalle para el modal: KDA, CS,
+    participación en asesinatos, ítems, hechizos, runas, participantes y objetivos de equipo.
     """
     datos = _dict(datos, "partida")
     metadata = _dict(datos.get("metadata"), "metadata")
@@ -256,15 +349,8 @@ def resumir_partida(datos, puuid: str, id_esperado: str | None = None) -> dict:
             _entero(jugador.get("summoner2Id", 0), "summoner2Id"),
         ],
         "runas": _runas(jugador.get("perks")),
-        "participantes": [
-            {
-                "puuid": _puuid_opcional(p.get("puuid")),
-                "campeon_id": _entero(p.get("championId"), "championId"),
-                "equipo": _equipo(p),
-                "nombre": _nombre_visible(p.get("riotIdGameName"), p.get("riotIdTagline")),
-            }
-            for p in participantes
-        ],
+        "equipos": _equipos(info.get("teams")),
+        "participantes": [_participante(p) for p in participantes],
     }
 
 

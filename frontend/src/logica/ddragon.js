@@ -79,3 +79,26 @@ export function urlRuna(dd, runaId) {
 export function nombreRuna(dd, runaId) {
   return dd?.runas?.[clave(runaId)]?.nombre ?? "Runa";
 }
+
+export function datosItem(dd, itemId) {
+  const item = dd?.items?.[clave(itemId)];
+  if (!item) return null;
+  return {
+    id: itemId,
+    nombre: item.nombre ?? `Ítem ${itemId}`,
+    descripcion: typeof item.descripcion === "string" ? item.descripcion : null,
+    oro: Number.isInteger(item.oro) ? item.oro : null,
+    receta: Array.isArray(item.receta) ? item.receta : [],
+  };
+}
+
+export function datosRuna(dd, runaId) {
+  const runa = dd?.runas?.[clave(runaId)];
+  if (!runa) return null;
+  return {
+    id: runaId,
+    nombre: runa.nombre ?? "Runa",
+    icono: urlRuna(dd, runaId),
+    descripcion: typeof runa.descripcion === "string" ? runa.descripcion : null,
+  };
+}

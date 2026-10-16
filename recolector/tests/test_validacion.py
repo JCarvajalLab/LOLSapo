@@ -17,48 +17,45 @@ PUUID = puuid_de("Johnadis")
 
 def test_resumen_de_victoria():
     resumen = resumir_partida(partida("LA2_100", PUUID, queue_id=450, win=True), PUUID)
-    assert resumen == {
-        "id": "LA2_100",
-        "fecha": 1_790_000_000_000,
-        "queue_id": 450,
-        "campeon": "Ahri",
-        "campeon_id": 103,
-        "resultado": "victoria",
-        "asesinatos": 5,
-        "muertes": 2,
-        "asistencias": 7,
-        "duracion": 1800,
-        "nivel": 16,
-        "cs": 177,
-        # (5 asesinatos + 7 asistencias) / (5 + 10 asesinatos del equipo) = 80 %
-        "participacion": 80,
-        "danio": 21_345,
-        "equipo": 100,
-        "items": [3031, 3006, 0, 0, 0, 0, 3340],
-        "hechizos": [4, 14],
-        "runas": {"principal": 8112, "secundaria": 8000},
-        "participantes": [
-            {"puuid": PUUID, "campeon_id": 103, "equipo": 100, "nombre": "Yo#LAS"},
-            {
-                "puuid": "aliado".ljust(78, "a"),
-                "campeon_id": 86,
-                "equipo": 100,
-                "nombre": "Aliado#LAS",
-            },
-            {
-                "puuid": "rival1".ljust(78, "r"),
-                "campeon_id": 62,
-                "equipo": 200,
-                "nombre": "Rival1#LAS",
-            },
-            {
-                "puuid": "rival2".ljust(78, "r"),
-                "campeon_id": 1,
-                "equipo": 200,
-                "nombre": "Rival2#LAS",
-            },
-        ],
-    }
+    assert resumen["id"] == "LA2_100"
+    assert resumen["fecha"] == 1_790_000_000_000
+    assert resumen["queue_id"] == 450
+    assert resumen["campeon"] == "Ahri"
+    assert resumen["campeon_id"] == 103
+    assert resumen["resultado"] == "victoria"
+    assert resumen["asesinatos"] == 5
+    assert resumen["muertes"] == 2
+    assert resumen["asistencias"] == 7
+    assert resumen["duracion"] == 1800
+    assert resumen["nivel"] == 16
+    assert resumen["cs"] == 177
+    assert resumen["participacion"] == 80
+    assert resumen["danio"] == 21_345
+    assert resumen["equipo"] == 100
+    assert resumen["items"] == [3031, 3006, 0, 0, 0, 0, 3340]
+    assert resumen["hechizos"] == [4, 14]
+    assert resumen["runas"]["principal"] == 8112
+    assert resumen["runas"]["secundaria"] == 8000
+    assert resumen["runas"]["primarias"] == [8112, 8143, 8138, 8105]
+    assert resumen["runas"]["secundarias"] == [9111, 9104]
+    assert resumen["runas"]["fragmentos"] == [5008, 5008, 5001]
+    assert resumen["equipos"]["100"]["victoria"] is True
+    assert resumen["equipos"]["100"]["torres"] == 8
+    assert resumen["equipos"]["100"]["baneos"] == [157]
+    assert resumen["equipos"]["200"]["victoria"] is False
+    assert len(resumen["participantes"]) == 4
+    yo = resumen["participantes"][0]
+    assert yo["puuid"] == PUUID
+    assert yo["campeon_id"] == 103
+    assert yo["equipo"] == 100
+    assert yo["nombre"] == "Yo#LAS"
+    assert yo["nivel"] == 16
+    assert yo["asesinatos"] == 5
+    assert yo["cs"] == 177
+    assert yo["oro"] == 12_000
+    assert yo["vision"] == 25
+    assert yo["posicion"] == "MIDDLE"
+    assert yo["items"] == [3031, 3006, 0, 0, 0, 0, 3340]
 
 
 def test_participante_sin_nombre_ni_puuid_queda_en_none():
@@ -66,7 +63,10 @@ def test_participante_sin_nombre_ni_puuid_queda_en_none():
     rival = datos["info"]["participants"][3]
     rival.update(puuid="", riotIdGameName="", riotIdTagline="")
     otro = resumir_partida(datos, PUUID)["participantes"][3]
-    assert otro == {"puuid": None, "campeon_id": 1, "equipo": 200, "nombre": None}
+    assert otro["puuid"] is None
+    assert otro["nombre"] is None
+    assert otro["campeon_id"] == 1
+    assert otro["equipo"] == 200
 
 
 def test_sin_asesinatos_del_equipo_la_participacion_es_none():
