@@ -99,6 +99,8 @@ def completa(partida: dict) -> bool:
         p0 = parts[0]
         if isinstance(p0, dict) and "items" not in p0 and "asesinatos" not in p0:
             return False
+    if "curva_oro" not in partida:
+        return False
     return True
 
 

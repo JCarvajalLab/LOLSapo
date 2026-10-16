@@ -209,6 +209,13 @@ class ClienteRiot:
         """match-v5: detalle de una partida."""
         return self._get(f"{URL_REGION}/lol/match/v5/matches/{_segmento(id_partida)}")
 
+    def timeline(self, id_partida: str) -> dict | None:
+        """match-v5: línea temporal de la partida (cuadros por minuto con oro y eventos)."""
+        return self._get(
+            f"{URL_REGION}/lol/match/v5/matches/{_segmento(id_partida)}/timeline",
+            permitir_404=True,
+        )
+
     def maestria(self, puuid: str, campeon_id: int) -> dict | None:
         """champion-mastery-v4: maestría con un campeón, o None si nunca lo jugó (404)."""
         url = (

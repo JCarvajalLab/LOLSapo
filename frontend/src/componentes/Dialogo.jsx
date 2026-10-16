@@ -50,7 +50,7 @@ export function Dialogo({ idTitulo, titulo, onCerrar, children, anchoMax = "max-
   return createPortal(
     <div
       data-fondo-dialogo
-      className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-fondo/85 px-2 py-4 sm:items-center sm:p-6"
+      className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-fondo/85 px-2 py-4 sm:p-6"
       onMouseDown={(e) => {
         presionFuera.current = e.target === e.currentTarget;
       }}
@@ -67,7 +67,7 @@ export function Dialogo({ idTitulo, titulo, onCerrar, children, anchoMax = "max-
         aria-labelledby={idTitulo}
         tabIndex={-1}
         onKeyDown={alTeclear}
-        className={`losa dialogo-entra w-full ${anchoMax} rounded-xl border p-3 shadow-2xl shadow-black/60 focus:outline-none sm:p-5`}
+        className={`losa dialogo-entra my-auto w-full ${anchoMax} rounded-xl border p-3 shadow-2xl shadow-black/60 focus:outline-none sm:p-5`}
       >
         <div className="mb-4 flex items-start gap-3 border-b border-borde pb-3">
           <div className="min-w-0 flex-1">{titulo}</div>
