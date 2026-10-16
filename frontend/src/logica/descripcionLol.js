@@ -2,13 +2,21 @@
 // a elementos seguros de React sin usar dangerouslySetInnerHTML ni violar CSP.
 import React from "react";
 
+const ENTIDADES_HTML = {
+  "&nbsp;": " ",
+  "&lt;": "<",
+  "&gt;": ">",
+  "&quot;": '"',
+  "&#39;": "'",
+  "&apos;": "'",
+  "&amp;": "&",
+};
+
 function decodificarEntidades(str) {
-  return str
-    .replace(/&nbsp;/g, " ")
-    .replace(/&amp;/g, "&")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
-    .replace(/&quot;/g, '"');
+  return str.replace(
+    /&(?:nbsp|amp|lt|gt|quot|#39|apos);/g,
+    (match) => ENTIDADES_HTML[match] ?? match,
+  );
 }
 
 /**
