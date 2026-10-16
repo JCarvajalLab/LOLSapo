@@ -12,7 +12,7 @@ const ENFOCABLES =
  *   le toca a quien la abrió, porque sabe a dónde debe volver.
  * - Mientras está abierta, la página de fondo no hace scroll (clase en <html>).
  */
-export function Dialogo({ idTitulo, titulo, onCerrar, children }) {
+export function Dialogo({ idTitulo, titulo, onCerrar, children, anchoMax = "max-w-lg" }) {
   const ref = useRef(null);
   const presionFuera = useRef(false);
 
@@ -67,7 +67,7 @@ export function Dialogo({ idTitulo, titulo, onCerrar, children }) {
         aria-labelledby={idTitulo}
         tabIndex={-1}
         onKeyDown={alTeclear}
-        className="losa dialogo-entra w-full max-w-lg rounded-xl border p-3 shadow-2xl shadow-black/60 focus:outline-none sm:p-5"
+        className={`losa dialogo-entra w-full ${anchoMax} rounded-xl border p-3 shadow-2xl shadow-black/60 focus:outline-none sm:p-5`}
       >
         <div className="mb-4 flex items-start gap-3 border-b border-borde pb-3">
           <div className="min-w-0 flex-1">{titulo}</div>
