@@ -14,7 +14,12 @@ import { agruparPorEquipo, nombreEquipo } from "../logica/partidas.js";
 import { datosResultado, EtiquetaModo } from "./Etiquetas.jsx";
 import { ImagenDD } from "./ImagenDD.jsx";
 import { ModalDetallePartida } from "./ModalDetallePartida.jsx";
-import { ContenidoTooltipItem, ContenidoTooltipRuna, ElementoConTooltip } from "./TooltipFlotante.jsx";
+import {
+  ContenidoTooltipArbolRunas,
+  ContenidoTooltipItem,
+  ContenidoTooltipRuna,
+  ElementoConTooltip,
+} from "./TooltipFlotante.jsx";
 
 const RESULTADOS_CONOCIDOS = new Set(["victoria", "derrota", "remake"]);
 
@@ -128,7 +133,13 @@ function BloqueCampeon({ p, ddragon, campeon }) {
             r ? (
               <ElementoConTooltip
                 key={i}
-                tooltip={<ContenidoTooltipRuna runaId={r} ddragon={ddragon} />}
+                tooltip={
+                  i === 0 && (p.runas?.primarias || p.runas?.secundarias) ? (
+                    <ContenidoTooltipArbolRunas runas={p.runas} ddragon={ddragon} />
+                  ) : (
+                    <ContenidoTooltipRuna runaId={r} ddragon={ddragon} />
+                  )
+                }
               >
                 <ImagenDD
                   src={urlRuna(ddragon, r)}

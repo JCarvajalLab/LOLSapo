@@ -80,7 +80,7 @@ function PortalTooltip({ rect, children }) {
     <div
       ref={refFlotante}
       style={estilo}
-      className="losa w-72 max-w-[90vw] rounded-lg border border-borde/90 bg-fondo/95 p-3 text-xs text-texto shadow-2xl backdrop-blur-md transition-opacity duration-150"
+      className="losa w-max max-w-[92vw] rounded-lg border border-borde/90 bg-fondo/95 p-3 text-xs text-texto shadow-2xl backdrop-blur-md transition-opacity duration-150"
     >
       {children}
     </div>,
@@ -99,7 +99,7 @@ export function ContenidoTooltipItem({ itemId, ddragon }) {
   const receta = datos?.receta ?? [];
 
   return (
-    <div className="space-y-2.5">
+    <div className="w-72 max-w-[85vw] space-y-2.5">
       <div className="flex items-center gap-2.5 border-b border-borde/60 pb-2">
         <ImagenDD
           src={urlItem(ddragon, itemId)}
@@ -151,14 +151,14 @@ export function ContenidoTooltipItem({ itemId, ddragon }) {
 }
 
 /**
- * Contenido formateado del tooltip de una runa.
+ * Contenido formateado del tooltip de una runa simple.
  */
 export function ContenidoTooltipRuna({ runaId, ddragon }) {
   const datos = datosRuna(ddragon, runaId);
   if (!datos) return null;
 
   return (
-    <div className="space-y-2">
+    <div className="w-72 max-w-[85vw] space-y-2">
       <div className="flex items-center gap-2 border-b border-borde/60 pb-1.5">
         {datos.icono && (
           <img src={datos.icono} alt="" width={24} height={24} className="shrink-0" />
@@ -170,6 +170,145 @@ export function ContenidoTooltipRuna({ runaId, ddragon }) {
           {formatearDescripcionLol(datos.descripcion)}
         </div>
       ) : null}
+    </div>
+  );
+}
+
+export const FRAGMENTOS_ESTADISTICAS = {
+  5001: { texto: "+10-180 de vida (según el nivel)", icono: "💚" },
+  5002: { texto: "+6 de armadura", icono: "🛡️" },
+  5003: { texto: "+8 de resistencia mágica", icono: "🔮" },
+  5005: { texto: "+10% de velocidad de ataque", icono: "⚡" },
+  5007: { texto: "+8 de velocidad de habilidades", icono: "⌛" },
+  5008: { texto: "+9 de fuerza adaptable", icono: "◆" },
+  5010: { texto: "+2% de velocidad de movimiento", icono: "👟" },
+  5011: { texto: "+65 de vida", icono: "💚" },
+  5013: { texto: "+10% de tenacidad", icono: "🛡️" },
+};
+
+/**
+ * Tooltip con el árbol completo de runas armadas en 2 columnas:
+ * Columna 1: Rama principal (4 runas)
+ * Columna 2: Rama secundaria (2 runas) + 3 fragmentos de estadísticas
+ */
+export function ContenidoTooltipArbolRunas({ runas, ddragon }) {
+  if (!runas || typeof runas !== "object") return null;
+
+  const primarias = Array.isArray(runas.primarias) && runas.primarias.length > 0
+    ? runas.primarias
+    : runas.principal
+      ? [runas.principal]
+      : [];
+
+  const secundarias = Array.isArray(runas.secundarias)
+    ? runas.secundarias
+    : runas.secundaria
+      ? [runas.secundaria]
+      : [];
+
+  const fragmentos = Array.isArray(runas.fragmentos) ? runas.fragmentos : [];
+
+  if (primarias.length === 0 && secundarias.length === 0) {
+    return <p className="text-xs text-texto-suave">Sin información de runas.</p>;
+  }
+
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full md:w-[540px] text-xs">
+      {/* Columna Izquierda: Rama Principal */}
+      <div className="space-y-3">
+        <p className="text-[11px] font-semibold text-dorado uppercase tracking-wider border-b border-borde/60 pb-1">
+          Rama Principal
+        </p>
+        <div className="space-y-3">
+          {primarias.map((runaId, idx) => {
+            const datos = datosRuna(ddragon, runaId);
+            return (
+              <div key={`${runaId}-${idx}`} className="flex items-start gap-2.5">
+                {datos?.icono ? (
+                  <img
+                    src={datos.icono}
+                    alt=""
+                    width={28}
+                    height={28}
+                    className="shrink-0 mt-0.5 rounded-full"
+                  />
+                ) : (
+                  <span className="size-7 shrink-0 rounded-full bg-superficie-alta" />
+                )}
+                <div className="min-w-0 flex-1">
+                  <p className="font-semibold text-texto leading-tight">
+                    {datos?.nombre ?? `Runa ${runaId}`}
+                  </p>
+                  {datos?.descripcion && (
+                    <div className="text-texto-suave text-[11px] leading-snug mt-0.5">
+                      {formatearDescripcionLol(datos.descripcion)}
+                    </div>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Columna Derecha: Rama Secundaria + Fragmentos */}
+      <div className="space-y-3 flex flex-col justify-between">
+        <div>
+          <p className="text-[11px] font-semibold text-dorado uppercase tracking-wider border-b border-borde/60 pb-1 mb-3">
+            Rama Secundaria
+          </p>
+          <div className="space-y-3">
+            {secundarias.map((runaId, idx) => {
+              const datos = datosRuna(ddragon, runaId);
+              return (
+                <div key={`${runaId}-${idx}`} className="flex items-start gap-2.5">
+                  {datos?.icono ? (
+                    <img
+                      src={datos.icono}
+                      alt=""
+                      width={28}
+                      height={28}
+                      className="shrink-0 mt-0.5 rounded-full"
+                    />
+                  ) : (
+                    <span className="size-7 shrink-0 rounded-full bg-superficie-alta" />
+                  )}
+                  <div className="min-w-0 flex-1">
+                    <p className="font-semibold text-texto leading-tight">
+                      {datos?.nombre ?? `Runa ${runaId}`}
+                    </p>
+                    {datos?.descripcion && (
+                      <div className="text-texto-suave text-[11px] leading-snug mt-0.5">
+                        {formatearDescripcionLol(datos.descripcion)}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Fragmentos de estadísticas (Shards) */}
+        {fragmentos.length > 0 && (
+          <div className="rounded-lg border border-borde/70 bg-superficie/80 p-2.5 space-y-1.5 mt-2">
+            <p className="text-[10px] font-semibold text-texto-suave uppercase tracking-wider mb-1">
+              Fragmentos de estadísticas
+            </p>
+            {fragmentos.map((shardId, idx) => {
+              const info = FRAGMENTOS_ESTADISTICAS[shardId];
+              return (
+                <div key={idx} className="flex items-center gap-2 text-[11px] text-texto">
+                  <span aria-hidden="true" className="text-xs shrink-0">
+                    {info?.icono ?? "◆"}
+                  </span>
+                  <span>{info?.texto ?? `+ Fragmento ${shardId}`}</span>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
