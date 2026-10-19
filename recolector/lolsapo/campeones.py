@@ -99,9 +99,11 @@ def _agregar_partidas(partidas_con_amigo: list[tuple[dict, str]]) -> dict:
                 "cs": 0,
                 "danio": 0,
                 "duracion": 0,
+                "amigos_conteo": {},
             }
         c_stat = por_campeon[cid]
         c_stat["partidas"] += 1
+        c_stat["amigos_conteo"][slug] = c_stat["amigos_conteo"].get(slug, 0) + 1
         if es_victoria:
             c_stat["victorias"] += 1
         else:
@@ -137,9 +139,11 @@ def _agregar_partidas(partidas_con_amigo: list[tuple[dict, str]]) -> dict:
                     "cs": 0,
                     "danio": 0,
                     "duracion": 0,
+                    "amigos_conteo": {},
                 }
             l_stat = por_linea[pos][cid]
             l_stat["partidas"] += 1
+            l_stat["amigos_conteo"][slug] = l_stat["amigos_conteo"].get(slug, 0) + 1
             if es_victoria:
                 l_stat["victorias"] += 1
             else:
@@ -156,6 +160,11 @@ def _agregar_partidas(partidas_con_amigo: list[tuple[dict, str]]) -> dict:
         for s in stats_dict.values():
             n = s["partidas"]
             minutos = s["duracion"] / 60 if s["duracion"] > 0 else 0
+            amigos_ordenados = sorted(
+                [{"slug": sm, "partidas": cant} for sm, cant in s["amigos_conteo"].items()],
+                key=lambda x: -x["partidas"],
+            )
+            amigo_ppal = amigos_ordenados[0]["slug"] if amigos_ordenados else None
             lista.append(
                 {
                     "campeon_id": s["campeon_id"],
@@ -174,6 +183,8 @@ def _agregar_partidas(partidas_con_amigo: list[tuple[dict, str]]) -> dict:
                     "cs_promedio": round(s["cs"] / n, 1) if n else 0.0,
                     "cs_minuto": round(s["cs"] / minutos, 1) if minutos > 0 else 0.0,
                     "danio_promedio": round(s["danio"] / n) if n else 0,
+                    "amigos": amigos_ordenados,
+                    "amigo_principal": amigo_ppal,
                 }
             )
         lista.sort(key=lambda c: (-c["partidas"], -(c["winrate"] or 0), c["campeon"]))

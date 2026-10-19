@@ -130,6 +130,7 @@ function VistaLol({ datos, error, ahora, abiertos, alternar, abrir, enfocar }) {
 
       <SeccionCampeones
         campeones={datos.campeones}
+        amigos={datos.amigos}
         ddragon={datos.ddragon}
         onVerDetalle={() => setModalCampeonesAbierto(true)}
       />

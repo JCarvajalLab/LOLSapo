@@ -1,18 +1,36 @@
+import { useState } from "react";
 import { nombreCampeon, urlCampeon } from "../logica/ddragon.js";
 import { claseWinrate } from "../logica/formato.js";
 import { listaCampeones, obtenerBloqueCampeones } from "../logica/campeones.js";
 import { ImagenDD } from "./ImagenDD.jsx";
 
+function nombreAmigo(slug, amigos) {
+  if (!slug) return "";
+  const amigo = (amigos || []).find((a) => a.slug === slug);
+  return amigo?.nombre || amigo?.riot_id?.split("#")[0] || slug;
+}
+
+function tooltipAmigos(c, amigos) {
+  if (!c.amigos || c.amigos.length === 0) return "";
+  return c.amigos
+    .map((a) => `${nombreAmigo(a.slug, amigos)}: ${a.partidas} ${a.partidas === 1 ? "partida" : "partidas"}`)
+    .join(" · ");
+}
+
 /**
  * Tarjeta de Campeones más jugados para el Dashboard.
  * Muestra el Top 5 con barras visuales para Partidas, Winrate y KDA, estilo OP.GG.
- * Es interactiva: al hacer clic abre el modal completo de desglose.
+ * Permite filtrar por amigo mediante pestañas rápidas y muestra quién juega cada campeón.
  */
-export function TarjetaCampeones({ campeones, ddragon, onVerDetalle, refBoton }) {
-  const bloque = obtenerBloqueCampeones(campeones, "global", "todo");
+export function TarjetaCampeones({ campeones, amigos, ddragon, onVerDetalle, refBoton }) {
+  const [amigoActivo, setAmigoActivo] = useState("global");
+
+  const bloque = obtenerBloqueCampeones(campeones, amigoActivo, "todo");
   const todos = listaCampeones(bloque);
   const top5 = todos.slice(0, 5);
   const maxPartidas = Math.max(...top5.map((c) => c.partidas), 1);
+
+  const listaAmigos = Array.isArray(amigos) ? amigos : [];
 
   return (
     <article
@@ -20,29 +38,73 @@ export function TarjetaCampeones({ campeones, ddragon, onVerDetalle, refBoton })
       data-destacado="campeones"
       className="group relative flex h-full flex-col justify-between rounded-lg border border-borde/80 bg-fondo/40 p-3 sm:p-4 losa"
     >
-      <div className="flex items-center justify-between gap-2 mb-3">
-        <div className="flex items-center gap-2 min-w-0">
-          <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded bg-sapo-fondo text-sapo border border-sapo/30">
-            <svg
-              className="h-3.5 w-3.5 fill-current"
-              viewBox="0 0 24 24"
+      <div>
+        {/* Cabecera */}
+        <div className="flex items-center justify-between gap-2 mb-2">
+          <div className="flex items-center gap-2 min-w-0">
+            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded bg-sapo-fondo text-sapo border border-sapo/30">
+              <svg
+                className="h-3.5 w-3.5 fill-current"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+              </svg>
+            </span>
+            <h3 id="titulo-tarjeta-campeones" className="text-sm font-titulo font-bold tracking-wide uppercase text-texto">
+              Campeones
+            </h3>
+          </div>
+
+          {onVerDetalle && (
+            <span
               aria-hidden="true"
+              className="shrink-0 rounded-full border border-borde px-2 py-0.5 text-xs whitespace-nowrap text-texto-suave group-hover:border-sapo/60 group-hover:text-sapo transition-colors"
             >
-              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-            </svg>
-          </span>
-          <h3 id="titulo-tarjeta-campeones" className="text-sm font-titulo font-bold tracking-wide uppercase text-texto">
-            Campeones
-          </h3>
+              Top 5 ›
+            </span>
+          )}
         </div>
 
-        {onVerDetalle && (
-          <span
-            aria-hidden="true"
-            className="shrink-0 rounded-full border border-borde px-2 py-0.5 text-xs whitespace-nowrap text-texto-suave group-hover:border-sapo/60 group-hover:text-sapo transition-colors"
-          >
-            Top 5 ›
-          </span>
+        {/* Pestañas rápidas por amigo */}
+        {listaAmigos.length > 0 && (
+          <div className="relative z-10 mb-3 flex items-center gap-1 overflow-x-auto pb-1 text-xs no-scrollbar">
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                setAmigoActivo("global");
+              }}
+              className={`shrink-0 rounded px-2 py-0.5 font-medium transition-colors cursor-pointer ${
+                amigoActivo === "global"
+                  ? "bg-sapo text-fondo font-semibold shadow-xs"
+                  : "bg-fondo/60 text-texto-suave border border-borde/40 hover:text-texto hover:border-borde"
+              }`}
+            >
+              Grupo
+            </button>
+            {listaAmigos.map((a) => {
+              const activo = amigoActivo === a.slug;
+              const nombreCorto = a.nombre || a.riot_id?.split("#")[0] || a.slug;
+              return (
+                <button
+                  key={a.slug}
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setAmigoActivo(a.slug);
+                  }}
+                  className={`shrink-0 rounded px-2 py-0.5 font-medium transition-colors cursor-pointer ${
+                    activo
+                      ? "bg-sapo text-fondo font-semibold shadow-xs"
+                      : "bg-fondo/60 text-texto-suave border border-borde/40 hover:text-texto hover:border-borde"
+                  }`}
+                >
+                  {nombreCorto}
+                </button>
+              );
+            })}
+          </div>
         )}
       </div>
 
@@ -69,10 +131,13 @@ export function TarjetaCampeones({ campeones, ddragon, onVerDetalle, refBoton })
                 const kdaNum = c.kda ?? 0;
                 const pctKda = Math.min(100, Math.round((kdaNum / 4.5) * 100));
 
+                const nombrePpal = nombreAmigo(c.amigo_principal, listaAmigos);
+                const otrosAmigos = (c.amigos?.length || 0) - 1;
+
                 return (
                   <tr key={c.campeon_id} className="group/row hover:bg-fondo/60 transition-colors">
-                    {/* Campeón */}
-                    <td className="py-2 pl-1 min-w-[7rem]">
+                    {/* Campeón y quién lo juega */}
+                    <td className="py-2 pl-1 min-w-[7.5rem]">
                       <div className="flex items-center gap-1.5 min-w-0">
                         <span className="w-3.5 text-[11px] font-semibold text-texto-suave/80 shrink-0">
                           {idx + 1}.
@@ -85,19 +150,40 @@ export function TarjetaCampeones({ campeones, ddragon, onVerDetalle, refBoton })
                             className="rounded-full border border-borde/60 shadow-sm"
                           />
                         </div>
-                        <span className="truncate font-medium text-texto" title={nombre}>
-                          {nombre}
-                        </span>
+                        <div className="flex flex-col min-w-0 leading-tight">
+                          <span className="truncate font-medium text-texto text-[12px]" title={nombre}>
+                            {nombre}
+                          </span>
+                          {/* Identificación de quién lo juega */}
+                          {nombrePpal && (
+                            <div className="mt-0.5 flex items-center gap-1 min-w-0">
+                              <span
+                                className="inline-flex items-center rounded bg-sapo-fondo px-1 py-0.2 text-[9px] font-semibold text-sapo border border-sapo/30 truncate max-w-[5.5rem]"
+                                title={tooltipAmigos(c, listaAmigos)}
+                              >
+                                {nombrePpal}
+                              </span>
+                              {amigoActivo === "global" && otrosAmigos > 0 && (
+                                <span
+                                  className="text-[9px] text-texto-suave/80 font-medium whitespace-nowrap"
+                                  title={tooltipAmigos(c, listaAmigos)}
+                                >
+                                  +{otrosAmigos}
+                                </span>
+                              )}
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </td>
 
                     {/* Partidas */}
-                    <td className="py-2 px-2 text-right whitespace-nowrap min-w-[4rem]">
+                    <td className="py-2 px-2 text-right whitespace-nowrap min-w-[3.5rem]">
                       <div className="flex flex-col items-end">
-                        <span className="font-semibold text-fuchsia-400 cifras">
+                        <span className="font-semibold text-fuchsia-400 cifras text-[11px]">
                           {c.partidas}
                         </span>
-                        <div className="mt-0.5 h-1 w-10 overflow-hidden rounded-full bg-fondo/80 border border-borde/30">
+                        <div className="mt-0.5 h-1 w-9 overflow-hidden rounded-full bg-fondo/80 border border-borde/30">
                           <div
                             className="h-full bg-fuchsia-500 rounded-full transition-all"
                             style={{ width: `${pctPartidas}%` }}
@@ -107,12 +193,12 @@ export function TarjetaCampeones({ campeones, ddragon, onVerDetalle, refBoton })
                     </td>
 
                     {/* Winrate */}
-                    <td className="py-2 px-2 text-right whitespace-nowrap min-w-[4rem]">
+                    <td className="py-2 px-2 text-right whitespace-nowrap min-w-[3.5rem]">
                       <div className="flex flex-col items-end">
-                        <span className={`font-semibold cifras ${claseWinrate(c.winrate)}`}>
+                        <span className={`font-semibold cifras text-[11px] ${claseWinrate(c.winrate)}`}>
                           {c.winrate !== null ? `${c.winrate}%` : "-"}
                         </span>
-                        <div className="mt-0.5 h-1 w-10 overflow-hidden rounded-full bg-fondo/80 border border-borde/30">
+                        <div className="mt-0.5 h-1 w-9 overflow-hidden rounded-full bg-fondo/80 border border-borde/30">
                           <div
                             className={`h-full rounded-full transition-all ${
                               winrate >= 50 ? "bg-emerald-400" : "bg-red-400"
@@ -124,12 +210,12 @@ export function TarjetaCampeones({ campeones, ddragon, onVerDetalle, refBoton })
                     </td>
 
                     {/* KDA */}
-                    <td className="py-2 pr-1 text-right whitespace-nowrap min-w-[3.5rem]">
+                    <td className="py-2 pr-1 text-right whitespace-nowrap min-w-[3.25rem]">
                       <div className="flex flex-col items-end">
-                        <span className="font-semibold text-sky-400 cifras">
+                        <span className="font-semibold text-sky-400 cifras text-[11px]">
                           {kdaNum.toFixed(2)}
                         </span>
-                        <div className="mt-0.5 h-1 w-10 overflow-hidden rounded-full bg-fondo/80 border border-borde/30">
+                        <div className="mt-0.5 h-1 w-9 overflow-hidden rounded-full bg-fondo/80 border border-borde/30">
                           <div
                             className="h-full bg-sky-400 rounded-full transition-all"
                             style={{ width: `${pctKda}%` }}
@@ -151,7 +237,7 @@ export function TarjetaCampeones({ campeones, ddragon, onVerDetalle, refBoton })
           type="button"
           onClick={onVerDetalle}
           aria-label="Ver estadísticas completas de campeones"
-          className="absolute -inset-px cursor-pointer rounded-lg border border-transparent hover:border-sapo/60 transition-colors"
+          className="absolute -inset-px cursor-pointer rounded-lg border border-transparent hover:border-sapo/60 transition-colors pointer-events-auto"
         />
       )}
     </article>

@@ -5,7 +5,7 @@ import { TituloSeccion } from "./TituloSeccion.jsx";
 const NOTA =
   "Top de campeones utilizados por el grupo · Clic en la tarjeta para explorar estadísticas detalladas, por jugador y por rol";
 
-export function SeccionCampeones({ campeones, ddragon, onVerDetalle, refBoton }) {
+export function SeccionCampeones({ campeones, amigos, ddragon, onVerDetalle, refBoton }) {
   if (!campeones) return null;
 
   return (
@@ -19,6 +19,7 @@ export function SeccionCampeones({ campeones, ddragon, onVerDetalle, refBoton })
         <li className="h-full">
           <TarjetaCampeones
             campeones={campeones}
+            amigos={amigos}
             ddragon={ddragon}
             onVerDetalle={onVerDetalle}
             refBoton={refBoton}
