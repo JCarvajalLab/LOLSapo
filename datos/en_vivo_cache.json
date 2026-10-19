@@ -42,6 +42,34 @@
         "puntos": 13061
       }
     },
-    "rangos": {}
+    "rangos": {
+      "021d01b13539f1b9ef9395411a0cd24f": null,
+      "080db06e747b8dd1596eade6b0392346": null,
+      "106ee57b9e0b0a568a87e6e35a25fb1b": {
+        "derrotas": 5,
+        "division": "I",
+        "lp": 23,
+        "racha": false,
+        "tier": "SILVER",
+        "victorias": 7
+      },
+      "33443ec4b889d75a2ca35a446657736a": null,
+      "3e8162a934b38e76c9fd5456362a8432": {
+        "derrotas": 12,
+        "division": "III",
+        "lp": 50,
+        "racha": false,
+        "tier": "BRONZE",
+        "victorias": 9
+      },
+      "e2914caabac631e23b7ad4795301df2a": {
+        "derrotas": 171,
+        "division": "II",
+        "lp": 7,
+        "racha": true,
+        "tier": "GOLD",
+        "victorias": 131
+      }
+    }
   }
 }
