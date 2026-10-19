@@ -10,7 +10,7 @@ import { ImagenDD } from "./ImagenDD.jsx";
  * nombre del jugador debajo del campeón.
  */
 export function TarjetaCampeones({ campeones, amigos, ddragon, onVerDetalle, refBoton }) {
-  const filas = campeonesPrincipalesAmigos(campeones, amigos, "todo");
+  const filas = campeonesPrincipalesAmigos(campeones, amigos, "dias_30");
   const maxPartidas = Math.max(...filas.map((c) => c.partidas), 1);
 
   return (

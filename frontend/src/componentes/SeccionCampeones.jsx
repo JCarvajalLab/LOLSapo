@@ -3,7 +3,7 @@ import { TarjetaEnConstruccion } from "./TarjetaEnConstruccion.jsx";
 import { TituloSeccion } from "./TituloSeccion.jsx";
 
 const NOTA =
-  "Campeón más jugado de cada integrante del grupo · Clic en la tarjeta para explorar estadísticas detalladas, por jugador y por rol";
+  "Campeón más jugado de cada integrante del grupo en los últimos 30 días · Clic en la tarjeta para explorar estadísticas detalladas, por jugador y por rol";
 
 export function SeccionCampeones({ campeones, amigos, ddragon, onVerDetalle, refBoton }) {
   if (!campeones) return null;
