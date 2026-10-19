@@ -108,9 +108,6 @@ def test_calcular_estadisticas_campeones_filtra_modos_y_periodos():
     assert c_30[0]["victorias"] == 1
     assert c_30[0]["winrate"] == 100.0
 
-    # 60 días: aún solo la partida 1
-    assert stats["por_amigo"]["john"]["dias_60"]["campeones"][0]["partidas"] == 1
-
     # 90 días: incluye la partida 2 (65 días)
     c_90 = stats["por_amigo"]["john"]["dias_90"]["campeones"]
     assert len(c_90) == 1

@@ -10,7 +10,6 @@ const ID_TITULO = "titulo-modal-campeones";
 
 const TEXTOS_PERIODOS = {
   dias_30: "30 días",
-  dias_60: "60 días",
   dias_90: "90 días",
   todo: "Año 2026",
 };

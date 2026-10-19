@@ -113,7 +113,8 @@ describe("campeones logic", () => {
   });
 
   it("constantes definidas", () => {
-    expect(PERIODOS).toHaveLength(4);
+    expect(PERIODOS).toHaveLength(3);
+    expect(PERIODOS.map((p) => p.clave)).toEqual(["dias_30", "dias_90", "todo"]);
     expect(LINEAS).toHaveLength(5);
   });
 });

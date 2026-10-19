@@ -16,7 +16,6 @@ CATEGORIAS = {"normal", "ranked"}
 
 PERIODOS: dict[str, int | None] = {
     "dias_30": 30,
-    "dias_60": 60,
     "dias_90": 90,
     "todo": None,
 }

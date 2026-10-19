@@ -1,10 +1,9 @@
 // Lógica para extraer y formatear estadísticas de campeones en el frontend.
 
 export const PERIODOS = [
-  { clave: "todo", etiqueta: "Todo el registro" },
-  { clave: "dias_90", etiqueta: "90 días" },
-  { clave: "dias_60", etiqueta: "60 días" },
   { clave: "dias_30", etiqueta: "30 días" },
+  { clave: "dias_90", etiqueta: "90 días" },
+  { clave: "todo", etiqueta: "Año 2026" },
 ];
 
 export const LINEAS = [
