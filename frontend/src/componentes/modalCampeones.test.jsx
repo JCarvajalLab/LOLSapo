@@ -1,0 +1,340 @@
+import { fireEvent, render, screen } from "@testing-library/react";
+import { describe, expect, it, vi } from "vitest";
+import { ModalCampeones } from "./ModalCampeones.jsx";
+
+const ddragonMock = {
+  version: "14.20.1",
+  campeones: {
+    112: { id: "Viktor", nombre: "Viktor" },
+    115: { id: "Ziggs", nombre: "Ziggs" },
+    222: { id: "Jinx", nombre: "Jinx" },
+  },
+};
+
+const amigosMock = [
+  { slug: "johnadis-las", nombre: "Johnadis", riot_id: "Johnadis#LAS", perfil: { icono: 10 } },
+  { slug: "iskrat-las", nombre: "ISkrat", riot_id: "ISkrat#LAS", perfil: { icono: 20 } },
+];
+
+const campeonesMock = {
+  global: {
+    dias_30: {
+      total_partidas: 25,
+      campeones: [
+        {
+          campeon_id: 112,
+          campeon: "Viktor",
+          partidas: 15,
+          victorias: 10,
+          derrotas: 5,
+          winrate: 66.7,
+          kda: 3.2,
+          promedio_kda: { asesinatos: 7.2, muertes: 3.1, asistencias: 6.5 },
+          cs: 2500,
+          cs_promedio: 166.7,
+          cs_minuto: 7.1,
+          amigo_principal: "johnadis-las",
+        },
+        {
+          campeon_id: 115,
+          campeon: "Ziggs",
+          partidas: 10,
+          victorias: 5,
+          derrotas: 5,
+          winrate: 50.0,
+          kda: 2.1,
+          promedio_kda: { asesinatos: 5.0, muertes: 4.0, asistencias: 8.0 },
+          cs: 1400,
+          cs_promedio: 140.0,
+          cs_minuto: 6.2,
+          amigo_principal: "iskrat-las",
+        },
+      ],
+      por_linea: {
+        TOP: [],
+        JUNGLE: [],
+        MIDDLE: [
+          {
+            campeon_id: 112,
+            campeon: "Viktor",
+            partidas: 15,
+            victorias: 10,
+            derrotas: 5,
+            winrate: 66.7,
+            kda: 3.2,
+            promedio_kda: { asesinatos: 7.2, muertes: 3.1, asistencias: 6.5 },
+            cs: 2500,
+            cs_promedio: 166.7,
+            cs_minuto: 7.1,
+            amigo_principal: "johnadis-las",
+          },
+        ],
+        BOTTOM: [
+          {
+            campeon_id: 115,
+            campeon: "Ziggs",
+            partidas: 10,
+            victorias: 5,
+            derrotas: 5,
+            winrate: 50.0,
+            kda: 2.1,
+            promedio_kda: { asesinatos: 5.0, muertes: 4.0, asistencias: 8.0 },
+            cs: 1400,
+            cs_promedio: 140.0,
+            cs_minuto: 6.2,
+            amigo_principal: "iskrat-las",
+          },
+        ],
+        UTILITY: [],
+      },
+      resumen_lineas: {
+        TOP: { posicion: "TOP", partidas: 0, victorias: 0, derrotas: 0, winrate: null, porcentaje: 0 },
+        JUNGLE: { posicion: "JUNGLE", partidas: 0, victorias: 0, derrotas: 0, winrate: null, porcentaje: 0 },
+        MIDDLE: { posicion: "MIDDLE", partidas: 15, victorias: 10, derrotas: 5, winrate: 66.7, porcentaje: 60.0 },
+        BOTTOM: { posicion: "BOTTOM", partidas: 10, victorias: 5, derrotas: 5, winrate: 50.0, porcentaje: 40.0 },
+        UTILITY: { posicion: "UTILITY", partidas: 0, victorias: 0, derrotas: 0, winrate: null, porcentaje: 0 },
+      },
+    },
+    todo: {
+      total_partidas: 40,
+      campeones: [
+        {
+          campeon_id: 112,
+          campeon: "Viktor",
+          partidas: 25,
+          victorias: 15,
+          derrotas: 10,
+          winrate: 60.0,
+          kda: 3.0,
+          promedio_kda: { asesinatos: 7.0, muertes: 3.0, asistencias: 6.0 },
+          cs_promedio: 160.0,
+          cs_minuto: 7.0,
+          amigo_principal: "johnadis-las",
+        },
+      ],
+      por_linea: { TOP: [], JUNGLE: [], MIDDLE: [], BOTTOM: [], UTILITY: [] },
+      resumen_lineas: {},
+    },
+  },
+  por_amigo: {
+    "johnadis-las": {
+      dias_30: {
+        total_partidas: 15,
+        campeones: [
+          {
+            campeon_id: 112,
+            campeon: "Viktor",
+            partidas: 15,
+            victorias: 10,
+            derrotas: 5,
+            winrate: 66.7,
+            kda: 3.2,
+            promedio_kda: { asesinatos: 7.2, muertes: 3.1, asistencias: 6.5 },
+            cs: 2500,
+            cs_promedio: 166.7,
+            cs_minuto: 7.1,
+          },
+        ],
+        por_linea: {
+          TOP: [],
+          JUNGLE: [],
+          MIDDLE: [
+            {
+              campeon_id: 112,
+              campeon: "Viktor",
+              partidas: 15,
+              victorias: 10,
+              derrotas: 5,
+              winrate: 66.7,
+              kda: 3.2,
+              promedio_kda: { asesinatos: 7.2, muertes: 3.1, asistencias: 6.5 },
+              cs: 2500,
+              cs_promedio: 166.7,
+              cs_minuto: 7.1,
+            },
+          ],
+          BOTTOM: [],
+          UTILITY: [],
+        },
+        resumen_lineas: {
+          TOP: { posicion: "TOP", partidas: 0, victorias: 0, derrotas: 0, winrate: null, porcentaje: 0 },
+          JUNGLE: { posicion: "JUNGLE", partidas: 0, victorias: 0, derrotas: 0, winrate: null, porcentaje: 0 },
+          MIDDLE: { posicion: "MIDDLE", partidas: 15, victorias: 10, derrotas: 5, winrate: 66.7, porcentaje: 100.0 },
+          BOTTOM: { posicion: "BOTTOM", partidas: 0, victorias: 0, derrotas: 0, winrate: null, porcentaje: 0 },
+          UTILITY: { posicion: "UTILITY", partidas: 0, victorias: 0, derrotas: 0, winrate: null, porcentaje: 0 },
+        },
+      },
+    },
+    "iskrat-las": {
+      dias_30: {
+        total_partidas: 10,
+        campeones: [
+          {
+            campeon_id: 115,
+            campeon: "Ziggs",
+            partidas: 10,
+            victorias: 5,
+            derrotas: 5,
+            winrate: 50.0,
+            kda: 2.1,
+            promedio_kda: { asesinatos: 5.0, muertes: 4.0, asistencias: 8.0 },
+            cs: 1400,
+            cs_promedio: 140.0,
+            cs_minuto: 6.2,
+          },
+        ],
+        por_linea: {
+          TOP: [],
+          JUNGLE: [],
+          MIDDLE: [],
+          BOTTOM: [
+            {
+              campeon_id: 115,
+              campeon: "Ziggs",
+              partidas: 10,
+              victorias: 5,
+              derrotas: 5,
+              winrate: 50.0,
+              kda: 2.1,
+              promedio_kda: { asesinatos: 5.0, muertes: 4.0, asistencias: 8.0 },
+              cs: 1400,
+              cs_promedio: 140.0,
+              cs_minuto: 6.2,
+            },
+          ],
+          UTILITY: [],
+        },
+        resumen_lineas: {
+          TOP: { posicion: "TOP", partidas: 0, victorias: 0, derrotas: 0, winrate: null, porcentaje: 0 },
+          JUNGLE: { posicion: "JUNGLE", partidas: 0, victorias: 0, derrotas: 0, winrate: null, porcentaje: 0 },
+          MIDDLE: { posicion: "MIDDLE", partidas: 0, victorias: 0, derrotas: 0, winrate: null, porcentaje: 0 },
+          BOTTOM: { posicion: "BOTTOM", partidas: 10, victorias: 5, derrotas: 5, winrate: 50.0, porcentaje: 100.0 },
+          UTILITY: { posicion: "UTILITY", partidas: 0, victorias: 0, derrotas: 0, winrate: null, porcentaje: 0 },
+        },
+      },
+    },
+  },
+};
+
+describe("ModalCampeones", () => {
+  it("renderiza el modal con el título y las pestañas de Global y amigos", () => {
+    const onCerrar = vi.fn();
+    render(
+      <ModalCampeones
+        campeones={campeonesMock}
+        amigos={amigosMock}
+        ddragon={ddragonMock}
+        onCerrar={onCerrar}
+      />,
+    );
+
+    // Título y selector de amigos
+    expect(screen.getByRole("heading", { name: /Estadísticas de Campeones/ })).toBeInTheDocument();
+    expect(screen.getByRole("tab", { name: "Global" })).toBeInTheDocument();
+    expect(screen.getByRole("tab", { name: "Johnadis" })).toBeInTheDocument();
+    expect(screen.getByRole("tab", { name: "ISkrat" })).toBeInTheDocument();
+
+    // Campeones en la vista Global inicial
+    expect(screen.getByText("Viktor")).toBeInTheDocument();
+    expect(screen.getByText("Ziggs")).toBeInTheDocument();
+
+    // Estadísticas
+    expect(screen.getByText("66.7%")).toBeInTheDocument();
+    expect(screen.getByText("10V 5D")).toBeInTheDocument();
+    expect(screen.getByText("3.20:1")).toBeInTheDocument();
+  });
+
+  it("filtra por línea al hacer clic en un rol y permite volver a todas", () => {
+    render(
+      <ModalCampeones
+        campeones={campeonesMock}
+        amigos={amigosMock}
+        ddragon={ddragonMock}
+        onCerrar={vi.fn()}
+      />,
+    );
+
+    // Ambos campeones visibles inicialmente
+    expect(screen.getByText("Viktor")).toBeInTheDocument();
+    expect(screen.getByText("Ziggs")).toBeInTheDocument();
+
+    // Clic en ADC (Bottom)
+    const botonAdc = screen.getByRole("button", { name: /ADC/i });
+    fireEvent.click(botonAdc);
+
+    // Solo Ziggs debe estar visible
+    expect(screen.queryByText("Viktor")).not.toBeInTheDocument();
+    expect(screen.getByText("Ziggs")).toBeInTheDocument();
+
+    // Clic en "Ver todas las líneas"
+    const botonTodas = screen.getByText("Ver todas las líneas");
+    fireEvent.click(botonTodas);
+
+    // Vuelven ambos
+    expect(screen.getByText("Viktor")).toBeInTheDocument();
+    expect(screen.getByText("Ziggs")).toBeInTheDocument();
+  });
+
+  it("cambia de pestaña a un amigo específico y muestra solo sus campeones", () => {
+    render(
+      <ModalCampeones
+        campeones={campeonesMock}
+        amigos={amigosMock}
+        ddragon={ddragonMock}
+        onCerrar={vi.fn()}
+      />,
+    );
+
+    // Cambiar a Johnadis
+    const tabJohnadis = screen.getByRole("tab", { name: "Johnadis" });
+    fireEvent.click(tabJohnadis);
+
+    // Solo debe verse Viktor
+    expect(screen.getByText("Viktor")).toBeInTheDocument();
+    expect(screen.queryByText("Ziggs")).not.toBeInTheDocument();
+
+    // Cambiar a ISkrat
+    const tabIskrat = screen.getByRole("tab", { name: "ISkrat" });
+    fireEvent.click(tabIskrat);
+
+    // Solo debe verse Ziggs
+    expect(screen.queryByText("Viktor")).not.toBeInTheDocument();
+    expect(screen.getByText("Ziggs")).toBeInTheDocument();
+  });
+
+  it("cambia de período temporal y muestra los datos correspondientes", () => {
+    render(
+      <ModalCampeones
+        campeones={campeonesMock}
+        amigos={amigosMock}
+        ddragon={ddragonMock}
+        onCerrar={vi.fn()}
+      />,
+    );
+
+    // Cambiar a Año 2026
+    const botonAnio = screen.getByRole("button", { name: "Año 2026" });
+    fireEvent.click(botonAnio);
+
+    // En todo el registro para el mock, Viktor tiene 25 partidas y Ziggs no está en todo
+    expect(screen.getByText("Viktor")).toBeInTheDocument();
+    expect(screen.getByText("25")).toBeInTheDocument();
+    expect(screen.getByText("60%")).toBeInTheDocument();
+  });
+
+  it("llama a onCerrar al hacer clic en el botón de cerrar ✕", () => {
+    const onCerrar = vi.fn();
+    render(
+      <ModalCampeones
+        campeones={campeonesMock}
+        amigos={amigosMock}
+        ddragon={ddragonMock}
+        onCerrar={onCerrar}
+      />,
+    );
+
+    const botonCerrar = screen.getByRole("button", { name: "Cerrar" });
+    fireEvent.click(botonCerrar);
+    expect(onCerrar).toHaveBeenCalledTimes(1);
+  });
+});

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useAhora } from "./datos/useAhora.js";
 import { useDatosLol } from "./datos/useDatosLol.js";
 import { useDatosTft } from "./datos/useDatosTft.js";
@@ -9,6 +9,7 @@ import { Encabezado } from "./componentes/Encabezado.jsx";
 import { EsqueletoPagina } from "./componentes/Esqueleto.jsx";
 import { ErrorCarga, EstadoVacio } from "./componentes/Estados.jsx";
 import { FilaAmigo, idBotonAmigo } from "./componentes/FilaAmigo.jsx";
+import { ModalCampeones } from "./componentes/ModalCampeones.jsx";
 import { ModalSinergia } from "./componentes/ModalSinergia.jsx";
 import { Ranking } from "./componentes/Ranking.jsx";
 import { SeccionDestacadosHoy } from "./componentes/SeccionDestacadosHoy.jsx";
@@ -90,6 +91,7 @@ function VistaLol({ datos, error, ahora, abiertos, alternar, abrir, enfocar }) {
   // Sinergia abierta: { slug, origen } (origen = enlace del ranking que recibe el foco al cerrar).
   const [sinergiaDe, setSinergiaDe] = useState(null);
   const [modalCampeonesAbierto, setModalCampeonesAbierto] = useState(false);
+  const refBotonCampeones = useRef(null);
 
   if (error && !datos) return <ErrorCarga error={error} />;
   if (!datos) return <EsqueletoPagina />;
@@ -113,6 +115,10 @@ function VistaLol({ datos, error, ahora, abiertos, alternar, abrir, enfocar }) {
     // El foco va al amigo abierto; el desplazamiento lo hace su fila.
     document.getElementById(idBotonAmigo(slug))?.focus({ preventScroll: true });
   };
+  const cerrarCampeones = () => {
+    setModalCampeonesAbierto(false);
+    refBotonCampeones.current?.focus();
+  };
 
   return (
     <div className="space-y-8 sm:space-y-10">
@@ -133,6 +139,7 @@ function VistaLol({ datos, error, ahora, abiertos, alternar, abrir, enfocar }) {
         amigos={datos.amigos}
         ddragon={datos.ddragon}
         onVerDetalle={() => setModalCampeonesAbierto(true)}
+        refBoton={refBotonCampeones}
       />
 
       <div className="grid gap-x-8 gap-y-8 lg:grid-cols-[18rem_minmax(0,1fr)] lg:items-start">
@@ -174,7 +181,14 @@ function VistaLol({ datos, error, ahora, abiertos, alternar, abrir, enfocar }) {
         />
       )}
 
-      {modalCampeonesAbierto && null}
+      {modalCampeonesAbierto && (
+        <ModalCampeones
+          campeones={datos.campeones}
+          amigos={datos.amigos}
+          ddragon={datos.ddragon}
+          onCerrar={cerrarCampeones}
+        />
+      )}
     </div>
   );
 }
