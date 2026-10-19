@@ -1,5 +1,12 @@
 import { describe, expect, it } from "vitest";
-import { LINEAS, listaCampeones, obtenerBloqueCampeones, PERIODOS, resumenLineas } from "./campeones.js";
+import {
+  LINEAS,
+  campeonesPrincipalesAmigos,
+  listaCampeones,
+  obtenerBloqueCampeones,
+  PERIODOS,
+  resumenLineas,
+} from "./campeones.js";
 
 describe("campeones logic", () => {
   const mockCampeones = {
@@ -69,6 +76,40 @@ describe("campeones logic", () => {
     const mid = resumen.find((r) => r.posicion === "MIDDLE");
     expect(mid.partidas).toBe(6);
     expect(mid.porcentaje).toBe(60.0);
+  });
+
+  it("retorna el campeón más jugado de cada amigo ordenado por partidas", () => {
+    const amigos = [
+      { slug: "johnadis-las", nombre: "Johnadis" },
+      { slug: "iskrat-las", nombre: "ISkrat" },
+    ];
+    const conAmigos = {
+      ...mockCampeones,
+      por_amigo: {
+        "johnadis-las": {
+          todo: {
+            campeones: [
+              { campeon_id: 112, campeon: "Viktor", partidas: 10, winrate: 60.0 },
+              { campeon_id: 805, campeon: "Locke", partidas: 5, winrate: 40.0 },
+            ],
+          },
+        },
+        "iskrat-las": {
+          todo: {
+            campeones: [
+              { campeon_id: 115, campeon: "Ziggs", partidas: 15, winrate: 70.0 },
+            ],
+          },
+        },
+      },
+    };
+    const tops = campeonesPrincipalesAmigos(conAmigos, amigos);
+    expect(tops).toHaveLength(2);
+    // ISkrat tiene 15 partidas (primero), Johnadis tiene 10 partidas (segundo)
+    expect(tops[0].campeon).toBe("Ziggs");
+    expect(tops[0].amigo_nombre).toBe("ISkrat");
+    expect(tops[1].campeon).toBe("Viktor");
+    expect(tops[1].amigo_nombre).toBe("Johnadis");
   });
 
   it("constantes definidas", () => {

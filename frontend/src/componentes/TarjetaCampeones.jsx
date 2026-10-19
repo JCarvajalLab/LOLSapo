@@ -1,36 +1,17 @@
-import { useState } from "react";
 import { nombreCampeon, urlCampeon } from "../logica/ddragon.js";
 import { claseWinrate } from "../logica/formato.js";
-import { listaCampeones, obtenerBloqueCampeones } from "../logica/campeones.js";
+import { campeonesPrincipalesAmigos } from "../logica/campeones.js";
 import { ImagenDD } from "./ImagenDD.jsx";
 
-function nombreAmigo(slug, amigos) {
-  if (!slug) return "";
-  const amigo = (amigos || []).find((a) => a.slug === slug);
-  return amigo?.nombre || amigo?.riot_id?.split("#")[0] || slug;
-}
-
-function tooltipAmigos(c, amigos) {
-  if (!c.amigos || c.amigos.length === 0) return "";
-  return c.amigos
-    .map((a) => `${nombreAmigo(a.slug, amigos)}: ${a.partidas} ${a.partidas === 1 ? "partida" : "partidas"}`)
-    .join(" · ");
-}
-
 /**
- * Tarjeta de Campeones más jugados para el Dashboard.
- * Muestra el Top 5 con barras visuales para Partidas, Winrate y KDA, estilo OP.GG.
- * Permite filtrar por amigo mediante pestañas rápidas y muestra quién juega cada campeón.
+ * Tarjeta de Estadísticas de Campeones para el Dashboard.
+ * Muestra el campeón más jugado de cada integrante del grupo (1 por amigo, hasta 5),
+ * con barras visuales para Partidas, Winrate y KDA, estilo OP.GG, y la insignia con el
+ * nombre del jugador debajo del campeón.
  */
 export function TarjetaCampeones({ campeones, amigos, ddragon, onVerDetalle, refBoton }) {
-  const [amigoActivo, setAmigoActivo] = useState("global");
-
-  const bloque = obtenerBloqueCampeones(campeones, amigoActivo, "todo");
-  const todos = listaCampeones(bloque);
-  const top5 = todos.slice(0, 5);
-  const maxPartidas = Math.max(...top5.map((c) => c.partidas), 1);
-
-  const listaAmigos = Array.isArray(amigos) ? amigos : [];
+  const filas = campeonesPrincipalesAmigos(campeones, amigos, "todo");
+  const maxPartidas = Math.max(...filas.map((c) => c.partidas), 1);
 
   return (
     <article
@@ -40,7 +21,7 @@ export function TarjetaCampeones({ campeones, amigos, ddragon, onVerDetalle, ref
     >
       <div>
         {/* Cabecera */}
-        <div className="flex items-center justify-between gap-2 mb-2">
+        <div className="flex items-center justify-between gap-2 mb-3">
           <div className="flex items-center gap-2 min-w-0">
             <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded bg-sapo-fondo text-sapo border border-sapo/30">
               <svg
@@ -65,50 +46,9 @@ export function TarjetaCampeones({ campeones, amigos, ddragon, onVerDetalle, ref
             </span>
           )}
         </div>
-
-        {/* Pestañas rápidas por amigo */}
-        {listaAmigos.length > 0 && (
-          <div className="relative z-10 mb-3 flex items-center gap-1 overflow-x-auto pb-1 text-xs no-scrollbar">
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                setAmigoActivo("global");
-              }}
-              className={`shrink-0 rounded px-2 py-0.5 font-medium transition-colors cursor-pointer ${
-                amigoActivo === "global"
-                  ? "bg-sapo text-fondo font-semibold shadow-xs"
-                  : "bg-fondo/60 text-texto-suave border border-borde/40 hover:text-texto hover:border-borde"
-              }`}
-            >
-              Grupo
-            </button>
-            {listaAmigos.map((a) => {
-              const activo = amigoActivo === a.slug;
-              const nombreCorto = a.nombre || a.riot_id?.split("#")[0] || a.slug;
-              return (
-                <button
-                  key={a.slug}
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setAmigoActivo(a.slug);
-                  }}
-                  className={`shrink-0 rounded px-2 py-0.5 font-medium transition-colors cursor-pointer ${
-                    activo
-                      ? "bg-sapo text-fondo font-semibold shadow-xs"
-                      : "bg-fondo/60 text-texto-suave border border-borde/40 hover:text-texto hover:border-borde"
-                  }`}
-                >
-                  {nombreCorto}
-                </button>
-              );
-            })}
-          </div>
-        )}
       </div>
 
-      {top5.length === 0 ? (
+      {filas.length === 0 ? (
         <div className="my-auto flex flex-col items-center justify-center py-8 text-center text-sm text-texto-suave">
           <p>No hay partidas registradas de campeones.</p>
         </div>
@@ -124,19 +64,16 @@ export function TarjetaCampeones({ campeones, amigos, ddragon, onVerDetalle, ref
               </tr>
             </thead>
             <tbody className="divide-y divide-borde/20">
-              {top5.map((c, idx) => {
+              {filas.map((c, idx) => {
                 const nombre = nombreCampeon(ddragon, c.campeon_id, c.campeon);
                 const pctPartidas = Math.round((c.partidas / maxPartidas) * 100);
                 const winrate = c.winrate ?? 0;
                 const kdaNum = c.kda ?? 0;
                 const pctKda = Math.min(100, Math.round((kdaNum / 4.5) * 100));
 
-                const nombrePpal = nombreAmigo(c.amigo_principal, listaAmigos);
-                const otrosAmigos = (c.amigos?.length || 0) - 1;
-
                 return (
-                  <tr key={c.campeon_id} className="group/row hover:bg-fondo/60 transition-colors">
-                    {/* Campeón y quién lo juega */}
+                  <tr key={`${c.amigo_slug}-${c.campeon_id}`} className="group/row hover:bg-fondo/60 transition-colors">
+                    {/* Campeón e identificación del jugador */}
                     <td className="py-2 pl-1 min-w-[7.5rem]">
                       <div className="flex items-center gap-1.5 min-w-0">
                         <span className="w-3.5 text-[11px] font-semibold text-texto-suave/80 shrink-0">
@@ -154,25 +91,12 @@ export function TarjetaCampeones({ campeones, amigos, ddragon, onVerDetalle, ref
                           <span className="truncate font-medium text-texto text-[12px]" title={nombre}>
                             {nombre}
                           </span>
-                          {/* Identificación de quién lo juega */}
-                          {nombrePpal && (
-                            <div className="mt-0.5 flex items-center gap-1 min-w-0">
-                              <span
-                                className="inline-flex items-center rounded bg-sapo-fondo px-1 py-0.2 text-[9px] font-semibold text-sapo border border-sapo/30 truncate max-w-[5.5rem]"
-                                title={tooltipAmigos(c, listaAmigos)}
-                              >
-                                {nombrePpal}
-                              </span>
-                              {amigoActivo === "global" && otrosAmigos > 0 && (
-                                <span
-                                  className="text-[9px] text-texto-suave/80 font-medium whitespace-nowrap"
-                                  title={tooltipAmigos(c, listaAmigos)}
-                                >
-                                  +{otrosAmigos}
-                                </span>
-                              )}
-                            </div>
-                          )}
+                          <span
+                            className="mt-0.5 inline-flex items-center rounded bg-sapo-fondo px-1 py-0.2 text-[9px] font-semibold text-sapo border border-sapo/30 truncate max-w-[5.5rem]"
+                            title={`Campeón más jugado de ${c.amigo_nombre}`}
+                          >
+                            {c.amigo_nombre}
+                          </span>
                         </div>
                       </div>
                     </td>

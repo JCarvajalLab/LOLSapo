@@ -64,3 +64,27 @@ export function resumenLineas(bloque) {
     porcentaje: 0,
   });
 }
+
+/**
+ * Retorna el campeón más jugado de cada amigo del grupo, ordenados por partidas descendente.
+ */
+export function campeonesPrincipalesAmigos(campeones, amigos, periodo = "todo") {
+  if (!campeones?.por_amigo || !Array.isArray(amigos)) return [];
+
+  const resultado = [];
+  for (const amigo of amigos) {
+    const bloque = obtenerBloqueCampeones(campeones, amigo.slug, periodo);
+    const lista = listaCampeones(bloque);
+    if (lista.length > 0) {
+      const top = lista[0];
+      resultado.push({
+        ...top,
+        amigo_slug: amigo.slug,
+        amigo_nombre: amigo.nombre || amigo.riot_id?.split("#")[0] || amigo.slug,
+      });
+    }
+  }
+
+  resultado.sort((a, b) => b.partidas - a.partidas || (b.winrate ?? 0) - (a.winrate ?? 0));
+  return resultado;
+}

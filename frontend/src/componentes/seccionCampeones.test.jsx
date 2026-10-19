@@ -9,10 +9,6 @@ const ddragonMock = {
   campeones: {
     112: { id: "Viktor", nombre: "Viktor" },
     115: { id: "Ziggs", nombre: "Ziggs" },
-    777: { id: "Yone", nombre: "Yone" },
-    22: { id: "Ashe", nombre: "Ashe" },
-    86: { id: "Garen", nombre: "Garen" },
-    103: { id: "Ahri", nombre: "Ahri" },
   },
 };
 
@@ -24,40 +20,27 @@ const amigosMock = [
 const campeonesMock = {
   global: {
     todo: {
-      total_partidas: 50,
-      campeones: [
-        {
-          campeon_id: 112,
-          campeon: "Viktor",
-          partidas: 20,
-          victorias: 10,
-          derrotas: 10,
-          winrate: 50.0,
-          kda: 2.53,
-          amigo_principal: "johnadis-las",
-          amigos: [{ slug: "johnadis-las", partidas: 19 }, { slug: "iskrat-las", partidas: 1 }],
-        },
-        {
-          campeon_id: 115,
-          campeon: "Ziggs",
-          partidas: 14,
-          victorias: 6,
-          derrotas: 8,
-          winrate: 42.9,
-          kda: 2.38,
-          amigo_principal: "iskrat-las",
-          amigos: [{ slug: "iskrat-las", partidas: 14 }],
-        },
-        { campeon_id: 777, campeon: "Yone", partidas: 10, victorias: 6, derrotas: 4, winrate: 60.0, kda: 2.77 },
-        { campeon_id: 22, campeon: "Ashe", partidas: 4, victorias: 2, derrotas: 2, winrate: 50.0, kda: 3.38 },
-        { campeon_id: 86, campeon: "Garen", partidas: 4, victorias: 2, derrotas: 2, winrate: 50.0, kda: 3.4 },
-        { campeon_id: 103, campeon: "Ahri", partidas: 2, victorias: 1, derrotas: 1, winrate: 50.0, kda: 1.5 },
-      ],
-      por_linea: {},
-      resumen_lineas: {},
+      total_partidas: 34,
+      campeones: [],
     },
   },
   por_amigo: {
+    "johnadis-las": {
+      todo: {
+        total_partidas: 20,
+        campeones: [
+          {
+            campeon_id: 112,
+            campeon: "Viktor",
+            partidas: 20,
+            victorias: 10,
+            derrotas: 10,
+            winrate: 50.0,
+            kda: 2.53,
+          },
+        ],
+      },
+    },
     "iskrat-las": {
       todo: {
         total_partidas: 14,
@@ -70,7 +53,6 @@ const campeonesMock = {
             derrotas: 8,
             winrate: 42.9,
             kda: 2.38,
-            amigo_principal: "iskrat-las",
           },
         ],
       },
@@ -93,7 +75,7 @@ describe("TarjetaCampeones", () => {
     expect(screen.getByText("No hay partidas registradas de campeones.")).toBeInTheDocument();
   });
 
-  it("renderiza exactamente el Top 5 con partidas, winrate, KDA y nombres de amigos", () => {
+  it("renderiza el campeón principal de cada amigo con su insignia de nombre", () => {
     const onVer = vi.fn();
     render(
       <TarjetaCampeones
@@ -108,39 +90,22 @@ describe("TarjetaCampeones", () => {
     expect(screen.getByText("Campeones")).toBeInTheDocument();
     expect(screen.getByText("Top 5 ›")).toBeInTheDocument();
 
-    // Pestañas rápidas presentes
-    expect(screen.getByRole("button", { name: "Grupo" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Johnadis" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "ISkrat" })).toBeInTheDocument();
-
-    // Top 5 están presentes
+    // Campeón y amigo correspondiente
     expect(screen.getByText("Viktor")).toBeInTheDocument();
+    expect(screen.getByText("Johnadis")).toBeInTheDocument();
+
     expect(screen.getByText("Ziggs")).toBeInTheDocument();
-    expect(screen.getByText("Yone")).toBeInTheDocument();
-    expect(screen.getByText("Ashe")).toBeInTheDocument();
-    expect(screen.getByText("Garen")).toBeInTheDocument();
-    // El sexto (Ahri) no debe aparecer en el top 5
-    expect(screen.queryByText("Ahri")).toBeNull();
+    expect(screen.getByText("ISkrat")).toBeInTheDocument();
 
-    // Insignias de amigos en cada fila
-    expect(screen.getAllByText("Johnadis").length).toBeGreaterThanOrEqual(2);
-    expect(screen.getAllByText("ISkrat").length).toBeGreaterThanOrEqual(2);
-    expect(screen.getByText("+1")).toBeInTheDocument();
-
-    // Estadísticas
+    // Estadísticas de Viktor y Ziggs
     expect(screen.getByText("20")).toBeInTheDocument();
+    expect(screen.getByText("14")).toBeInTheDocument();
+    expect(screen.getByText("50%")).toBeInTheDocument();
     expect(screen.getByText("42.9%")).toBeInTheDocument();
     expect(screen.getByText("2.53")).toBeInTheDocument();
+    expect(screen.getByText("2.38")).toBeInTheDocument();
 
-    // Cambiar a la pestaña de ISkrat
-    const btnIskrat = screen.getByRole("button", { name: "ISkrat" });
-    fireEvent.click(btnIskrat);
-
-    // Ahora solo se muestra el campeón de ISkrat (Ziggs) y no Viktor
-    expect(screen.getByText("Ziggs")).toBeInTheDocument();
-    expect(screen.queryByText("Viktor")).toBeNull();
-
-    // Clic abre el detalle
+    // Clic en la tarjeta abre el modal
     const btn = screen.getByRole("button", { name: "Ver estadísticas completas de campeones" });
     fireEvent.click(btn);
     expect(onVer).toHaveBeenCalledTimes(1);
@@ -153,9 +118,9 @@ describe("SeccionCampeones", () => {
     expect(container.firstChild).toBeNull();
   });
 
-  it("renderiza la sección con el título y las 3 tarjetas en la grilla", () => {
+  it("renderiza la sección con el título 'Estadísticas generales' y las 3 tarjetas en la grilla", () => {
     render(<SeccionCampeones campeones={campeonesMock} amigos={amigosMock} ddragon={ddragonMock} />);
-    expect(screen.getByText("Campeones más jugados")).toBeInTheDocument();
+    expect(screen.getByText("Estadísticas generales")).toBeInTheDocument();
     expect(screen.getAllByText("Próximamente")).toHaveLength(2);
     expect(screen.getByText("Viktor")).toBeInTheDocument();
   });
