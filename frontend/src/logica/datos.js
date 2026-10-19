@@ -35,6 +35,8 @@ export function validarDatos(json) {
     destacados: validarDestacados(json.destacados, amigos),
     // null en archivos sin sinergia: el clic en el ranking abre las partidas como antes.
     sinergia: validarSinergia(json.sinergia, amigos),
+    // null en archivos anteriores o sin estadísticas de campeones.
+    campeones: json.campeones && typeof json.campeones === "object" ? json.campeones : null,
   };
 }
 

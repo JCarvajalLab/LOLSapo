@@ -9,6 +9,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 
 from . import ddragon as datos_ddragon
+from .campeones import calcular_estadisticas_campeones
 from .config import Amigo
 from .destacados import calcular_destacados
 from .modos import MapaModos
@@ -628,7 +629,10 @@ def _partidas_registradas(dir_registro: Path, amigo: Amigo, ahora_ms: int) -> li
 
 
 def _elementos_usados(
-    entradas: list[dict], en_vivo: list[dict], destacados: dict | None = None
+    entradas: list[dict],
+    en_vivo: list[dict],
+    destacados: dict | None = None,
+    campeones: dict | None = None,
 ) -> dict[str, set[int]]:
     usados: dict[str, set[int]] = {
         "campeones": set(),
@@ -680,6 +684,17 @@ def _elementos_usados(
             for entrada in entradas:
                 if "campeon_id" in entrada:
                     usados["campeones"].add(entrada["campeon_id"])
+    if campeones:
+        for bloque in ("global", "por_amigo"):
+            datos_bloque = campeones.get(bloque) or {}
+            if bloque == "global":
+                periodos = list(datos_bloque.values())
+            else:
+                periodos = [p for am in datos_bloque.values() for p in am.values()]
+            for p in periodos:
+                for c in p.get("campeones", []):
+                    if "campeon_id" in c:
+                        usados["campeones"].add(c["campeon_id"])
     for partida in en_vivo:
         for equipo in partida["equipos"]:
             usados["campeones"].update(equipo["bloqueos"])
@@ -744,6 +759,13 @@ def ejecutar(
     except (TypeError, KeyError, AttributeError, ValueError) as error:
         log.error("No se pudo calcular la sinergia (%s)", type(error).__name__)
         sinergia = None
+    try:
+        estadisticas_campeones = calcular_estadisticas_campeones(registradas, mapa, ahora_ms)
+    except (TypeError, KeyError, AttributeError, ValueError) as error:
+        log.error(
+            "No se pudieron calcular las estadísticas de campeones (%s)", type(error).__name__
+        )
+        estadisticas_campeones = None
     rangos_amigos = {
         puuids[entrada["slug"]]: (entrada["rangos"]["solo"] or entrada["rangos"]["flex"])
         for entrada in entradas
@@ -760,11 +782,12 @@ def ejecutar(
         "version": VERSION_SALIDA,
         "actualizado": ahora.isoformat(timespec="seconds").replace("+00:00", "Z"),
         "ddragon": datos_ddragon.para_salida(
-            ddragon, _elementos_usados(entradas, en_vivo, destacados)
+            ddragon, _elementos_usados(entradas, en_vivo, destacados, estadisticas_campeones)
         ),
         "en_vivo": en_vivo,
         "destacados": destacados,
         "sinergia": sinergia,
+        "campeones": estadisticas_campeones,
         "amigos": entradas,
         "ranking": calcular_ranking(entradas),
     }
