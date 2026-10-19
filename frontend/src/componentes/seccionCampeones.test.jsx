@@ -87,7 +87,7 @@ describe("TarjetaCampeones", () => {
     );
 
     // Título y botón de top 5
-    expect(screen.getByText("Campeones")).toBeInTheDocument();
+    expect(screen.getByText("Campeones más utilizados")).toBeInTheDocument();
     expect(screen.getByText("Top 5 ›")).toBeInTheDocument();
 
     // Campeón y amigo correspondiente

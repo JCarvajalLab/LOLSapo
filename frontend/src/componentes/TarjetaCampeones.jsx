@@ -33,7 +33,7 @@ export function TarjetaCampeones({ campeones, amigos, ddragon, onVerDetalle, ref
               </svg>
             </span>
             <h3 id="titulo-tarjeta-campeones" className="text-sm font-titulo font-bold tracking-wide uppercase text-texto">
-              Campeones
+              Campeones más utilizados
             </h3>
           </div>
 
@@ -87,12 +87,12 @@ export function TarjetaCampeones({ campeones, amigos, ddragon, onVerDetalle, ref
                             className="rounded-full border border-borde/60 shadow-sm"
                           />
                         </div>
-                        <div className="flex flex-col min-w-0 leading-tight">
+                        <div className="flex flex-col items-start min-w-0 leading-tight">
                           <span className="truncate font-medium text-texto text-[12px]" title={nombre}>
                             {nombre}
                           </span>
                           <span
-                            className="mt-0.5 inline-flex items-center rounded bg-sapo-fondo px-1 py-0.2 text-[9px] font-semibold text-sapo border border-sapo/30 truncate max-w-[5.5rem]"
+                            className="mt-0.5 inline-block self-start rounded bg-sapo-fondo px-1.5 py-0.5 text-[9px] font-semibold text-sapo border border-sapo/30"
                             title={`Campeón más jugado de ${c.amigo_nombre}`}
                           >
                             {c.amigo_nombre}
