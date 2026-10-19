@@ -372,7 +372,7 @@ def _leer_cache_en_vivo(ruta: Path) -> dict:
         ):
             continue
         # Las claves tienen que ser huellas (nunca PUUID crudos de cachés antiguos).
-        cache[clave] = {
+        entrada = {
             "rangos": {
                 huella: rango
                 for huella, rango in valor["rangos"].items()
@@ -384,29 +384,136 @@ def _leer_cache_en_vivo(ruta: Path) -> dict:
                 if _PATRON_HUELLA_CAMPEON.fullmatch(c) and _maestria_guardada_valida(m)
             },
         }
+        if "premades" in valor and isinstance(valor["premades"], dict):
+            entrada["premades"] = {
+                huella: int(grupo)
+                for huella, grupo in valor["premades"].items()
+                if _PATRON_HUELLA.fullmatch(huella) and isinstance(grupo, int) and grupo > 0
+            }
+        cache[clave] = entrada
     return cache
 
 
-def _datos_en_vivo(
-    cliente: ClienteRiot, activas: list[dict], rangos_amigos: dict, cache: dict
-) -> tuple[dict, dict, dict]:
-    """Rango y maestría de cada jugador de las partidas en vivo.
+def _detectar_premades(
+    cliente: ClienteRiot,
+    participantes: list[dict],
+    slug_por_puuid: dict,
+    guardado_premades: dict[str, int] | None = None,
+) -> tuple[dict[str, int], dict[str, int]]:
+    """Detecta grupos premade (amigos o desconocidos) en la partida activa.
 
-    Ninguno de los dos cambia durante una partida, así que se guardan por gameId y en las
+    Devuelve (premades_por_puuid, premades_por_huella) donde cada valor es un entero
+    id_grupo (1, 2, ...) para cada jugador que forma parte de un grupo de >= 2 personas.
+    """
+    if guardado_premades:
+        por_puuid: dict[str, int] = {}
+        for p in participantes:
+            puuid = p.get("puuid")
+            if puuid and _huella(puuid) in guardado_premades:
+                por_puuid[puuid] = guardado_premades[_huella(puuid)]
+        return por_puuid, dict(guardado_premades)
+
+    premades_puuid: dict[str, int] = {}
+    premades_huella: dict[str, int] = {}
+    siguiente_grupo = 1
+
+    equipos: dict[int, list[dict]] = {}
+    for p in participantes:
+        eq = p.get("equipo", 100)
+        equipos.setdefault(eq, []).append(p)
+
+    for jugadores in equipos.values():
+        # 1. Amigos en este equipo
+        amigos = [p for p in jugadores if p.get("puuid") and p["puuid"] in slug_por_puuid]
+        if len(amigos) >= 2:
+            for p in amigos:
+                puuid = p["puuid"]
+                premades_puuid[puuid] = siguiente_grupo
+                premades_huella[_huella(puuid)] = siguiente_grupo
+            siguiente_grupo += 1
+
+        # 2. Desconocidos en este equipo
+        desconocidos = [p for p in jugadores if p.get("puuid") and p["puuid"] not in slug_por_puuid]
+        if len(desconocidos) >= 2:
+            ids_por_puuid: dict[str, set[str]] = {}
+            for p in desconocidos:
+                puuid = p["puuid"]
+                try:
+                    lista_ids = cliente.ids_partidas(puuid, 2)
+                    ids_por_puuid[puuid] = set(lista_ids) if isinstance(lista_ids, list) else set()
+                except (ErrorRiot, DatoInvalido, Exception):
+                    ids_por_puuid[puuid] = set()
+
+            grupos: list[set[str]] = []
+            for i, p1 in enumerate(desconocidos):
+                puuid1 = p1["puuid"]
+                ids1 = ids_por_puuid.get(puuid1, set())
+                if not ids1:
+                    continue
+                for p2 in desconocidos[i + 1 :]:
+                    puuid2 = p2["puuid"]
+                    ids2 = ids_por_puuid.get(puuid2, set())
+                    if not ids2:
+                        continue
+                    if ids1 & ids2:
+                        encontrados = [g for g in grupos if puuid1 in g or puuid2 in g]
+                        if not encontrados:
+                            grupos.append({puuid1, puuid2})
+                        elif len(encontrados) == 1:
+                            encontrados[0].update([puuid1, puuid2])
+                        else:
+                            primer_g = encontrados[0]
+                            for otro in encontrados[1:]:
+                                primer_g.update(otro)
+                                grupos.remove(otro)
+                            primer_g.update([puuid1, puuid2])
+
+            for g in grupos:
+                if len(g) >= 2:
+                    for puuid in g:
+                        premades_puuid[puuid] = siguiente_grupo
+                        premades_huella[_huella(puuid)] = siguiente_grupo
+                    siguiente_grupo += 1
+
+    return premades_puuid, premades_huella
+
+
+def _datos_en_vivo(
+    cliente: ClienteRiot,
+    activas: list[dict],
+    rangos_amigos: dict,
+    slug_por_puuid: dict,
+    cache: dict,
+) -> tuple[dict, dict, dict, dict]:
+    """Rango, maestría y premades de cada jugador de las partidas en vivo.
+
+    Ninguno de ellos cambia durante una partida, así que se guardan por gameId y en las
     pasadas siguientes no se vuelven a pedir. Devuelve (rangos por PUUID, maestrías por
-    (PUUID, campeón), caché nuevo solo con las partidas que siguen en curso).
+    (PUUID, campeón), premades por PUUID, caché nuevo solo con las partidas que siguen en curso).
 
     - Rango: Solo/Dúo, o Flex si no tiene. Los de los amigos ya se consultaron.
     - Maestría: con el campeón que está jugando; si nunca lo jugó, nivel y puntos en 0.
+    - Premades: detección de grupos de 2 o más jugadores en el mismo equipo.
     - Si una llamada falla, ese dato queda en None y no se guarda en el caché (se reintenta).
     - Los jugadores en modo streamer no traen PUUID: quedan sin rango ni maestría.
     """
     rangos = dict(rangos_amigos)
     maestrias: dict[tuple[str, int], dict | None] = {}
+    premades: dict[str, int] = {}
     cache_nuevo: dict[str, dict] = {}
 
     for activa in activas:
-        guardado = cache.get(str(activa["id"])) or {"rangos": {}, "maestrias": {}}
+        guardado = cache.get(str(activa["id"])) or {
+            "rangos": {},
+            "maestrias": {},
+            "premades": {},
+        }
+        prem_p, prem_h = _detectar_premades(
+            cliente, activa["participantes"], slug_por_puuid, guardado.get("premades")
+        )
+        premades.update(prem_p)
+        guardado["premades"] = prem_h
+
         for jugador in activa["participantes"]:
             puuid, campeon = jugador["puuid"], jugador["campeon_id"]
             if not puuid:
@@ -442,7 +549,7 @@ def _datos_en_vivo(
                     log.warning("Maestría de un jugador en vivo no disponible: %s", error)
                     maestrias[(puuid, campeon)] = None
         cache_nuevo[str(activa["id"])] = guardado
-    return rangos, maestrias, cache_nuevo
+    return rangos, maestrias, premades, cache_nuevo
 
 
 def _partidas_en_vivo(
@@ -451,6 +558,7 @@ def _partidas_en_vivo(
     slug_por_puuid: dict,
     rangos: dict,
     maestrias: dict | None = None,
+    premades: dict | None = None,
 ) -> list[dict]:
     """Una entrada por partida en curso, aunque haya varios amigos en ella."""
     por_id: dict[int, dict] = {}
@@ -465,6 +573,7 @@ def _partidas_en_vivo(
                 "runas": original["runas"],
                 "rango": _rango_en_vivo(rangos.get(original["puuid"])),
                 "maestria": (maestrias or {}).get((original["puuid"], original["campeon_id"])),
+                "premade": (premades or {}).get(original["puuid"]),
             }
             for publico, original in zip(
                 _publicar_participantes(activa["participantes"], slug_por_puuid),
@@ -641,11 +750,11 @@ def ejecutar(
         if puuids.get(entrada["slug"])
     }
     ruta_cache = Path(dir_datos) / "en_vivo_cache.json"
-    rangos, maestrias, cache_en_vivo = _datos_en_vivo(
-        cliente, activas, rangos_amigos, _leer_cache_en_vivo(ruta_cache)
+    rangos, maestrias, premades, cache_en_vivo = _datos_en_vivo(
+        cliente, activas, rangos_amigos, slug_por_puuid, _leer_cache_en_vivo(ruta_cache)
     )
     escribir_json_atomico(ruta_cache, cache_en_vivo)
-    en_vivo = _partidas_en_vivo(activas, mapa, slug_por_puuid, rangos, maestrias)
+    en_vivo = _partidas_en_vivo(activas, mapa, slug_por_puuid, rangos, maestrias, premades)
 
     salida = {
         "version": VERSION_SALIDA,

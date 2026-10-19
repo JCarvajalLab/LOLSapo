@@ -151,6 +151,47 @@ function PartidaEnVivo({ partida, ddragon, amigos, actualizadoMs, ahora, atenuad
   );
 }
 
+function infoPremade(jugador, equipoJugadores, conAmigos) {
+  if (!jugador?.premade) return null;
+  const miembros = (equipoJugadores || []).filter((p) => p.premade === jugador.premade);
+  if (miembros.length < 2) return null;
+
+  const esGrupoAmigos = miembros.some((p) => Boolean(p.amigo));
+  const tamano = miembros.length;
+  const tipo = tamano === 2 ? "Dúo" : tamano === 3 ? "Trío" : tamano === 4 ? "Cuarteto" : "Equipo";
+
+  if (esGrupoAmigos) {
+    return {
+      texto: tipo,
+      claseBorde: "border-l-4 border-sapo",
+      claseFondo: "bg-sapo-fondo",
+      claseInsignia: "bg-sapo/20 text-sapo border border-sapo/40",
+      tooltip: `Premade del grupo (${tipo})`,
+    };
+  }
+
+  if (conAmigos) {
+    return {
+      texto: `${tipo} aliado`,
+      claseBorde: "border-l-4 border-sky-400",
+      claseFondo: "bg-sky-950/25",
+      claseInsignia: "bg-sky-900/60 text-sky-300 border border-sky-600/50",
+      tooltip: `Premade aliada detectada (${tipo})`,
+    };
+  }
+
+  const esGrupoPar = jugador.premade % 2 === 0;
+  return {
+    texto: `${tipo} rival`,
+    claseBorde: esGrupoPar ? "border-l-4 border-amber-400" : "border-l-4 border-purple-400",
+    claseFondo: esGrupoPar ? "bg-amber-950/25" : "bg-purple-950/25",
+    claseInsignia: esGrupoPar
+      ? "bg-amber-900/60 text-amber-300 border border-amber-600/50"
+      : "bg-purple-900/60 text-purple-300 border border-purple-600/50",
+    tooltip: `Premade rival detectada (${tipo})`,
+  };
+}
+
 function Equipo({ equipo, indice, ddragon, sinAnillo }) {
   const texto = ACENTOS[equipo.equipo] ?? "text-texto-suave";
   const nombre = nombreEquipo(equipo.equipo, indice);
@@ -168,7 +209,14 @@ function Equipo({ equipo, indice, ddragon, sinAnillo }) {
       </h3>
       <ul className="space-y-0.5" aria-label={`Jugadores del ${nombre.toLowerCase()}`}>
         {equipo.jugadores.map((j, k) => (
-          <JugadorEnVivo key={`${j.campeon_id}-${k}`} jugador={j} ddragon={ddragon} sinAnillo={sinAnillo} />
+          <JugadorEnVivo
+            key={`${j.campeon_id}-${k}`}
+            jugador={j}
+            equipoJugadores={equipo.jugadores}
+            conAmigos={conAmigos}
+            ddragon={ddragon}
+            sinAnillo={sinAnillo}
+          />
         ))}
       </ul>
       {equipo.bloqueos.length > 0 && (
@@ -192,7 +240,7 @@ function Equipo({ equipo, indice, ddragon, sinAnillo }) {
   );
 }
 
-function JugadorEnVivo({ jugador, ddragon, sinAnillo }) {
+function JugadorEnVivo({ jugador, equipoJugadores, conAmigos, ddragon, sinAnillo }) {
   const campeon = nombreCampeon(ddragon, jugador.campeon_id);
   const esAmigo = Boolean(jugador.amigo);
   const nombre = typeof jugador.nombre === "string" && jugador.nombre ? jugador.nombre : null;
@@ -204,11 +252,15 @@ function JugadorEnVivo({ jugador, ddragon, sinAnillo }) {
   const lp = typeof jugador.rango?.lp === "number" ? jugador.rango.lp : 0;
   const temporada = rango ? temporadaRanked(jugador.rango) : null;
   const maestria = textoMaestria(jugador.maestria);
+  const premade = infoPremade(jugador, equipoJugadores, conAmigos);
 
   return (
     <li
-      className={`${GRILLA_JUGADOR} rounded ${esAmigo ? "bg-sapo-fondo" : ""}`}
+      className={`${GRILLA_JUGADOR} rounded transition-colors ${
+        premade ? `${premade.claseBorde} ${premade.claseFondo}` : esAmigo ? "bg-sapo-fondo" : ""
+      }`}
       data-amigo={esAmigo ? "true" : undefined}
+      data-premade={premade ? jugador.premade : undefined}
     >
       <IconoConSaco src={urlCampeon(ddragon, jugador.campeon_id)} alt={campeon} tamaño={36} enPartida={esAmigo && !sinAnillo} />
 
@@ -246,8 +298,19 @@ function JugadorEnVivo({ jugador, ddragon, sinAnillo }) {
       </span>
 
       <span className="min-w-0 overflow-hidden leading-tight">
-        <span className={`block truncate text-sm ${esAmigo ? "font-semibold text-sapo" : ""}`} title={nombre ?? campeon}>
-          {nombre ?? campeon}
+        <span className="flex items-center gap-1.5 min-w-0">
+          <span className={`truncate text-sm ${esAmigo ? "font-semibold text-sapo" : ""}`} title={nombre ?? campeon}>
+            {nombre ?? campeon}
+          </span>
+          {premade && (
+            <span
+              className={`shrink-0 rounded px-1.5 py-0.5 text-[10px] font-semibold tracking-wide ${premade.claseInsignia}`}
+              title={premade.tooltip}
+              data-insignia-premade="true"
+            >
+              {premade.texto}
+            </span>
+          )}
         </span>
         <span className="flex min-w-0 gap-1 text-xs text-texto-suave">
           <span className="min-w-0 truncate">{nombre ? campeon : "Modo streamer"}</span>
