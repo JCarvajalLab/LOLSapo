@@ -43,12 +43,12 @@ from .validacion import (
 from .validacion_tft import es_partida_tft
 
 VERSION_SALIDA = 1
-# Carga de una sola vez hacia atrás: las partidas de los últimos 30 días que no estén en el
+# Carga de una sola vez hacia atrás: las partidas de los últimos 90 días que no estén en el
 # registro (que empezó con las últimas 20 de cada uno). Se hace de a poco en cada ejecución y,
 # al terminar, se marca en el registro para no repetirla.
-DIAS_RELLENO = 30
+DIAS_RELLENO = 90
 LOTE_RELLENO = 15  # partidas antiguas por amigo y por ejecución
-MAX_PAGINAS_RELLENO = 5  # hasta 500 ids en 30 días por amigo
+MAX_PAGINAS_RELLENO = 5  # hasta 500 ids en 90 días por amigo
 PARTIDAS_VISIBLES = 10
 MENSAJE_ERROR = "No se pudieron actualizar los datos de este jugador."
 
@@ -177,7 +177,7 @@ def _consultar(
     ids = validar_ids_partidas(cliente.ids_partidas(puuid, cantidad))
     nuevas = ids_nuevos(ids, registro)
     resumenes = _resumir_nuevas(cliente, puuid, nuevas, slug_por_puuid)
-    relleno_completo = bool(registro.get("relleno_30_dias"))
+    relleno_completo = bool(registro.get("relleno_90_dias"))
     if not relleno_completo and ahora_ms:
         # La carga hacia atrás nunca debe tumbar la actualización normal del amigo.
         try:
@@ -188,7 +188,7 @@ def _consultar(
         except ErrorAutenticacion:
             raise
         except (ErrorRiot, DatoInvalido) as error:
-            log.warning("Carga de 30 días pospuesta (%s)", type(error).__name__)
+            log.warning("Carga de 90 días pospuesta (%s)", type(error).__name__)
     return {
         "perfil": perfil,
         "rangos": rangos,
@@ -253,6 +253,7 @@ def procesar_amigo(
         jugando = datos["jugando"]
         nuevas = agregar_partidas(registro, datos["resumenes"])
         if datos["relleno_completo"]:
+            registro["relleno_90_dias"] = True
             registro["relleno_30_dias"] = True
         log.info("%s: %d partidas nuevas", amigo.riot_id, nuevas)
     except ErrorAutenticacion:

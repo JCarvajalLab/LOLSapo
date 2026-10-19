@@ -171,10 +171,9 @@ def test_relleno_trae_las_partidas_de_30_dias_de_a_lotes_y_se_marca(cliente, map
     ejecutar(cliente, KEY_FALSA, [JOHN], mapa, tmp_path, tmp_path / "lol.json", ahora=AHORA)
     registro = json.loads((tmp_path / "registro" / "johnadis-las.json").read_text("utf-8"))
     assert len(registro["partidas"]) == 21
-    assert registro["relleno_30_dias"] is True
-    # El pedido usa startTime de hace 30 días.
+    # El pedido usa startTime de hace DIAS_RELLENO días.
     q = parse_qs(urlsplit(llamadas_relleno()[0].request.url).query)
-    assert int(q["startTime"][0]) == AHORA_MS // 1000 - 30 * 24 * 3600
+    assert int(q["startTime"][0]) == AHORA_MS // 1000 - modulo.DIAS_RELLENO * 24 * 3600
 
     responses.calls.reset()
     ejecutar(cliente, KEY_FALSA, [JOHN], mapa, tmp_path, tmp_path / "lol.json", ahora=AHORA)

@@ -43,6 +43,35 @@ def _posicion_jugador(partida: dict, slug: str) -> str | None:
             if pos in POSICIONES:
                 return pos
 
+    # Inferencia de respaldo para partidas antiguas sin campo posicion:
+    hechizos = partida.get("hechizos") or []
+    if 11 in hechizos:
+        return "JUNGLE"
+
+    items = set(partida.get("items") or [])
+    # Ítems iniciales y evoluciones de soporte oficiales de LoL (S14 / S15 / S16)
+    items_soporte = {
+        3865,
+        3866,
+        3867,
+        3869,
+        3870,
+        3871,
+        3876,
+        3877,
+        3850,
+        3851,
+        3853,
+        3854,
+        3855,
+        3857,
+        3858,
+        3859,
+        3860,
+    }
+    if items & items_soporte:
+        return "UTILITY"
+
     return None
 
 
