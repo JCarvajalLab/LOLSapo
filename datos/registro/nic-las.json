@@ -98253,6 +98253,579 @@
           9104
         ]
       }
+    },
+    "LA2_1631790342": {
+      "asesinatos": 0,
+      "asistencias": 0,
+      "campeon": "Aatrox",
+      "campeon_id": 266,
+      "cs": 79,
+      "curva_oro": [
+        0,
+        25,
+        1178,
+        972,
+        1773,
+        1793,
+        2452,
+        2036,
+        2103,
+        2297,
+        3106,
+        3106,
+        4856,
+        6042,
+        7876,
+        8411,
+        9139
+      ],
+      "danio": 5516,
+      "duracion": 958,
+      "equipo": 200,
+      "equipos": {
+        "100": {
+          "baneos": [
+            777,
+            805,
+            122,
+            236
+          ],
+          "barones": 0,
+          "dragones": 1,
+          "heraldos": 0,
+          "inhibidores": 0,
+          "larvas": 3,
+          "torres": 2,
+          "victoria": true
+        },
+        "200": {
+          "baneos": [
+            25,
+            64,
+            39,
+            777,
+            805
+          ],
+          "barones": 0,
+          "dragones": 1,
+          "heraldos": 0,
+          "inhibidores": 0,
+          "larvas": 0,
+          "torres": 0,
+          "victoria": false
+        }
+      },
+      "fecha": 1792460028226,
+      "hechizos": [
+        14,
+        4
+      ],
+      "id": "LA2_1631790342",
+      "items": [
+        1054,
+        2021,
+        1028,
+        1001,
+        1037,
+        2003,
+        3340
+      ],
+      "muertes": 7,
+      "nivel": 10,
+      "participacion": 0,
+      "participantes": [
+        {
+          "amigo": null,
+          "asesinatos": 8,
+          "asistencias": 1,
+          "campeon_id": 246,
+          "cs": 144,
+          "danio": 16487,
+          "equipo": 100,
+          "hechizos": [
+            4,
+            14
+          ],
+          "items": [
+            1055,
+            6699,
+            6698,
+            2022,
+            0,
+            1001,
+            3340
+          ],
+          "muertes": 0,
+          "nivel": 13,
+          "nombre": "quepj2bldo#LASSS",
+          "oro": 8361,
+          "posicion": "TOP",
+          "runas": {
+            "fragmentos": [
+              5008,
+              5008,
+              5011
+            ],
+            "primarias": [
+              8112,
+              8143,
+              8140,
+              8135
+            ],
+            "principal": 8112,
+            "secundaria": 8000,
+            "secundarias": [
+              8299,
+              8009
+            ]
+          },
+          "vision": 21
+        },
+        {
+          "amigo": null,
+          "asesinatos": 1,
+          "asistencias": 5,
+          "campeon_id": 950,
+          "cs": 108,
+          "danio": 3936,
+          "equipo": 100,
+          "hechizos": [
+            11,
+            4
+          ],
+          "items": [
+            0,
+            6699,
+            1036,
+            1037,
+            2422,
+            1028,
+            3364
+          ],
+          "muertes": 0,
+          "nivel": 10,
+          "nombre": "amargo#DEVOX",
+          "oro": 5902,
+          "posicion": "JUNGLE",
+          "runas": {
+            "fragmentos": [
+              5005,
+              5008,
+              5011
+            ],
+            "primarias": [
+              8010,
+              9111,
+              9104,
+              8017
+            ],
+            "principal": 8010,
+            "secundaria": 8300,
+            "secundarias": [
+              8347,
+              8304
+            ]
+          },
+          "vision": 9
+        },
+        {
+          "amigo": null,
+          "asesinatos": 1,
+          "asistencias": 2,
+          "campeon_id": 517,
+          "cs": 118,
+          "danio": 5130,
+          "equipo": 100,
+          "hechizos": [
+            14,
+            4
+          ],
+          "items": [
+            2031,
+            1056,
+            6657,
+            3171,
+            1052,
+            1028,
+            3364
+          ],
+          "muertes": 2,
+          "nivel": 11,
+          "nombre": "Banned1kyears#MID",
+          "oro": 5647,
+          "posicion": "MIDDLE",
+          "runas": {
+            "fragmentos": [
+              5008,
+              5008,
+              5001
+            ],
+            "primarias": [
+              8010,
+              8009,
+              9105,
+              8299
+            ],
+            "principal": 8010,
+            "secundaria": 8400,
+            "secundarias": [
+              8444,
+              8242
+            ]
+          },
+          "vision": 12
+        },
+        {
+          "amigo": null,
+          "asesinatos": 7,
+          "asistencias": 1,
+          "campeon_id": 910,
+          "cs": 139,
+          "danio": 16044,
+          "equipo": 100,
+          "hechizos": [
+            7,
+            4
+          ],
+          "items": [
+            3070,
+            6655,
+            2031,
+            3108,
+            3108,
+            1052,
+            3363
+          ],
+          "muertes": 0,
+          "nivel": 10,
+          "nombre": "With You#1727",
+          "oro": 7791,
+          "posicion": "BOTTOM",
+          "runas": {
+            "fragmentos": [
+              5005,
+              5008,
+              5011
+            ],
+            "primarias": [
+              8229,
+              8226,
+              8210,
+              8237
+            ],
+            "principal": 8229,
+            "secundaria": 8000,
+            "secundarias": [
+              8009,
+              9105
+            ]
+          },
+          "vision": 9
+        },
+        {
+          "amigo": null,
+          "asesinatos": 1,
+          "asistencias": 6,
+          "campeon_id": 98,
+          "cs": 25,
+          "danio": 4556,
+          "equipo": 100,
+          "hechizos": [
+            4,
+            14
+          ],
+          "items": [
+            1001,
+            3876,
+            3190,
+            1033,
+            3067,
+            0,
+            3364
+          ],
+          "muertes": 1,
+          "nivel": 9,
+          "nombre": "Cairo#LAS",
+          "oro": 4535,
+          "posicion": "UTILITY",
+          "runas": {
+            "fragmentos": [
+              5005,
+              5008,
+              5001
+            ],
+            "primarias": [
+              8439,
+              8401,
+              8444,
+              8453
+            ],
+            "principal": 8439,
+            "secundaria": 8100,
+            "secundarias": [
+              8126,
+              8106
+            ]
+          },
+          "vision": 20
+        },
+        {
+          "amigo": "nic-las",
+          "asesinatos": 0,
+          "asistencias": 0,
+          "campeon_id": 266,
+          "cs": 79,
+          "danio": 5516,
+          "equipo": 200,
+          "hechizos": [
+            14,
+            4
+          ],
+          "items": [
+            1054,
+            2021,
+            1028,
+            1001,
+            1037,
+            2003,
+            3340
+          ],
+          "muertes": 7,
+          "nivel": 10,
+          "nombre": "Nicø#LAS",
+          "oro": 3764,
+          "posicion": "TOP",
+          "runas": {
+            "fragmentos": [
+              5008,
+              5008,
+              5001
+            ],
+            "primarias": [
+              8010,
+              9111,
+              9105,
+              8299
+            ],
+            "principal": 8010,
+            "secundaria": 8400,
+            "secundarias": [
+              8473,
+              8453
+            ]
+          },
+          "vision": 10
+        },
+        {
+          "amigo": "johnadis-las",
+          "asesinatos": 1,
+          "asistencias": 1,
+          "campeon_id": 102,
+          "cs": 97,
+          "danio": 3274,
+          "equipo": 200,
+          "hechizos": [
+            4,
+            11
+          ],
+          "items": [
+            1102,
+            3078,
+            1029,
+            0,
+            0,
+            2422,
+            3364
+          ],
+          "muertes": 2,
+          "nivel": 9,
+          "nombre": "Johnadis#LAS",
+          "oro": 5066,
+          "posicion": "JUNGLE",
+          "runas": {
+            "fragmentos": [
+              5005,
+              5008,
+              5001
+            ],
+            "primarias": [
+              8005,
+              9111,
+              9105,
+              8299
+            ],
+            "principal": 8005,
+            "secundaria": 8300,
+            "secundarias": [
+              8347,
+              8304
+            ]
+          },
+          "vision": 14
+        },
+        {
+          "amigo": "iskrat-las",
+          "asesinatos": 1,
+          "asistencias": 1,
+          "campeon_id": 115,
+          "cs": 99,
+          "danio": 9405,
+          "equipo": 200,
+          "hechizos": [
+            4,
+            12
+          ],
+          "items": [
+            1056,
+            6655,
+            2031,
+            1001,
+            0,
+            0,
+            3340
+          ],
+          "muertes": 2,
+          "nivel": 10,
+          "nombre": "ISkrat#LAS",
+          "oro": 4715,
+          "posicion": "MIDDLE",
+          "runas": {
+            "fragmentos": [
+              5008,
+              5008,
+              5001
+            ],
+            "primarias": [
+              8229,
+              8226,
+              8210,
+              8237
+            ],
+            "principal": 8229,
+            "secundaria": 8000,
+            "secundarias": [
+              8014,
+              8009
+            ]
+          },
+          "vision": 10
+        },
+        {
+          "amigo": "big-gato-las",
+          "asesinatos": 1,
+          "asistencias": 1,
+          "campeon_id": 498,
+          "cs": 121,
+          "danio": 8318,
+          "equipo": 200,
+          "hechizos": [
+            21,
+            4
+          ],
+          "items": [
+            1086,
+            3032,
+            1083,
+            0,
+            0,
+            0,
+            3340
+          ],
+          "muertes": 3,
+          "nivel": 9,
+          "nombre": "Big Gato#LAS",
+          "oro": 5709,
+          "posicion": "BOTTOM",
+          "runas": {
+            "fragmentos": [
+              5005,
+              5008,
+              5001
+            ],
+            "primarias": [
+              8008,
+              8009,
+              9103,
+              8014
+            ],
+            "principal": 8008,
+            "secundaria": 8300,
+            "secundarias": [
+              8345,
+              8304
+            ]
+          },
+          "vision": 5
+        },
+        {
+          "amigo": "gralmogeko-las",
+          "asesinatos": 0,
+          "asistencias": 1,
+          "campeon_id": 53,
+          "cs": 33,
+          "danio": 4536,
+          "equipo": 200,
+          "hechizos": [
+            4,
+            14
+          ],
+          "items": [
+            3158,
+            3876,
+            3070,
+            3067,
+            1033,
+            1029,
+            3364
+          ],
+          "muertes": 4,
+          "nivel": 8,
+          "nombre": "GralMogeko#LAS",
+          "oro": 3843,
+          "posicion": "UTILITY",
+          "runas": {
+            "fragmentos": [
+              5007,
+              5001,
+              5001
+            ],
+            "primarias": [
+              8439,
+              8446,
+              8429,
+              8451
+            ],
+            "principal": 8439,
+            "secundaria": 8300,
+            "secundarias": [
+              8347,
+              8321
+            ]
+          },
+          "vision": 23
+        }
+      ],
+      "queue_id": 400,
+      "resultado": "derrota",
+      "runas": {
+        "fragmentos": [
+          5008,
+          5008,
+          5001
+        ],
+        "primarias": [
+          8010,
+          9111,
+          9105,
+          8299
+        ],
+        "principal": 8010,
+        "secundaria": 8400,
+        "secundarias": [
+          8473,
+          8453
+        ]
+      }
     }
   },
   "perfil": {
