@@ -80,6 +80,11 @@ export function ModalDetallePartida({ partida, ddragon, ahora, slugPropio, onCer
     ...jugadoresAzul.map((j) => j.danio || 0),
     ...jugadoresRojo.map((j) => j.danio || 0),
   );
+  const maxDanioRecibido = Math.max(
+    1,
+    ...jugadoresAzul.map((j) => j.danio_recibido || 0),
+    ...jugadoresRojo.map((j) => j.danio_recibido || 0),
+  );
 
   const filasCantidad = Math.max(jugadoresAzul.length, jugadoresRojo.length);
 
@@ -193,6 +198,7 @@ export function ModalDetallePartida({ partida, ddragon, ahora, slugPropio, onCer
                     slugPropio={slugPropio}
                     duracion={p.duracion}
                     maxDanio={maxDanio}
+                    maxDanioRecibido={maxDanioRecibido}
                     lado="azul"
                   />
                 ) : (
@@ -215,6 +221,7 @@ export function ModalDetallePartida({ partida, ddragon, ahora, slugPropio, onCer
                     slugPropio={slugPropio}
                     duracion={p.duracion}
                     maxDanio={maxDanio}
+                    maxDanioRecibido={maxDanioRecibido}
                     lado="rojo"
                   />
                 ) : (
@@ -289,7 +296,15 @@ export function ModalDetallePartida({ partida, ddragon, ahora, slugPropio, onCer
 }
 
 /** Tarjeta compacta para cada jugador dentro de su carril */
-function TarjetaJugador({ jugador, ddragon, slugPropio, duracion, maxDanio, lado }) {
+function TarjetaJugador({
+  jugador,
+  ddragon,
+  slugPropio,
+  duracion,
+  maxDanio,
+  maxDanioRecibido = 1,
+  lado,
+}) {
   const j = jugador;
   const campeon = nombreCampeon(ddragon, j.campeon_id);
   const propio = Boolean(slugPropio) && j.amigo === slugPropio;
@@ -297,7 +312,10 @@ function TarjetaJugador({ jugador, ddragon, slugPropio, duracion, maxDanio, lado
   const ratio = ratioKda(j.asesinatos, j.muertes, j.asistencias);
   const hechizos = Array.isArray(j.hechizos) ? j.hechizos.slice(0, 2) : [];
   const danio = j.danio || 0;
-  const pctDanio = Math.round((danio / maxDanio) * 100);
+  const pctDanio = maxDanio > 0 ? Math.round((danio / maxDanio) * 100) : 0;
+  const danioRecibido = j.danio_recibido || 0;
+  const pctDanioRecibido =
+    maxDanioRecibido > 0 ? Math.round((danioRecibido / maxDanioRecibido) * 100) : 0;
 
   const esAzul = lado === "azul";
 
@@ -375,8 +393,8 @@ function TarjetaJugador({ jugador, ddragon, slugPropio, duracion, maxDanio, lado
         <p className="text-[11px] text-texto-suave truncate">{campeon}</p>
       </div>
 
-      {/* KDA + Stats + Barra de daño */}
-      <div className="flex flex-col gap-0.5 min-w-[130px]">
+      {/* KDA + Stats + Barras de daño */}
+      <div className={`flex flex-col gap-0.5 min-w-[130px] ${!esAzul ? "items-end" : "items-start"}`}>
         <p className="cifras text-xs font-semibold">
           <span className="text-victoria">{j.asesinatos ?? 0}</span>{" "}
           <span className="text-texto-suave font-normal">/</span>{" "}
@@ -398,18 +416,71 @@ function TarjetaJugador({ jugador, ddragon, slugPropio, duracion, maxDanio, lado
           Visión: {j.vision ?? "—"}
         </p>
 
-        {/* Barra de daño conservada (roja en ambos equipos con su valor numérico) */}
+        {/* Barra de daño infligido */}
         {danio > 0 && (
-          <div className="flex items-center gap-1.5 mt-0.5">
-            <span className="cifras text-[10px] text-texto-suave">
-              {(danio / 1000).toFixed(1)}k
-            </span>
-            <div className="h-1.5 w-16 overflow-hidden rounded-full bg-borde/50">
-              <div
-                className="h-full bg-derrota"
-                style={{ width: `${pctDanio}%` }}
-              />
-            </div>
+          <div
+            className={`flex items-center gap-1.5 mt-0.5 ${!esAzul ? "justify-end" : "justify-start"}`}
+            title={`Daño infligido a campeones: ${danio.toLocaleString()}`}
+          >
+            {!esAzul ? (
+              <>
+                <div className="h-1.5 w-16 overflow-hidden rounded-full bg-borde/50 flex justify-end">
+                  <div
+                    className="h-full bg-derrota rounded-full"
+                    style={{ width: `${pctDanio}%` }}
+                  />
+                </div>
+                <span className="cifras text-[10px] text-texto-suave min-w-[2.2rem] text-right">
+                  {(danio / 1000).toFixed(1)}k
+                </span>
+              </>
+            ) : (
+              <>
+                <span className="cifras text-[10px] text-texto-suave min-w-[2.2rem] text-left">
+                  {(danio / 1000).toFixed(1)}k
+                </span>
+                <div className="h-1.5 w-16 overflow-hidden rounded-full bg-borde/50">
+                  <div
+                    className="h-full bg-derrota rounded-full"
+                    style={{ width: `${pctDanio}%` }}
+                  />
+                </div>
+              </>
+            )}
+          </div>
+        )}
+
+        {/* Barra de daño recibido (abajo de la de daño infligido) */}
+        {danioRecibido > 0 && (
+          <div
+            className={`flex items-center gap-1.5 ${!esAzul ? "justify-end" : "justify-start"}`}
+            title={`Daño recibido: ${danioRecibido.toLocaleString()}`}
+          >
+            {!esAzul ? (
+              <>
+                <div className="h-1.5 w-16 overflow-hidden rounded-full bg-borde/50 flex justify-end">
+                  <div
+                    className="h-full bg-slate-400 rounded-full"
+                    style={{ width: `${pctDanioRecibido}%` }}
+                  />
+                </div>
+                <span className="cifras text-[10px] text-texto-suave min-w-[2.2rem] text-right">
+                  {(danioRecibido / 1000).toFixed(1)}k
+                </span>
+              </>
+            ) : (
+              <>
+                <span className="cifras text-[10px] text-texto-suave min-w-[2.2rem] text-left">
+                  {(danioRecibido / 1000).toFixed(1)}k
+                </span>
+                <div className="h-1.5 w-16 overflow-hidden rounded-full bg-borde/50">
+                  <div
+                    className="h-full bg-slate-400 rounded-full"
+                    style={{ width: `${pctDanioRecibido}%` }}
+                  />
+                </div>
+              </>
+            )}
           </div>
         )}
       </div>

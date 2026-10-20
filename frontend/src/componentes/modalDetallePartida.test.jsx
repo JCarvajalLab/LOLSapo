@@ -61,6 +61,7 @@ const partidaDetallada = {
       cs: 307,
       oro: 17200,
       danio: 17200,
+      danio_recibido: 12500,
       vision: 47,
       posicion: "MIDDLE",
       items: [3078, 3111, 3053, 3156, 3026, 3074, 3340],
@@ -97,6 +98,7 @@ const partidaDetallada = {
       cs: 180,
       oro: 9000,
       danio: 11000,
+      danio_recibido: 18000,
       vision: 19,
       posicion: "TOP",
       items: [3068, 3111, 0, 0, 0, 0, 3340],
@@ -141,6 +143,10 @@ describe("ModalDetallePartida", () => {
     expect(muertes.some((el) => el.classList.contains("text-derrota"))).toBe(true);
     const asist = screen.getAllByText("9");
     expect(asist.some((el) => el.classList.contains("text-sapo"))).toBe(true);
+
+    // Barras de daño realizado (rojo) y daño recibido (slate)
+    expect(document.querySelectorAll(".bg-derrota").length).toBeGreaterThan(0);
+    expect(document.querySelectorAll(".bg-slate-400").length).toBeGreaterThan(0);
 
     // Cierre
     fireEvent.click(screen.getByRole("button", { name: "Cerrar" }));
