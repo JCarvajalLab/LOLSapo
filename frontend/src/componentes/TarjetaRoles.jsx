@@ -216,13 +216,19 @@ export function TarjetaRoles({ campeones, amigos, onVerDetalle }) {
           </div>
         </div>
 
-        {/* Roles más jugados: Donut + Tabla */}
+        {/* Roles más jugados: Cabecera unificada y alineada estilo OP.GG */}
         <div>
-          <h4 className="text-[11px] font-semibold tracking-wider text-texto-suave uppercase mb-2">
-            Roles más jugados
-          </h4>
+          {/* Fila de cabecera alineada en una sola línea */}
+          <div className="flex items-center justify-between border-b border-borde/40 pb-1 mb-2 text-[10px] font-semibold tracking-wider text-texto-suave uppercase">
+            <span className="truncate">Roles más jugados</span>
+            <div className="flex items-center text-right shrink-0">
+              <span className="w-12 sm:w-14 text-right">Partidas</span>
+              <span className="w-10 sm:w-12 text-right">(%)</span>
+              <span className="w-12 sm:w-14 text-right pr-1">Winrate</span>
+            </div>
+          </div>
 
-          <div className="flex flex-col sm:flex-row items-center gap-3">
+          <div className="flex items-center gap-3">
             {/* Gráfico Donut SVG */}
             <div className="relative shrink-0 flex items-center justify-center">
               <svg viewBox="0 0 130 130" className="size-24 sm:size-26">
@@ -284,87 +290,63 @@ export function TarjetaRoles({ campeones, amigos, onVerDetalle }) {
               </svg>
             </div>
 
-            {/* Tabla con el desglose de los 5 roles */}
-            <div className="flex-1 w-full min-w-0">
-              <table className="w-full text-left text-xs border-collapse table-fixed">
-                <colgroup>
-                  <col className="w-[40%]" />
-                  <col className="w-[18%]" />
-                  <col className="w-[18%]" />
-                  <col className="w-[24%]" />
-                </colgroup>
-                <thead>
-                  <tr className="border-b border-borde/40 text-[10px] font-semibold tracking-wider text-texto-suave uppercase">
-                    <th scope="col" className="pb-1 pl-1 font-medium">
-                      Línea
-                    </th>
-                    <th scope="col" className="pb-1 pr-1.5 text-right font-medium">
-                      Partidas
-                    </th>
-                    <th scope="col" className="pb-1 pr-1.5 text-right font-medium">
-                      (%)
-                    </th>
-                    <th scope="col" className="pb-1 pr-1 text-right font-medium">
-                      Winrate
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-borde/20">
-                  {lineasOrdenadas.map((l) => {
-                    const cfg =
-                      CONFIG_ROLES[l.posicion] || { nombre: l.posicion, color: "#94a3b8" };
-                    const winrate = l.winrate;
-                    const colorWinrate =
-                      winrate === null
-                        ? "text-texto-suave"
-                        : winrate >= 50
-                          ? "text-victoria"
-                          : "text-derrota";
+            {/* Filas con el desglose de los 5 roles */}
+            <div className="flex-1 min-w-0 divide-y divide-borde/20">
+              {lineasOrdenadas.map((l) => {
+                const cfg =
+                  CONFIG_ROLES[l.posicion] || { nombre: l.posicion, color: "#94a3b8" };
+                const winrate = l.winrate;
+                const colorWinrate =
+                  winrate === null
+                    ? "text-texto-suave"
+                    : winrate >= 50
+                      ? "text-victoria"
+                      : "text-derrota";
 
-                    return (
-                      <tr
-                        key={l.posicion}
-                        onClick={() => abrirDetalleLinea(l.posicion)}
-                        role="button"
-                        tabIndex={0}
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter" || e.key === " ") {
-                            e.preventDefault();
-                            abrirDetalleLinea(l.posicion);
-                          }
-                        }}
-                        className="cursor-pointer group/linea hover:bg-superficie-alta/60 transition-colors"
-                        title={`Ver estadísticas de ${amigoActual?.nombre || "jugador"} en ${cfg.nombre} (${TEXTOS_PERIODOS[periodo] || periodo})`}
-                      >
-                        <td className="py-1 pl-1 truncate">
-                          <div className="flex items-center gap-1.5 min-w-0">
-                            <span
-                              className="size-2 rounded-full shrink-0"
-                              style={{ backgroundColor: cfg.color }}
-                              aria-hidden="true"
-                            />
-                            <IconoPosicion posicion={l.posicion} className="size-3.5 shrink-0" />
-                            <span className="truncate text-texto font-medium text-[11px] sm:text-xs group-hover/linea:text-sapo transition-colors">
-                              {cfg.nombre}
-                            </span>
-                          </div>
-                        </td>
-                        <td className="py-1 pr-1.5 text-right cifras font-semibold text-texto text-[11px] sm:text-xs">
-                          {l.partidas}
-                        </td>
-                        <td className="py-1 pr-1.5 text-right cifras text-texto-suave text-[11px] sm:text-xs">
-                          {l.porcentaje}%
-                        </td>
-                        <td
-                          className={`py-1 pr-1 text-right cifras font-semibold text-[11px] sm:text-xs ${colorWinrate}`}
-                        >
-                          {winrate !== null ? `${winrate}%` : "—"}
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
+                return (
+                  <div
+                    key={l.posicion}
+                    data-linea={l.posicion}
+                    onClick={() => abrirDetalleLinea(l.posicion)}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        abrirDetalleLinea(l.posicion);
+                      }
+                    }}
+                    className="flex items-center py-1 px-1 rounded cursor-pointer group/linea hover:bg-superficie-alta/60 transition-colors"
+                    title={`Ver estadísticas de ${amigoActual?.nombre || "jugador"} en ${cfg.nombre} (${TEXTOS_PERIODOS[periodo] || periodo})`}
+                  >
+                    {/* Ícono + Nombre de Rol */}
+                    <div className="flex items-center gap-1.5 flex-1 min-w-0 truncate">
+                      <span
+                        className="size-2 rounded-full shrink-0"
+                        style={{ backgroundColor: cfg.color }}
+                        aria-hidden="true"
+                      />
+                      <IconoPosicion posicion={l.posicion} className="size-3.5 shrink-0" />
+                      <span className="truncate text-texto font-medium text-[11px] sm:text-xs group-hover/linea:text-sapo transition-colors">
+                        {cfg.nombre}
+                      </span>
+                    </div>
+
+                    {/* Columnas numéricas exactamente alineadas con la cabecera */}
+                    <span className="w-12 sm:w-14 text-right cifras font-semibold text-texto text-[11px] sm:text-xs shrink-0">
+                      {l.partidas}
+                    </span>
+                    <span className="w-10 sm:w-12 text-right cifras text-texto-suave text-[11px] sm:text-xs shrink-0">
+                      {l.porcentaje}%
+                    </span>
+                    <span
+                      className={`w-12 sm:w-14 text-right pr-1 cifras font-semibold text-[11px] sm:text-xs shrink-0 ${colorWinrate}`}
+                    >
+                      {winrate !== null ? `${winrate}%` : "—"}
+                    </span>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>

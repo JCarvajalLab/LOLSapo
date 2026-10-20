@@ -153,7 +153,7 @@ describe("TarjetaRoles", () => {
     expect(screen.getByText("14")).toBeInTheDocument(); // 14 partidas de ISkrat
 
     // Clic en la fila del rol Inferior para abrir el modal filtrado
-    const filaRol = screen.getAllByText("Inferior").find((el) => el.closest("tr"))?.closest("tr");
+    const filaRol = screen.getAllByText("Inferior").find((el) => el.closest("[data-linea='BOTTOM']"))?.closest("[data-linea='BOTTOM']");
     expect(filaRol).toBeInTheDocument();
     fireEvent.click(filaRol);
     expect(onVer).toHaveBeenCalledWith({
