@@ -312,9 +312,9 @@ describe("ModalCampeones", () => {
       />,
     );
 
-    // Cambiar a Año 2026
-    const botonAnio = screen.getByRole("button", { name: "Año 2026" });
-    fireEvent.click(botonAnio);
+    // Cambiar a Total
+    const botonTotal = screen.getByRole("button", { name: "Total" });
+    fireEvent.click(botonTotal);
 
     // En todo el registro para el mock, Viktor tiene 25 partidas y Ziggs no está en todo
     expect(screen.getByText("Viktor")).toBeInTheDocument();

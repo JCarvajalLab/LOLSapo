@@ -3,7 +3,7 @@
 export const PERIODOS = [
   { clave: "dias_30", etiqueta: "30 días" },
   { clave: "dias_90", etiqueta: "90 días" },
-  { clave: "todo", etiqueta: "Año 2026" },
+  { clave: "todo", etiqueta: "Total" },
 ];
 
 export const LINEAS = [

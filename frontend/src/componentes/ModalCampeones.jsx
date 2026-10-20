@@ -11,7 +11,13 @@ const ID_TITULO = "titulo-modal-campeones";
 const TEXTOS_PERIODOS = {
   dias_30: "30 días",
   dias_90: "90 días",
-  todo: "Año 2026",
+  todo: "Total",
+};
+
+const SUBTITULOS_PERIODOS = {
+  dias_30: "últimos 30 días",
+  dias_90: "últimos 90 días",
+  todo: "todo lo registrado",
 };
 
 /**
@@ -127,7 +133,7 @@ export function ModalCampeones({ campeones, amigos = [], ddragon, onCerrar }) {
             </div>
           </div>
           <p className="text-xs text-texto-suave">
-            Partidas registradas en Normal y Ranked · {TEXTOS_PERIODOS[periodo] || periodo}
+            Partidas registradas en Normal y Ranked · {SUBTITULOS_PERIODOS[periodo] || periodo}
           </p>
         </div>
       }
@@ -304,7 +310,7 @@ export function ModalCampeones({ campeones, amigos = [], ddragon, onCerrar }) {
             <div className="rounded-xl border border-dashed border-borde/70 bg-fondo/30 px-4 py-10 text-center text-sm text-texto-suave">
               <p className="font-medium text-texto">Sin partidas registradas</p>
               <p className="mt-1 text-xs">
-                No hay partidas jugadas con los filtros seleccionados ({TEXTOS_PERIODOS[periodo] || periodo}
+                No hay partidas jugadas con los filtros seleccionados ({SUBTITULOS_PERIODOS[periodo] || periodo}
                 {lineaActiva ? ` · ${LINEAS.find((l) => l.clave === lineaActiva)?.nombre}` : ""}).
               </p>
             </div>
