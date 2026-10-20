@@ -366,6 +366,20 @@ describe("ModalCampeones", () => {
     nombres = celdas.filter((c) => c.textContent.includes("Viktor") || c.textContent.includes("Ziggs"));
     expect(nombres[0]).toHaveTextContent("Ziggs");
     expect(nombres[1]).toHaveTextContent("Viktor");
+    // Clic en Campeón: asc (Viktor, Ziggs)
+    const botonCampeon = screen.getByRole("button", { name: /Campeón/i });
+    fireEvent.click(botonCampeon);
+    celdas = screen.getAllByRole("cell");
+    nombres = celdas.filter((c) => c.textContent.includes("Viktor") || c.textContent.includes("Ziggs"));
+    expect(nombres[0]).toHaveTextContent("Viktor");
+    expect(nombres[1]).toHaveTextContent("Ziggs");
+
+    // Clic en Campeón de nuevo: desc (Ziggs, Viktor)
+    fireEvent.click(botonCampeon);
+    celdas = screen.getAllByRole("cell");
+    nombres = celdas.filter((c) => c.textContent.includes("Viktor") || c.textContent.includes("Ziggs"));
+    expect(nombres[0]).toHaveTextContent("Ziggs");
+    expect(nombres[1]).toHaveTextContent("Viktor");
   });
 
   it("llama a onCerrar al hacer clic en el botón de cerrar ✕", () => {

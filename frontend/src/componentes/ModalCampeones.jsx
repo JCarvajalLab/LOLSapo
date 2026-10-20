@@ -55,7 +55,7 @@ export function ModalCampeones({ campeones, amigos = [], ddragon, onCerrar }) {
     return listaCampeones(bloque, lineaActiva);
   }, [bloque, lineaActiva]);
 
-  // Ordenación por columnas (partidas, kda, winrate)
+  // Ordenación por columnas (partidas, kda, winrate, campeon)
   const [orden, setOrden] = useState({ columna: "partidas", direccion: "desc" });
 
   const alOrdenar = (columna) => {
@@ -63,13 +63,21 @@ export function ModalCampeones({ campeones, amigos = [], ddragon, onCerrar }) {
       if (prev.columna === columna) {
         return { columna, direccion: prev.direccion === "desc" ? "asc" : "desc" };
       }
-      return { columna, direccion: "desc" };
+      return { columna, direccion: columna === "campeon" ? "asc" : "desc" };
     });
   };
 
   const filasOrdenadas = useMemo(() => {
     const copia = [...filasCampeones];
     copia.sort((a, b) => {
+      if (orden.columna === "campeon") {
+        const nomA = nombreCampeon(ddragon, a.campeon_id, a.campeon);
+        const nomB = nombreCampeon(ddragon, b.campeon_id, b.campeon);
+        return orden.direccion === "asc"
+          ? nomA.localeCompare(nomB, "es", { sensitivity: "base" })
+          : nomB.localeCompare(nomA, "es", { sensitivity: "base" });
+      }
+
       let valA = a[orden.columna];
       let valB = b[orden.columna];
 
@@ -86,7 +94,7 @@ export function ModalCampeones({ campeones, amigos = [], ddragon, onCerrar }) {
       return b.partidas - a.partidas;
     });
     return copia;
-  }, [filasCampeones, orden]);
+  }, [filasCampeones, orden, ddragon]);
 
   // Resumen de las 5 líneas
   const statsLineas = useMemo(() => {
@@ -320,7 +328,14 @@ export function ModalCampeones({ campeones, amigos = [], ddragon, onCerrar }) {
                 <thead>
                   <tr className="border-b border-borde/60 bg-superficie-alta/60 text-[11px] font-semibold uppercase tracking-wider text-texto-suave">
                     <th scope="col" className="py-2.5 pl-3 pr-1 w-8 text-center">#</th>
-                    <th scope="col" className="py-2.5 px-3">Campeón</th>
+                    <EncabezadoOrdenable
+                      columna="campeon"
+                      orden={orden}
+                      onOrdenar={alOrdenar}
+                      className="py-2.5 px-3 text-left"
+                    >
+                      Campeón
+                    </EncabezadoOrdenable>
                     <EncabezadoOrdenable
                       columna="partidas"
                       orden={orden}
