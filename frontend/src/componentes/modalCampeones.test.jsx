@@ -511,6 +511,33 @@ describe("ModalCampeones", () => {
     expect(filasOrdenadasKda[1]).toHaveTextContent("2.10:1");
   });
 
+  it("renderiza barras horizontales con estilos destacados y desglose de KDA coloreado", () => {
+    render(
+      <ModalCampeones
+        campeones={campeonesMock}
+        amigos={amigosMock}
+        ddragon={ddragonMock}
+        onCerrar={vi.fn()}
+      />,
+    );
+
+    // KDA desglose con colores: asesinatos (verde), muertes (rojo), asistencias (dorado)
+    const spanAsesinatos = screen.getByText("7.2");
+    const spanMuertes = screen.getByText("3.1");
+    const spanAsistencias = screen.getByText("6.5");
+
+    expect(spanAsesinatos).toHaveClass("text-victoria");
+    expect(spanMuertes).toHaveClass("text-derrota");
+    expect(spanAsistencias).toHaveClass("text-sapo");
+
+    // Barras de partidas (cian) y winrate (victoria/derrota)
+    const barrasCian = document.querySelectorAll(".bg-cyan-400");
+    expect(barrasCian.length).toBeGreaterThan(0);
+
+    const barrasVictoria = document.querySelectorAll(".bg-victoria");
+    expect(barrasVictoria.length).toBeGreaterThan(0);
+  });
+
   it("llama a onCerrar al hacer clic en el botón de cerrar ✕", () => {
     const onCerrar = vi.fn();
     render(

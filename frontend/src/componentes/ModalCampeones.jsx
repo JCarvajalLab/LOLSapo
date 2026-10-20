@@ -439,18 +439,22 @@ export function ModalCampeones({ campeones, amigos = [], ddragon, onCerrar }) {
                         {/* 3. Partidas / Pick */}
                         <td className="py-2 px-3 text-center">
                           <div className="inline-flex flex-col items-center">
-                            <span className="font-bold text-texto text-xs">
-                              {c.partidas}
-                            </span>
-                            <span className="text-[10px] text-texto-suave">
-                              {pctPartidas}%
-                            </span>
-                            <div className="mt-1 h-1 w-10 overflow-hidden rounded-full bg-fondo border border-borde/40">
-                              <div
-                                className="h-full bg-dorado rounded-full"
-                                style={{ width: `${Math.min(100, Math.round((c.partidas / maxPartidasFila) * 100))}%` }}
-                              />
+                            <div className="flex items-center gap-2">
+                              <div className="h-2 w-14 overflow-hidden rounded-full bg-superficie-alta border border-borde/60 shrink-0">
+                                <div
+                                  className="h-full rounded-full bg-cyan-400"
+                                  style={{ width: `${Math.min(100, Math.round((c.partidas / maxPartidasFila) * 100))}%` }}
+                                />
+                              </div>
+                              <span className="font-bold text-texto text-xs font-mono min-w-[1.25rem] text-right">
+                                {c.partidas}
+                              </span>
                             </div>
+                            {pctPartidas > 0 && (
+                              <span className="text-[10px] text-texto-suave self-end pr-0.5 mt-0.5">
+                                {pctPartidas}%
+                              </span>
+                            )}
                           </div>
                         </td>
 
@@ -462,29 +466,46 @@ export function ModalCampeones({ campeones, amigos = [], ddragon, onCerrar }) {
                                 {kdaNum !== null ? `${kdaNum.toFixed(2)}:1` : "Perfecto"}
                               </span>
                             </div>
-                            <span className="text-[11px] text-texto-suave">
-                              {kdaProm.asesinatos} / {kdaProm.muertes} / {kdaProm.asistencias}
-                            </span>
+                            <div
+                              className="text-[11px] font-mono flex items-center gap-1 mt-0.5"
+                              aria-label={`${kdaProm.asesinatos} asesinatos, ${kdaProm.muertes} muertes, ${kdaProm.asistencias} asistencias`}
+                            >
+                              <span className="text-victoria font-semibold">{kdaProm.asesinatos}</span>
+                              <span className="text-texto-suave/50">/</span>
+                              <span className="text-derrota font-semibold">{kdaProm.muertes}</span>
+                              <span className="text-texto-suave/50">/</span>
+                              <span className="text-sapo font-semibold">{kdaProm.asistencias}</span>
+                            </div>
                           </div>
                         </td>
 
                         {/* 5. Winrate % con victorias/derrotas */}
                         <td className="py-2 pr-3 text-right">
                           <div className="flex flex-col items-end">
-                            <span className={`text-xs font-bold ${claseWinrate(c.winrate)}`}>
-                              {c.winrate !== null ? `${c.winrate}%` : "—"}
-                            </span>
-                            <span className="text-[10px] text-texto-suave">
+                            <div className="flex items-center justify-end gap-2">
+                              <div className="h-2 w-14 overflow-hidden rounded-full bg-superficie-alta border border-borde/60 shrink-0">
+                                <div
+                                  className={`h-full rounded-full ${
+                                    (c.winrate ?? 0) >= 50 ? "bg-victoria" : "bg-derrota"
+                                  }`}
+                                  style={{ width: `${c.winrate ?? 0}%` }}
+                                />
+                              </div>
+                              <span
+                                className={`text-xs font-bold min-w-[2.75rem] text-right font-mono ${
+                                  c.winrate === null
+                                    ? "text-texto-suave"
+                                    : c.winrate >= 50
+                                      ? "text-victoria"
+                                      : "text-derrota"
+                                }`}
+                              >
+                                {c.winrate !== null ? `${c.winrate}%` : "—"}
+                              </span>
+                            </div>
+                            <span className="text-[10px] text-texto-suave pr-0.5 mt-0.5">
                               {c.victorias}V {c.derrotas}D
                             </span>
-                            <div className="mt-1 h-1 w-12 overflow-hidden rounded-full bg-fondo border border-borde/40">
-                              <div
-                                className={`h-full rounded-full ${
-                                  (c.winrate || 0) >= 50 ? "bg-victoria" : "bg-derrota"
-                                }`}
-                                style={{ width: `${c.winrate || 0}%` }}
-                              />
-                            </div>
                           </div>
                         </td>
                       </tr>

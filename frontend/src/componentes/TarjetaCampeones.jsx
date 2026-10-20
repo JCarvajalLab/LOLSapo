@@ -104,12 +104,12 @@ export function TarjetaCampeones({ campeones, amigos, ddragon, onVerDetalle, ref
                     {/* Partidas */}
                     <td className="py-2 px-2 text-right whitespace-nowrap min-w-[3.5rem]">
                       <div className="flex flex-col items-end">
-                        <span className="font-semibold text-fuchsia-400 cifras text-[11px]">
+                        <span className="font-semibold text-cyan-400 cifras text-[11px]">
                           {c.partidas}
                         </span>
-                        <div className="mt-0.5 h-1 w-9 overflow-hidden rounded-full bg-fondo/80 border border-borde/30">
+                        <div className="mt-0.5 h-1.5 w-10 overflow-hidden rounded-full bg-superficie-alta border border-borde/40">
                           <div
-                            className="h-full bg-fuchsia-500 rounded-full transition-all"
+                            className="h-full bg-cyan-400 rounded-full transition-all"
                             style={{ width: `${pctPartidas}%` }}
                           />
                         </div>
