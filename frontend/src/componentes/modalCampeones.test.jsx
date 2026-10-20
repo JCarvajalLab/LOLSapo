@@ -553,4 +553,28 @@ describe("ModalCampeones", () => {
     fireEvent.click(botonCerrar);
     expect(onCerrar).toHaveBeenCalledTimes(1);
   });
+
+  it("permite abrir el modal con amigoInicial, periodoInicial y lineaInicial preseleccionados", () => {
+    render(
+      <ModalCampeones
+        campeones={campeonesMock}
+        amigos={amigosMock}
+        ddragon={ddragonMock}
+        onCerrar={vi.fn()}
+        amigoInicial="iskrat-las"
+        periodoInicial="dias_30"
+        lineaInicial="BOTTOM"
+      />,
+    );
+
+    // Título con el amigo preseleccionado
+    expect(screen.getByRole("heading", { name: /Estadísticas de Campeones.*ISkrat/ })).toBeInTheDocument();
+
+    // Pestaña de jugador preseleccionada
+    expect(screen.getByRole("tab", { name: /ISkrat/i })).toHaveAttribute("aria-selected", "true");
+
+    // Botón de la línea ADC / Tirador preseleccionado
+    const botonAdc = screen.getByRole("button", { name: /ADC/i });
+    expect(botonAdc).toHaveAttribute("aria-pressed", "true");
+  });
 });

@@ -27,7 +27,11 @@ export function SeccionCampeones({ campeones, amigos, ddragon, onVerDetalle, ref
           />
         </li>
         <li className="h-full">
-          <TarjetaRoles campeones={campeones} amigos={amigos} />
+          <TarjetaRoles
+            campeones={campeones}
+            amigos={amigos}
+            onVerDetalle={onVerDetalle}
+          />
         </li>
         <li className="h-full">
           <TarjetaEnConstruccion titulo="Próximamente" subtitulo="Espacio reservado" />

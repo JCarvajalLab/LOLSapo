@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { LINEAS, obtenerBloqueCampeones, resumenLineas } from "../logica/campeones.js";
+import { obtenerBloqueCampeones, resumenLineas } from "../logica/campeones.js";
 import { IconoPosicion } from "./IconoPosicion.jsx";
 
 const CONFIG_ROLES = {
@@ -10,13 +10,21 @@ const CONFIG_ROLES = {
   UTILITY: { nombre: "Soporte", color: "#a855f7" },
 };
 
+const TEXTOS_PERIODOS = {
+  dias_30: "30 días",
+  dias_90: "90 días",
+  todo: "Total",
+};
+
 /**
  * Tarjeta de Roles y Estadísticas Básicas de Invocador.
  * Muestra el KDA promedio, partidas jugadas, tasa de victorias y el gráfico donut
  * de distribución de roles con su tabla detallada (estilo OP.GG).
  * Rota automáticamente entre los integrantes del grupo y permite elegir manualmente a cualquiera.
+ * Al hacer clic en un rol (ej. Jungla), abre el modal de campeones filtrado por ese jugador,
+ * período y carril.
  */
-export function TarjetaRoles({ campeones, amigos }) {
+export function TarjetaRoles({ campeones, amigos, onVerDetalle }) {
   const listaAmigos = useMemo(() => {
     if (!Array.isArray(amigos)) return [];
     return amigos.filter((a) => a && a.slug && a.estado !== "error");
@@ -29,7 +37,8 @@ export function TarjetaRoles({ campeones, amigos }) {
     return listaAmigos[slot % listaAmigos.length]?.slug || listaAmigos[0]?.slug;
   });
 
-  const [periodo, setPeriodo] = useState("todo");
+  // Fijado por defecto en 30 días, luego 90 días y por último total
+  const [periodo, setPeriodo] = useState("dias_30");
 
   const amigoActual = listaAmigos.find((a) => a.slug === slugActivo) || listaAmigos[0];
 
@@ -87,6 +96,14 @@ export function TarjetaRoles({ campeones, amigos }) {
     };
   });
 
+  const abrirDetalleLinea = (posicion) => {
+    onVerDetalle?.({
+      amigo: amigoActual?.slug,
+      periodo,
+      linea: posicion,
+    });
+  };
+
   return (
     <article
       aria-labelledby="titulo-tarjeta-roles"
@@ -114,16 +131,16 @@ export function TarjetaRoles({ campeones, amigos }) {
             </h3>
           </div>
 
-          {/* Selector de período tipo dropdown */}
+          {/* Selector de período fijado en: 30 días, 90 días, Total */}
           <select
             value={periodo}
             onChange={(e) => setPeriodo(e.target.value)}
             aria-label="Filtrar por período"
             className="rounded border border-borde/70 bg-fondo px-2 py-0.5 text-[11px] font-medium text-texto focus:border-sapo focus:outline-none transition-colors cursor-pointer"
           >
-            <option value="todo">Total</option>
             <option value="dias_30">30 días</option>
             <option value="dias_90">90 días</option>
+            <option value="todo">Total</option>
           </select>
         </div>
 
@@ -157,12 +174,13 @@ export function TarjetaRoles({ campeones, amigos }) {
         </div>
 
         {/* 3 Losas superiores de métricas (KDA, Jugadas, Winrate) */}
-        <div className="grid grid-cols-3 gap-2 mb-4">
-          <div className="flex flex-col items-center justify-center p-2 rounded-lg border border-borde/50 bg-superficie/60 text-center">
-            <span className="text-[10px] font-semibold tracking-wider text-texto-suave uppercase">
+        <div className="grid grid-cols-3 gap-1.5 sm:gap-2 mb-3">
+          {/* KDA Promedio */}
+          <div className="flex flex-col items-center justify-center p-2 rounded-lg border border-borde/50 bg-superficie/60 text-center min-w-0">
+            <span className="text-[10px] font-semibold tracking-wider text-texto-suave uppercase whitespace-nowrap">
               KDA Promedio
             </span>
-            <span className="cifras text-xs sm:text-sm font-bold mt-1">
+            <span className="cifras text-[11px] sm:text-xs md:text-sm font-bold mt-1 whitespace-nowrap">
               <span className="text-victoria">{promK}</span>{" "}
               <span className="text-texto-suave/60 font-normal">/</span>{" "}
               <span className="text-derrota">{promD}</span>{" "}
@@ -171,21 +189,23 @@ export function TarjetaRoles({ campeones, amigos }) {
             </span>
           </div>
 
-          <div className="flex flex-col items-center justify-center p-2 rounded-lg border border-borde/50 bg-superficie/60 text-center">
-            <span className="text-[10px] font-semibold tracking-wider text-texto-suave uppercase">
+          {/* Jugadas */}
+          <div className="flex flex-col items-center justify-center p-2 rounded-lg border border-borde/50 bg-superficie/60 text-center min-w-0">
+            <span className="text-[10px] font-semibold tracking-wider text-texto-suave uppercase whitespace-nowrap">
               Jugadas
             </span>
-            <span className="cifras text-xs sm:text-sm font-bold text-[#38bdf8] mt-1">
+            <span className="cifras text-xs sm:text-sm font-bold text-[#38bdf8] mt-1 whitespace-nowrap">
               {totalPartidas}
             </span>
           </div>
 
-          <div className="flex flex-col items-center justify-center p-2 rounded-lg border border-borde/50 bg-superficie/60 text-center">
-            <span className="text-[10px] font-semibold tracking-wider text-texto-suave uppercase truncate max-w-full">
-              Tasa de victorias
+          {/* Winrate */}
+          <div className="flex flex-col items-center justify-center p-2 rounded-lg border border-borde/50 bg-superficie/60 text-center min-w-0">
+            <span className="text-[10px] font-semibold tracking-wider text-texto-suave uppercase whitespace-nowrap">
+              Winrate
             </span>
             <span
-              className={`cifras text-xs sm:text-sm font-bold mt-1 ${
+              className={`cifras text-xs sm:text-sm font-bold mt-1 whitespace-nowrap ${
                 winrateTotal !== null && Number(winrateTotal) >= 50
                   ? "text-victoria"
                   : "text-derrota"
@@ -205,7 +225,7 @@ export function TarjetaRoles({ campeones, amigos }) {
           <div className="flex flex-col sm:flex-row items-center gap-3">
             {/* Gráfico Donut SVG */}
             <div className="relative shrink-0 flex items-center justify-center">
-              <svg viewBox="0 0 130 130" className="size-24 sm:size-28">
+              <svg viewBox="0 0 130 130" className="size-24 sm:size-26">
                 {/* Círculo base de fondo */}
                 <circle
                   cx="65"
@@ -213,7 +233,7 @@ export function TarjetaRoles({ campeones, amigos }) {
                   r={radio}
                   fill="none"
                   stroke="#334155"
-                  strokeWidth="12"
+                  strokeWidth="11"
                   opacity="0.35"
                 />
 
@@ -227,50 +247,64 @@ export function TarjetaRoles({ campeones, amigos }) {
                       r={radio}
                       fill="none"
                       stroke={s.color}
-                      strokeWidth="12"
+                      strokeWidth="11"
                       strokeDasharray={`${s.longitud} ${perimetro}`}
                       strokeDashoffset={s.desfase}
                       transform="rotate(-90 65 65)"
-                      className="transition-all duration-300"
-                    />
+                      className="transition-all duration-300 cursor-pointer hover:opacity-80"
+                      onClick={() => abrirDetalleLinea(s.posicion)}
+                    >
+                      <title>{`Ver estadísticas de ${CONFIG_ROLES[s.posicion]?.nombre || s.posicion}`}</title>
+                    </circle>
                   ) : null,
                 )}
 
                 {/* Texto central de línea principal */}
-                <text
-                  x="65"
-                  y="58"
-                  textAnchor="middle"
-                  className="fill-texto-suave text-[8px] sm:text-[9px] font-bold tracking-wider uppercase"
+                <g
+                  className="cursor-pointer"
+                  onClick={() => rolPrincipal && abrirDetalleLinea(rolPrincipal.posicion)}
                 >
-                  PRINCIPAL
-                </text>
-                <text
-                  x="65"
-                  y="74"
-                  textAnchor="middle"
-                  className="fill-texto text-[11px] sm:text-xs font-bold"
-                >
-                  {nombreRolPrincipal}
-                </text>
+                  <text
+                    x="65"
+                    y="58"
+                    textAnchor="middle"
+                    className="fill-texto-suave text-[8px] sm:text-[9px] font-bold tracking-wider uppercase select-none"
+                  >
+                    PRINCIPAL
+                  </text>
+                  <text
+                    x="65"
+                    y="74"
+                    textAnchor="middle"
+                    className="fill-texto text-[11px] sm:text-xs font-bold hover:fill-sapo transition-colors select-none"
+                  >
+                    {nombreRolPrincipal}
+                  </text>
+                </g>
               </svg>
             </div>
 
             {/* Tabla con el desglose de los 5 roles */}
             <div className="flex-1 w-full min-w-0">
-              <table className="w-full text-left text-xs border-collapse">
+              <table className="w-full text-left text-xs border-collapse table-fixed">
+                <colgroup>
+                  <col className="w-[40%]" />
+                  <col className="w-[18%]" />
+                  <col className="w-[18%]" />
+                  <col className="w-[24%]" />
+                </colgroup>
                 <thead>
                   <tr className="border-b border-borde/40 text-[10px] font-semibold tracking-wider text-texto-suave uppercase">
-                    <th scope="col" className="pb-1 pl-0 font-medium">
+                    <th scope="col" className="pb-1 pl-1 font-medium">
                       Línea
                     </th>
-                    <th scope="col" className="pb-1 px-1 text-right font-medium">
+                    <th scope="col" className="pb-1 pr-1.5 text-right font-medium">
                       Partidas
                     </th>
-                    <th scope="col" className="pb-1 px-1 text-right font-medium">
+                    <th scope="col" className="pb-1 pr-1.5 text-right font-medium">
                       (%)
                     </th>
-                    <th scope="col" className="pb-1 pr-0 text-right font-medium">
+                    <th scope="col" className="pb-1 pr-1 text-right font-medium">
                       Winrate
                     </th>
                   </tr>
@@ -290,9 +324,19 @@ export function TarjetaRoles({ campeones, amigos }) {
                     return (
                       <tr
                         key={l.posicion}
-                        className="hover:bg-superficie-alta/30 transition-colors"
+                        onClick={() => abrirDetalleLinea(l.posicion)}
+                        role="button"
+                        tabIndex={0}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" || e.key === " ") {
+                            e.preventDefault();
+                            abrirDetalleLinea(l.posicion);
+                          }
+                        }}
+                        className="cursor-pointer group/linea hover:bg-superficie-alta/60 transition-colors"
+                        title={`Ver estadísticas de ${amigoActual?.nombre || "jugador"} en ${cfg.nombre} (${TEXTOS_PERIODOS[periodo] || periodo})`}
                       >
-                        <td className="py-1 pl-0">
+                        <td className="py-1 pl-1 truncate">
                           <div className="flex items-center gap-1.5 min-w-0">
                             <span
                               className="size-2 rounded-full shrink-0"
@@ -300,19 +344,19 @@ export function TarjetaRoles({ campeones, amigos }) {
                               aria-hidden="true"
                             />
                             <IconoPosicion posicion={l.posicion} className="size-3.5 shrink-0" />
-                            <span className="truncate text-texto font-medium text-[11px] sm:text-xs">
+                            <span className="truncate text-texto font-medium text-[11px] sm:text-xs group-hover/linea:text-sapo transition-colors">
                               {cfg.nombre}
                             </span>
                           </div>
                         </td>
-                        <td className="py-1 px-1 text-right cifras font-semibold text-texto text-[11px] sm:text-xs">
+                        <td className="py-1 pr-1.5 text-right cifras font-semibold text-texto text-[11px] sm:text-xs">
                           {l.partidas}
                         </td>
-                        <td className="py-1 px-1 text-right cifras text-texto-suave text-[11px] sm:text-xs">
+                        <td className="py-1 pr-1.5 text-right cifras text-texto-suave text-[11px] sm:text-xs">
                           {l.porcentaje}%
                         </td>
                         <td
-                          className={`py-1 pr-0 text-right cifras font-semibold text-[11px] sm:text-xs ${colorWinrate}`}
+                          className={`py-1 pr-1 text-right cifras font-semibold text-[11px] sm:text-xs ${colorWinrate}`}
                         >
                           {winrate !== null ? `${winrate}%` : "—"}
                         </td>

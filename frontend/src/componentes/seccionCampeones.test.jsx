@@ -130,22 +130,37 @@ describe("TarjetaCampeones", () => {
 });
 
 describe("TarjetaRoles", () => {
-  it("renderiza métricas de KDA, jugadas, tasa de victorias y tabla de roles", () => {
-    render(<TarjetaRoles campeones={campeonesMock} amigos={amigosMock} />);
+  it("renderiza métricas de KDA, jugadas, winrate y tabla de roles y permite hacer clic en un rol", () => {
+    const onVer = vi.fn();
+    render(<TarjetaRoles campeones={campeonesMock} amigos={amigosMock} onVerDetalle={onVer} />);
 
     expect(screen.getByText("Estadísticas básicas")).toBeInTheDocument();
     expect(screen.getByText("KDA Promedio")).toBeInTheDocument();
     expect(screen.getByText("Jugadas")).toBeInTheDocument();
-    expect(screen.getByText("Tasa de victorias")).toBeInTheDocument();
+    expect(screen.getAllByText("Winrate").length).toBeGreaterThanOrEqual(1);
     expect(screen.getByText("Roles más jugados")).toBeInTheDocument();
 
     // Selector de amigos
     expect(screen.getByRole("tab", { name: "Johnadis" })).toBeInTheDocument();
     expect(screen.getByRole("tab", { name: "ISkrat" })).toBeInTheDocument();
 
+    // Selector de período fijado por defecto en 30 días
+    const selectPeriodo = screen.getByLabelText("Filtrar por período");
+    expect(selectPeriodo).toHaveValue("dias_30");
+
     // Clic en ISkrat cambia las estadísticas al amigo seleccionado
     fireEvent.click(screen.getByRole("tab", { name: "ISkrat" }));
     expect(screen.getByText("14")).toBeInTheDocument(); // 14 partidas de ISkrat
+
+    // Clic en la fila del rol Inferior para abrir el modal filtrado
+    const filaRol = screen.getAllByText("Inferior").find((el) => el.closest("tr"))?.closest("tr");
+    expect(filaRol).toBeInTheDocument();
+    fireEvent.click(filaRol);
+    expect(onVer).toHaveBeenCalledWith({
+      amigo: "iskrat-las",
+      periodo: "dias_30",
+      linea: "BOTTOM",
+    });
   });
 });
 

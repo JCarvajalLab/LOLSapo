@@ -26,10 +26,18 @@ const SUBTITULOS_PERIODOS = {
  * temporal (30d, 60d, 90d o Año 2026) y filtrar por posición/rol oficial de LoL con
  * distribución de partidas y porcentajes.
  */
-export function ModalCampeones({ campeones, amigos = [], ddragon, onCerrar }) {
-  const [amigoSlug, setAmigoSlug] = useState("global");
-  const [periodo, setPeriodo] = useState("dias_30");
-  const [lineaActiva, setLineaActiva] = useState(null); // null = Todas las líneas
+export function ModalCampeones({
+  campeones,
+  amigos = [],
+  ddragon,
+  onCerrar,
+  amigoInicial = "global",
+  periodoInicial = "dias_30",
+  lineaInicial = null,
+}) {
+  const [amigoSlug, setAmigoSlug] = useState(amigoInicial);
+  const [periodo, setPeriodo] = useState(periodoInicial);
+  const [lineaActiva, setLineaActiva] = useState(lineaInicial);
 
   const listaAmigos = useMemo(() => {
     return [
