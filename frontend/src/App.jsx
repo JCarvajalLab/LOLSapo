@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useAhora } from "./datos/useAhora.js";
 import { useDatosLol } from "./datos/useDatosLol.js";
 import { useDatosTft } from "./datos/useDatosTft.js";
@@ -9,11 +9,13 @@ import { Encabezado } from "./componentes/Encabezado.jsx";
 import { EsqueletoPagina } from "./componentes/Esqueleto.jsx";
 import { ErrorCarga, EstadoVacio } from "./componentes/Estados.jsx";
 import { FilaAmigo, idBotonAmigo } from "./componentes/FilaAmigo.jsx";
+import { ModalCampeones } from "./componentes/ModalCampeones.jsx";
 import { ModalSinergia } from "./componentes/ModalSinergia.jsx";
 import { Ranking } from "./componentes/Ranking.jsx";
 import { SeccionDestacadosHoy } from "./componentes/SeccionDestacadosHoy.jsx";
 import { SeccionDestacadosMes } from "./componentes/SeccionDestacadosMes.jsx";
 import { SeccionDestacadosSemana } from "./componentes/SeccionDestacadosSemana.jsx";
+import { SeccionCampeones } from "./componentes/SeccionCampeones.jsx";
 import { SeccionEnPartida } from "./componentes/SeccionEnPartida.jsx";
 import { idPanelJuego, idPestana } from "./componentes/SelectorJuego.jsx";
 import { TituloSeccion } from "./componentes/TituloSeccion.jsx";
@@ -88,6 +90,8 @@ function PanelJuego({ clave, activo, children }) {
 function VistaLol({ datos, error, ahora, abiertos, alternar, abrir, enfocar }) {
   // Sinergia abierta: { slug, origen } (origen = enlace del ranking que recibe el foco al cerrar).
   const [sinergiaDe, setSinergiaDe] = useState(null);
+  const [modalCampeonesAbierto, setModalCampeonesAbierto] = useState(false);
+  const refBotonCampeones = useRef(null);
 
   if (error && !datos) return <ErrorCarga error={error} />;
   if (!datos) return <EsqueletoPagina />;
@@ -111,6 +115,10 @@ function VistaLol({ datos, error, ahora, abiertos, alternar, abrir, enfocar }) {
     // El foco va al amigo abierto; el desplazamiento lo hace su fila.
     document.getElementById(idBotonAmigo(slug))?.focus({ preventScroll: true });
   };
+  const cerrarCampeones = () => {
+    setModalCampeonesAbierto(false);
+    refBotonCampeones.current?.focus();
+  };
 
   return (
     <div className="space-y-8 sm:space-y-10">
@@ -125,6 +133,14 @@ function VistaLol({ datos, error, ahora, abiertos, alternar, abrir, enfocar }) {
       <SeccionDestacadosHoy destacados={datos.destacados} amigos={datos.amigos} ddragon={datos.ddragon} ahora={ahora} />
       <SeccionDestacadosSemana destacados={datos.destacados} amigos={datos.amigos} ddragon={datos.ddragon} ahora={ahora} />
       <SeccionDestacadosMes destacados={datos.destacados} amigos={datos.amigos} ddragon={datos.ddragon} ahora={ahora} />
+
+      <SeccionCampeones
+        campeones={datos.campeones}
+        amigos={datos.amigos}
+        ddragon={datos.ddragon}
+        onVerDetalle={() => setModalCampeonesAbierto(true)}
+        refBoton={refBotonCampeones}
+      />
 
       <div className="grid gap-x-8 gap-y-8 lg:grid-cols-[18rem_minmax(0,1fr)] lg:items-start">
         <Ranking ranking={datos.ranking} amigos={datos.amigos} onElegir={alElegirRanking} />
@@ -162,6 +178,15 @@ function VistaLol({ datos, error, ahora, abiertos, alternar, abrir, enfocar }) {
           ddragon={datos.ddragon}
           onCerrar={cerrarSinergia}
           onVerPartidas={verPartidas}
+        />
+      )}
+
+      {modalCampeonesAbierto && (
+        <ModalCampeones
+          campeones={datos.campeones}
+          amigos={datos.amigos}
+          ddragon={datos.ddragon}
+          onCerrar={cerrarCampeones}
         />
       )}
     </div>

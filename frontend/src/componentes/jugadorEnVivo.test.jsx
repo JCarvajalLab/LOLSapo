@@ -77,4 +77,97 @@ describe("jugador en vivo: winrate, racha y maestría", () => {
     expect(clases.size).toBe(1);
     expect(filas[0]).toHaveClass("h-12");
   });
+
+  it("muestra insignias y bordes según el tipo de premade (amigos, aliado o rival)", () => {
+    const partidaConPremades = {
+      ...partidaEnVivo,
+      equipos: [
+        {
+          equipo: 100,
+          bloqueos: [],
+          jugadores: [
+            {
+              campeon_id: 103,
+              equipo: 100,
+              nombre: "Rana Azul#LAS",
+              amigo: "rana-azul-las",
+              premade: 1,
+            },
+            {
+              campeon_id: 22,
+              equipo: 100,
+              nombre: "Sapito#LAS",
+              amigo: "sapito-las",
+              premade: 1,
+            },
+            {
+              campeon_id: 12,
+              equipo: 100,
+              nombre: "Aliado 1#AAA",
+              amigo: null,
+              premade: 2,
+            },
+            {
+              campeon_id: 11,
+              equipo: 100,
+              nombre: "Aliado 2#AAA",
+              amigo: null,
+              premade: 2,
+            },
+          ],
+        },
+        {
+          equipo: 200,
+          bloqueos: [],
+          jugadores: [
+            {
+              campeon_id: 54,
+              equipo: 200,
+              nombre: "Rival Uno#CCC",
+              amigo: null,
+              premade: 1,
+            },
+            {
+              campeon_id: 86,
+              equipo: 200,
+              nombre: "Rival Dos#CCC",
+              amigo: null,
+              premade: 1,
+            },
+          ],
+        },
+      ],
+    };
+
+    render(
+      <SeccionEnPartida
+        enVivo={[partidaConPremades]}
+        ddragon={ddragon}
+        amigos={crearDatos().amigos}
+        actualizadoMs={AHORA}
+        ahora={AHORA}
+      />,
+    );
+
+    // Amigos premade: Dúo verde sapo
+    const filaAmigo = filaDe("Rana Azul#LAS");
+    expect(filaAmigo).toHaveClass("border-l-4", "border-sapo");
+    const insigniaAmigo = filaAmigo.querySelector('[data-insignia-premade="true"]');
+    expect(insigniaAmigo).toHaveTextContent("Dúo");
+    expect(insigniaAmigo).toHaveAttribute("title", "Premade del grupo (Dúo)");
+
+    // Aliados desconocidos premade: Dúo aliado celeste
+    const filaAliado = filaDe("Aliado 1#AAA");
+    expect(filaAliado).toHaveClass("border-l-4", "border-sky-400");
+    const insigniaAliado = filaAliado.querySelector('[data-insignia-premade="true"]');
+    expect(insigniaAliado).toHaveTextContent("Dúo aliado");
+    expect(insigniaAliado).toHaveAttribute("title", "Premade aliada detectada (Dúo)");
+
+    // Rivales premade: Dúo rival púrpura
+    const filaRival = filaDe("Rival Uno#CCC");
+    expect(filaRival).toHaveClass("border-l-4", "border-purple-400");
+    const insigniaRival = filaRival.querySelector('[data-insignia-premade="true"]');
+    expect(insigniaRival).toHaveTextContent("Dúo rival");
+    expect(insigniaRival).toHaveAttribute("title", "Premade rival detectada (Dúo)");
+  });
 });

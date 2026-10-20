@@ -248,6 +248,42 @@ def test_rango_y_maestria_en_vivo_se_piden_una_vez_por_partida(cliente, mapa, tm
     assert json.loads((tmp_path / "en_vivo_cache.json").read_text(encoding="utf-8")) == {}
 
 
+@responses.activate
+def test_partida_en_vivo_detecta_premades_enemigas(cliente, mapa, tmp_path):
+    en_vivo = partida_activa(P_JOHN, 450, 103, id_partida=88)
+    r1 = "rival1".ljust(78, "r")
+    r2 = "rival2".ljust(78, "r")
+    en_vivo["participants"].append(
+        {
+            "puuid": r2,
+            "championId": 81,
+            "teamId": 200,
+            "riotId": "Rival2#LAS",
+            "spell1Id": 4,
+            "spell2Id": 14,
+            "perks": {"perkIds": [8000], "perkStyle": 8000, "perkSubStyle": 8100},
+        }
+    )
+    simular_amigo("Johnadis", P_JOHN, [], jugando=en_vivo)
+    # Los rivales 1 y 2 comparten el ID de partida "LA2_COMPARTIDA" en sus últimas partidas
+    responses.get(
+        f"{URL_REGION}/lol/match/v5/matches/by-puuid/{r1}/ids",
+        json=["LA2_COMPARTIDA", "LA2_11"],
+    )
+    responses.get(
+        f"{URL_REGION}/lol/match/v5/matches/by-puuid/{r2}/ids",
+        json=["LA2_COMPARTIDA", "LA2_22"],
+    )
+
+    salida = ejecutar(
+        cliente, KEY_FALSA, [JOHN], mapa, tmp_path, tmp_path / "lol.json", ahora=AHORA
+    )
+    rojo = salida["en_vivo"][0]["equipos"][1]
+    # R1 (índice 0) y R2 (índice 2) tienen asignado el mismo identificador de grupo premade
+    assert rojo["jugadores"][0]["premade"] is not None
+    assert rojo["jugadores"][0]["premade"] == rojo["jugadores"][2]["premade"]
+
+
 def test_cache_en_vivo_con_contenido_danado_se_descarta(tmp_path):
     from lolsapo.recolector import _leer_cache_en_vivo
 
