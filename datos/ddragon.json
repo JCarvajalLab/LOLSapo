@@ -1468,7 +1468,7 @@
       "oro": 2500
     },
     "220013": {
-      "descripcion": "<mainText><stats></stats><br><br><active>Activa, Consumir:</active> Le obsequia una deliciosa galletita a un poro cercano y lo hace crecer.<br><br><flavorText>Una sabrosa mezcla de carne de gallina avarosana y hierbas frescas de El Fréljord, ahora con un toque de fina repostería demaciana. Contiene los nutrientes esenciales para que tu poro esté siempre radiante.<br><br>Todas las ganancias se donarán al Coro Juvenil de Cloudfield. ¡Ayuda a un niño demaciano a comprarse un etwahl hoy mismo!</flavorText></mainText>",
+      "descripcion": "<mainText><stats></stats><br><br><active>Activa, Consumir:</active> Le obsequia una deliciosa galletita a un poro cercano y lo hace crecer.<br><br><flavorText>Este deslumbrante dulce, espolvoreado con cristales de azúcar, contiene todos los ingredientes esenciales para hacer que un poro brille desde todos los ángulos. Se disfruta mejor bajo un reflector. Los efectos secundarios pueden incluir baile espontáneo, una presencia escénica irresistible, ¡y unas ganas irrefrenables de salir a bailar!</flavorText></mainText>",
       "nombre": "Porogalletas"
     },
     "221011": {
@@ -2096,7 +2096,7 @@
       "oro": 2500
     },
     "226621": {
-      "descripcion": "<mainText><stats><attention>45</attention> de Poder de Habilidad<br><attention>12%</attention> de poder de curaciones y escudos<br><attention>200%</attention> de Regen. de Maná Básica</stats><br><br><passive>Primera Luz</passive><br>Obtienes un <healing>3% de poder de curaciones y escudos</healing> y <scaleAP>10 de Poder de Habilidad</scaleAP> por cada un <scaleMana>100% de Regen. de Maná básica</scaleMana>.</mainText>",
+      "descripcion": "<mainText><stats><attention>45</attention> de Poder de Habilidad<br><attention>12%</attention> de poder de curaciones y escudos<br><attention>200%</attention> de Regen. de Maná Básica</stats><br><br><passive>Primera Luz</passive><br>Obtienes un <healing>3% de poder de curaciones y escudos</healing> y <scaleAP>15 de Poder de Habilidad</scaleAP> por cada un <scaleMana>100% de Regen. de Maná básica</scaleMana>.</mainText>",
       "nombre": "Esfera del Amanecer",
       "oro": 2500
     },
@@ -2216,7 +2216,7 @@
       "oro": 2500
     },
     "226697": {
-      "descripcion": "<mainText><stats><attention>50</attention> de Daño de Ataque<br><attention>18</attention> de Letalidad<br><attention>10</attention> de Aceleración de Habilidad</stats><br><br><passive>Eminencia</passive><br>Cuando un campeón al que le infligiste daño muere en los últimos 3 seg, obtienes <physicalDamage>15 de Daño de Ataque</physicalDamage> <buffedStat>por el resto del round</buffedStat> o hasta morir. El <physicalDamage>Daño de Ataque de Eminencia aumenta permanentemente en 2</physicalDamage> cada vez que se activa.</mainText>",
+      "descripcion": "<mainText><stats><attention>50</attention> de Daño de Ataque<br><attention>18</attention> de Letalidad<br><attention>10</attention> de Aceleración de Habilidad</stats><br><br><passive>Eminencia</passive><br>Cuando un campeón al que le infligiste daño muere en los últimos 3 seg, obtienes <physicalDamage>0 de Daño de Ataque</physicalDamage> <buffedStat>por el resto del round</buffedStat> o hasta morir. El <physicalDamage>Daño de Ataque de Eminencia aumenta permanentemente en 0</physicalDamage> cada vez que se activa.</mainText>",
       "nombre": "Arrogancia",
       "oro": 2500
     },
@@ -2385,7 +2385,7 @@
       ]
     },
     "2520": {
-      "descripcion": "<mainText><stats><attention>55</attention> de Daño de Ataque<br><attention>22</attention> de Letalidad<br><attention>15</attention> de Aceleración de Habilidad</stats><br><br><passive>Carga Hueca</passive> (0 seg)<br>Causarle daño de habilidad a un campeón o monstruo épico inflige <trueDamage>0 de daño verdadero</trueDamage>.<br><br><passive>Sabotaje</passive><br>Derribar a un campeón en un lapso de 3 seg después de dañarlo te otorga Sabotaje por 90 seg. Mientras tengas Sabotaje, tu próximo ataque contra un monstruo épico o torreta infligirá <trueDamage>0 de daño verdadero</trueDamage> adicional durante 3 seg. </mainText>",
+      "descripcion": "<mainText><stats><attention>55</attention> de Daño de Ataque<br><attention>18</attention> de Letalidad<br><attention>15</attention> de Aceleración de Habilidad</stats><br><br><passive>Carga Hueca</passive> (0 seg)<br>Causarle daño de habilidad a un campeón o monstruo épico inflige <trueDamage>0 de daño verdadero</trueDamage>.<br><br><passive>Sabotaje</passive><br>Derribar a un campeón en un lapso de 3 seg después de dañarlo te otorga Sabotaje por 25000 seg. Mientras tengas Sabotaje, tu próximo ataque contra un monstruo épico o torreta infligirá <trueDamage>0 de daño verdadero</trueDamage> adicional durante 3 seg. </mainText>",
       "nombre": "Rompebastiones",
       "oro": 3000,
       "receta": [
@@ -2505,7 +2505,7 @@
     "3008": {
       "descripcion": "<mainText><stats><attention>45</attention> de Velocidad de Movimiento<br><attention>4%</attention> de Omnivampirismo</stats><br><br><passive>Exterminar</passive><br>Al derribar campeones, obtienes un 0.6% de Omnivampirismo. El efecto se acumula hasta 10 veces.</mainText>",
       "nombre": "Grebas Glotonas",
-      "oro": 1000,
+      "oro": 1100,
       "receta": [
         1001
       ]
@@ -3319,7 +3319,7 @@
     "3168": {
       "descripcion": "<mainText><stats><attention>45</attention> de Velocidad de Movimiento<br><attention>4%</attention> de Omnivampirismo</stats><br><br><passive>Exterminar</passive><br>Al derribar campeones, obtienes un 0.6% de Omnivampirismo. El efecto se acumula hasta 10 veces.<br><br><passive>Ahora y Siempre</passive><br>Cuando tienes más de la mitad de vida, infliges un 4% más de daño.<br><br>Cuando tienes menos de la mitad de vida, obtienes un 12% más de curaciones, escudos y regeneración.</mainText>",
       "nombre": "Camino Inmortal",
-      "oro": 1000,
+      "oro": 1100,
       "receta": [
         3008
       ]
@@ -3649,7 +3649,7 @@
       ]
     },
     "326621": {
-      "descripcion": "<mainText><stats><attention>50</attention> de Poder de Habilidad<br><attention>20%</attention> de poder de curaciones y escudos<br><attention>150%</attention> de Regen. de Maná Básica</stats><br><br><passive>Primera Luz</passive><br>Obtienes un <healing>2% de Curación y Poder de Escudo</healing> y <scaleAP>10 de Poder de Habilidad</scaleAP> por cada 100% de Regeneración de Maná Básica.</mainText>",
+      "descripcion": "<mainText><stats><attention>50</attention> de Poder de Habilidad<br><attention>20%</attention> de poder de curaciones y escudos<br><attention>150%</attention> de Regen. de Maná Básica</stats><br><br><passive>Primera Luz</passive><br>Obtienes un <healing>2% de Curación y Poder de Escudo</healing> y <scaleAP>15 de Poder de Habilidad</scaleAP> por cada 100% de Regeneración de Maná Básica.</mainText>",
       "nombre": "Esfera del Amanecer",
       "oro": 2900,
       "receta": [
@@ -4104,7 +4104,7 @@
       "oro": 2750
     },
     "443079": {
-      "descripcion": "<mainText><stats><attention>600</attention> de Vida<br><attention>80</attention> de fuerza adaptable</stats><br><br>Ignoras el próximo efecto de <status>inmovilización</status> que te apliquen y dejas caer un contenedor químico cerca (0 seg de enfriamiento). Recógelo para reducir el enfriamiento del efecto en 15 seg y recuperar un <scaleHealth>4% de la Vida Máxima</scaleHealth>. Si los enemigos pisan el contenedor, lo destruyen.</mainText>",
+      "descripcion": "<mainText><stats><attention>600</attention> de Vida<br><attention>80</attention> de fuerza adaptable</stats><br><br>Ignoras el próximo efecto de <status>inmovilización</status> que te apliquen y dejas caer un contenedor químico cerca (0 seg de enfriamiento). Recógelo para reducir el enfriamiento del efecto en 15 seg y recuperar un <scaleHealth>20% de la Vida Máxima</scaleHealth>. Si los enemigos pisan el contenedor, lo destruyen.</mainText>",
       "nombre": "Quimotanque Turbo",
       "oro": 2750
     },
@@ -4134,7 +4134,7 @@
       "oro": 2750
     },
     "444636": {
-      "descripcion": "<mainText><stats><attention>90</attention> de Poder de Habilidad<br><attention>300</attention> de Vida<br><attention>25</attention> de Aceleración de Habilidad</stats><br><br><passive>Desgarraalmas</passive> (0 seg) por campeón<br>Dañar a un campeón con ataques o habilidades inflige <magicDamage>0 de daño mágico</magicDamage> adicional y te otorga un <speed>40% de Velocidad de Movimiento</speed> durante 1.5 seg.<br><br><rules>Dañar a un campeón nuevo extenderá la duración del bonus de velocidad de movimiento.</rules></mainText>",
+      "descripcion": "<mainText><stats><attention>90</attention> de Poder de Habilidad<br><attention>300</attention> de Vida<br><attention>25</attention> de Aceleración de Habilidad</stats><br><br><passive>Desgarraalmas</passive> (0 seg) por campeón<br>Dañar a un campeón con ataques o habilidades inflige <magicDamage>0 de daño mágico</magicDamage> adicional y te otorga un <speed>60% de Velocidad de Movimiento</speed> durante 1 seg.<br><br><rules>Dañar a un campeón nuevo extenderá la duración del bonus de velocidad de movimiento.</rules></mainText>",
       "nombre": "Cosechador Nocturno",
       "oro": 2750
     },
@@ -4179,7 +4179,7 @@
       "oro": 1000
     },
     "447100": {
-      "descripcion": "<mainText><stats><attention>65</attention> de fuerza adaptable<br><attention>60%</attention> de Velocidad de Ataque<br><attention>6%</attention> de Velocidad de Movimiento</stats><br><br><passive>Borrón</passive><br><OnHit>al impacto</OnHit> reduce los enfriamientos de tus habilidades de desplazamiento y salto en un 20% (para las definitivas se reduce en un 5%).</mainText>",
+      "descripcion": "<mainText><stats><attention>65</attention> de fuerza adaptable<br><attention>60%</attention> de Velocidad de Ataque<br><attention>6%</attention> de Velocidad de Movimiento</stats><br><br><passive>Borrón</passive><br><OnHit>al impacto</OnHit> reduce los enfriamientos de tus habilidades de desplazamiento y salto en un 15% (para las definitivas se reduce en un 5%).</mainText>",
       "nombre": "Espada Espejismo",
       "oro": 2750
     },
@@ -4229,7 +4229,7 @@
       "oro": 2750
     },
     "447110": {
-      "descripcion": "<mainText><stats><attention>85</attention> de Poder de Habilidad<br><attention>400</attention> de Vida<br><attention>30%</attention> de Tenacidad</stats><br><br><passive>Implacable</passive><br>: Cuando usas una habilidad, se restablece el tiempo de tus autoataques y obtienes un <attackSpeed>90% de Velocidad de Ataque</attackSpeed> para tus próximos 2 ataques.<br><br>Al atacar, el enfriamiento de las habilidades que no sean de desplazamiento o de salto se reduce en 0.5 seg.</mainText>",
+      "descripcion": "<mainText><stats><attention>85</attention> de Poder de Habilidad<br><attention>400</attention> de Vida<br><attention>30%</attention> de Tenacidad</stats><br><br><passive>Implacable</passive><br>: Cuando usas una habilidad, se restablece el tiempo de tus autoataques y obtienes un <attackSpeed>90% de Velocidad de Ataque</attackSpeed> para tus próximos 3 ataques.<br><br>Al atacar, el enfriamiento de las habilidades que no sean de desplazamiento o de salto se reduce en 0.3 seg.</mainText>",
       "nombre": "Espada Encantada por la Luna",
       "oro": 2750
     },
@@ -4424,28 +4424,6 @@
         3113
       ]
     },
-    "550001": {
-      "nombre": "Color de la barra de vida: Azul"
-    },
-    "550002": {
-      "nombre": "Color de la barra de vida: Naranja"
-    },
-    "550003": {
-      "nombre": "Color de la barra de vida: Verde"
-    },
-    "550004": {
-      "nombre": "Color de la barra de vida: Rosa"
-    },
-    "550005": {
-      "nombre": "Efecto de la barra de vida: Restablecer color"
-    },
-    "550006": {
-      "nombre": "Color de la barra de vida: Arcoíris"
-    },
-    "550007": {
-      "nombre": "Recuerdito de fiesta",
-      "oro": 10
-    },
     "6029": {
       "descripcion": "<mainText><stats><attention>30</attention> de Daño de Ataque</stats><br><br><br><br><active>Activa:</active> <active>Creciente:</active> Inflige daño a los enemigos cercanos.</mainText>",
       "nombre": "Látigo Férreo",
@@ -4526,7 +4504,7 @@
       ]
     },
     "6621": {
-      "descripcion": "<mainText><stats><attention>45</attention> de Poder de Habilidad<br><attention>16%</attention> de poder de curaciones y escudos<br><attention>100%</attention> de Regen. de Maná Básica</stats><br><br><passive>Primera Luz</passive><br>Obtienes un <healing>2% de Curación y Poder de Escudo</healing> y <scaleAP>10 de Poder de Habilidad</scaleAP> por cada 100% de Regeneración de Maná Básica.</mainText>",
+      "descripcion": "<mainText><stats><attention>45</attention> de Poder de Habilidad<br><attention>16%</attention> de poder de curaciones y escudos<br><attention>100%</attention> de Regen. de Maná Básica</stats><br><br><passive>Primera Luz</passive><br>Obtienes un <healing>2% de Curación y Poder de Escudo</healing> y <scaleAP>15 de Poder de Habilidad</scaleAP> por cada 100% de Regeneración de Maná Básica.</mainText>",
       "nombre": "Esfera del Amanecer",
       "oro": 2500,
       "receta": [
@@ -4865,7 +4843,7 @@
       ]
     },
     "6697": {
-      "descripcion": "<mainText><stats><attention>55</attention> de Daño de Ataque<br><attention>18</attention> de Letalidad<br><attention>10</attention> de Aceleración de Habilidad</stats><br><br><passive>Eminencia</passive><br>Cuando un campeón al que le infligiste daño muere en 3 seg, obtienes <physicalDamage>12 de Daño de Ataque más 3 por cada campeón asesinado</physicalDamage> durante 90 seg.</mainText>",
+      "descripcion": "<mainText><stats><attention>55</attention> de Daño de Ataque<br><attention>18</attention> de Letalidad<br><attention>10</attention> de Aceleración de Habilidad</stats><br><br><passive>Eminencia</passive><br>Cuando un campeón al que le infligiste daño muere en 3 seg, obtienes <physicalDamage>0 de Daño de Ataque más 0 por cada campeón asesinado</physicalDamage> durante 90 seg.</mainText>",
       "nombre": "Arrogancia",
       "oro": 2800,
       "receta": [
@@ -5163,7 +5141,7 @@
       ]
     },
     "773005": {
-      "descripcion": "<mainText><stats><attention>45</attention> de Armadura<br><attention>15%</attention> de Probabilidad de Golpe Crítico</stats><br><br><jadeUnique>Impacto:</jadeUnique> Otorga <physicalDamage>Daño de Ataque</physicalDamage> adicional equivalente al <physicalDamage>1.5%</physicalDamage> de la <scaleHealth>Vida Máxima</scaleHealth>.</mainText>",
+      "descripcion": "<mainText><stats><attention>45</attention> de Armadura<br><attention>18%</attention> de Probabilidad de Golpe Crítico</stats><br><br><jadeUnique>Impacto:</jadeUnique> Otorga <physicalDamage>Daño de Ataque</physicalDamage> adicional equivalente al <physicalDamage>2%</physicalDamage> de la <scaleHealth>Vida Máxima</scaleHealth>.</mainText>",
       "nombre": "Empalador de Atma",
       "oro": 2300,
       "receta": [
@@ -5801,7 +5779,7 @@
       ]
     },
     "773134": {
-      "descripcion": "<mainText><stats><attention>25</attention> de Daño de Ataque</stats><br><br><jadeUnique>Masacre:</jadeUnique> 10% de Reducción de Enfriamiento.<br><jadeUnique>Golpe Aplastante:</jadeUnique> <armorPen>10 de Letalidad</armorPen>.</mainText>",
+      "descripcion": "<mainText><stats><attention>25</attention> de Daño de Ataque</stats><br><br><jadeUnique>Masacre:</jadeUnique> 10% de Reducción de Enfriamiento<br><jadeUnique>Golpe Aplastante:</jadeUnique> <armorPen>10 de Letalidad</armorPen></mainText>",
       "nombre": "El Brutalizador",
       "oro": 1337,
       "receta": [
@@ -6784,6 +6762,6 @@
       "nombre": "Lluvia de Espadas"
     }
   },
-  "version": "16.20.1",
+  "version": "16.21.1",
   "version_cache": 3
 }
