@@ -19,7 +19,10 @@ describe("FilaPartida", () => {
     expect(within(fila).getByText("Normal (Reclutamiento)")).toBeInTheDocument();
     expect(within(fila).getByText("hace 18 horas")).toBeInTheDocument();
     expect(within(fila).getByText("31 min")).toBeInTheDocument();
-    expect(within(fila).getByLabelText("KDA 17 / 6 / 3")).toBeInTheDocument();
+    const bloqueKda = within(fila).getByLabelText("KDA 17 / 6 / 3");
+    expect(within(bloqueKda).getByText("17")).toHaveClass("text-victoria");
+    expect(within(bloqueKda).getByText("6")).toHaveClass("text-derrota");
+    expect(within(bloqueKda).getByText("3")).toHaveClass("text-sapo");
     expect(within(fila).getByText("3.33 KDA")).toBeInTheDocument();
     expect(within(fila).getByText("177 CS")).toBeInTheDocument();
     expect(within(fila).getByText("65%")).toBeInTheDocument();

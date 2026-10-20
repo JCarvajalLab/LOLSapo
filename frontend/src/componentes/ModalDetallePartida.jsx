@@ -100,7 +100,11 @@ export function ModalDetallePartida({ partida, ddragon, ahora, slugPropio, onCer
               {infoAzul.victoria ? "Victoria" : "Derrota"}
             </span>
             <span className="cifras text-texto font-medium">
-              {totalKillsAzul} / {totalMuertesAzul} / {totalAsistAzul}
+              <span className="text-victoria">{totalKillsAzul}</span>{" "}
+              <span className="text-texto-suave font-normal">/</span>{" "}
+              <span className="text-derrota">{totalMuertesAzul}</span>{" "}
+              <span className="text-texto-suave font-normal">/</span>{" "}
+              <span className="text-sapo">{totalAsistAzul}</span>
             </span>
           </div>
 
@@ -125,7 +129,11 @@ export function ModalDetallePartida({ partida, ddragon, ahora, slugPropio, onCer
           {/* Marcador Rojo */}
           <div className="flex items-center gap-2">
             <span className="cifras text-texto font-medium">
-              {totalKillsRojo} / {totalMuertesRojo} / {totalAsistRojo}
+              <span className="text-victoria">{totalKillsRojo}</span>{" "}
+              <span className="text-texto-suave font-normal">/</span>{" "}
+              <span className="text-derrota">{totalMuertesRojo}</span>{" "}
+              <span className="text-texto-suave font-normal">/</span>{" "}
+              <span className="text-sapo">{totalAsistRojo}</span>
             </span>
             <span
               className={`font-bold text-base ${
@@ -374,7 +382,7 @@ function TarjetaJugador({ jugador, ddragon, slugPropio, duracion, maxDanio, lado
           <span className="text-texto-suave font-normal">/</span>{" "}
           <span className="text-derrota">{j.muertes ?? 0}</span>{" "}
           <span className="text-texto-suave font-normal">/</span>{" "}
-          <span className="text-dorado">{j.asistencias ?? 0}</span>
+          <span className="text-sapo">{j.asistencias ?? 0}</span>
           {ratio && (
             <span className="ml-1 text-[10px] text-texto-suave font-normal">
               ({ratio === "Perfecto" ? "Perf" : `${ratio}`})

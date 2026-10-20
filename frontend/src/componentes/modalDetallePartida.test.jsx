@@ -134,6 +134,14 @@ describe("ModalDetallePartida", () => {
     expect(screen.getByText("Aliado Uno#LAS")).toBeInTheDocument();
     expect(screen.getByText("Rival Uno#LAS")).toBeInTheDocument();
 
+    // KDA coloreado: asesinatos (verde), muertes (rojo), asistencias (dorado/sapo)
+    const kills = screen.getAllByText("6");
+    expect(kills.some((el) => el.classList.contains("text-victoria"))).toBe(true);
+    const muertes = screen.getAllByText("1");
+    expect(muertes.some((el) => el.classList.contains("text-derrota"))).toBe(true);
+    const asist = screen.getAllByText("9");
+    expect(asist.some((el) => el.classList.contains("text-sapo"))).toBe(true);
+
     // Cierre
     fireEvent.click(screen.getByRole("button", { name: "Cerrar" }));
     expect(alCerrar).toHaveBeenCalledTimes(1);
