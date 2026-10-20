@@ -75,9 +75,9 @@ export function TarjetaRoles({ campeones, amigos, onVerDetalle }) {
     ? CONFIG_ROLES[rolPrincipal.posicion]?.nombre || rolPrincipal.posicion
     : "—";
 
-  // Geometría del gráfico Donut SVG
-  const radio = 46;
-  const perimetro = 2 * Math.PI * radio; // ~ 289.026
+  // Geometría del gráfico Donut SVG optimizado
+  const radio = 38;
+  const perimetro = 2 * Math.PI * radio; // ~ 238.76
   const partidasConRol = lineasOrdenadas.reduce((acc, l) => acc + (l.partidas || 0), 0);
 
   let acumPct = 0;
@@ -219,27 +219,30 @@ export function TarjetaRoles({ campeones, amigos, onVerDetalle }) {
         {/* Roles más jugados: Cabecera unificada y alineada estilo OP.GG */}
         <div>
           {/* Fila de cabecera alineada en una sola línea */}
-          <div className="flex items-center justify-between border-b border-borde/40 pb-1 mb-2 text-[10px] font-semibold tracking-wider text-texto-suave uppercase">
-            <span className="truncate">Roles más jugados</span>
-            <div className="flex items-center text-right shrink-0">
-              <span className="w-12 sm:w-14 text-right">Partidas</span>
-              <span className="w-10 sm:w-12 text-right">(%)</span>
-              <span className="w-12 sm:w-14 text-right pr-1">Winrate</span>
+          <div className="flex items-center gap-2.5 sm:gap-3 border-b border-borde/40 pb-1 mb-2 text-[10px] font-semibold tracking-wider text-texto-suave uppercase">
+            <span className="w-20 sm:w-22 shrink-0 text-center truncate" title="Roles más jugados">
+              Roles más jugados
+            </span>
+            <div className="flex items-center flex-1 min-w-0">
+              <span className="flex-1 text-left pl-1">Línea</span>
+              <span className="w-9 sm:w-10 text-right">Partidas</span>
+              <span className="w-9 sm:w-10 text-right">(%)</span>
+              <span className="w-11 sm:w-12 text-right pr-1">Winrate</span>
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
-            {/* Gráfico Donut SVG */}
-            <div className="relative shrink-0 flex items-center justify-center">
-              <svg viewBox="0 0 130 130" className="size-24 sm:size-26">
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            {/* Gráfico Donut SVG optimizado */}
+            <div className="size-20 sm:size-22 shrink-0 flex items-center justify-center">
+              <svg viewBox="0 0 100 100" className="size-full">
                 {/* Círculo base de fondo */}
                 <circle
-                  cx="65"
-                  cy="65"
+                  cx="50"
+                  cy="50"
                   r={radio}
                   fill="none"
                   stroke="#334155"
-                  strokeWidth="11"
+                  strokeWidth="9"
                   opacity="0.35"
                 />
 
@@ -248,15 +251,15 @@ export function TarjetaRoles({ campeones, amigos, onVerDetalle }) {
                   s.activo ? (
                     <circle
                       key={idx}
-                      cx="65"
-                      cy="65"
+                      cx="50"
+                      cy="50"
                       r={radio}
                       fill="none"
                       stroke={s.color}
-                      strokeWidth="11"
+                      strokeWidth="9"
                       strokeDasharray={`${s.longitud} ${perimetro}`}
                       strokeDashoffset={s.desfase}
-                      transform="rotate(-90 65 65)"
+                      transform="rotate(-90 50 50)"
                       className="transition-all duration-300 cursor-pointer hover:opacity-80"
                       onClick={() => abrirDetalleLinea(s.posicion)}
                     >
@@ -271,18 +274,18 @@ export function TarjetaRoles({ campeones, amigos, onVerDetalle }) {
                   onClick={() => rolPrincipal && abrirDetalleLinea(rolPrincipal.posicion)}
                 >
                   <text
-                    x="65"
-                    y="58"
+                    x="50"
+                    y="45"
                     textAnchor="middle"
-                    className="fill-texto-suave text-[8px] sm:text-[9px] font-bold tracking-wider uppercase select-none"
+                    className="fill-texto-suave text-[7px] sm:text-[8px] font-bold tracking-wider uppercase select-none"
                   >
                     PRINCIPAL
                   </text>
                   <text
-                    x="65"
-                    y="74"
+                    x="50"
+                    y="59"
                     textAnchor="middle"
-                    className="fill-texto text-[11px] sm:text-xs font-bold hover:fill-sapo transition-colors select-none"
+                    className="fill-texto text-[10px] sm:text-[11px] font-bold hover:fill-sapo transition-colors select-none"
                   >
                     {nombreRolPrincipal}
                   </text>
@@ -319,28 +322,28 @@ export function TarjetaRoles({ campeones, amigos, onVerDetalle }) {
                     className="flex items-center py-1 px-1 rounded cursor-pointer group/linea hover:bg-superficie-alta/60 transition-colors"
                     title={`Ver estadísticas de ${amigoActual?.nombre || "jugador"} en ${cfg.nombre} (${TEXTOS_PERIODOS[periodo] || periodo})`}
                   >
-                    {/* Ícono + Nombre de Rol */}
-                    <div className="flex items-center gap-1.5 flex-1 min-w-0 truncate">
+                    {/* Ícono + Nombre de Rol COMPLETO (sin cortes!) */}
+                    <div className="flex items-center gap-1.5 flex-1 min-w-0">
                       <span
                         className="size-2 rounded-full shrink-0"
                         style={{ backgroundColor: cfg.color }}
                         aria-hidden="true"
                       />
                       <IconoPosicion posicion={l.posicion} className="size-3.5 shrink-0" />
-                      <span className="truncate text-texto font-medium text-[11px] sm:text-xs group-hover/linea:text-sapo transition-colors">
+                      <span className="whitespace-nowrap text-texto font-medium text-[11px] sm:text-xs group-hover/linea:text-sapo transition-colors">
                         {cfg.nombre}
                       </span>
                     </div>
 
                     {/* Columnas numéricas exactamente alineadas con la cabecera */}
-                    <span className="w-12 sm:w-14 text-right cifras font-semibold text-texto text-[11px] sm:text-xs shrink-0">
+                    <span className="w-9 sm:w-10 text-right cifras font-semibold text-texto text-[11px] sm:text-xs shrink-0">
                       {l.partidas}
                     </span>
-                    <span className="w-10 sm:w-12 text-right cifras text-texto-suave text-[11px] sm:text-xs shrink-0">
+                    <span className="w-9 sm:w-10 text-right cifras text-texto-suave text-[11px] sm:text-xs shrink-0">
                       {l.porcentaje}%
                     </span>
                     <span
-                      className={`w-12 sm:w-14 text-right pr-1 cifras font-semibold text-[11px] sm:text-xs shrink-0 ${colorWinrate}`}
+                      className={`w-11 sm:w-12 text-right pr-1 cifras font-semibold text-[11px] sm:text-xs shrink-0 ${colorWinrate}`}
                     >
                       {winrate !== null ? `${winrate}%` : "—"}
                     </span>
