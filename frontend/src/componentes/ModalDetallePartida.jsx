@@ -75,17 +75,6 @@ export function ModalDetallePartida({ partida, ddragon, ahora, slugPropio, onCer
   const totalAsistAzul = jugadoresAzul.reduce((acc, j) => acc + (j.asistencias || 0), 0);
   const totalAsistRojo = jugadoresRojo.reduce((acc, j) => acc + (j.asistencias || 0), 0);
 
-  const maxDanio = Math.max(
-    1,
-    ...jugadoresAzul.map((j) => j.danio || 0),
-    ...jugadoresRojo.map((j) => j.danio || 0),
-  );
-  const maxDanioRecibido = Math.max(
-    1,
-    ...jugadoresAzul.map((j) => j.danio_recibido || 0),
-    ...jugadoresRojo.map((j) => j.danio_recibido || 0),
-  );
-
   const filasCantidad = Math.max(jugadoresAzul.length, jugadoresRojo.length);
 
   return (
@@ -197,8 +186,6 @@ export function ModalDetallePartida({ partida, ddragon, ahora, slugPropio, onCer
                     ddragon={ddragon}
                     slugPropio={slugPropio}
                     duracion={p.duracion}
-                    maxDanio={maxDanio}
-                    maxDanioRecibido={maxDanioRecibido}
                     lado="azul"
                   />
                 ) : (
@@ -220,8 +207,6 @@ export function ModalDetallePartida({ partida, ddragon, ahora, slugPropio, onCer
                     ddragon={ddragon}
                     slugPropio={slugPropio}
                     duracion={p.duracion}
-                    maxDanio={maxDanio}
-                    maxDanioRecibido={maxDanioRecibido}
                     lado="rojo"
                   />
                 ) : (
@@ -301,8 +286,6 @@ function TarjetaJugador({
   ddragon,
   slugPropio,
   duracion,
-  maxDanio,
-  maxDanioRecibido = 1,
   lado,
 }) {
   const j = jugador;
@@ -311,11 +294,6 @@ function TarjetaJugador({
   const esAmigo = Boolean(j.amigo);
   const ratio = ratioKda(j.asesinatos, j.muertes, j.asistencias);
   const hechizos = Array.isArray(j.hechizos) ? j.hechizos.slice(0, 2) : [];
-  const danio = j.danio || 0;
-  const pctDanio = maxDanio > 0 ? Math.round((danio / maxDanio) * 100) : 0;
-  const danioRecibido = j.danio_recibido || 0;
-  const pctDanioRecibido =
-    maxDanioRecibido > 0 ? Math.round((danioRecibido / maxDanioRecibido) * 100) : 0;
 
   const esAzul = lado === "azul";
 
@@ -415,74 +393,6 @@ function TarjetaJugador({
           {j.participacion ? `${Math.round(j.participacion)}% P. · ` : ""}
           Visión: {j.vision ?? "—"}
         </p>
-
-        {/* Barra de daño infligido */}
-        {danio > 0 && (
-          <div
-            className={`flex items-center gap-1.5 mt-0.5 ${!esAzul ? "justify-end" : "justify-start"}`}
-            title={`Daño infligido a campeones: ${danio.toLocaleString()}`}
-          >
-            {!esAzul ? (
-              <>
-                <div className="h-1.5 w-16 overflow-hidden rounded-full bg-borde/50 flex justify-end">
-                  <div
-                    className="h-full bg-derrota rounded-full"
-                    style={{ width: `${pctDanio}%` }}
-                  />
-                </div>
-                <span className="cifras text-[10px] text-texto-suave min-w-[2.2rem] text-right">
-                  {(danio / 1000).toFixed(1)}k
-                </span>
-              </>
-            ) : (
-              <>
-                <span className="cifras text-[10px] text-texto-suave min-w-[2.2rem] text-left">
-                  {(danio / 1000).toFixed(1)}k
-                </span>
-                <div className="h-1.5 w-16 overflow-hidden rounded-full bg-borde/50">
-                  <div
-                    className="h-full bg-derrota rounded-full"
-                    style={{ width: `${pctDanio}%` }}
-                  />
-                </div>
-              </>
-            )}
-          </div>
-        )}
-
-        {/* Barra de daño recibido (abajo de la de daño infligido) */}
-        {danioRecibido > 0 && (
-          <div
-            className={`flex items-center gap-1.5 ${!esAzul ? "justify-end" : "justify-start"}`}
-            title={`Daño recibido: ${danioRecibido.toLocaleString()}`}
-          >
-            {!esAzul ? (
-              <>
-                <div className="h-1.5 w-16 overflow-hidden rounded-full bg-borde/50 flex justify-end">
-                  <div
-                    className="h-full bg-slate-400 rounded-full"
-                    style={{ width: `${pctDanioRecibido}%` }}
-                  />
-                </div>
-                <span className="cifras text-[10px] text-texto-suave min-w-[2.2rem] text-right">
-                  {(danioRecibido / 1000).toFixed(1)}k
-                </span>
-              </>
-            ) : (
-              <>
-                <span className="cifras text-[10px] text-texto-suave min-w-[2.2rem] text-left">
-                  {(danioRecibido / 1000).toFixed(1)}k
-                </span>
-                <div className="h-1.5 w-16 overflow-hidden rounded-full bg-borde/50">
-                  <div
-                    className="h-full bg-slate-400 rounded-full"
-                    style={{ width: `${pctDanioRecibido}%` }}
-                  />
-                </div>
-              </>
-            )}
-          </div>
-        )}
       </div>
 
       {/* Ítems: 6 objetos en rejilla + 1 trinket */}

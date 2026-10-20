@@ -144,9 +144,9 @@ describe("ModalDetallePartida", () => {
     const asist = screen.getAllByText("9");
     expect(asist.some((el) => el.classList.contains("text-sapo"))).toBe(true);
 
-    // Barras de daño realizado (rojo) y daño recibido (slate)
-    expect(document.querySelectorAll(".bg-derrota").length).toBeGreaterThan(0);
-    expect(document.querySelectorAll(".bg-slate-400").length).toBeGreaterThan(0);
+    // En las tarjetas ya no hay barras de daño individuales (se trasladaron al gráfico inferior con alternador)
+    expect(screen.getByRole("button", { name: "Infligido" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Recibido" })).toBeInTheDocument();
 
     // Cierre
     fireEvent.click(screen.getByRole("button", { name: "Cerrar" }));
