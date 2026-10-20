@@ -51,9 +51,29 @@ export function ModalCampeones({ campeones, amigos = [], ddragon, onCerrar }) {
   }, [campeones, amigoSlug, periodo]);
 
   // Lista de campeones filtrada por línea
+  // Si estamos en la vista Global, mostramos cada campeón por persona individual
+  // para permitir comparar quién es el mejor con cada campeón (ej. Locke de Johnadis vs Locke de GralMogeko)
   const filasCampeones = useMemo(() => {
+    if (amigoSlug === "global") {
+      if (Array.isArray(amigos) && amigos.length > 0 && campeones?.por_amigo) {
+        const todos = [];
+        for (const amigo of amigos) {
+          const bloqueAmigo = obtenerBloqueCampeones(campeones, amigo.slug, periodo);
+          const lista = listaCampeones(bloqueAmigo, lineaActiva);
+          for (const c of lista) {
+            todos.push({
+              ...c,
+              amigo_slug: amigo.slug,
+              amigo_nombre: amigo.nombre || amigo.riot_id?.split("#")[0] || amigo.slug,
+            });
+          }
+        }
+        return todos;
+      }
+      return listaCampeones(bloque, lineaActiva);
+    }
     return listaCampeones(bloque, lineaActiva);
-  }, [bloque, lineaActiva]);
+  }, [campeones, amigos, amigoSlug, periodo, lineaActiva, bloque]);
 
   // Ordenación por columnas (partidas, kda, winrate, campeon)
   const [orden, setOrden] = useState({ columna: "partidas", direccion: "desc" });
@@ -73,9 +93,12 @@ export function ModalCampeones({ campeones, amigos = [], ddragon, onCerrar }) {
       if (orden.columna === "campeon") {
         const nomA = nombreCampeon(ddragon, a.campeon_id, a.campeon);
         const nomB = nombreCampeon(ddragon, b.campeon_id, b.campeon);
-        return orden.direccion === "asc"
+        const cmp = orden.direccion === "asc"
           ? nomA.localeCompare(nomB, "es", { sensitivity: "base" })
           : nomB.localeCompare(nomA, "es", { sensitivity: "base" });
+        if (cmp !== 0) return cmp;
+        if (b.partidas !== a.partidas) return b.partidas - a.partidas;
+        return (b.winrate ?? 0) - (a.winrate ?? 0);
       }
 
       let valA = a[orden.columna];
@@ -91,7 +114,8 @@ export function ModalCampeones({ campeones, amigos = [], ddragon, onCerrar }) {
       if (valA !== valB) {
         return orden.direccion === "asc" ? valA - valB : valB - valA;
       }
-      return b.partidas - a.partidas;
+      if (b.partidas !== a.partidas) return b.partidas - a.partidas;
+      return (b.winrate ?? 0) - (a.winrate ?? 0);
     });
     return copia;
   }, [filasCampeones, orden, ddragon]);
@@ -369,10 +393,11 @@ export function ModalCampeones({ campeones, amigos = [], ddragon, onCerrar }) {
                     const pctPartidas = totalPartidas > 0 ? Math.round((c.partidas / totalPartidas) * 100) : 0;
                     const kdaProm = c.promedio_kda || { asesinatos: 0, muertes: 0, asistencias: 0 };
                     const amigoPpalNombre = c.amigo_principal ? mapaNombresAmigos[c.amigo_principal] || c.amigo_principal : null;
+                    const jugadorFila = c.amigo_nombre || amigoPpalNombre;
 
                     return (
                       <tr
-                        key={`${c.campeon_id}-${idx}`}
+                        key={`${c.amigo_slug || amigoSlug}-${c.campeon_id}-${idx}`}
                         className="transition-colors hover:bg-superficie-alta/50"
                       >
                         {/* 1. Posición / Ranking */}
@@ -392,18 +417,20 @@ export function ModalCampeones({ campeones, amigos = [], ddragon, onCerrar }) {
                               className="border border-borde/80 shrink-0"
                             />
                             <div className="min-w-0 flex flex-col items-start">
-                              <span className="font-semibold text-texto leading-tight truncate">
-                                {nombre}
-                              </span>
+                              <div className="flex items-center gap-1.5 flex-wrap">
+                                <span className="font-semibold text-texto leading-tight truncate">
+                                  {nombre}
+                                </span>
+                                {amigoSlug === "global" && jugadorFila && (
+                                  <span className="inline-block rounded border border-sapo/40 bg-sapo-fondo/60 px-1.5 py-0.2 text-[9.5px] font-semibold text-sapo">
+                                    {jugadorFila}
+                                  </span>
+                                )}
+                              </div>
                               <div className="flex flex-wrap items-center gap-1.5 mt-0.5">
                                 <span className="text-[11px] text-texto-suave">
                                   CS {c.cs_promedio ?? 0} ({c.cs_minuto ?? 0}/m)
                                 </span>
-                                {amigoSlug === "global" && amigoPpalNombre && (
-                                  <span className="inline-block rounded border border-sapo/40 bg-sapo-fondo/60 px-1 py-0.2 text-[9.5px] font-medium text-sapo">
-                                    {amigoPpalNombre}
-                                  </span>
-                                )}
                               </div>
                             </div>
                           </div>
