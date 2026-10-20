@@ -49,6 +49,39 @@ export function ModalCampeones({ campeones, amigos = [], ddragon, onCerrar }) {
     return listaCampeones(bloque, lineaActiva);
   }, [bloque, lineaActiva]);
 
+  // Ordenación por columnas (partidas, kda, winrate)
+  const [orden, setOrden] = useState({ columna: "partidas", direccion: "desc" });
+
+  const alOrdenar = (columna) => {
+    setOrden((prev) => {
+      if (prev.columna === columna) {
+        return { columna, direccion: prev.direccion === "desc" ? "asc" : "desc" };
+      }
+      return { columna, direccion: "desc" };
+    });
+  };
+
+  const filasOrdenadas = useMemo(() => {
+    const copia = [...filasCampeones];
+    copia.sort((a, b) => {
+      let valA = a[orden.columna];
+      let valB = b[orden.columna];
+
+      const esNumA = typeof valA === "number" && Number.isFinite(valA);
+      const esNumB = typeof valB === "number" && Number.isFinite(valB);
+
+      if (!esNumA && !esNumB) return 0;
+      if (!esNumA) return 1;
+      if (!esNumB) return -1;
+
+      if (valA !== valB) {
+        return orden.direccion === "asc" ? valA - valB : valB - valA;
+      }
+      return b.partidas - a.partidas;
+    });
+    return copia;
+  }, [filasCampeones, orden]);
+
   // Resumen de las 5 líneas
   const statsLineas = useMemo(() => {
     return resumenLineas(bloque);
@@ -282,13 +315,34 @@ export function ModalCampeones({ campeones, amigos = [], ddragon, onCerrar }) {
                   <tr className="border-b border-borde/60 bg-superficie-alta/60 text-[11px] font-semibold uppercase tracking-wider text-texto-suave">
                     <th scope="col" className="py-2.5 pl-3 pr-1 w-8 text-center">#</th>
                     <th scope="col" className="py-2.5 px-3">Campeón</th>
-                    <th scope="col" className="py-2.5 px-3 text-center">Partidas</th>
-                    <th scope="col" className="py-2.5 px-3 text-left">KDA</th>
-                    <th scope="col" className="py-2.5 pr-3 text-right">Winrate</th>
+                    <EncabezadoOrdenable
+                      columna="partidas"
+                      orden={orden}
+                      onOrdenar={alOrdenar}
+                      className="py-2.5 px-3 text-center"
+                    >
+                      Partidas
+                    </EncabezadoOrdenable>
+                    <EncabezadoOrdenable
+                      columna="kda"
+                      orden={orden}
+                      onOrdenar={alOrdenar}
+                      className="py-2.5 px-3 text-left"
+                    >
+                      KDA
+                    </EncabezadoOrdenable>
+                    <EncabezadoOrdenable
+                      columna="winrate"
+                      orden={orden}
+                      onOrdenar={alOrdenar}
+                      className="py-2.5 pr-3 text-right"
+                    >
+                      Winrate
+                    </EncabezadoOrdenable>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-borde/40 font-normal">
-                  {filasCampeones.map((c, idx) => {
+                  {filasOrdenadas.map((c, idx) => {
                     const nombre = nombreCampeon(ddragon, c.campeon_id, c.campeon);
                     const kdaNum = typeof c.kda === "number" ? c.kda : null;
                     const pctPartidas = totalPartidas > 0 ? Math.round((c.partidas / totalPartidas) * 100) : 0;
@@ -395,5 +449,27 @@ export function ModalCampeones({ campeones, amigos = [], ddragon, onCerrar }) {
         </div>
       </div>
     </Dialogo>
+  );
+}
+
+function EncabezadoOrdenable({ columna, orden, onOrdenar, className, children }) {
+  const activo = orden.columna === columna;
+  const descendente = orden.direccion === "desc";
+  const ariaSort = activo ? (descendente ? "descending" : "ascending") : "none";
+  return (
+    <th scope="col" aria-sort={ariaSort} className={className}>
+      <button
+        type="button"
+        onClick={() => onOrdenar(columna)}
+        className={`inline-flex items-center gap-1 leading-tight hover:text-texto transition-colors ${
+          activo ? "text-sapo font-bold" : "text-texto-suave"
+        }`}
+      >
+        <span>{children}</span>
+        <span aria-hidden="true" className={`text-[10px] ${activo ? "text-sapo" : "opacity-30"}`}>
+          {activo && !descendente ? "▲" : "▼"}
+        </span>
+      </button>
+    </th>
   );
 }

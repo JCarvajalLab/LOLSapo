@@ -322,6 +322,52 @@ describe("ModalCampeones", () => {
     expect(screen.getByText("60%")).toBeInTheDocument();
   });
 
+  it("ordena por KDA y por Winrate al hacer clic en los encabezados", () => {
+    render(
+      <ModalCampeones
+        campeones={campeonesMock}
+        amigos={amigosMock}
+        ddragon={ddragonMock}
+        onCerrar={vi.fn()}
+      />,
+    );
+
+    // Por defecto ordenado por partidas desc: Viktor (15) primero, Ziggs (10) segundo
+    let celdas = screen.getAllByRole("cell");
+    let nombres = celdas.filter((c) => c.textContent.includes("Viktor") || c.textContent.includes("Ziggs"));
+    expect(nombres[0]).toHaveTextContent("Viktor");
+    expect(nombres[1]).toHaveTextContent("Ziggs");
+
+    // Clic en KDA: por defecto desc (Viktor 3.2, Ziggs 2.1)
+    const botonKda = screen.getByRole("button", { name: /KDA/i });
+    fireEvent.click(botonKda);
+    celdas = screen.getAllByRole("cell");
+    nombres = celdas.filter((c) => c.textContent.includes("Viktor") || c.textContent.includes("Ziggs"));
+    expect(nombres[0]).toHaveTextContent("Viktor");
+
+    // Clic en KDA de nuevo: asc (Ziggs 2.1, Viktor 3.2)
+    fireEvent.click(botonKda);
+    celdas = screen.getAllByRole("cell");
+    nombres = celdas.filter((c) => c.textContent.includes("Viktor") || c.textContent.includes("Ziggs"));
+    expect(nombres[0]).toHaveTextContent("Ziggs");
+    expect(nombres[1]).toHaveTextContent("Viktor");
+
+    // Clic en Winrate: desc (Viktor 66.7%, Ziggs 50%)
+    const botonWinrate = screen.getByRole("button", { name: /Winrate/i });
+    fireEvent.click(botonWinrate);
+    celdas = screen.getAllByRole("cell");
+    nombres = celdas.filter((c) => c.textContent.includes("Viktor") || c.textContent.includes("Ziggs"));
+    expect(nombres[0]).toHaveTextContent("Viktor");
+    expect(nombres[1]).toHaveTextContent("Ziggs");
+
+    // Clic en Winrate asc (Ziggs 50%, Viktor 66.7%)
+    fireEvent.click(botonWinrate);
+    celdas = screen.getAllByRole("cell");
+    nombres = celdas.filter((c) => c.textContent.includes("Viktor") || c.textContent.includes("Ziggs"));
+    expect(nombres[0]).toHaveTextContent("Ziggs");
+    expect(nombres[1]).toHaveTextContent("Viktor");
+  });
+
   it("llama a onCerrar al hacer clic en el botón de cerrar ✕", () => {
     const onCerrar = vi.fn();
     render(
