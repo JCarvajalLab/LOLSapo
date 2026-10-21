@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { obtenerBloqueCampeones, resumenLineas } from "../logica/campeones.js";
 import { IconoPosicion } from "./IconoPosicion.jsx";
 
@@ -13,7 +13,7 @@ const CONFIG_ROLES = {
 const TEXTOS_PERIODOS = {
   dias_30: "30 días",
   dias_90: "90 días",
-  todo: "Total",
+  todo: "2026",
 };
 
 /**
@@ -36,6 +36,21 @@ export function TarjetaRoles({ campeones, amigos, onVerDetalle }) {
     const slot = Math.floor(Date.now() / (5 * 60 * 1000));
     return listaAmigos[slot % listaAmigos.length]?.slug || listaAmigos[0]?.slug;
   });
+
+  // Si el usuario hace clic manual, se respeta su selección; si no, rota cada 5 min
+  const [manual, setManual] = useState(false);
+
+  useEffect(() => {
+    if (manual || !listaAmigos.length) return;
+    const interval = setInterval(() => {
+      const slot = Math.floor(Date.now() / (5 * 60 * 1000));
+      const siguienteSlug = listaAmigos[slot % listaAmigos.length]?.slug;
+      if (siguienteSlug) {
+        setSlugActivo(siguienteSlug);
+      }
+    }, 15000);
+    return () => clearInterval(interval);
+  }, [manual, listaAmigos]);
 
   // Fijado por defecto en 30 días, luego 90 días y por último total
   const [periodo, setPeriodo] = useState("dias_30");
@@ -126,7 +141,7 @@ export function TarjetaRoles({ campeones, amigos, onVerDetalle }) {
     <article
       aria-labelledby="titulo-tarjeta-roles"
       data-destacado="roles"
-      className="relative flex h-full flex-col justify-between rounded-lg border border-borde/80 bg-fondo/40 p-3 sm:p-4 losa"
+      className="relative flex h-full flex-col justify-between rounded-lg border border-borde/80 bg-fondo/40 p-3 sm:p-3.5 losa"
     >
       <div>
         {/* Cabecera con título e ícono */}
@@ -149,7 +164,7 @@ export function TarjetaRoles({ campeones, amigos, onVerDetalle }) {
             </h3>
           </div>
 
-          {/* Selector de período fijado en: 30 días, 90 días, Total */}
+          {/* Selector de período fijado en: 30 días, 90 días, 2026 */}
           <select
             value={periodo}
             onChange={(e) => setPeriodo(e.target.value)}
@@ -158,7 +173,7 @@ export function TarjetaRoles({ campeones, amigos, onVerDetalle }) {
           >
             <option value="dias_30">30 días</option>
             <option value="dias_90">90 días</option>
-            <option value="todo">Total</option>
+            <option value="todo">2026</option>
           </select>
         </div>
 
@@ -177,7 +192,10 @@ export function TarjetaRoles({ campeones, amigos, onVerDetalle }) {
                 type="button"
                 role="tab"
                 aria-selected={activo}
-                onClick={() => setSlugActivo(a.slug)}
+                onClick={() => {
+                  setManual(true);
+                  setSlugActivo(a.slug);
+                }}
                 className={`px-2 py-0.5 rounded text-[11px] font-medium transition-colors shrink-0 ${
                   activo
                     ? "bg-sapo-fondo text-sapo font-bold border border-sapo/40 shadow-sm"

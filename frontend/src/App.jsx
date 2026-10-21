@@ -10,6 +10,7 @@ import { EsqueletoPagina } from "./componentes/Esqueleto.jsx";
 import { ErrorCarga, EstadoVacio } from "./componentes/Estados.jsx";
 import { FilaAmigo, idBotonAmigo } from "./componentes/FilaAmigo.jsx";
 import { ModalCampeones } from "./componentes/ModalCampeones.jsx";
+import { ModalRecords } from "./componentes/ModalRecords.jsx";
 import { ModalSinergia } from "./componentes/ModalSinergia.jsx";
 import { Ranking } from "./componentes/Ranking.jsx";
 import { SeccionDestacadosHoy } from "./componentes/SeccionDestacadosHoy.jsx";
@@ -91,7 +92,9 @@ function VistaLol({ datos, error, ahora, abiertos, alternar, abrir, enfocar }) {
   // Sinergia abierta: { slug, origen } (origen = enlace del ranking que recibe el foco al cerrar).
   const [sinergiaDe, setSinergiaDe] = useState(null);
   const [configModalCampeones, setConfigModalCampeones] = useState(null);
+  const [configModalRecords, setConfigModalRecords] = useState(null);
   const refBotonCampeones = useRef(null);
+  const refBotonRecords = useRef(null);
 
   if (error && !datos) return <ErrorCarga error={error} />;
   if (!datos) return <EsqueletoPagina />;
@@ -119,6 +122,10 @@ function VistaLol({ datos, error, ahora, abiertos, alternar, abrir, enfocar }) {
     setConfigModalCampeones(null);
     refBotonCampeones.current?.focus();
   };
+  const cerrarRecords = () => {
+    setConfigModalRecords(null);
+    refBotonRecords.current?.focus();
+  };
 
   return (
     <div className="space-y-8 sm:space-y-10">
@@ -136,9 +143,11 @@ function VistaLol({ datos, error, ahora, abiertos, alternar, abrir, enfocar }) {
 
       <SeccionCampeones
         campeones={datos.campeones}
+        records={datos.records}
         amigos={datos.amigos}
         ddragon={datos.ddragon}
         onVerDetalle={(config) => setConfigModalCampeones(config || {})}
+        onVerRecords={(config) => setConfigModalRecords(config || {})}
         refBoton={refBotonCampeones}
       />
 
@@ -190,6 +199,18 @@ function VistaLol({ datos, error, ahora, abiertos, alternar, abrir, enfocar }) {
           amigoInicial={configModalCampeones.amigo || "global"}
           periodoInicial={configModalCampeones.periodo || "dias_30"}
           lineaInicial={configModalCampeones.linea || null}
+        />
+      )}
+
+      {configModalRecords && (
+        <ModalRecords
+          records={datos.records}
+          amigos={datos.amigos}
+          ddragon={datos.ddragon}
+          onCerrar={cerrarRecords}
+          amigoInicial={configModalRecords.amigo || ""}
+          periodoInicial={configModalRecords.periodo || "dias_30"}
+          tabInicial={configModalRecords.tab || "records"}
         />
       )}
     </div>

@@ -159,6 +159,24 @@ export function fechaCorta(fechaMs) {
   return fechaCortaFmt.format(new Date(fechaMs));
 }
 
+/**
+ * Fecha amigable para récords:
+ * "hoy", "ayer", "hace 2 días", "hace 3 días", o fecha exacta si supera 3 días.
+ */
+export function fechaRecordDetalle(fechaMs, ahoraMs = Date.now()) {
+  if (!esNumero(fechaMs)) return typeof fechaMs === "string" ? fechaMs : "";
+  const dFecha = new Date(fechaMs);
+  const dAhora = new Date(ahoraMs);
+  const utc1 = Date.UTC(dFecha.getFullYear(), dFecha.getMonth(), dFecha.getDate());
+  const utc2 = Date.UTC(dAhora.getFullYear(), dAhora.getMonth(), dAhora.getDate());
+  const dias = Math.floor((utc2 - utc1) / (24 * 60 * 60 * 1000));
+  if (dias <= 0) return "hoy";
+  if (dias === 1) return "ayer";
+  if (dias === 2) return "hace 2 días";
+  if (dias === 3) return "hace 3 días";
+  return fechaCorta(fechaMs);
+}
+
 /** "1 de octubre de 2026, 14:32" en la zona horaria del navegador. */
 export function fechaCompleta(fechaMs) {
   if (!esNumero(fechaMs)) return "—";

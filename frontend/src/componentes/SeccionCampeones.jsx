@@ -1,12 +1,20 @@
 import { TarjetaCampeones } from "./TarjetaCampeones.jsx";
-import { TarjetaEnConstruccion } from "./TarjetaEnConstruccion.jsx";
+import { TarjetaRecords } from "./TarjetaRecords.jsx";
 import { TarjetaRoles } from "./TarjetaRoles.jsx";
 import { TituloSeccion } from "./TituloSeccion.jsx";
 
 const NOTA =
-  "Campeón más jugado de cada integrante y desglose de roles por invocador · Clic en campeones para explorar estadísticas detalladas, por jugador y por rol";
+  "Campeón más jugado de cada integrante, desglose de roles y récords del grupo · Clic en cualquier tarjeta para ver detalles o comparar invocadores cara a cara";
 
-export function SeccionCampeones({ campeones, amigos, ddragon, onVerDetalle, refBoton }) {
+export function SeccionCampeones({
+  campeones,
+  records,
+  amigos,
+  ddragon,
+  onVerDetalle,
+  onVerRecords,
+  refBoton,
+}) {
   if (!campeones) return null;
 
   return (
@@ -34,7 +42,12 @@ export function SeccionCampeones({ campeones, amigos, ddragon, onVerDetalle, ref
           />
         </li>
         <li className="h-full">
-          <TarjetaEnConstruccion titulo="Próximamente" subtitulo="Espacio reservado" />
+          <TarjetaRecords
+            records={records}
+            amigos={amigos}
+            ddragon={ddragon}
+            onVerRecords={onVerRecords}
+          />
         </li>
       </ul>
     </section>
