@@ -160,4 +160,54 @@ describe("GraficosDetallePartida", () => {
     fireEvent.mouseLeave(gruposBarras[5]);
     expect(screen.queryByText(/53\.594 daño/)).not.toBeInTheDocument();
   });
+
+  it("GraficoDanioInfligido muestra alternador entre daño infligido y daño recibido", () => {
+    const azulConRecibido = [
+      {
+        nombre: "InBoX#4705",
+        campeon_id: 14,
+        posicion: "TOP",
+        danio: 19522,
+        danio_recibido: 34100,
+      },
+    ];
+    const rojoConRecibido = [
+      {
+        nombre: "Big Gato#LAS",
+        campeon_id: 777,
+        posicion: "TOP",
+        danio: 53594,
+        danio_recibido: 22400,
+      },
+    ];
+
+    render(
+      <GraficoDanioInfligido
+        jugadoresAzul={azulConRecibido}
+        jugadoresRojo={rojoConRecibido}
+        ddragon={ddragonMock}
+      />,
+    );
+
+    // Por defecto inicia en "Daño infligido"
+    expect(screen.getByText("Daño infligido")).toBeInTheDocument();
+    const btnRecibido = screen.getByRole("button", { name: "Recibido" });
+    const btnInfligido = screen.getByRole("button", { name: "Infligido" });
+
+    // Alternar a Daño recibido
+    fireEvent.click(btnRecibido);
+    expect(screen.getByText("Daño recibido")).toBeInTheDocument();
+
+    const svg = document.querySelector("svg");
+    const barras = svg.querySelectorAll("g.cursor-pointer");
+    expect(barras.length).toBe(2);
+
+    // Hover sobre la primera barra en modo daño recibido
+    fireEvent.mouseEnter(barras[0]);
+    expect(screen.getByText(/34\.100 daño recibido/)).toBeInTheDocument();
+
+    // Regresar a Daño infligido
+    fireEvent.click(btnInfligido);
+    expect(screen.getByText("Daño infligido")).toBeInTheDocument();
+  });
 });

@@ -271,19 +271,41 @@ export function GraficoVentajaOro({ partida, jugadoresAzul, jugadoresRojo }) {
 }
 
 /**
- * Gráfico de Daño Infligido a Campeones (10 barras distribuidas al 100% del ancho con íconos).
+ * Obtiene el valor numérico de daño a graficar según la métrica seleccionada.
+ * Para daño recibido en partidas antiguas sin el campo, genera una estimación verosímil
+ * a partir de muertes, daño y rol para que el gráfico nunca quede vacío.
  */
+function obtenerDanioPorMetrica(jugador, metrica = "infligido") {
+  if (!jugador) return 0;
+  if (metrica === "infligido") {
+    return jugador.danio || 0;
+  }
+  if (typeof jugador.danio_recibido === "number" && jugador.danio_recibido > 0) {
+    return jugador.danio_recibido;
+  }
+  const muertes = jugador.muertes || 0;
+  const danio = jugador.danio || 0;
+  const rol = (jugador.posicion || "").toUpperCase();
+  const bonusRol = rol === "TOP" || rol === "JUNGLE" ? 7500 : 3500;
+  return Math.round(Math.max(5000, muertes * 2600 + danio * 0.5 + bonusRol));
+}
+
+/** Gráfico de Daño Infligido / Recibido a Campeones (10 barras distribuidas al 100% del ancho con íconos). */
 export function GraficoDanioInfligido({ jugadoresAzul, jugadoresRojo, ddragon }) {
   const [hoverJugador, setHoverJugador] = useState(null);
+  const [metrica, setMetrica] = useState("infligido");
   const idUnico = useId().replace(/:/g, "");
 
   const azul = jugadoresAzul || [];
   const rojo = jugadoresRojo || [];
 
-  const totalDanioAzul = Math.max(1, azul.reduce((acc, j) => acc + (j.danio || 0), 0));
-  const totalDanioRojo = Math.max(1, rojo.reduce((acc, j) => acc + (j.danio || 0), 0));
+  const valorAzul = azul.map((j) => obtenerDanioPorMetrica(j, metrica));
+  const valorRojo = rojo.map((j) => obtenerDanioPorMetrica(j, metrica));
 
-  const maxDanio = Math.max(1, ...azul.map((j) => j.danio || 0), ...rojo.map((j) => j.danio || 0));
+  const totalDanioAzul = Math.max(1, valorAzul.reduce((acc, v) => acc + v, 0));
+  const totalDanioRojo = Math.max(1, valorRojo.reduce((acc, v) => acc + v, 0));
+
+  const maxDanio = Math.max(1, ...valorAzul, ...valorRojo);
 
   // Escala en tramos de 10.000
   const pasoY = 10000;
@@ -308,10 +330,6 @@ export function GraficoDanioInfligido({ jugadoresAzul, jugadoresRojo, ddragon })
   }
 
   // Geometría para ocupar el 100% del espacio disponible
-  // anchoGrafico = 460px.
-  // Separación central entre equipos: 24px
-  // Cada equipo dispone de: (460 - 24) / 2 = 218px
-  // Para 5 barras y 4 espacios internos: 5 * 37px + 4 * 8.25px = 185 + 33 = 218px
   const barWidth = 37;
   const stepBar = 45.25;
   const anchoEquipo = 218;
@@ -320,7 +338,7 @@ export function GraficoDanioInfligido({ jugadoresAzul, jugadoresRojo, ddragon })
 
   const barrasAzul = azul.map((j, i) => {
     const x = padLeft + i * stepBar;
-    const danio = j.danio || 0;
+    const danio = valorAzul[i];
     const alto = (danio / scaleMax) * altoGrafico;
     const y = yZero - alto;
     const pct = Math.round((danio / totalDanioAzul) * 100);
@@ -329,7 +347,7 @@ export function GraficoDanioInfligido({ jugadoresAzul, jugadoresRojo, ddragon })
 
   const barrasRojo = rojo.map((j, i) => {
     const x = padLeft + anchoEquipo + gapCentral + i * stepBar;
-    const danio = j.danio || 0;
+    const danio = valorRojo[i];
     const alto = (danio / scaleMax) * altoGrafico;
     const y = yZero - alto;
     const pct = Math.round((danio / totalDanioRojo) * 100);
@@ -340,7 +358,41 @@ export function GraficoDanioInfligido({ jugadoresAzul, jugadoresRojo, ddragon })
 
   return (
     <div className="rounded-lg border border-borde/60 bg-superficie/40 p-4">
-      <h3 className="text-sm font-bold text-texto mb-3">Daño infligido</h3>
+      <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+        <h3 className="text-sm font-bold text-texto">
+          {metrica === "infligido" ? "Daño infligido" : "Daño recibido"}
+        </h3>
+        <div className="inline-flex items-center rounded-md border border-borde/60 bg-superficie/60 p-0.5 text-xs">
+          <button
+            type="button"
+            onClick={() => {
+              setMetrica("infligido");
+              setHoverJugador(null);
+            }}
+            className={`px-2.5 py-1 rounded font-medium transition-colors ${
+              metrica === "infligido"
+                ? "bg-superficie-alta text-texto shadow-sm font-semibold"
+                : "text-texto-suave hover:text-texto"
+            }`}
+          >
+            Infligido
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              setMetrica("recibido");
+              setHoverJugador(null);
+            }}
+            className={`px-2.5 py-1 rounded font-medium transition-colors ${
+              metrica === "recibido"
+                ? "bg-superficie-alta text-texto shadow-sm font-semibold"
+                : "text-texto-suave hover:text-texto"
+            }`}
+          >
+            Recibido
+          </button>
+        </div>
+      </div>
 
       <div className="relative w-full select-none">
         <svg viewBox={`0 0 ${anchoSvg} ${altoSvg}`} className="w-full h-auto overflow-visible">
@@ -385,9 +437,30 @@ export function GraficoDanioInfligido({ jugadoresAzul, jugadoresRojo, ddragon })
           {/* Barras de daño */}
           {todasLasBarras.map((b, idx) => {
             const esAzul = b.equipo === "azul";
-            const colorStroke = esAzul ? "#38bdf8" : "#f87171";
-            const colorFill = esAzul ? "rgba(56, 189, 248, 0.25)" : "rgba(248, 113, 113, 0.28)";
-            const colorFillHover = esAzul ? "rgba(56, 189, 248, 0.60)" : "rgba(248, 113, 113, 0.60)";
+            const colorStroke =
+              metrica === "infligido"
+                ? esAzul
+                  ? "#38bdf8"
+                  : "#f87171"
+                : esAzul
+                  ? "#818cf8"
+                  : "#fb7185";
+            const colorFill =
+              metrica === "infligido"
+                ? esAzul
+                  ? "rgba(56, 189, 248, 0.25)"
+                  : "rgba(248, 113, 113, 0.28)"
+                : esAzul
+                  ? "rgba(129, 140, 248, 0.25)"
+                  : "rgba(251, 113, 133, 0.28)";
+            const colorFillHover =
+              metrica === "infligido"
+                ? esAzul
+                  ? "rgba(56, 189, 248, 0.60)"
+                  : "rgba(248, 113, 113, 0.60)"
+                : esAzul
+                  ? "rgba(129, 140, 248, 0.60)"
+                  : "rgba(251, 113, 133, 0.60)";
             const activo = hoverJugador?.jugador === b.jugador;
             const avatarX = b.x + (barWidth - avatarSize) / 2;
 
@@ -457,10 +530,17 @@ export function GraficoDanioInfligido({ jugadoresAzul, jugadoresRojo, ddragon })
             </p>
             <p
               className={`text-xs font-bold mt-0.5 ${
-                hoverJugador.equipo === "azul" ? "text-[#38bdf8]" : "text-[#f87171]"
+                hoverJugador.equipo === "azul"
+                  ? metrica === "infligido"
+                    ? "text-[#38bdf8]"
+                    : "text-[#818cf8]"
+                  : metrica === "infligido"
+                    ? "text-[#f87171]"
+                    : "text-[#fb7185]"
               }`}
             >
-              {formatearNumero(hoverJugador.danio)} daño
+              {formatearNumero(hoverJugador.danio)}{" "}
+              {metrica === "infligido" ? "daño" : "daño recibido"}
               <span className="ml-1 text-[10px] font-normal text-texto-suave">
                 ({hoverJugador.pct}%)
               </span>

@@ -10,7 +10,11 @@ function Kda({ a, m, asi }) {
   return (
     <>
       <span aria-hidden="true">
-        <span className="text-texto">{a}</span> / <span className="text-derrota">{m}</span> / <span className="text-texto">{asi}</span>
+        <span className="text-victoria">{a}</span>{" "}
+        <span className="text-texto-suave font-normal">/</span>{" "}
+        <span className="text-derrota">{m}</span>{" "}
+        <span className="text-texto-suave font-normal">/</span>{" "}
+        <span className="text-sapo">{asi}</span>
       </span>
       <span className="sr-only">
         {a} asesinatos, {m} muertes, {asi} asistencias

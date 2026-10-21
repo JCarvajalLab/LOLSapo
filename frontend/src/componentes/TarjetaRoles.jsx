@@ -1,0 +1,380 @@
+import { useMemo, useState } from "react";
+import { obtenerBloqueCampeones, resumenLineas } from "../logica/campeones.js";
+import { IconoPosicion } from "./IconoPosicion.jsx";
+
+const CONFIG_ROLES = {
+  TOP: { nombre: "Superior", color: "#38bdf8" },
+  MIDDLE: { nombre: "Central", color: "#fbbf24" },
+  JUNGLE: { nombre: "Jungla", color: "#22c55e" },
+  BOTTOM: { nombre: "Inferior", color: "#f43f5e" },
+  UTILITY: { nombre: "Soporte", color: "#a855f7" },
+};
+
+const TEXTOS_PERIODOS = {
+  dias_30: "30 días",
+  dias_90: "90 días",
+  todo: "Total",
+};
+
+/**
+ * Tarjeta de Roles y Estadísticas Básicas de Invocador.
+ * Muestra el KDA promedio, partidas jugadas, tasa de victorias y el gráfico donut
+ * de distribución de roles con su tabla detallada (estilo OP.GG).
+ * Rota automáticamente entre los integrantes del grupo y permite elegir manualmente a cualquiera.
+ * Al hacer clic en un rol (ej. Jungla), abre el modal de campeones filtrado por ese jugador,
+ * período y carril.
+ */
+export function TarjetaRoles({ campeones, amigos, onVerDetalle }) {
+  const listaAmigos = useMemo(() => {
+    if (!Array.isArray(amigos)) return [];
+    return amigos.filter((a) => a && a.slug && a.estado !== "error");
+  }, [amigos]);
+
+  // Rota automáticamente según una ranura temporal de 5 min (o al recargar)
+  const [slugActivo, setSlugActivo] = useState(() => {
+    if (!listaAmigos.length) return "";
+    const slot = Math.floor(Date.now() / (5 * 60 * 1000));
+    return listaAmigos[slot % listaAmigos.length]?.slug || listaAmigos[0]?.slug;
+  });
+
+  // Fijado por defecto en 30 días, luego 90 días y por último total
+  const [periodo, setPeriodo] = useState("dias_30");
+
+  const amigoActual = listaAmigos.find((a) => a.slug === slugActivo) || listaAmigos[0];
+
+  const bloque = obtenerBloqueCampeones(campeones, amigoActual?.slug, periodo);
+  const lineas = resumenLineas(bloque);
+
+  // Partidas y métricas generales
+  const listaCampeones = Array.isArray(bloque?.campeones) ? bloque.campeones : [];
+  const totalPartidas =
+    bloque?.total_partidas ??
+    (listaCampeones.length > 0
+      ? listaCampeones.reduce((acc, c) => acc + (c.partidas || 0), 0)
+      : lineas.reduce((acc, l) => acc + (l.partidas || 0), 0));
+  const totalVictorias =
+    listaCampeones.length > 0
+      ? listaCampeones.reduce((acc, c) => acc + (c.victorias || 0), 0)
+      : lineas.reduce((acc, l) => acc + (l.victorias || 0), 0);
+  const winrateTotal =
+    bloque?.winrate !== undefined && bloque?.winrate !== null
+      ? bloque.winrate
+      : totalPartidas > 0
+        ? ((totalVictorias / totalPartidas) * 100).toFixed(1)
+        : null;
+
+  // KDA promedio global ponderado por campeón
+  let totalK = 0;
+  let totalD = 0;
+  let totalA = 0;
+  if (Array.isArray(bloque?.campeones) && totalPartidas > 0) {
+    for (const c of bloque.campeones) {
+      const n = c.partidas || 1;
+      totalK += (c.promedio_kda?.asesinatos ?? 0) * n;
+      totalD += (c.promedio_kda?.muertes ?? 0) * n;
+      totalA += (c.promedio_kda?.asistencias ?? 0) * n;
+    }
+  }
+  const promK = totalPartidas > 0 ? (totalK / totalPartidas).toFixed(1) : "0.0";
+  const promD = totalPartidas > 0 ? (totalD / totalPartidas).toFixed(1) : "0.0";
+  const promA = totalPartidas > 0 ? (totalA / totalPartidas).toFixed(1) : "0.0";
+
+  // Ordenar roles por partidas descendente (rol más jugado arriba)
+  const lineasOrdenadas = [...lineas].sort((a, b) => (b.partidas || 0) - (a.partidas || 0));
+  const rolPrincipal = lineasOrdenadas[0]?.partidas > 0 ? lineasOrdenadas[0] : null;
+  const nombreRolPrincipal = rolPrincipal
+    ? CONFIG_ROLES[rolPrincipal.posicion]?.nombre || rolPrincipal.posicion
+    : "—";
+
+  // Geometría del gráfico Donut SVG optimizado
+  const radio = 38;
+  const perimetro = 2 * Math.PI * radio; // ~ 238.76
+  const partidasConRol = lineasOrdenadas.reduce((acc, l) => acc + (l.partidas || 0), 0);
+
+  const { segmentos: segmentosDonut } = lineasOrdenadas.reduce(
+    (acc, l) => {
+      const cfg = CONFIG_ROLES[l.posicion] || { color: "#94a3b8" };
+      const fraccion = partidasConRol > 0 ? (l.partidas || 0) / partidasConRol : 0;
+      const longitud = fraccion * perimetro;
+      const desfase = -acc.acum * perimetro;
+      return {
+        acum: acc.acum + fraccion,
+        segmentos: [
+          ...acc.segmentos,
+          {
+            posicion: l.posicion,
+            color: cfg.color,
+            longitud,
+            desfase,
+            activo: (l.partidas || 0) > 0,
+          },
+        ],
+      };
+    },
+    { acum: 0, segmentos: [] },
+  );
+
+  const abrirDetalleLinea = (posicion) => {
+    onVerDetalle?.({
+      amigo: amigoActual?.slug,
+      periodo,
+      linea: posicion,
+    });
+  };
+
+  return (
+    <article
+      aria-labelledby="titulo-tarjeta-roles"
+      data-destacado="roles"
+      className="relative flex h-full flex-col justify-between rounded-lg border border-borde/80 bg-fondo/40 p-3 sm:p-4 losa"
+    >
+      <div>
+        {/* Cabecera con título e ícono */}
+        <div className="flex items-center justify-between gap-2 mb-3">
+          <div className="flex items-center gap-2 min-w-0">
+            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded bg-sapo-fondo text-sapo border border-sapo/30">
+              <svg
+                className="h-3.5 w-3.5 fill-current"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-5-9h10v2H7z" />
+              </svg>
+            </span>
+            <h3
+              id="titulo-tarjeta-roles"
+              className="text-sm font-titulo font-bold tracking-wide uppercase text-texto truncate"
+            >
+              Estadísticas básicas
+            </h3>
+          </div>
+
+          {/* Selector de período fijado en: 30 días, 90 días, Total */}
+          <select
+            value={periodo}
+            onChange={(e) => setPeriodo(e.target.value)}
+            aria-label="Filtrar por período"
+            className="rounded border border-borde/70 bg-fondo px-2 py-0.5 text-[11px] font-medium text-texto focus:border-sapo focus:outline-none transition-colors cursor-pointer"
+          >
+            <option value="dias_30">30 días</option>
+            <option value="dias_90">90 días</option>
+            <option value="todo">Total</option>
+          </select>
+        </div>
+
+        {/* Selector de los 5 amigos (rotativo con clic manual) */}
+        <div
+          className="flex items-center gap-1 overflow-x-auto pb-2 mb-3 scrollbar-none"
+          role="tablist"
+          aria-label="Seleccionar amigo"
+        >
+          {listaAmigos.map((a) => {
+            const activo = a.slug === amigoActual?.slug;
+            const nombre = a.nombre || a.riot_id?.split("#")[0] || a.slug;
+            return (
+              <button
+                key={a.slug}
+                type="button"
+                role="tab"
+                aria-selected={activo}
+                onClick={() => setSlugActivo(a.slug)}
+                className={`px-2 py-0.5 rounded text-[11px] font-medium transition-colors shrink-0 ${
+                  activo
+                    ? "bg-sapo-fondo text-sapo font-bold border border-sapo/40 shadow-sm"
+                    : "text-texto-suave hover:text-texto bg-superficie/40 border border-borde/30"
+                }`}
+                title={a.riot_id || a.nombre}
+              >
+                {nombre}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* 3 Losas superiores de métricas (KDA, Jugadas, Winrate) */}
+        <div className="grid grid-cols-3 gap-1.5 sm:gap-2 mb-3">
+          {/* KDA Promedio */}
+          <div className="flex flex-col items-center justify-center p-2 rounded-lg border border-borde/50 bg-superficie/60 text-center min-w-0">
+            <span className="text-[10px] font-semibold tracking-wider text-texto-suave uppercase whitespace-nowrap">
+              KDA Promedio
+            </span>
+            <span className="cifras text-[11px] sm:text-xs md:text-sm font-bold mt-1 whitespace-nowrap">
+              <span className="text-victoria">{promK}</span>{" "}
+              <span className="text-texto-suave/60 font-normal">/</span>{" "}
+              <span className="text-derrota">{promD}</span>{" "}
+              <span className="text-texto-suave/60 font-normal">/</span>{" "}
+              <span className="text-sapo">{promA}</span>
+            </span>
+          </div>
+
+          {/* Jugadas */}
+          <div className="flex flex-col items-center justify-center p-2 rounded-lg border border-borde/50 bg-superficie/60 text-center min-w-0">
+            <span className="text-[10px] font-semibold tracking-wider text-texto-suave uppercase whitespace-nowrap">
+              Jugadas
+            </span>
+            <span className="cifras text-xs sm:text-sm font-bold text-[#38bdf8] mt-1 whitespace-nowrap">
+              {totalPartidas}
+            </span>
+          </div>
+
+          {/* Winrate */}
+          <div className="flex flex-col items-center justify-center p-2 rounded-lg border border-borde/50 bg-superficie/60 text-center min-w-0">
+            <span className="text-[10px] font-semibold tracking-wider text-texto-suave uppercase whitespace-nowrap">
+              Winrate
+            </span>
+            <span
+              className={`cifras text-xs sm:text-sm font-bold mt-1 whitespace-nowrap ${
+                winrateTotal !== null && Number(winrateTotal) >= 50
+                  ? "text-victoria"
+                  : "text-derrota"
+              }`}
+            >
+              {winrateTotal !== null ? `${winrateTotal}%` : "—"}
+            </span>
+          </div>
+        </div>
+
+        {/* Roles más jugados: Cabecera unificada y alineada en una sola línea estilo OP.GG */}
+        <div>
+          {/* Fila de cabecera alineada horizontalmente: Roles más jugados sobre el Donut, columnas sobre la tabla */}
+          <div className="flex items-center gap-3 border-b border-borde/40 pb-1 mb-2 text-texto-suave uppercase">
+            <span className="w-20 sm:w-22 shrink-0 text-center text-[8.5px] sm:text-[9px] font-semibold tracking-tight select-none">
+              Roles más jugados
+            </span>
+            <div className="flex items-center flex-1 min-w-0 px-1 text-[10px] font-semibold tracking-wider">
+              <span className="flex-1 text-left">Línea</span>
+              <span className="text-right px-2 whitespace-nowrap">Partidas (%)</span>
+              <span className="w-14 text-right whitespace-nowrap">Winrate</span>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3">
+            {/* Gráfico Donut SVG optimizado */}
+            <div className="size-20 sm:size-22 shrink-0 flex items-center justify-center">
+              <svg viewBox="0 0 100 100" className="size-full">
+                {/* Círculo base de fondo */}
+                <circle
+                  cx="50"
+                  cy="50"
+                  r={radio}
+                  fill="none"
+                  stroke="#334155"
+                  strokeWidth="9"
+                  opacity="0.35"
+                />
+
+                {/* Segmentos coloreados por rol */}
+                {segmentosDonut.map((s, idx) =>
+                  s.activo ? (
+                    <circle
+                      key={idx}
+                      cx="50"
+                      cy="50"
+                      r={radio}
+                      fill="none"
+                      stroke={s.color}
+                      strokeWidth="9"
+                      strokeDasharray={`${s.longitud} ${perimetro}`}
+                      strokeDashoffset={s.desfase}
+                      transform="rotate(-90 50 50)"
+                      className="transition-all duration-300 cursor-pointer hover:opacity-80"
+                      onClick={() => abrirDetalleLinea(s.posicion)}
+                    >
+                      <title>{`Ver estadísticas de ${CONFIG_ROLES[s.posicion]?.nombre || s.posicion}`}</title>
+                    </circle>
+                  ) : null,
+                )}
+
+                {/* Texto central de línea principal */}
+                <g
+                  className="cursor-pointer"
+                  onClick={() => rolPrincipal && abrirDetalleLinea(rolPrincipal.posicion)}
+                >
+                  <text
+                    x="50"
+                    y="45"
+                    textAnchor="middle"
+                    className="fill-texto-suave text-[7px] sm:text-[8px] font-bold tracking-wider uppercase select-none"
+                  >
+                    PRINCIPAL
+                  </text>
+                  <text
+                    x="50"
+                    y="59"
+                    textAnchor="middle"
+                    className="fill-texto text-[10px] sm:text-[11px] font-bold hover:fill-sapo transition-colors select-none"
+                  >
+                    {nombreRolPrincipal}
+                  </text>
+                </g>
+              </svg>
+            </div>
+
+            {/* Filas con el desglose de los 5 roles */}
+            <div className="flex-1 min-w-0 divide-y divide-borde/20">
+              {lineasOrdenadas.map((l) => {
+                const cfg =
+                  CONFIG_ROLES[l.posicion] || { nombre: l.posicion, color: "#94a3b8" };
+                const winrate = l.winrate;
+                const colorWinrate =
+                  winrate === null
+                    ? "text-texto-suave"
+                    : winrate >= 50
+                      ? "text-victoria"
+                      : "text-derrota";
+
+                return (
+                  <div
+                    key={l.posicion}
+                    data-linea={l.posicion}
+                    onClick={() => abrirDetalleLinea(l.posicion)}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        abrirDetalleLinea(l.posicion);
+                      }
+                    }}
+                    className="flex items-center py-1 px-1 rounded cursor-pointer group/linea hover:bg-superficie-alta/60 transition-colors"
+                    title={`Ver estadísticas de ${amigoActual?.nombre || "jugador"} en ${cfg.nombre} (${TEXTOS_PERIODOS[periodo] || periodo})`}
+                  >
+                    {/* Ícono + Nombre de Rol COMPLETO (sin cortes) */}
+                    <div className="flex items-center gap-1.5 flex-1 min-w-0">
+                      <span
+                        className="size-2 rounded-full shrink-0"
+                        style={{ backgroundColor: cfg.color }}
+                        aria-hidden="true"
+                      />
+                      <IconoPosicion posicion={l.posicion} className="size-3.5 shrink-0" />
+                      <span className="whitespace-nowrap text-texto font-medium text-[11px] sm:text-xs group-hover/linea:text-sapo transition-colors">
+                        {cfg.nombre}
+                      </span>
+                    </div>
+
+                    {/* Partidas y porcentaje de partidas jugado en ese rol entre paréntesis pequeño */}
+                    <div className="text-right px-2 shrink-0">
+                      <span className="cifras font-semibold text-texto text-[11px] sm:text-xs">
+                        {l.partidas}
+                      </span>
+                      <span className="cifras text-[10px] text-texto-suave font-normal ml-1">
+                        ({Math.round(l.porcentaje || 0)}%)
+                      </span>
+                    </div>
+
+                    {/* Winrate */}
+                    <span
+                      className={`w-14 text-right cifras font-semibold text-[11px] sm:text-xs shrink-0 ${colorWinrate}`}
+                    >
+                      {winrate !== null ? `${winrate}%` : "—"}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+  );
+}

@@ -511,6 +511,33 @@ describe("ModalCampeones", () => {
     expect(filasOrdenadasKda[1]).toHaveTextContent("2.10:1");
   });
 
+  it("renderiza barras horizontales con estilos destacados y desglose de KDA coloreado", () => {
+    render(
+      <ModalCampeones
+        campeones={campeonesMock}
+        amigos={amigosMock}
+        ddragon={ddragonMock}
+        onCerrar={vi.fn()}
+      />,
+    );
+
+    // KDA desglose con colores: asesinatos (verde), muertes (rojo), asistencias (dorado)
+    const spanAsesinatos = screen.getByText("7.2");
+    const spanMuertes = screen.getByText("3.1");
+    const spanAsistencias = screen.getByText("6.5");
+
+    expect(spanAsesinatos).toHaveClass("text-victoria");
+    expect(spanMuertes).toHaveClass("text-derrota");
+    expect(spanAsistencias).toHaveClass("text-sapo");
+
+    // Barras de partidas (cian) y winrate (victoria/derrota)
+    const barrasCian = document.querySelectorAll(".bg-cyan-400");
+    expect(barrasCian.length).toBeGreaterThan(0);
+
+    const barrasVictoria = document.querySelectorAll(".bg-victoria");
+    expect(barrasVictoria.length).toBeGreaterThan(0);
+  });
+
   it("llama a onCerrar al hacer clic en el botón de cerrar ✕", () => {
     const onCerrar = vi.fn();
     render(
@@ -525,5 +552,29 @@ describe("ModalCampeones", () => {
     const botonCerrar = screen.getByRole("button", { name: "Cerrar" });
     fireEvent.click(botonCerrar);
     expect(onCerrar).toHaveBeenCalledTimes(1);
+  });
+
+  it("permite abrir el modal con amigoInicial, periodoInicial y lineaInicial preseleccionados", () => {
+    render(
+      <ModalCampeones
+        campeones={campeonesMock}
+        amigos={amigosMock}
+        ddragon={ddragonMock}
+        onCerrar={vi.fn()}
+        amigoInicial="iskrat-las"
+        periodoInicial="dias_30"
+        lineaInicial="BOTTOM"
+      />,
+    );
+
+    // Título con el amigo preseleccionado
+    expect(screen.getByRole("heading", { name: /Estadísticas de Campeones.*ISkrat/ })).toBeInTheDocument();
+
+    // Pestaña de jugador preseleccionada
+    expect(screen.getByRole("tab", { name: /ISkrat/i })).toHaveAttribute("aria-selected", "true");
+
+    // Botón de la línea ADC / Tirador preseleccionado
+    const botonAdc = screen.getByRole("button", { name: /ADC/i });
+    expect(botonAdc).toHaveAttribute("aria-pressed", "true");
   });
 });

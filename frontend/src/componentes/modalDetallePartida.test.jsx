@@ -61,6 +61,7 @@ const partidaDetallada = {
       cs: 307,
       oro: 17200,
       danio: 17200,
+      danio_recibido: 12500,
       vision: 47,
       posicion: "MIDDLE",
       items: [3078, 3111, 3053, 3156, 3026, 3074, 3340],
@@ -97,6 +98,7 @@ const partidaDetallada = {
       cs: 180,
       oro: 9000,
       danio: 11000,
+      danio_recibido: 18000,
       vision: 19,
       posicion: "TOP",
       items: [3068, 3111, 0, 0, 0, 0, 3340],
@@ -133,6 +135,18 @@ describe("ModalDetallePartida", () => {
     expect(screen.getByText("Johnadis#LAS")).toBeInTheDocument();
     expect(screen.getByText("Aliado Uno#LAS")).toBeInTheDocument();
     expect(screen.getByText("Rival Uno#LAS")).toBeInTheDocument();
+
+    // KDA coloreado: asesinatos (verde), muertes (rojo), asistencias (dorado/sapo)
+    const kills = screen.getAllByText("6");
+    expect(kills.some((el) => el.classList.contains("text-victoria"))).toBe(true);
+    const muertes = screen.getAllByText("1");
+    expect(muertes.some((el) => el.classList.contains("text-derrota"))).toBe(true);
+    const asist = screen.getAllByText("9");
+    expect(asist.some((el) => el.classList.contains("text-sapo"))).toBe(true);
+
+    // En las tarjetas ya no hay barras de daño individuales (se trasladaron al gráfico inferior con alternador)
+    expect(screen.getByRole("button", { name: "Infligido" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Recibido" })).toBeInTheDocument();
 
     // Cierre
     fireEvent.click(screen.getByRole("button", { name: "Cerrar" }));

@@ -260,6 +260,7 @@ def _participante(p: dict) -> dict:
         + _entero(p.get("neutralMinionsKilled") or 0, "neutralMinionsKilled"),
         "oro": _entero(p.get("goldEarned") or 0, "goldEarned"),
         "danio": _danio(p.get("totalDamageDealtToChampions")),
+        "danio_recibido": _danio(p.get("totalDamageTaken")),
         "vision": _entero(p.get("visionScore") or 0, "visionScore"),
         "posicion": str(p.get("teamPosition") or p.get("individualPosition") or ""),
         "items": [_entero(p.get(f"item{i}") or 0, f"item{i}") for i in range(7)],
@@ -342,6 +343,7 @@ def resumir_partida(datos, puuid: str, id_esperado: str | None = None) -> dict:
         # Daño a campeones. Las partidas guardadas antes de agregarlo no lo tienen.
         # Solo informativo: si no viene o no es válido, queda vacío (no se descarta la partida).
         "danio": _danio(jugador.get("totalDamageDealtToChampions")),
+        "danio_recibido": _danio(jugador.get("totalDamageTaken")),
         "equipo": equipo,
         "items": [_entero(jugador.get(f"item{i}", 0), f"item{i}") for i in range(7)],
         "hechizos": [

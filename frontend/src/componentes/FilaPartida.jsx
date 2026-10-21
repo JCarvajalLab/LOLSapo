@@ -166,9 +166,11 @@ function BloqueKda({ p }) {
       <p className="marcador text-xl leading-tight" aria-label={hay ? `KDA ${p.asesinatos} / ${p.muertes} / ${p.asistencias}` : "KDA sin datos"}>
         {hay ? (
           <>
-            {p.asesinatos} <span className="font-normal text-texto-suave">/</span>{" "}
-            <span className="text-derrota">{p.muertes}</span> <span className="font-normal text-texto-suave">/</span>{" "}
-            {p.asistencias}
+            <span className="text-victoria">{p.asesinatos}</span>{" "}
+            <span className="font-normal text-texto-suave">/</span>{" "}
+            <span className="text-derrota">{p.muertes}</span>{" "}
+            <span className="font-normal text-texto-suave">/</span>{" "}
+            <span className="text-sapo">{p.asistencias}</span>
           </>
         ) : (
           "—"

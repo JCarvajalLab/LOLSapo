@@ -90,7 +90,7 @@ function PanelJuego({ clave, activo, children }) {
 function VistaLol({ datos, error, ahora, abiertos, alternar, abrir, enfocar }) {
   // Sinergia abierta: { slug, origen } (origen = enlace del ranking que recibe el foco al cerrar).
   const [sinergiaDe, setSinergiaDe] = useState(null);
-  const [modalCampeonesAbierto, setModalCampeonesAbierto] = useState(false);
+  const [configModalCampeones, setConfigModalCampeones] = useState(null);
   const refBotonCampeones = useRef(null);
 
   if (error && !datos) return <ErrorCarga error={error} />;
@@ -116,7 +116,7 @@ function VistaLol({ datos, error, ahora, abiertos, alternar, abrir, enfocar }) {
     document.getElementById(idBotonAmigo(slug))?.focus({ preventScroll: true });
   };
   const cerrarCampeones = () => {
-    setModalCampeonesAbierto(false);
+    setConfigModalCampeones(null);
     refBotonCampeones.current?.focus();
   };
 
@@ -138,7 +138,7 @@ function VistaLol({ datos, error, ahora, abiertos, alternar, abrir, enfocar }) {
         campeones={datos.campeones}
         amigos={datos.amigos}
         ddragon={datos.ddragon}
-        onVerDetalle={() => setModalCampeonesAbierto(true)}
+        onVerDetalle={(config) => setConfigModalCampeones(config || {})}
         refBoton={refBotonCampeones}
       />
 
@@ -181,12 +181,15 @@ function VistaLol({ datos, error, ahora, abiertos, alternar, abrir, enfocar }) {
         />
       )}
 
-      {modalCampeonesAbierto && (
+      {configModalCampeones && (
         <ModalCampeones
           campeones={datos.campeones}
           amigos={datos.amigos}
           ddragon={datos.ddragon}
           onCerrar={cerrarCampeones}
+          amigoInicial={configModalCampeones.amigo || "global"}
+          periodoInicial={configModalCampeones.periodo || "dias_30"}
+          lineaInicial={configModalCampeones.linea || null}
         />
       )}
     </div>

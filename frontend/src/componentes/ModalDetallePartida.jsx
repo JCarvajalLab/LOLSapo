@@ -75,12 +75,6 @@ export function ModalDetallePartida({ partida, ddragon, ahora, slugPropio, onCer
   const totalAsistAzul = jugadoresAzul.reduce((acc, j) => acc + (j.asistencias || 0), 0);
   const totalAsistRojo = jugadoresRojo.reduce((acc, j) => acc + (j.asistencias || 0), 0);
 
-  const maxDanio = Math.max(
-    1,
-    ...jugadoresAzul.map((j) => j.danio || 0),
-    ...jugadoresRojo.map((j) => j.danio || 0),
-  );
-
   const filasCantidad = Math.max(jugadoresAzul.length, jugadoresRojo.length);
 
   return (
@@ -100,7 +94,11 @@ export function ModalDetallePartida({ partida, ddragon, ahora, slugPropio, onCer
               {infoAzul.victoria ? "Victoria" : "Derrota"}
             </span>
             <span className="cifras text-texto font-medium">
-              {totalKillsAzul} / {totalMuertesAzul} / {totalAsistAzul}
+              <span className="text-victoria">{totalKillsAzul}</span>{" "}
+              <span className="text-texto-suave font-normal">/</span>{" "}
+              <span className="text-derrota">{totalMuertesAzul}</span>{" "}
+              <span className="text-texto-suave font-normal">/</span>{" "}
+              <span className="text-sapo">{totalAsistAzul}</span>
             </span>
           </div>
 
@@ -125,7 +123,11 @@ export function ModalDetallePartida({ partida, ddragon, ahora, slugPropio, onCer
           {/* Marcador Rojo */}
           <div className="flex items-center gap-2">
             <span className="cifras text-texto font-medium">
-              {totalKillsRojo} / {totalMuertesRojo} / {totalAsistRojo}
+              <span className="text-victoria">{totalKillsRojo}</span>{" "}
+              <span className="text-texto-suave font-normal">/</span>{" "}
+              <span className="text-derrota">{totalMuertesRojo}</span>{" "}
+              <span className="text-texto-suave font-normal">/</span>{" "}
+              <span className="text-sapo">{totalAsistRojo}</span>
             </span>
             <span
               className={`font-bold text-base ${
@@ -184,7 +186,6 @@ export function ModalDetallePartida({ partida, ddragon, ahora, slugPropio, onCer
                     ddragon={ddragon}
                     slugPropio={slugPropio}
                     duracion={p.duracion}
-                    maxDanio={maxDanio}
                     lado="azul"
                   />
                 ) : (
@@ -206,7 +207,6 @@ export function ModalDetallePartida({ partida, ddragon, ahora, slugPropio, onCer
                     ddragon={ddragon}
                     slugPropio={slugPropio}
                     duracion={p.duracion}
-                    maxDanio={maxDanio}
                     lado="rojo"
                   />
                 ) : (
@@ -281,15 +281,19 @@ export function ModalDetallePartida({ partida, ddragon, ahora, slugPropio, onCer
 }
 
 /** Tarjeta compacta para cada jugador dentro de su carril */
-function TarjetaJugador({ jugador, ddragon, slugPropio, duracion, maxDanio, lado }) {
+function TarjetaJugador({
+  jugador,
+  ddragon,
+  slugPropio,
+  duracion,
+  lado,
+}) {
   const j = jugador;
   const campeon = nombreCampeon(ddragon, j.campeon_id);
   const propio = Boolean(slugPropio) && j.amigo === slugPropio;
   const esAmigo = Boolean(j.amigo);
   const ratio = ratioKda(j.asesinatos, j.muertes, j.asistencias);
   const hechizos = Array.isArray(j.hechizos) ? j.hechizos.slice(0, 2) : [];
-  const danio = j.danio || 0;
-  const pctDanio = Math.round((danio / maxDanio) * 100);
 
   const esAzul = lado === "azul";
 
@@ -367,14 +371,14 @@ function TarjetaJugador({ jugador, ddragon, slugPropio, duracion, maxDanio, lado
         <p className="text-[11px] text-texto-suave truncate">{campeon}</p>
       </div>
 
-      {/* KDA + Stats + Barra de daño */}
-      <div className="flex flex-col gap-0.5 min-w-[130px]">
+      {/* KDA + Stats + Barras de daño */}
+      <div className={`flex flex-col gap-0.5 min-w-[130px] ${!esAzul ? "items-end" : "items-start"}`}>
         <p className="cifras text-xs font-semibold">
           <span className="text-victoria">{j.asesinatos ?? 0}</span>{" "}
           <span className="text-texto-suave font-normal">/</span>{" "}
           <span className="text-derrota">{j.muertes ?? 0}</span>{" "}
           <span className="text-texto-suave font-normal">/</span>{" "}
-          <span className="text-dorado">{j.asistencias ?? 0}</span>
+          <span className="text-sapo">{j.asistencias ?? 0}</span>
           {ratio && (
             <span className="ml-1 text-[10px] text-texto-suave font-normal">
               ({ratio === "Perfecto" ? "Perf" : `${ratio}`})
@@ -389,21 +393,6 @@ function TarjetaJugador({ jugador, ddragon, slugPropio, duracion, maxDanio, lado
           {j.participacion ? `${Math.round(j.participacion)}% P. · ` : ""}
           Visión: {j.vision ?? "—"}
         </p>
-
-        {/* Barra de daño conservada (roja en ambos equipos con su valor numérico) */}
-        {danio > 0 && (
-          <div className="flex items-center gap-1.5 mt-0.5">
-            <span className="cifras text-[10px] text-texto-suave">
-              {(danio / 1000).toFixed(1)}k
-            </span>
-            <div className="h-1.5 w-16 overflow-hidden rounded-full bg-borde/50">
-              <div
-                className="h-full bg-derrota"
-                style={{ width: `${pctDanio}%` }}
-              />
-            </div>
-          </div>
-        )}
       </div>
 
       {/* Ítems: 6 objetos en rejilla + 1 trinket */}
