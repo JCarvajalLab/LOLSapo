@@ -235,11 +235,18 @@ def _agregar_partidas(partidas_con_amigo: list[tuple[dict, str]]) -> dict:
             "porcentaje": pct,
         }
 
+    total_victorias = sum(c["victorias"] for c in campeones_lista)
+    total_derrotas = sum(c["derrotas"] for c in campeones_lista)
+    total_partidas = total_victorias + total_derrotas
+
     return {
         "campeones": campeones_lista,
         "por_linea": campeones_por_linea,
         "resumen_lineas": resumen_lineas,
-        "total_partidas": sum(c["partidas"] for c in campeones_lista),
+        "total_partidas": total_partidas,
+        "total_victorias": total_victorias,
+        "total_derrotas": total_derrotas,
+        "winrate": _winrate(total_victorias, total_derrotas),
     }
 
 

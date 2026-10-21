@@ -118,7 +118,13 @@ def test_calcular_estadisticas_campeones_filtra_modos_y_periodos():
 
     # Global contiene lo mismo que el único amigo
     assert stats["global"]["dias_30"]["total_partidas"] == 1
+    assert stats["global"]["dias_30"]["total_victorias"] == 1
+    assert stats["global"]["dias_30"]["total_derrotas"] == 0
+    assert stats["global"]["dias_30"]["winrate"] == 100.0
     assert stats["global"]["todo"]["total_partidas"] == 2
+    assert stats["global"]["todo"]["total_victorias"] == 1
+    assert stats["global"]["todo"]["total_derrotas"] == 1
+    assert stats["global"]["todo"]["winrate"] == 50.0
 
     # Resumen de líneas
     res_lineas = stats["global"]["todo"]["resumen_lineas"]

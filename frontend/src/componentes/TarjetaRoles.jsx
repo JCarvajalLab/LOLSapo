@@ -46,11 +46,22 @@ export function TarjetaRoles({ campeones, amigos, onVerDetalle }) {
   const lineas = resumenLineas(bloque);
 
   // Partidas y métricas generales
+  const listaCampeones = Array.isArray(bloque?.campeones) ? bloque.campeones : [];
   const totalPartidas =
-    bloque?.total_partidas ?? lineas.reduce((acc, l) => acc + (l.partidas || 0), 0);
-  const totalVictorias = lineas.reduce((acc, l) => acc + (l.victorias || 0), 0);
+    bloque?.total_partidas ??
+    (listaCampeones.length > 0
+      ? listaCampeones.reduce((acc, c) => acc + (c.partidas || 0), 0)
+      : lineas.reduce((acc, l) => acc + (l.partidas || 0), 0));
+  const totalVictorias =
+    listaCampeones.length > 0
+      ? listaCampeones.reduce((acc, c) => acc + (c.victorias || 0), 0)
+      : lineas.reduce((acc, l) => acc + (l.victorias || 0), 0);
   const winrateTotal =
-    totalPartidas > 0 ? ((totalVictorias / totalPartidas) * 100).toFixed(1) : null;
+    bloque?.winrate !== undefined && bloque?.winrate !== null
+      ? bloque.winrate
+      : totalPartidas > 0
+        ? ((totalVictorias / totalPartidas) * 100).toFixed(1)
+        : null;
 
   // KDA promedio global ponderado por campeón
   let totalK = 0;
