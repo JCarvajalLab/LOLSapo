@@ -10,13 +10,13 @@ const ID_TITULO = "titulo-modal-campeones";
 const TEXTOS_PERIODOS = {
   dias_30: "30 días",
   dias_90: "90 días",
-  todo: "Total",
+  todo: "2026",
 };
 
 const SUBTITULOS_PERIODOS = {
   dias_30: "últimos 30 días",
   dias_90: "últimos 90 días",
-  todo: "todo lo registrado",
+  todo: "temporada 2026",
 };
 
 /**

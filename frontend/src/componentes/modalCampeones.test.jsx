@@ -352,8 +352,8 @@ describe("ModalCampeones", () => {
       />,
     );
 
-    // Cambiar a Total
-    const botonTotal = screen.getByRole("button", { name: "Total" });
+    // Cambiar a 2026
+    const botonTotal = screen.getByRole("button", { name: "2026" });
     fireEvent.click(botonTotal);
 
     // En todo el registro para el mock, Viktor tiene 25 partidas y Ziggs no está en todo
