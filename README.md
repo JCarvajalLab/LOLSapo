@@ -4,14 +4,14 @@ Web estilo op.gg para un grupo cerrado de amigos del servidor **LAS**. Muestra q
 
 **Sitio:** https://jcarvajallab.github.io/LOLSapo/ (se actualiza solo cada ~5 minutos).
 
-> Fase 7 (extras) en curso: ya están los destacados de hoy, de la semana y del mes. El detalle del proyecto está en [docs/REQUERIMIENTOS.md](docs/REQUERIMIENTOS.md).
+> Incluye: partida en vivo, destacados grupales (hoy, semana y mes), sinergia entre amigos, estadísticas completas de campeones y distribución de roles, y modal interactivo de detalle de partida con gráficos de ventaja de oro y daño. El detalle del proyecto está en [docs/REQUERIMIENTOS.md](docs/REQUERIMIENTOS.md).
 
 ## Cómo funciona
 
 La API de Riot necesita una key secreta, así que la web **nunca** llama a Riot directamente:
 
 1. Un script en Python (el **recolector**) consulta la API de Riot y genera `lol.json` y `tft.json`.
-2. El frontend (React + Vite) solo lee ese JSON.
+2. El frontend (React + Vite + Tailwind) solo lee ese JSON.
 3. En producción, un Cloudflare Worker le pide a GitHub Actions cada 5 minutos que corra el recolector y publique la web en GitHub Pages. En local lo corres tú.
 
 ## Destacados
@@ -48,38 +48,98 @@ Se calculan en el recolector ([recolector/lolsapo/destacados.py](recolector/lols
 
 En el **Ranking** de la pestaña LoL, al hacer clic en el nombre de un amigo se abre una ventana con su sinergia con el resto del grupo: por cada compañero, cuántas partidas jugaron **en el mismo equipo** y el winrate juntos (solo Normal y Ranked). Tiene dos períodos: **últimos 30 días** (el que se abre primero) y **todo lo registrado**; los compañeros con los que no jugó en ese período aparecen al final con «No han jugado juntos». Al empezar, el recolector completó una sola vez las partidas de los últimos 30 días que faltaban en el registro. Se puede ordenar por partidas o por winrate, y el botón «Ver sus últimas partidas» lleva a su historial. Se calcula en [recolector/lolsapo/sinergia.py](recolector/lolsapo/sinergia.py), juntando las partidas de los registros de todos sin repetirlas.
 
+## Estadísticas generales: Campeones y Roles (Estilo OP.GG)
+
+Bajo la sección de destacados y antes del historial de partidas, se encuentra el bloque de **Estadísticas generales** con métricas agregadas por campeón y por carril:
+
+### 1. Campeones más utilizados (Top 5 del grupo)
+- Muestra el campeón principal de cada integrante del grupo (ordenados por mayor cantidad de partidas jugadas).
+- Incluye barras proporcionales de **Partidas** jugadas, porcentaje de **Winrate** con barra coloreada según resultado, ratio y desglose de **KDA** (asesinatos en verde, muertes en rojo y asistencias en dorado/sapo), e insignia distintiva con el nombre del jugador.
+- Al hacer clic en la tarjeta o en la etiqueta `Top 5 ›`, se abre el **Modal de estadísticas completas de campeones**.
+
+### 2. Modal de estadísticas completas de campeones
+- **Filtros por período:** selector entre **30 días**, **90 días** y **Total** registrado.
+- **Pestaña Global vs. Pestañas individuales:**
+  - **Global:** Compara el rendimiento grupal y lista individualmente las estadísticas de cada amigo que haya jugado un mismo campeón (para ver quién tiene mejor winrate, KDA o CS/min con ese personaje).
+  - **Por amigo:** Pestañas directas para explorar el catálogo de campeones específico de cada jugador.
+- **Filtro por carril:** Botones interactivos para filtrar campeones según su posición: **Superior (Top)**, **Jungla (Jg)**, **Central (Mid)**, **Inferior (ADC)**, **Soporte (Supp)** o **Todas las líneas**.
+- **Ordenamiento:** Encabezados clicables para ordenar la tabla por **Partidas**, **KDA** o **Winrate** ascendente/descendente.
+
+### 3. Estadísticas básicas y Roles más jugados
+- **Rotación automática y selector manual:** Rota automáticamente cada pocos minutos entre los integrantes del grupo y permite seleccionar directamente a cualquiera de los amigos mediante pestañas.
+- **Selector de período:** Fijado por defecto en **30 días**, con opción de cambiar a **90 días** o **Total**.
+- **Métricas consolidadas:**
+  - **KDA Promedio:** Ponderado por partida con colores diferenciados para asesinatos, muertes y asistencias.
+  - **Jugadas:** Total de partidas registradas del invocador en ese período.
+  - **Winrate:** Tasa de victorias real calculada sobre todas sus partidas (verde si es $\ge 50\%$, rojo si es $< 50\%$).
+- **Gráfico circular Donut:** Representa visualmente la proporción de partidas en cada rol con el color identificatorio de cada línea, destacando al centro el **Rol Principal**.
+- **Tabla de desglose de líneas:** Nombres completos sin abreviar (`Superior`, `Jungla`, `Central`, `Inferior`, `Soporte`), partidas y porcentaje de presencia en ese carril en formato compacto `Partidas (%)` (ej. `11 (37%)`), y tasa de victoria por rol.
+- **Interactividad:** Al hacer clic en cualquier línea o segmento del Donut, se abre directamente el modal de campeones filtrado por ese amigo, período y rol.
+
+## Detalle de partidas y gráficos interactivos
+
+En el historial de cada amigo, al hacer clic sobre cualquier fila de partida se abre el **Modal de detalle de partida**:
+
+- **Información del encuentro:** Modo de juego, mapa, duración, fecha y hora relativa, y resultado (Victoria/Derrota).
+- **Tablas de ambos equipos (Azul y Rojo):**
+  - Desglose de los 10 jugadores con sus campeones, hechizos de invocador, runas principales, objetos finales y centinelas de visión.
+  - KDA con colores diferenciados: asesinatos (verde/cian), muertes (rojo/coral) y asistencias (amarillo/sapo).
+  - Puntuación de visión y súbditos (CS y CS/min).
+- **Objetivos neutrales:** Marcadores por equipo de Torres destruidas, Dragones, Barones y Heraldos/Larvas del Vacío.
+- **Gráficos interactivos:**
+  - **Ventaja de Oro temporal:** Curva visual minuto a minuto que muestra qué equipo dominó la economía de la partida.
+  - **Selector de Daño:** Alternador de barras para comparar fácilmente el **Daño Infligido a Campeones** o el **Daño Recibido** de todos los participantes.
+
 ## Usarlo con tus amigos
 
-¿Quieres tu propio LOLSapo? Haz un fork (o clónalo) y cambia estas cosas:
+¿Quieres tener tu propia versión de LOLSapo para tu grupo de amigos? Haz un **fork** del repositorio (o clónalo) y sigue esta guía para configurarlo con tus datos y tus claves de forma segura:
 
 | Qué | Dónde | Obligatorio |
 |-----|-------|-------------|
-| Tu API key de Riot | `.env` (local) o un secret de GitHub (publicado) | Sí |
+| Tu API key de Riot | `.env` (local) o secret en GitHub Actions (publicado) | Sí |
 | La lista de amigos (máximo 10) | [config/amigos.json](config/amigos.json) | Sí |
 | El servidor, si no juegan en LAS | `PLATAFORMA` y `REGION` en [recolector/lolsapo/riot_api.py](recolector/lolsapo/riot_api.py) | Solo si no es LAS |
 | Nombres de modos de juego | [config/modos.json](config/modos.json) (LoL) y [config/modos_tft.json](config/modos_tft.json) (TFT) | No |
-| Colores (por ejemplo, el de victoria) | [frontend/src/estilos/index.css](frontend/src/estilos/index.css) | No |
+| Colores y estilos | [frontend/src/estilos/index.css](frontend/src/estilos/index.css) | No |
 
-**Servidor:** `PLATAFORMA` es el servidor (`la1` LAN, `la2` LAS, `br1` Brasil, `na1` Norteamérica, `euw1` Europa Oeste…) y `REGION` es el grupo al que pertenece (`americas` para LAN, LAS, BR y NA; `europe` para EUW, EUNE y TR; `asia` para KR y JP). La lista completa está en la [documentación de Riot](https://developer.riotgames.com/docs/lol#routing-values).
+### 🔒 Seguridad de la API Key de Riot (¡Muy importante!)
 
-**Amigos:** escribe cada Riot ID completo, con su tag:
+La API Key de Riot es una credencial privada que **nunca debe subirse al repositorio ni compartirse en público**:
+- En GitHub existen bots rastreando commits en tiempo real. Si subes accidentalmente tu key a un repositorio público, será detectada en segundos y Riot la revocará automáticamente por seguridad (pudiendo suspender el acceso a tu cuenta de desarrollador).
+- **En local:** La key se guarda **únicamente** en el archivo `.env`. El archivo `.env` ya viene incluido en `.gitignore` para que Git jamás lo suba. Además, el proyecto incluye **gitleaks** configurado en los hooks de `pre-commit`, lo que bloqueará cualquier commit si por error detecta una key.
+- **En producción (GitHub Pages):** La key se almacena exclusivamente como un **Environment Secret** (`RIOT_API_KEY_LOL`) dentro de la configuración de GitHub Actions. Los secretos de GitHub viajan cifrados, no se imprimen en los logs y nunca forman parte del código compilado de la web (el chequeo `verificar:build` valida que la web empaquetada no contenga ninguna key ni dato sensible).
+- **Tipos de API Keys de Riot:**
+  - **Development Key:** Gratuita e instantánea al iniciar sesión en el [Riot Developer Portal](https://developer.riotgames.com/). Caduca cada 24 horas (se renueva con un botón en el portal). Es perfecta para correr el proyecto en tu computador localmente.
+  - **Personal API Key:** Gratuita y permanente (no caduca a diario). Se solicita en el portal con **Register Product → Personal API Key** explicando que es una web estilo op.gg para tu grupo cerrado de amigos. Es la key necesaria para dejar la web funcionando 24/7 en GitHub Pages sin tener que renovarla todos los días.
+
+**Servidor:** Si tus amigos juegan en otro servidor diferente a LAS:
+- `PLATAFORMA` es el código del servidor (`la1` LAN, `la2` LAS, `br1` Brasil, `na1` Norteamérica, `euw1` Europa Oeste, etc.).
+- `REGION` es el grupo continental al que pertenece (`americas` para LAN, LAS, BR y NA; `europe` para EUW, EUNE y TR; `asia` para KR y JP). La lista completa está en la [documentación oficial de Riot](https://developer.riotgames.com/docs/lol#routing-values).
+
+**Amigos:** Edita `config/amigos.json` y escribe cada Riot ID completo con su tag (nombre#tag):
 
 ```json
-{ "amigos": ["TuNombre#LAS", "Amigo Uno#LAS", "Amigo Dos#1234"] }
+{
+  "amigos": [
+    "TuNombre#LAS",
+    "Amigo Uno#LAS",
+    "Amigo Dos#1234"
+  ]
+}
 ```
 
-En la siguiente ejecución aparecen los amigos nuevos, con sus últimas partidas como carga inicial. Al quitar a alguien, su registro se conserva por si vuelve.
+En la siguiente ejecución del recolector aparecerán los amigos configurados y se descargarán sus últimas partidas como carga inicial. Si en el futuro quitas a alguien de la lista, su registro histórico se conserva intacto en la base de datos por si vuelve a jugar con ustedes.
 
 ## Correrlo en tu computador
 
-### 1. Requisitos
+### 1. Requisitos previos
 
 - Git
-- Python 3.12 o superior
-- Node.js LTS (incluye npm)
-- Una cuenta en el [Riot Developer Portal](https://developer.riotgames.com/). Al entrar con tu cuenta de Riot te da una *development key* gratis, que caduca cada 24 horas (se renueva con un clic en el portal).
+- Python 3.12 o superior (recomendado 3.14)
+- Node.js LTS (versión 20 o 22+, incluye npm)
+- Una cuenta en el [Riot Developer Portal](https://developer.riotgames.com/) para obtener tu *Development API Key*.
 
-### 2. Clonar y poner tu key
+### 2. Clonar el repositorio y configurar el archivo .env
 
 ```bash
 git clone https://github.com/JCarvajalLab/LOLSapo.git
@@ -87,18 +147,16 @@ cd LOLSapo
 cp .env.example .env
 ```
 
-Abre `.env` y pega tu key después del `=`:
+Abre el archivo `.env` en tu editor y pega tu key obtenida del portal de Riot después del signo `=`:
 
 ```text
-RIOT_API_KEY=pega-aqui-tu-key
+RIOT_API_KEY=RGAPI-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
 RIOT_API_KEY_TFT=
 ```
 
-`RIOT_API_KEY_TFT` es opcional: si la dejas vacía, TFT usa la misma key. La *development key* sirve para los dos juegos.
+*(Nota: `RIOT_API_KEY_TFT` es opcional; si la dejas vacía, el sistema usa automáticamente la misma key para League of Legends y Teamfight Tactics).*
 
-`.env` está ignorado por git: nunca se sube al repositorio. No compartas tu key con nadie ni la pegues en otro archivo.
-
-Luego edita [config/amigos.json](config/amigos.json) con tus amigos (y el servidor, si no es LAS; ver la sección anterior).
+Recuerda editar [config/amigos.json](config/amigos.json) con los Riot IDs de tu grupo.
 
 ### 3. Instalar el recolector (Python)
 
@@ -167,24 +225,34 @@ La rama `datos` solo la escribe el workflow: no la borres, ahí vive el registro
 
 ### Disparador (Cloudflare Worker)
 
-El cron propio de GitHub Actions es "lo mejor posible": cuando GitHub tiene mucha carga atrasa o salta ejecuciones (a veces pasan horas). Por eso el que manda es un [Cloudflare Worker](https://developers.cloudflare.com/workers/) gratuito en [disparador/](disparador/): cada 5 minutos le pide a la API de GitHub que ejecute `publicar.yml`, igual que apretar **Run workflow**. El cron de GitHub queda de respaldo cada 30 minutos.
+El cron propio de GitHub Actions es "lo mejor posible": cuando GitHub tiene mucha carga atrasa o salta ejecuciones (a veces pasan horas sin ejecutarse). Por eso el que manda es un [Cloudflare Worker](https://developers.cloudflare.com/workers/) gratuito en [disparador/](disparador/): cada 5 minutos le pide a la API de GitHub que ejecute `publicar.yml`, igual que presionar manualmente **Run workflow**. El cron de GitHub queda solo como respaldo cada 30 minutos.
 
-- No tiene URL pública: solo corre en su horario.
-- Antes de lanzar cada publicación, cancela las ejecuciones que GitHub haya dejado trabadas en "esperando" por más de 15 minutos (pasa a veces, y como corre una a la vez, bloquean a todas las siguientes).
-- Usa un *fine-grained token* de GitHub limitado al repo y al permiso **Actions: Read and write**, guardado como secret `GH_TOKEN` en Cloudflare. No da acceso al código ni a los secrets del repo.
-- **Cambiar el intervalo:** edita `"crons"` en [disparador/wrangler.jsonc](disparador/wrangler.jsonc) y vuelve a publicar. Menos de 5 minutos no conviene (cada publicación tarda ~3 min y la key de Riot tiene un límite).
-- **Ver si funciona:** panel de Cloudflare → Workers → `lolsapo-disparador` → Logs, o en GitHub, **Actions → Publicar** (las ejecuciones aparecen como `workflow_dispatch`).
+- **Sin exposición pública:** No tiene URL pública, solo se ejecuta en su horario programado (*Cron Trigger*).
+- **Desbloqueo automático:** Antes de lanzar cada publicación, cancela las ejecuciones que GitHub haya dejado trabadas en "esperando" por más de 15 minutos (evita que una ejecución colgada bloquee a las siguientes).
+- **Seguridad del Token (`GH_TOKEN`):**
+  - Se utiliza un **Fine-grained personal access token** de GitHub con el mínimo privilegio posible:
+    1. Ve a **GitHub → Settings → Developer Settings → Personal access tokens → Fine-grained tokens → Generate new token**.
+    2. En **Repository access**, elige **Only select repositories** y selecciona únicamente tu repositorio de LOLSapo.
+    3. En **Repository permissions**, asigna solo **Actions: Read and write**.
+    4. Copia el token generado. No lo pegues en ningún archivo ni commit.
+  - Guarda el token de forma cifrada en Cloudflare ejecutando:
+    ```powershell
+    cd disparador
+    npx wrangler secret put GH_TOKEN
+    ```
+- **Cambiar el intervalo:** Edita `"crons"` en [disparador/wrangler.jsonc](disparador/wrangler.jsonc) y vuelve a publicar (5 minutos es el intervalo óptimo para no exceder los límites de la API de Riot).
+- **Monitoreo:** Puedes verificar su funcionamiento en el panel de Cloudflare (**Workers → `lolsapo-disparador` → Logs**) o en la pestaña **Actions → Publicar** de tu repositorio (aparecen como eventos disparados por `workflow_dispatch`).
 
 Publicarlo (desde `disparador/`, una sola vez y cada vez que cambie):
 
 ```powershell
 npm install
-npx wrangler login              # abre el navegador para autorizar tu cuenta de Cloudflare
-npx wrangler secret put GH_TOKEN   # pega el token cuando lo pida (no queda en ningún archivo)
+npx wrangler login                 # abre el navegador para autorizar tu cuenta gratuita de Cloudflare
+npx wrangler secret put GH_TOKEN   # pega el token cuando lo pida en consola (queda cifrado)
 npx wrangler deploy
 ```
 
-**Renovar el token** (vence según lo que elegiste al crearlo): crea uno nuevo en GitHub con los mismos permisos, corre `npx wrangler secret put GH_TOKEN` y pega el nuevo. Mientras esté vencido, la web solo se actualiza con el cron de respaldo.
+**Renovar el token:** Cuando el token de GitHub venza (según la fecha de expiración que hayas configurado), genera uno nuevo en GitHub con los mismos permisos y actualízalo en Cloudflare con `npx wrangler secret put GH_TOKEN`. Mientras esté vencido, la web no se rompe; simplemente se actualiza con el cron de respaldo de GitHub.
 
 Tests y chequeos: `npm run lint`, `npm test` y `npm audit` dentro de `disparador/`.
 
