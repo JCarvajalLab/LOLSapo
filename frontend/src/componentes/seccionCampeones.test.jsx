@@ -103,9 +103,9 @@ describe("TarjetaCampeones", () => {
       />,
     );
 
-    // Título y botón de top 5
+    // Título y selector de período
     expect(screen.getByText("Campeones más utilizados")).toBeInTheDocument();
-    expect(screen.getByText("Top 5 ›")).toBeInTheDocument();
+    expect(screen.getByRole("combobox", { name: "Filtrar campeones por período" })).toBeInTheDocument();
 
     // Campeón y amigo correspondiente
     expect(screen.getByText("Viktor")).toBeInTheDocument();
@@ -173,7 +173,7 @@ describe("SeccionCampeones", () => {
   it("renderiza la sección con el título 'Estadísticas generales' y las 3 tarjetas en la grilla", () => {
     render(<SeccionCampeones campeones={campeonesMock} amigos={amigosMock} ddragon={ddragonMock} />);
     expect(screen.getByText("Estadísticas generales")).toBeInTheDocument();
-    expect(screen.getAllByText("Próximamente")).toHaveLength(1);
+    expect(screen.getByText("Récords y Marcas")).toBeInTheDocument();
     expect(screen.getByText("Estadísticas básicas")).toBeInTheDocument();
     expect(screen.getByText("Viktor")).toBeInTheDocument();
   });
