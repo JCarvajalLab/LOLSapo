@@ -216,11 +216,19 @@ export function TarjetaRoles({ campeones, amigos, onVerDetalle }) {
           </div>
         </div>
 
-        {/* Roles más jugados: Título de sección y tabla con espacio limpio estilo OP.GG */}
+        {/* Roles más jugados: Cabecera unificada y alineada en una sola línea estilo OP.GG */}
         <div>
-          <h4 className="text-[11px] font-semibold tracking-wider text-texto-suave uppercase mb-2">
-            Roles más jugados
-          </h4>
+          {/* Fila de cabecera alineada horizontalmente: Roles más jugados sobre el Donut, columnas sobre la tabla */}
+          <div className="flex items-center gap-3 border-b border-borde/40 pb-1 mb-2 text-texto-suave uppercase">
+            <span className="w-20 sm:w-22 shrink-0 text-center text-[8.5px] sm:text-[9px] font-semibold tracking-tight select-none">
+              Roles más jugados
+            </span>
+            <div className="flex items-center flex-1 min-w-0 px-1 text-[10px] font-semibold tracking-wider">
+              <span className="flex-1 text-left">Línea</span>
+              <span className="text-right px-2 whitespace-nowrap">Partidas (%)</span>
+              <span className="w-14 text-right whitespace-nowrap">Winrate</span>
+            </div>
+          </div>
 
           <div className="flex items-center gap-3">
             {/* Gráfico Donut SVG optimizado */}
@@ -284,77 +292,67 @@ export function TarjetaRoles({ campeones, amigos, onVerDetalle }) {
               </svg>
             </div>
 
-            {/* Tabla de los 5 roles con espaciado limpio y legible */}
-            <div className="flex-1 min-w-0">
-              {/* Cabecera de la tabla */}
-              <div className="flex items-center pb-1 mb-1 border-b border-borde/40 text-[10px] font-semibold tracking-wider text-texto-suave uppercase">
-                <span className="flex-1 text-left pl-1">Línea</span>
-                <span className="text-right px-2 whitespace-nowrap">Partidas (%)</span>
-                <span className="w-14 text-right pr-1 whitespace-nowrap">Winrate</span>
-              </div>
+            {/* Filas con el desglose de los 5 roles */}
+            <div className="flex-1 min-w-0 divide-y divide-borde/20">
+              {lineasOrdenadas.map((l) => {
+                const cfg =
+                  CONFIG_ROLES[l.posicion] || { nombre: l.posicion, color: "#94a3b8" };
+                const winrate = l.winrate;
+                const colorWinrate =
+                  winrate === null
+                    ? "text-texto-suave"
+                    : winrate >= 50
+                      ? "text-victoria"
+                      : "text-derrota";
 
-              {/* Filas */}
-              <div className="divide-y divide-borde/20">
-                {lineasOrdenadas.map((l) => {
-                  const cfg =
-                    CONFIG_ROLES[l.posicion] || { nombre: l.posicion, color: "#94a3b8" };
-                  const winrate = l.winrate;
-                  const colorWinrate =
-                    winrate === null
-                      ? "text-texto-suave"
-                      : winrate >= 50
-                        ? "text-victoria"
-                        : "text-derrota";
-
-                  return (
-                    <div
-                      key={l.posicion}
-                      data-linea={l.posicion}
-                      onClick={() => abrirDetalleLinea(l.posicion)}
-                      role="button"
-                      tabIndex={0}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter" || e.key === " ") {
-                          e.preventDefault();
-                          abrirDetalleLinea(l.posicion);
-                        }
-                      }}
-                      className="flex items-center py-1 px-1 rounded cursor-pointer group/linea hover:bg-superficie-alta/60 transition-colors"
-                      title={`Ver estadísticas de ${amigoActual?.nombre || "jugador"} en ${cfg.nombre} (${TEXTOS_PERIODOS[periodo] || periodo})`}
-                    >
-                      {/* Ícono + Nombre de Rol COMPLETO (sin cortes) */}
-                      <div className="flex items-center gap-1.5 flex-1 min-w-0">
-                        <span
-                          className="size-2 rounded-full shrink-0"
-                          style={{ backgroundColor: cfg.color }}
-                          aria-hidden="true"
-                        />
-                        <IconoPosicion posicion={l.posicion} className="size-3.5 shrink-0" />
-                        <span className="whitespace-nowrap text-texto font-medium text-[11px] sm:text-xs group-hover/linea:text-sapo transition-colors">
-                          {cfg.nombre}
-                        </span>
-                      </div>
-
-                      {/* Partidas y porcentaje de partidas jugado en ese rol entre paréntesis pequeño */}
-                      <div className="text-right px-2 shrink-0">
-                        <span className="cifras font-semibold text-texto text-[11px] sm:text-xs">
-                          {l.partidas}
-                        </span>
-                        <span className="cifras text-[10px] text-texto-suave font-normal ml-1">
-                          ({Math.round(l.porcentaje || 0)}%)
-                        </span>
-                      </div>
-
-                      {/* Winrate */}
+                return (
+                  <div
+                    key={l.posicion}
+                    data-linea={l.posicion}
+                    onClick={() => abrirDetalleLinea(l.posicion)}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        abrirDetalleLinea(l.posicion);
+                      }
+                    }}
+                    className="flex items-center py-1 px-1 rounded cursor-pointer group/linea hover:bg-superficie-alta/60 transition-colors"
+                    title={`Ver estadísticas de ${amigoActual?.nombre || "jugador"} en ${cfg.nombre} (${TEXTOS_PERIODOS[periodo] || periodo})`}
+                  >
+                    {/* Ícono + Nombre de Rol COMPLETO (sin cortes) */}
+                    <div className="flex items-center gap-1.5 flex-1 min-w-0">
                       <span
-                        className={`w-14 text-right pr-1 cifras font-semibold text-[11px] sm:text-xs shrink-0 ${colorWinrate}`}
-                      >
-                        {winrate !== null ? `${winrate}%` : "—"}
+                        className="size-2 rounded-full shrink-0"
+                        style={{ backgroundColor: cfg.color }}
+                        aria-hidden="true"
+                      />
+                      <IconoPosicion posicion={l.posicion} className="size-3.5 shrink-0" />
+                      <span className="whitespace-nowrap text-texto font-medium text-[11px] sm:text-xs group-hover/linea:text-sapo transition-colors">
+                        {cfg.nombre}
                       </span>
                     </div>
-                  );
-                })}
-              </div>
+
+                    {/* Partidas y porcentaje de partidas jugado en ese rol entre paréntesis pequeño */}
+                    <div className="text-right px-2 shrink-0">
+                      <span className="cifras font-semibold text-texto text-[11px] sm:text-xs">
+                        {l.partidas}
+                      </span>
+                      <span className="cifras text-[10px] text-texto-suave font-normal ml-1">
+                        ({Math.round(l.porcentaje || 0)}%)
+                      </span>
+                    </div>
+
+                    {/* Winrate */}
+                    <span
+                      className={`w-14 text-right cifras font-semibold text-[11px] sm:text-xs shrink-0 ${colorWinrate}`}
+                    >
+                      {winrate !== null ? `${winrate}%` : "—"}
+                    </span>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
