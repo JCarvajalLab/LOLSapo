@@ -37,6 +37,8 @@ export function validarDatos(json) {
     sinergia: validarSinergia(json.sinergia, amigos),
     // null en archivos anteriores o sin estadísticas de campeones.
     campeones: json.campeones && typeof json.campeones === "object" ? json.campeones : null,
+    // null en archivos anteriores o sin récords.
+    records: json.records && typeof json.records === "object" ? json.records : null,
   };
 }
 

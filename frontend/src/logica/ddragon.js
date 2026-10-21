@@ -38,6 +38,16 @@ export function urlCampeon(dd, campeonId, respaldo) {
   return v && id ? `${DDRAGON_BASE}/cdn/${v}/img/champion/${id}.png` : null;
 }
 
+export function urlLoadingCampeon(dd, campeonId, respaldo) {
+  const id = idCampeon(dd, campeonId, respaldo);
+  return id ? `${DDRAGON_BASE}/cdn/img/champion/loading/${id}_0.jpg` : null;
+}
+
+export function urlSplashCampeon(dd, campeonId, respaldo) {
+  const id = idCampeon(dd, campeonId, respaldo);
+  return id ? `${DDRAGON_BASE}/cdn/img/champion/splash/${id}_0.jpg` : null;
+}
+
 export function urlIconoPerfil(dd, icono) {
   const v = versionDD(dd);
   return v && Number.isInteger(icono) && icono >= 0
