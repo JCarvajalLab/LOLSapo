@@ -91,21 +91,28 @@ export function TarjetaRoles({ campeones, amigos, onVerDetalle }) {
   const perimetro = 2 * Math.PI * radio; // ~ 238.76
   const partidasConRol = lineasOrdenadas.reduce((acc, l) => acc + (l.partidas || 0), 0);
 
-  let acumPct = 0;
-  const segmentosDonut = lineasOrdenadas.map((l) => {
-    const cfg = CONFIG_ROLES[l.posicion] || { color: "#94a3b8" };
-    const fraccion = partidasConRol > 0 ? (l.partidas || 0) / partidasConRol : 0;
-    const longitud = fraccion * perimetro;
-    const desfase = -acumPct * perimetro;
-    acumPct += fraccion;
-    return {
-      posicion: l.posicion,
-      color: cfg.color,
-      longitud,
-      desfase,
-      activo: (l.partidas || 0) > 0,
-    };
-  });
+  const { segmentos: segmentosDonut } = lineasOrdenadas.reduce(
+    (acc, l) => {
+      const cfg = CONFIG_ROLES[l.posicion] || { color: "#94a3b8" };
+      const fraccion = partidasConRol > 0 ? (l.partidas || 0) / partidasConRol : 0;
+      const longitud = fraccion * perimetro;
+      const desfase = -acc.acum * perimetro;
+      return {
+        acum: acc.acum + fraccion,
+        segmentos: [
+          ...acc.segmentos,
+          {
+            posicion: l.posicion,
+            color: cfg.color,
+            longitud,
+            desfase,
+            activo: (l.partidas || 0) > 0,
+          },
+        ],
+      };
+    },
+    { acum: 0, segmentos: [] },
+  );
 
   const abrirDetalleLinea = (posicion) => {
     onVerDetalle?.({

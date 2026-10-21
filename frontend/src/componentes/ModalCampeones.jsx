@@ -1,7 +1,6 @@
 import { useMemo, useState } from "react";
 import { LINEAS, PERIODOS, listaCampeones, obtenerBloqueCampeones, resumenLineas } from "../logica/campeones.js";
 import { nombreCampeon, urlCampeon, urlIconoPerfil } from "../logica/ddragon.js";
-import { claseWinrate } from "../logica/formato.js";
 import { Dialogo } from "./Dialogo.jsx";
 import { IconoPosicion } from "./IconoPosicion.jsx";
 import { ImagenDD } from "./ImagenDD.jsx";
