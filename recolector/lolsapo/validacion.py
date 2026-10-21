@@ -261,7 +261,14 @@ def _participante(p: dict) -> dict:
         "oro": _entero(p.get("goldEarned") or 0, "goldEarned"),
         "danio": _danio(p.get("totalDamageDealtToChampions")),
         "danio_recibido": _danio(p.get("totalDamageTaken")),
+        "danio_objetivos": _danio(p.get("damageDealtToObjectives")),
         "vision": _entero(p.get("visionScore") or 0, "visionScore"),
+        "pentakills": _entero(p.get("pentaKills") or 0, "pentaKills"),
+        "quadrakills": _entero(p.get("quadraKills") or 0, "quadraKills"),
+        "triplekills": _entero(p.get("tripleKills") or 0, "tripleKills"),
+        "doblekills": _entero(p.get("doubleKills") or 0, "doubleKills"),
+        "racha_asesinatos": _entero(p.get("largestKillingSpree") or 0, "largestKillingSpree"),
+        "tiempo_vivo": _entero(p.get("longestTimeSpentLiving") or 0, "longestTimeSpentLiving"),
         "posicion": str(p.get("teamPosition") or p.get("individualPosition") or ""),
         "items": [_entero(p.get(f"item{i}") or 0, f"item{i}") for i in range(7)],
         "hechizos": [
@@ -344,6 +351,17 @@ def resumir_partida(datos, puuid: str, id_esperado: str | None = None) -> dict:
         # Solo informativo: si no viene o no es válido, queda vacío (no se descarta la partida).
         "danio": _danio(jugador.get("totalDamageDealtToChampions")),
         "danio_recibido": _danio(jugador.get("totalDamageTaken")),
+        "danio_objetivos": _danio(jugador.get("damageDealtToObjectives")),
+        "oro": _entero(jugador.get("goldEarned") or 0, "goldEarned"),
+        "vision": _entero(jugador.get("visionScore") or 0, "visionScore"),
+        "pentakills": _entero(jugador.get("pentaKills") or 0, "pentaKills"),
+        "quadrakills": _entero(jugador.get("quadraKills") or 0, "quadraKills"),
+        "triplekills": _entero(jugador.get("tripleKills") or 0, "tripleKills"),
+        "doblekills": _entero(jugador.get("doubleKills") or 0, "doubleKills"),
+        "racha_asesinatos": _entero(jugador.get("largestKillingSpree") or 0, "largestKillingSpree"),
+        "tiempo_vivo": _entero(
+            jugador.get("longestTimeSpentLiving") or 0, "longestTimeSpentLiving"
+        ),
         "equipo": equipo,
         "items": [_entero(jugador.get(f"item{i}", 0), f"item{i}") for i in range(7)],
         "hechizos": [

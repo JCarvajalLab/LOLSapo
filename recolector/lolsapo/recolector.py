@@ -14,6 +14,7 @@ from .config import Amigo
 from .destacados import calcular_destacados
 from .modos import MapaModos
 from .ranking import calcular_ranking
+from .records import calcular_records
 from .registro import (
     agregar_partidas,
     anonimizar_participantes,
@@ -634,6 +635,7 @@ def _elementos_usados(
     en_vivo: list[dict],
     destacados: dict | None = None,
     campeones: dict | None = None,
+    records: dict | None = None,
 ) -> dict[str, set[int]]:
     usados: dict[str, set[int]] = {
         "campeones": set(),
@@ -696,6 +698,19 @@ def _elementos_usados(
                 for c in p.get("campeones", []):
                     if "campeon_id" in c:
                         usados["campeones"].add(c["campeon_id"])
+    if records:
+        for bloque in ("global", "por_amigo"):
+            datos_bloque = records.get(bloque) or {}
+            if bloque == "global":
+                periodos = list(datos_bloque.values())
+            else:
+                periodos = [p for am in datos_bloque.values() for p in am.values()]
+            for p in periodos:
+                for cat in p.values():
+                    if isinstance(cat, dict):
+                        for rec in cat.values():
+                            if isinstance(rec, dict) and rec.get("campeon_id"):
+                                usados["campeones"].add(rec["campeon_id"])
     for partida in en_vivo:
         for equipo in partida["equipos"]:
             usados["campeones"].update(equipo["bloqueos"])
@@ -767,6 +782,12 @@ def ejecutar(
             "No se pudieron calcular las estadísticas de campeones (%s)", type(error).__name__
         )
         estadisticas_campeones = None
+    try:
+        nombres_amigos = {a.slug: (a.nombre or a.slug) for a in amigos}
+        datos_records = calcular_records(registradas, nombres_amigos, mapa, ahora_ms)
+    except (TypeError, KeyError, AttributeError, ValueError) as error:
+        log.error("No se pudieron calcular los récords (%s)", type(error).__name__)
+        datos_records = None
     rangos_amigos = {
         puuids[entrada["slug"]]: (entrada["rangos"]["solo"] or entrada["rangos"]["flex"])
         for entrada in entradas
@@ -783,12 +804,14 @@ def ejecutar(
         "version": VERSION_SALIDA,
         "actualizado": ahora.isoformat(timespec="seconds").replace("+00:00", "Z"),
         "ddragon": datos_ddragon.para_salida(
-            ddragon, _elementos_usados(entradas, en_vivo, destacados, estadisticas_campeones)
+            ddragon,
+            _elementos_usados(entradas, en_vivo, destacados, estadisticas_campeones, datos_records),
         ),
         "en_vivo": en_vivo,
         "destacados": destacados,
         "sinergia": sinergia,
         "campeones": estadisticas_campeones,
+        "records": datos_records,
         "amigos": entradas,
         "ranking": calcular_ranking(entradas),
     }

@@ -44,5 +44,6 @@ coverage/
 .DS_Store
 Thumbs.db
 
-# --- Claude Code: configuración personal local ---
+# --- Claude Code / Gemini: configuración personal local ---
 .claude/settings.local.json
+.gemini/
