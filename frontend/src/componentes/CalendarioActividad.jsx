@@ -95,16 +95,13 @@ export function CalendarioActividad({ actividad = {}, ahora, partidas = [], tota
 
       {/* Contenedor del Heatmap */}
       <div className="flex flex-col">
-        {/* Fila de Meses (ubicada con holgura sobre los cuadraditos) */}
-        <div className="flex items-end pl-5 sm:pl-6 h-4 mb-2 text-[10px] text-texto-suave font-semibold leading-none">
-          <div className="grid grid-flow-col auto-cols-max gap-1">
+        {/* Fila de Meses (ubicada con holgura por encima de los cuadraditos) */}
+        <div className="flex items-center pl-5 sm:pl-6 pt-0.5 pb-2.5 text-[10px] text-texto-suave/90 font-semibold select-none">
+          <div className="grid grid-flow-col auto-cols-max gap-1 relative w-full h-3">
             {semanas.map((_, colIdx) => (
-              <div
-                key={colIdx}
-                className="w-2.5 sm:w-3 text-left overflow-visible whitespace-nowrap relative h-3.5"
-              >
+              <div key={colIdx} className="w-2.5 sm:w-3 relative h-3">
                 {mapaMesesPorCol[colIdx] && (
-                  <span className="absolute bottom-0 left-0 leading-none">
+                  <span className="absolute top-0 left-0 text-[10px] leading-none whitespace-nowrap">
                     {mapaMesesPorCol[colIdx]}
                   </span>
                 )}
