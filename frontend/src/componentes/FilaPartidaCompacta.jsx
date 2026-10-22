@@ -59,10 +59,10 @@ export function FilaPartidaCompacta({ partida, ddragon, ahora, slugPropio }) {
         data-resultado={RESULTADOS_CONOCIDOS.has(p.resultado) ? p.resultado : undefined}
         onClick={alHacerClic}
         onKeyDown={alTeclear}
-        className="canto group flex flex-wrap items-center justify-between gap-x-3 gap-y-1.5 rounded py-1.5 pr-2.5 pl-2 cursor-pointer transition-all hover:brightness-110 hover:shadow-sm focus:outline-none focus:ring-1 focus:ring-dorado/50 select-none text-xs"
+        className="canto group flex items-center justify-between gap-2 sm:gap-3 rounded py-1.5 px-2 cursor-pointer transition-all hover:brightness-110 hover:shadow-sm focus:outline-none focus:ring-1 focus:ring-dorado/50 select-none text-xs w-full overflow-x-auto sm:overflow-visible"
       >
-        {/* Lado izquierdo: Campeón, Hechizos/Runas, Resultado/Modo, KDA, CS, KP */}
-        <div className="flex flex-wrap items-center gap-x-3 sm:gap-x-4 gap-y-1 min-w-0">
+        {/* Métricas e Ítems alineados en una sola fila continua */}
+        <div className="flex items-center gap-2 sm:gap-3 min-w-0 shrink-0">
           {/* Campeón, nivel, hechizos y runas compactos */}
           <div className="flex items-center gap-1 shrink-0">
             <span className="relative shrink-0">
@@ -128,7 +128,7 @@ export function FilaPartidaCompacta({ partida, ddragon, ahora, slugPropio }) {
           </div>
 
           {/* Resultado y Modo de juego */}
-          <div className="flex flex-col min-w-[75px] sm:min-w-[95px] max-w-[130px]">
+          <div className="flex flex-col min-w-[70px] sm:min-w-[85px] max-w-[120px] shrink-0">
             <span className={`font-bold leading-tight ${r.clase}`}>
               {r.texto}
             </span>
@@ -141,7 +141,7 @@ export function FilaPartidaCompacta({ partida, ddragon, ahora, slugPropio }) {
           </div>
 
           {/* KDA */}
-          <div className="flex flex-col min-w-[65px] sm:min-w-[75px]">
+          <div className="flex flex-col min-w-[60px] sm:min-w-[70px] shrink-0">
             <span className="cifras font-semibold leading-tight text-[11px] sm:text-xs whitespace-nowrap">
               {hayKda ? (
                 <>
@@ -161,7 +161,7 @@ export function FilaPartidaCompacta({ partida, ddragon, ahora, slugPropio }) {
           </div>
 
           {/* CS / Súbditos */}
-          <div className="flex flex-col min-w-[60px] sm:min-w-[70px]">
+          <div className="flex flex-col min-w-[50px] sm:min-w-[58px] shrink-0">
             <span className="cifras font-semibold leading-tight text-texto text-[11px] sm:text-xs whitespace-nowrap">
               {esNumero(p.cs) ? `${p.cs} CS` : "—"}
             </span>
@@ -171,7 +171,7 @@ export function FilaPartidaCompacta({ partida, ddragon, ahora, slugPropio }) {
           </div>
 
           {/* Participación en asesinatos (KP) */}
-          <div className="flex flex-col min-w-[50px] sm:min-w-[60px]">
+          <div className="flex flex-col min-w-[45px] sm:min-w-[54px] shrink-0">
             <span className="cifras font-semibold leading-tight text-texto text-[11px] sm:text-xs whitespace-nowrap">
               {esNumero(p.participacion) ? `${Math.round(p.participacion)}%` : "—"}
             </span>
@@ -179,20 +179,22 @@ export function FilaPartidaCompacta({ partida, ddragon, ahora, slugPropio }) {
               P. en ases.
             </span>
           </div>
+
+          {/* 6 Ítems + Centinela en una sola fila continua, inmediatamente al lado de KP */}
+          <div className="shrink-0">
+            <ItemsCompactos items={p.items} ddragon={ddragon} />
+          </div>
         </div>
 
-        {/* Lado derecho: 7 Ítems en línea horizontal, Duración/Fecha y Botón análisis */}
-        <div className="flex items-center gap-2 sm:gap-3 shrink-0 ml-auto">
-          {/* 6 Ítems + Centinela en una sola fila */}
-          <ItemsCompactos items={p.items} ddragon={ddragon} />
-
+        {/* Lado derecho: Duración/Fecha y Botón análisis */}
+        <div className="flex items-center gap-2 sm:gap-2.5 shrink-0 ml-auto pl-2 border-l border-borde/40">
           {/* Tiempos: Duración y Antigüedad */}
-          <div className="hidden md:flex items-center gap-1.5 text-[11px] text-texto-suave cifras whitespace-nowrap border-l border-borde/40 pl-2.5">
-            <span>{formatearDuracion(p.duracion)}</span>
-            <span className="text-texto-suave/50">|</span>
+          <div className="hidden sm:flex flex-col items-end text-right text-[10px] sm:text-[10.5px] text-texto-suave cifras whitespace-nowrap min-w-[50px]">
+            <span className="font-semibold text-texto/85 leading-tight">{formatearDuracion(p.duracion)}</span>
             <time
               dateTime={esNumero(p.fecha) ? new Date(p.fecha).toISOString() : undefined}
               title={fechaCompleta(p.fecha)}
+              className="mt-0.5 leading-tight text-texto-suave/80"
             >
               {haceCuanto(p.fecha, ahora)}
             </time>
@@ -207,7 +209,7 @@ export function FilaPartidaCompacta({ partida, ddragon, ahora, slugPropio }) {
               e.stopPropagation();
               setModalAbierto(true);
             }}
-            className="flex size-7 items-center justify-center rounded border border-borde/60 bg-superficie/60 text-texto-suave hover:border-sapo/60 hover:text-sapo hover:bg-superficie-alta transition-colors shrink-0"
+            className="flex size-6.5 sm:size-7 items-center justify-center rounded border border-borde/60 bg-superficie/60 text-texto-suave hover:border-sapo/60 hover:text-sapo hover:bg-superficie-alta transition-colors shrink-0"
           >
             <svg
               viewBox="0 0 16 16"
