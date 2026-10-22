@@ -24,6 +24,7 @@ from .registro import (
     ids_nuevos,
     leer_registro,
     registro_vacio,
+    resumir_actividad_diaria,
     ultimas_partidas,
     winrate,
 )
@@ -241,7 +242,7 @@ def procesar_amigo(
         # Registro dañado: no se toca (para no perder historial) y se marca solo a este amigo.
         log.error("%s: %s", amigo.riot_id, error)
         vacio = registro_vacio(amigo.riot_id, ahora_ms)
-        return _entrada(amigo, mapa, vacio, None, MENSAJE_ERROR), None
+        return _entrada(amigo, mapa, vacio, None, MENSAJE_ERROR, ahora_ms), None
     anonimizar_partidas(registro, slug_por_puuid)
     mensaje_error, jugando = None, None
 
@@ -269,11 +270,16 @@ def procesar_amigo(
     if '"puuid"' in texto or any(p in texto for p in (*slug_por_puuid, puuid) if p):
         raise SecretoEnSalida(f"Un PUUID apareció en el registro de {amigo.riot_id}; no se guardó.")
     escribir_json_atomico(ruta_registro, registro)
-    return _entrada(amigo, mapa, registro, jugando, mensaje_error), jugando
+    return _entrada(amigo, mapa, registro, jugando, mensaje_error, ahora_ms), jugando
 
 
 def _entrada(
-    amigo: Amigo, mapa: MapaModos, registro: dict, jugando: dict | None, mensaje_error: str | None
+    amigo: Amigo,
+    mapa: MapaModos,
+    registro: dict,
+    jugando: dict | None,
+    mensaje_error: str | None,
+    ahora_ms: int | None = None,
 ) -> dict:
     """Arma la entrada de un amigo para lol.json a partir de su registro."""
     if jugando is not None:
@@ -305,6 +311,9 @@ def _entrada(
         "rangos": registro["rangos"] or {"solo": None, "flex": None},
         "jugando": jugando,
         "estadisticas": calcular_estadisticas(registro["partidas"].values(), mapa),
+        "actividad": resumir_actividad_diaria(
+            registro["partidas"].values(), limite_dias=120, ahora_ms=ahora_ms
+        ),
         "partidas": partidas,
     }
 

@@ -9,6 +9,7 @@ from lolsapo.registro import (
     ids_nuevos,
     leer_registro,
     registro_vacio,
+    resumir_actividad_diaria,
     ultimas_partidas,
     winrate,
 )
@@ -182,3 +183,57 @@ def test_escritura_atomica_conserva_unicode(tmp_path):
     escribir_json_atomico(ruta, {"nombre": "Nicø"})
     assert "Nicø" in ruta.read_text(encoding="utf-8")
     assert json.loads(ruta.read_text(encoding="utf-8")) == {"nombre": "Nicø"}
+
+
+def test_resumir_actividad_diaria_agrupa_por_fecha_y_suma_metricas():
+    # 2026-10-09 18:00 UTC = 2026-10-09 15:00 en Chile (-03)
+    ms_dia1_1 = 1791568800000
+    ms_dia1_2 = ms_dia1_1 + 3600 * 1000
+    ms_dia1_3 = ms_dia1_1 + 7200 * 1000
+
+    # 2026-10-10 18:00 UTC = 2026-10-10 15:00 en Chile (-03)
+    ms_dia2 = ms_dia1_1 + 24 * 3600 * 1000
+
+    partidas = [
+        {"fecha": ms_dia1_1, "resultado": "victoria", "duracion": 1500},
+        {"fecha": ms_dia1_2, "resultado": "derrota", "duracion": 1800},
+        {"fecha": ms_dia1_3, "resultado": "victoria", "duracion": 1200},
+        {"fecha": ms_dia2, "resultado": "remake", "duracion": 300},
+    ]
+
+    res = resumir_actividad_diaria(partidas)
+    assert "2026-10-09" in res
+    assert "2026-10-10" in res
+
+    dia1 = res["2026-10-09"]
+    assert dia1["partidas"] == 3
+    assert dia1["victorias"] == 2
+    assert dia1["derrotas"] == 1
+    assert dia1["remakes"] == 0
+    assert dia1["duracion"] == 4500
+
+    dia2 = res["2026-10-10"]
+    assert dia2["partidas"] == 1
+    assert dia2["victorias"] == 0
+    assert dia2["derrotas"] == 0
+    assert dia2["remakes"] == 1
+    assert dia2["duracion"] == 300
+
+
+def test_resumir_actividad_diaria_filtra_por_limite_de_dias():
+    ahora_ms = 1791568800000  # Día T
+    ms_vieja = ahora_ms - 130 * 24 * 3600 * 1000  # Hace 130 días (> límite de 120)
+    ms_reciente = ahora_ms - 10 * 24 * 3600 * 1000  # Hace 10 días
+
+    partidas = [
+        {"fecha": ms_vieja, "resultado": "victoria", "duracion": 1000},
+        {"fecha": ms_reciente, "resultado": "derrota", "duracion": 1200},
+    ]
+
+    res = resumir_actividad_diaria(partidas, limite_dias=120, ahora_ms=ahora_ms)
+    assert len(res) == 1
+
+
+def test_resumir_actividad_diaria_vacio():
+    assert resumir_actividad_diaria([]) == {}
+    assert resumir_actividad_diaria([{"fecha": None, "resultado": "victoria"}]) == {}

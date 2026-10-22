@@ -10,7 +10,9 @@ import logging
 import os
 import tempfile
 from collections.abc import Iterable
+from datetime import UTC, datetime
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 from .modos import CATEGORIAS, MapaModos
 
@@ -19,6 +21,7 @@ from .modos import CATEGORIAS, MapaModos
 #     participantes se guardan como {"amigo": slug | None} y el PUUID del amigo se pide en
 #     cada ejecución.
 VERSION_REGISTRO = 3
+ZONA_CHILE = ZoneInfo("America/Santiago")
 
 log = logging.getLogger(__name__)
 
@@ -189,3 +192,49 @@ def calcular_estadisticas(partidas: Iterable[dict], mapa: MapaModos) -> dict:
         "por_categoria": por_categoria,
         "por_modo": sorted(por_modo.values(), key=lambda m: (-m["partidas"], m["nombre"])),
     }
+
+
+def resumir_actividad_diaria(
+    partidas: Iterable[dict],
+    limite_dias: int = 120,
+    ahora_ms: int | None = None,
+) -> dict[str, dict]:
+    """Resume la actividad diaria (partidas, victorias, derrotas, remakes, duración)
+
+    agrupada por fecha YYYY-MM-DD en la zona horaria de Chile.
+    Si se especifica `limite_dias` y `ahora_ms`, solo incluye partidas dentro de esa ventana.
+    """
+    corte_ms = (ahora_ms - limite_dias * 24 * 3600 * 1000) if ahora_ms and limite_dias else None
+    actividad: dict[str, dict] = {}
+
+    for p in partidas:
+        fecha_ms = p.get("fecha")
+        if not isinstance(fecha_ms, int) or (corte_ms is not None and fecha_ms < corte_ms):
+            continue
+
+        dt = datetime.fromtimestamp(fecha_ms / 1000, tz=UTC).astimezone(ZONA_CHILE)
+        clave_fecha = dt.strftime("%Y-%m-%d")
+
+        if clave_fecha not in actividad:
+            actividad[clave_fecha] = {
+                "partidas": 0,
+                "victorias": 0,
+                "derrotas": 0,
+                "remakes": 0,
+                "duracion": 0,
+            }
+
+        res = p.get("resultado")
+        actividad[clave_fecha]["partidas"] += 1
+        if res == "victoria":
+            actividad[clave_fecha]["victorias"] += 1
+        elif res == "derrota":
+            actividad[clave_fecha]["derrotas"] += 1
+        elif res == "remake":
+            actividad[clave_fecha]["remakes"] += 1
+
+        dur = p.get("duracion")
+        if isinstance(dur, (int, float)) and dur > 0:
+            actividad[clave_fecha]["duracion"] += int(dur)
+
+    return dict(sorted(actividad.items()))

@@ -50,6 +50,15 @@ describe("PanelAmigo (selector de vista de partidas)", () => {
     render(<PanelAmigo amigo={sapito} ddragon={ddragon} ahora={AHORA} />);
 
     expect(screen.queryByRole("group", { name: "Tipo de vista de partidas" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("region", { name: "Actividad reciente" })).not.toBeInTheDocument();
     expect(screen.getByText("Todavía no hay partidas registradas.")).toBeInTheDocument();
+  });
+
+  it("muestra el calendario de actividad reciente cuando el amigo tiene partidas", () => {
+    render(<PanelAmigo amigo={rana} ddragon={ddragon} ahora={AHORA} />);
+
+    expect(screen.getByRole("region", { name: "Actividad reciente" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /ACTIVIDAD RECIENTE/i })).toBeInTheDocument();
+    expect(screen.getByRole("grid", { name: "Matriz de actividad por día" })).toBeInTheDocument();
   });
 });
