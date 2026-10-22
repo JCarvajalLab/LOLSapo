@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { etiquetaFiltro, filtrarPartidas, modosDe, resumenDe } from "../logica/filtros.js";
 import { fechaCorta } from "../logica/formato.js";
+import { CalendarioActividad } from "./CalendarioActividad.jsx";
 import { DesgloseModos } from "./DesgloseModos.jsx";
 import { RegistroVD } from "./Etiquetas.jsx";
 import { FiltroModos } from "./FiltroModos.jsx";
@@ -39,20 +40,30 @@ export function PanelAmigo({ amigo, ddragon, ahora }) {
 
   return (
     <div className="panel-hundido space-y-5 px-3 py-4 sm:px-4 sm:py-5">
-      <p className="max-w-prose text-xs text-texto-suave">
-        Contando desde {fechaCorta(amigo.seguimiento_desde)}. Las estadísticas por modo solo incluyen partidas
-        registradas por LOLSapo.
-      </p>
+      <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-5">
+        <div className="space-y-5 min-w-0 flex-1 max-w-xl">
+          <p className="max-w-prose text-xs text-texto-suave">
+            Contando desde {fechaCorta(amigo.seguimiento_desde)}. Las estadísticas por modo solo incluyen partidas
+            registradas por LOLSapo.
+          </p>
 
-      <FiltroModos valor={filtro} onCambiar={setFiltro} />
+          <FiltroModos valor={filtro} onCambiar={setFiltro} />
 
-      <section aria-label="Estadísticas del filtro" className="space-y-3">
-        <p className="text-sm">
-          <span className="font-semibold">{etiquetaFiltro(filtro)}</span>: <span className="cifras text-texto-suave">{resumen.partidas} partidas · </span>
-          <RegistroVD {...resumen} />
-        </p>
-        <DesgloseModos modos={modos} />
-      </section>
+          <section aria-label="Estadísticas del filtro" className="space-y-3">
+            <p className="text-sm">
+              <span className="font-semibold">{etiquetaFiltro(filtro)}</span>: <span className="cifras text-texto-suave">{resumen.partidas} partidas · </span>
+              <RegistroVD {...resumen} />
+            </p>
+            <DesgloseModos modos={modos} />
+          </section>
+        </div>
+
+        {hayPartidas && (
+          <div className="shrink-0 self-center lg:self-start">
+            <CalendarioActividad actividad={amigo.actividad} ahora={ahora} />
+          </div>
+        )}
+      </div>
 
       <section aria-label="Últimas partidas" className="space-y-2">
         <div className="flex items-center justify-between gap-2">
