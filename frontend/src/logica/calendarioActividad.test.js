@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  extraerActividad,
   fechaAClaveIso,
   formatearFechaCorta,
   formatearTiempoJugado,
@@ -9,6 +10,21 @@ import {
 } from "./calendarioActividad.js";
 
 describe("calendarioActividad", () => {
+  it("extraerActividad devuelve actividad si existe o fallback de partidas si no", () => {
+    const act = { "2026-10-09": { partidas: 3 } };
+    expect(extraerActividad(act, [])).toEqual(act);
+
+    const partidas = [
+      { fecha: new Date(2026, 9, 9, 14).getTime(), resultado: "victoria", duracion: 1200 },
+      { fecha: new Date(2026, 9, 9, 16).getTime(), resultado: "derrota", duracion: 1800 },
+    ];
+    const sintetizada = extraerActividad(null, partidas);
+    expect(sintetizada["2026-10-09"]).toBeDefined();
+    expect(sintetizada["2026-10-09"].partidas).toBe(2);
+    expect(sintetizada["2026-10-09"].victorias).toBe(1);
+    expect(sintetizada["2026-10-09"].derrotas).toBe(1);
+    expect(sintetizada["2026-10-09"].duracion).toBe(3000);
+  });
   it("fechaAClaveIso formatea correctamente en YYYY-MM-DD", () => {
     const d = new Date(2026, 9, 9); // 9 de octubre de 2026
     expect(fechaAClaveIso(d)).toBe("2026-10-09");

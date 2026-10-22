@@ -40,13 +40,13 @@ export function PanelAmigo({ amigo, ddragon, ahora }) {
 
   return (
     <div className="panel-hundido space-y-5 px-3 py-4 sm:px-4 sm:py-5">
-      <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-5">
-        <div className="space-y-5 min-w-0 flex-1 max-w-xl">
-          <p className="max-w-prose text-xs text-texto-suave">
-            Contando desde {fechaCorta(amigo.seguimiento_desde)}. Las estadísticas por modo solo incluyen partidas
-            registradas por LOLSapo.
-          </p>
+      <p className="max-w-prose text-xs text-texto-suave">
+        Contando desde {fechaCorta(amigo.seguimiento_desde)}. Las estadísticas por modo solo incluyen partidas
+        registradas por LOLSapo.
+      </p>
 
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-5 pt-0.5">
+        <div className="space-y-4 min-w-0 flex-1 max-w-xl">
           <FiltroModos valor={filtro} onCambiar={setFiltro} />
 
           <section aria-label="Estadísticas del filtro" className="space-y-3">
@@ -59,8 +59,12 @@ export function PanelAmigo({ amigo, ddragon, ahora }) {
         </div>
 
         {hayPartidas && (
-          <div className="shrink-0 self-center lg:self-start">
-            <CalendarioActividad actividad={amigo.actividad} ahora={ahora} />
+          <div className="shrink-0 self-center lg:self-center">
+            <CalendarioActividad
+              actividad={amigo.actividad}
+              ahora={ahora}
+              partidas={amigo.partidas}
+            />
           </div>
         )}
       </div>

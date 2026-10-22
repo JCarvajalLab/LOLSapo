@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import {
   DIAS_SEMANA_CORTOS,
+  extraerActividad,
   formatearFechaCorta,
   formatearTiempoJugado,
   generarEtiquetasMeses,
@@ -58,10 +59,15 @@ const CLASES_NIVEL = {
  * Calendario de actividad reciente tipo heatmap (semanas x días) estilo OP.GG.
  * Muestra el volumen histórico de partidas jugadas por día, con meses y días de semana.
  */
-export function CalendarioActividad({ actividad = {}, ahora, totalSemanas = 15 }) {
+export function CalendarioActividad({ actividad = {}, ahora, partidas = [], totalSemanas = 15 }) {
+  const actividadFinal = useMemo(
+    () => extraerActividad(actividad, partidas),
+    [actividad, partidas],
+  );
+
   const semanas = useMemo(
-    () => generarMatrizActividad(actividad, ahora, totalSemanas),
-    [actividad, ahora, totalSemanas],
+    () => generarMatrizActividad(actividadFinal, ahora, totalSemanas),
+    [actividadFinal, ahora, totalSemanas],
   );
 
   const etiquetasMeses = useMemo(() => generarEtiquetasMeses(semanas), [semanas]);
@@ -89,16 +95,18 @@ export function CalendarioActividad({ actividad = {}, ahora, totalSemanas = 15 }
 
       {/* Contenedor del Heatmap */}
       <div className="flex flex-col">
-        {/* Fila de Meses */}
-        <div className="flex items-center pl-5 sm:pl-6 mb-1 text-[9.5px] sm:text-[10px] text-texto-suave font-medium leading-none">
+        {/* Fila de Meses (ubicada con holgura sobre los cuadraditos) */}
+        <div className="flex items-end pl-5 sm:pl-6 h-4 mb-2 text-[10px] text-texto-suave font-semibold leading-none">
           <div className="grid grid-flow-col auto-cols-max gap-1">
             {semanas.map((_, colIdx) => (
               <div
                 key={colIdx}
-                className="w-2.5 sm:w-3 text-center overflow-visible whitespace-nowrap relative"
+                className="w-2.5 sm:w-3 text-left overflow-visible whitespace-nowrap relative h-3.5"
               >
                 {mapaMesesPorCol[colIdx] && (
-                  <span className="absolute left-0">{mapaMesesPorCol[colIdx]}</span>
+                  <span className="absolute bottom-0 left-0 leading-none">
+                    {mapaMesesPorCol[colIdx]}
+                  </span>
                 )}
               </div>
             ))}

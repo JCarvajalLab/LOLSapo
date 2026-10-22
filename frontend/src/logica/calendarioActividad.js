@@ -31,6 +31,41 @@ export function fechaAClaveIso(date) {
 }
 
 /**
+ * Extrae o sintetiza un mapa de actividad diaria a partir del campo actividad
+ * o como fallback desde las partidas del amigo si actividad no vino en el JSON.
+ */
+export function extraerActividad(actividad, partidas = []) {
+  if (actividad && typeof actividad === "object" && Object.keys(actividad).length > 0) {
+    return actividad;
+  }
+  const resultado = {};
+  if (Array.isArray(partidas)) {
+    for (const p of partidas) {
+      if (!p || typeof p.fecha !== "number") continue;
+      const d = new Date(p.fecha);
+      const claveIso = fechaAClaveIso(d);
+      if (!resultado[claveIso]) {
+        resultado[claveIso] = {
+          partidas: 0,
+          victorias: 0,
+          derrotas: 0,
+          remakes: 0,
+          duracion: 0,
+        };
+      }
+      resultado[claveIso].partidas += 1;
+      if (p.resultado === "victoria") resultado[claveIso].victorias += 1;
+      else if (p.resultado === "derrota") resultado[claveIso].derrotas += 1;
+      else if (p.resultado === "remake") resultado[claveIso].remakes += 1;
+      if (typeof p.duracion === "number" && p.duracion > 0) {
+        resultado[claveIso].duracion += Math.round(p.duracion);
+      }
+    }
+  }
+  return resultado;
+}
+
+/**
  * Nivel de calor (0 a 3) según la cantidad de partidas jugadas en el día.
  */
 export function nivelCalor(partidas) {
