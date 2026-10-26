@@ -554,3 +554,33 @@ describe("historial de puestos en el panel", () => {
     expect(fila).toHaveClass("flex-col", "lg:flex-row", "lg:items-start");
   });
 });
+
+describe("selector de vista detallada / compacta en TFT", () => {
+  beforeEach(() => {
+    window.localStorage?.clear();
+  });
+
+  it("permite cambiar a vista compacta y persistir en localStorage", async () => {
+    renderVista(crearDatosTft());
+    const boton = await abrir("Croac#LAS");
+    const panel = document.getElementById(boton.getAttribute("aria-controls"));
+
+    const botonCompacta = within(panel).getByRole("button", { name: "Vista compacta" });
+    await userEvent.click(botonCompacta);
+
+    expect(botonCompacta).toHaveAttribute("aria-pressed", "true");
+    expect(within(panel).getByRole("button", { name: "Vista detallada" })).toHaveAttribute("aria-pressed", "false");
+    expect(window.localStorage.getItem("lolsapo_vista_historial_tft")).toBe("compacta");
+
+    // Sigue mostrando los artículos de partidas en vista compacta
+    expect(within(panel).getAllByRole("article")).toHaveLength(6);
+  });
+
+  it("no muestra el selector si el amigo no tiene partidas", async () => {
+    renderVista(crearDatosTft());
+    const boton = await abrir("Renacuaja#LAS");
+    const panel = document.getElementById(boton.getAttribute("aria-controls"));
+
+    expect(within(panel).queryByRole("group", { name: "Tipo de vista de partidas" })).not.toBeInTheDocument();
+  });
+});
