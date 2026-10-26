@@ -423,6 +423,38 @@ describe("en partida y avisos", () => {
     render(<SeccionEnPartidaTft enVivo={null} amigos={[]} actualizadoMs={AHORA} ahora={AHORA} />);
     expect(screen.getByText("Nadie en partida.")).toBeInTheDocument();
   });
+
+  it("permite simular una partida en vivo de prueba y cerrarla", async () => {
+    render(
+      <SeccionEnPartidaTft
+        enVivo={[]}
+        amigos={[
+          { slug: "iskrat-las", nombre: "ISkrat" },
+          { slug: "nic-las", nombre: "Nic" },
+        ]}
+        actualizadoMs={AHORA}
+        ahora={AHORA}
+        permitirSimular={true}
+      />,
+    );
+
+    expect(screen.getByText("Nadie en partida.")).toBeInTheDocument();
+
+    const botonSimular = screen.getByRole("button", { name: "👁️ Simular en vivo" });
+    await userEvent.click(botonSimular);
+
+    expect(screen.getByText(/Modo de prueba:/)).toBeInTheDocument();
+    expect(screen.getByRole("list", { name: "Partidas en curso" })).toBeInTheDocument();
+    expect(screen.getByRole("list", { name: "Jugadores del lobby" })).toBeInTheDocument();
+    expect(screen.getByText("ISkrat")).toBeInTheDocument();
+    expect(screen.getByText("Nic")).toBeInTheDocument();
+
+    const botonCerrar = screen.getByRole("button", { name: "✕ Quitar simulación" });
+    await userEvent.click(botonCerrar);
+
+    expect(screen.getByText("Nadie en partida.")).toBeInTheDocument();
+    expect(screen.queryByRole("list", { name: "Partidas en curso" })).not.toBeInTheDocument();
+  });
 });
 
 describe("carga de tft.json en la app", () => {
