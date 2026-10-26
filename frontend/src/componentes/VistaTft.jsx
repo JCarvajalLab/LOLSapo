@@ -43,6 +43,7 @@ export function VistaTft({ datos, error, ahora, abiertos, alternar, abrir, enfoc
         enVivo={datos.en_vivo}
         disponible={datos.en_vivo_disponible}
         amigos={datos.amigos}
+        ddragon={datos.ddragon}
         actualizadoMs={actualizadoMs}
         ahora={ahora}
       />

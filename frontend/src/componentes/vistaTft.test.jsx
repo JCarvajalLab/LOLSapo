@@ -357,10 +357,13 @@ describe("en partida y avisos", () => {
     expect(enVivo).toHaveTextContent("Croac y Renacuaja");
     const jugadores = within(enVivo).getAllByRole("listitem").filter((li) => li.closest("[aria-label='Jugadores del lobby']"));
     expect(jugadores).toHaveLength(8);
-    expect(jugadores.filter((j) => j.dataset.amigo === "true").map((j) => j.textContent)).toEqual([
-      "Croac#LAS (del grupo)",
-      "Renacuaja#LAS (del grupo)",
-    ]);
+    const amigosEnLobby = jugadores.filter((j) => j.dataset.amigo === "true");
+    expect(amigosEnLobby).toHaveLength(2);
+    expect(amigosEnLobby[0]).toHaveTextContent("Croac#LAS");
+    expect(amigosEnLobby[0]).toHaveTextContent("Platino II · 61 LP");
+    expect(amigosEnLobby[0]).toHaveTextContent("Dúo");
+    expect(amigosEnLobby[1]).toHaveTextContent("Renacuaja#LAS");
+    expect(amigosEnLobby[1]).toHaveTextContent("Sin clasificar");
     expect(jugadores[3]).toHaveTextContent("Jugador oculto");
 
     const fila = screen.getByRole("button", { name: "Croac#LAS" }).closest("li");
@@ -445,9 +448,9 @@ describe("en partida y avisos", () => {
 
     expect(screen.getByText(/Modo de prueba:/)).toBeInTheDocument();
     expect(screen.getByRole("list", { name: "Partidas en curso" })).toBeInTheDocument();
-    expect(screen.getByRole("list", { name: "Jugadores del lobby" })).toBeInTheDocument();
-    expect(screen.getByText("ISkrat")).toBeInTheDocument();
-    expect(screen.getByText("Nic")).toBeInTheDocument();
+    const lobby = screen.getByRole("list", { name: "Jugadores del lobby" });
+    expect(within(lobby).getByText("ISkrat#LAS")).toBeInTheDocument();
+    expect(within(lobby).getByText("Nic#LAS")).toBeInTheDocument();
 
     const botonCerrar = screen.getByRole("button", { name: "✕ Quitar simulación" });
     await userEvent.click(botonCerrar);
