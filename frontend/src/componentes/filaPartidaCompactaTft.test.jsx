@@ -93,4 +93,19 @@ describe("FilaPartidaCompactaTft", () => {
     expect(screen.getByText("#7")).toBeInTheDocument();
     expect(screen.getByText("Bot 4")).toBeInTheDocument();
   });
+
+  it("completa exactamente 10 slots en el tablero con huecos vacíos si hay menos unidades", () => {
+    render(
+      <FilaPartidaCompactaTft
+        partida={partidaTftMock}
+        ddragon={ddragonMock}
+        ahora={1789073113935 + 3600000}
+        slugPropio="nic-las"
+      />,
+    );
+
+    const listaUnidades = screen.getByRole("list", { name: "Unidades" });
+    // partidaTftMock tiene 2 unidades, por lo que debe haber 10 elementos <li> en total (2 campeones + 8 vacíos)
+    expect(listaUnidades.children).toHaveLength(10);
+  });
 });

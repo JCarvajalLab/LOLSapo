@@ -1,14 +1,15 @@
 import { esNumero, fechaCompleta, formatearDuracion, haceCuanto } from "../logica/formato.js";
 import { estiloPuesto, rasgosParaMostrar, textoPuesto } from "../logica/tft.js";
 import { EtiquetaModo } from "./Etiquetas.jsx";
-import { RasgoTft, UnidadTft } from "./PiezasTft.jsx";
+import { RasgoTft, SlotVacioTft, UnidadTft } from "./PiezasTft.jsx";
 
 const numeros = new Intl.NumberFormat("es");
+const MAX_SLOTS_TABLERO = 10;
 
 /**
  * Fila de partida compacta de TFT, estilo tactics.tools / OP.GG:
- * Muestra el puesto, modo, duración, rasgos activos clave y unidades de forma horizontal
- * con columnas fijas y alineadas verticalmente para evitar saltos entre filas.
+ * Muestra el puesto, modo, duración, rasgos activos clave y 10 espacios de tablero
+ * (unidades + huecos vacíos para completar 10) con columnas fijas y alineadas verticalmente.
  */
 export function FilaPartidaCompactaTft({ partida, ddragon, ahora, slugPropio }) {
   const p = partida ?? {};
@@ -29,6 +30,9 @@ export function FilaPartidaCompactaTft({ partida, ddragon, ahora, slugPropio }) 
     return (b.rareza || 0) - (a.rareza || 0);
   });
 
+  const unidadesParaMostrar = unidades.slice(0, MAX_SLOTS_TABLERO);
+  const slotsVacios = Math.max(0, MAX_SLOTS_TABLERO - unidadesParaMostrar.length);
+
   const bordePuesto =
     p.puesto === 1
       ? "border-l-4 border-l-oro bg-oro-fondo/30"
@@ -44,11 +48,11 @@ export function FilaPartidaCompactaTft({ partida, ddragon, ahora, slugPropio }) 
     <article
       aria-label={`${textoPuesto(p.puesto)} puesto, ${p.modo || "Modo especial"}`}
       data-puesto={estilo.grupo}
-      className={`group/fila flex flex-wrap sm:flex-nowrap items-center justify-between gap-2.5 sm:gap-3 rounded-lg border border-borde/70 px-3 py-1.5 text-xs transition-colors hover:bg-superficie-alta/50 min-h-[64px] ${bordePuesto}`}
+      className={`group/fila flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-3 rounded-lg border border-borde/70 px-3 py-1.5 text-xs transition-colors hover:bg-superficie-alta/50 min-h-[64px] ${bordePuesto}`}
     >
       {/* 1. Puesto, Modo y Fecha/Duración (ancho fijo estandarizado) */}
-      <div className="flex items-center gap-2.5 sm:gap-3 shrink-0 w-44 sm:w-48">
-        <div className="flex flex-col items-center justify-center w-10 shrink-0">
+      <div className="flex items-center gap-2 sm:gap-2.5 shrink-0 w-40 sm:w-44">
+        <div className="flex flex-col items-center justify-center w-9 shrink-0">
           <span className={`marcador font-bold text-2xl leading-none ${estilo.texto}`}>
             #{p.puesto}
           </span>
@@ -76,8 +80,8 @@ export function FilaPartidaCompactaTft({ partida, ddragon, ahora, slugPropio }) 
         </div>
       </div>
 
-      {/* 2. Rasgos activos principales (ancho fijo para no desalinear las columnas con más o menos rasgos) */}
-      <div className="w-32 sm:w-36 shrink-0 flex items-center gap-1">
+      {/* 2. Rasgos activos principales (ancho fijo de hasta 5 rasgos para alinear el tablero) */}
+      <div className="w-28 sm:w-32 shrink-0 flex items-center gap-1">
         {rasgos.length > 0 && (
           <ul className="flex items-center gap-1 flex-wrap" aria-label="Rasgos activos">
             {rasgos.slice(0, 5).map((r, i) => (
@@ -87,12 +91,15 @@ export function FilaPartidaCompactaTft({ partida, ddragon, ahora, slugPropio }) 
         )}
       </div>
 
-      {/* 3. Unidades prioritarias del tablero (altura estándar y compactas para evitar scrollbars internos) */}
+      {/* 3. Tablero de 10 unidades (campeones prioritarios + huecos vacíos para completar 10) */}
       <div className="min-w-0 flex-1 flex items-center overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden py-0.5">
         {unidades.length > 0 ? (
-          <ul className="flex items-center gap-1" aria-label="Unidades">
-            {unidades.slice(0, 8).map((u, i) => (
+          <ul className="flex items-center gap-1 shrink-0" aria-label="Unidades">
+            {unidadesParaMostrar.map((u, i) => (
               <UnidadTft key={`${u.id}-${i}`} unidad={u} ddragon={ddragon} compacta={true} />
+            ))}
+            {Array.from({ length: slotsVacios }).map((_, i) => (
+              <SlotVacioTft key={`slot-vacio-${i}`} />
             ))}
           </ul>
         ) : (
@@ -101,20 +108,20 @@ export function FilaPartidaCompactaTft({ partida, ddragon, ahora, slugPropio }) 
       </div>
 
       {/* 4. Estadísticas finales (Daño / Eliminados / Amigos en partida) (ancho fijo alineado) */}
-      <div className="flex flex-col items-end justify-center text-right shrink-0 w-24 sm:w-28 min-h-[36px]">
+      <div className="flex flex-col items-end justify-center text-right shrink-0 w-20 sm:w-24 min-h-[36px]">
         {esNumero(p.danio) && p.danio > 0 ? (
-          <span className="font-mono text-[11px] font-semibold text-texto whitespace-nowrap">
+          <span className="font-mono text-[10.5px] font-semibold text-texto whitespace-nowrap">
             {numeros.format(p.danio)} <span className="text-[10px] text-texto-suave">daño</span>
           </span>
         ) : null}
         {esNumero(p.eliminados) && p.eliminados > 0 ? (
-          <span className="text-[10.5px] text-victoria font-medium whitespace-nowrap">
+          <span className="text-[10px] text-victoria font-medium whitespace-nowrap">
             {p.eliminados} {p.eliminados === 1 ? "eliminado" : "eliminados"}
           </span>
         ) : null}
         {amigosEnLobby.length > 0 && (
           <span
-            className="mt-0.5 rounded border border-sapo/40 bg-sapo-fondo/80 px-1 text-[9.5px] font-semibold text-sapo whitespace-nowrap"
+            className="mt-0.5 rounded border border-sapo/40 bg-sapo-fondo/80 px-1 text-[9px] font-semibold text-sapo whitespace-nowrap"
             title={`Coincidió con: ${amigosEnLobby.map((a) => a.nombre).join(", ")}`}
           >
             +{amigosEnLobby.length} {amigosEnLobby.length === 1 ? "amigo" : "amigos"}

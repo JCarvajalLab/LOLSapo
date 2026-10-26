@@ -80,27 +80,27 @@ export function UnidadTft({ unidad, ddragon, compacta = false }) {
 
   if (compacta) {
     return (
-      <li className="flex w-8.5 shrink-0 flex-col items-center" data-costo={costo ?? undefined}>
-        <span aria-hidden="true" className={`h-2.5 text-[9px] leading-none tracking-tighter ${claseEstrellas(estrellas)}`}>
+      <li className="flex w-7 sm:w-7.5 shrink-0 flex-col items-center" data-costo={costo ?? undefined}>
+        <span aria-hidden="true" className={`h-2 text-[8px] leading-none tracking-tighter ${claseEstrellas(estrellas)}`}>
           {"★".repeat(estrellas)}
         </span>
         <span className={`inline-flex rounded border ${claseCosto(costo)}`}>
           <ImagenDD
             src={urlCampeonTft(ddragon, unidad.id)}
             alt={`${nombre}, ${textoEstrellas}${costo ? `, costo ${costo}` : ""}`}
-            tamaño={30}
+            tamaño={28}
           />
         </span>
         {items.length > 0 ? (
-          <ul className="mt-0.5 flex h-2.5 gap-px" aria-label={`Ítems de ${nombre}`}>
+          <ul className="mt-0.5 flex h-2 gap-px" aria-label={`Ítems de ${nombre}`}>
             {items.map((id, i) => (
               <li key={`${id}-${i}`} className="inline-flex">
-                <ImagenDD src={urlItemTft(ddragon, id)} alt={nombreItemTft(ddragon, id)} tamaño={9} />
+                <ImagenDD src={urlItemTft(ddragon, id)} alt={nombreItemTft(ddragon, id)} tamaño={8} />
               </li>
             ))}
           </ul>
         ) : (
-          <span aria-hidden="true" className="mt-0.5 block h-2.5" />
+          <span aria-hidden="true" className="mt-0.5 block h-2" />
         )}
       </li>
     );
@@ -129,6 +129,17 @@ export function UnidadTft({ unidad, ddragon, compacta = false }) {
       ) : (
         <span aria-hidden="true" className="mt-0.5 block h-3" />
       )}
+    </li>
+  );
+}
+
+/** Espacio vacío para completar los 10 slots del tablero en la fila compacta. */
+export function SlotVacioTft() {
+  return (
+    <li aria-hidden="true" className="flex w-7 sm:w-7.5 shrink-0 flex-col items-center select-none opacity-40">
+      <span className="h-2 block" />
+      <span className="inline-flex size-[28px] rounded border border-dashed border-borde/60 bg-fondo/30" />
+      <span className="mt-0.5 block h-2" />
     </li>
   );
 }
