@@ -71,12 +71,40 @@ export function RasgoTft({ rasgo, ddragon }) {
 }
 
 /** Unidad del tablero: estrellas arriba, retrato con borde del color de su costo e ítems abajo. */
-export function UnidadTft({ unidad, ddragon }) {
+export function UnidadTft({ unidad, ddragon, compacta = false }) {
   const nombre = nombreCampeonTft(ddragon, unidad.id);
   const estrellas = Number.isInteger(unidad.estrellas) ? Math.min(Math.max(unidad.estrellas, 1), 4) : 1;
   const items = Array.isArray(unidad.items) ? unidad.items.filter((i) => typeof i === "string").slice(0, 3) : [];
   const costo = costoUnidad(ddragon, unidad);
   const textoEstrellas = `${estrellas} ${estrellas === 1 ? "estrella" : "estrellas"}`;
+
+  if (compacta) {
+    return (
+      <li className="flex w-8.5 shrink-0 flex-col items-center" data-costo={costo ?? undefined}>
+        <span aria-hidden="true" className={`h-2.5 text-[9px] leading-none tracking-tighter ${claseEstrellas(estrellas)}`}>
+          {"★".repeat(estrellas)}
+        </span>
+        <span className={`inline-flex rounded border ${claseCosto(costo)}`}>
+          <ImagenDD
+            src={urlCampeonTft(ddragon, unidad.id)}
+            alt={`${nombre}, ${textoEstrellas}${costo ? `, costo ${costo}` : ""}`}
+            tamaño={30}
+          />
+        </span>
+        {items.length > 0 ? (
+          <ul className="mt-0.5 flex h-2.5 gap-px" aria-label={`Ítems de ${nombre}`}>
+            {items.map((id, i) => (
+              <li key={`${id}-${i}`} className="inline-flex">
+                <ImagenDD src={urlItemTft(ddragon, id)} alt={nombreItemTft(ddragon, id)} tamaño={9} />
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <span aria-hidden="true" className="mt-0.5 block h-2.5" />
+        )}
+      </li>
+    );
+  }
 
   return (
     <li className="flex w-10 flex-col items-center" data-costo={costo ?? undefined}>
