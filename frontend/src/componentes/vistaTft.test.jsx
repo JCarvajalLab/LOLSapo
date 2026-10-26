@@ -569,14 +569,14 @@ describe("historial de puestos en el panel", () => {
     expect(within(lodo).getByRole("group", { name: "Filtrar por modo" })).toBeInTheDocument();
   });
 
-  it("el panel ordena filtros, grilla, por modo y últimas partidas", async () => {
+  it("el panel ordena filtros, resumen, grilla y últimas partidas", async () => {
     const panel = await abrirPanel("Croac#LAS");
     const contando = within(panel).getByText(/^Contando desde/);
     const filtros = within(panel).getByRole("group", { name: "Filtrar por modo" });
+    const resumen = within(panel).getByRole("region", { name: "Estadísticas del filtro" });
     const grilla = within(panel).getByRole("region", { name: "Historial de puestos" });
-    const porModo = within(panel).getByRole("region", { name: "Estadísticas del filtro" });
     const partidas = within(panel).getByRole("region", { name: "Últimas partidas" });
-    const orden = [contando, filtros, grilla, porModo, partidas];
+    const orden = [contando, filtros, resumen, grilla, partidas];
     for (let i = 1; i < orden.length; i++) {
       expect(orden[i - 1].compareDocumentPosition(orden[i]) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     }

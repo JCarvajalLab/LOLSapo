@@ -19,7 +19,7 @@ export function HistorialPuestos({ historial, filtro = "todos" }) {
   return (
     <section
       aria-label="Historial de puestos"
-      className="w-full max-w-sm rounded-xl border border-borde/80 bg-fondo/50 p-3 sm:p-3.5 shadow-sm losa space-y-2.5 lg:w-80"
+      className="panel-flotante border border-borde/70 bg-superficie/70 rounded-xl p-3 sm:p-3.5 shadow-sm losa space-y-2.5 shrink-0 self-center lg:self-start w-fit max-w-full"
     >
       <div className="flex items-start justify-between gap-2">
         <div className="min-w-0">
@@ -43,8 +43,8 @@ export function HistorialPuestos({ historial, filtro = "todos" }) {
         </p>
       ) : (
         <>
-          <div className="rounded-lg border border-borde/60 bg-superficie/30 p-1.5">
-            <ol className="grid grid-cols-10 gap-1" aria-label="Puestos, del más reciente al más antiguo">
+          <div className="rounded-lg border border-borde/60 bg-superficie/40 p-1.5">
+            <ol className="grid grid-cols-10 gap-1 sm:gap-1.5" aria-label="Puestos, del más reciente al más antiguo">
               {puestos.map((h, i) => (
                 <CeldaPuesto key={i} indice={i} puesto={h.puesto} modo={h.modo} />
               ))}
@@ -80,7 +80,7 @@ function CeldaPuesto({ indice, puesto, modo }) {
     <li
       title={descripcion}
       data-puesto={estilo.grupo}
-      className={`marcador flex aspect-square min-w-0 items-center justify-center rounded-md border text-sm transition-all hover:scale-110 hover:z-10 shadow-xs cursor-default ${estilo.celda}`}
+      className={`marcador flex h-7 w-7 sm:h-8 sm:w-8 min-w-0 items-center justify-center rounded-md border text-xs sm:text-sm font-bold transition-all hover:scale-110 hover:z-10 shadow-xs cursor-default ${estilo.celda}`}
     >
       <span aria-hidden="true">#{puesto}</span>
       <span className="sr-only">{descripcion}</span>

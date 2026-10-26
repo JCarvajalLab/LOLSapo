@@ -40,24 +40,27 @@ export function PanelAmigoTft({ amigo, ddragon, ahora }) {
   };
 
   return (
-    <div className="panel-hundido space-y-5 px-3 py-4 sm:px-4 sm:py-5">
-      <p className="max-w-prose text-xs text-texto-suave">
-        Contando desde {fechaCorta(amigo.seguimiento_desde)}. Las estadísticas por modo solo incluyen partidas
-        registradas por LOLSapo.
-      </p>
+    <div className="panel-hundido space-y-4 px-3 py-4 sm:px-4 sm:py-5">
+      {/* Fila superior: Texto, Filtros y Resumen a la izquierda, Grilla de puestos a la derecha (distribución balanceada como en LoL) */}
+      <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-5">
+        <div className="space-y-3.5 min-w-0 flex-1 max-w-xl">
+          <p className="max-w-prose text-xs text-texto-suave">
+            Contando desde {fechaCorta(amigo.seguimiento_desde)}. Las estadísticas por modo solo incluyen partidas
+            registradas por LOLSapo.
+          </p>
 
-      {/* Escritorio: filtros a la izquierda y la grilla de puestos a la derecha. Móvil: uno debajo del otro.
-          Sin historial, HistorialPuestos no renderiza nada y los filtros quedan solos. */}
-      <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-        <div className="min-w-0 flex-1">
           <FiltroModos valor={filtro} onCambiar={setFiltro} opciones={FILTROS_TFT} />
+
+          <section aria-label="Estadísticas del filtro" className="pt-0.5">
+            <ResumenFiltroTft etiqueta={etiquetaFiltro(filtro)} resumen={resumen} />
+          </section>
         </div>
+
         <HistorialPuestos historial={amigo.historial} filtro={filtro} />
       </div>
 
-      <section aria-label="Estadísticas del filtro" className="space-y-2">
-        <h3 className="titulo-sub">Por modo</h3>
-        <ResumenFiltroTft etiqueta={etiquetaFiltro(filtro)} resumen={resumen} />
+      {/* Desglose por modo a todo lo ancho */}
+      <section aria-label="Desglose por modo" className="space-y-3 pt-1">
         <DesgloseModosTft modos={modos} filtrado={filtro !== "todos"} />
       </section>
 
