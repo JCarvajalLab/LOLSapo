@@ -231,3 +231,111 @@ export function resumenRecienteTft(historial, filtro = "todos") {
     promedio,
   };
 }
+
+export const PERIODOS_STATS_TFT = ["ultimos_30_dias", "temporada_2026"];
+
+export const TEXTOS_PERIODO_STATS_TFT = {
+  ultimos_30_dias: {
+    boton: "Últimos 30 días",
+    subtitulo: (n) => (n === 1 ? "Última partida" : `Últimas ${n} partidas`),
+  },
+  temporada_2026: {
+    boton: "Temporada 2026",
+    subtitulo: (n) => `Temporada 2026 · ${n} ${n === 1 ? "partida" : "partidas"}`,
+  },
+};
+
+/**
+ * Calcula estadísticas detalladas y la distribución de puestos (1.º a 8.º)
+ * para el modal de perfil de estadísticas de TFT según período y modo.
+ */
+export function estadisticasDetalladasTft(amigo, periodo = "ultimos_30_dias", modo = "ranked") {
+  if (!amigo || typeof amigo !== "object") return null;
+
+  let partidas = 0;
+  const conteo = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0 };
+  let promedio = null;
+  let top4 = 0;
+  let primeros = 0;
+
+  if (periodo === "ultimos_30_dias") {
+    const historial = historialDe(amigo.historial, modo);
+    partidas = historial.length;
+    if (partidas > 0) {
+      let suma = 0;
+      for (const h of historial) {
+        const p = h.puesto;
+        if (Number.isInteger(p) && p >= 1 && p <= 8) {
+          conteo[p] = (conteo[p] || 0) + 1;
+          suma += p;
+        }
+      }
+      primeros = conteo[1];
+      top4 = conteo[1] + conteo[2] + conteo[3] + conteo[4];
+      promedio = Math.round((suma / partidas) * 100) / 100;
+    }
+  } else {
+    // temporada_2026
+    let stats = null;
+    if (modo === "todos") {
+      stats = amigo.estadisticas?.total;
+    } else {
+      const porModo = Array.isArray(amigo.estadisticas?.por_modo) ? amigo.estadisticas.por_modo : [];
+      stats = porModo.find((m) => m && m.categoria === modo) ?? null;
+      if (!stats && modo === "ranked") {
+        stats =
+          porModo.find(
+            (m) => m && (m.queue_id === 1100 || m.nombre?.toLowerCase().includes("clasificatoria"))
+          ) ?? null;
+      }
+    }
+
+    if (stats) {
+      partidas = Number.isInteger(stats.partidas) ? stats.partidas : 0;
+      primeros = Number.isInteger(stats.primeros) ? stats.primeros : 0;
+      top4 = Number.isInteger(stats.top4) ? stats.top4 : 0;
+      promedio = typeof stats.promedio === "number" ? stats.promedio : null;
+
+      if (stats.puestos && typeof stats.puestos === "object") {
+        for (let p = 1; p <= 8; p++) {
+          conteo[p] = stats.puestos[String(p)] || stats.puestos[p] || 0;
+        }
+      } else {
+        const historial = historialDe(amigo.historial, modo);
+        for (const h of historial) {
+          if (Number.isInteger(h.puesto) && h.puesto >= 1 && h.puesto <= 8) {
+            conteo[h.puesto] = (conteo[h.puesto] || 0) + 1;
+          }
+        }
+      }
+    }
+  }
+
+  const bot4 = Math.max(0, partidas - top4);
+  const top4Pct = partidas > 0 ? Math.round((top4 * 1000) / partidas) / 10 : null;
+  const primerosPct = partidas > 0 ? Math.round((primeros * 1000) / partidas) / 10 : null;
+
+  const maxCantidad = Math.max(...Object.values(conteo), 1);
+  const filasPuestos = [1, 2, 3, 4, 5, 6, 7, 8].map((puesto) => {
+    const cantidad = conteo[puesto] || 0;
+    const pct = partidas > 0 ? Math.round((cantidad / partidas) * 100) : 0;
+    const anchoPct = (cantidad / maxCantidad) * 100;
+    return {
+      puesto,
+      cantidad,
+      porcentaje: pct,
+      anchoPct,
+    };
+  });
+
+  return {
+    partidas,
+    primeros,
+    top4,
+    bot4,
+    top4Pct,
+    primerosPct,
+    promedio,
+    puestos: filasPuestos,
+  };
+}

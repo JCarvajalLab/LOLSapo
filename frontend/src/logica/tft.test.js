@@ -22,6 +22,7 @@ import {
   resumenTftDe,
   resumenTft,
   resumenRecienteTft,
+  estadisticasDetalladasTft,
   textoPuesto,
   textoRangoTft,
   tituloHistorial,
@@ -351,5 +352,64 @@ describe("resumenRecienteTft", () => {
     expect(resumenRecienteTft(null)).toBeNull();
     expect(resumenRecienteTft([])).toBeNull();
     expect(resumenRecienteTft([{ puesto: 1, categoria: "ranked" }], "normal")).toBeNull();
+  });
+});
+
+describe("estadisticasDetalladasTft", () => {
+  const amigoMock = {
+    slug: "croac-las",
+    riot_id: "Croac#LAS",
+    historial: historialCroac,
+    estadisticas: {
+      total: {
+        partidas: 20,
+        primeros: 3,
+        top4: 12,
+        top4_pct: 60.0,
+        promedio: 4.1,
+        puestos: { 1: 3, 2: 3, 3: 3, 4: 3, 5: 2, 6: 2, 7: 2, 8: 2 },
+      },
+      por_modo: [
+        {
+          categoria: "ranked",
+          nombre: "Clasificatoria",
+          partidas: 15,
+          primeros: 2,
+          top4: 9,
+          top4_pct: 60.0,
+          promedio: 4.0,
+          puestos: { 1: 2, 2: 3, 3: 2, 4: 2, 5: 2, 6: 1, 7: 2, 8: 1 },
+        },
+      ],
+    },
+  };
+
+  it("calcula para ultimos_30_dias a partir del historial", () => {
+    const res = estadisticasDetalladasTft(amigoMock, "ultimos_30_dias", "ranked");
+    expect(res).not.toBeNull();
+    expect(res.partidas).toBe(8);
+    expect(res.primeros).toBe(1);
+    expect(res.top4).toBe(4);
+    expect(res.bot4).toBe(4);
+    expect(res.puestos).toHaveLength(8);
+    // Verificamos que puesto 1 tenga cantidad 1
+    expect(res.puestos[0]).toEqual(expect.objectContaining({ puesto: 1, cantidad: 1 }));
+  });
+
+  it("calcula para temporada_2026 usando estadisticas y puestos", () => {
+    const res = estadisticasDetalladasTft(amigoMock, "temporada_2026", "ranked");
+    expect(res).not.toBeNull();
+    expect(res.partidas).toBe(15);
+    expect(res.primeros).toBe(2);
+    expect(res.top4).toBe(9);
+    expect(res.bot4).toBe(6);
+    expect(res.puestos).toHaveLength(8);
+    expect(res.puestos[0].cantidad).toBe(2);
+    expect(res.puestos[1].cantidad).toBe(3);
+  });
+
+  it("devuelve null si amigo no es válido", () => {
+    expect(estadisticasDetalladasTft(null)).toBeNull();
+    expect(estadisticasDetalladasTft("invalido")).toBeNull();
   });
 });
