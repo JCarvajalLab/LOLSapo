@@ -25,9 +25,9 @@ export function TarjetaResumenRecienteTft({ historial, filtro = "todos" }) {
   return (
     <section
       aria-label="Resumen de partidas recientes"
-      className="space-y-2 pt-0.5 max-w-sm"
+      className="space-y-2 pt-0.5"
     >
-      <h4 className="text-xs font-semibold tracking-wide text-texto-suave truncate">
+      <h4 className="text-xs font-semibold tracking-wide text-texto-suave">
         {total === 1 ? "Última partida" : `Últimas ${total} partidas`}
       </h4>
 
@@ -94,9 +94,9 @@ export function TarjetaResumenRecienteTft({ historial, filtro = "todos" }) {
         <div className="flex flex-col justify-center space-y-1.5 min-w-0 flex-1">
           <div>
             <span className="text-[11px] font-medium text-texto-suave block">Tasa de top 4</span>
-            <div className="text-xs sm:text-sm font-bold text-texto truncate cifras leading-tight">
+            <div className="text-xs sm:text-[13px] font-bold text-texto cifras leading-tight flex flex-wrap items-center gap-x-1">
               <span>{top4} {top4 === 1 ? "victoria" : "victorias"} / {derrotas} {derrotas === 1 ? "derrota" : "derrotas"}</span>
-              <span className={`ml-1 font-bold ${claseWinrate(pctTop4)}`}>({pctTexto})</span>
+              <span className={`font-bold whitespace-nowrap ${claseWinrate(pctTop4)}`}>({pctTexto})</span>
             </div>
           </div>
 
