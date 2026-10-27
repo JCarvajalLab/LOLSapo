@@ -1,8 +1,5029 @@
 {
-  "partidas": {},
-  "perfil": null,
-  "rangos": null,
+  "partidas": {
+    "LA2_1466623080": {
+      "danio": 116,
+      "duracion": 2341,
+      "eliminados": 0,
+      "fecha": 1733192551056,
+      "id": "LA2_1466623080",
+      "nivel": 8,
+      "participantes": [
+        {
+          "amigo": null,
+          "nombre": "Chacanita#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "Capitan Calcetin#LAS",
+          "puesto": 2
+        },
+        {
+          "amigo": "big-gato-las",
+          "nombre": "Big Gato#LAS",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "Nefastitaa#5056",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "Mr trambotico#LAS",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "Unranked#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "Trasgo#LAS",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "Faraón del Coito#LAS",
+          "puesto": 8
+        }
+      ],
+      "puesto": 3,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 2,
+          "id": "TFT13_Cabal",
+          "nivel": 2,
+          "unico": false,
+          "unidades": 4
+        },
+        {
+          "estilo": 2,
+          "id": "TFT13_Infused",
+          "nivel": 2,
+          "unico": false,
+          "unidades": 4
+        },
+        {
+          "estilo": 1,
+          "id": "TFT13_Sorcerer",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT13_Ambassador",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 1
+        }
+      ],
+      "ronda": 35,
+      "set": 13,
+      "unidades": [
+        {
+          "estrellas": 2,
+          "id": "TFT13_Sion",
+          "items": [],
+          "rareza": 9
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_DrMundo",
+          "items": [
+            "TFT_Item_WarmogsArmor",
+            "TFT_Item_GargoyleStoneplate",
+            "TFT_Item_IonicSpark"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_Silco",
+          "items": [
+            "TFT_Item_JeweledGauntlet",
+            "TFT_Item_SpearOfShojin",
+            "TFT_Item_Leviathan"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "tft13_elise",
+          "items": [
+            "TFT_Item_FrozenHeart",
+            "TFT4_Item_OrnnRanduinsSanctum"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_Cassiopeia",
+          "items": [
+            "TFT_Item_GuinsoosRageblade",
+            "TFT_Item_BlueBuff",
+            "TFT_Item_InfinityEdge"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_Vladimir",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_Morgana",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT13_Mordekaiser",
+          "items": [],
+          "rareza": 6
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT13_Nami",
+          "items": [
+            "TFT_Item_GuinsoosRageblade",
+            "TFT_Item_SpearOfShojin"
+          ],
+          "rareza": 2
+        }
+      ]
+    },
+    "LA2_1466639476": {
+      "danio": 124,
+      "duracion": 2115,
+      "eliminados": 1,
+      "fecha": 1733194629687,
+      "id": "LA2_1466639476",
+      "nivel": 8,
+      "participantes": [
+        {
+          "amigo": "nic-las",
+          "nombre": "Nicø#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": "big-gato-las",
+          "nombre": "Big Gato#LAS",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "BottomText#LAS",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "Lillygantu#2520",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "Secri#First",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "Trolleo#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "Fari#God",
+          "puesto": 7
+        },
+        {
+          "amigo": "iskrat-las",
+          "nombre": "ISkrat#LAS",
+          "puesto": 8
+        }
+      ],
+      "puesto": 2,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "TFT13_Rebel",
+          "nivel": 3,
+          "unico": false,
+          "unidades": 7
+        },
+        {
+          "estilo": 1,
+          "id": "TFT13_Ambusher",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT13_Bruiser",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        }
+      ],
+      "ronda": 35,
+      "set": 13,
+      "unidades": [
+        {
+          "estrellas": 2,
+          "id": "TFT13_Jinx",
+          "items": [
+            "TFT_Item_GuinsoosRageblade",
+            "TFT_Item_InfinityEdge",
+            "TFT_Item_LastWhisper"
+          ],
+          "rareza": 6
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_Ekko",
+          "items": [
+            "TFT13_Item_RebelEmblemItem",
+            "TFT_Item_ArchangelsStaff"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_Elise",
+          "items": [
+            "TFT_Item_WarmogsArmor",
+            "TFT_Item_BrambleVest",
+            "TFT_Item_Crownguard"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_Illaoi",
+          "items": [
+            "TFT_Item_GargoyleStoneplate",
+            "TFT_Item_FrozenHeart",
+            "TFT_Item_WarmogsArmor"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_Zoe",
+          "items": [
+            "TFT5_Item_SpearOfShojinRadiant",
+            "TFT_Item_JeweledGauntlet",
+            "TFT_Item_Leviathan"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_Akali",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_Sett",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT13_Ezreal",
+          "items": [],
+          "rareza": 2
+        }
+      ]
+    },
+    "LA2_1466658272": {
+      "danio": 173,
+      "duracion": 2266,
+      "eliminados": 4,
+      "fecha": 1733196995193,
+      "id": "LA2_1466658272",
+      "nivel": 9,
+      "participantes": [
+        {
+          "amigo": "big-gato-las",
+          "nombre": "Big Gato#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "TFT Mono Gatillo#7753",
+          "puesto": 2
+        },
+        {
+          "amigo": "iskrat-las",
+          "nombre": "ISkrat#LAS",
+          "puesto": 3
+        },
+        {
+          "amigo": "nic-las",
+          "nombre": "Nicø#LAS",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "Foogikiller#LAS",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "Siebenrock#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "XxDestroyer321xX#LAS",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "FerGatillo#2003",
+          "puesto": 8
+        }
+      ],
+      "puesto": 1,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "TFT13_Academy",
+          "nivel": 3,
+          "unico": false,
+          "unidades": 5
+        },
+        {
+          "estilo": 2,
+          "id": "TFT13_Titan",
+          "nivel": 2,
+          "unico": false,
+          "unidades": 4
+        },
+        {
+          "estilo": 1,
+          "id": "TFT13_Scrap",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 1,
+          "id": "TFT13_Invoker",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT13_Martialist",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 3,
+          "id": "TFT13_Teamup_Geniuses",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 2
+        },
+        {
+          "estilo": 3,
+          "id": "TFT13_JunkerKing",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        }
+      ],
+      "ronda": 37,
+      "set": 13,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "TFT13_Illaoi",
+          "items": [
+            "TFT_Item_RedBuff",
+            "TFT_Item_GargoyleStoneplate",
+            "TFT_Item_DragonsClaw"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 3,
+          "id": "TFT13_Ezreal",
+          "items": [
+            "TFT_Item_StatikkShiv",
+            "TFT_Item_UnstableConcoction",
+            "TFT_Item_MadredsBloodrazor"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_Corki",
+          "items": [
+            "TFT_Item_InfinityEdge",
+            "TFT_Item_GuinsoosRageblade",
+            "TFT7_Item_ShimmerscaleGamblersBlade"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_Ekko",
+          "items": [
+            "TFT_Item_AdaptiveHelm",
+            "TFT_Item_TitansResolve",
+            "TFT_Item_TearOfTheGoddess"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_Heimerdinger",
+          "items": [
+            "TFT_Item_HextechGunblade",
+            "TFT_Item_JeweledGauntlet",
+            "TFT_Item_BlueBuff"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_Leona",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_Rell",
+          "items": [
+            "TFT13_Item_AcademyEmblemItem"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT13_JayceSummon",
+          "items": [],
+          "rareza": 9
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT13_Jayce",
+          "items": [],
+          "rareza": 6
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT13_Rumble",
+          "items": [
+            "TFT_Item_RunaansHurricane"
+          ],
+          "rareza": 6
+        }
+      ]
+    },
+    "LA2_1476698442": {
+      "danio": 218,
+      "duracion": 2362,
+      "eliminados": 2,
+      "fecha": 1736398696320,
+      "id": "LA2_1476698442",
+      "nivel": 9,
+      "participantes": [
+        {
+          "amigo": "big-gato-las",
+          "nombre": "Big Gato#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "Zaira Nara#LAS",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "Dr Chacaal#LAS",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "Mcqueennzz#LAS",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "Penicillin#LAS",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "FIDPRC#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "ya supiste mami#SSJ",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "San10Radi#LAS",
+          "puesto": 8
+        }
+      ],
+      "puesto": 1,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "TFT13_Hextech",
+          "nivel": 3,
+          "unico": false,
+          "unidades": 6
+        },
+        {
+          "estilo": 2,
+          "id": "TFT13_Watcher",
+          "nivel": 2,
+          "unico": false,
+          "unidades": 4
+        },
+        {
+          "estilo": 1,
+          "id": "TFT13_Sniper",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT13_Ambassador",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 1
+        },
+        {
+          "estilo": 3,
+          "id": "TFT13_BloodHunter",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        }
+      ],
+      "ronda": 40,
+      "set": 13,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "TFT13_KogMaw",
+          "items": [
+            "TFT_Item_ArchangelsStaff",
+            "TFT_Item_HextechGunblade",
+            "TFT_Item_GuinsoosRageblade"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_Garen",
+          "items": [
+            "TFT_Item_DragonsClaw",
+            "TFT13_Item_AutomataEmblemItem",
+            "TFT13_Item_SniperEmblemItem"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_Blitzcrank",
+          "items": [
+            "TFT_Item_WarmogsArmor",
+            "TFT_Item_GargoyleStoneplate",
+            "TFT_Item_TitansResolve"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_FlyGuy",
+          "items": [
+            "TFT_Item_Redemption",
+            "TFT_Item_RedBuff",
+            "TFT_Item_SteraksGage"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_Nocturne",
+          "items": [
+            "TFT_Item_ThiefsGloves",
+            "TFT_Item_RapidFireCannon",
+            "TFT_Item_Bloodthirster"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_Prime",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_Amumu",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT13_Warwick",
+          "items": [
+            "TFT_Item_NightHarvester",
+            "TFT_Item_MadredsBloodrazor"
+          ],
+          "rareza": 8
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT13_Malzahar",
+          "items": [
+            "TFT_Item_RabadonsDeathcap",
+            "TFT_Item_Morellonomicon",
+            "TFT_Item_Leviathan"
+          ],
+          "rareza": 6
+        }
+      ]
+    },
+    "LA2_1478613340": {
+      "danio": 133,
+      "duracion": 2138,
+      "eliminados": 3,
+      "fecha": 1737068024900,
+      "id": "LA2_1478613340",
+      "nivel": 8,
+      "participantes": [
+        {
+          "amigo": null,
+          "nombre": "GUIDUKI#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": "big-gato-las",
+          "nombre": "Big Gato#LAS",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "James Harden#wil",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "dantekioo#LAS",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "IvOrnn#2339",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "misael34#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "Sanktus#LAS",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "Eltiopalomo1#2577",
+          "puesto": 8
+        }
+      ],
+      "puesto": 2,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "TFT13_Martialist",
+          "nivel": 2,
+          "unico": false,
+          "unidades": 4
+        },
+        {
+          "estilo": 1,
+          "id": "TFT13_Experiment",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 4
+        },
+        {
+          "estilo": 1,
+          "id": "TFT13_Bruiser",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT13_FormSwapper",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT13_Pugilist",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT13_Scrap",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT13_Ambassador",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 1
+        }
+      ],
+      "ronda": 37,
+      "set": 13,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "TFT13_NunuWillump",
+          "items": [
+            "TFT_Item_FrozenHeart",
+            "TFT_Item_RedBuff",
+            "TFT_Item_GargoyleStoneplate"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 3,
+          "id": "TFT13_Tristana",
+          "items": [
+            "TFT_Item_InfinityEdge",
+            "TFT_Item_GuinsoosRageblade",
+            "TFT_Item_LastWhisper"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 3,
+          "id": "TFT13_Urgot",
+          "items": [
+            "TFT_Item_SteraksGage",
+            "TFT_Item_Bloodthirster",
+            "TFT_Item_SteraksGage"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_Corki",
+          "items": [
+            "TFT_Item_InfinityEdge",
+            "TFT_Item_GuinsoosRageblade",
+            "TFT_Item_LastWhisper"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_Ezreal",
+          "items": [
+            "TFT_Item_Bloodthirster",
+            "TFT_Item_Deathblade",
+            "TFT_Item_RapidFireCannon"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_Gangplank",
+          "items": [
+            "TFT13_Item_ExperimentEmblemItem",
+            "TFT_Item_SteraksGage"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_Zyra",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 1,
+          "id": "tft13_elise",
+          "items": [],
+          "rareza": 4
+        }
+      ]
+    },
+    "LA2_1478623095": {
+      "danio": 113,
+      "duracion": 2002,
+      "eliminados": 1,
+      "fecha": 1737070183305,
+      "id": "LA2_1478623095",
+      "nivel": 8,
+      "participantes": [
+        {
+          "amigo": null,
+          "nombre": "Sunless#awa",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "JVookerius#LAS",
+          "puesto": 2
+        },
+        {
+          "amigo": "big-gato-las",
+          "nombre": "Big Gato#LAS",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "IvOrnn#2339",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "Sanset#ARG",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "Sanktus#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "xHazy#KON",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "MVRTN#8156",
+          "puesto": 8
+        }
+      ],
+      "puesto": 3,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "TFT13_Martialist",
+          "nivel": 2,
+          "unico": false,
+          "unidades": 4
+        },
+        {
+          "estilo": 1,
+          "id": "TFT13_Experiment",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 1,
+          "id": "TFT13_Bruiser",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT13_FormSwapper",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT13_Pugilist",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT13_Scrap",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT13_Ambassador",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 1
+        }
+      ],
+      "ronda": 33,
+      "set": 13,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "TFT13_Tristana",
+          "items": [
+            "TFT_Item_GuinsoosRageblade",
+            "TFT_Item_Deathblade",
+            "TFT_Item_LastWhisper"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 3,
+          "id": "TFT13_Urgot",
+          "items": [
+            "TFT_Item_SteraksGage",
+            "TFT_Item_TitansResolve",
+            "TFT_Item_Bloodthirster"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_Corki",
+          "items": [
+            "TFT_Item_InfinityEdge",
+            "TFT_Item_Deathblade",
+            "TFT_Item_RecurveBow"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "tft13_elise",
+          "items": [
+            "TFT_Item_ThiefsGloves",
+            "TFT_Item_SparringGloves",
+            "TFT_Item_InfinityEdge"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_Gangplank",
+          "items": [
+            "TFT_Item_Redemption"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_NunuWillump",
+          "items": [
+            "TFT_Item_SteraksGage",
+            "TFT_Item_RedBuff",
+            "TFT_Item_GargoyleStoneplate"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT13_Ezreal",
+          "items": [],
+          "rareza": 2
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT13_Zyra",
+          "items": [],
+          "rareza": 0
+        }
+      ]
+    },
+    "LA2_1478632215": {
+      "danio": 149,
+      "duracion": 2247,
+      "eliminados": 1,
+      "fecha": 1737072700278,
+      "id": "LA2_1478632215",
+      "nivel": 9,
+      "participantes": [
+        {
+          "amigo": null,
+          "nombre": "Sanktus#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "IvOrnn#2339",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "trevsi skot#1603",
+          "puesto": 3
+        },
+        {
+          "amigo": "big-gato-las",
+          "nombre": "Big Gato#LAS",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "n3goju#tft",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "Tebash#ZAZA",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "memo0525#8382",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "Soulcito#3623",
+          "puesto": 8
+        }
+      ],
+      "puesto": 4,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "TFT13_Sorcerer",
+          "nivel": 4,
+          "unico": false,
+          "unidades": 8
+        },
+        {
+          "estilo": 1,
+          "id": "TFT13_Cabal",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 1,
+          "id": "TFT13_FormSwapper",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT13_Warband",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT13_Watcher",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT13_Ambassador",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 1
+        }
+      ],
+      "ronda": 35,
+      "set": 13,
+      "unidades": [
+        {
+          "estrellas": 2,
+          "id": "TFT13_Zoe",
+          "items": [
+            "TFT_Item_SpearOfShojin",
+            "TFT_Item_JeweledGauntlet",
+            "TFT_Item_Leviathan"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "tft13_elise",
+          "items": [
+            "TFT13_Item_SorcererEmblemItem",
+            "TFT_Item_NightHarvester"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_Nami",
+          "items": [],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "tft13_swain",
+          "items": [
+            "TFT_Item_GargoyleStoneplate",
+            "TFT_Item_IonicSpark",
+            "TFT_Item_Redemption"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_Vladimir",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_Darius",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_Zyra",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT13_Sion",
+          "items": [],
+          "rareza": 9
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT13_LeBlanc",
+          "items": [
+            "TFT_Item_ArchangelsStaff",
+            "TFT_Item_GuinsoosRageblade"
+          ],
+          "rareza": 6
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT13_Lux",
+          "items": [],
+          "rareza": 0
+        }
+      ]
+    },
+    "LA2_1478643461": {
+      "danio": 104,
+      "duracion": 2121,
+      "eliminados": 0,
+      "fecha": 1737074978885,
+      "id": "LA2_1478643461",
+      "nivel": 8,
+      "participantes": [
+        {
+          "amigo": null,
+          "nombre": "IvOrnn#2339",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "Sanktus#LAS",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "Revenant#M7pro",
+          "puesto": 3
+        },
+        {
+          "amigo": "big-gato-las",
+          "nombre": "Big Gato#LAS",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "GuatonPressBanca#BYG",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "miss u peep#33333",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "Parrico#LAS",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "gindestroy#LAS",
+          "puesto": 8
+        }
+      ],
+      "puesto": 4,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "TFT13_Martialist",
+          "nivel": 2,
+          "unico": false,
+          "unidades": 4
+        },
+        {
+          "estilo": 1,
+          "id": "TFT13_Experiment",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 1,
+          "id": "TFT13_Bruiser",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT13_FormSwapper",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT13_Pugilist",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT13_Scrap",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT13_Ambassador",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 1
+        }
+      ],
+      "ronda": 34,
+      "set": 13,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "TFT13_Tristana",
+          "items": [
+            "TFT_Item_LastWhisper",
+            "TFT_Item_InfinityEdge",
+            "TFT_Item_GuinsoosRageblade"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 3,
+          "id": "TFT13_Urgot",
+          "items": [
+            "TFT_Item_TitansResolve",
+            "TFT_Item_SteraksGage",
+            "TFT_Item_Bloodthirster"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_Corki",
+          "items": [
+            "TFT_Item_Morellonomicon",
+            "TFT_Item_InfinityEdge",
+            "TFT_Item_NeedlesslyLargeRod"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "tft13_elise",
+          "items": [
+            "TFT_Item_IonicSpark",
+            "TFT_Item_RedBuff",
+            "TFT_Item_GiantsBelt"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_Ezreal",
+          "items": [],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_Gangplank",
+          "items": [
+            "TFT_Item_TearOfTheGoddess"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_NunuWillump",
+          "items": [],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_Zyra",
+          "items": [],
+          "rareza": 0
+        }
+      ]
+    },
+    "LA2_1479446379": {
+      "danio": 42,
+      "duracion": 2386,
+      "eliminados": 0,
+      "fecha": 1737343821906,
+      "id": "LA2_1479446379",
+      "nivel": 8,
+      "participantes": [
+        {
+          "amigo": null,
+          "nombre": "Pasta Mickey#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "IvOrnn#2339",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "LSV Jabicho#LAS",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "MambaBlack#LAG",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "Sanktus#LAS",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "WaR ManShin#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": "big-gato-las",
+          "nombre": "Big Gato#LAS",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "otarius98#LAS",
+          "puesto": 8
+        }
+      ],
+      "puesto": 7,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "TFT13_Squad",
+          "nivel": 3,
+          "unico": false,
+          "unidades": 7
+        },
+        {
+          "estilo": 1,
+          "id": "TFT13_Challenger",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT13_Sniper",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT13_Ambassador",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 1
+        }
+      ],
+      "ronda": 26,
+      "set": 13,
+      "unidades": [
+        {
+          "estrellas": 2,
+          "id": "TFT13_Ambessa",
+          "items": [
+            "TFT13_Item_SquadEmblemItem"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_Vi",
+          "items": [
+            "TFT_Item_TitansResolve",
+            "TFT_Item_Bloodthirster",
+            "TFT_Item_SteraksGage"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_Beardy",
+          "items": [
+            "TFT_Item_RedBuff",
+            "TFT_Item_WarmogsArmor",
+            "TFT_Item_FrozenHeart"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_TwistedFate",
+          "items": [
+            "TFT_Item_StatikkShiv"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_Camille",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_Zeri",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_Fish",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_Shooter",
+          "items": [
+            "TFT_Item_SpearOfShojin",
+            "TFT_Item_JeweledGauntlet",
+            "TFT_Item_GuinsoosRageblade"
+          ],
+          "rareza": 0
+        }
+      ]
+    },
+    "LA2_1479461280": {
+      "danio": 117,
+      "duracion": 1973,
+      "eliminados": 2,
+      "fecha": 1737346067494,
+      "id": "LA2_1479461280",
+      "nivel": 8,
+      "participantes": [
+        {
+          "amigo": null,
+          "nombre": "Lil Shoyo Marco#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": "big-gato-las",
+          "nombre": "Big Gato#LAS",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "Blacox#Alejo",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "Sr CoLo19#LAS",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "zerocamus#LAS",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "IvOrnn#2339",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "Sanktus#LAS",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "IAmTheRock#LASRK",
+          "puesto": 8
+        }
+      ],
+      "puesto": 2,
+      "queue_id": 1090,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "TFT13_Martialist",
+          "nivel": 2,
+          "unico": false,
+          "unidades": 4
+        },
+        {
+          "estilo": 1,
+          "id": "TFT13_Experiment",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 1,
+          "id": "TFT13_Bruiser",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT13_FormSwapper",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT13_Pugilist",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT13_Scrap",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT13_Ambassador",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 1
+        }
+      ],
+      "ronda": 34,
+      "set": 13,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "TFT13_Tristana",
+          "items": [
+            "TFT_Item_InfinityEdge",
+            "TFT_Item_GuinsoosRageblade",
+            "TFT_Item_LastWhisper"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 3,
+          "id": "TFT13_Urgot",
+          "items": [
+            "TFT_Item_TitansResolve",
+            "TFT_Item_SteraksGage",
+            "TFT_Item_Bloodthirster"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_Ezreal",
+          "items": [],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_Gangplank",
+          "items": [],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_NunuWillump",
+          "items": [
+            "TFT_Item_WarmogsArmor",
+            "TFT_Item_AdaptiveHelm"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_Zyra",
+          "items": [
+            "TFT_Item_JeweledGauntlet"
+          ],
+          "rareza": 0
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT13_Corki",
+          "items": [
+            "TFT_Item_ThiefsGloves",
+            "TFT_Item_SteraksGage",
+            "TFT_Item_Redemption"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 1,
+          "id": "tft13_elise",
+          "items": [],
+          "rareza": 4
+        }
+      ]
+    },
+    "LA2_1479470855": {
+      "danio": 108,
+      "duracion": 2277,
+      "eliminados": 1,
+      "fecha": 1737348538203,
+      "id": "LA2_1479470855",
+      "nivel": 8,
+      "participantes": [
+        {
+          "amigo": null,
+          "nombre": "Mark#989",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "Lil Shoyo Marco#LAS",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "IDigory#LAS",
+          "puesto": 3
+        },
+        {
+          "amigo": "big-gato-las",
+          "nombre": "Big Gato#LAS",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "Sanktus#LAS",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "KiriDragneel#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "IvOrnn#2339",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "xAuditorex#9043",
+          "puesto": 8
+        }
+      ],
+      "puesto": 4,
+      "queue_id": 1090,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "TFT13_Squad",
+          "nivel": 4,
+          "unico": false,
+          "unidades": 8
+        },
+        {
+          "estilo": 1,
+          "id": "TFT13_Challenger",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT13_Sniper",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT13_Ambassador",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 1
+        }
+      ],
+      "ronda": 31,
+      "set": 13,
+      "unidades": [
+        {
+          "estrellas": 2,
+          "id": "TFT13_Ambessa",
+          "items": [
+            "TFT13_Item_SquadEmblemItem",
+            "TFT_Item_TitansResolve",
+            "TFT_Item_Bloodthirster"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_Vi",
+          "items": [
+            "TFT_Item_UnstableConcoction"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_Beardy",
+          "items": [
+            "TFT_Item_WarmogsArmor",
+            "TFT_Item_GargoyleStoneplate",
+            "TFT_Item_BrambleVest"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_TwistedFate",
+          "items": [],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_Fish",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_Shooter",
+          "items": [
+            "TFT_Item_RapidFireCannon"
+          ],
+          "rareza": 0
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT13_Caitlyn",
+          "items": [
+            "TFT_Item_GuinsoosRageblade",
+            "TFT_Item_LastWhisper",
+            "TFT_Item_InfinityEdge"
+          ],
+          "rareza": 6
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT13_Camille",
+          "items": [],
+          "rareza": 1
+        }
+      ]
+    },
+    "LA2_1483933817": {
+      "danio": 157,
+      "duracion": 2215,
+      "eliminados": 1,
+      "fecha": 1738817507474,
+      "id": "LA2_1483933817",
+      "nivel": 9,
+      "participantes": [
+        {
+          "amigo": null,
+          "nombre": "FurraLoca#2021",
+          "puesto": 1
+        },
+        {
+          "amigo": "big-gato-las",
+          "nombre": "Big Gato#LAS",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "coca de piñam#LAS",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "BombillaDeCuero#CHC23",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "IvOrnn#2339",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "0000#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "Sanktus#LAS",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "Battôsai#2121",
+          "puesto": 8
+        }
+      ],
+      "puesto": 2,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "TFT13_Sorcerer",
+          "nivel": 3,
+          "unico": false,
+          "unidades": 6
+        },
+        {
+          "estilo": 2,
+          "id": "TFT13_Cabal",
+          "nivel": 2,
+          "unico": false,
+          "unidades": 4
+        },
+        {
+          "estilo": 1,
+          "id": "TFT13_FormSwapper",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT13_Ambassador",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 1
+        },
+        {
+          "estilo": 3,
+          "id": "TFT13_MissMageTrait",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        }
+      ],
+      "ronda": 37,
+      "set": 13,
+      "unidades": [
+        {
+          "estrellas": 2,
+          "id": "TFT13_Sion",
+          "items": [],
+          "rareza": 9
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_LeBlanc",
+          "items": [
+            "TFT_Item_SpearOfShojin",
+            "TFT_Item_Quicksilver"
+          ],
+          "rareza": 6
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_Zoe",
+          "items": [
+            "TFT_Item_Leviathan",
+            "TFT_Item_SpearOfShojin",
+            "TFT_Item_JeweledGauntlet"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "tft13_elise",
+          "items": [
+            "TFT_Item_SteraksGage",
+            "TFT13_Item_AutomataEmblemItem"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_Cassiopeia",
+          "items": [],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_Nami",
+          "items": [],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "tft13_swain",
+          "items": [
+            "TFT_Item_IonicSpark",
+            "TFT_Item_WarmogsArmor",
+            "TFT_Item_GargoyleStoneplate"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_Vladimir",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT13_Lux",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT13_MissMage",
+          "items": [
+            "TFT_Item_BlueBuff"
+          ],
+          "rareza": 8
+        }
+      ]
+    },
+    "LA2_1501253436": {
+      "danio": 72,
+      "duracion": 2403,
+      "eliminados": 1,
+      "fecha": 1745828203863,
+      "id": "LA2_1501253436",
+      "nivel": 8,
+      "participantes": [
+        {
+          "amigo": null,
+          "nombre": "NT Caonix#KING",
+          "puesto": 1
+        },
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "OniYamiShi月#Mel",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "Stupidsugar#LAS",
+          "puesto": 4
+        },
+        {
+          "amigo": "big-gato-las",
+          "nombre": "Big Gato#LAS",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "Miya Chinen#Sunoo",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "TM7 Jøøšv#TM7",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "TM7 Ginkooh#Gin",
+          "puesto": 8
+        }
+      ],
+      "puesto": 5,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "TFT14_EdgeRunner",
+          "nivel": 3,
+          "unico": false,
+          "unidades": 7
+        },
+        {
+          "estilo": 1,
+          "id": "TFT14_Armorclad",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT14_Marksman",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT14_Swift",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        }
+      ],
+      "ronda": 30,
+      "set": 14,
+      "unidades": [
+        {
+          "estrellas": 2,
+          "id": "TFT14_Sejuani",
+          "items": [
+            "TFT14_SejuaniCyberneticItem",
+            "TFT_Item_RedBuff",
+            "TFT_Item_NightHarvester"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT14_Zeri",
+          "items": [
+            "TFT14_ZeriCyberneticItem",
+            "TFT_Item_GuinsoosRageblade",
+            "TFT_Item_InfinityEdge"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT14_Mordekaiser",
+          "items": [
+            "TFT_Item_GargoyleStoneplate",
+            "TFT14_MordekaiserCyberneticItem",
+            "TFT_Item_WarmogsArmor"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT14_Varus",
+          "items": [],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT14_Jhin",
+          "items": [
+            "TFT_Item_Bloodthirster"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT14_Naafiri",
+          "items": [
+            "TFT_Item_TitansResolve"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT14_Jax",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT14_Kindred",
+          "items": [
+            "TFT_Item_Deathblade",
+            "TFT_Item_LastWhisper",
+            "TFT_Item_Deathblade"
+          ],
+          "rareza": 0
+        }
+      ]
+    },
+    "LA2_1521026655": {
+      "danio": 203,
+      "duracion": 2199,
+      "eliminados": 2,
+      "fecha": 1754018831124,
+      "id": "LA2_1521026655",
+      "nivel": 9,
+      "participantes": [
+        {
+          "amigo": "big-gato-las",
+          "nombre": "Big Gato#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": "iskrat-las",
+          "nombre": "ISkrat#LAS",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "kaori#707",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "Raikone#LAS",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "Byshota#Bysho",
+          "puesto": 5
+        },
+        {
+          "amigo": "nic-las",
+          "nombre": "Nicø#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "Sati#nin",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "MEDUSAMEDUSA#6969",
+          "puesto": 8
+        }
+      ],
+      "puesto": 1,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "TFT15_Empyrean",
+          "nivel": 3,
+          "unico": false,
+          "unidades": 6
+        },
+        {
+          "estilo": 1,
+          "id": "TFT15_Juggernaut",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 1,
+          "id": "TFT15_Duelist",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT15_Heavyweight",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT15_Prodigy",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT15_Protector",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT15_Sniper",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT15_StarGuardian",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT15_OldMentor",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 1
+        }
+      ],
+      "ronda": 38,
+      "set": 15,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "TFT15_Udyr",
+          "items": [],
+          "rareza": 2
+        },
+        {
+          "estrellas": 3,
+          "id": "TFT15_Aatrox",
+          "items": [
+            "TFT_Item_GiantsBelt"
+          ],
+          "rareza": 0
+        },
+        {
+          "estrellas": 3,
+          "id": "TFT15_Kayle",
+          "items": [
+            "TFT_Item_GuinsoosRageblade",
+            "TFT_Item_MadredsBloodrazor",
+            "TFT_Item_HextechGunblade"
+          ],
+          "rareza": 0
+        },
+        {
+          "estrellas": 3,
+          "id": "TFT15_Zac",
+          "items": [
+            "TFT_Item_RedBuff",
+            "TFT_Item_WarmogsArmor",
+            "TFT_Item_GargoyleStoneplate"
+          ],
+          "rareza": 0
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT15_Seraphine",
+          "items": [],
+          "rareza": 6
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT15_Varus",
+          "items": [
+            "TFT_Item_HextechGunblade",
+            "TFT_Item_RunaansHurricane",
+            "TFT15_Item_JuggernautEmblemItem"
+          ],
+          "rareza": 6
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT15_KSante",
+          "items": [
+            "TFT_Item_BrambleVest",
+            "TFT_Item_SpectralGauntlet",
+            "TFT_Item_GargoyleStoneplate"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT15_Malzahar",
+          "items": [],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT15_Jhin",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT15_Neeko",
+          "items": [],
+          "rareza": 2
+        }
+      ]
+    },
+    "LA2_1521326149": {
+      "danio": 84,
+      "duracion": 2104,
+      "eliminados": 0,
+      "fecha": 1754109845478,
+      "id": "LA2_1521326149",
+      "nivel": 8,
+      "participantes": [
+        {
+          "amigo": null,
+          "nombre": "ManKeHuito#uwu",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "Rusty James#1812",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "GFM realisgraci#GFM",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "elaplastapatas#2282",
+          "puesto": 4
+        },
+        {
+          "amigo": "big-gato-las",
+          "nombre": "Big Gato#LAS",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "BoloM4C#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "Lic en Goticas#DXD04",
+          "puesto": 8
+        }
+      ],
+      "puesto": 5,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "TFT15_StarGuardian",
+          "nivel": 6,
+          "unico": false,
+          "unidades": 7
+        },
+        {
+          "estilo": 1,
+          "id": "TFT15_Prodigy",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT15_Protector",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        }
+      ],
+      "ronda": 31,
+      "set": 15,
+      "unidades": [
+        {
+          "estrellas": 2,
+          "id": "TFT15_KSante",
+          "items": [
+            "TFT_Item_NightHarvester"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT15_Poppy",
+          "items": [
+            "TFT_Item_GargoyleStoneplate",
+            "TFT_Item_RedBuff",
+            "TFT7_Item_ShimmerscaleMogulsMail"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT15_Ahri",
+          "items": [],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT15_Neeko",
+          "items": [],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT15_Rell",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT15_Syndra",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT15_Seraphine",
+          "items": [
+            "TFT_Item_BlueBuff",
+            "TFT_Item_Leviathan",
+            "TFT_Item_JeweledGauntlet"
+          ],
+          "rareza": 6
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT15_Jinx",
+          "items": [
+            "TFT_Item_RunaansHurricane",
+            "TFT_Item_GuinsoosRageblade",
+            "TFT_Item_MadredsBloodrazor"
+          ],
+          "rareza": 4
+        }
+      ]
+    },
+    "LA2_1521338980": {
+      "danio": 57,
+      "duracion": 2412,
+      "eliminados": 0,
+      "fecha": 1754112570561,
+      "id": "LA2_1521338980",
+      "nivel": 8,
+      "participantes": [
+        {
+          "amigo": null,
+          "nombre": "Dr0gitaFerreira#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "Ivanés#LAS",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "YoSoyElPepino#LAS",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "Oi So Sabo#Toad",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "MBAPPEEZY#CHAMA",
+          "puesto": 5
+        },
+        {
+          "amigo": "big-gato-las",
+          "nombre": "Big Gato#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": "iskrat-las",
+          "nombre": "ISkrat#LAS",
+          "puesto": 7
+        },
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 8
+        }
+      ],
+      "puesto": 6,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "TFT15_OldMentor",
+          "nivel": 3,
+          "unico": false,
+          "unidades": 4
+        },
+        {
+          "estilo": 2,
+          "id": "TFT15_Juggernaut",
+          "nivel": 2,
+          "unico": false,
+          "unidades": 4
+        },
+        {
+          "estilo": 2,
+          "id": "TFT15_Strategist",
+          "nivel": 2,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 1,
+          "id": "TFT15_Heavyweight",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 3,
+          "id": "TFT15_DragonFist",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        }
+      ],
+      "ronda": 28,
+      "set": 15,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "TFT15_Yasuo",
+          "items": [
+            "TFT15_Item_JuggernautEmblemItem",
+            "TFT_Item_Quicksilver",
+            "TFT_Item_UnstableConcoction"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT15_JarvanIV",
+          "items": [
+            "TFT_Item_WarmogsArmor",
+            "TFT_Item_GargoyleStoneplate"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT15_Ryze",
+          "items": [
+            "TFT_Item_StatikkShiv",
+            "TFT_Item_PowerGauntlet",
+            "TFT_Item_ArchangelsStaff"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT15_Udyr",
+          "items": [
+            "TFT15_Item_SupremeCellsEmblemItem"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT15_Janna",
+          "items": [
+            "TFT_Item_Artifact_LudensTempest",
+            "TFT_Item_GuinsoosRageblade"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT15_Kobuko",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 1,
+          "id": "tft15_leesin",
+          "items": [],
+          "rareza": 6
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT15_Aatrox",
+          "items": [],
+          "rareza": 0
+        }
+      ]
+    },
+    "LA2_1521350428": {
+      "danio": 198,
+      "duracion": 2431,
+      "eliminados": 2,
+      "fecha": 1754114548777,
+      "id": "LA2_1521350428",
+      "nivel": 9,
+      "participantes": [
+        {
+          "amigo": "big-gato-las",
+          "nombre": "Big Gato#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "HLC#ATUC",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "AFK Suhblime#LAS",
+          "puesto": 4
+        },
+        {
+          "amigo": "iskrat-las",
+          "nombre": "ISkrat#LAS",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "RichBoy Parco#FRZG",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "Shocker19#LAS",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "Comandoxd#LAS",
+          "puesto": 8
+        }
+      ],
+      "puesto": 1,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "TFT15_Empyrean",
+          "nivel": 3,
+          "unico": false,
+          "unidades": 6
+        },
+        {
+          "estilo": 1,
+          "id": "TFT15_Duelist",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT15_Heavyweight",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT15_Juggernaut",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT15_Prodigy",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT15_Protector",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT15_Sniper",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT15_OldMentor",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 1
+        }
+      ],
+      "ronda": 40,
+      "set": 15,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "TFT15_Kayle",
+          "items": [
+            "TFT_Item_GuinsoosRageblade",
+            "TFT_Item_HextechGunblade",
+            "TFT_Item_MadredsBloodrazor"
+          ],
+          "rareza": 0
+        },
+        {
+          "estrellas": 3,
+          "id": "TFT15_Zac",
+          "items": [
+            "TFT_Item_GargoyleStoneplate",
+            "TFT_Item_WarmogsArmor",
+            "TFT_Item_RedBuff"
+          ],
+          "rareza": 0
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT15_Seraphine",
+          "items": [
+            "TFT_Item_BlueBuff"
+          ],
+          "rareza": 6
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT15_Varus",
+          "items": [
+            "TFT_Item_InfinityEdge",
+            "TFT_Item_PowerGauntlet",
+            "TFT_Item_SpearOfShojin"
+          ],
+          "rareza": 6
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT15_KSante",
+          "items": [
+            "TFT_Item_SpectralGauntlet",
+            "TFT_Item_IonicSpark"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT15_Malzahar",
+          "items": [],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT15_Udyr",
+          "items": [
+            "TFT15_Item_ProtectorEmblemItem"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT15_Jhin",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT15_Aatrox",
+          "items": [],
+          "rareza": 0
+        }
+      ]
+    },
+    "LA2_1521359886": {
+      "danio": 105,
+      "duracion": 2087,
+      "eliminados": 1,
+      "fecha": 1754116853219,
+      "id": "LA2_1521359886",
+      "nivel": 9,
+      "participantes": [
+        {
+          "amigo": null,
+          "nombre": "Tin l#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": "big-gato-las",
+          "nombre": "Big Gato#LAS",
+          "puesto": 2
+        },
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 3
+        },
+        {
+          "amigo": "iskrat-las",
+          "nombre": "ISkrat#LAS",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "BarbaColorada#LAS",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "JordiEnp69#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "PsycoSider#LAS",
+          "puesto": 7
+        },
+        {
+          "amigo": "nic-las",
+          "nombre": "Nicø#LAS",
+          "puesto": 8
+        }
+      ],
+      "puesto": 2,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "TFT15_SentaiRanger",
+          "nivel": 3,
+          "unico": false,
+          "unidades": 7
+        },
+        {
+          "estilo": 1,
+          "id": "TFT15_Destroyer",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT15_Spellslinger",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT15_Strategist",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT15_OldMentor",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 1
+        },
+        {
+          "estilo": 3,
+          "id": "TFT15_ElTigre",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        }
+      ],
+      "ronda": 34,
+      "set": 15,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "TFT15_Galio",
+          "items": [
+            "TFT15_RoboRanger_Core",
+            "TFT15_RoboRanger_Sword",
+            "TFT15_RoboRanger_Slicer"
+          ],
+          "rareza": 9
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT15_Braum",
+          "items": [],
+          "rareza": 6
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT15_Yone",
+          "items": [
+            "TFT_Item_SteraksGage",
+            "TFT_Item_Deathblade",
+            "TFT_Item_TitansResolve"
+          ],
+          "rareza": 6
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT15_JarvanIV",
+          "items": [
+            "TFT_Item_WarmogsArmor",
+            "TFT_Item_GargoyleStoneplate",
+            "TFT_Item_AdaptiveHelm"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT15_Karma",
+          "items": [
+            "TFT_Item_JeweledGauntlet",
+            "TFT_Item_ArchangelsStaff",
+            "TFT_Item_SpearOfShojin"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT15_Ryze",
+          "items": [
+            "TFT_Item_Morellonomicon"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT15_Senna",
+          "items": [],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT15_Gangplank",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT15_Aatrox",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT15_Lucian",
+          "items": [],
+          "rareza": 0
+        }
+      ]
+    },
+    "LA2_1521367659": {
+      "danio": 67,
+      "duracion": 2116,
+      "eliminados": 0,
+      "fecha": 1754119170908,
+      "id": "LA2_1521367659",
+      "nivel": 9,
+      "participantes": [
+        {
+          "amigo": null,
+          "nombre": "Yoncuu#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "Lab Music#URSS",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "Andoni#00000",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "Chino#9672",
+          "puesto": 5
+        },
+        {
+          "amigo": "big-gato-las",
+          "nombre": "Big Gato#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "Deci que me Amas#Playz",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "BuscoGothCulona#UwU",
+          "puesto": 8
+        }
+      ],
+      "puesto": 6,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 2,
+          "id": "TFT15_BattleAcademia",
+          "nivel": 2,
+          "unico": false,
+          "unidades": 6
+        },
+        {
+          "estilo": 2,
+          "id": "TFT15_Prodigy",
+          "nivel": 2,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 1,
+          "id": "TFT15_Bastion",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 1,
+          "id": "TFT15_Heavyweight",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT15_OldMentor",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 1
+        },
+        {
+          "estilo": 3,
+          "id": "TFT15_ElTigre",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        }
+      ],
+      "ronda": 28,
+      "set": 15,
+      "unidades": [
+        {
+          "estrellas": 2,
+          "id": "TFT15_Leona",
+          "items": [
+            "TFT_Item_Redemption",
+            "TFT_Item_RedBuff",
+            "TFT_Item_GargoyleStoneplate"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT15_Ryze",
+          "items": [
+            "TFT15_Item_HeavyweightEmblemItem",
+            "TFT_Item_SpearOfShojin"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT15_Rakan",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT15_Ezreal",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT15_Garen",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT15_Braum",
+          "items": [],
+          "rareza": 6
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT15_Seraphine",
+          "items": [
+            "TFT_Item_Morellonomicon",
+            "TFT_Item_BlueBuff"
+          ],
+          "rareza": 6
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT15_Yuumi",
+          "items": [
+            "TFT_Item_HextechGunblade",
+            "TFT_Item_BlueBuff",
+            "TFT_Item_JeweledGauntlet"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT15_Jayce",
+          "items": [],
+          "rareza": 2
+        }
+      ]
+    },
+    "LA2_1521616471": {
+      "danio": 38,
+      "duracion": 2269,
+      "eliminados": 0,
+      "fecha": 1754201408799,
+      "id": "LA2_1521616471",
+      "nivel": 8,
+      "participantes": [
+        {
+          "amigo": null,
+          "nombre": "Jocche#4191",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "awela wako#LOL",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "ManKeHuito#uwu",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "PawN#LAS",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "Lurmelion#0151",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "TuhMuertos#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": "big-gato-las",
+          "nombre": "Big Gato#LAS",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "cindor77#LAS",
+          "puesto": 8
+        }
+      ],
+      "puesto": 7,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "TFT15_Spellslinger",
+          "nivel": 3,
+          "unico": false,
+          "unidades": 6
+        },
+        {
+          "estilo": 1,
+          "id": "TFT15_SentaiRanger",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 4
+        },
+        {
+          "estilo": 1,
+          "id": "TFT15_SoulFighter",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT15_StarGuardian",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        }
+      ],
+      "ronda": 28,
+      "set": 15,
+      "unidades": [
+        {
+          "estrellas": 2,
+          "id": "TFT15_JarvanIV",
+          "items": [
+            "TFT_Item_WarmogsArmor",
+            "TFT_Item_GargoyleStoneplate",
+            "TFT_Item_RedBuff"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT15_Karma",
+          "items": [
+            "TFT9_Item_OrnnHorizonFocus",
+            "TFT_Item_JeweledGauntlet",
+            "TFT_Item_SpearOfShojin"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT15_Swain",
+          "items": [],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT15_Gangplank",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT15_Lux",
+          "items": [
+            "TFT_Item_BlueBuff",
+            "TFT_Item_ArchangelsStaff",
+            "TFT9_Item_OrnnHorizonFocus"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT15_Galio",
+          "items": [
+            "TFT15_RoboRanger_Core"
+          ],
+          "rareza": 9
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT15_Gwen",
+          "items": [
+            "TFT15_Item_StarGuardianEmblemItem",
+            "TFT15_Item_ProtectorEmblemItem"
+          ],
+          "rareza": 6
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT15_Seraphine",
+          "items": [
+            "TFT9_Item_OrnnHorizonFocus",
+            "TFT15_Item_SpellslingerEmblemItem",
+            "TFT_Item_Leviathan"
+          ],
+          "rareza": 6
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT15_Lucian",
+          "items": [
+            "TFT15_Item_SniperEmblemItem"
+          ],
+          "rareza": 0
+        }
+      ]
+    },
+    "LA2_1522590863": {
+      "danio": 27,
+      "duracion": 2193,
+      "eliminados": 0,
+      "fecha": 1754541901039,
+      "id": "LA2_1522590863",
+      "nivel": 8,
+      "participantes": [
+        {
+          "amigo": null,
+          "nombre": "SIONETE#3467",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "Masashi#Seju",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "RaiderzByakko#2024",
+          "puesto": 3
+        },
+        {
+          "amigo": "nic-las",
+          "nombre": "Nicø#LAS",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "Marquinhoss#LAS",
+          "puesto": 5
+        },
+        {
+          "amigo": "iskrat-las",
+          "nombre": "ISkrat#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "Embrasse Moi#SBA",
+          "puesto": 7
+        },
+        {
+          "amigo": "big-gato-las",
+          "nombre": "Big Gato#LAS",
+          "puesto": 8
+        }
+      ],
+      "puesto": 8,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "TFT15_BattleAcademia",
+          "nivel": 3,
+          "unico": false,
+          "unidades": 7
+        },
+        {
+          "estilo": 1,
+          "id": "TFT15_Bastion",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT15_Destroyer",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT15_Prodigy",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        }
+      ],
+      "ronda": 24,
+      "set": 15,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "TFT15_Katarina",
+          "items": [
+            "TFT_Item_GuardianAngel",
+            "TFT_Item_PowerGauntlet",
+            "TFT_Item_UnstableConcoction"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT15_Jayce",
+          "items": [],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT15_Rakan",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT15_Ezreal",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT15_Garen",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT15_Leona",
+          "items": [],
+          "rareza": 4
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT15_Yuumi",
+          "items": [
+            "TFT_Item_BlueBuff",
+            "TFT_Item_HextechGunblade"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT15_Kalista",
+          "items": [],
+          "rareza": 0
+        }
+      ]
+    },
+    "LA2_1526947816": {
+      "danio": 37,
+      "duracion": 1955,
+      "eliminados": 0,
+      "fecha": 1756184389499,
+      "id": "LA2_1526947816",
+      "nivel": 8,
+      "participantes": [
+        {
+          "amigo": null,
+          "nombre": "MuereWeather#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "TinCortez2#LAS",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "Jonathan Moore#LAS",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "vichiño12#LAS",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "Anxiolyk#8598",
+          "puesto": 5
+        },
+        {
+          "amigo": "big-gato-las",
+          "nombre": "Big Gato#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "FrancoPicotto16#LAS",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "TheBarberNaxu23#corte",
+          "puesto": 8
+        }
+      ],
+      "puesto": 6,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "TFT15_OldMentor",
+          "nivel": 3,
+          "unico": false,
+          "unidades": 4
+        },
+        {
+          "estilo": 1,
+          "id": "TFT15_SentaiRanger",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 1,
+          "id": "TFT15_Destroyer",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT15_Edgelord",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT15_Strategist",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        }
+      ],
+      "ronda": 26,
+      "set": 15,
+      "unidades": [
+        {
+          "estrellas": 2,
+          "id": "TFT15_Senna",
+          "items": [
+            "TFT_Item_RunaansHurricane"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT15_Udyr",
+          "items": [],
+          "rareza": 2
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT15_Galio",
+          "items": [
+            "TFT15_RoboRanger_Core"
+          ],
+          "rareza": 9
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT15_Yone",
+          "items": [
+            "TFT_Item_Quicksilver",
+            "TFT_Item_SteraksGage",
+            "TFT_Item_Bloodthirster"
+          ],
+          "rareza": 6
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT15_JarvanIV",
+          "items": [
+            "TFT_Item_GargoyleStoneplate",
+            "TFT_Item_BrambleVest"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT15_KSante",
+          "items": [],
+          "rareza": 4
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT15_Ryze",
+          "items": [
+            "TFT_Item_HextechGunblade",
+            "TFT_Item_StatikkShiv",
+            "TFT_Item_SpearOfShojin"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT15_Yasuo",
+          "items": [],
+          "rareza": 2
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT15_Kobuko",
+          "items": [],
+          "rareza": 1
+        }
+      ]
+    },
+    "LA2_1551367788": {
+      "danio": 191,
+      "duracion": 2116,
+      "eliminados": 3,
+      "fecha": 1764906997278,
+      "id": "LA2_1551367788",
+      "nivel": 8,
+      "participantes": [
+        {
+          "amigo": "big-gato-las",
+          "nombre": "Big Gato#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "ivanro99#LAS",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "El PekeMcCartney#LAS",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "CHADASSA#LAS",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "pitibeub2000#zaca",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "Noriad#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "Nacho#7182",
+          "puesto": 8
+        }
+      ],
+      "puesto": 1,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "TFT16_Demacia",
+          "nivel": 3,
+          "unico": false,
+          "unidades": 7
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Defender",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Invoker",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Juggernaut",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Sorcerer",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 3,
+          "id": "TFT16_Chronokeeper",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        },
+        {
+          "estilo": 3,
+          "id": "TFT16_Heroic",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        }
+      ],
+      "ronda": 35,
+      "set": 16,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "TFT16_Garen",
+          "items": [
+            "TFT_Item_RedBuff",
+            "TFT_Item_GargoyleStoneplate",
+            "TFT_Item_SpectralGauntlet"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 3,
+          "id": "TFT16_Lux",
+          "items": [
+            "TFT_Item_SpearOfShojin",
+            "TFT_Item_JeweledGauntlet",
+            "TFT_Item_PowerGauntlet"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Galio",
+          "items": [],
+          "rareza": 6
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Swain",
+          "items": [
+            "TFT_Item_Crownguard",
+            "TFT_Item_WarmogsArmor"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Poppy",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_XinZhao",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_JarvanIV",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Sona",
+          "items": [
+            "TFT_Item_LastWhisper",
+            "TFT_Item_BFSword"
+          ],
+          "rareza": 0
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_Zilean",
+          "items": [
+            "TFT_Item_ArchangelsStaff",
+            "TFT_Item_GuinsoosRageblade",
+            "TFT_Item_RabadonsDeathcap"
+          ],
+          "rareza": 6
+        }
+      ]
+    },
+    "LA2_1551384087": {
+      "danio": 74,
+      "duracion": 2074,
+      "eliminados": 0,
+      "fecha": 1764909415770,
+      "id": "LA2_1551384087",
+      "nivel": 8,
+      "participantes": [
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "Trafalgar D Law#TDLaw",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "Mapache el gato#LAS",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "CogordoAstral#LAS",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "Knomusica#KNO",
+          "puesto": 5
+        },
+        {
+          "amigo": "big-gato-las",
+          "nombre": "Big Gato#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "Tyukre#LAS",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "ConMundoTeFundo#Top",
+          "puesto": 8
+        }
+      ],
+      "puesto": 6,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 1,
+          "id": "TFT16_Bilgewater",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Gunslinger",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Juggernaut",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 4,
+          "id": "TFT16_Targon",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        },
+        {
+          "estilo": 3,
+          "id": "TFT16_ShyvanaUnique",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        },
+        {
+          "estilo": 3,
+          "id": "TFT16_Soulbound",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        }
+      ],
+      "ronda": 30,
+      "set": 16,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "TFT16_Nautilus",
+          "items": [],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_MissFortune",
+          "items": [
+            "TFT_Item_InfinityEdge",
+            "TFT_Item_SpearOfShojin",
+            "TFT_Item_StatikkShiv"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Taric",
+          "items": [],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_ChoGath",
+          "items": [
+            "TFT_Item_GargoyleStoneplate",
+            "TFT_Item_WarmogsArmor",
+            "TFT_Item_DragonsClaw"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Graves",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_Lucian",
+          "items": [
+            "TFT_Item_TearOfTheGoddess",
+            "TFT_Item_MadredsBloodrazor"
+          ],
+          "rareza": 6
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_Shyvana",
+          "items": [
+            "TFT_Item_ThiefsGloves",
+            "TFT_Item_ArchangelsStaff",
+            "TFT_Item_HextechGunblade"
+          ],
+          "rareza": 6
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_Wukong",
+          "items": [],
+          "rareza": 4
+        }
+      ]
+    },
+    "LA2_1551395416": {
+      "danio": 112,
+      "duracion": 2056,
+      "eliminados": 1,
+      "fecha": 1764911576845,
+      "id": "LA2_1551395416",
+      "nivel": 8,
+      "participantes": [
+        {
+          "amigo": null,
+          "nombre": "naza#070",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "Mujica Tupamaro#MLN",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "Corrupted Hero#7578",
+          "puesto": 3
+        },
+        {
+          "amigo": "big-gato-las",
+          "nombre": "Big Gato#LAS",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "Unbekannte#0610",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "El sarabambiche#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "TerraEd1#LAS",
+          "puesto": 8
+        }
+      ],
+      "puesto": 4,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 2,
+          "id": "TFT16_Noxus",
+          "nivel": 2,
+          "unico": false,
+          "unidades": 5
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Bilgewater",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 4
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Juggernaut",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Rapidfire",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Slayer",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Vanquisher",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        }
+      ],
+      "ronda": 33,
+      "set": 16,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "TFT16_Gangplank",
+          "items": [
+            "TFT_Item_PowerGauntlet",
+            "TFT_Item_UnstableConcoction",
+            "TFT_Item_Quicksilver"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 3,
+          "id": "TFT16_Nautilus",
+          "items": [
+            "TFT_Item_NightHarvester"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "tft16_atakhan",
+          "items": [],
+          "rareza": 9
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Ambessa",
+          "items": [
+            "TFT_Item_TitansResolve",
+            "TFT_Item_UnstableConcoction",
+            "TFT_Item_SteraksGage"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Draven",
+          "items": [
+            "TFT_Item_RunaansHurricane",
+            "TFT_Item_GuinsoosRageblade",
+            "TFT_Item_InfinityEdge"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_TwistedFate",
+          "items": [
+            "TFT16_Item_Bilgewater_LuckyEyepatch",
+            "TFT16_Item_Bilgewater_CaptainsBrew",
+            "TFT16_Item_InvokerEmblemItem"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Briar",
+          "items": [
+            "TFT16_Item_BilgewaterEmblemItem"
+          ],
+          "rareza": 0
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_Mel",
+          "items": [],
+          "rareza": 6
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_Swain",
+          "items": [
+            "TFT_Item_Crownguard"
+          ],
+          "rareza": 4
+        }
+      ]
+    },
+    "LA2_1551924611": {
+      "danio": 122,
+      "duracion": 2136,
+      "eliminados": 2,
+      "fecha": 1765078009146,
+      "id": "LA2_1551924611",
+      "nivel": 8,
+      "participantes": [
+        {
+          "amigo": null,
+          "nombre": "GeneralKroll#Regim",
+          "puesto": 1
+        },
+        {
+          "amigo": "big-gato-las",
+          "nombre": "Big Gato#LAS",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "pino139135#LAS",
+          "puesto": 3
+        },
+        {
+          "amigo": "iskrat-las",
+          "nombre": "ISkrat#LAS",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "Symphoniee#uwu",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "Elvis2517#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": "nic-las",
+          "nombre": "Nicø#LAS",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "gSullivanz#7w7",
+          "puesto": 8
+        }
+      ],
+      "puesto": 2,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "TFT16_Demacia",
+          "nivel": 3,
+          "unico": false,
+          "unidades": 7
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Defender",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Juggernaut",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Sorcerer",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 3,
+          "id": "TFT16_Emperor",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        },
+        {
+          "estilo": 3,
+          "id": "TFT16_Heroic",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        }
+      ],
+      "ronda": 35,
+      "set": 16,
+      "unidades": [
+        {
+          "estrellas": 2,
+          "id": "TFT16_Garen",
+          "items": [
+            "TFT_Item_Quicksilver",
+            "TFT_Item_NightHarvester",
+            "TFT_Item_GargoyleStoneplate"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Lux",
+          "items": [
+            "TFT_Item_JeweledGauntlet",
+            "TFT_Item_SpearOfShojin",
+            "TFT_Item_PowerGauntlet"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Swain",
+          "items": [],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Poppy",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_XinZhao",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_JarvanIV",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Sona",
+          "items": [
+            "TFT_Item_MadredsBloodrazor",
+            "TFT_Item_RapidFireCannon",
+            "TFT_Item_BlueBuff"
+          ],
+          "rareza": 0
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_Azir",
+          "items": [
+            "TFT_Item_Leviathan",
+            "TFT_Item_ArchangelsStaff",
+            "TFT_Item_GuinsoosRageblade"
+          ],
+          "rareza": 6
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_Galio",
+          "items": [],
+          "rareza": 6
+        }
+      ]
+    },
+    "LA2_1551938574": {
+      "danio": 120,
+      "duracion": 2083,
+      "eliminados": 1,
+      "fecha": 1765080227544,
+      "id": "LA2_1551938574",
+      "nivel": 7,
+      "participantes": [
+        {
+          "amigo": null,
+          "nombre": "HardStuck Bronze#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": "big-gato-las",
+          "nombre": "Big Gato#LAS",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "El mastica hueso#69696",
+          "puesto": 3
+        },
+        {
+          "amigo": "nic-las",
+          "nombre": "Nicø#LAS",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "Rilarson#tri",
+          "puesto": 5
+        },
+        {
+          "amigo": "iskrat-las",
+          "nombre": "ISkrat#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "There#12333",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "Saomer#7343",
+          "puesto": 8
+        }
+      ],
+      "puesto": 2,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "TFT16_Brawler",
+          "nivel": 3,
+          "unico": false,
+          "unidades": 6
+        },
+        {
+          "estilo": 4,
+          "id": "TFT16_Targon",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        },
+        {
+          "estilo": 3,
+          "id": "TFT16_Caretaker",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        }
+      ],
+      "ronda": 33,
+      "set": 16,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "TFT16_Aphelios",
+          "items": [
+            "TFT_Item_RunaansHurricane",
+            "TFT_Item_MadredsBloodrazor",
+            "TFT_Item_Deathblade"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 3,
+          "id": "TFT16_Bard",
+          "items": [
+            "TFT_Item_SpearOfShojin",
+            "TFT_Item_ArchangelsStaff",
+            "TFT_Item_JeweledGauntlet"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 3,
+          "id": "TFT16_Sion",
+          "items": [
+            "TFT_Item_RedBuff",
+            "TFT_Item_NightHarvester",
+            "TFT_Item_GargoyleStoneplate"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 3,
+          "id": "TFT16_Illaoi",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 3,
+          "id": "TFT16_Shen",
+          "items": [
+            "TFT_Item_TacticiansScepter"
+          ],
+          "rareza": 0
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_DrMundo",
+          "items": [
+            "TFT_Item_WarmogsArmor",
+            "TFT_Item_Bloodthirster",
+            "TFT_Item_NightHarvester"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Kobuko",
+          "items": [],
+          "rareza": 2
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_Wukong",
+          "items": [],
+          "rareza": 4
+        }
+      ]
+    },
+    "LA2_1552179029": {
+      "danio": 221,
+      "duracion": 2001,
+      "eliminados": 4,
+      "fecha": 1765154789322,
+      "id": "LA2_1552179029",
+      "nivel": 10,
+      "participantes": [
+        {
+          "amigo": "big-gato-las",
+          "nombre": "Big Gato#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "Akaliciame#1303",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "Sailetheach#LAS",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "McBaren#LAS",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "Lucad#ARG",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "InuPark#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "The Narf#LAS",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "SuperPlatiado#LAS",
+          "puesto": 8
+        }
+      ],
+      "puesto": 1,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 2,
+          "id": "TFT16_Noxus",
+          "nivel": 2,
+          "unico": false,
+          "unidades": 5
+        },
+        {
+          "estilo": 2,
+          "id": "TFT16_Juggernaut",
+          "nivel": 2,
+          "unico": false,
+          "unidades": 4
+        },
+        {
+          "estilo": 2,
+          "id": "TFT16_Vanquisher",
+          "nivel": 2,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Bilgewater",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Rapidfire",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Slayer",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 3,
+          "id": "TFT16_Harvester",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        },
+        {
+          "estilo": 3,
+          "id": "TFT16_ShyvanaUnique",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        }
+      ],
+      "ronda": 34,
+      "set": 16,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "TFT16_Draven",
+          "items": [
+            "TFT_Item_GuinsoosRageblade",
+            "TFT_Item_InfinityEdge",
+            "TFT_Item_RunaansHurricane"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 3,
+          "id": "TFT16_Gangplank",
+          "items": [
+            "TFT_Item_UnstableConcoction",
+            "TFT_Item_TitansResolve",
+            "TFT_Item_GuinsoosRageblade"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 3,
+          "id": "TFT16_Nautilus",
+          "items": [
+            "TFT_Item_GargoyleStoneplate",
+            "TFT_Item_WarmogsArmor",
+            "TFT_Item_AdaptiveHelm"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "tft16_atakhan",
+          "items": [],
+          "rareza": 9
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Mel",
+          "items": [
+            "TFT_Item_JeweledGauntlet"
+          ],
+          "rareza": 6
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Ambessa",
+          "items": [
+            "TFT_Item_SparringGloves"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Swain",
+          "items": [],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_TwistedFate",
+          "items": [
+            "TFT16_Item_Bilgewater_CaptainsBrew"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Briar",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_Fiddlesticks",
+          "items": [],
+          "rareza": 6
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_Shyvana",
+          "items": [],
+          "rareza": 6
+        }
+      ]
+    },
+    "LA2_1552576429": {
+      "danio": 133,
+      "duracion": 2050,
+      "eliminados": 2,
+      "fecha": 1765248678382,
+      "id": "LA2_1552576429",
+      "nivel": 9,
+      "participantes": [
+        {
+          "amigo": null,
+          "nombre": "Henntai Tentacle#999P",
+          "puesto": 1
+        },
+        {
+          "amigo": "big-gato-las",
+          "nombre": "Big Gato#LAS",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "Toobal 못#GGez",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "Jooseto#9230",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "FeelZar#1427",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "ElbuenMiche#LSM",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "Zokhra#zokhr",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "vNy#1111",
+          "puesto": 8
+        }
+      ],
+      "puesto": 2,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "TFT16_Ionia",
+          "nivel": 3,
+          "unico": false,
+          "unidades": 7
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Brawler",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Rapidfire",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Warden",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 3,
+          "id": "TFT16_Blacksmith",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        },
+        {
+          "estilo": 3,
+          "id": "TFT16_KindredUnique",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        }
+      ],
+      "ronda": 35,
+      "set": 16,
+      "unidades": [
+        {
+          "estrellas": 2,
+          "id": "TFT16_Kindred",
+          "items": [
+            "TFT_Item_ThiefsGloves",
+            "TFT_Item_WarmogsArmor",
+            "TFT_Item_InfinityEdge"
+          ],
+          "rareza": 6
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Wukong",
+          "items": [
+            "TFT_Item_GargoyleStoneplate",
+            "TFT_Item_WarmogsArmor",
+            "TFT_Item_RedBuff"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Yunara",
+          "items": [
+            "TFT_Item_RunaansHurricane",
+            "TFT_Item_InfinityEdge",
+            "TFT_Item_GuinsoosRageblade"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Ahri",
+          "items": [],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Kennen",
+          "items": [
+            "TFT_Item_FrozenHeart",
+            "TFT_Item_AdaptiveHelm",
+            "TFT_Item_Redemption"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_XinZhao",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Shen",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_Ornn",
+          "items": [
+            "TFT_Item_GiantsBelt"
+          ],
+          "rareza": 6
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_Jhin",
+          "items": [],
+          "rareza": 0
+        }
+      ]
+    },
+    "LA2_1552591948": {
+      "danio": 16,
+      "duracion": 2404,
+      "eliminados": 0,
+      "fecha": 1765251164542,
+      "id": "LA2_1552591948",
+      "nivel": 8,
+      "participantes": [
+        {
+          "amigo": null,
+          "nombre": "ziggy xo#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "Badu#Lkt",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "GuacamayoAsesino#LAS",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "CcritøGg#LAS",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "DoraLaKiteadora#GoNxt",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "PC BloodDagger#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "lukinxo#LAS",
+          "puesto": 7
+        },
+        {
+          "amigo": "big-gato-las",
+          "nombre": "Big Gato#LAS",
+          "puesto": 8
+        }
+      ],
+      "puesto": 8,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 2,
+          "id": "TFT16_Demacia",
+          "nivel": 2,
+          "unico": false,
+          "unidades": 6
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Defender",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Juggernaut",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Sorcerer",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Yordle",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        }
+      ],
+      "ronda": 23,
+      "set": 16,
+      "unidades": [
+        {
+          "estrellas": 2,
+          "id": "TFT16_Garen",
+          "items": [
+            "TFT_Item_GargoyleStoneplate",
+            "TFT_Item_Artifact_TheIndomitable"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Lux",
+          "items": [
+            "TFT_Item_SpearOfShojin",
+            "TFT_Item_JeweledGauntlet",
+            "TFT_Item_PowerGauntlet"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Swain",
+          "items": [],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Poppy",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_JarvanIV",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Sona",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_XinZhao",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_Rumble",
+          "items": [],
+          "rareza": 0
+        }
+      ]
+    }
+  },
+  "perfil": {
+    "icono": 691,
+    "nivel": 666
+  },
+  "rangos": {
+    "doble": null,
+    "ranked": null,
+    "turbo": null
+  },
   "riot_id": "Big Gato#LAS",
-  "seguimiento_desde": 1791054713514,
+  "seguimiento_desde": 1790976035544,
   "version": 3
 }

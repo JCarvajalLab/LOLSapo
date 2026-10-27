@@ -1,8 +1,8316 @@
 {
-  "partidas": {},
-  "perfil": null,
-  "rangos": null,
+  "partidas": {
+    "LA2_1556086334": {
+      "danio": 159,
+      "duracion": 2253,
+      "eliminados": 3,
+      "fecha": 1766416814731,
+      "id": "LA2_1556086334",
+      "nivel": 8,
+      "participantes": [
+        {
+          "amigo": null,
+          "nombre": "unicorniomajiko#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "Bzki#LAS",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "Keluric#LAS",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "apechao#unu",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "NataliaJeshu#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "POROFESS0R#LAS",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "StopMyBans#LAS",
+          "puesto": 8
+        }
+      ],
+      "puesto": 2,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "TFT16_Ionia",
+          "nivel": 3,
+          "unico": false,
+          "unidades": 7
+        },
+        {
+          "estilo": 4,
+          "id": "TFT16_DarkinWeapon",
+          "nivel": 3,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Slayer",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Brawler",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 3,
+          "id": "TFT16_AatroxUnique",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        },
+        {
+          "estilo": 3,
+          "id": "TFT16_ZaahenTrait",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        }
+      ],
+      "ronda": 38,
+      "set": 16,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "TFT16_Yasuo",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Zaahen",
+          "items": [
+            "TFT_Item_InfinityEdge",
+            "TFT5_Item_SteraksGageRadiant",
+            "TFT_Item_UnstableConcoction"
+          ],
+          "rareza": 7
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Wukong",
+          "items": [
+            "TFT_Item_SpectralGauntlet",
+            "TFT16_TheDarkinScythe",
+            "TFT_Item_RedBuff"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Kennen",
+          "items": [
+            "TFT_Item_WarmogsArmor",
+            "TFT_Item_Morellonomicon",
+            "TFT_Item_Crownguard"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Shen",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_Aatrox",
+          "items": [
+            "TFT_Item_Bloodthirster",
+            "TFT_Item_TitansResolve",
+            "TFT_Item_GuardianAngel"
+          ],
+          "rareza": 6
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_Yone",
+          "items": [],
+          "rareza": 4
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_Ahri",
+          "items": [],
+          "rareza": 2
+        }
+      ]
+    },
+    "LA2_1556249304": {
+      "danio": 195,
+      "duracion": 2150,
+      "eliminados": 2,
+      "fecha": 1766460061118,
+      "id": "LA2_1556249304",
+      "nivel": 9,
+      "participantes": [
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "TLV SanMax25#0912",
+          "puesto": 2
+        },
+        {
+          "amigo": "nic-las",
+          "nombre": "Nicø#LAS",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "Kesso#CERE",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "TLV JUAXX22#AAHH",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "opw38#8304",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "CoRRpted#LAS",
+          "puesto": 7
+        },
+        {
+          "amigo": "iskrat-las",
+          "nombre": "ISkrat#LAS",
+          "puesto": 8
+        }
+      ],
+      "puesto": 1,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 2,
+          "id": "TFT16_Explorer",
+          "nivel": 2,
+          "unico": false,
+          "unidades": 5
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Freljord",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Invoker",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Brawler",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Warden",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 3,
+          "id": "TFT16_Blacksmith",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        }
+      ],
+      "ronda": 37,
+      "set": 16,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "TFT16_Milio",
+          "items": [
+            "TFT_Item_JeweledGauntlet",
+            "TFT_Item_StatikkShiv",
+            "TFT_Item_MadredsBloodrazor"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Brock",
+          "items": [
+            "TFT_Item_Bloodthirster",
+            "TFT_Item_UnstableConcoction",
+            "TFT_Item_InfinityEdge"
+          ],
+          "rareza": 7
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Braum",
+          "items": [
+            "TFT_Item_GargoyleStoneplate",
+            "TFT_Item_Redemption",
+            "TFT_Item_RedBuff"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Lissandra",
+          "items": [
+            "TFT_Item_ThiefsGloves",
+            "TFT_Item_EmptyBag",
+            "TFT_Item_EmptyBag"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Skarner",
+          "items": [
+            "TFT5_Item_ThiefsGlovesRadiant",
+            "TFT_Item_EmptyBag",
+            "TFT_Item_EmptyBag"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Kobuko",
+          "items": [],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Neeko",
+          "items": [
+            "TFT4_Item_OrnnZhonyasParadox",
+            "TFT_Item_ForceOfNature"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Neeko",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_Ornn",
+          "items": [
+            "TFT4_Item_OrnnDeathsDefiance"
+          ],
+          "rareza": 6
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_Volibear",
+          "items": [
+            "TFT16_Item_IxtalEmblemItem",
+            "TFT_Item_Artifact_SilvermereDawn",
+            "TFT_Item_WarmogsArmor"
+          ],
+          "rareza": 6
+        }
+      ]
+    },
+    "LA2_1556263253": {
+      "danio": 169,
+      "duracion": 2246,
+      "eliminados": 1,
+      "fecha": 1766462430748,
+      "id": "LA2_1556263253",
+      "nivel": 9,
+      "participantes": [
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "TLV SanMax25#0912",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "k1lu4#LAS",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "just get better#LAS",
+          "puesto": 4
+        },
+        {
+          "amigo": "nic-las",
+          "nombre": "Nicø#LAS",
+          "puesto": 5
+        },
+        {
+          "amigo": "iskrat-las",
+          "nombre": "ISkrat#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "milongaYwhisky#9328",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "TLV JUAXX22#AAHH",
+          "puesto": 8
+        }
+      ],
+      "puesto": 1,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "TFT16_Piltover",
+          "nivel": 3,
+          "unico": false,
+          "unidades": 6
+        },
+        {
+          "estilo": 2,
+          "id": "TFT16_Warden",
+          "nivel": 2,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Gunslinger",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 3,
+          "id": "TFT16_HexMech",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        },
+        {
+          "estilo": 3,
+          "id": "TFT16_Soulbound",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        }
+      ],
+      "ronda": 38,
+      "set": 16,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "TFT16_Loris",
+          "items": [
+            "TFT_Item_Redemption",
+            "TFT_Item_GuardianAngel",
+            "TFT_Item_RedBuff"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 3,
+          "id": "TFT16_Orianna",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 3,
+          "id": "TFT16_Vi",
+          "items": [
+            "TFT_Item_SteraksGage"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 3,
+          "id": "TFT16_Caitlyn",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Lucian",
+          "items": [],
+          "rareza": 6
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_THex",
+          "items": [
+            "TFT_Item_UnstableConcoction",
+            "TFT_Item_Deathblade",
+            "TFT_Item_InfinityEdge"
+          ],
+          "rareza": 6
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Braum",
+          "items": [
+            "TFT_Item_FrozenHeart",
+            "TFT_Item_DragonsClaw",
+            "TFT_Item_GargoyleStoneplate"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Seraphine",
+          "items": [
+            "TFT_Item_TacticiansScepter"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Nautilus",
+          "items": [],
+          "rareza": 2
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_THex",
+          "items": [
+            "TFT_Item_InfinityEdge",
+            "TFT_Item_UnstableConcoction",
+            "TFT_Item_MadredsBloodrazor"
+          ],
+          "rareza": 6
+        }
+      ]
+    },
+    "LA2_1558983380": {
+      "danio": 179,
+      "duracion": 2478,
+      "eliminados": 0,
+      "fecha": 1767407770599,
+      "id": "LA2_1558983380",
+      "nivel": 9,
+      "participantes": [
+        {
+          "amigo": null,
+          "nombre": "Mvtics#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "TOM22#LAS",
+          "puesto": 3
+        },
+        {
+          "amigo": "nic-las",
+          "nombre": "Nicø#LAS",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "Cesar Anibul#LAS",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "jerryx#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": "iskrat-las",
+          "nombre": "ISkrat#LAS",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "Rlpcap#APO",
+          "puesto": 8
+        }
+      ],
+      "puesto": 2,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "TFT16_DarkinWeapon",
+          "nivel": 3,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 2,
+          "id": "TFT16_Demacia",
+          "nivel": 2,
+          "unico": false,
+          "unidades": 5
+        },
+        {
+          "estilo": 2,
+          "id": "TFT16_Defender",
+          "nivel": 2,
+          "unico": false,
+          "unidades": 4
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Ionia",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Slayer",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Sorcerer",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Warden",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 3,
+          "id": "TFT16_AatroxUnique",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        },
+        {
+          "estilo": 3,
+          "id": "TFT16_Heroic",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        },
+        {
+          "estilo": 3,
+          "id": "TFT16_ZaahenTrait",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        }
+      ],
+      "ronda": 41,
+      "set": 16,
+      "unidades": [
+        {
+          "estrellas": 2,
+          "id": "TFT16_Zaahen",
+          "items": [
+            "TFT_Item_Bloodthirster",
+            "TFT_Item_TitansResolve",
+            "TFT_Item_UnstableConcoction"
+          ],
+          "rareza": 7
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Galio",
+          "items": [
+            "TFT_Item_AdaptiveHelm",
+            "TFT_Item_AdaptiveHelm",
+            "TFT_Item_AdaptiveHelm"
+          ],
+          "rareza": 6
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Garen",
+          "items": [
+            "TFT_Item_SpectralGauntlet",
+            "TFT16_TheDarkinAegis",
+            "TFT_Item_Redemption"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Lux",
+          "items": [
+            "TFT_Item_Morellonomicon"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Kennen",
+          "items": [],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Neeko",
+          "items": [
+            "TFT_Item_ThiefsGloves",
+            "TFT_Item_StatikkShiv",
+            "TFT_Item_LastWhisper"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Yasuo",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_JarvanIV",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_Aatrox",
+          "items": [
+            "TFT_Item_UnstableConcoction",
+            "TFT_Item_Deathblade",
+            "TFT_Item_MadredsBloodrazor"
+          ],
+          "rareza": 6
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_Nautilus",
+          "items": [],
+          "rareza": 2
+        }
+      ]
+    },
+    "LA2_1562886827": {
+      "danio": 141,
+      "duracion": 2211,
+      "eliminados": 1,
+      "fecha": 1768680960614,
+      "id": "LA2_1562886827",
+      "nivel": 10,
+      "participantes": [
+        {
+          "amigo": null,
+          "nombre": "Peso#Qlo",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "conatraa#001",
+          "puesto": 2
+        },
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "heaven and back#0800",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "zarky#xxx",
+          "puesto": 5
+        },
+        {
+          "amigo": "iskrat-las",
+          "nombre": "ISkrat#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "VikoV#0310",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "Maestri117#1950",
+          "puesto": 8
+        }
+      ],
+      "puesto": 3,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "TFT16_Void",
+          "nivel": 4,
+          "unico": false,
+          "unidades": 9
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Brawler",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Longshot",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 3,
+          "id": "TFT16_BaronUnique",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        },
+        {
+          "estilo": 3,
+          "id": "TFT16_Chronokeeper",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        },
+        {
+          "estilo": 3,
+          "id": "TFT16_KaisaUnique",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        }
+      ],
+      "ronda": 35,
+      "set": 16,
+      "unidades": [
+        {
+          "estrellas": 2,
+          "id": "TFT16_BaronNashor",
+          "items": [
+            "TFT4_Item_OrnnInfinityForce",
+            "TFT_Item_SteraksGage",
+            "TFT_Item_Bloodthirster"
+          ],
+          "rareza": 7
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Zilean",
+          "items": [],
+          "rareza": 6
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Kaisa",
+          "items": [
+            "TFT_Item_JeweledGauntlet",
+            "TFT_Item_GuinsoosRageblade",
+            "TFT_Item_HextechGunblade"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_RiftHerald",
+          "items": [
+            "TFT_Item_SpectralGauntlet",
+            "TFT_Item_WarmogsArmor",
+            "TFT_Item_WarmogsArmor"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Malzahar",
+          "items": [
+            "TFT_Item_StatikkShiv",
+            "TFT_Item_Morellonomicon",
+            "TFT_Item_Leviathan"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_RekSai",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_Volibear",
+          "items": [
+            "TFT16_Item_VoidEmblemItem",
+            "TFT_Item_SpearOfShojin",
+            "TFT_Item_BrambleVest"
+          ],
+          "rareza": 6
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_ChoGath",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_KogMaw",
+          "items": [],
+          "rareza": 0
+        }
+      ]
+    },
+    "LA2_1564632824": {
+      "danio": 46,
+      "duracion": 2115,
+      "eliminados": 0,
+      "fecha": 1769201231821,
+      "id": "LA2_1564632824",
+      "nivel": 7,
+      "participantes": [
+        {
+          "amigo": null,
+          "nombre": "Raikiri#6969",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "Juan nieves#0800",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "Fhontainer#TFB",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "kentaro#burro",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "dez666#999",
+          "puesto": 5
+        },
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": "iskrat-las",
+          "nombre": "ISkrat#LAS",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "BloshFTW#LAS",
+          "puesto": 8
+        }
+      ],
+      "puesto": 6,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 1,
+          "id": "TFT16_Freljord",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Defender",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Juggernaut",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Rapidfire",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Slayer",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Sorcerer",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 3,
+          "id": "TFT16_KindredUnique",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        }
+      ],
+      "ronda": 26,
+      "set": 16,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "TFT16_Ashe",
+          "items": [
+            "TFT_Item_GuinsoosRageblade",
+            "TFT7_Item_ShimmerscaleGamblersBlade",
+            "TFT_Item_RunaansHurricane"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 3,
+          "id": "TFT16_Tryndamere",
+          "items": [
+            "TFT_Item_GuinsoosRageblade"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Swain",
+          "items": [
+            "TFT_Item_GargoyleStoneplate",
+            "TFT_Item_FrozenHeart",
+            "TFT7_Item_ShimmerscaleMogulsMail"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Sejuani",
+          "items": [
+            "TFT_Item_WarmogsArmor"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Neeko",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Briar",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_Kindred",
+          "items": [
+            "TFT_Item_ThiefsGloves",
+            "TFT_Item_GuardianAngel",
+            "TFT_Item_Redemption"
+          ],
+          "rareza": 6
+        }
+      ]
+    },
+    "LA2_1564643391": {
+      "danio": 148,
+      "duracion": 2320,
+      "eliminados": 3,
+      "fecha": 1769203197565,
+      "id": "LA2_1564643391",
+      "nivel": 8,
+      "participantes": [
+        {
+          "amigo": null,
+          "nombre": "algerus#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "P0CH0#2019",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "Str8kïller#2527",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "FAKEolo7o7#LAS",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "Nanotft#Messi",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "MapacheTactico#420",
+          "puesto": 7
+        },
+        {
+          "amigo": "iskrat-las",
+          "nombre": "ISkrat#LAS",
+          "puesto": 8
+        }
+      ],
+      "puesto": 2,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 1,
+          "id": "TFT16_Defender",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Juggernaut",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Piltover",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Sorcerer",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 4,
+          "id": "TFT16_Targon",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 3
+        },
+        {
+          "estilo": 3,
+          "id": "TFT16_AurelionSolUnique",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        },
+        {
+          "estilo": 3,
+          "id": "TFT16_ShyvanaUnique",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        }
+      ],
+      "ronda": 38,
+      "set": 16,
+      "unidades": [
+        {
+          "estrellas": 2,
+          "id": "TFT16_AurelionSol",
+          "items": [
+            "TFT_Item_Leviathan",
+            "TFT_Item_Leviathan",
+            "TFT_Item_ArchangelsStaff"
+          ],
+          "rareza": 7
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Diana",
+          "items": [
+            "TFT_Item_TitansResolve",
+            "TFT_Item_RedBuff"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Seraphine",
+          "items": [
+            "TFT_Item_SpearOfShojin",
+            "TFT_Item_Morellonomicon"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Swain",
+          "items": [
+            "TFT_Item_Redemption",
+            "TFT_Item_WarmogsArmor",
+            "TFT_Item_IonicSpark"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Neeko",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Vi",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_Shyvana",
+          "items": [
+            "TFT_Item_ThiefsGloves",
+            "TFT_Item_AdaptiveHelm",
+            "TFT_Item_PowerGauntlet"
+          ],
+          "rareza": 6
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_Taric",
+          "items": [
+            "TFT_Item_RedBuff",
+            "TFT_Item_Redemption"
+          ],
+          "rareza": 4
+        }
+      ]
+    },
+    "LA2_1564672320": {
+      "danio": 223,
+      "duracion": 2537,
+      "eliminados": 3,
+      "fecha": 1769210276260,
+      "id": "LA2_1564672320",
+      "nivel": 10,
+      "participantes": [
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "Boxcoin#LMAO",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "virgø#LAS",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "MasterLeague213#LAS",
+          "puesto": 4
+        },
+        {
+          "amigo": "iskrat-las",
+          "nombre": "ISkrat#LAS",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "Kattyoss#TUTE",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "ElPrincipiante#PRO",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "lautydb18#LAS",
+          "puesto": 8
+        }
+      ],
+      "puesto": 1,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 2,
+          "id": "TFT16_Vanquisher",
+          "nivel": 3,
+          "unico": false,
+          "unidades": 4
+        },
+        {
+          "estilo": 2,
+          "id": "TFT16_Void",
+          "nivel": 2,
+          "unico": false,
+          "unidades": 4
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Bilgewater",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Brawler",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Invoker",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Juggernaut",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Slayer",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 3,
+          "id": "TFT16_Chronokeeper",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        },
+        {
+          "estilo": 3,
+          "id": "TFT16_Harvester",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        }
+      ],
+      "ronda": 42,
+      "set": 16,
+      "unidades": [
+        {
+          "estrellas": 4,
+          "id": "TFT16_RekSai",
+          "items": [
+            "TFT_Item_Bloodthirster",
+            "TFT_Item_GuinsoosRageblade",
+            "TFT_Item_TitansResolve"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 3,
+          "id": "TFT16_RiftHerald",
+          "items": [
+            "TFT_Item_WarmogsArmor",
+            "TFT_Item_Redemption",
+            "TFT_Item_FrozenHeart"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Fiddlesticks",
+          "items": [
+            "TFT_Item_SpectralGauntlet",
+            "TFT_Item_UnstableConcoction",
+            "TFT_Item_RedBuff"
+          ],
+          "rareza": 6
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Zilean",
+          "items": [],
+          "rareza": 6
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Ambessa",
+          "items": [],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_BelVeth",
+          "items": [],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Gangplank",
+          "items": [],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Nautilus",
+          "items": [],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_ChoGath",
+          "items": [
+            "TFT16_Item_InvokerEmblemItem",
+            "TFT_Item_Artifact_LightshieldCrest",
+            "TFT_Item_BrambleVest"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Illaoi",
+          "items": [],
+          "rareza": 0
+        }
+      ]
+    },
+    "LA2_1564728567": {
+      "danio": 113,
+      "duracion": 1990,
+      "eliminados": 0,
+      "fecha": 1769220761309,
+      "id": "LA2_1564728567",
+      "nivel": 10,
+      "participantes": [
+        {
+          "amigo": "iskrat-las",
+          "nombre": "ISkrat#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "Gata Relámpago#LAS",
+          "puesto": 2
+        },
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "El Huawei#0hwei",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "Nikinuc#LAS",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "Andreth91#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": "nic-las",
+          "nombre": "Nicø#LAS",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "bloodKS#OwO",
+          "puesto": 8
+        }
+      ],
+      "puesto": 3,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "TFT16_Void",
+          "nivel": 4,
+          "unico": false,
+          "unidades": 9
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Longshot",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 3,
+          "id": "TFT16_BaronUnique",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        },
+        {
+          "estilo": 3,
+          "id": "TFT16_Chronokeeper",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        },
+        {
+          "estilo": 3,
+          "id": "TFT16_KaisaUnique",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        }
+      ],
+      "ronda": 33,
+      "set": 16,
+      "unidades": [
+        {
+          "estrellas": 2,
+          "id": "TFT16_BelVeth",
+          "items": [
+            "TFT_Item_ThiefsGloves",
+            "TFT_Item_Morellonomicon",
+            "TFT_Item_GuardianAngel"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Kaisa",
+          "items": [
+            "TFT_Item_MadredsBloodrazor",
+            "TFT_Item_GuinsoosRageblade",
+            "TFT_Item_JeweledGauntlet"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_RiftHerald",
+          "items": [
+            "TFT_Item_DragonsClaw",
+            "TFT_Item_SpectralGauntlet",
+            "TFT_Item_RedBuff"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_ChoGath",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_RekSai",
+          "items": [
+            "TFT_Item_IonicSpark"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_KogMaw",
+          "items": [
+            "TFT_Item_StatikkShiv",
+            "TFT_Item_BlueBuff",
+            "TFT_Item_TearOfTheGoddess"
+          ],
+          "rareza": 0
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_BaronNashor",
+          "items": [
+            "TFT_Item_Deathblade",
+            "TFT_Item_TitansResolve",
+            "TFT_Item_Bloodthirster"
+          ],
+          "rareza": 7
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_Zilean",
+          "items": [
+            "TFT_Item_SpearOfShojin"
+          ],
+          "rareza": 6
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_Malzahar",
+          "items": [],
+          "rareza": 2
+        }
+      ]
+    },
+    "LA2_1565198775": {
+      "danio": 179,
+      "duracion": 2190,
+      "eliminados": 2,
+      "fecha": 1769367583591,
+      "id": "LA2_1565198775",
+      "nivel": 8,
+      "participantes": [
+        {
+          "amigo": null,
+          "nombre": "BüMâ#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "Behemont89#LAS",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "El peor jugador#GORRI",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "LaJuanis#LAS",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "Hope#JTF",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "louisopenda#6915",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "ILL Guidouski4#LAS",
+          "puesto": 8
+        }
+      ],
+      "puesto": 2,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 1,
+          "id": "TFT16_Zaun",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Defender",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Juggernaut",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Magus",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Piltover",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Sorcerer",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 4,
+          "id": "TFT16_Targon",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        },
+        {
+          "estilo": 3,
+          "id": "TFT16_Huntress",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        }
+      ],
+      "ronda": 38,
+      "set": 16,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "TFT16_Ekko",
+          "items": [
+            "TFT_Item_Bloodthirster",
+            "TFT_Item_TitansResolve",
+            "TFT_Item_GuinsoosRageblade"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 3,
+          "id": "TFT16_Neeko",
+          "items": [
+            "TFT_Item_Redemption",
+            "TFT_Item_WarmogsArmor",
+            "TFT_Item_IonicSpark"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 3,
+          "id": "TFT16_Vi",
+          "items": [
+            "TFT_Item_RedBuff"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Nidalee",
+          "items": [
+            "TFT_Item_JeweledGauntlet",
+            "TFT_Item_UnstableConcoction",
+            "TFT_Item_RabadonsDeathcap"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Seraphine",
+          "items": [
+            "TFT_Item_Morellonomicon",
+            "TFT_Item_GuinsoosRageblade",
+            "TFT_Item_SpearOfShojin"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Singed",
+          "items": [
+            "TFT_Item_Morellonomicon"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Swain",
+          "items": [],
+          "rareza": 4
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_Taric",
+          "items": [],
+          "rareza": 4
+        }
+      ]
+    },
+    "LA2_1565211743": {
+      "danio": 29,
+      "duracion": 2122,
+      "eliminados": 0,
+      "fecha": 1769370114339,
+      "id": "LA2_1565211743",
+      "nivel": 8,
+      "participantes": [
+        {
+          "amigo": null,
+          "nombre": "Andreita#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "Konfuzed#LAS",
+          "puesto": 2
+        },
+        {
+          "amigo": "nic-las",
+          "nombre": "Nicø#LAS",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "ULTRALIKX#LAS",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "Chuko#LAS",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "R de RicaRdio#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 7
+        },
+        {
+          "amigo": "iskrat-las",
+          "nombre": "ISkrat#LAS",
+          "puesto": 8
+        }
+      ],
+      "puesto": 7,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "TFT16_Zaun",
+          "nivel": 3,
+          "unico": false,
+          "unidades": 7
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Juggernaut",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Rapidfire",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 3,
+          "id": "TFT16_KindredUnique",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        }
+      ],
+      "ronda": 26,
+      "set": 16,
+      "unidades": [
+        {
+          "estrellas": 2,
+          "id": "TFT16_Singed",
+          "items": [],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Warwick",
+          "items": [
+            "TFT_Item_TitansResolve",
+            "TFT_Item_Bloodthirster",
+            "TFT_Item_HextechGunblade"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Jinx",
+          "items": [
+            "TFT_Item_GuinsoosRageblade",
+            "TFT_Item_SpearOfShojin"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Ekko",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Vi",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Blitzcrank",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_Kindred",
+          "items": [],
+          "rareza": 6
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_DrMundo",
+          "items": [
+            "TFT_Item_GargoyleStoneplate"
+          ],
+          "rareza": 2
+        }
+      ]
+    },
+    "LA2_1565842928": {
+      "danio": 182,
+      "duracion": 2251,
+      "eliminados": 2,
+      "fecha": 1769545317172,
+      "id": "LA2_1565842928",
+      "nivel": 10,
+      "participantes": [
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "987436097#LAS",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "Pacho2712#LAS",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "El Magnus#uwu",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "TheKingOfToast#2011",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "palcoN#OwO",
+          "puesto": 6
+        },
+        {
+          "amigo": "iskrat-las",
+          "nombre": "ISkrat#LAS",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "desert1sebs#8448",
+          "puesto": 8
+        }
+      ],
+      "puesto": 1,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "TFT16_Noxus",
+          "nivel": 3,
+          "unico": false,
+          "unidades": 7
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Invoker",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Brawler",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Juggernaut",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Vanquisher",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 3,
+          "id": "TFT16_Chronokeeper",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        },
+        {
+          "estilo": 3,
+          "id": "TFT16_Harvester",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        }
+      ],
+      "ronda": 37,
+      "set": 16,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "tft16_atakhan",
+          "items": [],
+          "rareza": 9
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Fiddlesticks",
+          "items": [
+            "TFT_Item_TearOfTheGoddess"
+          ],
+          "rareza": 6
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Mel",
+          "items": [
+            "TFT_Item_AdaptiveHelm",
+            "TFT_Item_Leviathan",
+            "TFT_Item_JeweledGauntlet"
+          ],
+          "rareza": 6
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Ambessa",
+          "items": [
+            "TFT_Item_SteraksGage",
+            "TFT_Item_InfinityEdge",
+            "TFT_Item_GuinsoosRageblade"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Swain",
+          "items": [
+            "TFT_Item_IonicSpark",
+            "TFT_Item_RedBuff",
+            "TFT_Item_WarmogsArmor"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Kobuko",
+          "items": [],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Leblanc",
+          "items": [
+            "TFT_Item_StatikkShiv",
+            "TFT_Item_Leviathan",
+            "TFT_Item_RapidFireCannon"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Sion",
+          "items": [
+            "TFT_Item_WarmogsArmor",
+            "TFT_Item_RunaansHurricane"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Briar",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_Zilean",
+          "items": [],
+          "rareza": 6
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_Darius",
+          "items": [],
+          "rareza": 2
+        }
+      ]
+    },
+    "LA2_1565855531": {
+      "danio": 248,
+      "duracion": 1996,
+      "eliminados": 2,
+      "fecha": 1769547448357,
+      "id": "LA2_1565855531",
+      "nivel": 9,
+      "participantes": [
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "DREKHI#LAS",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "THEbeastOFF#LAS",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "Velkanah#2343",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "AxLZeta#666",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "Never More#Miku",
+          "puesto": 6
+        },
+        {
+          "amigo": "iskrat-las",
+          "nombre": "ISkrat#LAS",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "Dr Coito#STWRS",
+          "puesto": 8
+        }
+      ],
+      "puesto": 1,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "TFT16_Yordle",
+          "nivel": 4,
+          "unico": false,
+          "unidades": 8
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Brawler",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Defender",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Longshot",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Sorcerer",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        }
+      ],
+      "ronda": 34,
+      "set": 16,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "TFT16_Kennen",
+          "items": [],
+          "rareza": 2
+        },
+        {
+          "estrellas": 3,
+          "id": "TFT16_Kobuko",
+          "items": [
+            "TFT_Item_RedBuff",
+            "TFT_Item_AdaptiveHelm",
+            "TFT_Item_IonicSpark"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Volibear",
+          "items": [],
+          "rareza": 6
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Ziggs",
+          "items": [
+            "TFT_Item_RapidFireCannon",
+            "TFT_Item_GuinsoosRageblade",
+            "TFT_Item_Leviathan"
+          ],
+          "rareza": 6
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Fizz",
+          "items": [
+            "TFT_Item_RabadonsDeathcap",
+            "TFT_Item_JeweledGauntlet",
+            "TFT_Item_PowerGauntlet"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Veigar",
+          "items": [
+            "TFT_Item_RabadonsDeathcap",
+            "TFT_Item_HextechGunblade",
+            "TFT_Item_SpearOfShojin"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Teemo",
+          "items": [
+            "TFT_Item_Morellonomicon"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Lulu",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Rumble",
+          "items": [],
+          "rareza": 0
+        }
+      ]
+    },
+    "LA2_1579211297": {
+      "danio": 171,
+      "duracion": 2221,
+      "eliminados": 0,
+      "fecha": 1773538321452,
+      "id": "LA2_1579211297",
+      "nivel": 10,
+      "participantes": [
+        {
+          "amigo": null,
+          "nombre": "TINKY WlNKY#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "LEE SIN 10#CABJ",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "Seicro#HOS",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "Vinagreta#CABJ",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "TFTPLAYEARG#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": "iskrat-las",
+          "nombre": "ISkrat#LAS",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "fOREST GAM#LAS",
+          "puesto": 8
+        }
+      ],
+      "puesto": 2,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "TFT16_Ionia",
+          "nivel": 3,
+          "unico": false,
+          "unidades": 7
+        },
+        {
+          "estilo": 2,
+          "id": "TFT16_Slayer",
+          "nivel": 2,
+          "unico": false,
+          "unidades": 4
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Brawler",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_DarkinWeapon",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 1
+        },
+        {
+          "estilo": 3,
+          "id": "TFT16_AatroxUnique",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        },
+        {
+          "estilo": 3,
+          "id": "TFT16_Chronokeeper",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        },
+        {
+          "estilo": 3,
+          "id": "TFT16_TheBoss",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        }
+      ],
+      "ronda": 40,
+      "set": 16,
+      "unidades": [
+        {
+          "estrellas": 4,
+          "id": "TFT16_Yasuo",
+          "items": [
+            "TFT_Item_InfinityEdge",
+            "TFT_Item_Artifact_ProwlersClaw",
+            "TFT_Item_GuardianAngel"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Aatrox",
+          "items": [
+            "TFT_Item_TitansResolve"
+          ],
+          "rareza": 6
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Sett",
+          "items": [
+            "TFT_Item_RabadonsDeathcap",
+            "TFT_Item_Quicksilver",
+            "TFT_Item_HextechGunblade"
+          ],
+          "rareza": 6
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Zilean",
+          "items": [],
+          "rareza": 6
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Wukong",
+          "items": [
+            "TFT_Item_SpectralGauntlet",
+            "TFT_Item_FrozenHeart"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Yone",
+          "items": [
+            "TFT_Item_GuinsoosRageblade",
+            "TFT_Item_TitansResolve",
+            "TFT_Item_Bloodthirster"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Yunara",
+          "items": [
+            "TFT_Item_RapidFireCannon"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Briar",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_Ahri",
+          "items": [],
+          "rareza": 2
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_Shen",
+          "items": [],
+          "rareza": 0
+        }
+      ]
+    },
+    "LA2_1579780247": {
+      "danio": 153,
+      "duracion": 2100,
+      "eliminados": 2,
+      "fecha": 1773710642955,
+      "id": "LA2_1579780247",
+      "nivel": 8,
+      "participantes": [
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "PelaoKratos#LAS",
+          "puesto": 2
+        },
+        {
+          "amigo": "iskrat-las",
+          "nombre": "ISkrat#LAS",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "Osteosarcoma#LAS",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "ll Xisco ll#LAS",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "maldoema#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "SantyLuro#LAS",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "Kakita356#LAS",
+          "puesto": 8
+        }
+      ],
+      "puesto": 1,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 1,
+          "id": "TFT16_Defender",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Magus",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Piltover",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Sorcerer",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Void",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 4,
+          "id": "TFT16_Targon",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 3
+        }
+      ],
+      "ronda": 33,
+      "set": 16,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "TFT16_Leona",
+          "items": [
+            "TFT5_Item_SteraksGageRadiant",
+            "TFT_Item_Redemption",
+            "TFT9_Item_CrownOfDemacia"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Seraphine",
+          "items": [
+            "TFT_Item_JeweledGauntlet",
+            "TFT_Item_BlueBuff"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Taric",
+          "items": [
+            "TFT_Item_IonicSpark",
+            "TFT_Item_DragonsClaw",
+            "TFT_Item_TacticiansRing"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Malzahar",
+          "items": [
+            "TFT_Item_Leviathan",
+            "TFT_Item_JeweledGauntlet",
+            "TFT_Item_Leviathan"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Zoe",
+          "items": [
+            "TFT5_Item_JeweledGauntletRadiant",
+            "TFT_Item_SpearOfShojin",
+            "TFT_Item_HextechGunblade"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Zoe",
+          "items": [],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Vi",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_KogMaw",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_Neeko",
+          "items": [],
+          "rareza": 1
+        }
+      ]
+    },
+    "LA2_1579866597": {
+      "danio": 196,
+      "duracion": 2137,
+      "eliminados": 2,
+      "fecha": 1773726228224,
+      "id": "LA2_1579866597",
+      "nivel": 9,
+      "participantes": [
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "Comal#6671",
+          "puesto": 2
+        },
+        {
+          "amigo": "iskrat-las",
+          "nombre": "ISkrat#LAS",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "NR HiOz#5812",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "rasinpiedra#LAS",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "José Antonio Kas#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "Rebbeco#85848",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "villa127#LAS",
+          "puesto": 8
+        }
+      ],
+      "puesto": 1,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "TFT16_Longshot",
+          "nivel": 3,
+          "unico": false,
+          "unidades": 4
+        },
+        {
+          "estilo": 2,
+          "id": "TFT16_Demacia",
+          "nivel": 2,
+          "unico": false,
+          "unidades": 5
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Defender",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Juggernaut",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Sorcerer",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Void",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Yordle",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 4,
+          "id": "TFT16_Targon",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        },
+        {
+          "estilo": 3,
+          "id": "TFT16_Heroic",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        },
+        {
+          "estilo": 3,
+          "id": "TFT16_KaisaUnique",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        }
+      ],
+      "ronda": 37,
+      "set": 16,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "TFT16_Vayne",
+          "items": [
+            "TFT_Item_InfinityEdge",
+            "TFT_Item_GuinsoosRageblade",
+            "TFT_Item_RunaansHurricane"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Galio",
+          "items": [
+            "TFT_Item_ThiefsGloves",
+            "TFT_Item_Morellonomicon",
+            "TFT_Item_IonicSpark"
+          ],
+          "rareza": 6
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Garen",
+          "items": [
+            "TFT_Item_WarmogsArmor",
+            "TFT_Item_SpectralGauntlet",
+            "TFT_Item_Redemption"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Kaisa",
+          "items": [
+            "TFT_Item_Leviathan",
+            "TFT_Item_HextechGunblade"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Swain",
+          "items": [],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Taric",
+          "items": [
+            "TFT_Item_ChainVest"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Poppy",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_JarvanIV",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_KogMaw",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_Ziggs",
+          "items": [
+            "TFT_Item_StatikkShiv",
+            "TFT_Item_SpearOfShojin"
+          ],
+          "rareza": 6
+        }
+      ]
+    },
+    "LA2_1579872999": {
+      "danio": 61,
+      "duracion": 2247,
+      "eliminados": 0,
+      "fecha": 1773728650825,
+      "id": "LA2_1579872999",
+      "nivel": 9,
+      "participantes": [
+        {
+          "amigo": null,
+          "nombre": "ElKote#DeLP",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "Skybluehz#LAS",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "Dramas69#LAS",
+          "puesto": 3
+        },
+        {
+          "amigo": "iskrat-las",
+          "nombre": "ISkrat#LAS",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "villa127#LAS",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "RNGqloBasura#NGL",
+          "puesto": 6
+        },
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "Comal#6671",
+          "puesto": 8
+        }
+      ],
+      "puesto": 7,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "TFT16_Bilgewater",
+          "nivel": 3,
+          "unico": false,
+          "unidades": 9
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Brawler",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Juggernaut",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Warden",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 4,
+          "id": "TFT16_Targon",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        },
+        {
+          "estilo": 3,
+          "id": "TFT16_Glutton",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        }
+      ],
+      "ronda": 27,
+      "set": 16,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "TFT16_Nautilus",
+          "items": [
+            "TFT16_Item_BrawlerEmblemItem",
+            "TFT_Item_RedBuff",
+            "TFT_Item_GargoyleStoneplate"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Fizz",
+          "items": [],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Gangplank",
+          "items": [],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Graves",
+          "items": [
+            "TFT_Item_InfinityEdge",
+            "TFT16_Item_NoxusEmblemItem",
+            "TFT_Item_Quicksilver"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_TwistedFate",
+          "items": [
+            "TFT16_Item_Bilgewater_CaptainsBrew",
+            "TFT_Item_GuinsoosRageblade",
+            "TFT_Item_JeweledGauntlet"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Illaoi",
+          "items": [
+            "TFT16_Item_JuggernautEmblemItem",
+            "TFT16_Item_DemaciaEmblemItem"
+          ],
+          "rareza": 0
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_TahmKench",
+          "items": [
+            "TFT_Item_WarmogsArmor",
+            "TFT16_Item_Bilgewater_PileOCitrus",
+            "TFT_Item_Redemption"
+          ],
+          "rareza": 6
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_Taric",
+          "items": [
+            "TFT16_Item_BilgewaterEmblemItem"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_Loris",
+          "items": [
+            "TFT16_Item_BilgewaterEmblemItem"
+          ],
+          "rareza": 2
+        }
+      ]
+    },
+    "LA2_1579875957": {
+      "danio": 186,
+      "duracion": 1981,
+      "eliminados": 3,
+      "fecha": 1773730413051,
+      "id": "LA2_1579875957",
+      "nivel": 9,
+      "participantes": [
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "ocilogom#daun",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "Doo bidones#LAS",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "jeibi#2469",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "TittoCalderon#247",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "InodoroPereyra#TET4S",
+          "puesto": 6
+        },
+        {
+          "amigo": "iskrat-las",
+          "nombre": "ISkrat#LAS",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "PuchoyMate#SHIRO",
+          "puesto": 8
+        }
+      ],
+      "puesto": 1,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "TFT16_ShadowIsles",
+          "nivel": 4,
+          "unico": false,
+          "unidades": 5
+        },
+        {
+          "estilo": 4,
+          "id": "TFT16_Shurima",
+          "nivel": 2,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 2,
+          "id": "TFT16_Warden",
+          "nivel": 2,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Magus",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 3,
+          "id": "TFT16_Emperor",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        }
+      ],
+      "ronda": 33,
+      "set": 16,
+      "unidades": [
+        {
+          "estrellas": 2,
+          "id": "TFT16_Thresh",
+          "items": [
+            "TFT_Item_Morellonomicon",
+            "TFT_Item_Bloodthirster",
+            "TFT_Item_AdaptiveHelm"
+          ],
+          "rareza": 6
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Braum",
+          "items": [],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Kalista",
+          "items": [
+            "TFT_Item_Morellonomicon"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Nasus",
+          "items": [
+            "TFT_Item_Redemption",
+            "TFT_Item_NightHarvester",
+            "TFT_Item_GargoyleStoneplate"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Renekton",
+          "items": [
+            "TFT_Item_ThiefsGloves",
+            "TFT_Item_EmptyBag",
+            "TFT_Item_EmptyBag"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Gwen",
+          "items": [
+            "TFT_Item_UnstableConcoction",
+            "TFT_Item_JeweledGauntlet",
+            "TFT_Item_ArchangelsStaff"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Yorick",
+          "items": [
+            "TFT_Item_SpectralGauntlet"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_Azir",
+          "items": [
+            "TFT_Item_Leviathan",
+            "TFT_Item_MadredsBloodrazor",
+            "TFT_Item_StatikkShiv"
+          ],
+          "rareza": 6
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_Viego",
+          "items": [],
+          "rareza": 0
+        }
+      ]
+    },
+    "LA2_1580180456": {
+      "danio": 220,
+      "duracion": 2323,
+      "eliminados": 5,
+      "fecha": 1773853621307,
+      "id": "LA2_1580180456",
+      "nivel": 8,
+      "participantes": [
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "SoulStar#333",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "Yami Sukehiro#0099",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "No llamenaDios#0703",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "Desire Despair#LAS",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "Dinamita#PLOX",
+          "puesto": 6
+        },
+        {
+          "amigo": "iskrat-las",
+          "nombre": "ISkrat#LAS",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "Sevant#LAS1",
+          "puesto": 8
+        }
+      ],
+      "puesto": 1,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 1,
+          "id": "TFT16_Noxus",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 4
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Ionia",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Brawler",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Defender",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Invoker",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Sorcerer",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Yordle",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 4,
+          "id": "TFT16_Targon",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        }
+      ],
+      "ronda": 41,
+      "set": 16,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "TFT16_Ahri",
+          "items": [
+            "TFT_Item_SpearOfShojin",
+            "TFT16_Item_NoxusEmblemItem",
+            "TFT_Item_Morellonomicon"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 3,
+          "id": "TFT16_Darius",
+          "items": [
+            "TFT_Item_Bloodthirster",
+            "TFT_Item_TitansResolve",
+            "TFT_Item_GargoyleStoneplate"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 3,
+          "id": "TFT16_Kennen",
+          "items": [
+            "TFT_Item_ThiefsGloves",
+            "TFT_Item_FrozenHeart",
+            "TFT_Item_SpearOfShojin"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 3,
+          "id": "TFT16_Leblanc",
+          "items": [
+            "TFT_Item_Leviathan",
+            "TFT_Item_JeweledGauntlet",
+            "TFT_Item_Leviathan"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Swain",
+          "items": [],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Taric",
+          "items": [],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Wukong",
+          "items": [
+            "TFT16_Item_RapidfireEmblemItem",
+            "TFT_Item_NightHarvester",
+            "TFT_Item_Redemption"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Kobuko",
+          "items": [],
+          "rareza": 2
+        },
+        {
+          "estrellas": 1,
+          "id": "tft16_atakhan",
+          "items": [],
+          "rareza": 9
+        }
+      ]
+    },
+    "LA2_1580189089": {
+      "danio": 125,
+      "duracion": 2316,
+      "eliminados": 0,
+      "fecha": 1773856227215,
+      "id": "LA2_1580189089",
+      "nivel": 8,
+      "participantes": [
+        {
+          "amigo": null,
+          "nombre": "gon#cas",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "Texnx#LAS",
+          "puesto": 2
+        },
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "Silksong#FENIX",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "SEÑOR FLEYTAS#LAS",
+          "puesto": 5
+        },
+        {
+          "amigo": "iskrat-las",
+          "nombre": "ISkrat#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "Küervo#LDM",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "Pineke#LAS",
+          "puesto": 8
+        }
+      ],
+      "puesto": 3,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "TFT16_Yordle",
+          "nivel": 4,
+          "unico": false,
+          "unidades": 8
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Brawler",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Defender",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Sorcerer",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        }
+      ],
+      "ronda": 35,
+      "set": 16,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "TFT16_Kennen",
+          "items": [
+            "TFT_Item_RedBuff",
+            "TFT_Item_DragonsClaw",
+            "TFT_Item_Crownguard"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 3,
+          "id": "TFT16_Kobuko",
+          "items": [
+            "TFT_Item_ForceOfNature",
+            "TFT_Item_BrambleVest"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 3,
+          "id": "TFT16_Teemo",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 3,
+          "id": "TFT16_Tristana",
+          "items": [
+            "TFT_Item_InfinityEdge",
+            "TFT_Item_LastWhisper",
+            "TFT_Item_SpearOfShojin"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 3,
+          "id": "TFT16_Lulu",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Veigar",
+          "items": [
+            "TFT_Item_SpearOfShojin",
+            "TFT_Item_BlueBuff",
+            "TFT_Item_RabadonsDeathcap"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Rumble",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_Volibear",
+          "items": [],
+          "rareza": 6
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_Fizz",
+          "items": [],
+          "rareza": 4
+        }
+      ]
+    },
+    "LA2_1580206613": {
+      "danio": 70,
+      "duracion": 2313,
+      "eliminados": 0,
+      "fecha": 1773862069449,
+      "id": "LA2_1580206613",
+      "nivel": 9,
+      "participantes": [
+        {
+          "amigo": "iskrat-las",
+          "nombre": "ISkrat#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "alca#we1yo",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "LANADELREY FANS#LANA",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "ElPrimoDeCoscu#LAS",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "MOPﾒHyper#5769",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "VamoManaosVieja#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "MaxPowers#LAS",
+          "puesto": 7
+        },
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 8
+        }
+      ],
+      "puesto": 8,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 2,
+          "id": "TFT16_Bilgewater",
+          "nivel": 2,
+          "unico": false,
+          "unidades": 6
+        },
+        {
+          "estilo": 2,
+          "id": "TFT16_Warden",
+          "nivel": 2,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Brawler",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 4,
+          "id": "TFT16_Targon",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        },
+        {
+          "estilo": 3,
+          "id": "TFT16_Blacksmith",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        },
+        {
+          "estilo": 3,
+          "id": "TFT16_Glutton",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        },
+        {
+          "estilo": 3,
+          "id": "TFT16_Soulbound",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        }
+      ],
+      "ronda": 28,
+      "set": 16,
+      "unidades": [
+        {
+          "estrellas": 2,
+          "id": "TFT16_Nautilus",
+          "items": [
+            "TFT_Item_DragonsClaw",
+            "TFT_Item_SpectralGauntlet",
+            "TFT_Item_RedBuff"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Illaoi",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_Lucian",
+          "items": [
+            "TFT_Item_InfinityEdge",
+            "TFT_Item_SpearOfShojin",
+            "TFT_Item_GuinsoosRageblade"
+          ],
+          "rareza": 6
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_Ornn",
+          "items": [],
+          "rareza": 6
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_TahmKench",
+          "items": [
+            "TFT_Item_Redemption",
+            "TFT16_Item_WardenEmblemItem",
+            "TFT16_Item_DefenderEmblemItem"
+          ],
+          "rareza": 6
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_Fizz",
+          "items": [],
+          "rareza": 4
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_Taric",
+          "items": [
+            "TFT16_Item_BilgewaterEmblemItem"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_Wukong",
+          "items": [],
+          "rareza": 4
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_TwistedFate",
+          "items": [
+            "TFT_Item_LastWhisper",
+            "TFT16_Item_Bilgewater_CaptainsBrew",
+            "TFT16_Item_Bilgewater_LuckyEyepatch"
+          ],
+          "rareza": 1
+        }
+      ]
+    },
+    "LA2_1580308078": {
+      "danio": 147,
+      "duracion": 2072,
+      "eliminados": 3,
+      "fecha": 1773884148964,
+      "id": "LA2_1580308078",
+      "nivel": 8,
+      "participantes": [
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "Tronki154#LAS",
+          "puesto": 2
+        },
+        {
+          "amigo": "iskrat-las",
+          "nombre": "ISkrat#LAS",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "StereoTuner#LAS",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "SixthRoy#LGAN",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "Entero glucag0n#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "säch#sach",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "Red One#ULC1",
+          "puesto": 8
+        }
+      ],
+      "puesto": 1,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 1,
+          "id": "TFT16_Ionia",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Noxus",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Brawler",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Defender",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Invoker",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Sorcerer",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Yordle",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 4,
+          "id": "TFT16_Targon",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        }
+      ],
+      "ronda": 35,
+      "set": 16,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "TFT16_Darius",
+          "items": [
+            "TFT_Item_Bloodthirster",
+            "TFT_Item_GargoyleStoneplate",
+            "TFT_Item_TitansResolve"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 3,
+          "id": "TFT16_Kobuko",
+          "items": [
+            "TFT_Item_ThiefsGloves",
+            "TFT_Item_WarmogsArmor",
+            "TFT_Item_Morellonomicon"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 3,
+          "id": "TFT16_Leblanc",
+          "items": [
+            "TFT_Item_JeweledGauntlet",
+            "TFT_Item_JeweledGauntlet",
+            "TFT_Item_Leviathan"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Ahri",
+          "items": [
+            "TFT_Item_StatikkShiv",
+            "TFT_Item_BlueBuff",
+            "TFT_Item_SpearOfShojin"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Kennen",
+          "items": [
+            "TFT_Item_ArchangelsStaff",
+            "TFT16_Item_ZaunEmblemItem",
+            "TFT_Item_AdaptiveHelm"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_Swain",
+          "items": [],
+          "rareza": 4
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_Taric",
+          "items": [],
+          "rareza": 4
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_Wukong",
+          "items": [],
+          "rareza": 4
+        }
+      ]
+    },
+    "LA2_1580779912": {
+      "danio": 149,
+      "duracion": 2318,
+      "eliminados": 2,
+      "fecha": 1774048327754,
+      "id": "LA2_1580779912",
+      "nivel": 9,
+      "participantes": [
+        {
+          "amigo": "iskrat-las",
+          "nombre": "ISkrat#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "III McLovin III#LAS",
+          "puesto": 2
+        },
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "dminn#1337",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "Shaco de Weas#336",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "clovesamidm#miau",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "campon#URU",
+          "puesto": 7
+        },
+        {
+          "amigo": "nic-las",
+          "nombre": "Nicø#LAS",
+          "puesto": 8
+        }
+      ],
+      "puesto": 3,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "TFT16_Zaun",
+          "nivel": 3,
+          "unico": false,
+          "unidades": 7
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Brawler",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Magus",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Piltover",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Rapidfire",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 3,
+          "id": "TFT16_KindredUnique",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        }
+      ],
+      "ronda": 38,
+      "set": 16,
+      "unidades": [
+        {
+          "estrellas": 2,
+          "id": "TFT16_Ziggs",
+          "items": [
+            "TFT_Item_RapidFireCannon",
+            "TFT_Item_Leviathan",
+            "TFT_Item_ForceOfNature"
+          ],
+          "rareza": 6
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Seraphine",
+          "items": [
+            "TFT_Item_BlueBuff",
+            "TFT_Item_SpearOfShojin"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Singed",
+          "items": [
+            "TFT_Item_Morellonomicon",
+            "TFT_Item_AdaptiveHelm",
+            "TFT_Item_Crownguard"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Warwick",
+          "items": [
+            "TFT_Item_TitansResolve",
+            "TFT_Item_SteraksGage",
+            "TFT_Item_Bloodthirster"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Wukong",
+          "items": [],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_DrMundo",
+          "items": [],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Jinx",
+          "items": [
+            "TFT_Item_GuinsoosRageblade",
+            "TFT_Item_LastWhisper",
+            "TFT_Item_Deathblade"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Ekko",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Vi",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_Kindred",
+          "items": [],
+          "rareza": 6
+        }
+      ]
+    },
+    "LA2_1582932356": {
+      "danio": 175,
+      "duracion": 2176,
+      "eliminados": 3,
+      "fecha": 1774729630071,
+      "id": "LA2_1582932356",
+      "nivel": 8,
+      "participantes": [
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "Aimar#18y",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "ThiXx#ARG",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "x PEJELAGARTO x#LAS",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "AsadoDePoro#ADP",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "Medro#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": "iskrat-las",
+          "nombre": "ISkrat#LAS",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "marto#912",
+          "puesto": 8
+        }
+      ],
+      "puesto": 1,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "TFT16_Noxus",
+          "nivel": 3,
+          "unico": false,
+          "unidades": 7
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Defender",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Juggernaut",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Sorcerer",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        }
+      ],
+      "ronda": 37,
+      "set": 16,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "tft16_atakhan",
+          "items": [],
+          "rareza": 9
+        },
+        {
+          "estrellas": 3,
+          "id": "TFT16_Darius",
+          "items": [
+            "TFT_Item_SteraksGage",
+            "TFT_Item_GargoyleStoneplate",
+            "TFT_Item_NightHarvester"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 3,
+          "id": "TFT16_Sion",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Swain",
+          "items": [],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Draven",
+          "items": [
+            "TFT_Item_RunaansHurricane",
+            "TFT_Item_LastWhisper",
+            "TFT_Item_GuinsoosRageblade"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Leblanc",
+          "items": [
+            "TFT_Item_Leviathan",
+            "TFT_Item_RabadonsDeathcap",
+            "TFT_Item_GuinsoosRageblade"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Neeko",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Briar",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_Mel",
+          "items": [
+            "TFT_Item_StatikkShiv",
+            "TFT_Item_ArchangelsStaff",
+            "TFT_Item_Morellonomicon"
+          ],
+          "rareza": 6
+        }
+      ]
+    },
+    "LA2_1582943488": {
+      "danio": 66,
+      "duracion": 2205,
+      "eliminados": 0,
+      "fecha": 1774731936553,
+      "id": "LA2_1582943488",
+      "nivel": 8,
+      "participantes": [
+        {
+          "amigo": null,
+          "nombre": "MoristeenMadrid#9935",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "BwrMgf#LAS",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "ThiXx#ARG",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "Alvarrox#LAS",
+          "puesto": 4
+        },
+        {
+          "amigo": "iskrat-las",
+          "nombre": "ISkrat#LAS",
+          "puesto": 5
+        },
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "GL Juanelo#LAS",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "umop apisdn#1337",
+          "puesto": 8
+        }
+      ],
+      "puesto": 6,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 2,
+          "id": "TFT16_Defender",
+          "nivel": 2,
+          "unico": false,
+          "unidades": 4
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Ionia",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Noxus",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Sorcerer",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Brawler",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Invoker",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Juggernaut",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT16_Yordle",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        }
+      ],
+      "ronda": 30,
+      "set": 16,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "TFT16_Kennen",
+          "items": [
+            "TFT_Item_IonicSpark",
+            "TFT_Item_GargoyleStoneplate",
+            "TFT_Item_Crownguard"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Ahri",
+          "items": [
+            "TFT_Item_JeweledGauntlet"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Darius",
+          "items": [
+            "TFT_Item_Bloodthirster",
+            "TFT16_Item_JuggernautEmblemItem"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Kobuko",
+          "items": [
+            "TFT16_Item_DefenderEmblemItem",
+            "TFT_Item_RedBuff"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Leblanc",
+          "items": [
+            "TFT_Item_Leviathan",
+            "TFT_Item_Leviathan",
+            "TFT_Item_JeweledGauntlet"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT16_Neeko",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 1,
+          "id": "tft16_atakhan",
+          "items": [],
+          "rareza": 9
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_Swain",
+          "items": [],
+          "rareza": 4
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT16_Wukong",
+          "items": [],
+          "rareza": 4
+        }
+      ]
+    },
+    "LA2_1589071168": {
+      "danio": 229,
+      "duracion": 1987,
+      "eliminados": 4,
+      "fecha": 1776734146131,
+      "id": "LA2_1589071168",
+      "nivel": 9,
+      "participantes": [
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "Zektor21#LAS",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "tiramisu cake#4004",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "JAHco De Zion#LAS",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "最好的#永远永远",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "Pencardo#KINGW",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "pitochico#krume",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "Choris de Hitta#LJ12",
+          "puesto": 8
+        }
+      ],
+      "puesto": 1,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "TFT17_DarkStar",
+          "nivel": 3,
+          "unico": false,
+          "unidades": 6
+        },
+        {
+          "estilo": 1,
+          "id": "TFT17_FlexTrait",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT17_HPTank",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT17_ShieldTank",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT17_SpaceGroove",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 1
+        },
+        {
+          "estilo": 3,
+          "id": "TFT17_BlitzcrankUniqueTrait",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        },
+        {
+          "estilo": 3,
+          "id": "TFT17_JhinUniqueTrait",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        },
+        {
+          "estilo": 3,
+          "id": "TFT17_TahmKenchUniqueTrait",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        }
+      ],
+      "ronda": 34,
+      "set": 17,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "TFT17_Chogath",
+          "items": [
+            "TFT_Item_GargoyleStoneplate",
+            "TFT_Item_BrambleVest",
+            "TFT_Item_WarmogsArmor"
+          ],
+          "rareza": 0
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT17_Blitzcrank",
+          "items": [],
+          "rareza": 6
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT17_Jhin",
+          "items": [
+            "TFT_Item_MadredsBloodrazor",
+            "TFT_Item_RunaansHurricane",
+            "TFT_Item_InfinityEdge"
+          ],
+          "rareza": 6
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT17_Galio",
+          "items": [],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT17_Karma",
+          "items": [
+            "TFT_Item_Morellonomicon",
+            "TFT_Item_BlueBuff",
+            "TFT_Item_JeweledGauntlet"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT17_TahmKench",
+          "items": [
+            "TFT_Item_Quicksilver"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT17_Kaisa",
+          "items": [],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT17_Lissandra",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT17_Mordekaiser",
+          "items": [],
+          "rareza": 1
+        }
+      ]
+    },
+    "LA2_1589082902": {
+      "danio": 145,
+      "duracion": 2123,
+      "eliminados": 2,
+      "fecha": 1776736363838,
+      "id": "LA2_1589082902",
+      "nivel": 8,
+      "participantes": [
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "TermaCuyano#LAS",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "Zuto#LAS",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "Srpez24#7704",
+          "puesto": 4
+        },
+        {
+          "amigo": "iskrat-las",
+          "nombre": "ISkrat#LAS",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "Lagarchone#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "Chaucha Enojada#LAS",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "1 NPC Mas#LAS",
+          "puesto": 8
+        }
+      ],
+      "puesto": 1,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "TFT17_DRX",
+          "nivel": 2,
+          "unico": false,
+          "unidades": 5
+        },
+        {
+          "estilo": 1,
+          "id": "TFT17_Stargazer_Serpent",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 1,
+          "id": "TFT17_ASTrait",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT17_Fateweaver",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT17_MeleeTrait",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT17_ResistTank",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        }
+      ],
+      "ronda": 38,
+      "set": 17,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "TFT17_Akali",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 3,
+          "id": "TFT17_Jax",
+          "items": [
+            "TFT_Item_RedBuff",
+            "TFT_Item_DragonsClaw",
+            "TFT_Item_Redemption"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 3,
+          "id": "TFT17_Aatrox",
+          "items": [
+            "TFT_Item_Bloodthirster",
+            "TFT_Item_SteraksGage",
+            "TFT_Item_TitansResolve"
+          ],
+          "rareza": 0
+        },
+        {
+          "estrellas": 3,
+          "id": "TFT17_Caitlyn",
+          "items": [
+            "TFT_Item_GuinsoosRageblade",
+            "TFT_Item_RunaansHurricane",
+            "TFT_Item_InfinityEdge"
+          ],
+          "rareza": 0
+        },
+        {
+          "estrellas": 3,
+          "id": "TFT17_TwistedFate",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT17_Kindred",
+          "items": [
+            "TFT17_Item_StargazerEmblemItem",
+            "TFT_Item_LastWhisper",
+            "TFT_Item_RapidFireCannon"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT17_Belveth",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT17_Maokai",
+          "items": [],
+          "rareza": 2
+        }
+      ]
+    },
+    "LA2_1589099559": {
+      "danio": 159,
+      "duracion": 2129,
+      "eliminados": 2,
+      "fecha": 1776738701594,
+      "id": "LA2_1589099559",
+      "nivel": 9,
+      "participantes": [
+        {
+          "amigo": null,
+          "nombre": "TianShi#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "Onita#7017",
+          "puesto": 3
+        },
+        {
+          "amigo": "iskrat-las",
+          "nombre": "ISkrat#LAS",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "Pulplo#OZUNA",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "Bombacha1995#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "amodelatinebla#LAS",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "ChiKung#LAS",
+          "puesto": 8
+        }
+      ],
+      "puesto": 2,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "TFT17_Astronaut",
+          "nivel": 3,
+          "unico": false,
+          "unidades": 8
+        },
+        {
+          "estilo": 1,
+          "id": "TFT17_AssassinTrait",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT17_Fateweaver",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT17_ResistTank",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT17_Timebreaker",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        }
+      ],
+      "ronda": 38,
+      "set": 17,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "TFT17_Gnar",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT17_Bard",
+          "items": [
+            "TFT_Item_SpearOfShojin",
+            "TFT_Item_StatikkShiv",
+            "TFT_Item_Morellonomicon"
+          ],
+          "rareza": 6
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT17_Corki",
+          "items": [
+            "TFT_Item_MadredsBloodrazor",
+            "TFT_Item_PowerGauntlet",
+            "TFT5_Item_LastWhisperRadiant"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT17_Rammus",
+          "items": [
+            "TFT_Item_DragonsClaw",
+            "TFT_Item_FrozenHeart",
+            "TFT_Item_RedBuff"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT17_Riven",
+          "items": [
+            "TFT_Item_SteraksGage",
+            "TFT_Item_Bloodthirster"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT17_Fizz",
+          "items": [],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT17_IvernMinion",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT17_Milio",
+          "items": [
+            "TFT17_Item_AstronautEmblemItem"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT17_Poppy",
+          "items": [],
+          "rareza": 0
+        }
+      ]
+    },
+    "LA2_1589116067": {
+      "danio": 60,
+      "duracion": 2112,
+      "eliminados": 0,
+      "fecha": 1776740936529,
+      "id": "LA2_1589116067",
+      "nivel": 7,
+      "participantes": [
+        {
+          "amigo": null,
+          "nombre": "Darfra#9887",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "TheBastard#SETT",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "ElKIMJONGHUNG#LAS",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "Jesse Wh1te#oso",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "Fantasmita#8697",
+          "puesto": 5
+        },
+        {
+          "amigo": "iskrat-las",
+          "nombre": "ISkrat#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "skill issue#Les",
+          "puesto": 8
+        }
+      ],
+      "puesto": 7,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 2,
+          "id": "TFT17_ShieldTank",
+          "nivel": 2,
+          "unico": false,
+          "unidades": 4
+        },
+        {
+          "estilo": 1,
+          "id": "TFT17_SummonTrait",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 1,
+          "id": "TFT17_ADMIN",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT17_ManaTrait",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT17_SpaceGroove",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        }
+      ],
+      "ronda": 28,
+      "set": 17,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "TFT17_Leona",
+          "items": [
+            "TFT_Item_GargoyleStoneplate",
+            "TFT_Item_GargoyleStoneplate",
+            "TFT_Item_RedBuff"
+          ],
+          "rareza": 0
+        },
+        {
+          "estrellas": 3,
+          "id": "TFT17_Nasus",
+          "items": [
+            "TFT_Item_SparringGloves"
+          ],
+          "rareza": 0
+        },
+        {
+          "estrellas": 3,
+          "id": "TFT17_Teemo",
+          "items": [
+            "TFT_Item_ArchangelsStaff",
+            "TFT_Item_MadredsBloodrazor",
+            "TFT_Item_GuinsoosRageblade"
+          ],
+          "rareza": 0
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT17_Mordekaiser",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT17_Zoe",
+          "items": [
+            "TFT_Item_Morellonomicon"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT17_Summon",
+          "items": [],
+          "rareza": 9
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT17_Illaoi",
+          "items": [],
+          "rareza": 2
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT17_IvernMinion",
+          "items": [],
+          "rareza": 1
+        }
+      ]
+    },
+    "LA2_1589129575": {
+      "danio": 73,
+      "duracion": 2414,
+      "eliminados": 1,
+      "fecha": 1776743393403,
+      "id": "LA2_1589129575",
+      "nivel": 8,
+      "participantes": [
+        {
+          "amigo": "iskrat-las",
+          "nombre": "ISkrat#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "Yo y 9 mog0licos#LAS",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "Warrant#LAS",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "real thunder#666",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "kledtomaniaco#7131",
+          "puesto": 5
+        },
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "MrWurden#MrDen",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "P1ter#2313",
+          "puesto": 8
+        }
+      ],
+      "puesto": 6,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 1,
+          "id": "TFT17_APTrait",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT17_AssassinTrait",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT17_DRX",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT17_HPTank",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT17_ResistTank",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT17_Timebreaker",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "TFT17_SpaceGroove",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 1
+        },
+        {
+          "estilo": 3,
+          "id": "TFT17_MissFortuneUniqueTrait",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        },
+        {
+          "estilo": 3,
+          "id": "TFT17_RhaastUniqueTrait",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        },
+        {
+          "estilo": 3,
+          "id": "TFT17_ShenUniqueTrait",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        }
+      ],
+      "ronda": 30,
+      "set": 17,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "TFT17_Rhaast",
+          "items": [
+            "TFT_Item_SteraksGage",
+            "TFT_Item_TitansResolve",
+            "TFT_Item_Bloodthirster"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT17_Maokai",
+          "items": [
+            "TFT_Item_WarmogsArmor",
+            "TFT_Item_Redemption",
+            "TFT_Item_WarmogsArmor"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT17_MissFortune",
+          "items": [
+            "TFT_Item_BlueBuff",
+            "TFT_Item_InfinityEdge",
+            "TFT_Item_PowerGauntlet"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT17_Gwen",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "TFT17_Aatrox",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT17_Shen",
+          "items": [],
+          "rareza": 6
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT17_Riven",
+          "items": [
+            "TFT17_EkkoOffering_AnomalyItem"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 1,
+          "id": "TFT17_Pantheon",
+          "items": [],
+          "rareza": 1
+        }
+      ]
+    },
+    "LA2_1628232757": {
+      "danio": 0,
+      "duracion": 2342,
+      "eliminados": 0,
+      "fecha": 1791072188133,
+      "id": "LA2_1628232757",
+      "nivel": 9,
+      "participantes": [
+        {
+          "amigo": null,
+          "nombre": "santix346#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "ShaldKk#Zzz",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "bancarrotax#420",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "HappyLemon#LAS",
+          "puesto": 4
+        },
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 5
+        },
+        {
+          "amigo": "iskrat-las",
+          "nombre": "ISkrat#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "EVV#7234",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "EVELYN TE AMO#Nano",
+          "puesto": 8
+        }
+      ],
+      "puesto": 5,
+      "queue_id": 1160,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "DA_Riftbeast18",
+          "nivel": 3,
+          "unico": false,
+          "unidades": 7
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Invoker",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Slayer",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Vanguard",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "DA_Juggernaut18",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 3,
+          "id": "DA_Emerald18",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        }
+      ],
+      "ronda": 34,
+      "set": 18,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "DA_Scuttlecrab18",
+          "items": [
+            "DA_WarmogsArmor",
+            "DA_GargoyleStoneplate",
+            "DA_SpiritVisage"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 3,
+          "id": "DA_18_Sentry",
+          "items": [
+            "DA_BlueBuff",
+            "DA_JeweledGauntlet",
+            "DA_RabadonsDeathcap"
+          ],
+          "rareza": 0
+        },
+        {
+          "estrellas": 3,
+          "id": "DA_Cinderling18",
+          "items": [
+            "DA_GuinsoosRageblade",
+            "DA_LastWhisper",
+            "DA_InfinityEdge"
+          ],
+          "rareza": 0
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_Brambleback18",
+          "items": [
+            "DA_StrikersFlail"
+          ],
+          "rareza": 3
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_Sentinel18",
+          "items": [
+            "DA_ProtectorsVow"
+          ],
+          "rareza": 3
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_Krug18",
+          "items": [
+            "DA_Crownguard",
+            "DA_Evenshroud",
+            "DA_SunfireCape"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_Murkwolf18",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 1,
+          "id": "DA_Taric18",
+          "items": [],
+          "rareza": 4
+        },
+        {
+          "estrellas": 1,
+          "id": "DA_Amumu18",
+          "items": [],
+          "rareza": 3
+        }
+      ]
+    },
+    "LA2_1629624122": {
+      "danio": 0,
+      "duracion": 2442,
+      "eliminados": 0,
+      "fecha": 1791652362342,
+      "id": "LA2_1629624122",
+      "nivel": 9,
+      "participantes": [
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "Matalocazo#LAS",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "ElCodoDeCostas#RC22",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "FroS Firentis#LAS",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "thiago3815#LAS",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "xaviersdf#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "Bot Bot#BaYa",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "zerhont#LAS",
+          "puesto": 8
+        }
+      ],
+      "puesto": 1,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "DA_Riftbeast18",
+          "nivel": 3,
+          "unico": false,
+          "unidades": 7
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Brawler",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Hunter",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Invoker",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 3,
+          "id": "DA_18_ApexPredator",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        }
+      ],
+      "ronda": 38,
+      "set": 18,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "DA_Krug18",
+          "items": [
+            "DA_BrambleVest",
+            "DA_GargoyleStoneplate",
+            "DA_SpiritVisage"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 3,
+          "id": "DA_Scuttlecrab18",
+          "items": [
+            "DA_Component_ChainVest"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 3,
+          "id": "DA_18_Sentry",
+          "items": [
+            "DA_JeweledGauntlet",
+            "DA_BlueBuff",
+            "DA_RabadonsDeathcap"
+          ],
+          "rareza": 0
+        },
+        {
+          "estrellas": 3,
+          "id": "DA_Cinderling18",
+          "items": [
+            "DA_InfinityEdge",
+            "DA_LastWhisper",
+            "DA_BlueBuff"
+          ],
+          "rareza": 0
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_GnarSmall",
+          "items": [],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_Sentinel18",
+          "items": [],
+          "rareza": 3
+        },
+        {
+          "estrellas": 1,
+          "id": "DA_18_Ashe",
+          "items": [
+            "DA_Morellonomicon"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 1,
+          "id": "DA_18_ElderDragon",
+          "items": [
+            "DA_Deathblade",
+            "DA_TitansResolve",
+            "DA_InfinityEdge"
+          ],
+          "rareza": 4
+        }
+      ]
+    },
+    "LA2_1629632468": {
+      "danio": 0,
+      "duracion": 2294,
+      "eliminados": 0,
+      "fecha": 1791656326785,
+      "id": "LA2_1629632468",
+      "nivel": 8,
+      "participantes": [
+        {
+          "amigo": null,
+          "nombre": "Sönata#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "Neraizel#Troll",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "HAISE#soul",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "1DROGADICTO#LAS",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "AbejaOgKush#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "HeartOfRice#707",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "CamiSupp#0909",
+          "puesto": 8
+        }
+      ],
+      "puesto": 2,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "DA_18_Rival",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 1
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Blossom",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Brawler",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Adaptor",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "DA_Juggernaut18",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "DA_Primal18",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        }
+      ],
+      "ronda": 35,
+      "set": 18,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "DA_18_MasterYi_AD",
+          "items": [
+            "DA_InfinityEdge",
+            "DA_GuinsoosRageblade",
+            "DA_EdgeOfNight"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 3,
+          "id": "DA_18_Rengar",
+          "items": [
+            "DA_TitansResolve",
+            "DA_GuinsoosRageblade",
+            "DA_EdgeOfNight"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 3,
+          "id": "DA_Krug18",
+          "items": [],
+          "rareza": 2
+        },
+        {
+          "estrellas": 3,
+          "id": "DA_Vi18",
+          "items": [
+            "DA_Evenshroud",
+            "DA_Component_NegatronCloak",
+            "DA_GargoyleStoneplate"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_Sett",
+          "items": [],
+          "rareza": 3
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_Nidalee18_AP",
+          "items": [
+            "DA_GuinsoosRageblade",
+            "DA_StrikersFlail"
+          ],
+          "rareza": 3
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_Yorick",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 1,
+          "id": "DA_18_GnarSmall",
+          "items": [],
+          "rareza": 4
+        }
+      ]
+    },
+    "LA2_1629663054": {
+      "danio": 0,
+      "duracion": 2226,
+      "eliminados": 0,
+      "fecha": 1791665041510,
+      "id": "LA2_1629663054",
+      "nivel": 7,
+      "participantes": [
+        {
+          "amigo": null,
+          "nombre": "POLIMOOOOOOOOORF#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "SIEMPRE4ZUCAR#LAS",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "Lizard Wizard#LAS",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "Gonsad#LAS",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "rivenger#LAS",
+          "puesto": 5
+        },
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "Marshal Lee HDA#LAS",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "Nydixty#Nyx",
+          "puesto": 8
+        }
+      ],
+      "puesto": 6,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "DA_Riftbeast18",
+          "nivel": 3,
+          "unico": false,
+          "unidades": 7
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Invoker",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 3,
+          "id": "DA_18_ApexPredator",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        }
+      ],
+      "ronda": 28,
+      "set": 18,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "DA_Scuttlecrab18",
+          "items": [
+            "DA_GargoyleStoneplate",
+            "DA_Artifact_SeekersArmguard"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 3,
+          "id": "DA_18_Sentry",
+          "items": [
+            "DA_RabadonsDeathcap"
+          ],
+          "rareza": 0
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_Krug18",
+          "items": [],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_Cinderling18",
+          "items": [
+            "DA_LastWhisper",
+            "DA_InfinityEdge",
+            "DA_KrakensFury"
+          ],
+          "rareza": 0
+        },
+        {
+          "estrellas": 1,
+          "id": "DA_18_ElderDragon",
+          "items": [
+            "DA_InfinityEdge",
+            "DA_SpearOfShojin",
+            "DA_Artifact_HellfireHatchet"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 1,
+          "id": "DA_Sentinel18",
+          "items": [],
+          "rareza": 3
+        }
+      ]
+    },
+    "LA2_1629670204": {
+      "danio": 0,
+      "duracion": 2212,
+      "eliminados": 0,
+      "fecha": 1791667008634,
+      "id": "LA2_1629670204",
+      "nivel": 8,
+      "participantes": [
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "Elm0roides#LAS",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "Hróms#LAS",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "paw paw#npc",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "AGUS BIG TULA#LAS",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "bautiksales#aaa",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "ZedPnefree#1500",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "FlyCaat#CYP",
+          "puesto": 8
+        }
+      ],
+      "puesto": 1,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "DA_18_Executioner",
+          "nivel": 3,
+          "unico": false,
+          "unidades": 4
+        },
+        {
+          "estilo": 4,
+          "id": "DA_FloraFatalis18",
+          "nivel": 2,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Sprykin",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Blackthorn",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Defender",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Spellweaver",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Summoner",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 3,
+          "id": "DA_18_ZyraUniqueTrait",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        }
+      ],
+      "ronda": 33,
+      "set": 18,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "DA_18_Azir",
+          "items": [
+            "DA_GuinsoosRageblade",
+            "DA_BlueBuff",
+            "DA_RabadonsDeathcap"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 3,
+          "id": "DA_18_Rammus",
+          "items": [
+            "DA_GargoyleStoneplate",
+            "DA_SpiritVisage",
+            "DA_GargoyleStoneplate"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 3,
+          "id": "DA_Fiddlesticks18",
+          "items": [
+            "DA_ThiefsGloves",
+            "DA_TitansResolve",
+            "DA_BrambleVest"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 3,
+          "id": "DA_18_Veigar",
+          "items": [
+            "DA_Component_SparringGloves",
+            "DA_SpearOfShojin"
+          ],
+          "rareza": 0
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_Zyra",
+          "items": [
+            "DA_18_EmblemExecutioner",
+            "DA_StrikersFlail",
+            "DA_VoidStaff"
+          ],
+          "rareza": 3
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_Teemo",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 1,
+          "id": "DA_18_Kennen",
+          "items": [
+            "DA_ThiefsGloves",
+            "DA_ArchangelsStaff",
+            "DA_SteadfastHeart"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 1,
+          "id": "DA_18_Soraka",
+          "items": [],
+          "rareza": 3
+        }
+      ]
+    },
+    "LA2_1630127675": {
+      "danio": 0,
+      "duracion": 2394,
+      "eliminados": 0,
+      "fecha": 1791832193019,
+      "id": "LA2_1630127675",
+      "nivel": 7,
+      "participantes": [
+        {
+          "amigo": null,
+          "nombre": "Šaber#FateZ",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "SimoesT09#LAS",
+          "puesto": 2
+        },
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "GonzaloVitaDoc#Doc",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "Erwin Log#2447",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "Drvpetomvniv#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "SAVEIRO AL PISO#756",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "The Presence#LAS",
+          "puesto": 8
+        }
+      ],
+      "puesto": 3,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "DA_FloraFatalis18",
+          "nivel": 2,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Sprykin",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Blackthorn",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Defender",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Executioner",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Spellweaver",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Summoner",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 3,
+          "id": "DA_18_ZyraUniqueTrait",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        }
+      ],
+      "ronda": 33,
+      "set": 18,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "DA_18_Azir",
+          "items": [
+            "DA_RabadonsDeathcap",
+            "DA_GuinsoosRageblade",
+            "DA_HextechGunblade"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 3,
+          "id": "DA_18_Rammus",
+          "items": [
+            "DA_GargoyleStoneplate",
+            "DA_WarmogsArmor",
+            "DA_GargoyleStoneplate"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 3,
+          "id": "DA_Fiddlesticks18",
+          "items": [
+            "DA_SunfireCape",
+            "DA_JeweledGauntlet"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 3,
+          "id": "DA_18_Teemo",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_Zyra",
+          "items": [
+            "DA_VoidStaff",
+            "DA_SpearOfShojin",
+            "DA_GuinsoosRageblade"
+          ],
+          "rareza": 3
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_Veigar",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 1,
+          "id": "DA_18_Soraka",
+          "items": [],
+          "rareza": 3
+        }
+      ]
+    },
+    "LA2_1630338101": {
+      "danio": 0,
+      "duracion": 2307,
+      "eliminados": 0,
+      "fecha": 1791907205678,
+      "id": "LA2_1630338101",
+      "nivel": 8,
+      "participantes": [
+        {
+          "amigo": null,
+          "nombre": "ResortLight#1244",
+          "puesto": 1
+        },
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "Lachi#Fio",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "quimpery#LAS",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "Maruko103#MP3",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "storM Rambo A#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "UnHÁppy#LAS",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "Olsoni#LAS",
+          "puesto": 8
+        }
+      ],
+      "puesto": 2,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "DA_FloraFatalis18",
+          "nivel": 2,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 2,
+          "id": "DA_18_Executioner",
+          "nivel": 2,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Sprykin",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Blackthorn",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Defender",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Spellweaver",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Summoner",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 3,
+          "id": "DA_18_ZyraUniqueTrait",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        }
+      ],
+      "ronda": 38,
+      "set": 18,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "DA_18_Azir",
+          "items": [
+            "DA_GuinsoosRageblade",
+            "DA_Bloodthirster",
+            "DA_RabadonsDeathcap"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 3,
+          "id": "DA_18_Rammus",
+          "items": [
+            "DA_GargoyleStoneplate",
+            "DA_GargoyleStoneplate",
+            "DA_DragonsClaw"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_Soraka",
+          "items": [
+            "DA_GiantSlayer",
+            "DA_Quicksilver"
+          ],
+          "rareza": 3
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_Zyra",
+          "items": [
+            "DA_SpearOfShojin",
+            "DA_RabadonsDeathcap",
+            "DA_JeweledGauntlet"
+          ],
+          "rareza": 3
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_Fiddlesticks18",
+          "items": [
+            "DA_SunfireCape",
+            "DA_TitansResolve",
+            "DA_VoidStaff"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_Teemo",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_Veigar",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 1,
+          "id": "DA_18_Kennen",
+          "items": [
+            "DA_ThiefsGloves",
+            "DA_WarmogsArmor",
+            "DA_NashorsTooth"
+          ],
+          "rareza": 4
+        }
+      ]
+    },
+    "LA2_1630343341": {
+      "danio": 0,
+      "duracion": 2352,
+      "eliminados": 0,
+      "fecha": 1791909819109,
+      "id": "LA2_1630343341",
+      "nivel": 8,
+      "participantes": [
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "0001002003#9896",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "zarcort98#LAS",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "Corinto#520",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "inGe OK#LAS",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "µµµµµµµµµµµµ#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "La Pulga#1204",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "Corneta Galvez#LAS",
+          "puesto": 8
+        }
+      ],
+      "puesto": 1,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "DA_18_Rival",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 1
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Blossom",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Brawler",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Adaptor",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "DA_Juggernaut18",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "DA_Primal18",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        }
+      ],
+      "ronda": 38,
+      "set": 18,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "DA_18_MasterYi_AD",
+          "items": [
+            "DA_EdgeOfNight",
+            "DA_GuinsoosRageblade",
+            "DA_Quicksilver"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 3,
+          "id": "DA_18_Rengar",
+          "items": [
+            "DA_GuinsoosRageblade",
+            "DA_TitansResolve",
+            "DA_EdgeOfNight"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 3,
+          "id": "DA_Krug18",
+          "items": [
+            "DA_BrambleVest",
+            "DA_DragonsClaw",
+            "DA_SpiritVisage"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 3,
+          "id": "DA_Vi18",
+          "items": [
+            "DA_WarmogsArmor",
+            "DA_Evenshroud",
+            "DA_SpiritVisage"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_Sett",
+          "items": [],
+          "rareza": 3
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_Nidalee18_AP",
+          "items": [
+            "DA_Component_TearOfTheGoddess"
+          ],
+          "rareza": 3
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_Yorick",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 1,
+          "id": "DA_18_GnarSmall",
+          "items": [
+            "DA_InfinityEdge",
+            "DA_Bloodthirster",
+            "DA_SunfireCape"
+          ],
+          "rareza": 4
+        }
+      ]
+    },
+    "LA2_1630348186": {
+      "danio": 0,
+      "duracion": 2143,
+      "eliminados": 0,
+      "fecha": 1791912318151,
+      "id": "LA2_1630348186",
+      "nivel": 8,
+      "participantes": [
+        {
+          "amigo": null,
+          "nombre": "gato porro#POTO",
+          "puesto": 1
+        },
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "NTH Nicow#LAS",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "Graxofumaporro#4771",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "blackvaper#LAS",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "DonyaPlanti#Kart",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "T3RRX#LAS",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "Filho da supp#LAS",
+          "puesto": 8
+        }
+      ],
+      "puesto": 2,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "DA_18_Rival",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 1
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Blossom",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Brawler",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Adaptor",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "DA_Juggernaut18",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "DA_Primal18",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        }
+      ],
+      "ronda": 35,
+      "set": 18,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "DA_18_MasterYi_AD",
+          "items": [
+            "DA_GuinsoosRageblade",
+            "DA_TitansResolve"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 3,
+          "id": "DA_18_Rengar",
+          "items": [
+            "DA_TitansResolve",
+            "DA_Component_RecurveBow",
+            "DA_GuinsoosRageblade"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 3,
+          "id": "DA_Krug18",
+          "items": [],
+          "rareza": 2
+        },
+        {
+          "estrellas": 3,
+          "id": "DA_Vi18",
+          "items": [
+            "DA_Evenshroud",
+            "DA_GargoyleStoneplate",
+            "DA_WarmogsArmor"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_Sett",
+          "items": [],
+          "rareza": 3
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_Nidalee18_AP",
+          "items": [
+            "DA_GuinsoosRageblade",
+            "DA_Deathblade"
+          ],
+          "rareza": 3
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_Yorick",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 1,
+          "id": "DA_18_GnarSmall",
+          "items": [
+            "DA_ThiefsGloves",
+            "DA_AdaptiveHelm",
+            "DA_Crownguard"
+          ],
+          "rareza": 4
+        }
+      ]
+    },
+    "LA2_1630418438": {
+      "danio": 0,
+      "duracion": 2478,
+      "eliminados": 0,
+      "fecha": 1791933088447,
+      "id": "LA2_1630418438",
+      "nivel": 8,
+      "participantes": [
+        {
+          "amigo": null,
+          "nombre": "CørdøbésNøtFøund#2102",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "Your Name KnNw#LAS",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "PATRICIO REY#956",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "TOMAS X FRANK#00001",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "whitereaper#ING",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "Ðiush#White",
+          "puesto": 6
+        },
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "FEROX 100#mob",
+          "puesto": 8
+        }
+      ],
+      "puesto": 7,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "DA_18_Elderwood",
+          "nivel": 3,
+          "unico": false,
+          "unidades": 7
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Defender",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Fae",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Rapidfire",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        }
+      ],
+      "ronda": 24,
+      "set": 18,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "DA_18_LeBlanc",
+          "items": [
+            "DA_SpearOfShojin",
+            "DA_Component_NeedlesslyLargeRod"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_Hecarim",
+          "items": [],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_Alistar",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_Ornn",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_Xayah",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 1,
+          "id": "DA_18_Aphelios",
+          "items": [
+            "DA_18_EmblemElderwood",
+            "DA_KrakensFury",
+            "DA_GuinsoosRageblade"
+          ],
+          "rareza": 3
+        },
+        {
+          "estrellas": 1,
+          "id": "DA_18_Ezreal",
+          "items": [],
+          "rareza": 3
+        },
+        {
+          "estrellas": 1,
+          "id": "DA_18_Lillia",
+          "items": [
+            "DA_SpiritVisage",
+            "DA_Evenshroud"
+          ],
+          "rareza": 3
+        }
+      ]
+    },
+    "LA2_1631687636": {
+      "danio": 0,
+      "duracion": 2244,
+      "eliminados": 0,
+      "fecha": 1792429740586,
+      "id": "LA2_1631687636",
+      "nivel": 7,
+      "participantes": [
+        {
+          "amigo": null,
+          "nombre": "PinkPantheress#girl",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "PajasLentas#Show",
+          "puesto": 2
+        },
+        {
+          "amigo": "iskrat-las",
+          "nombre": "ISkrat#LAS",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "KyoruCiel#LAS",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "Janemba#0001",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "Eltu LA#CRTRO",
+          "puesto": 6
+        },
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "NopegoUnaQ#otlo",
+          "puesto": 8
+        }
+      ],
+      "puesto": 7,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "DA_Primal18",
+          "nivel": 2,
+          "unico": false,
+          "unidades": 4
+        },
+        {
+          "estilo": 2,
+          "id": "DA_18_Hunter",
+          "nivel": 3,
+          "unico": false,
+          "unidades": 4
+        },
+        {
+          "estilo": 2,
+          "id": "DA_Juggernaut18",
+          "nivel": 2,
+          "unico": false,
+          "unidades": 4
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Fae",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 3,
+          "id": "DA_18_Battlemage",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        }
+      ],
+      "ronda": 28,
+      "set": 18,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "DA_18_Caitlyn",
+          "items": [
+            "DA_18_EmblemPrimal",
+            "DA_GuinsoosRageblade",
+            "DA_HextechGunblade"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 3,
+          "id": "DA_18_Sejuani",
+          "items": [
+            "DA_18_EmblemPrimal",
+            "DA_SunfireCape",
+            "DA_18_EmblemBrawler"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 3,
+          "id": "DA_Scuttlecrab18",
+          "items": [
+            "DA_GargoyleStoneplate",
+            "DA_GargoyleStoneplate",
+            "DA_SteadfastHeart"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_Tristana",
+          "items": [],
+          "rareza": 2
+        },
+        {
+          "estrellas": 1,
+          "id": "DA_18_Malphite",
+          "items": [
+            "DA_18_EmblemJuggernaut",
+            "DA_18_EmblemHunter",
+            "DA_18_EmblemFae"
+          ],
+          "rareza": 3
+        },
+        {
+          "estrellas": 1,
+          "id": "DA_18_Sivir",
+          "items": [
+            "DA_LastWhisper",
+            "DA_InfinityEdge",
+            "DA_GiantSlayer"
+          ],
+          "rareza": 3
+        },
+        {
+          "estrellas": 1,
+          "id": "DA_Vi18",
+          "items": [],
+          "rareza": 2
+        }
+      ]
+    },
+    "LA2_1631693342": {
+      "danio": 0,
+      "duracion": 2485,
+      "eliminados": 0,
+      "fecha": 1792432234519,
+      "id": "LA2_1631693342",
+      "nivel": 7,
+      "participantes": [
+        {
+          "amigo": null,
+          "nombre": "TundraM70#DayZ",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "KickRowmeister#kick",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "Weckum#0107",
+          "puesto": 3
+        },
+        {
+          "amigo": "iskrat-las",
+          "nombre": "ISkrat#LAS",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "ELGORDOVEGANE#LAS",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "PollitoLoco#1223",
+          "puesto": 6
+        },
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "YaNoSe#5674",
+          "puesto": 8
+        }
+      ],
+      "puesto": 7,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 1,
+          "id": "DA_Riftbeast18",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 4
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Lunar",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Rapidfire",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Slayer",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "DA_Juggernaut18",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 3,
+          "id": "DA_18_Maokai_UniqueTrait",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        }
+      ],
+      "ronda": 24,
+      "set": 18,
+      "unidades": [
+        {
+          "estrellas": 2,
+          "id": "DA_18_Diana",
+          "items": [],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_CrimsonRaptor18",
+          "items": [
+            "DA_KrakensFury",
+            "DA_Deathblade",
+            "DA_GuinsoosRageblade"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_Murkwolf18",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_Sentry",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 1,
+          "id": "DA_18_Maokai",
+          "items": [
+            "DA_Evenshroud",
+            "DA_Component_GiantsBelt"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 1,
+          "id": "DA_18_Aphelios",
+          "items": [
+            "DA_LastWhisper"
+          ],
+          "rareza": 3
+        },
+        {
+          "estrellas": 1,
+          "id": "DA_Scuttlecrab18",
+          "items": [],
+          "rareza": 1
+        }
+      ]
+    },
+    "LA2_1633009413": {
+      "danio": 0,
+      "duracion": 2393,
+      "eliminados": 0,
+      "fecha": 1792909286773,
+      "id": "LA2_1633009413",
+      "nivel": 8,
+      "participantes": [
+        {
+          "amigo": null,
+          "nombre": "Emmacondeah#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "xBardockx#LAS",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "BombayTom#LAS",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "Amado Boudou#KUKA",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "TheSuxyWarrior#LAS",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "Rama PL#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": "iskrat-las",
+          "nombre": "ISkrat#LAS",
+          "puesto": 7
+        },
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 8
+        }
+      ],
+      "puesto": 8,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "DA_Riftbeast18",
+          "nivel": 3,
+          "unico": false,
+          "unidades": 7
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Adaptor",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Invoker",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 3,
+          "id": "DA_18_ApexPredator",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        },
+        {
+          "estilo": 3,
+          "id": "DA_18_Caustic",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        }
+      ],
+      "ronda": 26,
+      "set": 18,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "DA_CrimsonRaptor18",
+          "items": [
+            "DA_GuinsoosRageblade",
+            "DA_Component_NeedlesslyLargeRod"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_Sentinel18",
+          "items": [
+            "DA_GargoyleStoneplate",
+            "DA_GargoyleStoneplate",
+            "DA_WarmogsArmor"
+          ],
+          "rareza": 3
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_Krug18",
+          "items": [],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_Gromp18_AP",
+          "items": [
+            "DA_SpearOfShojin",
+            "DA_VoidStaff",
+            "DA_GuinsoosRageblade"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_Scuttlecrab18",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 1,
+          "id": "DA_18_ElderDragon",
+          "items": [
+            "DA_ThiefsGloves",
+            "DA_JeweledGauntlet",
+            "DA_SteadfastHeart"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 1,
+          "id": "DA_KogMaw18_AD",
+          "items": [],
+          "rareza": 2
+        }
+      ]
+    },
+    "LA2_1633017027": {
+      "danio": 0,
+      "duracion": 2327,
+      "eliminados": 0,
+      "fecha": 1792911177132,
+      "id": "LA2_1633017027",
+      "nivel": 8,
+      "participantes": [
+        {
+          "amigo": null,
+          "nombre": "noTACC#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "hacedor XD#ganar",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "ƒ dx#4444",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "Feracohig#FCO",
+          "puesto": 4
+        },
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "ApacheMarciano#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": "iskrat-las",
+          "nombre": "ISkrat#LAS",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "DebhyWildLemon#LAS",
+          "puesto": 8
+        }
+      ],
+      "puesto": 5,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 2,
+          "id": "DA_18_Blackthorn",
+          "nivel": 2,
+          "unico": false,
+          "unidades": 4
+        },
+        {
+          "estilo": 2,
+          "id": "DA_18_Slayer",
+          "nivel": 2,
+          "unico": false,
+          "unidades": 4
+        },
+        {
+          "estilo": 1,
+          "id": "DA_Riftbeast18",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Brawler",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 3,
+          "id": "DA_18_Battlemage",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        }
+      ],
+      "ronda": 31,
+      "set": 18,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "DA_Murkwolf18",
+          "items": [
+            "DA_TitansResolve",
+            "DA_SpearOfShojinRadiant",
+            "DA_SteraksGage"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_Malphite",
+          "items": [
+            "DA_GargoyleStoneplate",
+            "DA_Evenshroud"
+          ],
+          "rareza": 3
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_Brambleback18",
+          "items": [
+            "DA_GuinsoosRageblade",
+            "DA_SteraksGage",
+            "DA_Quicksilver"
+          ],
+          "rareza": 3
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_Azir",
+          "items": [],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_Diana",
+          "items": [],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_Krug18",
+          "items": [],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_Warwick",
+          "items": [
+            "DA_GiantSlayer",
+            "DA_SpearOfShojin"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_RekSai",
+          "items": [],
+          "rareza": 0
+        }
+      ]
+    },
+    "LA2_1633017916": {
+      "danio": 0,
+      "duracion": 2300,
+      "eliminados": 0,
+      "fecha": 1792913411637,
+      "id": "LA2_1633017916",
+      "nivel": 9,
+      "participantes": [
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "NOTORIOUS03#LAS",
+          "puesto": 2
+        },
+        {
+          "amigo": "iskrat-las",
+          "nombre": "ISkrat#LAS",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "Sapphiria#TWICE",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "Nemo#Mahdi",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "Chobii#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "Niño Farmacia#LAS",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "tycomono#LAS",
+          "puesto": 8
+        }
+      ],
+      "puesto": 1,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 2,
+          "id": "DA_Riftbeast18",
+          "nivel": 2,
+          "unico": false,
+          "unidades": 5
+        },
+        {
+          "estilo": 2,
+          "id": "DA_18_Blackthorn",
+          "nivel": 2,
+          "unico": false,
+          "unidades": 4
+        },
+        {
+          "estilo": 2,
+          "id": "DA_18_Slayer",
+          "nivel": 2,
+          "unico": false,
+          "unidades": 4
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Brawler",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 3,
+          "id": "DA_18_ApexPredator",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        },
+        {
+          "estilo": 3,
+          "id": "DA_18_Battlemage",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        }
+      ],
+      "ronda": 38,
+      "set": 18,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "DA_Krug18",
+          "items": [],
+          "rareza": 2
+        },
+        {
+          "estrellas": 3,
+          "id": "DA_18_Warwick",
+          "items": [
+            "DA_SteraksGage",
+            "DA_SpearOfShojin",
+            "DA_TitansResolve"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 3,
+          "id": "DA_Murkwolf18",
+          "items": [
+            "DA_Deathblade",
+            "DA_GuinsoosRageblade",
+            "DA_Quicksilver"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_ElderDragon",
+          "items": [
+            "DA_LastWhisper",
+            "DA_Deathblade"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_Malphite",
+          "items": [
+            "DA_GargoyleStoneplate",
+            "DA_WarmogsArmor",
+            "DA_Evenshroud"
+          ],
+          "rareza": 3
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_Brambleback18",
+          "items": [],
+          "rareza": 3
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_Azir",
+          "items": [
+            "DA_TacticiansCape"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_Diana",
+          "items": [],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_RekSai",
+          "items": [],
+          "rareza": 0
+        }
+      ]
+    },
+    "LA2_1633091697": {
+      "danio": 0,
+      "duracion": 2260,
+      "eliminados": 0,
+      "fecha": 1792958835690,
+      "id": "LA2_1633091697",
+      "nivel": 10,
+      "participantes": [
+        {
+          "amigo": null,
+          "nombre": "Black water ae#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "Alina#2448",
+          "puesto": 2
+        },
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "CuLeonJames#CLJ",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "tomate palta#sas",
+          "puesto": 5
+        },
+        {
+          "amigo": "iskrat-las",
+          "nombre": "ISkrat#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "Nando8#Nando",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "Muteado#LAS",
+          "puesto": 8
+        }
+      ],
+      "puesto": 3,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "DA_18_Summoner",
+          "nivel": 2,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 4,
+          "id": "DA_18_Rival",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 1
+        },
+        {
+          "estilo": 2,
+          "id": "DA_18_Vanguard",
+          "nivel": 2,
+          "unico": false,
+          "unidades": 4
+        },
+        {
+          "estilo": 2,
+          "id": "DA_18_Rapidfire",
+          "nivel": 2,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 1,
+          "id": "DA_Riftbeast18",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Lunar",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Slayer",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "DA_Juggernaut18",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 3,
+          "id": "DA_Emerald18",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        }
+      ],
+      "ronda": 35,
+      "set": 18,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "DA_CrimsonRaptor18",
+          "items": [
+            "DA_StrikersFlail",
+            "DA_KrakensFury",
+            "DA_InfinityEdge"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_Aphelios",
+          "items": [
+            "DA_GiantSlayer",
+            "DA_Component_RecurveBow",
+            "DA_RedBuff"
+          ],
+          "rareza": 3
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_Azir",
+          "items": [],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_Diana",
+          "items": [],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_Hecarim",
+          "items": [
+            "DA_18_EmblemJuggernaut",
+            "DA_SpiritVisage",
+            "DA_DragonsClaw"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_Rengar",
+          "items": [
+            "DA_EdgeOfNight",
+            "DA_TitansResolve",
+            "DA_18_EmblemRapidfire"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_Yorick",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 1,
+          "id": "DA_Taric18",
+          "items": [],
+          "rareza": 4
+        },
+        {
+          "estrellas": 1,
+          "id": "DA_Brambleback18",
+          "items": [
+            "DA_ThiefsGloves",
+            "DA_Quicksilver",
+            "DA_DragonsClaw"
+          ],
+          "rareza": 3
+        },
+        {
+          "estrellas": 1,
+          "id": "DA_Sentinel18",
+          "items": [
+            "DA_DragonsClaw"
+          ],
+          "rareza": 3
+        }
+      ]
+    },
+    "LA2_1633100755": {
+      "danio": 0,
+      "duracion": 2340,
+      "eliminados": 0,
+      "fecha": 1792961331992,
+      "id": "LA2_1633100755",
+      "nivel": 10,
+      "participantes": [
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "Fran#Gordo",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "Garbelic#LAS",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "FrenksNahu#LAS",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "XxTensionxX#LAS",
+          "puesto": 5
+        },
+        {
+          "amigo": "iskrat-las",
+          "nombre": "ISkrat#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "luxide23#LAS",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "locomotoracanchi#LAS",
+          "puesto": 8
+        }
+      ],
+      "puesto": 1,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "DA_Riftbeast18",
+          "nivel": 3,
+          "unico": false,
+          "unidades": 7
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Brawler",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Hunter",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Invoker",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Vanguard",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 3,
+          "id": "DA_18_ApexPredator",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        },
+        {
+          "estilo": 3,
+          "id": "DA_Emerald18",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        }
+      ],
+      "ronda": 38,
+      "set": 18,
+      "unidades": [
+        {
+          "estrellas": 4,
+          "id": "DA_Cinderling18",
+          "items": [
+            "DA_SpearOfShojin",
+            "DA_InfinityEdge",
+            "DA_StrikersFlail"
+          ],
+          "rareza": 0
+        },
+        {
+          "estrellas": 3,
+          "id": "DA_Krug18",
+          "items": [
+            "DA_DragonsClaw",
+            "DA_WarmogsArmor",
+            "DA_SpiritVisage"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_GnarSmall",
+          "items": [
+            "DA_HandOfJustice"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_Sentinel18",
+          "items": [
+            "DA_SunfireCape",
+            "DA_Component_ChainVest"
+          ],
+          "rareza": 3
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_Scuttlecrab18",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_Sentry",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 1,
+          "id": "DA_18_Ashe",
+          "items": [],
+          "rareza": 4
+        },
+        {
+          "estrellas": 1,
+          "id": "DA_18_ElderDragon",
+          "items": [
+            "DA_LastWhisper",
+            "DA_HandOfJustice",
+            "DA_GiantSlayer"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 1,
+          "id": "DA_Taric18",
+          "items": [],
+          "rareza": 4
+        }
+      ]
+    },
+    "LA2_1633119450": {
+      "danio": 0,
+      "duracion": 2173,
+      "eliminados": 0,
+      "fecha": 1792965308198,
+      "id": "LA2_1633119450",
+      "nivel": 8,
+      "participantes": [
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "dukaz#LAS",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "GRAVINETA#LAS",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "Maxilord#LAS",
+          "puesto": 4
+        },
+        {
+          "amigo": "iskrat-las",
+          "nombre": "ISkrat#LAS",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "Akke6969#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "Nemptyn#JTGM",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "lTangol#LAS",
+          "puesto": 8
+        }
+      ],
+      "puesto": 1,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "DA_18_Rival",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 1
+        },
+        {
+          "estilo": 2,
+          "id": "DA_18_Vanguard",
+          "nivel": 2,
+          "unico": false,
+          "unidades": 4
+        },
+        {
+          "estilo": 2,
+          "id": "DA_18_Lunar",
+          "nivel": 2,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 1,
+          "id": "DA_Riftbeast18",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Rapidfire",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Slayer",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Summoner",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 3,
+          "id": "DA_18_ZyraUniqueTrait",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        }
+      ],
+      "ronda": 35,
+      "set": 18,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "DA_18_Diana",
+          "items": [
+            "DA_ThiefsGloves",
+            "DA_GiantSlayer",
+            "DA_KrakensFury"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 3,
+          "id": "DA_18_Hecarim",
+          "items": [
+            "DA_DragonsClaw",
+            "DA_SunfireCape",
+            "DA_SpiritVisage"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 3,
+          "id": "DA_18_Rengar",
+          "items": [
+            "DA_18_EmblemVanguard",
+            "DA_TitansResolve",
+            "DA_GuinsoosRageblade"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 3,
+          "id": "DA_CrimsonRaptor18",
+          "items": [
+            "DA_Deathblade",
+            "DA_18_EmblemLunar",
+            "DA_GuinsoosRageblade"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_Zyra",
+          "items": [
+            "DA_ArchangelsStaff",
+            "DA_RedBuff"
+          ],
+          "rareza": 3
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_Brambleback18",
+          "items": [
+            "DA_ThiefsGloves",
+            "DA_InfinityEdge",
+            "DA_Bloodthirster"
+          ],
+          "rareza": 3
+        },
+        {
+          "estrellas": 1,
+          "id": "DA_18_Aphelios",
+          "items": [],
+          "rareza": 3
+        },
+        {
+          "estrellas": 1,
+          "id": "DA_Sentinel18",
+          "items": [
+            "DA_ThiefsGloves",
+            "DA_NashorsTooth",
+            "DA_TitansResolve"
+          ],
+          "rareza": 3
+        }
+      ]
+    }
+  },
+  "perfil": {
+    "icono": 582,
+    "nivel": 568
+  },
+  "rangos": {
+    "doble": null,
+    "ranked": {
+      "division": "II",
+      "lp": 77,
+      "partidas": 17,
+      "racha": true,
+      "tier": "GOLD",
+      "top4": 11
+    },
+    "turbo": null
+  },
   "riot_id": "GralMogeko#LAS",
-  "seguimiento_desde": 1791054713514,
+  "seguimiento_desde": 1790976035544,
   "version": 3
 }
