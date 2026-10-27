@@ -204,7 +204,15 @@ def _entrada(
 
 
 def _contador() -> dict:
-    return {"partidas": 0, "primeros": 0, "top4": 0, "top4_pct": None, "promedio": None, "_suma": 0}
+    return {
+        "partidas": 0,
+        "primeros": 0,
+        "top4": 0,
+        "top4_pct": None,
+        "promedio": None,
+        "puestos": {str(p): 0 for p in range(1, 9)},
+        "_suma": 0,
+    }
 
 
 def _cerrar(contador: dict) -> dict:
@@ -231,11 +239,14 @@ def calcular_estadisticas_tft(partidas, mapa: MapaModos) -> dict:
                 "categoria": modo.categoria,
                 **_contador(),
             }
+        puesto = partida.get("puesto")
         for contador in (total, por_modo[clave]):
             contador["partidas"] += 1
-            contador["primeros"] += partida["puesto"] == 1
-            contador["top4"] += partida["puesto"] <= 4
-            contador["_suma"] += partida["puesto"]
+            contador["primeros"] += puesto == 1
+            contador["top4"] += puesto <= 4
+            contador["_suma"] += puesto
+            if isinstance(puesto, int) and 1 <= puesto <= 8:
+                contador["puestos"][str(puesto)] += 1
     return {
         "total": _cerrar(total),
         "por_modo": sorted(

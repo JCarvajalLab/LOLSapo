@@ -339,6 +339,16 @@ def test_estadisticas_tft(mapa_tft):
         "top4": 2,
         "top4_pct": 50.0,
         "promedio": 4.5,
+        "puestos": {
+            "1": 1,
+            "2": 0,
+            "3": 0,
+            "4": 1,
+            "5": 1,
+            "6": 0,
+            "7": 0,
+            "8": 1,
+        },
     }
     modos = {m["nombre"]: m for m in estadisticas["por_modo"]}
     assert modos["Clasificatoria"]["top4_pct"] == 100.0
