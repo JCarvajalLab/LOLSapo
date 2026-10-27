@@ -429,6 +429,9 @@ def test_genera_tft_json_completo(cliente, mapa_tft, tmp_path):
     assert salida["en_vivo"][0]["amigos"] == ["big-gato-las", "johnadis-las"]
     assert {"nombre": None, "amigo": None} in salida["en_vivo"][0]["jugadores"]
     assert salida["ranking"][0]["slug"] == "johnadis-las"
+    assert "destacados" in salida
+    assert "semana_desde" in salida["destacados"]
+    assert "mes" in salida["destacados"]
     # Nada de PUUID ni de la key en la salida ni en el registro (que es público).
     registro = (tmp_path / "datos" / "registro_tft" / "johnadis-las.json").read_text("utf-8")
     for texto_publico in (texto, registro):

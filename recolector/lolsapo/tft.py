@@ -16,6 +16,7 @@ from pathlib import Path
 
 from . import ddragon_tft
 from .config import Amigo
+from .destacados_tft import calcular_destacados_tft
 from .modos import MapaModos
 from .ranking import valor_rango
 from .recolector import MENSAJE_ERROR, SecretoEnSalida, _resolver_puuids
@@ -295,14 +296,33 @@ def _partidas_en_vivo(activas: list[dict], mapa: MapaModos, slug_por_puuid: dict
     return list(por_id.values())
 
 
-def _elementos_usados(entradas: list[dict]) -> dict[str, set[str]]:
+def _elementos_usados(entradas: list[dict], destacados: dict | None = None) -> dict[str, set[str]]:
     usados: dict[str, set[str]] = {"campeones": set(), "rasgos": set(), "items": set()}
+
+    def agregar_partida(p: dict):
+        for unidad in p.get("unidades", []):
+            usados["campeones"].add(unidad["id"])
+            usados["items"].update(unidad["items"])
+        usados["rasgos"].update(r["id"] for r in p.get("rasgos", []))
+
     for entrada in entradas:
         for partida in entrada["partidas"]:
-            for unidad in partida.get("unidades", []):
-                usados["campeones"].add(unidad["id"])
-                usados["items"].update(unidad["items"])
-            usados["rasgos"].update(r["id"] for r in partida.get("rasgos", []))
+            agregar_partida(partida)
+
+    if destacados:
+        for clave in (
+            "mejor_jugador_semana",
+            "peor_jugador_semana",
+            "mejor_jugador_mes",
+            "peor_jugador_mes",
+        ):
+            partida_dest = destacados.get(clave)
+            if partida_dest:
+                agregar_partida(partida_dest)
+        for lista_tops in (destacados.get("tops_global") or {}).values():
+            for p in lista_tops:
+                agregar_partida(p)
+
     return usados
 
 
@@ -345,15 +365,32 @@ def ejecutar_tft(
 
     entradas = [entrada for entrada, _ in resultados]
     activas = [activa for _, activa in resultados if activa]
+
+    # Destacados calculados sobre el registro acumulado completo de cada amigo
+    registradas = {}
+    for amigo in amigos:
+        try:
+            reg = leer_registro(dir_registro / f"{amigo.slug}.json", amigo.riot_id, ahora_ms)
+            registradas[amigo.slug] = list(reg.get("partidas", {}).values())
+        except Exception:
+            registradas[amigo.slug] = []
+
+    try:
+        destacados = calcular_destacados_tft(registradas, mapa, ahora_ms)
+    except Exception as error:
+        log.error("No se pudieron calcular los destacados de TFT (%s)", type(error).__name__)
+        destacados = None
+
     salida = {
         "version": VERSION_SALIDA_TFT,
         "actualizado": ahora.isoformat(timespec="seconds").replace("+00:00", "Z"),
         "error": MENSAJE_SIN_ACCESO if sin_acceso else None,
         "en_vivo_disponible": espectador.disponible and not sin_acceso,
-        "ddragon": ddragon_tft.para_salida(ddragon, _elementos_usados(entradas)),
+        "ddragon": ddragon_tft.para_salida(ddragon, _elementos_usados(entradas, destacados)),
         "en_vivo": _partidas_en_vivo(activas, mapa, slug_por_puuid),
         "amigos": entradas,
         "ranking": calcular_ranking_tft(entradas),
+        "destacados": destacados,
     }
 
     # Mismas barreras que lol.json: ninguna key ni PUUID en un archivo que lee la web.
