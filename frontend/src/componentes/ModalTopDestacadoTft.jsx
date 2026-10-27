@@ -3,6 +3,7 @@ import { urlIconoPerfil } from "../logica/ddragon.js";
 import { formatearWinrate } from "../logica/formato.js";
 import { Barra } from "./Barra.jsx";
 import { Dialogo } from "./Dialogo.jsx";
+import { BarraWinrate } from "./Etiquetas.jsx";
 import { ImagenDD } from "./ImagenDD.jsx";
 import { PartidaDestacadaTft } from "./PiezasDestacadosTft.jsx";
 
@@ -158,7 +159,11 @@ function RecordTft({ t, porPartidas, maximo }) {
           {t.promedio && ` · Promedio: ${t.promedio}`}
         </span>
       </div>
-      <Barra valor={t.partidas} maximo={maximo} color="bg-victoria" />
+      {porPartidas ? (
+        <Barra ancho={(t.partidas / (maximo || 1)) * 100} clase="bg-victoria" />
+      ) : (
+        <BarraWinrate winrate={porcentaje} />
+      )}
     </div>
   );
 }

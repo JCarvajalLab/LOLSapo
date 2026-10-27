@@ -20,6 +20,7 @@ const DESTACADOS_FIXTURE = {
     ronda: 35,
     danio: 85,
     eliminados: 3,
+    duracion: 2100,
     modo: "Clasificatoria",
     fecha: AHORA - 10 * 3600 * 1000,
     unidades: [{ id: "DA_18_Sett", estrellas: 3, rareza: 3, items: [] }],
@@ -153,6 +154,8 @@ describe("Secciones de Destacados de TFT", () => {
     expect(screen.getByText("100%")).toBeInTheDocument();
     // Comprueba 8.º puesto
     expect(screen.getByText("8.º puesto")).toBeInTheDocument();
+    // Comprueba que muestra la duración de la partida
+    expect(screen.getAllByText(/35 min/).length).toBeGreaterThan(0);
   });
 
   it("renderiza estado vacío cuando la semana no tiene partidas", () => {

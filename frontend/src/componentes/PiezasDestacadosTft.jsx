@@ -9,8 +9,15 @@ import {
   VACIO_MES_TFT,
   VACIO_SEMANA_TFT,
 } from "../logica/destacadosTft.js";
-import { esNumero, fechaCompleta, formatearWinrate, haceCuanto } from "../logica/formato.js";
+import {
+  esNumero,
+  fechaCompleta,
+  formatearDuracion,
+  formatearWinrate,
+  haceCuanto,
+} from "../logica/formato.js";
 import { estiloPuesto, textoPuesto } from "../logica/tft.js";
+import { BarraWinrate } from "./Etiquetas.jsx";
 import { ImagenDD } from "./ImagenDD.jsx";
 import { ModalTopDestacadoTft } from "./ModalTopDestacadoTft.jsx";
 import { UnidadTft } from "./PiezasTft.jsx";
@@ -21,7 +28,7 @@ const esMejor = (clave) => clave.startsWith("mejor_");
 const esPeor = (clave) => clave.startsWith("peor_");
 
 function filoDeTft(clave) {
-  if (esMejor(clave)) return "filo-victoria";
+  if (esMejor(clave) || esBalance(clave) || clave.startsWith("mas_partidas")) return "filo-victoria";
   if (esPeor(clave)) return "filo-derrota";
   return "";
 }
@@ -123,6 +130,7 @@ export function PartidaDestacadaTft({ t, ddragon, ahora, _mejor, compacta = fals
         </span>
         <span className="text-xs text-texto-suave truncate">
           {t.modo || "TFT"} · Nivel {t.nivel} · Ronda {t.ronda}
+          {esNumero(t.duracion) && t.duracion > 0 && ` · ${formatearDuracion(t.duracion)}`}
         </span>
       </div>
 
@@ -143,6 +151,11 @@ export function PartidaDestacadaTft({ t, ddragon, ahora, _mejor, compacta = fals
         {esNumero(t.eliminados) && t.eliminados > 0 && (
           <span>{t.eliminados} eliminados</span>
         )}
+        {esNumero(t.duracion) && t.duracion > 0 && (
+          <span className="cifras font-medium text-texto/90">
+            ⏱ {formatearDuracion(t.duracion)}
+          </span>
+        )}
         <time
           dateTime={esNumero(t.fecha) ? new Date(t.fecha).toISOString() : undefined}
           title={fechaCompleta(t.fecha)}
@@ -159,14 +172,15 @@ const VALOR = "marcador text-3xl sm:text-4xl leading-none";
 
 function ContenidoTft({ clave, t, ddragon, ahora }) {
   if (clave.startsWith("mejor_jugador") || clave.startsWith("peor_jugador")) {
-    return <PartidaDestacadaTft t={t} ddragon={ddragon} ahora={ahora} mejor={esMejor(clave)} />;
+    return <PartidaDestacadaTft t={t} ddragon={ddragon} ahora={ahora} _mejor={esMejor(clave)} />;
   }
 
   if (clave.startsWith("mejor_top4")) {
     return (
       <div className="mt-auto">
         <p className={`${VALOR} text-victoria`}>{formatearWinrate(t.top4_pct)}</p>
-        <p className="cifras mt-1 text-xs sm:text-sm text-texto-suave">
+        <BarraWinrate winrate={t.top4_pct} className="mt-2" />
+        <p className="cifras mt-1.5 text-xs sm:text-sm text-texto-suave">
           <span className="text-victoria font-semibold">{t.top4} Top 4</span>
           {esNumero(t.primeros) && t.primeros > 0 && (
             <span> · <span className="text-amber-300 font-semibold">{t.primeros} ★</span></span>
@@ -184,8 +198,18 @@ function ContenidoTft({ clave, t, ddragon, ahora }) {
     return (
       <div className="mt-auto">
         <p className={VALOR}>
-          {t.partidas} <span className="text-sm font-normal text-texto-suave">{t.partidas === 1 ? "partida" : "partidas"}</span>
+          <span className="text-victoria">{t.partidas}</span>{" "}
+          <span className="text-sm font-normal text-texto-suave">
+            {t.partidas === 1 ? "partida" : "partidas"}
+          </span>
         </p>
+        <span
+          className="relative mt-2 block h-1.5 overflow-hidden rounded-full bg-superficie-alta"
+          aria-hidden="true"
+        >
+          <span className="absolute inset-y-0 left-0 rounded-full bg-victoria w-full" />
+        </span>
+        <p className="cifras mt-1.5 text-xs text-texto-suave">Mayor actividad en la Convergencia</p>
       </div>
     );
   }
@@ -199,8 +223,10 @@ function ContenidoTft({ clave, t, ddragon, ahora }) {
           <span className="text-texto-suave mx-1.5 text-2xl font-light">–</span>
           <span className="text-derrota">{bot4} Bot 4</span>
         </p>
-        <p className="cifras mt-1 text-xs sm:text-sm text-texto-suave">
-          {formatearWinrate(t.top4_pct)} grupal · {t.partidas} {t.partidas === 1 ? "partida" : "partidas"}
+        <BarraWinrate winrate={t.top4_pct} className="mt-2" />
+        <p className="cifras mt-1.5 text-xs sm:text-sm text-texto-suave">
+          <span className="text-victoria font-semibold">{formatearWinrate(t.top4_pct)}</span> grupal ·{" "}
+          {t.partidas} {t.partidas === 1 ? "partida" : "partidas"}
         </p>
         {esNumero(t.promedio) && (
           <p className="cifras text-xs text-texto-suave mt-0.5">Puesto promedio: {t.promedio}</p>
