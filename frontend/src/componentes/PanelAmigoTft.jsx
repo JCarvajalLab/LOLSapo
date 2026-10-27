@@ -5,40 +5,75 @@ import { esRanked } from "../logica/partidas.js";
 import { formatearPromedio, resumenTftDe } from "../logica/tft.js";
 import { BarraWinrate } from "./Etiquetas.jsx";
 import { FilaPartidaTft } from "./FilaPartidaTft.jsx";
+import { FilaPartidaCompactaTft } from "./FilaPartidaCompactaTft.jsx";
 import { FiltroModos } from "./FiltroModos.jsx";
 import { HistorialPuestos } from "./HistorialPuestos.jsx";
+import { TarjetaResumenRecienteTft } from "./TarjetaResumenRecienteTft.jsx";
+import { SelectorVistaPartidas } from "./SelectorVistaPartidas.jsx";
+
+const CLAVE_STORAGE_VISTA_TFT = "lolsapo_vista_historial_tft";
+
+function obtenerVistaInicialTft() {
+  try {
+    const guardada = typeof window !== "undefined" ? window.localStorage?.getItem(CLAVE_STORAGE_VISTA_TFT) : null;
+    return guardada === "compacta" ? "compacta" : "detallada";
+  } catch {
+    return "detallada";
+  }
+}
 
 /** Contenido desplegado de un amigo en TFT. Solo se monta al abrir su fila. */
 export function PanelAmigoTft({ amigo, ddragon, ahora }) {
   const [filtro, setFiltro] = useState("todos");
+  const [vista, setVista] = useState(obtenerVistaInicialTft);
   const todas = Array.isArray(amigo.partidas) ? amigo.partidas.filter(Boolean) : [];
   const partidas = filtrarPartidas(todas, filtro);
   const resumen = resumenTftDe(amigo.estadisticas, filtro);
   const modos = modosDe(amigo.estadisticas, filtro);
-  return (
-    <div className="panel-hundido space-y-5 px-3 py-4 sm:px-4 sm:py-5">
-      <p className="max-w-prose text-xs text-texto-suave">
-        Contando desde {fechaCorta(amigo.seguimiento_desde)}. Las estadísticas por modo solo incluyen partidas
-        registradas por LOLSapo.
-      </p>
 
-      {/* Escritorio: filtros a la izquierda y la grilla de puestos a la derecha. Móvil: uno debajo del otro.
-          Sin historial, HistorialPuestos no renderiza nada y los filtros quedan solos. */}
-      <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-        <div className="min-w-0 flex-1">
+  const handleCambiarVista = (nuevaVista) => {
+    setVista(nuevaVista);
+    try {
+      window.localStorage?.setItem(CLAVE_STORAGE_VISTA_TFT, nuevaVista);
+    } catch {
+      // Ignorar si el acceso a localStorage está restringido
+    }
+  };
+
+  return (
+    <div className="panel-hundido space-y-4 px-3 py-4 sm:px-4 sm:py-5">
+      {/* Fila superior: Texto, Filtros y Resumen a la izquierda, Grilla de puestos a la derecha (distribución balanceada como en LoL) */}
+      <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-5">
+        <div className="space-y-3.5 min-w-0 flex-1 max-w-xl">
+          <p className="max-w-prose text-xs text-texto-suave">
+            Contando desde {fechaCorta(amigo.seguimiento_desde)}. Las estadísticas por modo solo incluyen partidas
+            registradas por LOLSapo.
+          </p>
+
           <FiltroModos valor={filtro} onCambiar={setFiltro} opciones={FILTROS_TFT} />
+
+          <section aria-label="Estadísticas del filtro" className="pt-0.5">
+            <ResumenFiltroTft etiqueta={etiquetaFiltro(filtro)} resumen={resumen} />
+          </section>
+
+          <TarjetaResumenRecienteTft historial={amigo.historial} filtro={filtro} />
         </div>
+
         <HistorialPuestos historial={amigo.historial} filtro={filtro} />
       </div>
 
-      <section aria-label="Estadísticas del filtro" className="space-y-2">
-        <h3 className="titulo-sub">Por modo</h3>
-        <ResumenFiltroTft etiqueta={etiquetaFiltro(filtro)} resumen={resumen} />
+      {/* Desglose por modo a todo lo ancho */}
+      <section aria-label="Desglose por modo" className="space-y-3 pt-1">
         <DesgloseModosTft modos={modos} filtrado={filtro !== "todos"} />
       </section>
 
       <section aria-label="Últimas partidas" className="space-y-2">
-        <h3 className="titulo-sub">Últimas partidas</h3>
+        <div className="flex items-center justify-between gap-2">
+          <h3 className="titulo-sub">Últimas partidas</h3>
+          {todas.length > 0 && (
+            <SelectorVistaPartidas vista={vista} onCambiarVista={handleCambiarVista} />
+          )}
+        </div>
         {todas.length === 0 ? (
           <p className="text-sm text-texto-suave">Todavía no hay partidas de TFT registradas.</p>
         ) : partidas.length === 0 ? (
@@ -46,10 +81,14 @@ export function PanelAmigoTft({ amigo, ddragon, ahora }) {
             No hay partidas de {etiquetaFiltro(filtro)} entre las últimas 10. Prueba con Todos.
           </p>
         ) : (
-          <ol className="space-y-2">
+          <ol className={vista === "compacta" ? "space-y-1.5" : "space-y-2"}>
             {partidas.map((p, i) => (
               <li key={p.id ?? i}>
-                <FilaPartidaTft partida={p} ddragon={ddragon} ahora={ahora} slugPropio={amigo.slug} />
+                {vista === "compacta" ? (
+                  <FilaPartidaCompactaTft partida={p} ddragon={ddragon} ahora={ahora} slugPropio={amigo.slug} />
+                ) : (
+                  <FilaPartidaTft partida={p} ddragon={ddragon} ahora={ahora} slugPropio={amigo.slug} />
+                )}
               </li>
             ))}
           </ol>

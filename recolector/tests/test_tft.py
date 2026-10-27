@@ -339,6 +339,16 @@ def test_estadisticas_tft(mapa_tft):
         "top4": 2,
         "top4_pct": 50.0,
         "promedio": 4.5,
+        "puestos": {
+            "1": 1,
+            "2": 0,
+            "3": 0,
+            "4": 1,
+            "5": 1,
+            "6": 0,
+            "7": 0,
+            "8": 1,
+        },
     }
     modos = {m["nombre"]: m for m in estadisticas["por_modo"]}
     assert modos["Clasificatoria"]["top4_pct"] == 100.0
@@ -429,6 +439,9 @@ def test_genera_tft_json_completo(cliente, mapa_tft, tmp_path):
     assert salida["en_vivo"][0]["amigos"] == ["big-gato-las", "johnadis-las"]
     assert {"nombre": None, "amigo": None} in salida["en_vivo"][0]["jugadores"]
     assert salida["ranking"][0]["slug"] == "johnadis-las"
+    assert "destacados" in salida
+    assert "semana_desde" in salida["destacados"]
+    assert "mes" in salida["destacados"]
     # Nada de PUUID ni de la key en la salida ni en el registro (que es público).
     registro = (tmp_path / "datos" / "registro_tft" / "johnadis-las.json").read_text("utf-8")
     for texto_publico in (texto, registro):

@@ -148,10 +148,16 @@ describe("vista de TFT con datos", () => {
     expect(panel).toHaveTextContent("Todavía no hay partidas de TFT registradas.");
   });
 
-  it("clic en el ranking abre la fila del amigo", async () => {
+  it("clic en el ranking abre el modal de estadísticas y se puede cerrar", async () => {
     renderVista(crearDatosTft());
-    await userEvent.click(screen.getAllByRole("link")[1]);
-    expect(screen.getByRole("button", { name: "Lodo#LAS" })).toHaveAttribute("aria-expanded", "true");
+    const enlaceCroac = screen.getByRole("link", { name: /Croac#LAS/ });
+    await userEvent.click(enlaceCroac);
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Croac#LAS", level: 2 })).toBeInTheDocument();
+    expect(screen.getByText("Posiciones")).toBeInTheDocument();
+
+    await userEvent.click(screen.getByRole("button", { name: "Cerrar" }));
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
   });
 
   it("sin amigos muestra un estado vacío", () => {
@@ -357,10 +363,13 @@ describe("en partida y avisos", () => {
     expect(enVivo).toHaveTextContent("Croac y Renacuaja");
     const jugadores = within(enVivo).getAllByRole("listitem").filter((li) => li.closest("[aria-label='Jugadores del lobby']"));
     expect(jugadores).toHaveLength(8);
-    expect(jugadores.filter((j) => j.dataset.amigo === "true").map((j) => j.textContent)).toEqual([
-      "Croac#LAS (del grupo)",
-      "Renacuaja#LAS (del grupo)",
-    ]);
+    const amigosEnLobby = jugadores.filter((j) => j.dataset.amigo === "true");
+    expect(amigosEnLobby).toHaveLength(2);
+    expect(amigosEnLobby[0]).toHaveTextContent("Croac#LAS");
+    expect(amigosEnLobby[0]).toHaveTextContent("Platino II · 61 LP");
+    expect(amigosEnLobby[0]).toHaveTextContent("Dúo");
+    expect(amigosEnLobby[1]).toHaveTextContent("Renacuaja#LAS");
+    expect(amigosEnLobby[1]).toHaveTextContent("Sin clasificar");
     expect(jugadores[3]).toHaveTextContent("Jugador oculto");
 
     const fila = screen.getByRole("button", { name: "Croac#LAS" }).closest("li");
@@ -422,6 +431,38 @@ describe("en partida y avisos", () => {
   it("la sección En partida no muestra nada si la lista viene vacía", () => {
     render(<SeccionEnPartidaTft enVivo={null} amigos={[]} actualizadoMs={AHORA} ahora={AHORA} />);
     expect(screen.getByText("Nadie en partida.")).toBeInTheDocument();
+  });
+
+  it("permite simular una partida en vivo de prueba y cerrarla", async () => {
+    render(
+      <SeccionEnPartidaTft
+        enVivo={[]}
+        amigos={[
+          { slug: "iskrat-las", nombre: "ISkrat" },
+          { slug: "nic-las", nombre: "Nic" },
+        ]}
+        actualizadoMs={AHORA}
+        ahora={AHORA}
+        permitirSimular={true}
+      />,
+    );
+
+    expect(screen.getByText("Nadie en partida.")).toBeInTheDocument();
+
+    const botonSimular = screen.getByRole("button", { name: "👁️ Simular en vivo" });
+    await userEvent.click(botonSimular);
+
+    expect(screen.getByText(/Modo de prueba:/)).toBeInTheDocument();
+    expect(screen.getByRole("list", { name: "Partidas en curso" })).toBeInTheDocument();
+    const lobby = screen.getByRole("list", { name: "Jugadores del lobby" });
+    expect(within(lobby).getByText("ISkrat#LAS")).toBeInTheDocument();
+    expect(within(lobby).getByText("Nic#LAS")).toBeInTheDocument();
+
+    const botonCerrar = screen.getByRole("button", { name: "✕ Quitar simulación" });
+    await userEvent.click(botonCerrar);
+
+    expect(screen.getByText("Nadie en partida.")).toBeInTheDocument();
+    expect(screen.queryByRole("list", { name: "Partidas en curso" })).not.toBeInTheDocument();
   });
 });
 
@@ -537,14 +578,14 @@ describe("historial de puestos en el panel", () => {
     expect(within(lodo).getByRole("group", { name: "Filtrar por modo" })).toBeInTheDocument();
   });
 
-  it("el panel ordena filtros, grilla, por modo y últimas partidas", async () => {
+  it("el panel ordena filtros, resumen, grilla y últimas partidas", async () => {
     const panel = await abrirPanel("Croac#LAS");
     const contando = within(panel).getByText(/^Contando desde/);
     const filtros = within(panel).getByRole("group", { name: "Filtrar por modo" });
+    const resumen = within(panel).getByRole("region", { name: "Estadísticas del filtro" });
     const grilla = within(panel).getByRole("region", { name: "Historial de puestos" });
-    const porModo = within(panel).getByRole("region", { name: "Estadísticas del filtro" });
     const partidas = within(panel).getByRole("region", { name: "Últimas partidas" });
-    const orden = [contando, filtros, grilla, porModo, partidas];
+    const orden = [contando, filtros, resumen, grilla, partidas];
     for (let i = 1; i < orden.length; i++) {
       expect(orden[i - 1].compareDocumentPosition(orden[i]) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     }
@@ -552,5 +593,72 @@ describe("historial de puestos en el panel", () => {
     const fila = filtros.parentElement.parentElement;
     expect(fila).toContainElement(grilla);
     expect(fila).toHaveClass("flex-col", "lg:flex-row", "lg:items-start");
+  });
+});
+
+describe("selector de vista detallada / compacta en TFT", () => {
+  beforeEach(() => {
+    window.localStorage?.clear();
+  });
+
+  it("permite cambiar a vista compacta y persistir en localStorage", async () => {
+    renderVista(crearDatosTft());
+    const boton = await abrir("Croac#LAS");
+    const panel = document.getElementById(boton.getAttribute("aria-controls"));
+
+    const botonCompacta = within(panel).getByRole("button", { name: "Vista compacta" });
+    await userEvent.click(botonCompacta);
+
+    expect(botonCompacta).toHaveAttribute("aria-pressed", "true");
+    expect(within(panel).getByRole("button", { name: "Vista detallada" })).toHaveAttribute("aria-pressed", "false");
+    expect(window.localStorage.getItem("lolsapo_vista_historial_tft")).toBe("compacta");
+
+    // Sigue mostrando los artículos de partidas en vista compacta
+    expect(within(panel).getAllByRole("article")).toHaveLength(6);
+  });
+
+  it("no muestra el selector si el amigo no tiene partidas", async () => {
+    renderVista(crearDatosTft());
+    const boton = await abrir("Renacuaja#LAS");
+    const panel = document.getElementById(boton.getAttribute("aria-controls"));
+
+    expect(within(panel).queryByRole("group", { name: "Tipo de vista de partidas" })).not.toBeInTheDocument();
+  });
+});
+
+describe("destacados de la semana y del mes en TFT", () => {
+  it("muestra destacados de la semana y del mes si vienen en datos", () => {
+    const datos = crearDatosTft();
+    datos.destacados = {
+      semana_desde: 1790884800000,
+      mejor_jugador_semana: null,
+      mejor_top4_semana: null,
+      balance_semana: null,
+      mas_partidas_semana: null,
+      peor_jugador_semana: null,
+      mes: {
+        anio: 2026,
+        mes: 10,
+        nombre: "octubre",
+        desde: 1790800000000,
+        hasta: 1793500000000,
+        cerrado: false,
+      },
+      mejor_jugador_mes: null,
+      mejor_top4_mes: null,
+      balance_mes: null,
+      mas_partidas_mes: null,
+      peor_jugador_mes: null,
+    };
+    renderVista(datos);
+    expect(screen.getByRole("heading", { name: "Destacados de la semana (TFT)" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /Destacados de octubre/ })).toBeInTheDocument();
+  });
+
+  it("no muestra secciones de destacados si destacados no viene en datos", () => {
+    const datos = crearDatosTft();
+    delete datos.destacados;
+    renderVista(datos);
+    expect(screen.queryByRole("heading", { name: "Destacados de la semana (TFT)" })).not.toBeInTheDocument();
   });
 });

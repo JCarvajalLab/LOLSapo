@@ -55,6 +55,7 @@ export function validarDatosTft(json) {
       .filter((a) => typeof a.slug === "string")
       .map((a) => ({ ...a, perfil: validarPerfil(a.perfil), historial: validarHistorial(a.historial) })),
     ranking: lista(json.ranking),
+    destacados: json.destacados && typeof json.destacados === "object" ? json.destacados : null,
   };
 }
 

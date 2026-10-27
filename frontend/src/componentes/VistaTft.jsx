@@ -1,10 +1,14 @@
+import { useState } from "react";
 import { formatearWinrate, isoAMs } from "../logica/formato.js";
 import { ordenarAmigosTft, textoRangoTft } from "../logica/tft.js";
 import { HASH_TFT } from "../rutas/hash.js";
 import { EsqueletoPagina } from "./Esqueleto.jsx";
 import { ErrorCarga, EstadoVacio } from "./Estados.jsx";
 import { FilaAmigoTft, FilaAmigoTftEsqueleto } from "./FilaAmigoTft.jsx";
+import { ModalStatsAmigoTft } from "./ModalStatsAmigoTft.jsx";
 import { Ranking } from "./Ranking.jsx";
+import { SeccionDestacadosMesTft } from "./SeccionDestacadosMesTft.jsx";
+import { SeccionDestacadosSemanaTft } from "./SeccionDestacadosSemanaTft.jsx";
 import { SeccionEnPartidaTft } from "./SeccionEnPartidaTft.jsx";
 import { TituloSeccion } from "./TituloSeccion.jsx";
 
@@ -13,6 +17,8 @@ import { TituloSeccion } from "./TituloSeccion.jsx";
  * aviso global si lo hay, "En partida", ranking y una fila por amigo con acordeón.
  */
 export function VistaTft({ datos, error, ahora, abiertos, alternar, abrir, enfocar }) {
+  const [modalAmigo, setModalAmigo] = useState(null);
+
   if (error && !datos) {
     if (error.tipo === "sin-datos") {
       return (
@@ -28,6 +34,22 @@ export function VistaTft({ datos, error, ahora, abiertos, alternar, abrir, enfoc
   if (!datos) return <EsqueletoPagina FilaEsqueleto={FilaAmigoTftEsqueleto} etiqueta="Cargando datos de TFT…" />;
 
   const actualizadoMs = isoAMs(datos.actualizado);
+
+  const handleElegirRanking = (slug, enlace) => {
+    const amigo = datos.amigos.find((a) => a.slug === slug);
+    if (amigo) {
+      setModalAmigo({ amigo, enlace });
+    } else {
+      abrir(slug, enlace);
+    }
+  };
+
+  const handleCerrarModal = () => {
+    const enlace = modalAmigo?.enlace;
+    setModalAmigo(null);
+    enlace?.focus?.();
+  };
+
   return (
     <div className="space-y-8 sm:space-y-10">
       {datos.error && (
@@ -43,15 +65,33 @@ export function VistaTft({ datos, error, ahora, abiertos, alternar, abrir, enfoc
         enVivo={datos.en_vivo}
         disponible={datos.en_vivo_disponible}
         amigos={datos.amigos}
+        ddragon={datos.ddragon}
         actualizadoMs={actualizadoMs}
         ahora={ahora}
       />
+
+      {datos.destacados && (
+        <>
+          <SeccionDestacadosSemanaTft
+            destacados={datos.destacados}
+            amigos={datos.amigos}
+            ddragon={datos.ddragon}
+            ahora={ahora}
+          />
+          <SeccionDestacadosMesTft
+            destacados={datos.destacados}
+            amigos={datos.amigos}
+            ddragon={datos.ddragon}
+            ahora={ahora}
+          />
+        </>
+      )}
 
       <div className="grid gap-x-8 gap-y-8 lg:grid-cols-[18rem_minmax(0,1fr)] lg:items-start">
         <Ranking
           ranking={datos.ranking}
           amigos={datos.amigos}
-          onElegir={abrir}
+          onElegir={handleElegirRanking}
           idTitulo="titulo-tft-ranking"
           detalle={detalleTft}
           hrefDe={() => HASH_TFT}
@@ -82,6 +122,16 @@ export function VistaTft({ datos, error, ahora, abiertos, alternar, abrir, enfoc
           )}
         </section>
       </div>
+
+      {modalAmigo && (
+        <ModalStatsAmigoTft
+          amigo={modalAmigo.amigo}
+          ddragon={datos.ddragon}
+          posicionRanking={datos.ranking?.find((r) => r.slug === modalAmigo.amigo.slug)?.posicion}
+          totalAmigos={datos.ranking?.length ?? datos.amigos?.length}
+          onCerrar={handleCerrarModal}
+        />
+      )}
     </div>
   );
 }
