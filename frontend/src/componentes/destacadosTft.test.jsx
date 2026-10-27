@@ -221,7 +221,7 @@ describe("Secciones de Destacados de TFT", () => {
     expect(screen.getByText("Balance de TFT del mes")).toBeInTheDocument();
   });
 
-  it("permite ver la pestaña de información del criterio en el puesto más bajo", () => {
+  it("permite ver el panel de información del criterio en el puesto más bajo con el botón lateral", () => {
     const conTopsPeor = {
       ...DESTACADOS_FIXTURE,
       tops: {
@@ -253,13 +253,17 @@ describe("Secciones de Destacados de TFT", () => {
     });
     fireEvent.click(botonPeor);
 
-    // Encuentra la pestaña de Info
-    const botonInfo = screen.getByRole("button", { name: "ℹ Info" });
+    // Encuentra el botón de información a la derecha
+    const botonInfo = screen.getByRole("button", { name: /¿Cómo funciona\?/i });
     expect(botonInfo).toBeInTheDocument();
 
     fireEvent.click(botonInfo);
     expect(screen.getByText("¿Cómo se calcula el puesto más bajo?")).toBeInTheDocument();
     expect(screen.getByText(/1\. Puesto oficial obtenido:/)).toBeInTheDocument();
     expect(screen.getByText(/2\. Ronda de eliminación/)).toBeInTheDocument();
+
+    // Cierra el panel
+    fireEvent.click(screen.getByRole("button", { name: "Cerrar información" }));
+    expect(screen.queryByText("¿Cómo se calcula el puesto más bajo?")).not.toBeInTheDocument();
   });
 });
