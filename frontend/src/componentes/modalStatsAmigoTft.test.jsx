@@ -96,17 +96,18 @@ describe("ModalStatsAmigoTft", () => {
     expect(btnTodos).toHaveAttribute("aria-pressed", "true");
   });
 
-  it("dispara onCerrar al hacer clic en el botón de cerrar", () => {
-    const handleCerrar = vi.fn();
+  it("dispara onVerPartidas al hacer clic en Ver sus últimas partidas", () => {
+    const handleVer = vi.fn();
     render(
       <ModalStatsAmigoTft
         amigo={amigoMock}
         ddragon={ddragonTft}
-        onCerrar={handleCerrar}
+        onCerrar={vi.fn()}
+        onVerPartidas={handleVer}
       />
     );
 
-    fireEvent.click(screen.getByRole("button", { name: "Cerrar" }));
-    expect(handleCerrar).toHaveBeenCalledOnce();
+    fireEvent.click(screen.getByRole("button", { name: "Ver sus últimas partidas" }));
+    expect(handleVer).toHaveBeenCalledOnce();
   });
 });

@@ -23,7 +23,7 @@ const MODOS_MODAL = [
  * Muestra el escudo oficial de la división, resumen de Top 4 vs Bot 4, y el gráfico
  * de barras horizontales con la distribución de los 8 puestos (1.º a 8.º).
  */
-export function ModalStatsAmigoTft({ amigo, ddragon, onCerrar }) {
+export function ModalStatsAmigoTft({ amigo, ddragon, onCerrar, onVerPartidas }) {
   const [periodo, setPeriodo] = useState(PERIODOS_STATS_TFT[0]);
   const [modo, setModo] = useState("ranked");
 
@@ -243,6 +243,19 @@ export function ModalStatsAmigoTft({ amigo, ddragon, onCerrar }) {
               </div>
             </div>
           </div>
+        </div>
+      )}
+
+      {/* Botón de acción al pie */}
+      {onVerPartidas && (
+        <div className="mt-4 flex justify-end">
+          <button
+            type="button"
+            onClick={onVerPartidas}
+            className="min-h-10 rounded-lg border border-sapo/60 bg-sapo-fondo px-4 py-2 text-sm font-semibold text-sapo hover:bg-sapo/20"
+          >
+            Ver sus últimas partidas
+          </button>
         </div>
       )}
     </Dialogo>
