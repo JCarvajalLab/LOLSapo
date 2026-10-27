@@ -16,6 +16,7 @@ const VISTAS = [
 ];
 
 function ayudaVista(vista, mejor) {
+  if (vista === "info") return "Criterio de desempate para elegir la peor actuación";
   const adjetivo = mejor ? "mejor" : "peor";
   return vista === "global"
     ? `Global: las ${adjetivo}es partidas, aunque se repita un jugador`
@@ -39,6 +40,15 @@ export function ModalTopDestacadoTft({
   const global = conPestañas && vista === "global";
   const lista = global ? topGlobal : top;
   const maximo = Math.max(1, ...lista.map((e) => e.partidas ?? 0));
+  const esPeorJugador = clave.startsWith("peor_jugador");
+
+  const pestañas = conPestañas
+    ? esPeorJugador
+      ? [...VISTAS, { clave: "info", etiqueta: "ℹ Info" }]
+      : VISTAS
+    : esPeorJugador
+      ? [{ clave: "jugador", etiqueta: "Por jugador" }, { clave: "info", etiqueta: "ℹ Info" }]
+      : [];
 
   return (
     <Dialogo
@@ -53,10 +63,10 @@ export function ModalTopDestacadoTft({
         </>
       }
     >
-      {conPestañas && (
+      {pestañas.length > 0 && (
         <div className="mb-3">
           <div role="group" aria-label="Vista del top" className="segmentos">
-            {VISTAS.map((v) => {
+            {pestañas.map((v) => {
               const activo = v.clave === vista;
               return (
                 <button
@@ -75,33 +85,59 @@ export function ModalTopDestacadoTft({
         </div>
       )}
 
-      <ol className="cascada space-y-2.5">
-        {lista.map((entrada, i) => (
-          <FilaTopTft
-            key={global ? `${i}-${entrada.partida_id ?? ""}` : entrada.amigos[0]}
-            posicion={i + 1}
-            amigo={porSlug.get(entrada.amigos[0])}
-            slug={entrada.amigos[0]}
-            ddragon={ddragon}
-          >
-            {esPartida(clave) ? (
-              <PartidaDestacadaTft
-                t={entrada}
-                ddragon={ddragon}
-                ahora={ahora}
-                mejor={esMejor(clave)}
-                compacta
-              />
-            ) : (
-              <RecordTft
-                t={entrada}
-                porPartidas={clave.startsWith("mas_partidas")}
-                maximo={maximo}
-              />
-            )}
-          </FilaTopTft>
-        ))}
-      </ol>
+      {vista === "info" ? (
+        <div className="rounded-lg border border-borde bg-superficie/60 p-4 space-y-3 text-sm">
+          <div className="flex items-center gap-2 text-sapo font-semibold">
+            <span aria-hidden="true" className="text-base">ℹ</span>
+            <h3>¿Cómo se calcula el puesto más bajo?</h3>
+          </div>
+          <p className="text-texto-suave leading-relaxed">
+            Las partidas se ordenan de peor a mejor siguiendo estos criterios en estricto orden:
+          </p>
+          <ol className="list-decimal list-inside space-y-2 text-xs sm:text-sm text-texto-suave">
+            <li>
+              <strong className="text-texto font-medium">1. Puesto oficial obtenido:</strong> El puesto de la partida es el factor rey. Un <strong>8.º puesto</strong> (primer eliminado) siempre es peor que un <strong>7.º puesto</strong>, sin importar cuánto duró la partida.
+            </li>
+            <li>
+              <strong className="text-texto font-medium">2. Ronda de eliminación (supervivencia):</strong> Si dos amigos sacaron el mismo puesto (ej. ambos quedaron 8.º), queda peor quien cayó en una <strong>ronda más temprana</strong> (aguantó menos tiempo con vida).
+            </li>
+            <li>
+              <strong className="text-texto font-medium">3. Menor daño a rivales:</strong> A igual puesto y ronda, va primero quien infligió menos daño total a otros jugadores.
+            </li>
+            <li>
+              <strong className="text-texto font-medium">4. Partida más reciente:</strong> Si empatan en todo lo anterior, se muestra la más reciente.
+            </li>
+          </ol>
+        </div>
+      ) : (
+        <ol className="cascada space-y-2.5">
+          {lista.map((entrada, i) => (
+            <FilaTopTft
+              key={global ? `${i}-${entrada.partida_id ?? ""}` : entrada.amigos[0]}
+              posicion={i + 1}
+              amigo={porSlug.get(entrada.amigos[0])}
+              slug={entrada.amigos[0]}
+              ddragon={ddragon}
+            >
+              {esPartida(clave) ? (
+                <PartidaDestacadaTft
+                  t={entrada}
+                  ddragon={ddragon}
+                  ahora={ahora}
+                  _mejor={esMejor(clave)}
+                  compacta
+                />
+              ) : (
+                <RecordTft
+                  t={entrada}
+                  porPartidas={clave.startsWith("mas_partidas")}
+                  maximo={maximo}
+                />
+              )}
+            </FilaTopTft>
+          ))}
+        </ol>
+      )}
     </Dialogo>
   );
 }

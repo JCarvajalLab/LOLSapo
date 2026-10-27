@@ -130,7 +130,6 @@ export function PartidaDestacadaTft({ t, ddragon, ahora, _mejor, compacta = fals
         </span>
         <span className="text-xs text-texto-suave truncate">
           {t.modo || "TFT"} · Nivel {t.nivel} · Ronda {t.ronda}
-          {esNumero(t.duracion) && t.duracion > 0 && ` · ${formatearDuracion(t.duracion)}`}
         </span>
       </div>
 

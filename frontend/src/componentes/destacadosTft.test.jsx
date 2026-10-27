@@ -220,4 +220,46 @@ describe("Secciones de Destacados de TFT", () => {
     expect(screen.getByText("Mejor partida del mes")).toBeInTheDocument();
     expect(screen.getByText("Balance de TFT del mes")).toBeInTheDocument();
   });
+
+  it("permite ver la pestaña de información del criterio en el puesto más bajo", () => {
+    const conTopsPeor = {
+      ...DESTACADOS_FIXTURE,
+      tops: {
+        ...DESTACADOS_FIXTURE.tops,
+        peor_jugador_semana: [
+          {
+            amigos: ["iskrat-las"],
+            partida_id: "LA2_101",
+            puesto: 8,
+            nivel: 7,
+            ronda: 24,
+            danio: 20,
+            fecha: AHORA - 12 * 3600 * 1000,
+          },
+        ],
+      },
+    };
+    render(
+      <SeccionDestacadosSemanaTft
+        destacados={conTopsPeor}
+        amigos={AMIGOS}
+        ddragon={{}}
+        ahora={AHORA}
+      />
+    );
+
+    const botonPeor = screen.getByRole("button", {
+      name: "Ver top 5: Puesto más bajo de la semana",
+    });
+    fireEvent.click(botonPeor);
+
+    // Encuentra la pestaña de Info
+    const botonInfo = screen.getByRole("button", { name: "ℹ Info" });
+    expect(botonInfo).toBeInTheDocument();
+
+    fireEvent.click(botonInfo);
+    expect(screen.getByText("¿Cómo se calcula el puesto más bajo?")).toBeInTheDocument();
+    expect(screen.getByText(/1\. Puesto oficial obtenido:/)).toBeInTheDocument();
+    expect(screen.getByText(/2\. Ronda de eliminación/)).toBeInTheDocument();
+  });
 });
