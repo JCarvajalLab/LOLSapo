@@ -148,9 +148,15 @@ describe("lectura de tft.json", () => {
     const d = validarDatosTft({ amigos: [{ slug: "a" }, null, { sin: "slug" }] });
     expect(d).toMatchObject({ error: null, en_vivo_disponible: true, ddragon: null, en_vivo: [], ranking: [] });
     expect(d.amigos).toHaveLength(1);
-    const conAvisos = validarDatosTft({ amigos: [], error: "Falló Riot.", en_vivo_disponible: false });
+    const conAvisos = validarDatosTft({
+      amigos: [],
+      error: "Falló Riot.",
+      en_vivo_disponible: false,
+      destacados: { semana_desde: 123 },
+    });
     expect(conAvisos.error).toBe("Falló Riot.");
     expect(conAvisos.en_vivo_disponible).toBe(false);
+    expect(conAvisos.destacados).toEqual({ semana_desde: 123 });
   });
 
   it("acepta perfil con enteros >= 0 y deja null lo que no sirve", () => {
