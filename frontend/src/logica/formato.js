@@ -31,6 +31,25 @@ export function textoRangoLp(rango) {
   return `${nombre} · ${esNumero(rango.lp) ? rango.lp : 0} LP`;
 }
 
+/** Ruta relativa del emblema del rango (emblem-gold.png, etc.) o null. */
+export function urlEmblemaRango(tier) {
+  if (typeof tier !== "string") return null;
+  const limpio = tier.toLowerCase().trim();
+  const validos = [
+    "iron",
+    "bronze",
+    "silver",
+    "gold",
+    "platinum",
+    "emerald",
+    "diamond",
+    "master",
+    "grandmaster",
+    "challenger",
+  ];
+  return validos.includes(limpio) ? `./emblemas/emblem-${limpio}.png` : null;
+}
+
 /** Umbrales de color del winrate: verde desde 55%, rojo bajo 45%, neutro entre medio. */
 export const WINRATE_BUENO = 55;
 export const WINRATE_MALO = 45;

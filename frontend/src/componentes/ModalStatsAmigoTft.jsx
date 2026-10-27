@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { urlIconoPerfil } from "../logica/ddragon.js";
-import { nombreRango } from "../logica/formato.js";
+import { nombreRango, urlEmblemaRango } from "../logica/formato.js";
 import {
   estadisticasDetalladasTft,
   formatearPromedio,
@@ -18,12 +18,12 @@ const MODOS_MODAL = [
 ];
 
 /**
- * Modal de estadísticas de perfil de TFT estilo Tactics.tools / OP.GG.
+ * Modal amplio de estadísticas de perfil de TFT estilo Tactics.tools / OP.GG.
  * Permite alternar entre Últimos 30 días y Temporada 2026, así como Clasificatoria y Todos.
- * Muestra el rango, resumen de Top 4 vs Bot 4, y el gráfico de barras horizontales
- * con la distribución de los 8 puestos (1.º a 8.º).
+ * Muestra el escudo oficial de la división, resumen de Top 4 vs Bot 4, y el gráfico
+ * de barras horizontales con la distribución de los 8 puestos (1.º a 8.º).
  */
-export function ModalStatsAmigoTft({ amigo, ddragon, onCerrar, onVerPartidas }) {
+export function ModalStatsAmigoTft({ amigo, ddragon, onCerrar }) {
   const [periodo, setPeriodo] = useState(PERIODOS_STATS_TFT[0]);
   const [modo, setModo] = useState("ranked");
 
@@ -33,35 +33,35 @@ export function ModalStatsAmigoTft({ amigo, ddragon, onCerrar, onVerPartidas }) 
   const ranked = amigo?.rangos?.ranked;
   const nombreTier = nombreRango(ranked);
   const lp = ranked?.lp ?? 0;
+  const emblemaSrc = urlEmblemaRango(ranked?.tier);
 
   return (
     <Dialogo
       idTitulo={ID_TITULO}
       onCerrar={onCerrar}
+      anchoMax="max-w-4xl"
       titulo={
-        <>
-          <div className="flex items-center gap-3">
-            <ImagenDD
-              src={urlIconoPerfil(ddragon, amigo?.perfil?.icono)}
-              alt={`Ícono de ${riotId}`}
-              respaldo={riotId}
-              tamaño={38}
-              redonda
-            />
-            <div className="min-w-0">
-              <h2 id={ID_TITULO} className="titulo-seccion min-w-0 text-lg sm:text-xl break-words">
-                {riotId}
-              </h2>
-              <p className="text-xs text-texto-suave">
-                Estadísticas de TFT · {TEXTOS_PERIODO_STATS_TFT[periodo].boton}
-              </p>
-            </div>
+        <div className="flex items-center gap-3">
+          <ImagenDD
+            src={urlIconoPerfil(ddragon, amigo?.perfil?.icono)}
+            alt={`Ícono de ${riotId}`}
+            respaldo={riotId}
+            tamaño={40}
+            redonda
+          />
+          <div className="min-w-0">
+            <h2 id={ID_TITULO} className="titulo-seccion min-w-0 text-xl sm:text-2xl break-words">
+              {riotId}
+            </h2>
+            <p className="text-xs text-texto-suave mt-0.5">
+              Estadísticas de TFT · {TEXTOS_PERIODO_STATS_TFT[periodo].boton}
+            </p>
           </div>
-        </>
+        </div>
       }
     >
-      {/* Selectores de Modo y Período */}
-      <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+      {/* Selectores de Modo y Período en una sola fila espaciosa */}
+      <div className="flex flex-wrap items-center justify-between gap-3 mb-5 border-b border-borde/60 pb-3">
         {/* Pestañas de modo */}
         <div role="group" aria-label="Modo" className="segmentos">
           {MODOS_MODAL.map((m) => {
@@ -72,7 +72,7 @@ export function ModalStatsAmigoTft({ amigo, ddragon, onCerrar, onVerPartidas }) 
                 type="button"
                 aria-pressed={activo}
                 onClick={() => setModo(m.clave)}
-                className="segmento min-h-9 text-xs sm:text-sm"
+                className="segmento min-h-9 text-xs sm:text-sm px-3"
               >
                 {m.etiqueta}
               </button>
@@ -90,7 +90,7 @@ export function ModalStatsAmigoTft({ amigo, ddragon, onCerrar, onVerPartidas }) 
                 type="button"
                 aria-pressed={activo}
                 onClick={() => setPeriodo(p)}
-                className="segmento min-h-9 text-xs sm:text-sm"
+                className="segmento min-h-9 text-xs sm:text-sm px-3"
               >
                 {TEXTOS_PERIODO_STATS_TFT[p].boton}
               </button>
@@ -100,48 +100,62 @@ export function ModalStatsAmigoTft({ amigo, ddragon, onCerrar, onVerPartidas }) 
       </div>
 
       {!stats || stats.partidas === 0 ? (
-        <p className="rounded-lg border border-dashed border-borde px-3 py-8 text-center text-sm text-texto-suave">
+        <p className="rounded-lg border border-dashed border-borde px-3 py-10 text-center text-sm text-texto-suave">
           Sin partidas registradas para este período o modo.
         </p>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-[16rem_minmax(0,1fr)] gap-4 sm:gap-5">
-          {/* Columna Izquierda: Rango y Resumen */}
-          <div className="flex flex-col justify-between rounded-xl border border-borde/70 bg-superficie/50 p-4 space-y-4">
-            <div className="space-y-3">
-              {/* Bloque de Rango */}
-              <div>
-                <div className="flex items-baseline gap-2">
-                  <span className="text-xl sm:text-2xl font-bold font-titulo tracking-wide text-texto">
-                    {nombreTier ?? "Sin clasificar"}
-                  </span>
-                  {nombreTier && (
-                    <span className="text-oro font-semibold text-sm sm:text-base cifras">
-                      {lp} LP
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 items-stretch">
+          {/* Columna Izquierda: Escudo de Rango y Resumen */}
+          <div className="flex flex-col justify-between rounded-xl border border-borde/70 bg-superficie/50 p-5 space-y-4">
+            <div className="space-y-4">
+              {/* Bloque de Escudo y Nombre de Rango */}
+              <div className="flex items-center gap-4 sm:gap-5">
+                {emblemaSrc ? (
+                  <img
+                    src={emblemaSrc}
+                    alt={`Emblema de ${nombreTier}`}
+                    className="w-24 h-24 sm:w-28 sm:h-28 object-contain shrink-0 drop-shadow-md"
+                  />
+                ) : (
+                  <div className="w-20 h-20 rounded-full border border-borde bg-superficie-alta/60 flex items-center justify-center shrink-0 text-texto-suave text-2xl font-bold">
+                    ?
+                  </div>
+                )}
+
+                <div className="min-w-0 space-y-1">
+                  <div className="flex flex-wrap items-baseline gap-2">
+                    <span className="text-2xl sm:text-3xl font-bold font-titulo tracking-wide text-texto">
+                      {nombreTier ?? "Sin clasificar"}
                     </span>
-                  )}
+                    {nombreTier && (
+                      <span className="text-oro font-bold text-base sm:text-lg cifras">
+                        {lp} LP
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-xs sm:text-sm text-texto-suave">
+                    Teamfight Tactics · {modo === "ranked" ? "Clasificatoria" : "Todos los modos"}
+                  </p>
                 </div>
-                <p className="text-xs text-texto-suave mt-0.5">
-                  Teamfight Tactics · {modo === "ranked" ? "Clasificatoria" : "Todos los modos"}
-                </p>
               </div>
 
               {/* Métricas de Partidas */}
-              <div className="space-y-1.5 pt-2 border-t border-borde/40 text-sm">
+              <div className="space-y-2 pt-3 border-t border-borde/40 text-sm">
                 <p className="text-texto font-medium">
                   Partidas: <strong className="text-base text-texto font-bold cifras">{stats.partidas}</strong>
                 </p>
-                <p className="text-texto-suave text-xs sm:text-sm cifras">
-                  Top 4: <strong className="text-victoria font-bold">{stats.top4}</strong>
-                  <span className="mx-1 text-borde">—</span>
-                  Bottom 4: <strong className="text-derrota font-bold">{stats.bot4}</strong>
+                <p className="text-texto-suave text-sm cifras">
+                  Top 4: <strong className="text-victoria font-bold text-base">{stats.top4}</strong>
+                  <span className="mx-2 text-borde">—</span>
+                  Bottom 4: <strong className="text-derrota font-bold text-base">{stats.bot4}</strong>
                 </p>
-                <p className="text-texto-suave text-xs sm:text-sm cifras">
-                  Promedio de posición: <strong className="text-texto font-bold text-sm sm:text-base">{formatearPromedio(stats.promedio)}</strong>
+                <p className="text-texto-suave text-sm cifras">
+                  Promedio de posición: <strong className="text-texto font-bold text-base">{formatearPromedio(stats.promedio)}</strong>
                 </p>
               </div>
             </div>
 
-            <p className="text-[11px] text-texto-suave/80 pt-2 border-t border-borde/30">
+            <p className="text-xs text-texto-suave/80 pt-2 border-t border-borde/30">
               {periodo === "ultimos_30_dias"
                 ? "Basado en las partidas más recientes del historial."
                 : "Basado en las partidas registradas de la temporada 2026."}
@@ -149,78 +163,80 @@ export function ModalStatsAmigoTft({ amigo, ddragon, onCerrar, onVerPartidas }) 
           </div>
 
           {/* Columna Derecha: Gráfico de Posiciones y Resumen */}
-          <div className="rounded-xl border border-borde/70 bg-superficie/50 p-4 space-y-3">
-            <div className="flex items-center justify-between gap-2 pb-1">
-              <h3 className="text-xs sm:text-sm font-bold tracking-wide text-texto">
-                Posiciones
-              </h3>
-              <span className="text-[11px] text-texto-suave cifras">
-                {TEXTOS_PERIODO_STATS_TFT[periodo].subtitulo(stats.partidas)}
-              </span>
-            </div>
+          <div className="rounded-xl border border-borde/70 bg-superficie/50 p-5 space-y-3.5 flex flex-col justify-between">
+            <div>
+              <div className="flex items-center justify-between gap-2 pb-2">
+                <h3 className="text-sm sm:text-base font-bold tracking-wide text-texto">
+                  Posiciones
+                </h3>
+                <span className="text-xs text-texto-suave cifras">
+                  {TEXTOS_PERIODO_STATS_TFT[periodo].subtitulo(stats.partidas)}
+                </span>
+              </div>
 
-            {/* Lista de 8 Barras Horizontales */}
-            <div className="space-y-1.5" aria-label="Distribución de puestos">
-              {stats.puestos.map((item) => {
-                const esPrimero = item.puesto === 1;
-                const esTop4 = item.puesto <= 4;
-                const colorTexto = esPrimero ? "text-oro" : esTop4 ? "text-victoria" : "text-derrota";
-                const colorBarra = esPrimero ? "bg-oro" : esTop4 ? "bg-victoria" : "bg-derrota";
+              {/* Lista de 8 Barras Horizontales */}
+              <div className="space-y-2" aria-label="Distribución de puestos">
+                {stats.puestos.map((item) => {
+                  const esPrimero = item.puesto === 1;
+                  const esTop4 = item.puesto <= 4;
+                  const colorTexto = esPrimero ? "text-oro" : esTop4 ? "text-victoria" : "text-derrota";
+                  const colorBarra = esPrimero ? "bg-oro" : esTop4 ? "bg-victoria" : "bg-derrota";
 
-                return (
-                  <div key={item.puesto} className="flex items-center gap-2 text-xs">
-                    {/* Etiqueta del puesto */}
-                    <span className={`w-5 shrink-0 font-bold ${colorTexto}`}>
-                      {item.puesto}.º
-                    </span>
+                  return (
+                    <div key={item.puesto} className="flex items-center gap-2.5 text-xs sm:text-sm">
+                      {/* Etiqueta del puesto */}
+                      <span className={`w-6 shrink-0 font-bold ${colorTexto}`}>
+                        {item.puesto}.º
+                      </span>
 
-                    {/* Contenedor de la barra */}
-                    <div className="flex-1 h-3.5 rounded bg-superficie-alta/80 overflow-hidden relative border border-borde/30">
-                      <div
-                        className={`h-full rounded-sm transition-all duration-300 ${colorBarra}`}
-                        style={{
-                          width: `${item.cantidad > 0 ? Math.max(item.anchoPct, 3) : 0}%`,
-                        }}
-                      />
+                      {/* Contenedor de la barra */}
+                      <div className="flex-1 h-4 rounded bg-superficie-alta/80 overflow-hidden relative border border-borde/30">
+                        <div
+                          className={`h-full rounded-sm transition-all duration-300 ${colorBarra}`}
+                          style={{
+                            width: `${item.cantidad > 0 ? Math.max(item.anchoPct, 3) : 0}%`,
+                          }}
+                        />
+                      </div>
+
+                      {/* Cantidad y Porcentaje */}
+                      <span className="w-8 text-right font-bold cifras text-texto">
+                        {item.cantidad}
+                      </span>
+                      <span className="w-10 text-right text-xs text-texto-suave cifras">
+                        {item.porcentaje}%
+                      </span>
                     </div>
-
-                    {/* Cantidad y Porcentaje */}
-                    <span className="w-7 text-right font-bold cifras text-texto">
-                      {item.cantidad}
-                    </span>
-                    <span className="w-8 text-right text-[11px] text-texto-suave cifras">
-                      {item.porcentaje}%
-                    </span>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
 
             {/* 3 Tarjetas de Resumen inferior */}
             <div className="grid grid-cols-3 gap-2 pt-3 border-t border-borde/60 text-center">
               <div>
-                <div className="text-sm sm:text-base font-bold text-texto cifras">
+                <div className="text-base sm:text-xl font-bold text-texto cifras">
                   {formatearPromedio(stats.promedio)}
                 </div>
-                <div className="text-[10px] uppercase tracking-wider text-texto-suave font-semibold mt-0.5">
+                <div className="text-[11px] uppercase tracking-wider text-texto-suave font-semibold mt-0.5">
                   Puesto medio
                 </div>
               </div>
 
               <div>
-                <div className="text-sm sm:text-base font-bold text-victoria cifras">
+                <div className="text-base sm:text-xl font-bold text-victoria cifras">
                   {stats.top4Pct !== null ? `${Math.round(stats.top4Pct)}%` : "—"}
                 </div>
-                <div className="text-[10px] uppercase tracking-wider text-texto-suave font-semibold mt-0.5">
+                <div className="text-[11px] uppercase tracking-wider text-texto-suave font-semibold mt-0.5">
                   Tasa de Top 4
                 </div>
               </div>
 
               <div>
-                <div className="text-sm sm:text-base font-bold text-oro cifras">
+                <div className="text-base sm:text-xl font-bold text-oro cifras">
                   {stats.primerosPct !== null ? `${Math.round(stats.primerosPct)}%` : "—"}
                 </div>
-                <div className="text-[10px] uppercase tracking-wider text-texto-suave font-semibold mt-0.5">
+                <div className="text-[11px] uppercase tracking-wider text-texto-suave font-semibold mt-0.5">
                   Primer puesto
                 </div>
               </div>
@@ -228,17 +244,6 @@ export function ModalStatsAmigoTft({ amigo, ddragon, onCerrar, onVerPartidas }) 
           </div>
         </div>
       )}
-
-      {/* Botón de acción al pie */}
-      <div className="mt-4 flex justify-end">
-        <button
-          type="button"
-          onClick={onVerPartidas}
-          className="min-h-10 rounded-lg border border-sapo/60 bg-sapo-fondo px-4 py-2 text-sm font-semibold text-sapo hover:bg-sapo/20"
-        >
-          Ver sus últimas partidas
-        </button>
-      </div>
     </Dialogo>
   );
 }

@@ -42,17 +42,17 @@ const amigoMock = {
 };
 
 describe("ModalStatsAmigoTft", () => {
-  it("renderiza el modal con rango, partidas, top 4 y gráfico de posiciones", () => {
+  it("renderiza el modal amplio con emblema de división, rango, partidas y gráfico de posiciones", () => {
     render(
       <ModalStatsAmigoTft
         amigo={amigoMock}
         ddragon={ddragonTft}
         onCerrar={vi.fn()}
-        onVerPartidas={vi.fn()}
       />
     );
 
     expect(screen.getByRole("heading", { name: "Croac#LAS" })).toBeInTheDocument();
+    expect(screen.getByAltText("Emblema de Platino II")).toBeInTheDocument();
     expect(screen.getByText("Platino II")).toBeInTheDocument();
     expect(screen.getByText("75 LP")).toBeInTheDocument();
     expect(screen.getByText("Posiciones")).toBeInTheDocument();
@@ -68,7 +68,6 @@ describe("ModalStatsAmigoTft", () => {
         amigo={amigoMock}
         ddragon={ddragonTft}
         onCerrar={vi.fn()}
-        onVerPartidas={vi.fn()}
       />
     );
 
@@ -89,7 +88,6 @@ describe("ModalStatsAmigoTft", () => {
         amigo={amigoMock}
         ddragon={ddragonTft}
         onCerrar={vi.fn()}
-        onVerPartidas={vi.fn()}
       />
     );
 
@@ -98,18 +96,17 @@ describe("ModalStatsAmigoTft", () => {
     expect(btnTodos).toHaveAttribute("aria-pressed", "true");
   });
 
-  it("dispara onVerPartidas al hacer clic en Ver sus últimas partidas", () => {
-    const handleVer = vi.fn();
+  it("dispara onCerrar al hacer clic en el botón de cerrar", () => {
+    const handleCerrar = vi.fn();
     render(
       <ModalStatsAmigoTft
         amigo={amigoMock}
         ddragon={ddragonTft}
-        onCerrar={vi.fn()}
-        onVerPartidas={handleVer}
+        onCerrar={handleCerrar}
       />
     );
 
-    fireEvent.click(screen.getByRole("button", { name: "Ver sus últimas partidas" }));
-    expect(handleVer).toHaveBeenCalledOnce();
+    fireEvent.click(screen.getByRole("button", { name: "Cerrar" }));
+    expect(handleCerrar).toHaveBeenCalledOnce();
   });
 });
