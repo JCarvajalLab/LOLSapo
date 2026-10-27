@@ -39,7 +39,7 @@ export function ModalStatsAmigoTft({ amigo, ddragon, onCerrar }) {
     <Dialogo
       idTitulo={ID_TITULO}
       onCerrar={onCerrar}
-      anchoMax="max-w-4xl"
+      anchoMax="max-w-5xl"
       titulo={
         <div className="flex items-center gap-3">
           <ImagenDD
@@ -104,25 +104,26 @@ export function ModalStatsAmigoTft({ amigo, ddragon, onCerrar }) {
           Sin partidas registradas para este período o modo.
         </p>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 items-stretch">
-          {/* Columna Izquierda: Escudo de Rango y Resumen */}
+        <div className="grid grid-cols-1 lg:grid-cols-[1.15fr_1fr] gap-5 sm:gap-6 items-stretch">
+          {/* Columna Izquierda: Escudo de Rango grande y Resumen al lado */}
           <div className="flex flex-col justify-between rounded-xl border border-borde/70 bg-superficie/50 p-5 space-y-4">
-            <div className="space-y-4">
-              {/* Bloque de Escudo y Nombre de Rango */}
-              <div className="flex items-center gap-4 sm:gap-5">
-                {emblemaSrc ? (
-                  <img
-                    src={emblemaSrc}
-                    alt={`Emblema de ${nombreTier}`}
-                    className="w-24 h-24 sm:w-28 sm:h-28 object-contain shrink-0 drop-shadow-md"
-                  />
-                ) : (
-                  <div className="w-20 h-20 rounded-full border border-borde bg-superficie-alta/60 flex items-center justify-center shrink-0 text-texto-suave text-2xl font-bold">
-                    ?
-                  </div>
-                )}
+            <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-5">
+              {/* Escudo de rango grande */}
+              {emblemaSrc ? (
+                <img
+                  src={emblemaSrc}
+                  alt={`Emblema de ${nombreTier}`}
+                  className="w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 object-contain shrink-0 drop-shadow-xl self-center sm:self-auto"
+                />
+              ) : (
+                <div className="w-28 h-28 rounded-2xl border border-borde bg-superficie-alta/60 flex items-center justify-center shrink-0 text-texto-suave text-3xl font-bold self-center sm:self-auto">
+                  ?
+                </div>
+              )}
 
-                <div className="min-w-0 space-y-1">
+              {/* Todo el bloque de información junto al escudo */}
+              <div className="min-w-0 space-y-3 flex-1">
+                <div>
                   <div className="flex flex-wrap items-baseline gap-2">
                     <span className="text-2xl sm:text-3xl font-bold font-titulo tracking-wide text-texto">
                       {nombreTier ?? "Sin clasificar"}
@@ -133,25 +134,25 @@ export function ModalStatsAmigoTft({ amigo, ddragon, onCerrar }) {
                       </span>
                     )}
                   </div>
-                  <p className="text-xs sm:text-sm text-texto-suave">
+                  <p className="text-xs sm:text-sm text-texto-suave mt-0.5">
                     Teamfight Tactics · {modo === "ranked" ? "Clasificatoria" : "Todos los modos"}
                   </p>
                 </div>
-              </div>
 
-              {/* Métricas de Partidas */}
-              <div className="space-y-2 pt-3 border-t border-borde/40 text-sm">
-                <p className="text-texto font-medium">
-                  Partidas: <strong className="text-base text-texto font-bold cifras">{stats.partidas}</strong>
-                </p>
-                <p className="text-texto-suave text-sm cifras">
-                  Top 4: <strong className="text-victoria font-bold text-base">{stats.top4}</strong>
-                  <span className="mx-2 text-borde">—</span>
-                  Bottom 4: <strong className="text-derrota font-bold text-base">{stats.bot4}</strong>
-                </p>
-                <p className="text-texto-suave text-sm cifras">
-                  Promedio de posición: <strong className="text-texto font-bold text-base">{formatearPromedio(stats.promedio)}</strong>
-                </p>
+                {/* Métricas de Partidas */}
+                <div className="space-y-1.5 text-sm sm:text-base">
+                  <p className="text-texto font-medium">
+                    Partidas: <strong className="text-base sm:text-lg text-texto font-bold cifras">{stats.partidas}</strong>
+                  </p>
+                  <p className="text-texto-suave text-xs sm:text-sm cifras">
+                    Top 4: <strong className="text-victoria font-bold text-sm sm:text-base">{stats.top4}</strong>
+                    <span className="mx-2 text-borde/80">—</span>
+                    Bottom 4: <strong className="text-derrota font-bold text-sm sm:text-base">{stats.bot4}</strong>
+                  </p>
+                  <p className="text-texto-suave text-xs sm:text-sm cifras">
+                    Promedio de posición: <strong className="text-texto font-bold text-sm sm:text-base">{formatearPromedio(stats.promedio)}</strong>
+                  </p>
+                </div>
               </div>
             </div>
 
