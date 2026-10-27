@@ -25,9 +25,9 @@ export function TarjetaResumenRecienteTft({ historial, filtro = "todos" }) {
   return (
     <section
       aria-label="Resumen de partidas recientes"
-      className="panel-flotante border border-borde/70 bg-superficie/70 rounded-xl p-3 sm:p-3.5 shadow-sm losa space-y-2.5 max-w-sm"
+      className="space-y-2 pt-0.5 max-w-sm"
     >
-      <h4 className="text-xs sm:text-sm font-bold tracking-wide text-texto truncate">
+      <h4 className="text-xs font-semibold tracking-wide text-texto-suave truncate">
         {total === 1 ? "Última partida" : `Últimas ${total} partidas`}
       </h4>
 
