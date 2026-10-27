@@ -71700,6 +71700,149 @@
           "rareza": 3
         }
       ]
+    },
+    "LA2_1633573410": {
+      "danio": 0,
+      "duracion": 2482,
+      "eliminados": 0,
+      "fecha": 1793140430803,
+      "id": "LA2_1633573410",
+      "nivel": 6,
+      "participantes": [
+        {
+          "amigo": null,
+          "nombre": "Angielove1990#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "EWQRE#7567",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "V e n t r e m#VnTn",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "EVIL#KLO",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "NomizArc#1992",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "LaSalta#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": "iskrat-las",
+          "nombre": "ISkrat#LAS",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "Danny Proyectil#2014",
+          "puesto": 8
+        }
+      ],
+      "puesto": 7,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "DA_18_Fae",
+          "nivel": 2,
+          "unico": false,
+          "unidades": 4
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Defender",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Rapidfire",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "DA_Juggernaut18",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 4,
+          "id": "DA_18_Solar",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 3
+        }
+      ],
+      "ronda": 28,
+      "set": 18,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "DA_18_Kayle",
+          "items": [
+            "DA_GuinsoosRageblade",
+            "DA_18_EmblemFae",
+            "DA_ArchangelsStaff"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 3,
+          "id": "DA_18_Leona",
+          "items": [
+            "DA_GargoyleStoneplate",
+            "DA_GargoyleStoneplate",
+            "DA_GargoyleStoneplate"
+          ],
+          "rareza": 0
+        },
+        {
+          "estrellas": 3,
+          "id": "DA_18_Rakan",
+          "items": [
+            "DA_GargoyleStoneplate"
+          ],
+          "rareza": 0
+        },
+        {
+          "estrellas": 3,
+          "id": "DA_18_Xayah",
+          "items": [
+            "DA_GuinsoosRageblade",
+            "DA_KrakensFury",
+            "DA_Deathblade"
+          ],
+          "rareza": 0
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_Sejuani",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 1,
+          "id": "DA_18_Lillia",
+          "items": [],
+          "rareza": 3
+        }
+      ]
     }
   },
   "perfil": {
@@ -71710,8 +71853,8 @@
     "doble": null,
     "ranked": {
       "division": "III",
-      "lp": 52,
-      "partidas": 144,
+      "lp": 17,
+      "partidas": 145,
       "racha": false,
       "tier": "PLATINUM",
       "top4": 79
