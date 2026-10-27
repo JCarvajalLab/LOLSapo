@@ -259,8 +259,8 @@ describe("Secciones de Destacados de TFT", () => {
 
     fireEvent.click(botonInfo);
     expect(screen.getByText("¿Cómo se calcula el puesto más bajo?")).toBeInTheDocument();
-    expect(screen.getByText(/1\. Puesto oficial obtenido:/)).toBeInTheDocument();
-    expect(screen.getByText(/2\. Ronda de eliminación/)).toBeInTheDocument();
+    expect(screen.getByText(/Puesto oficial obtenido:/)).toBeInTheDocument();
+    expect(screen.getByText(/Ronda de eliminación/)).toBeInTheDocument();
 
     // Cierra el panel
     fireEvent.click(screen.getByRole("button", { name: "Cerrar información" }));

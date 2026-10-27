@@ -139,16 +139,16 @@ export function ModalTopDestacadoTft({
           </p>
           <ol className="list-decimal list-inside space-y-1.5 text-xs text-texto-suave">
             <li>
-              <strong className="text-texto font-medium">1. Puesto oficial obtenido:</strong> El puesto de la partida es el factor rey. Un <strong>8.º puesto</strong> (primer eliminado) siempre es peor que un <strong>7.º puesto</strong>, sin importar cuánto duró la partida.
+              <strong className="text-texto font-medium">Puesto oficial obtenido:</strong> El puesto de la partida es el factor rey. Un <strong>8.º puesto</strong> (primer eliminado) siempre es peor que un <strong>7.º puesto</strong>, sin importar cuánto duró la partida.
             </li>
             <li>
-              <strong className="text-texto font-medium">2. Ronda de eliminación (supervivencia):</strong> Si dos amigos sacaron el mismo puesto (ej. ambos quedaron 8.º), queda peor quien cayó en una <strong>ronda más temprana</strong> (aguantó menos tiempo con vida).
+              <strong className="text-texto font-medium">Ronda de eliminación (supervivencia):</strong> Si dos amigos sacaron el mismo puesto (ej. ambos quedaron 8.º), queda peor quien cayó en una <strong>ronda más temprana</strong> (aguantó menos tiempo con vida).
             </li>
             <li>
-              <strong className="text-texto font-medium">3. Menor daño a rivales:</strong> A igual puesto y ronda, va primero quien infligió menos daño total a otros jugadores.
+              <strong className="text-texto font-medium">Menor daño a rivales:</strong> A igual puesto y ronda, va primero quien infligió menos daño total a otros jugadores.
             </li>
             <li>
-              <strong className="text-texto font-medium">4. Partida más reciente:</strong> Si empatan en todo lo anterior, se muestra la más reciente.
+              <strong className="text-texto font-medium">Partida más reciente:</strong> Si empatan en todo lo anterior, se muestra la más reciente.
             </li>
           </ol>
         </div>
