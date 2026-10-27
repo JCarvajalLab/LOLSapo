@@ -619,3 +619,40 @@ describe("selector de vista detallada / compacta en TFT", () => {
     expect(within(panel).queryByRole("group", { name: "Tipo de vista de partidas" })).not.toBeInTheDocument();
   });
 });
+
+describe("destacados de la semana y del mes en TFT", () => {
+  it("muestra destacados de la semana y del mes si vienen en datos", () => {
+    const datos = crearDatosTft();
+    datos.destacados = {
+      semana_desde: 1790884800000,
+      mejor_jugador_semana: null,
+      mejor_top4_semana: null,
+      balance_semana: null,
+      mas_partidas_semana: null,
+      peor_jugador_semana: null,
+      mes: {
+        anio: 2026,
+        mes: 10,
+        nombre: "octubre",
+        desde: 1790800000000,
+        hasta: 1793500000000,
+        cerrado: false,
+      },
+      mejor_jugador_mes: null,
+      mejor_top4_mes: null,
+      balance_mes: null,
+      mas_partidas_mes: null,
+      peor_jugador_mes: null,
+    };
+    renderVista(datos);
+    expect(screen.getByRole("heading", { name: "Destacados de la semana (TFT)" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /Destacados de octubre/ })).toBeInTheDocument();
+  });
+
+  it("no muestra secciones de destacados si destacados no viene en datos", () => {
+    const datos = crearDatosTft();
+    delete datos.destacados;
+    renderVista(datos);
+    expect(screen.queryByRole("heading", { name: "Destacados de la semana (TFT)" })).not.toBeInTheDocument();
+  });
+});

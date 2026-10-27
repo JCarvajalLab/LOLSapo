@@ -5,6 +5,8 @@ import { EsqueletoPagina } from "./Esqueleto.jsx";
 import { ErrorCarga, EstadoVacio } from "./Estados.jsx";
 import { FilaAmigoTft, FilaAmigoTftEsqueleto } from "./FilaAmigoTft.jsx";
 import { Ranking } from "./Ranking.jsx";
+import { SeccionDestacadosMesTft } from "./SeccionDestacadosMesTft.jsx";
+import { SeccionDestacadosSemanaTft } from "./SeccionDestacadosSemanaTft.jsx";
 import { SeccionEnPartidaTft } from "./SeccionEnPartidaTft.jsx";
 import { TituloSeccion } from "./TituloSeccion.jsx";
 
@@ -47,6 +49,23 @@ export function VistaTft({ datos, error, ahora, abiertos, alternar, abrir, enfoc
         actualizadoMs={actualizadoMs}
         ahora={ahora}
       />
+
+      {datos.destacados && (
+        <>
+          <SeccionDestacadosSemanaTft
+            destacados={datos.destacados}
+            amigos={datos.amigos}
+            ddragon={datos.ddragon}
+            ahora={ahora}
+          />
+          <SeccionDestacadosMesTft
+            destacados={datos.destacados}
+            amigos={datos.amigos}
+            ddragon={datos.ddragon}
+            ahora={ahora}
+          />
+        </>
+      )}
 
       <div className="grid gap-x-8 gap-y-8 lg:grid-cols-[18rem_minmax(0,1fr)] lg:items-start">
         <Ranking
