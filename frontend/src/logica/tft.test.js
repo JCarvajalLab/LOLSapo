@@ -21,6 +21,7 @@ import {
   rasgosParaMostrar,
   resumenTftDe,
   resumenTft,
+  resumenRecienteTft,
   textoPuesto,
   textoRangoTft,
   tituloHistorial,
@@ -326,5 +327,29 @@ describe("historial de puestos", () => {
     expect(estiloPuesto(1).celda).toContain("bg-oro-fondo");
     for (const p of [2, 3, 4]) expect(estiloPuesto(p).celda).toContain("bg-victoria-fondo");
     for (const p of [5, 6, 7, 8]) expect(estiloPuesto(p).celda).toContain("text-derrota");
+  });
+});
+
+describe("resumenRecienteTft", () => {
+  it("calcula victorias, derrotas, % top 4 y puesto promedio correctamente", () => {
+    // 8 partidas en ranked: [2, 1, 8, 4, 6, 7, 2, 5]
+    // Top 4: [2, 1, 4, 2] -> 4 victorias (1 primero, 3 entre 2-4)
+    // Bot 4: [8, 6, 7, 5] -> 4 derrotas
+    // Suma: 2+1+8+4+6+7+2+5 = 35 / 8 = 4.375
+    const res = resumenRecienteTft(historialCroac, "ranked");
+    expect(res).not.toBeNull();
+    expect(res.total).toBe(8);
+    expect(res.primeros).toBe(1);
+    expect(res.top2a4).toBe(3);
+    expect(res.top4).toBe(4);
+    expect(res.derrotas).toBe(4);
+    expect(res.pctTop4).toBe(50);
+    expect(res.promedio).toBe(4.375);
+  });
+
+  it("devuelve null si el historial es inválido o está vacío en el filtro", () => {
+    expect(resumenRecienteTft(null)).toBeNull();
+    expect(resumenRecienteTft([])).toBeNull();
+    expect(resumenRecienteTft([{ puesto: 1, categoria: "ranked" }], "normal")).toBeNull();
   });
 });

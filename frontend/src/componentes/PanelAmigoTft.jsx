@@ -8,6 +8,7 @@ import { FilaPartidaTft } from "./FilaPartidaTft.jsx";
 import { FilaPartidaCompactaTft } from "./FilaPartidaCompactaTft.jsx";
 import { FiltroModos } from "./FiltroModos.jsx";
 import { HistorialPuestos } from "./HistorialPuestos.jsx";
+import { TarjetaResumenRecienteTft } from "./TarjetaResumenRecienteTft.jsx";
 import { SelectorVistaPartidas } from "./SelectorVistaPartidas.jsx";
 
 const CLAVE_STORAGE_VISTA_TFT = "lolsapo_vista_historial_tft";
@@ -54,6 +55,8 @@ export function PanelAmigoTft({ amigo, ddragon, ahora }) {
           <section aria-label="Estadísticas del filtro" className="pt-0.5">
             <ResumenFiltroTft etiqueta={etiquetaFiltro(filtro)} resumen={resumen} />
           </section>
+
+          <TarjetaResumenRecienteTft historial={amigo.historial} filtro={filtro} />
         </div>
 
         <HistorialPuestos historial={amigo.historial} filtro={filtro} />

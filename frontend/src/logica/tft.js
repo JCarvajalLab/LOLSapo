@@ -203,3 +203,31 @@ export function tituloHistorial(cantidad) {
   if (cantidad === 1) return "Posición en la última partida";
   return cantidad > 1 ? `Posición en las últimas ${cantidad} partidas` : "Posición en las últimas partidas";
 }
+
+/**
+ * Estadísticas de las partidas recientes para la tarjeta de resumen (dona + métricas).
+ * Calcula total, victorias (top 4), derrotas (5-8), primeros (1.º), porcentaje y puesto promedio.
+ */
+export function resumenRecienteTft(historial, filtro = "todos") {
+  const puestos = historialDe(historial, filtro);
+  if (!Array.isArray(puestos) || puestos.length === 0) return null;
+
+  const total = puestos.length;
+  const primeros = puestos.filter((p) => p.puesto === 1).length;
+  const top4 = puestos.filter((p) => p.puesto <= 4).length;
+  const derrotas = total - top4;
+  const top2a4 = top4 - primeros;
+  const sumaPuestos = puestos.reduce((acc, p) => acc + (p.puesto || 0), 0);
+  const promedio = sumaPuestos / total;
+  const pctTop4 = (top4 / total) * 100;
+
+  return {
+    total,
+    primeros,
+    top2a4,
+    top4,
+    derrotas,
+    pctTop4,
+    promedio,
+  };
+}
