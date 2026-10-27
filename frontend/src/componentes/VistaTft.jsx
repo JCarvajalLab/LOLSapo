@@ -1,9 +1,11 @@
+import { useState } from "react";
 import { formatearWinrate, isoAMs } from "../logica/formato.js";
 import { ordenarAmigosTft, textoRangoTft } from "../logica/tft.js";
 import { HASH_TFT } from "../rutas/hash.js";
 import { EsqueletoPagina } from "./Esqueleto.jsx";
 import { ErrorCarga, EstadoVacio } from "./Estados.jsx";
 import { FilaAmigoTft, FilaAmigoTftEsqueleto } from "./FilaAmigoTft.jsx";
+import { ModalStatsAmigoTft } from "./ModalStatsAmigoTft.jsx";
 import { Ranking } from "./Ranking.jsx";
 import { SeccionDestacadosMesTft } from "./SeccionDestacadosMesTft.jsx";
 import { SeccionDestacadosSemanaTft } from "./SeccionDestacadosSemanaTft.jsx";
@@ -15,6 +17,8 @@ import { TituloSeccion } from "./TituloSeccion.jsx";
  * aviso global si lo hay, "En partida", ranking y una fila por amigo con acordeón.
  */
 export function VistaTft({ datos, error, ahora, abiertos, alternar, abrir, enfocar }) {
+  const [modalAmigo, setModalAmigo] = useState(null);
+
   if (error && !datos) {
     if (error.tipo === "sin-datos") {
       return (
@@ -30,6 +34,31 @@ export function VistaTft({ datos, error, ahora, abiertos, alternar, abrir, enfoc
   if (!datos) return <EsqueletoPagina FilaEsqueleto={FilaAmigoTftEsqueleto} etiqueta="Cargando datos de TFT…" />;
 
   const actualizadoMs = isoAMs(datos.actualizado);
+
+  const handleElegirRanking = (slug, enlace) => {
+    const amigo = datos.amigos.find((a) => a.slug === slug);
+    if (amigo) {
+      setModalAmigo({ amigo, enlace });
+    } else {
+      abrir(slug, enlace);
+    }
+  };
+
+  const handleCerrarModal = () => {
+    const enlace = modalAmigo?.enlace;
+    setModalAmigo(null);
+    enlace?.focus?.();
+  };
+
+  const handleVerPartidas = () => {
+    const slug = modalAmigo?.amigo?.slug;
+    const enlace = modalAmigo?.enlace;
+    setModalAmigo(null);
+    if (slug) {
+      abrir(slug, enlace);
+    }
+  };
+
   return (
     <div className="space-y-8 sm:space-y-10">
       {datos.error && (
@@ -71,7 +100,7 @@ export function VistaTft({ datos, error, ahora, abiertos, alternar, abrir, enfoc
         <Ranking
           ranking={datos.ranking}
           amigos={datos.amigos}
-          onElegir={abrir}
+          onElegir={handleElegirRanking}
           idTitulo="titulo-tft-ranking"
           detalle={detalleTft}
           hrefDe={() => HASH_TFT}
@@ -102,6 +131,15 @@ export function VistaTft({ datos, error, ahora, abiertos, alternar, abrir, enfoc
           )}
         </section>
       </div>
+
+      {modalAmigo && (
+        <ModalStatsAmigoTft
+          amigo={modalAmigo.amigo}
+          ddragon={datos.ddragon}
+          onCerrar={handleCerrarModal}
+          onVerPartidas={handleVerPartidas}
+        />
+      )}
     </div>
   );
 }

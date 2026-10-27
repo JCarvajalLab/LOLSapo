@@ -148,10 +148,17 @@ describe("vista de TFT con datos", () => {
     expect(panel).toHaveTextContent("Todavía no hay partidas de TFT registradas.");
   });
 
-  it("clic en el ranking abre la fila del amigo", async () => {
+  it("clic en el ranking abre el modal de estadísticas y ver partidas abre su fila", async () => {
     renderVista(crearDatosTft());
-    await userEvent.click(screen.getAllByRole("link")[1]);
-    expect(screen.getByRole("button", { name: "Lodo#LAS" })).toHaveAttribute("aria-expanded", "true");
+    const enlaceCroac = screen.getByRole("link", { name: /Croac#LAS/ });
+    await userEvent.click(enlaceCroac);
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Croac#LAS", level: 2 })).toBeInTheDocument();
+    expect(screen.getByText("Posiciones")).toBeInTheDocument();
+
+    await userEvent.click(screen.getByRole("button", { name: "Ver sus últimas partidas" }));
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Croac#LAS" })).toHaveAttribute("aria-expanded", "true");
   });
 
   it("sin amigos muestra un estado vacío", () => {
