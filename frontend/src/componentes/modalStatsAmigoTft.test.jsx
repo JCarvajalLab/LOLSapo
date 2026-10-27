@@ -96,18 +96,34 @@ describe("ModalStatsAmigoTft", () => {
     expect(btnTodos).toHaveAttribute("aria-pressed", "true");
   });
 
-  it("dispara onVerPartidas al hacer clic en Ver sus últimas partidas", () => {
-    const handleVer = vi.fn();
+  it("muestra ranking del grupo y nivel de cuenta si están disponibles", () => {
     render(
       <ModalStatsAmigoTft
         amigo={amigoMock}
         ddragon={ddragonTft}
+        posicionRanking={1}
+        totalAmigos={6}
         onCerrar={vi.fn()}
-        onVerPartidas={handleVer}
       />
     );
 
-    fireEvent.click(screen.getByRole("button", { name: "Ver sus últimas partidas" }));
-    expect(handleVer).toHaveBeenCalledOnce();
+    expect(screen.getByText(/Ranking del grupo:/)).toBeInTheDocument();
+    expect(screen.getByText("#1 de 6")).toBeInTheDocument();
+    expect(screen.getByText(/Nivel de cuenta:/)).toBeInTheDocument();
+    expect(screen.getByText("250")).toBeInTheDocument();
+  });
+
+  it("dispara onCerrar al hacer clic en el botón de cerrar", () => {
+    const handleCerrar = vi.fn();
+    render(
+      <ModalStatsAmigoTft
+        amigo={amigoMock}
+        ddragon={ddragonTft}
+        onCerrar={handleCerrar}
+      />
+    );
+
+    fireEvent.click(screen.getByRole("button", { name: "Cerrar" }));
+    expect(handleCerrar).toHaveBeenCalledOnce();
   });
 });

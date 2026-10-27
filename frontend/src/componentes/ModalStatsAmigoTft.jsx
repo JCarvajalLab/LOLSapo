@@ -20,10 +20,16 @@ const MODOS_MODAL = [
 /**
  * Modal amplio de estadísticas de perfil de TFT estilo Tactics.tools / OP.GG.
  * Permite alternar entre Últimos 30 días y Temporada 2026, así como Clasificatoria y Todos.
- * Muestra el escudo oficial de la división, resumen de Top 4 vs Bot 4, y el gráfico
- * de barras horizontales con la distribución de los 8 puestos (1.º a 8.º).
+ * Muestra el escudo oficial de la división, datos de ranking y nivel, resumen de desempeño
+ * y el gráfico de barras horizontales con la distribución de los 8 puestos (1.º a 8.º).
  */
-export function ModalStatsAmigoTft({ amigo, ddragon, onCerrar, onVerPartidas }) {
+export function ModalStatsAmigoTft({
+  amigo,
+  ddragon,
+  onCerrar,
+  posicionRanking,
+  totalAmigos,
+}) {
   const [periodo, setPeriodo] = useState(PERIODOS_STATS_TFT[0]);
   const [modo, setModo] = useState("ranked");
 
@@ -105,58 +111,96 @@ export function ModalStatsAmigoTft({ amigo, ddragon, onCerrar, onVerPartidas }) 
         </p>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-[1.15fr_1fr] gap-5 sm:gap-6 items-stretch">
-          {/* Columna Izquierda: Escudo de Rango grande y Resumen al lado */}
-          <div className="flex flex-col justify-between rounded-xl border border-borde/70 bg-superficie/50 p-5 space-y-4">
-            <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-5">
-              {/* Escudo de rango grande */}
-              {emblemaSrc ? (
-                <img
-                  src={emblemaSrc}
-                  alt={`Emblema de ${nombreTier}`}
-                  className="w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 object-contain shrink-0 drop-shadow-xl self-center sm:self-auto"
-                />
-              ) : (
-                <div className="w-28 h-28 rounded-2xl border border-borde bg-superficie-alta/60 flex items-center justify-center shrink-0 text-texto-suave text-3xl font-bold self-center sm:self-auto">
-                  ?
-                </div>
-              )}
+          {/* Columna Izquierda: Escudo de Rango grande y Resumen completo */}
+          <div className="flex flex-col justify-between rounded-xl border border-borde/70 bg-superficie/50 p-5 sm:p-6">
+            <div className="space-y-5">
+              {/* Fila superior: Escudo grande y datos de Rango */}
+              <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-5">
+                {/* Escudo de rango grande */}
+                {emblemaSrc ? (
+                  <img
+                    src={emblemaSrc}
+                    alt={`Emblema de ${nombreTier}`}
+                    className="w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 object-contain shrink-0 drop-shadow-xl self-center"
+                  />
+                ) : (
+                  <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl border border-borde bg-superficie-alta/60 flex items-center justify-center shrink-0 text-texto-suave text-3xl font-bold self-center">
+                    ?
+                  </div>
+                )}
 
-              {/* Todo el bloque de información junto al escudo */}
-              <div className="min-w-0 space-y-3 flex-1">
-                <div>
-                  <div className="flex flex-wrap items-baseline gap-2">
-                    <span className="text-2xl sm:text-3xl font-bold font-titulo tracking-wide text-texto">
-                      {nombreTier ?? "Sin clasificar"}
-                    </span>
-                    {nombreTier && (
-                      <span className="text-oro font-bold text-base sm:text-lg cifras">
-                        {lp} LP
+                {/* Todo el bloque de información junto al escudo */}
+                <div className="min-w-0 space-y-2 flex-1 text-center sm:text-left">
+                  <div>
+                    <div className="flex flex-wrap items-baseline justify-center sm:justify-start gap-2">
+                      <span className="text-2xl sm:text-3xl font-bold font-titulo tracking-wide text-texto">
+                        {nombreTier ?? "Sin clasificar"}
                       </span>
+                      {nombreTier && (
+                        <span className="text-oro font-bold text-base sm:text-lg cifras">
+                          {lp} LP
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-xs sm:text-sm text-texto-suave mt-0.5">
+                      Teamfight Tactics · {modo === "ranked" ? "Clasificatoria" : "Todos los modos"}
+                    </p>
+                  </div>
+
+                  <div className="space-y-1 text-xs sm:text-sm text-texto-suave pt-1">
+                    {posicionRanking && (
+                      <p>
+                        Ranking del grupo:{" "}
+                        <strong className="text-texto font-bold">
+                          #{posicionRanking}{totalAmigos ? ` de ${totalAmigos}` : ""}
+                        </strong>
+                      </p>
+                    )}
+                    {amigo?.perfil?.nivel && (
+                      <p>
+                        Nivel de cuenta:{" "}
+                        <strong className="text-texto font-bold">{amigo.perfil.nivel}</strong>
+                      </p>
                     )}
                   </div>
-                  <p className="text-xs sm:text-sm text-texto-suave mt-0.5">
-                    Teamfight Tactics · {modo === "ranked" ? "Clasificatoria" : "Todos los modos"}
-                  </p>
                 </div>
+              </div>
 
-                {/* Métricas de Partidas */}
-                <div className="space-y-1.5 text-sm sm:text-base">
-                  <p className="text-texto font-medium">
-                    Partidas: <strong className="text-base sm:text-lg text-texto font-bold cifras">{stats.partidas}</strong>
-                  </p>
-                  <p className="text-texto-suave text-xs sm:text-sm cifras">
-                    Top 4: <strong className="text-victoria font-bold text-sm sm:text-base">{stats.top4}</strong>
+              {/* Bloque de estadísticas de desempeño distribuido en tarjeta */}
+              <div className="rounded-lg border border-borde/40 bg-superficie-alta/30 p-3.5 sm:p-4 space-y-2 text-xs sm:text-sm">
+                <div className="flex items-center justify-between">
+                  <span className="text-texto-suave">Partidas</span>
+                  <strong className="text-texto font-bold text-sm sm:text-base cifras">
+                    {stats.partidas}
+                  </strong>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-texto-suave">Top 4 — Bottom 4</span>
+                  <span className="cifras">
+                    <strong className="text-victoria font-bold text-sm sm:text-base">{stats.top4}</strong>
                     <span className="mx-2 text-borde/80">—</span>
-                    Bottom 4: <strong className="text-derrota font-bold text-sm sm:text-base">{stats.bot4}</strong>
-                  </p>
-                  <p className="text-texto-suave text-xs sm:text-sm cifras">
-                    Promedio de posición: <strong className="text-texto font-bold text-sm sm:text-base">{formatearPromedio(stats.promedio)}</strong>
-                  </p>
+                    <strong className="text-derrota font-bold text-sm sm:text-base">{stats.bot4}</strong>
+                  </span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-texto-suave">Victorias (1.º lugar)</span>
+                  <span className="cifras">
+                    <strong className="text-oro font-bold text-sm sm:text-base">{stats.primeros}</strong>
+                    <span className="text-xs text-texto-suave ml-1.5">
+                      ({stats.primerosPct !== null ? `${Math.round(stats.primerosPct)}%` : "0%"})
+                    </span>
+                  </span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-texto-suave">Promedio de posición</span>
+                  <strong className="text-texto font-bold text-sm sm:text-base cifras">
+                    {formatearPromedio(stats.promedio)}
+                  </strong>
                 </div>
               </div>
             </div>
 
-            <p className="text-xs text-texto-suave/80 pt-2 border-t border-borde/30">
+            <p className="text-xs text-texto-suave/80 pt-3 border-t border-borde/30 mt-4">
               {periodo === "ultimos_30_dias"
                 ? "Basado en las partidas más recientes del historial."
                 : "Basado en las partidas registradas de la temporada 2026."}
@@ -243,19 +287,6 @@ export function ModalStatsAmigoTft({ amigo, ddragon, onCerrar, onVerPartidas }) 
               </div>
             </div>
           </div>
-        </div>
-      )}
-
-      {/* Botón de acción al pie */}
-      {onVerPartidas && (
-        <div className="mt-4 flex justify-end">
-          <button
-            type="button"
-            onClick={onVerPartidas}
-            className="min-h-10 rounded-lg border border-sapo/60 bg-sapo-fondo px-4 py-2 text-sm font-semibold text-sapo hover:bg-sapo/20"
-          >
-            Ver sus últimas partidas
-          </button>
         </div>
       )}
     </Dialogo>

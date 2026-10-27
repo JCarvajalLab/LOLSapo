@@ -50,15 +50,6 @@ export function VistaTft({ datos, error, ahora, abiertos, alternar, abrir, enfoc
     enlace?.focus?.();
   };
 
-  const handleVerPartidas = () => {
-    const slug = modalAmigo?.amigo?.slug;
-    const enlace = modalAmigo?.enlace;
-    setModalAmigo(null);
-    if (slug) {
-      abrir(slug, enlace);
-    }
-  };
-
   return (
     <div className="space-y-8 sm:space-y-10">
       {datos.error && (
@@ -136,8 +127,9 @@ export function VistaTft({ datos, error, ahora, abiertos, alternar, abrir, enfoc
         <ModalStatsAmigoTft
           amigo={modalAmigo.amigo}
           ddragon={datos.ddragon}
+          posicionRanking={datos.ranking?.find((r) => r.slug === modalAmigo.amigo.slug)?.posicion}
+          totalAmigos={datos.ranking?.length ?? datos.amigos?.length}
           onCerrar={handleCerrarModal}
-          onVerPartidas={handleVerPartidas}
         />
       )}
     </div>
