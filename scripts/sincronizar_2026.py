@@ -15,6 +15,8 @@ from pathlib import Path
 RAIZ = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(RAIZ / "recolector"))
 
+from lolsapo import ddragon as datos_ddragon
+from lolsapo import ddragon_tft
 from lolsapo.config import (
     DIR_DATOS,
     RUTA_AMIGOS,
@@ -250,6 +252,7 @@ def recompilar_tft(amigos: list, cliente_tft: ClienteRiot) -> None:
     log.info("=== RECOMPILANDO tft.json ===")
     mapa_tft = MapaModos.desde_archivo(RUTA_MODOS_TFT)
     key_tft = cargar_api_key_tft()
+    ddragon = ddragon_tft.obtener(DIR_DATOS / "ddragon_tft.json")
     ejecutar_tft(
         cliente_tft,
         key_tft,
@@ -258,6 +261,7 @@ def recompilar_tft(amigos: list, cliente_tft: ClienteRiot) -> None:
         DIR_DATOS,
         RUTA_SALIDA_TFT,
         cantidad=30,
+        ddragon=ddragon,
     )
     log.info("tft.json generado exitosamente.")
 
@@ -266,6 +270,7 @@ def recompilar_lol(amigos: list, cliente_lol: ClienteRiot) -> None:
     log.info("=== RECOMPILANDO lol.json ===")
     mapa_lol = MapaModos.desde_archivo(RUTA_MODOS)
     key_lol = cargar_api_key()
+    ddragon = datos_ddragon.obtener(DIR_DATOS / "ddragon.json")
     ejecutar(
         cliente_lol,
         key_lol,
@@ -274,6 +279,7 @@ def recompilar_lol(amigos: list, cliente_lol: ClienteRiot) -> None:
         DIR_DATOS,
         RUTA_SALIDA,
         cantidad=20,
+        ddragon=ddragon,
     )
     log.info("lol.json generado exitosamente.")
 
@@ -289,19 +295,30 @@ def main():
         default=None,
         help="Límite de partidas por amigo (para pruebas)",
     )
+    parser.add_argument(
+        "--solo-recompilar",
+        action="store_true",
+        help="Solo recompilar lol.json y tft.json a partir del registro existente",
+    )
     args = parser.parse_args()
 
     amigos = cargar_amigos(RUTA_AMIGOS)
     c_lol = ClienteRiot(cargar_api_key())
     c_tft = ClienteRiot(cargar_api_key_tft())
 
-    if args.juego in ("tft", "ambos"):
-        sincronizar_tft(c_tft, amigos, limite_por_amigo=args.limite)
-        recompilar_tft(amigos, c_tft)
+    if not args.solo_recompilar:
+        if args.juego in ("tft", "ambos"):
+            sincronizar_tft(c_tft, amigos, limite_por_amigo=args.limite)
+            recompilar_tft(amigos, c_tft)
 
-    if args.juego in ("lol", "ambos"):
-        sincronizar_lol(c_lol, amigos, limite_por_amigo=args.limite)
-        recompilar_lol(amigos, c_lol)
+        if args.juego in ("lol", "ambos"):
+            sincronizar_lol(c_lol, amigos, limite_por_amigo=args.limite)
+            recompilar_lol(amigos, c_lol)
+    else:
+        if args.juego in ("tft", "ambos"):
+            recompilar_tft(amigos, c_tft)
+        if args.juego in ("lol", "ambos"):
+            recompilar_lol(amigos, c_lol)
 
     log.info("=== SINCRONIZACIÓN Y RECOMPILACIÓN TOTAL FINALIZADA ===")
 
