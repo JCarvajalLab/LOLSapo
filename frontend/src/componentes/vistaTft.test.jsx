@@ -433,36 +433,65 @@ describe("en partida y avisos", () => {
     expect(screen.getByText("Nadie en partida.")).toBeInTheDocument();
   });
 
-  it("permite simular una partida en vivo de prueba y cerrarla", async () => {
+  it("avisa cuando un amigo está en partida pero el lobby en vivo no está disponible", () => {
+    const amigos = [
+      { slug: "iskrat-las", nombre: "ISkrat", jugando: { modo: "Clasificatoria" } },
+    ];
+    render(<SeccionEnPartidaTft enVivo={[]} amigos={amigos} actualizadoMs={AHORA} ahora={AHORA} />);
+    expect(screen.getByText(/ISkrat está en partida de TFT/)).toBeInTheDocument();
+    expect(screen.getByText(/No se pudo cargar el lobby completo/)).toBeInTheDocument();
+  });
+
+  it("muestra la partida en curso cuando enVivo contiene jugadores", () => {
+    const partidaTft = {
+      id: 999999991,
+      queue_id: 1100,
+      modo: "Clasificatoria",
+      categoria: "ranked",
+      inicio: AHORA - 16 * 60 * 1000,
+      duracion: 16 * 60,
+      amigos: ["iskrat-las", "nic-las"],
+      jugadores: [
+        {
+          nombre: "ISkrat#LAS",
+          amigo: "iskrat-las",
+          icono: 847,
+          nivel: 847,
+          rango: { tier: "PLATINUM", division: "III", lp: 52 },
+          top4_pct: 54,
+          partidas: 61,
+          premade: 1,
+        },
+        {
+          nombre: "Nic#LAS",
+          amigo: "nic-las",
+          icono: 7198,
+          nivel: 1077,
+          rango: { tier: "PLATINUM", division: "II", lp: 85 },
+          top4_pct: 54,
+          partidas: 185,
+          premade: 1,
+        },
+      ],
+    };
+
     render(
       <SeccionEnPartidaTft
-        enVivo={[]}
+        enVivo={[partidaTft]}
         amigos={[
           { slug: "iskrat-las", nombre: "ISkrat" },
           { slug: "nic-las", nombre: "Nic" },
         ]}
         actualizadoMs={AHORA}
         ahora={AHORA}
-        permitirSimular={true}
       />,
     );
 
-    expect(screen.getByText("Nadie en partida.")).toBeInTheDocument();
-
-    const botonSimular = screen.getByRole("button", { name: "👁️ Simular en vivo" });
-    await userEvent.click(botonSimular);
-
-    expect(screen.getByText(/Modo de prueba:/)).toBeInTheDocument();
+    expect(screen.queryByText("Nadie en partida.")).not.toBeInTheDocument();
     expect(screen.getByRole("list", { name: "Partidas en curso" })).toBeInTheDocument();
     const lobby = screen.getByRole("list", { name: "Jugadores del lobby" });
     expect(within(lobby).getByText("ISkrat#LAS")).toBeInTheDocument();
     expect(within(lobby).getByText("Nic#LAS")).toBeInTheDocument();
-
-    const botonCerrar = screen.getByRole("button", { name: "✕ Quitar simulación" });
-    await userEvent.click(botonCerrar);
-
-    expect(screen.getByText("Nadie en partida.")).toBeInTheDocument();
-    expect(screen.queryByRole("list", { name: "Partidas en curso" })).not.toBeInTheDocument();
   });
 });
 

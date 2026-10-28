@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { antiguedadDatos } from "../logica/antiguedad.js";
 import { urlIconoPerfil } from "../logica/ddragon.js";
 import { claseWinrate, esNumero, haceCuanto, iniciales, nombreRango, textoRangoLp } from "../logica/formato.js";
@@ -6,121 +5,6 @@ import { minutosEnPartida, nombresAmigos } from "../logica/partidas.js";
 import { EtiquetaModo } from "./Etiquetas.jsx";
 import { AvisoAntiguedad } from "./SeccionEnPartida.jsx";
 import { TituloSeccion } from "./TituloSeccion.jsx";
-
-function crearPartidaSimuladaTft(amigos = [], ahora = Date.now()) {
-  const amigo1 = amigos[0];
-  const amigo2 = amigos[1];
-
-  const slug1 = amigo1?.slug ?? "johnadis-las";
-  const nombre1 = amigo1?.nombre ?? "Johnadis";
-  const id1 = amigo1?.riot_id ?? `${nombre1}#LAS`;
-  const icono1 = amigo1?.perfil?.icono ?? 7198;
-  const nivel1 = amigo1?.perfil?.nivel ?? 1077;
-  const rango1 = amigo1?.rangos?.ranked ?? { tier: "PLATINUM", division: "II", lp: 85 };
-  const top4_1 = amigo1?.estadisticas?.total?.top4_pct ?? 54;
-  const partidas1 = amigo1?.estadisticas?.total?.partidas ?? 185;
-
-  const slug2 = amigo2?.slug ?? "iskrat-las";
-  const nombre2 = amigo2?.nombre ?? "ISkrat";
-  const id2 = amigo2?.riot_id ?? `${nombre2}#LAS`;
-  const icono2 = amigo2?.perfil?.icono ?? 847;
-  const nivel2 = amigo2?.perfil?.nivel ?? 847;
-  const rango2 = amigo2?.rangos?.ranked ?? { tier: "PLATINUM", division: "III", lp: 52 };
-  const top4_2 = amigo2?.estadisticas?.total?.top4_pct ?? 54;
-  const partidas2 = amigo2?.estadisticas?.total?.partidas ?? 61;
-
-  return {
-    id: 999999991,
-    queue_id: 1100,
-    modo: "Clasificatoria",
-    categoria: "ranked",
-    inicio: (ahora || Date.now()) - 16 * 60 * 1000,
-    duracion: 16 * 60,
-    amigos: [slug1, slug2],
-    jugadores: [
-      {
-        nombre: id1,
-        amigo: slug1,
-        icono: icono1,
-        nivel: nivel1,
-        rango: rango1,
-        top4_pct: top4_1,
-        partidas: partidas1,
-        premade: 1,
-      },
-      {
-        nombre: id2,
-        amigo: slug2,
-        icono: icono2,
-        nivel: nivel2,
-        rango: rango2,
-        top4_pct: top4_2,
-        partidas: partidas2,
-        premade: 1,
-      },
-      {
-        nombre: "ChonccLover#LAS",
-        amigo: null,
-        icono: 4122,
-        nivel: 320,
-        rango: { tier: "EMERALD", division: "IV", lp: 12 },
-        top4_pct: 52,
-        partidas: 94,
-        premade: 2,
-      },
-      {
-        nombre: "TacticianPengu#LAS",
-        amigo: null,
-        icono: 3542,
-        nivel: 215,
-        rango: { tier: "EMERALD", division: "III", lp: 64 },
-        top4_pct: 58,
-        partidas: 140,
-        premade: 2,
-      },
-      {
-        nombre: "HyperRoller#LAS",
-        amigo: null,
-        icono: 538,
-        nivel: 180,
-        rango: { tier: "GOLD", division: "I", lp: 75 },
-        top4_pct: 49,
-        partidas: 65,
-        premade: null,
-      },
-      {
-        nombre: "DowsieCarry#LAS",
-        amigo: null,
-        icono: 1634,
-        nivel: 410,
-        rango: { tier: "DIAMOND", division: "IV", lp: 20 },
-        top4_pct: 61,
-        partidas: 210,
-        premade: null,
-      },
-      {
-        nombre: "Furyhorn#LAS",
-        amigo: null,
-        icono: 2090,
-        nivel: 95,
-        rango: null,
-        top4_pct: null,
-        partidas: 12,
-        premade: null,
-      },
-      {
-        nombre: "RiverSprite#LAS",
-        amigo: null,
-        icono: 7,
-        nivel: 150,
-        rango: { tier: "PLATINUM", division: "IV", lp: 15 },
-        top4_pct: 48,
-        partidas: 45,
-        premade: null,
-      },
-    ],
-  };
-}
 
 function enriquecerJugadorTft(jugador, amigos = []) {
   if (!jugador) return {};
@@ -132,7 +16,8 @@ function enriquecerJugadorTft(jugador, amigos = []) {
         nombre: jugador.nombre || amigo.riot_id || amigo.nombre,
         icono: jugador.icono ?? amigo.perfil?.icono,
         nivel: jugador.nivel ?? amigo.perfil?.nivel,
-        rango: jugador.rango ?? amigo.rangos?.ranked,
+        // Usar siempre el rango de TFT del amigo si está disponible (ranked de TFT)
+        rango: amigo.rangos && amigo.rangos.ranked !== undefined ? amigo.rangos.ranked : jugador.rango,
         top4_pct: jugador.top4_pct ?? amigo.estadisticas?.total?.top4_pct,
         partidas: jugador.partidas ?? amigo.estadisticas?.total?.partidas,
       };
@@ -143,7 +28,7 @@ function enriquecerJugadorTft(jugador, amigos = []) {
 
 /**
  * "En partida" de TFT con diseño profesional inspirado en League:
- * Muestra el lobby completo en 2 columnas con avatar de perfil, nivel, división,
+ * Muestra el lobby completo en 2 columnas con avatar de perfil, nivel, división de TFT,
  * winrate/top 4 y distintivos de Dúo / Grupo para amigos y premades.
  */
 export function SeccionEnPartidaTft({
@@ -153,131 +38,76 @@ export function SeccionEnPartidaTft({
   ddragon,
   actualizadoMs,
   ahora,
-  simular: simularProp,
-  permitirSimular = false,
 }) {
-  const [simularEstado, setSimularEstado] = useState(() => {
-    if (typeof window === "undefined") return false;
-    try {
-      const search = window.location.search || "";
-      const hash = window.location.hash || "";
-      const query = search || (hash.includes("?") ? hash.slice(hash.indexOf("?")) : "");
-      const params = new URLSearchParams(query);
-      return params.get("envivo") === "1";
-    } catch {
-      return false;
-    }
-  });
-
-  const simular = simularProp !== undefined ? simularProp : simularEstado;
-  const puedeMostrarBoton = import.meta.env.MODE !== "test" || permitirSimular;
-
-  const partidasReales = Array.isArray(enVivo) ? enVivo : [];
+  const partidas = Array.isArray(enVivo) ? enVivo : [];
   const { nivel, minutos: antiguedad } = antiguedadDatos(actualizadoMs, ahora);
   const caduco = nivel === "caduco";
   const viejo = nivel === "viejo";
 
-  const partidas = simular ? [crearPartidaSimuladaTft(amigos, ahora)] : partidasReales;
-  const visibles = caduco && !simular ? [] : !disponible && !simular ? [] : partidas;
-  const relojPartidas = viejo && !simular ? actualizadoMs : ahora;
+  const visibles = caduco ? [] : !disponible ? [] : partidas;
+  const relojPartidas = viejo ? actualizadoMs : ahora;
+  const amigosJugando = (amigos || []).filter((a) => a && a.jugando);
 
-  if (!disponible && !simular) {
+  if (!disponible) {
     return (
       <section aria-labelledby="titulo-tft-en-partida">
-        <div className="flex items-center justify-between">
-          <TituloSeccion id="titulo-tft-en-partida">
-            <span aria-hidden="true" className="text-texto-suave">
-              ●
-            </span>
-            En partida
-          </TituloSeccion>
-          {puedeMostrarBoton && (
-            <button
-              type="button"
-              onClick={() => setSimularEstado(true)}
-              className="text-xs text-sapo hover:underline focus:outline-none"
-              title="Previsualizar cómo se ve una partida activa"
-            >
-              👁️ Simular en vivo
-            </button>
-          )}
+        <TituloSeccion id="titulo-tft-en-partida">
+          <span aria-hidden="true" className="text-texto-suave">
+            ●
+          </span>
+          En partida
+        </TituloSeccion>
+        <div className="rounded-lg border border-dashed border-borde px-4 py-3 text-sm text-texto-suave" data-en-vivo-no-disponible="true">
+          <p>«Jugando ahora» no está disponible por el momento.</p>
+          <p className="mt-1 text-xs text-texto-suave/80">
+            El seguimiento en vivo requiere permisos de espectador en la API de Riot (se activará con la clave definitiva de TFT). Si algún amigo juega, su partida se registrará al finalizar.
+          </p>
         </div>
-        <p className="rounded-lg border border-dashed border-borde px-4 py-3 text-sm text-texto-suave" data-en-vivo-no-disponible="true">
-          «Jugando ahora» no está disponible por el momento.
-        </p>
       </section>
     );
   }
 
   return (
     <section aria-labelledby="titulo-tft-en-partida">
-      <div className="flex items-center justify-between">
-        <TituloSeccion id="titulo-tft-en-partida">
-          <span aria-hidden="true" className={visibles.length && !viejo ? "led text-sapo" : "text-texto-suave"}>
-            ●
-          </span>
-          En partida
-          {visibles.length > 0 && <span className="cifras text-sm font-normal text-texto-suave">({visibles.length})</span>}
-        </TituloSeccion>
-        {simular ? (
-          <button
-            type="button"
-            onClick={() => setSimularEstado(false)}
-            className="text-xs text-derrota hover:underline focus:outline-none font-medium"
-          >
-            ✕ Quitar simulación
-          </button>
-        ) : puedeMostrarBoton && visibles.length === 0 ? (
-          <button
-            type="button"
-            onClick={() => setSimularEstado(true)}
-            className="text-xs text-sapo hover:underline focus:outline-none"
-            title="Previsualizar cómo se ve una partida activa"
-          >
-            👁️ Simular en vivo
-          </button>
-        ) : null}
-      </div>
+      <TituloSeccion id="titulo-tft-en-partida">
+        <span
+          aria-hidden="true"
+          className={(visibles.length > 0 || amigosJugando.length > 0) && !viejo ? "led text-sapo" : "text-texto-suave"}
+        >
+          ●
+        </span>
+        En partida
+        {visibles.length > 0 && <span className="cifras text-sm font-normal text-texto-suave">({visibles.length})</span>}
+      </TituloSeccion>
 
       <div className="losa min-h-32 rounded-lg border p-2 sm:p-4">
-        {simular && (
-          <aside className="mb-3 flex items-center justify-between rounded border border-sapo/40 bg-sapo-fondo/50 px-3 py-1.5 text-xs text-sapo">
-            <span>
-              <strong>Modo de prueba:</strong> partida en vivo simulada para verificar diseño y visualización.
-            </span>
-            <button
-              type="button"
-              onClick={() => setSimularEstado(false)}
-              className="ml-2 underline font-semibold text-texto hover:text-derrota"
-            >
-              Cerrar
-            </button>
-          </aside>
-        )}
-
-        {caduco && !simular ? (
+        {caduco ? (
           <AvisoAntiguedad>
             {antiguedad === null
               ? "No se sabe cuándo se consultó a Riot. No se puede saber quién está en partida ahora."
               : `Datos de ${haceCuanto(actualizadoMs, ahora)}. No se puede saber quién está en partida ahora.`}
           </AvisoAntiguedad>
         ) : visibles.length === 0 ? (
-          <div className="flex min-h-24 flex-col items-center justify-center gap-2">
-            <p className="text-texto-suave">Nadie en partida.</p>
-            {viejo && <p className="cifras text-xs text-texto-suave">Datos de hace {antiguedad} min.</p>}
-            {puedeMostrarBoton && (
-              <button
-                type="button"
-                onClick={() => setSimularEstado(true)}
-                className="rounded border border-borde bg-superficie px-2.5 py-1 text-xs text-sapo hover:bg-superficie-alta transition-colors"
-              >
-                👁️ Probar partida en vivo (simular)
-              </button>
+          <div className="flex min-h-24 flex-col items-center justify-center gap-1.5 px-4 text-center">
+            {amigosJugando.length > 0 ? (
+              <>
+                <p className="text-sm font-medium text-sapo">
+                  🎮 {nombresAmigos(amigosJugando.map((a) => a.slug), amigos)} {amigosJugando.length === 1 ? "está" : "están"} en partida de TFT
+                </p>
+                <p className="max-w-md text-xs text-texto-suave">
+                  No se pudo cargar el lobby completo debido a limitaciones temporales de la API de espectador de Riot. La partida se guardará al terminar.
+                </p>
+              </>
+            ) : (
+              <>
+                <p className="text-texto-suave">Nadie en partida.</p>
+                {viejo && <p className="cifras text-xs text-texto-suave">Datos de hace {antiguedad} min.</p>}
+              </>
             )}
           </div>
         ) : (
           <>
-            {viejo && !simular && (
+            {viejo && (
               <p data-tono="aviso" className="canto mb-3 rounded-md py-2 pr-3 pl-4 text-sm text-sapo">
                 <span aria-hidden="true" className="mr-1">
                   ⚠
@@ -295,7 +125,7 @@ export function SeccionEnPartidaTft({
                     ddragon={ddragon}
                     actualizadoMs={actualizadoMs}
                     ahora={relojPartidas}
-                    atenuada={viejo && !simular}
+                    atenuada={viejo}
                   />
                 </li>
               ))}
