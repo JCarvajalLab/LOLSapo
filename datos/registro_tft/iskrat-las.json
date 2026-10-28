@@ -72170,6 +72170,157 @@
           "rareza": 3
         }
       ]
+    },
+    "LA2_1633802982": {
+      "danio": 0,
+      "duracion": 2741,
+      "eliminados": 0,
+      "fecha": 1793229713536,
+      "id": "LA2_1633802982",
+      "nivel": 8,
+      "participantes": [
+        {
+          "amigo": null,
+          "nombre": "Salted Fish#Hide",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "MayorWaleta#GEC",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "krillua#LAS",
+          "puesto": 3
+        },
+        {
+          "amigo": "iskrat-las",
+          "nombre": "ISkrat#LAS",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "Leanyax#dem",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "Niuneko#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "Goraf WMORRIS#LAS",
+          "puesto": 7
+        },
+        {
+          "amigo": "nic-las",
+          "nombre": "Nicø#LAS",
+          "puesto": 8
+        }
+      ],
+      "puesto": 4,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "DA_Riftbeast18",
+          "nivel": 3,
+          "unico": false,
+          "unidades": 7
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Slayer",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Vanguard",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 3,
+          "id": "DA_18_ApexPredator",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        },
+        {
+          "estilo": 3,
+          "id": "DA_Emerald18",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        }
+      ],
+      "ronda": 33,
+      "set": 18,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "DA_CrimsonRaptor18",
+          "items": [
+            "DA_TitansResolve",
+            "DA_GuinsoosRageblade",
+            "DA_Quicksilver"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 3,
+          "id": "DA_Krug18",
+          "items": [
+            "DA_Evenshroud",
+            "DA_SpiritVisage",
+            "DA_GargoyleStoneplate"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_Sentinel18",
+          "items": [
+            "DA_GargoyleStoneplate",
+            "DA_WarmogsArmor",
+            "DA_SpiritVisage"
+          ],
+          "rareza": 3
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_Murkwolf18",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 1,
+          "id": "DA_18_ElderDragon",
+          "items": [],
+          "rareza": 4
+        },
+        {
+          "estrellas": 1,
+          "id": "DA_Taric18",
+          "items": [],
+          "rareza": 4
+        },
+        {
+          "estrellas": 1,
+          "id": "DA_Brambleback18",
+          "items": [
+            "DA_EdgeOfNight",
+            "DA_GuinsoosRageblade",
+            "DA_TitansResolve"
+          ],
+          "rareza": 3
+        }
+      ]
     }
   },
   "perfil": {

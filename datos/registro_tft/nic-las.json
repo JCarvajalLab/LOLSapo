@@ -23012,6 +23012,144 @@
           "rareza": 3
         }
       ]
+    },
+    "LA2_1633802982": {
+      "danio": 0,
+      "duracion": 2741,
+      "eliminados": 0,
+      "fecha": 1793229713536,
+      "id": "LA2_1633802982",
+      "nivel": 7,
+      "participantes": [
+        {
+          "amigo": null,
+          "nombre": "Salted Fish#Hide",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "MayorWaleta#GEC",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "krillua#LAS",
+          "puesto": 3
+        },
+        {
+          "amigo": "iskrat-las",
+          "nombre": "ISkrat#LAS",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "Leanyax#dem",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "Niuneko#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "Goraf WMORRIS#LAS",
+          "puesto": 7
+        },
+        {
+          "amigo": "nic-las",
+          "nombre": "Nicø#LAS",
+          "puesto": 8
+        }
+      ],
+      "puesto": 8,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 2,
+          "id": "DA_18_Coven",
+          "nivel": 2,
+          "unico": false,
+          "unidades": 4
+        },
+        {
+          "estilo": 2,
+          "id": "DA_18_Vanguard",
+          "nivel": 2,
+          "unico": false,
+          "unidades": 4
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Invoker",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Slayer",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        }
+      ],
+      "ronda": 23,
+      "set": 18,
+      "unidades": [
+        {
+          "estrellas": 2,
+          "id": "DA_18_Cassiopeia",
+          "items": [
+            "DA_VoidStaff",
+            "DA_SpearOfShojin",
+            "DA_JeweledGauntlet"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_Elise",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_Camille",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 1,
+          "id": "DA_18_Morgana",
+          "items": [
+            "DA_VoidStaff",
+            "DA_Component_NeedlesslyLargeRod"
+          ],
+          "rareza": 3
+        },
+        {
+          "estrellas": 1,
+          "id": "DA_Sentinel18",
+          "items": [
+            "DA_WarmogsArmor",
+            "DA_Component_NegatronCloak"
+          ],
+          "rareza": 3
+        },
+        {
+          "estrellas": 1,
+          "id": "DA_18_Diana",
+          "items": [],
+          "rareza": 2
+        },
+        {
+          "estrellas": 1,
+          "id": "DA_18_Rakan",
+          "items": [],
+          "rareza": 0
+        }
+      ]
     }
   },
   "perfil": {
