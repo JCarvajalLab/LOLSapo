@@ -72009,6 +72009,167 @@
           "rareza": 2
         }
       ]
+    },
+    "LA2_1633795639": {
+      "danio": 0,
+      "duracion": 2379,
+      "eliminados": 0,
+      "fecha": 1793227101982,
+      "id": "LA2_1633795639",
+      "nivel": 7,
+      "participantes": [
+        {
+          "amigo": null,
+          "nombre": "Kairós#44772",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "KATAlinaa#LAS",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "Razorback#1836",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "XbloodboneX#LAS",
+          "puesto": 4
+        },
+        {
+          "amigo": "iskrat-las",
+          "nombre": "ISkrat#LAS",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "Ramamahuevo#2604",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "SeñorFufu#LAS",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "BIEN DE VIVO#Dwapo",
+          "puesto": 8
+        }
+      ],
+      "puesto": 5,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "DA_18_Fae",
+          "nivel": 2,
+          "unico": false,
+          "unidades": 4
+        },
+        {
+          "estilo": 4,
+          "id": "DA_18_Rival",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 1
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Defender",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Hunter",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "DA_Juggernaut18",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "DA_Primal18",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "DA_FloraFatalis18",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 1
+        }
+      ],
+      "ronda": 30,
+      "set": 18,
+      "unidades": [
+        {
+          "estrellas": 2,
+          "id": "DA_18_Rengar",
+          "items": [
+            "DA_18_EmblemFae",
+            "DA_Bloodthirster",
+            "DA_GuinsoosRageblade"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_Tristana",
+          "items": [
+            "DA_GuinsoosRageblade",
+            "DA_InfinityEdge",
+            "DA_Quicksilver"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_Fiddlesticks18",
+          "items": [],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_Vi18",
+          "items": [],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_Rakan",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 1,
+          "id": "DA_18_Lillia",
+          "items": [
+            "DA_Evenshroud",
+            "DA_GargoyleStoneplate",
+            "DA_HandOfJustice"
+          ],
+          "rareza": 3
+        },
+        {
+          "estrellas": 1,
+          "id": "DA_18_Sivir",
+          "items": [],
+          "rareza": 3
+        }
+      ]
     }
   },
   "perfil": {
