@@ -71843,6 +71843,172 @@
           "rareza": 3
         }
       ]
+    },
+    "LA2_1633612349": {
+      "danio": 0,
+      "duracion": 2361,
+      "eliminados": 0,
+      "fecha": 1793148746688,
+      "id": "LA2_1633612349",
+      "nivel": 8,
+      "participantes": [
+        {
+          "amigo": null,
+          "nombre": "Paladin33#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "LuquiLovee#LAS",
+          "puesto": 2
+        },
+        {
+          "amigo": "iskrat-las",
+          "nombre": "ISkrat#LAS",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "Bittersweet#1114",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "DrPapona#LAS",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "Mblave#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "1312 Panchoso#1312",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "1empty#Apito",
+          "puesto": 8
+        }
+      ],
+      "puesto": 3,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 2,
+          "id": "DA_18_Blossom",
+          "nivel": 2,
+          "unico": false,
+          "unidades": 5
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Executioner",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Invoker",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Spellweaver",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "DA_Juggernaut18",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 3,
+          "id": "DA_18_Caustic",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        }
+      ],
+      "ronda": 33,
+      "set": 18,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "DA_18_Yunara",
+          "items": [
+            "DA_SpearOfShojin",
+            "DA_InfinityEdge",
+            "DA_GuinsoosRageblade"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 3,
+          "id": "DA_Scuttlecrab18",
+          "items": [
+            "DA_Crownguard",
+            "DA_SunfireCape",
+            "DA_DragonsClaw"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_Yorick",
+          "items": [
+            "DA_ProtectorsVow"
+          ],
+          "rareza": 0
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_Karma18",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 1,
+          "id": "DA_18_Ahri",
+          "items": [
+            "DA_18_EmblemInvoker",
+            "DA_ArchangelsStaff",
+            "DA_HextechGunblade"
+          ],
+          "rareza": 3
+        },
+        {
+          "estrellas": 1,
+          "id": "DA_18_Ezreal",
+          "items": [],
+          "rareza": 3
+        },
+        {
+          "estrellas": 1,
+          "id": "DA_18_Sett",
+          "items": [
+            "DA_SpiritVisage",
+            "DA_Artifact_AegisOfDusk",
+            "DA_GargoyleStoneplate"
+          ],
+          "rareza": 3
+        },
+        {
+          "estrellas": 1,
+          "id": "DA_KogMaw18_AD",
+          "items": [],
+          "rareza": 2
+        }
+      ]
     }
   },
   "perfil": {
