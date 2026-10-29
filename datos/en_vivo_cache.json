@@ -1,101 +1,95 @@
 {
-  "1633954115": {
+  "1633956268": {
     "maestrias": {
-      "0c95a669476c22d91405332829816b68:893": {
-        "nivel": 4,
-        "puntos": 16522
-      },
-      "19a479b88ca314e434666a11506a990b:268": {
-        "nivel": 5,
-        "puntos": 30440
-      },
-      "2f14c3d95ea0e6041d61f4d3d4e4e63f:895": {
-        "nivel": 7,
-        "puntos": 47919
-      },
-      "7290c7a4e86622866732d644248e4d98:145": {
-        "nivel": 4,
-        "puntos": 15898
-      },
-      "81f8bc2bddab9dc5b34e88c36f78a470:10": {
+      "19a479b88ca314e434666a11506a990b:24": {
         "nivel": 6,
-        "puntos": 35272
+        "puntos": 42022
       },
-      "90385420f7efbd4386d363b0e66fc2ea:58": {
-        "nivel": 9,
-        "puntos": 73540
+      "6232e5f6823700eadb8856a21beb8ca4:27": {
+        "nivel": 2,
+        "puntos": 2148
       },
-      "ec35e14618b7f0a6d9698d13f31a3ae9:246": {
+      "6ab7b714c347c45ea1d0ab963971bf61:147": {
+        "nivel": 6,
+        "puntos": 38806
+      },
+      "6e79375a52b360fdc25044097e729b91:51": {
         "nivel": 3,
-        "puntos": 7311
+        "puntos": 7611
       },
-      "f3e1819585443772f304e6befdd268c4:245": {
-        "nivel": 3,
-        "puntos": 10690
+      "90385420f7efbd4386d363b0e66fc2ea:42": {
+        "nivel": 4,
+        "puntos": 17881
       },
-      "f4c6c2c4416c30c77c27d91bd75bdf85:202": {
+      "a2fc120f8d8f09281478d16e6c75e44d:103": {
+        "nivel": 5,
+        "puntos": 30184
+      },
+      "b90746a4f7ff234e84eb3230fd030c9c:31": {
+        "nivel": 19,
+        "puntos": 176715
+      },
+      "c2779936463c8596246d5e1baf07c30d:420": {
         "nivel": 13,
-        "puntos": 115586
+        "puntos": 109509
+      },
+      "d3a340bbadc44f77086d457384699cbf:518": {
+        "nivel": 0,
+        "puntos": 0
+      },
+      "e8a280fc3882e43eba272433ae37d2b0:143": {
+        "nivel": 8,
+        "puntos": 54779
       }
     },
-    "premades": {},
+    "premades": {
+      "6232e5f6823700eadb8856a21beb8ca4": 1,
+      "d3a340bbadc44f77086d457384699cbf": 1
+    },
     "rangos": {
-      "0c95a669476c22d91405332829816b68": {
-        "derrotas": 267,
-        "division": "I",
-        "lp": 71,
-        "racha": false,
-        "tier": "EMERALD",
-        "victorias": 269
-      },
-      "2f14c3d95ea0e6041d61f4d3d4e4e63f": {
-        "derrotas": 59,
-        "division": "I",
-        "lp": 66,
-        "racha": false,
-        "tier": "PLATINUM",
-        "victorias": 57
-      },
-      "7290c7a4e86622866732d644248e4d98": {
-        "derrotas": 7,
-        "division": "IV",
-        "lp": 47,
-        "racha": false,
-        "tier": "SILVER",
-        "victorias": 7
-      },
-      "81f8bc2bddab9dc5b34e88c36f78a470": {
-        "derrotas": 48,
-        "division": "IV",
-        "lp": 50,
-        "racha": false,
-        "tier": "EMERALD",
-        "victorias": 40
-      },
-      "90385420f7efbd4386d363b0e66fc2ea": null,
-      "ec35e14618b7f0a6d9698d13f31a3ae9": {
-        "derrotas": 83,
-        "division": "III",
-        "lp": 14,
-        "racha": false,
-        "tier": "EMERALD",
-        "victorias": 79
-      },
-      "f3e1819585443772f304e6befdd268c4": {
+      "6232e5f6823700eadb8856a21beb8ca4": null,
+      "6ab7b714c347c45ea1d0ab963971bf61": {
         "derrotas": 3,
         "division": "IV",
-        "lp": 20,
+        "lp": 40,
         "racha": false,
-        "tier": "GOLD",
-        "victorias": 7
+        "tier": "SILVER",
+        "victorias": 3
       },
-      "f4c6c2c4416c30c77c27d91bd75bdf85": {
-        "derrotas": 131,
+      "6e79375a52b360fdc25044097e729b91": null,
+      "90385420f7efbd4386d363b0e66fc2ea": null,
+      "a2fc120f8d8f09281478d16e6c75e44d": {
+        "derrotas": 77,
         "division": "IV",
-        "lp": 38,
+        "lp": 9,
+        "racha": true,
+        "tier": "PLATINUM",
+        "victorias": 82
+      },
+      "b90746a4f7ff234e84eb3230fd030c9c": {
+        "derrotas": 206,
+        "division": "II",
+        "lp": 43,
         "racha": false,
-        "tier": "DIAMOND",
-        "victorias": 99
+        "tier": "EMERALD",
+        "victorias": 218
+      },
+      "c2779936463c8596246d5e1baf07c30d": {
+        "derrotas": 279,
+        "division": "I",
+        "lp": 33,
+        "racha": false,
+        "tier": "EMERALD",
+        "victorias": 283
+      },
+      "d3a340bbadc44f77086d457384699cbf": null,
+      "e8a280fc3882e43eba272433ae37d2b0": {
+        "derrotas": 25,
+        "division": "I",
+        "lp": 44,
+        "racha": false,
+        "tier": "EMERALD",
+        "victorias": 33
       }
     }
   }
