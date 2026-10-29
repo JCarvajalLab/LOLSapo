@@ -1,94 +1,87 @@
 {
-  "1633957798": {
+  "1633963144": {
     "maestrias": {
-      "19a479b88ca314e434666a11506a990b:235": {
+      "08785975e7f4ef22f9f2a9d7c748e692:55": {
+        "nivel": 28,
+        "puntos": 281577
+      },
+      "13d7a2471dcfabfa0d05f8f2f21432e7:236": {
+        "nivel": 5,
+        "puntos": 31381
+      },
+      "19a479b88ca314e434666a11506a990b:16": {
         "nivel": 6,
-        "puntos": 38807
+        "puntos": 34548
       },
-      "264f45faa941628cf1bcc5f7b8e427bb:888": {
-        "nivel": 2,
-        "puntos": 5837
+      "2a39b13c5af65be15b60eb4f939972a3:523": {
+        "nivel": 5,
+        "puntos": 31377
       },
-      "4a225bc448a234bf1ebdb4a409b04fd1:29": {
+      "64501ef8257f1ef1f0ad8d5a07a072f2:51": {
         "nivel": 4,
-        "puntos": 15293
+        "puntos": 21442
       },
-      "674995d26c5c097cdfa01720c2824b3b:238": {
-        "nivel": 17,
-        "puntos": 158421
+      "78f16d49b6b0c3c3b418b46f9fd37ef8:161": {
+        "nivel": 30,
+        "puntos": 295865
       },
-      "85a8d0ac77c17ef82d379a252ec20d81:41": {
-        "nivel": 9,
-        "puntos": 73165
+      "90385420f7efbd4386d363b0e66fc2ea:150": {
+        "nivel": 5,
+        "puntos": 23022
       },
-      "90385420f7efbd4386d363b0e66fc2ea:74": {
-        "nivel": 3,
-        "puntos": 8991
+      "a5b45e98ae220c0ac5e587de2e6e4339:145": {
+        "nivel": 4,
+        "puntos": 17082
       },
-      "c4d796686fa21fbcb99d29d00c9596f8:523": {
-        "nivel": 7,
-        "puntos": 46917
-      },
-      "cad10be39b4809237d54ef8895796596:63": {
+      "c4c4339c81a2de27d2186113951be453:17": {
         "nivel": 6,
-        "puntos": 33355
-      },
-      "dda1ac7b419a13a572b0fe59dc7c3c53:233": {
-        "nivel": 6,
-        "puntos": 33882
+        "puntos": 34541
       }
     },
     "premades": {},
     "rangos": {
-      "264f45faa941628cf1bcc5f7b8e427bb": {
-        "derrotas": 10,
-        "division": "II",
-        "lp": 95,
+      "08785975e7f4ef22f9f2a9d7c748e692": {
+        "derrotas": 7,
+        "division": "III",
+        "lp": 2,
         "racha": false,
-        "tier": "SILVER",
-        "victorias": 5
+        "tier": "PLATINUM",
+        "victorias": 8
       },
-      "4a225bc448a234bf1ebdb4a409b04fd1": {
-        "derrotas": 68,
+      "13d7a2471dcfabfa0d05f8f2f21432e7": {
+        "derrotas": 81,
         "division": "II",
-        "lp": 92,
+        "lp": 59,
+        "racha": false,
+        "tier": "EMERALD",
+        "victorias": 93
+      },
+      "2a39b13c5af65be15b60eb4f939972a3": null,
+      "64501ef8257f1ef1f0ad8d5a07a072f2": {
+        "derrotas": 147,
+        "division": "II",
+        "lp": 89,
         "racha": false,
         "tier": "DIAMOND",
-        "victorias": 74
+        "victorias": 159
       },
-      "674995d26c5c097cdfa01720c2824b3b": {
-        "derrotas": 50,
-        "division": "III",
-        "lp": 57,
-        "racha": false,
-        "tier": "DIAMOND",
-        "victorias": 66
-      },
-      "85a8d0ac77c17ef82d379a252ec20d81": {
-        "derrotas": 9,
-        "division": "III",
-        "lp": 33,
-        "racha": false,
-        "tier": "SILVER",
-        "victorias": 1
-      },
+      "78f16d49b6b0c3c3b418b46f9fd37ef8": null,
       "90385420f7efbd4386d363b0e66fc2ea": null,
-      "c4d796686fa21fbcb99d29d00c9596f8": {
-        "derrotas": 412,
+      "a5b45e98ae220c0ac5e587de2e6e4339": {
+        "derrotas": 38,
+        "division": "IV",
+        "lp": 86,
+        "racha": true,
+        "tier": "PLATINUM",
+        "victorias": 49
+      },
+      "c4c4339c81a2de27d2186113951be453": {
+        "derrotas": 522,
         "division": null,
-        "lp": 215,
+        "lp": 500,
         "racha": false,
         "tier": "MASTER",
-        "victorias": 423
-      },
-      "cad10be39b4809237d54ef8895796596": null,
-      "dda1ac7b419a13a572b0fe59dc7c3c53": {
-        "derrotas": 3,
-        "division": "II",
-        "lp": 37,
-        "racha": false,
-        "tier": "GOLD",
-        "victorias": 6
+        "victorias": 560
       }
     }
   }
