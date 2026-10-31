@@ -52,6 +52,47 @@
       "862fe70ddf769a12526b5a18751ea344": 1,
       "88f9227e7bf9c33399adabae329192fc": 1
     },
-    "rangos": {}
+    "rangos": {
+      "0704c26a4fd062768805d94c3d258de5": {
+        "derrotas": 209,
+        "division": null,
+        "lp": 0,
+        "racha": false,
+        "tier": "MASTER",
+        "victorias": 225
+      },
+      "335e273c0914b0d649b1ac6bfb2558ed": {
+        "derrotas": 249,
+        "division": "I",
+        "lp": 85,
+        "racha": false,
+        "tier": "DIAMOND",
+        "victorias": 257
+      },
+      "3563ec4cf01626c1b0fa9c19f2416052": {
+        "derrotas": 91,
+        "division": "I",
+        "lp": 35,
+        "racha": true,
+        "tier": "DIAMOND",
+        "victorias": 122
+      },
+      "6945dcb1dab354948e1b7b0702122439": {
+        "derrotas": 56,
+        "division": "IV",
+        "lp": 95,
+        "racha": false,
+        "tier": "GOLD",
+        "victorias": 51
+      },
+      "d1e9ea7c288b99af4c4c189241be7a3e": {
+        "derrotas": 10,
+        "division": "III",
+        "lp": 55,
+        "racha": false,
+        "tier": "EMERALD",
+        "victorias": 16
+      }
+    }
   }
 }
