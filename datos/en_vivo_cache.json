@@ -1,95 +1,52 @@
 {
-  "1634534539": {
+  "1634540376": {
     "maestrias": {
-      "19a479b88ca314e434666a11506a990b:14": {
-        "nivel": 9,
-        "puntos": 72047
+      "08347b4a730546eac91f79115e461ea8:67": {
+        "nivel": 16,
+        "puntos": 164684
       },
-      "1db1ee5914fb53fc431b301ddafbc37a:42": {
-        "nivel": 5,
-        "puntos": 31000
+      "19a479b88ca314e434666a11506a990b:121": {
+        "nivel": 13,
+        "puntos": 109947
       },
-      "2994ea62a16d1b0ef6bed04cfdf76f0f:54": {
-        "nivel": 3,
-        "puntos": 7539
+      "2f032c9126e22a62a26da5645d2cc473:115": {
+        "nivel": 37,
+        "puntos": 374346
       },
-      "2f032c9126e22a62a26da5645d2cc473:799": {
+      "4e3f5c46cdd9ab32f27e225dcee5ee78:888": {
         "nivel": 11,
-        "puntos": 94142
+        "puntos": 88832
       },
-      "3dd04bc53d5397a2b5ab949537461b1b:119": {
-        "nivel": 25,
-        "puntos": 243916
-      },
-      "4e3f5c46cdd9ab32f27e225dcee5ee78:805": {
+      "862fe70ddf769a12526b5a18751ea344:96": {
         "nivel": 5,
-        "puntos": 25204
+        "puntos": 21920
       },
-      "7c9e29d4e12876bedfaf50b170efa16f:26": {
+      "8d0a164260cae0c898f6004f383e3e61:27": {
+        "nivel": 19,
+        "puntos": 185112
+      },
+      "aa2fce042230fbbde39ff96086f8b2e1:89": {
+        "nivel": 9,
+        "puntos": 73495
+      },
+      "e007906ce4ee59d800150777c7b63b01:420": {
+        "nivel": 18,
+        "puntos": 174362
+      },
+      "f6c2efd551c5ed39cd472f15624d3b67:45": {
         "nivel": 6,
-        "puntos": 36510
-      },
-      "862fe70ddf769a12526b5a18751ea344:133": {
-        "nivel": 6,
-        "puntos": 37890
-      },
-      "acd3d365118ba14dafc4b249631ec4aa:110": {
-        "nivel": 7,
-        "puntos": 43110
-      },
-      "e007906ce4ee59d800150777c7b63b01:233": {
-        "nivel": 4,
-        "puntos": 14500
+        "puntos": 31899
       }
     },
     "premades": {
+      "08347b4a730546eac91f79115e461ea8": 2,
       "19a479b88ca314e434666a11506a990b": 1,
       "2f032c9126e22a62a26da5645d2cc473": 1,
       "4e3f5c46cdd9ab32f27e225dcee5ee78": 1,
-      "862fe70ddf769a12526b5a18751ea344": 1
+      "862fe70ddf769a12526b5a18751ea344": 1,
+      "aa2fce042230fbbde39ff96086f8b2e1": 2,
+      "f6c2efd551c5ed39cd472f15624d3b67": 2
     },
-    "rangos": {
-      "1db1ee5914fb53fc431b301ddafbc37a": null,
-      "2994ea62a16d1b0ef6bed04cfdf76f0f": {
-        "derrotas": 184,
-        "division": "II",
-        "lp": 43,
-        "racha": false,
-        "tier": "PLATINUM",
-        "victorias": 203
-      },
-      "3dd04bc53d5397a2b5ab949537461b1b": {
-        "derrotas": 142,
-        "division": null,
-        "lp": 83,
-        "racha": true,
-        "tier": "MASTER",
-        "victorias": 178
-      },
-      "7c9e29d4e12876bedfaf50b170efa16f": {
-        "derrotas": 4,
-        "division": "III",
-        "lp": 30,
-        "racha": false,
-        "tier": "SILVER",
-        "victorias": 3
-      },
-      "acd3d365118ba14dafc4b249631ec4aa": {
-        "derrotas": 188,
-        "division": "III",
-        "lp": 15,
-        "racha": false,
-        "tier": "DIAMOND",
-        "victorias": 180
-      },
-      "e007906ce4ee59d800150777c7b63b01": {
-        "derrotas": 156,
-        "division": "IV",
-        "lp": 11,
-        "racha": false,
-        "tier": "GOLD",
-        "victorias": 149
-      }
-    }
+    "rangos": {}
   }
 }
