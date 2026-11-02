@@ -72321,21 +72321,971 @@
           "rareza": 3
         }
       ]
+    },
+    "LA2_1634854629": {
+      "danio": 0,
+      "duracion": 2268,
+      "eliminados": 0,
+      "fecha": 1793634112246,
+      "id": "LA2_1634854629",
+      "nivel": 9,
+      "participantes": [
+        {
+          "amigo": null,
+          "nombre": "max power19#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "Spooky Boogie 1#LAS",
+          "puesto": 2
+        },
+        {
+          "amigo": "iskrat-las",
+          "nombre": "ISkrat#LAS",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "El Dire#6769",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "TFNicoXD#UwU",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "DMT Letelord#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "Jircniv#777",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "Temp0#1704",
+          "puesto": 8
+        }
+      ],
+      "puesto": 3,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "DA_Riftbeast18",
+          "nivel": 3,
+          "unico": false,
+          "unidades": 7
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Slayer",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Summoner",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "DA_Juggernaut18",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 3,
+          "id": "DA_18_ApexPredator",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        },
+        {
+          "estilo": 3,
+          "id": "DA_18_Greenfather",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        }
+      ],
+      "ronda": 35,
+      "set": 18,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "DA_Scuttlecrab18",
+          "items": [
+            "DA_Component_SparringGloves",
+            "DA_AdaptiveHelm"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_Ivern",
+          "items": [],
+          "rareza": 4
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_Brambleback18",
+          "items": [
+            "DA_TitansResolve",
+            "DA_Artifact_NavoriFlickerblade",
+            "DA_EdgeOfNight"
+          ],
+          "rareza": 3
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_CrimsonRaptor18",
+          "items": [
+            "DA_KrakensFury",
+            "DA_GuinsoosRageblade",
+            "DA_HandOfJustice"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_Krug18",
+          "items": [],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_Yorick",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 1,
+          "id": "DA_18_ElderDragon",
+          "items": [
+            "DA_SteraksGage",
+            "DA_InfinityEdge",
+            "DA_RedBuff"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 1,
+          "id": "DA_Murkwolf18",
+          "items": [
+            "DA_Bloodthirster"
+          ],
+          "rareza": 1
+        }
+      ]
+    },
+    "LA2_1634876448": {
+      "danio": 0,
+      "duracion": 2292,
+      "eliminados": 0,
+      "fecha": 1793644701409,
+      "id": "LA2_1634876448",
+      "nivel": 9,
+      "participantes": [
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "Łuxanna#BOT",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "Dayno#UWU",
+          "puesto": 3
+        },
+        {
+          "amigo": "iskrat-las",
+          "nombre": "ISkrat#LAS",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "xxxxx#8314",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "SrCharles7u7#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": "nic-las",
+          "nombre": "Nicø#LAS",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "cornetoneitor#APAPA",
+          "puesto": 8
+        }
+      ],
+      "puesto": 4,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "DA_18_Executioner",
+          "nivel": 3,
+          "unico": false,
+          "unidades": 4
+        },
+        {
+          "estilo": 4,
+          "id": "DA_FloraFatalis18",
+          "nivel": 2,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 2,
+          "id": "DA_18_Elderwood",
+          "nivel": 2,
+          "unico": false,
+          "unidades": 5
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Blackthorn",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Brawler",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Spellweaver",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 3,
+          "id": "DA_18_Battlemage",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        }
+      ],
+      "ronda": 33,
+      "set": 18,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "DA_18_Ornn",
+          "items": [
+            "DA_GargoyleStoneplate",
+            "DA_WarmogsArmor",
+            "DA_GargoyleStoneplate"
+          ],
+          "rareza": 0
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_Ezreal",
+          "items": [
+            "DA_StrikersFlail",
+            "DA_SpearOfShojin",
+            "DA_18_EmblemRapidfire"
+          ],
+          "rareza": 3
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_Malphite",
+          "items": [
+            "DA_ProtectorsVow"
+          ],
+          "rareza": 3
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_Soraka",
+          "items": [
+            "DA_Artifact_Manazane",
+            "DA_JeweledGauntlet",
+            "DA_18_EmblemSpellweaver"
+          ],
+          "rareza": 3
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_Azir",
+          "items": [
+            "DA_18_EmblemFloraFatalis",
+            "DA_GuinsoosRageblade",
+            "DA_HextechGunblade"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_Alistar",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 1,
+          "id": "DA_18_GnarSmall",
+          "items": [],
+          "rareza": 4
+        },
+        {
+          "estrellas": 1,
+          "id": "DA_18_Kennen",
+          "items": [
+            "DA_Bloodthirster",
+            "DA_HandOfJustice",
+            "DA_AdaptiveHelm"
+          ],
+          "rareza": 4
+        },
+        {
+          "estrellas": 1,
+          "id": "DA_18_LeBlanc",
+          "items": [],
+          "rareza": 1
+        }
+      ]
+    },
+    "LA2_1634880583": {
+      "danio": 0,
+      "duracion": 2136,
+      "eliminados": 0,
+      "fecha": 1793646962628,
+      "id": "LA2_1634880583",
+      "nivel": 7,
+      "participantes": [
+        {
+          "amigo": null,
+          "nombre": "Dr Churrasco#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": "iskrat-las",
+          "nombre": "ISkrat#LAS",
+          "puesto": 2
+        },
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "Ctgta#LAS",
+          "puesto": 4
+        },
+        {
+          "amigo": "nic-las",
+          "nombre": "Nicø#LAS",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "Blank#LAS2",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "Moondi32#LAS",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "Efios#9408",
+          "puesto": 8
+        }
+      ],
+      "puesto": 2,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 2,
+          "id": "DA_18_Rapidfire",
+          "nivel": 3,
+          "unico": false,
+          "unidades": 4
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Defender",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Inferno",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 4,
+          "id": "DA_18_Solar",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 3
+        }
+      ],
+      "ronda": 35,
+      "set": 18,
+      "unidades": [
+        {
+          "estrellas": 4,
+          "id": "DA_18_Varus",
+          "items": [
+            "DA_SpearOfShojin",
+            "DA_InfinityEdge",
+            "DA_BlueBuff"
+          ],
+          "rareza": 0
+        },
+        {
+          "estrellas": 3,
+          "id": "DA_18_Kayle",
+          "items": [
+            "DA_ArchangelsStaff",
+            "DA_GuinsoosRageblade",
+            "DA_HextechGunblade"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 3,
+          "id": "DA_18_Sejuani",
+          "items": [
+            "DA_DragonsClaw",
+            "DA_GargoyleStoneplate"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 3,
+          "id": "DA_18_Shen",
+          "items": [
+            "DA_RabadonsDeathcap",
+            "DA_DragonsClaw",
+            "DA_SpiritVisage"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 3,
+          "id": "DA_18_Leona",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 1,
+          "id": "DA_18_Aphelios",
+          "items": [
+            "DA_Quicksilver"
+          ],
+          "rareza": 3
+        },
+        {
+          "estrellas": 1,
+          "id": "DA_CrimsonRaptor18",
+          "items": [],
+          "rareza": 2
+        }
+      ]
+    },
+    "LA2_1634887605": {
+      "danio": 0,
+      "duracion": 2329,
+      "eliminados": 0,
+      "fecha": 1793649541571,
+      "id": "LA2_1634887605",
+      "nivel": 8,
+      "participantes": [
+        {
+          "amigo": null,
+          "nombre": "Pink as Floyd#LAS",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "Yhorm#LAS",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "Monsi#pampa",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "Luki#1325",
+          "puesto": 4
+        },
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 5
+        },
+        {
+          "amigo": "iskrat-las",
+          "nombre": "ISkrat#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "luchofat#LAS",
+          "puesto": 7
+        },
+        {
+          "amigo": "nic-las",
+          "nombre": "Nicø#LAS",
+          "puesto": 8
+        }
+      ],
+      "puesto": 6,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "DA_FloraFatalis18",
+          "nivel": 2,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 2,
+          "id": "DA_18_Blackthorn",
+          "nivel": 2,
+          "unico": false,
+          "unidades": 4
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Spellweaver",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Executioner",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Lunar",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 3,
+          "id": "DA_18_Battlemage",
+          "nivel": 1,
+          "unico": true,
+          "unidades": 1
+        }
+      ],
+      "ronda": 28,
+      "set": 18,
+      "unidades": [
+        {
+          "estrellas": 2,
+          "id": "DA_18_Soraka",
+          "items": [
+            "DA_StrikersFlail",
+            "DA_Component_SparringGloves"
+          ],
+          "rareza": 3
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_Azir",
+          "items": [
+            "DA_18_EmblemLunar",
+            "DA_GuinsoosRageblade",
+            "DA_HextechGunblade"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_Cassiopeia",
+          "items": [
+            "DA_JeweledGauntlet",
+            "DA_18_EmblemFloraFatalisAugment",
+            "DA_SpearOfShojin"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_Diana",
+          "items": [],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_Fiddlesticks18",
+          "items": [],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_RekSai",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_Veigar",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 1,
+          "id": "DA_18_Malphite",
+          "items": [
+            "DA_SteadfastHeart",
+            "DA_WarmogsArmor",
+            "DA_GargoyleStoneplate"
+          ],
+          "rareza": 3
+        }
+      ]
+    },
+    "LA2_1634895135": {
+      "danio": 0,
+      "duracion": 2310,
+      "eliminados": 0,
+      "fecha": 1793651724182,
+      "id": "LA2_1634895135",
+      "nivel": 7,
+      "participantes": [
+        {
+          "amigo": null,
+          "nombre": "wazapi#666",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "Chico Maravilla#dc97",
+          "puesto": 2
+        },
+        {
+          "amigo": null,
+          "nombre": "L10MELON#LAS",
+          "puesto": 3
+        },
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 4
+        },
+        {
+          "amigo": "iskrat-las",
+          "nombre": "ISkrat#LAS",
+          "puesto": 5
+        },
+        {
+          "amigo": null,
+          "nombre": "Manodepiedra#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": "nic-las",
+          "nombre": "Nicø#LAS",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "surrenderat15plz#LAS",
+          "puesto": 8
+        }
+      ],
+      "puesto": 5,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "DA_18_Rival",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 1
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Blossom",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 3
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Adaptor",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Brawler",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "DA_Juggernaut18",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "DA_Primal18",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        }
+      ],
+      "ronda": 33,
+      "set": 18,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "DA_18_MasterYi_AD",
+          "items": [
+            "DA_EdgeOfNight",
+            "DA_HandOfJustice",
+            "DA_TitansResolve"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 3,
+          "id": "DA_Vi18",
+          "items": [
+            "DA_GargoyleStoneplate",
+            "DA_WarmogsArmor",
+            "DA_DragonsClaw"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 3,
+          "id": "DA_18_Yorick",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_Sett",
+          "items": [],
+          "rareza": 3
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_Nidalee18_AP",
+          "items": [
+            "DA_NashorsTooth"
+          ],
+          "rareza": 3
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_Rengar",
+          "items": [
+            "DA_EdgeOfNight",
+            "DA_GuinsoosRageblade",
+            "DA_KrakensFury"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_Krug18",
+          "items": [],
+          "rareza": 2
+        }
+      ]
+    },
+    "LA2_1634900595": {
+      "danio": 0,
+      "duracion": 2475,
+      "eliminados": 0,
+      "fecha": 1793654293975,
+      "id": "LA2_1634900595",
+      "nivel": 8,
+      "participantes": [
+        {
+          "amigo": null,
+          "nombre": "Riyo#ñau",
+          "puesto": 1
+        },
+        {
+          "amigo": null,
+          "nombre": "SaVash#AMV",
+          "puesto": 2
+        },
+        {
+          "amigo": "gralmogeko-las",
+          "nombre": "GralMogeko#LAS",
+          "puesto": 3
+        },
+        {
+          "amigo": null,
+          "nombre": "Los impuestos#0104",
+          "puesto": 4
+        },
+        {
+          "amigo": null,
+          "nombre": "Ikon#DDoS",
+          "puesto": 5
+        },
+        {
+          "amigo": "iskrat-las",
+          "nombre": "ISkrat#LAS",
+          "puesto": 6
+        },
+        {
+          "amigo": null,
+          "nombre": "Tincho024#024",
+          "puesto": 7
+        },
+        {
+          "amigo": null,
+          "nombre": "miguelDarkGhot#LAS",
+          "puesto": 8
+        }
+      ],
+      "puesto": 6,
+      "queue_id": 1100,
+      "rasgos": [
+        {
+          "estilo": 4,
+          "id": "DA_Riftbeast18",
+          "nivel": 3,
+          "unico": false,
+          "unidades": 7
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Invoker",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        },
+        {
+          "estilo": 1,
+          "id": "DA_18_Slayer",
+          "nivel": 1,
+          "unico": false,
+          "unidades": 2
+        }
+      ],
+      "ronda": 27,
+      "set": 18,
+      "unidades": [
+        {
+          "estrellas": 3,
+          "id": "DA_Krug18",
+          "items": [
+            "DA_GargoyleStoneplate",
+            "DA_SpiritVisage",
+            "DA_GargoyleStoneplate"
+          ],
+          "rareza": 2
+        },
+        {
+          "estrellas": 3,
+          "id": "DA_Murkwolf18",
+          "items": [
+            "DA_18_EmblemPrimal",
+            "DA_InfinityEdge",
+            "DA_HandOfJustice"
+          ],
+          "rareza": 1
+        },
+        {
+          "estrellas": 3,
+          "id": "DA_Cinderling18",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_Scuttlecrab18",
+          "items": [],
+          "rareza": 1
+        },
+        {
+          "estrellas": 2,
+          "id": "DA_18_Sentry",
+          "items": [],
+          "rareza": 0
+        },
+        {
+          "estrellas": 1,
+          "id": "DA_Brambleback18",
+          "items": [
+            "DA_GuinsoosRageblade",
+            "DA_Component_SparringGloves"
+          ],
+          "rareza": 3
+        },
+        {
+          "estrellas": 1,
+          "id": "DA_Brambleback18",
+          "items": [],
+          "rareza": 3
+        },
+        {
+          "estrellas": 1,
+          "id": "DA_Sentinel18",
+          "items": [],
+          "rareza": 3
+        }
+      ]
     }
   },
   "perfil": {
     "icono": 7337,
-    "nivel": 849
+    "nivel": 850
   },
   "rangos": {
     "doble": null,
     "ranked": {
       "division": "III",
-      "lp": 38,
-      "partidas": 148,
+      "lp": 51,
+      "partidas": 154,
       "racha": false,
       "tier": "PLATINUM",
-      "top4": 81
+      "top4": 84
     },
     "turbo": null
   },
