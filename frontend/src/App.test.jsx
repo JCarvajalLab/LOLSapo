@@ -34,7 +34,7 @@ describe("App", () => {
     const semana = await screen.findByRole("heading", { name: "Destacados de la semana" });
     const hoy = screen.getByRole("heading", { name: "Destacados de hoy" });
     const enPartida = screen.getByRole("heading", { name: /En partida/ });
-    const mes = screen.getByRole("heading", { name: "Destacados de octubre" });
+    const mes = screen.getByRole("heading", { name: /Destacados de octubre/ });
     const ranking = screen.getByRole("heading", { name: "Ranking" });
     const despues = (a, b) => Boolean(a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING);
     expect(despues(enPartida, hoy)).toBe(true);
