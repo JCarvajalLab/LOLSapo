@@ -52,6 +52,11 @@ export function cargarDatos(fetchFn = fetch) {
   return cargarJson(RUTA_DATOS, validarDatos, fetchFn);
 }
 
+function esHostGitHubPages(hostname) {
+  if (typeof hostname !== "string") return false;
+  return hostname === "github.io" || hostname.endsWith(".github.io");
+}
+
 /**
  * Pide un JSON de datos sin caché y lo pasa por `validar`.
  * Lo usan lol.json y tft.json; los errores siempre son ErrorDatos con su tipo.
@@ -59,13 +64,13 @@ export function cargarDatos(fetchFn = fetch) {
 export async function cargarJson(ruta, validar, fetchFn = fetch) {
   let respuesta;
   const esGitHubPages =
-    typeof window !== "undefined" && typeof window.location === "object" && window.location.hostname.includes("github.io");
+    typeof window !== "undefined" && typeof window.location === "object" && esHostGitHubPages(window.location.hostname);
   const esFetchNativo = typeof window !== "undefined" && typeof window.fetch === "function" && fetchFn === window.fetch;
 
   // En producción (GitHub Pages), se pide directo a la rama datos en GitHub Raw para
   // tener los datos frescos de hace 5 minutos sin depender del desempaquetado de Pages.
   if (esGitHubPages && esFetchNativo) {
-    const urlRemota = ruta === RUTA_DATOS ? RUTA_DATOS_RAW : ruta.includes("tft.json") ? RUTA_DATOS_TFT_RAW : null;
+    const urlRemota = ruta === RUTA_DATOS ? RUTA_DATOS_RAW : ruta.endsWith("tft.json") ? RUTA_DATOS_TFT_RAW : null;
     if (urlRemota) {
       try {
         const resRemota = await fetchFn(`${urlRemota}?_t=${Date.now()}`, { cache: "no-store" });

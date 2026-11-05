@@ -244,7 +244,8 @@ describe("datos y rutas", () => {
       const llamadas = [];
       const fetchSimulado = async (url, opciones) => {
         llamadas.push([url, opciones]);
-        if (url.includes("raw.githubusercontent.com")) {
+        const esRaw = typeof url === "string" && url.startsWith("https://raw.githubusercontent.com/");
+        if (esRaw) {
           return { ok: false, status: 503 };
         }
         return { ok: true, json: async () => crearDatos() };
@@ -254,8 +255,8 @@ describe("datos y rutas", () => {
       const datos = await cargarDatos(fetchSimulado);
       expect(datos.amigos).toHaveLength(3);
       expect(llamadas).toHaveLength(2);
-      expect(llamadas[0][0]).toContain("https://raw.githubusercontent.com");
-      expect(llamadas[1][0]).toContain("./datos/lol.json");
+      expect(llamadas[0][0].startsWith("https://raw.githubusercontent.com/")).toBe(true);
+      expect(llamadas[1][0].startsWith("./datos/lol.json")).toBe(true);
     } finally {
       window.location = originalLocation;
       window.fetch = originalFetch;
