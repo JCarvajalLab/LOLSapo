@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-11-05T19:46:14Z",
+  "actualizado": "2026-11-05T19:51:11Z",
   "amigos": [
     {
       "actividad": {
@@ -22305,12 +22305,12 @@
       },
       "estado": "ok",
       "jugando": {
-        "campeon_id": 16,
+        "campeon_id": 51,
         "categoria": "aram",
-        "duracion": 1086,
-        "inicio": 1793906830731,
+        "duracion": 101,
+        "inicio": 1793908112174,
         "modo": "ARAM Caos",
-        "partida_id": 1635513655,
+        "partida_id": 1635519252,
         "queue_id": 2400
       },
       "nombre": "Big Gato",
@@ -98253,10 +98253,6 @@
         "id": "Yasuo",
         "nombre": "Yasuo"
       },
-      "16": {
-        "id": "Soraka",
-        "nombre": "Soraka"
-      },
       "161": {
         "id": "Velkoz",
         "nombre": "Vel'Koz"
@@ -101502,7 +101498,7 @@
         "big-gato-las"
       ],
       "categoria": "aram",
-      "duracion": 1086,
+      "duracion": 101,
       "equipos": [
         {
           "bloqueos": [],
@@ -101510,83 +101506,99 @@
           "jugadores": [
             {
               "amigo": null,
-              "campeon_id": 98,
+              "campeon_id": 202,
               "equipo": 100,
               "hechizos": [
-                32,
+                6,
                 4
               ],
               "maestria": {
-                "nivel": 11,
-                "puntos": 91214
+                "nivel": 7,
+                "puntos": 50768
               },
-              "nombre": "the old blopa #LAS",
-              "premade": null,
-              "rango": null,
-              "runas": {
-                "principal": 8008,
-                "secundaria": 8200
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 518,
-              "equipo": 100,
-              "hechizos": [
-                4,
-                32
-              ],
-              "maestria": {
-                "nivel": 5,
-                "puntos": 24910
-              },
-              "nombre": "Sumi4#OWO",
+              "nombre": "ProcesoCognitivo#LAS",
               "premade": null,
               "rango": {
-                "derrotas": 20,
-                "division": "IV",
-                "lp": 83,
+                "derrotas": 4,
+                "division": "I",
+                "lp": 92,
                 "racha": false,
-                "tier": "PLATINUM",
-                "victorias": 20,
-                "winrate": 50.0
+                "tier": "BRONZE",
+                "victorias": 3,
+                "winrate": 42.9
               },
               "runas": {
-                "principal": 8005,
+                "principal": 8214,
                 "secundaria": 8400
               }
             },
             {
               "amigo": null,
-              "campeon_id": 523,
+              "campeon_id": 53,
               "equipo": 100,
               "hechizos": [
                 4,
                 6
               ],
               "maestria": {
-                "nivel": 2,
-                "puntos": 2292
+                "nivel": 14,
+                "puntos": 128519
               },
-              "nombre": "jujas#7035",
+              "nombre": "Iorveth#LAS",
               "premade": null,
-              "rango": null,
+              "rango": {
+                "derrotas": 3,
+                "division": "IV",
+                "lp": 1,
+                "racha": true,
+                "tier": "PLATINUM",
+                "victorias": 5,
+                "winrate": 62.5
+              },
               "runas": {
-                "principal": 8010,
+                "principal": 8229,
                 "secundaria": 8100
               }
             },
             {
               "amigo": null,
-              "campeon_id": 17,
+              "campeon_id": 43,
               "equipo": 100,
               "hechizos": [
-                14,
+                21,
+                4
+              ],
+              "maestria": {
+                "nivel": 6,
+                "puntos": 39115
+              },
+              "nombre": "silder#2210",
+              "premade": null,
+              "rango": {
+                "derrotas": 5,
+                "division": "II",
+                "lp": 63,
+                "racha": false,
+                "tier": "SILVER",
+                "victorias": 2,
+                "winrate": 28.6
+              },
+              "runas": {
+                "principal": 8005,
+                "secundaria": 8100
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 89,
+              "equipo": 100,
+              "hechizos": [
+                32,
                 4
               ],
               "maestria": {
                 "nivel": 5,
-                "puntos": 25205
+                "puntos": 27211
               },
               "nombre": "InuPark #LAS",
               "premade": null,
@@ -101598,15 +101610,15 @@
             },
             {
               "amigo": "big-gato-las",
-              "campeon_id": 16,
+              "campeon_id": 51,
               "equipo": 100,
               "hechizos": [
                 32,
                 4
               ],
               "maestria": {
-                "nivel": 6,
-                "puntos": 35871
+                "nivel": 12,
+                "puntos": 103998
               },
               "nombre": "Big Gato#LAS",
               "premade": null,
@@ -101624,54 +101636,54 @@
           "jugadores": [
             {
               "amigo": null,
-              "campeon_id": 777,
+              "campeon_id": 902,
               "equipo": 200,
               "hechizos": [
-                4,
-                32
+                7,
+                4
               ],
               "maestria": {
-                "nivel": 28,
-                "puntos": 279869
+                "nivel": 4,
+                "puntos": 15136
               },
-              "nombre": "Tarantulas#Kvqv",
+              "nombre": "BMG Shuriken#LAS",
               "premade": null,
               "rango": {
-                "derrotas": 50,
+                "derrotas": 13,
                 "division": "IV",
-                "lp": 0,
+                "lp": 7,
                 "racha": false,
-                "tier": "EMERALD",
-                "victorias": 53,
-                "winrate": 51.5
+                "tier": "PLATINUM",
+                "victorias": 18,
+                "winrate": 58.1
               },
               "runas": {
-                "principal": 8008,
-                "secundaria": 8100
+                "principal": 8439,
+                "secundaria": 8300
               }
             },
             {
               "amigo": null,
-              "campeon_id": 11,
+              "campeon_id": 498,
               "equipo": 200,
               "hechizos": [
                 4,
-                14
+                6
               ],
               "maestria": {
-                "nivel": 4,
-                "puntos": 19805
+                "nivel": 2,
+                "puntos": 4036
               },
-              "nombre": "Benji 雨#2109",
+              "nombre": "BMG Twin shøtz#LAS",
               "premade": null,
               "rango": {
-                "derrotas": 95,
-                "division": "III",
-                "lp": 95,
-                "racha": false,
-                "tier": "PLATINUM",
-                "victorias": 105,
-                "winrate": 52.5
+                "derrotas": 21,
+                "division": "IV",
+                "lp": 13,
+                "racha": true,
+                "tier": "DIAMOND",
+                "victorias": 31,
+                "winrate": 59.6
               },
               "runas": {
                 "principal": 8005,
@@ -101680,47 +101692,7 @@
             },
             {
               "amigo": null,
-              "campeon_id": 163,
-              "equipo": 200,
-              "hechizos": [
-                6,
-                4
-              ],
-              "maestria": {
-                "nivel": 8,
-                "puntos": 60427
-              },
-              "nombre": "Muhammed Sumbul#lul",
-              "premade": 1,
-              "rango": null,
-              "runas": {
-                "principal": 8112,
-                "secundaria": 8000
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 106,
-              "equipo": 200,
-              "hechizos": [
-                32,
-                4
-              ],
-              "maestria": {
-                "nivel": 7,
-                "puntos": 49841
-              },
-              "nombre": "Khronostorm#Cat",
-              "premade": 1,
-              "rango": null,
-              "runas": {
-                "principal": 8112,
-                "secundaria": 8200
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 222,
+              "campeon_id": 120,
               "equipo": 200,
               "hechizos": [
                 6,
@@ -101728,21 +101700,69 @@
               ],
               "maestria": {
                 "nivel": 5,
-                "puntos": 25882
+                "puntos": 31298
               },
-              "nombre": "DrackJos03#19973",
+              "nombre": "BMG Rinzler#LAS",
               "premade": null,
               "rango": null,
               "runas": {
-                "principal": 8008,
+                "principal": 8021,
+                "secundaria": 8400
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 526,
+              "equipo": 200,
+              "hechizos": [
+                4,
+                32
+              ],
+              "maestria": {
+                "nivel": 5,
+                "puntos": 21626
+              },
+              "nombre": "Kashido00#6531",
+              "premade": null,
+              "rango": {
+                "derrotas": 76,
+                "division": "II",
+                "lp": 66,
+                "racha": true,
+                "tier": "PLATINUM",
+                "victorias": 83,
+                "winrate": 52.2
+              },
+              "runas": {
+                "principal": 8439,
+                "secundaria": 8000
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 68,
+              "equipo": 200,
+              "hechizos": [
+                32,
+                4
+              ],
+              "maestria": {
+                "nivel": 6,
+                "puntos": 35741
+              },
+              "nombre": "Nikkov#LAS",
+              "premade": null,
+              "rango": null,
+              "runas": {
+                "principal": 8229,
                 "secundaria": 8100
               }
             }
           ]
         }
       ],
-      "id": 1635513655,
-      "inicio": 1793906830731,
+      "id": 1635519252,
+      "inicio": 1793908112174,
       "modo": "ARAM Caos",
       "queue_id": 2400
     }

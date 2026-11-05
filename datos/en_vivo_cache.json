@@ -1,82 +1,100 @@
 {
-  "1635513655": {
+  "1635519252": {
     "maestrias": {
-      "09befe1b09c9b8781140fe545eec3b3d:777": {
-        "nivel": 28,
-        "puntos": 279869
-      },
-      "19a479b88ca314e434666a11506a990b:16": {
-        "nivel": 6,
-        "puntos": 35871
-      },
-      "4bb592f471637750d04edb3becc74970:106": {
+      "135b13962ae4d30ae8e101c2430d335d:202": {
         "nivel": 7,
-        "puntos": 49841
+        "puntos": 50768
       },
-      "757f0303a1434ecdad543f444f0d5fcb:222": {
-        "nivel": 5,
-        "puntos": 25882
+      "19a479b88ca314e434666a11506a990b:51": {
+        "nivel": 12,
+        "puntos": 103998
       },
-      "90385420f7efbd4386d363b0e66fc2ea:17": {
-        "nivel": 5,
-        "puntos": 25205
+      "35e09f4f923ed887a1bc7191317caab1:53": {
+        "nivel": 14,
+        "puntos": 128519
       },
-      "96ec813a1432a4617cae8969309304be:518": {
-        "nivel": 5,
-        "puntos": 24910
+      "4b61c679fb95d8e2fb916d8782512fdd:43": {
+        "nivel": 6,
+        "puntos": 39115
       },
-      "9df6695818714c1f6fbd0e30722b7883:523": {
+      "59e03547cd191a7bbfe87c21514c8bb2:498": {
         "nivel": 2,
-        "puntos": 2292
+        "puntos": 4036
       },
-      "9e7e11a2c7a9f3d54a03a75f06351367:11": {
+      "872b6c0dda3881aad4aaa9cd445619c5:526": {
+        "nivel": 5,
+        "puntos": 21626
+      },
+      "90385420f7efbd4386d363b0e66fc2ea:89": {
+        "nivel": 5,
+        "puntos": 27211
+      },
+      "cc29e95cc3e616f7e014d732eda18b97:902": {
         "nivel": 4,
-        "puntos": 19805
+        "puntos": 15136
       },
-      "e28d1065446419865d82e7876275eb6a:163": {
-        "nivel": 8,
-        "puntos": 60427
+      "d1f89553ce3c9839b17d9da78e60d507:120": {
+        "nivel": 5,
+        "puntos": 31298
       },
-      "f4d251d49c1c804fdeac2b128a0871c4:98": {
-        "nivel": 11,
-        "puntos": 91214
+      "e9624ae3097435a9eb3566bc75f92800:68": {
+        "nivel": 6,
+        "puntos": 35741
       }
     },
-    "premades": {
-      "4bb592f471637750d04edb3becc74970": 1,
-      "e28d1065446419865d82e7876275eb6a": 1
-    },
+    "premades": {},
     "rangos": {
-      "09befe1b09c9b8781140fe545eec3b3d": {
-        "derrotas": 50,
-        "division": "IV",
-        "lp": 0,
+      "135b13962ae4d30ae8e101c2430d335d": {
+        "derrotas": 4,
+        "division": "I",
+        "lp": 92,
         "racha": false,
-        "tier": "EMERALD",
-        "victorias": 53
+        "tier": "BRONZE",
+        "victorias": 3
       },
-      "4bb592f471637750d04edb3becc74970": null,
-      "757f0303a1434ecdad543f444f0d5fcb": null,
+      "35e09f4f923ed887a1bc7191317caab1": {
+        "derrotas": 3,
+        "division": "IV",
+        "lp": 1,
+        "racha": true,
+        "tier": "PLATINUM",
+        "victorias": 5
+      },
+      "4b61c679fb95d8e2fb916d8782512fdd": {
+        "derrotas": 5,
+        "division": "II",
+        "lp": 63,
+        "racha": false,
+        "tier": "SILVER",
+        "victorias": 2
+      },
+      "59e03547cd191a7bbfe87c21514c8bb2": {
+        "derrotas": 21,
+        "division": "IV",
+        "lp": 13,
+        "racha": true,
+        "tier": "DIAMOND",
+        "victorias": 31
+      },
+      "872b6c0dda3881aad4aaa9cd445619c5": {
+        "derrotas": 76,
+        "division": "II",
+        "lp": 66,
+        "racha": true,
+        "tier": "PLATINUM",
+        "victorias": 83
+      },
       "90385420f7efbd4386d363b0e66fc2ea": null,
-      "96ec813a1432a4617cae8969309304be": {
-        "derrotas": 20,
+      "cc29e95cc3e616f7e014d732eda18b97": {
+        "derrotas": 13,
         "division": "IV",
-        "lp": 83,
+        "lp": 7,
         "racha": false,
         "tier": "PLATINUM",
-        "victorias": 20
+        "victorias": 18
       },
-      "9df6695818714c1f6fbd0e30722b7883": null,
-      "9e7e11a2c7a9f3d54a03a75f06351367": {
-        "derrotas": 95,
-        "division": "III",
-        "lp": 95,
-        "racha": false,
-        "tier": "PLATINUM",
-        "victorias": 105
-      },
-      "e28d1065446419865d82e7876275eb6a": null,
-      "f4d251d49c1c804fdeac2b128a0871c4": null
+      "d1f89553ce3c9839b17d9da78e60d507": null,
+      "e9624ae3097435a9eb3566bc75f92800": null
     }
   }
 }
