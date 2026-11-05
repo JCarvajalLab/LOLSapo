@@ -234,6 +234,34 @@ describe("datos y rutas", () => {
     });
   });
 
+  it("en GitHub Pages intenta primero GitHub Raw y hace fallback si falla", async () => {
+    const originalLocation = window.location;
+    const originalFetch = window.fetch;
+    try {
+      delete window.location;
+      window.location = { hostname: "jcarvajallab.github.io" };
+
+      const llamadas = [];
+      const fetchSimulado = async (url, opciones) => {
+        llamadas.push([url, opciones]);
+        if (url.includes("raw.githubusercontent.com")) {
+          return { ok: false, status: 503 };
+        }
+        return { ok: true, json: async () => crearDatos() };
+      };
+      window.fetch = fetchSimulado;
+
+      const datos = await cargarDatos(fetchSimulado);
+      expect(datos.amigos).toHaveLength(3);
+      expect(llamadas).toHaveLength(2);
+      expect(llamadas[0][0]).toContain("https://raw.githubusercontent.com");
+      expect(llamadas[1][0]).toContain("./datos/lol.json");
+    } finally {
+      window.location = originalLocation;
+      window.fetch = originalFetch;
+    }
+  });
+
   it("lee el slug del hash y rechaza valores raros", () => {
     expect(slugDesdeHash("#/amigo/rana-azul-las")).toBe("rana-azul-las");
     expect(slugDesdeHash("#/")).toBeNull();
