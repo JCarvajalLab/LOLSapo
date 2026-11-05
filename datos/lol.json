@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-11-05T20:56:10Z",
+  "actualizado": "2026-11-05T21:01:12Z",
   "amigos": [
     {
       "actividad": {
@@ -22304,15 +22304,7 @@
         }
       },
       "estado": "ok",
-      "jugando": {
-        "campeon_id": 61,
-        "categoria": "aram",
-        "duracion": 769,
-        "inicio": 1793911344793,
-        "modo": "ARAM Caos",
-        "partida_id": 1635529319,
-        "queue_id": 2400
-      },
+      "jugando": null,
       "nombre": "Big Gato",
       "partidas": [
         {
@@ -98445,10 +98437,6 @@
         "id": "Illaoi",
         "nombre": "Illaoi"
       },
-      "421": {
-        "id": "RekSai",
-        "nombre": "Rek'Sai"
-      },
       "427": {
         "id": "Ivern",
         "nombre": "Ivern"
@@ -98750,10 +98738,6 @@
       "3": {
         "id": "SummonerExhaust",
         "nombre": "Extenuación"
-      },
-      "32": {
-        "id": "SummonerSnowball",
-        "nombre": "Marca"
       },
       "4": {
         "id": "SummonerFlash",
@@ -101496,291 +101480,7 @@
       ]
     }
   },
-  "en_vivo": [
-    {
-      "amigos": [
-        "big-gato-las"
-      ],
-      "categoria": "aram",
-      "duracion": 769,
-      "equipos": [
-        {
-          "bloqueos": [],
-          "equipo": 100,
-          "jugadores": [
-            {
-              "amigo": null,
-              "campeon_id": 45,
-              "equipo": 100,
-              "hechizos": [
-                4,
-                6
-              ],
-              "maestria": {
-                "nivel": 4,
-                "puntos": 15840
-              },
-              "nombre": "Aukiss#55555",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": null,
-              "runas": {
-                "principal": 8229,
-                "secundaria": 8000
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 235,
-              "equipo": 100,
-              "hechizos": [
-                32,
-                4
-              ],
-              "maestria": {
-                "nivel": 46,
-                "puntos": 474316
-              },
-              "nombre": "Cloud#FFF",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": {
-                "derrotas": 311,
-                "division": "I",
-                "lp": 7,
-                "racha": false,
-                "tier": "DIAMOND",
-                "victorias": 337,
-                "winrate": 52.0
-              },
-              "runas": {
-                "principal": 8992,
-                "secundaria": 8000
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 28,
-              "equipo": 100,
-              "hechizos": [
-                4,
-                32
-              ],
-              "maestria": {
-                "nivel": 46,
-                "puntos": 477640
-              },
-              "nombre": "LUX#LAS24",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": {
-                "derrotas": 18,
-                "division": "I",
-                "lp": 47,
-                "racha": false,
-                "tier": "PLATINUM",
-                "victorias": 24,
-                "winrate": 57.1
-              },
-              "runas": {
-                "principal": 8214,
-                "secundaria": 8400
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 234,
-              "equipo": 100,
-              "hechizos": [
-                4,
-                32
-              ],
-              "maestria": {
-                "nivel": 8,
-                "puntos": 60386
-              },
-              "nombre": "Mitjans#LAS",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": {
-                "derrotas": 4,
-                "division": "II",
-                "lp": 91,
-                "racha": false,
-                "tier": "GOLD",
-                "victorias": 5,
-                "winrate": 55.6
-              },
-              "runas": {
-                "principal": 8992,
-                "secundaria": 8000
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 516,
-              "equipo": 100,
-              "hechizos": [
-                32,
-                4
-              ],
-              "maestria": {
-                "nivel": 6,
-                "puntos": 34586
-              },
-              "nombre": "DrakTubi#LAS",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": null,
-              "runas": {
-                "principal": 8112,
-                "secundaria": 8000
-              }
-            }
-          ]
-        },
-        {
-          "bloqueos": [],
-          "equipo": 200,
-          "jugadores": [
-            {
-              "amigo": null,
-              "campeon_id": 421,
-              "equipo": 200,
-              "hechizos": [
-                4,
-                32
-              ],
-              "maestria": {
-                "nivel": 3,
-                "puntos": 11983
-              },
-              "nombre": "Ilussia#LAS",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": {
-                "derrotas": 6,
-                "division": "IV",
-                "lp": 40,
-                "racha": false,
-                "tier": "PLATINUM",
-                "victorias": 1,
-                "winrate": 14.3
-              },
-              "runas": {
-                "principal": 8437,
-                "secundaria": 8000
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 122,
-              "equipo": 200,
-              "hechizos": [
-                6,
-                4
-              ],
-              "maestria": {
-                "nivel": 2,
-                "puntos": 4550
-              },
-              "nombre": "InuPark #LAS",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": null,
-              "runas": {
-                "principal": 8010,
-                "secundaria": 8100
-              }
-            },
-            {
-              "amigo": "big-gato-las",
-              "campeon_id": 61,
-              "equipo": 200,
-              "hechizos": [
-                32,
-                4
-              ],
-              "maestria": {
-                "nivel": 5,
-                "puntos": 22303
-              },
-              "nombre": "Big Gato#LAS",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": null,
-              "runas": {
-                "principal": 8112,
-                "secundaria": 8300
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 59,
-              "equipo": 200,
-              "hechizos": [
-                4,
-                32
-              ],
-              "maestria": {
-                "nivel": 5,
-                "puntos": 28236
-              },
-              "nombre": "TroiBoy#LAS",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": {
-                "derrotas": 143,
-                "division": "III",
-                "lp": 32,
-                "racha": false,
-                "tier": "PLATINUM",
-                "victorias": 142,
-                "winrate": 49.8
-              },
-              "runas": {
-                "principal": 9923,
-                "secundaria": 8200
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 38,
-              "equipo": 200,
-              "hechizos": [
-                4,
-                32
-              ],
-              "maestria": {
-                "nivel": 3,
-                "puntos": 9414
-              },
-              "nombre": "MagïciansRed#LAS",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": {
-                "derrotas": 11,
-                "division": "I",
-                "lp": 15,
-                "racha": false,
-                "tier": "BRONZE",
-                "victorias": 5,
-                "winrate": 31.2
-              },
-              "runas": {
-                "principal": 8437,
-                "secundaria": 8100
-              }
-            }
-          ]
-        }
-      ],
-      "id": 1635529319,
-      "inicio": 1793911344793,
-      "modo": "ARAM Caos",
-      "queue_id": 2400
-    }
-  ],
+  "en_vivo": [],
   "ranking": [
     {
       "criterio": "rango",
