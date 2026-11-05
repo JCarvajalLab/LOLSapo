@@ -55,8 +55,10 @@ export function cargarDatos(fetchFn = fetch) {
  */
 export async function cargarJson(ruta, validar, fetchFn = fetch) {
   let respuesta;
+  const usarAntiCache = typeof window !== "undefined" && typeof window.fetch === "function" && fetchFn === window.fetch;
+  const urlFinal = usarAntiCache ? `${ruta}${ruta.includes("?") ? "&" : "?"}_t=${Date.now()}` : ruta;
   try {
-    respuesta = await fetchFn(ruta, { cache: "no-store" });
+    respuesta = await fetchFn(urlFinal, { cache: "no-store" });
   } catch {
     throw new ErrorDatos("No se pudo conectar con el servidor.", "red");
   }
