@@ -348,6 +348,26 @@ def _entero_valido(valor) -> bool:
 # (por ejemplo ARAM Caos).
 PARTIDAS_PREVIAS_INICIALES = [
     {
+        "id": 1635529319,
+        "inicio": 1793911344793,
+        "equipos": {
+            "100": [
+                "447a21824189e0e776524913decde27c",
+                "f078f2e18743b835a1493d43cfc1b21e",
+                "7dea765d990b2cc001b9a7b513251da6",
+                "646bfc01bf5c3dcf4183f3bcb4225976",
+                "b96bc873c53056597849160c22bbd696",
+            ],
+            "200": [
+                "bdf1489ce5e08c9b47337a79d7adda87",
+                "90385420f7efbd4386d363b0e66fc2ea",  # InuPark #LAS
+                "19a479b88ca314e434666a11506a990b",  # Big Gato#LAS
+                "507344023a928626b980b97cca21f63e",
+                "65417fa4c5b47f4ca7ba7cba3d1790ba",
+            ],
+        },
+    },
+    {
         "id": 1635527047,
         "inicio": 1793910275199,
         "equipos": {
@@ -365,7 +385,7 @@ PARTIDAS_PREVIAS_INICIALES = [
                 "b96bc873c53056597849160c22bbd696",  # DrakTubi#LAS
             ],
         },
-    }
+    },
 ]
 
 
@@ -472,8 +492,8 @@ def _leer_recientes_en_vivo(ruta: Path) -> list[dict]:
                 }
             )
 
-    if not any(r.get("id") == 1635527047 for r in recientes):
-        recientes.extend(PARTIDAS_PREVIAS_INICIALES)
+    ids_existentes = {r.get("id") for r in recientes}
+    recientes.extend(p for p in PARTIDAS_PREVIAS_INICIALES if p["id"] not in ids_existentes)
     return recientes
 
 
