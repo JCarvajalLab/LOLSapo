@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-11-05T19:21:14Z",
+  "actualizado": "2026-11-05T19:25:20Z",
   "amigos": [
     {
       "actividad": {
@@ -22304,15 +22304,7 @@
         }
       },
       "estado": "ok",
-      "jugando": {
-        "campeon_id": 19,
-        "categoria": "aram",
-        "duracion": 1051,
-        "inicio": 1793905366252,
-        "modo": "ARAM Caos",
-        "partida_id": 1635510730,
-        "queue_id": 2400
-      },
+      "jugando": null,
       "nombre": "Big Gato",
       "partidas": [
         {
@@ -98445,10 +98437,6 @@
         "id": "Illaoi",
         "nombre": "Illaoi"
       },
-      "421": {
-        "id": "RekSai",
-        "nombre": "Rek'Sai"
-      },
       "427": {
         "id": "Ivern",
         "nombre": "Ivern"
@@ -98750,10 +98738,6 @@
       "3": {
         "id": "SummonerExhaust",
         "nombre": "Extenuación"
-      },
-      "32": {
-        "id": "SummonerSnowball",
-        "nombre": "Marca"
       },
       "4": {
         "id": "SummonerFlash",
@@ -101496,281 +101480,7 @@
       ]
     }
   },
-  "en_vivo": [
-    {
-      "amigos": [
-        "big-gato-las"
-      ],
-      "categoria": "aram",
-      "duracion": 1051,
-      "equipos": [
-        {
-          "bloqueos": [],
-          "equipo": 100,
-          "jugadores": [
-            {
-              "amigo": null,
-              "campeon_id": 222,
-              "equipo": 100,
-              "hechizos": [
-                4,
-                6
-              ],
-              "maestria": {
-                "nivel": 32,
-                "puntos": 318838
-              },
-              "nombre": "cabezudo jr#URU",
-              "premade": null,
-              "rango": {
-                "derrotas": 2,
-                "division": "I",
-                "lp": 55,
-                "racha": false,
-                "tier": "GOLD",
-                "victorias": 3,
-                "winrate": 60.0
-              },
-              "runas": {
-                "principal": 8008,
-                "secundaria": 8100
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 120,
-              "equipo": 100,
-              "hechizos": [
-                6,
-                32
-              ],
-              "maestria": {
-                "nivel": 4,
-                "puntos": 17892
-              },
-              "nombre": "Kassadin Volao#666",
-              "premade": null,
-              "rango": {
-                "derrotas": 4,
-                "division": "II",
-                "lp": 20,
-                "racha": false,
-                "tier": "BRONZE",
-                "victorias": 3,
-                "winrate": 42.9
-              },
-              "runas": {
-                "principal": 8010,
-                "secundaria": 8100
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 202,
-              "equipo": 100,
-              "hechizos": [
-                7,
-                4
-              ],
-              "maestria": {
-                "nivel": 17,
-                "puntos": 163912
-              },
-              "nombre": "BUSH OF GAREN#Garen",
-              "premade": null,
-              "rango": {
-                "derrotas": 112,
-                "division": "I",
-                "lp": 8,
-                "racha": false,
-                "tier": "PLATINUM",
-                "victorias": 101,
-                "winrate": 47.4
-              },
-              "runas": {
-                "principal": 9923,
-                "secundaria": 8400
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 432,
-              "equipo": 100,
-              "hechizos": [
-                4,
-                6
-              ],
-              "maestria": {
-                "nivel": 5,
-                "puntos": 26391
-              },
-              "nombre": "Blue August#LAS",
-              "premade": null,
-              "rango": null,
-              "runas": {
-                "principal": 8112,
-                "secundaria": 8000
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 421,
-              "equipo": 100,
-              "hechizos": [
-                32,
-                4
-              ],
-              "maestria": {
-                "nivel": 5,
-                "puntos": 24244
-              },
-              "nombre": "DrakTubi#LAS",
-              "premade": null,
-              "rango": null,
-              "runas": {
-                "principal": 8112,
-                "secundaria": 8000
-              }
-            }
-          ]
-        },
-        {
-          "bloqueos": [],
-          "equipo": 200,
-          "jugadores": [
-            {
-              "amigo": null,
-              "campeon_id": 111,
-              "equipo": 200,
-              "hechizos": [
-                32,
-                4
-              ],
-              "maestria": {
-                "nivel": 4,
-                "puntos": 21078
-              },
-              "nombre": "InuPark #LAS",
-              "premade": null,
-              "rango": null,
-              "runas": {
-                "principal": 8010,
-                "secundaria": 8100
-              }
-            },
-            {
-              "amigo": "big-gato-las",
-              "campeon_id": 19,
-              "equipo": 200,
-              "hechizos": [
-                32,
-                4
-              ],
-              "maestria": {
-                "nivel": 5,
-                "puntos": 28246
-              },
-              "nombre": "Big Gato#LAS",
-              "premade": null,
-              "rango": null,
-              "runas": {
-                "principal": 8112,
-                "secundaria": 8300
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 161,
-              "equipo": 200,
-              "hechizos": [
-                4,
-                32
-              ],
-              "maestria": {
-                "nivel": 6,
-                "puntos": 35279
-              },
-              "nombre": "diosbananero#LAS",
-              "premade": null,
-              "rango": {
-                "derrotas": 35,
-                "division": "IV",
-                "lp": 68,
-                "racha": false,
-                "tier": "GOLD",
-                "victorias": 39,
-                "winrate": 52.7
-              },
-              "runas": {
-                "principal": 8128,
-                "secundaria": 8200
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 29,
-              "equipo": 200,
-              "hechizos": [
-                6,
-                4
-              ],
-              "maestria": {
-                "nivel": 7,
-                "puntos": 50741
-              },
-              "nombre": "LOXO  YT#LAS",
-              "premade": null,
-              "rango": {
-                "derrotas": 10,
-                "division": "I",
-                "lp": 5,
-                "racha": false,
-                "tier": "SILVER",
-                "victorias": 4,
-                "winrate": 28.6
-              },
-              "runas": {
-                "principal": 8229,
-                "secundaria": 8100
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 54,
-              "equipo": 200,
-              "hechizos": [
-                32,
-                4
-              ],
-              "maestria": {
-                "nivel": 10,
-                "puntos": 79352
-              },
-              "nombre": "MiHijoesUnaCaja#LAS",
-              "premade": null,
-              "rango": {
-                "derrotas": 16,
-                "division": "II",
-                "lp": 47,
-                "racha": false,
-                "tier": "PLATINUM",
-                "victorias": 13,
-                "winrate": 44.8
-              },
-              "runas": {
-                "principal": 8128,
-                "secundaria": 8000
-              }
-            }
-          ]
-        }
-      ],
-      "id": 1635510730,
-      "inicio": 1793905366252,
-      "modo": "ARAM Caos",
-      "queue_id": 2400
-    }
-  ],
+  "en_vivo": [],
   "ranking": [
     {
       "criterio": "rango",
