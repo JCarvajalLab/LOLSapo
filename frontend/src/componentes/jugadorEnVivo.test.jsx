@@ -170,4 +170,94 @@ describe("jugador en vivo: winrate, racha y maestría", () => {
     expect(insigniaRival).toHaveTextContent("Dúo rival");
     expect(insigniaRival).toHaveAttribute("title", "Premade rival detectada (Dúo)");
   });
+
+  it("distingue entre premade (2+ partidas) y coincide en partida previa (1 partida)", () => {
+    const enVivo = [
+      {
+        id: 777,
+        modo: "ARAM Caos",
+        categoria: "otros",
+        inicio: AHORA - 600_000,
+        duracion: 600,
+        amigos: ["rana-azul-las"],
+        equipos: [
+          {
+            equipo: 100,
+            bloqueos: [],
+            jugadores: [
+              {
+                nombre: "Rana Azul#LAS",
+                amigo: "rana-azul-las",
+                campeon_id: 103,
+                equipo: 100,
+                premade: 1,
+                premade_partidas: 1,
+              },
+              {
+                nombre: "InuPark#LAS",
+                amigo: null,
+                campeon_id: 222,
+                equipo: 100,
+                premade: 1,
+                premade_partidas: 1,
+              },
+            ],
+          },
+          {
+            equipo: 200,
+            bloqueos: [],
+            jugadores: [
+              {
+                nombre: "Rival Uno#CCC",
+                amigo: null,
+                campeon_id: 81,
+                equipo: 200,
+                premade: 2,
+                premade_partidas: 3,
+              },
+              {
+                nombre: "Rival Dos#DDD",
+                amigo: null,
+                campeon_id: 11,
+                equipo: 200,
+                premade: 2,
+                premade_partidas: 3,
+              },
+            ],
+          },
+        ],
+      },
+    ];
+
+    render(
+      <SeccionEnPartida
+        enVivo={enVivo}
+        ddragon={ddragon}
+        amigos={crearDatos().amigos}
+        actualizadoMs={AHORA}
+        ahora={AHORA}
+      />,
+    );
+
+    const filaAmigo = filaDe("Rana Azul#LAS");
+    const insigniaAmigo = filaAmigo.querySelector('[data-insignia-premade="true"]');
+    expect(insigniaAmigo).toHaveTextContent("Repite partida");
+    expect(insigniaAmigo).toHaveAttribute(
+      "title",
+      "Jugaron juntos la partida anterior (Dúo)",
+    );
+
+    const filaInu = filaDe("InuPark#LAS");
+    const insigniaInu = filaInu.querySelector('[data-insignia-premade="true"]');
+    expect(insigniaInu).toHaveTextContent("Repite partida");
+    expect(filaInu).toHaveClass("border-l-4", "border-sapo/60");
+
+    const filaRival = filaDe("Rival Uno#CCC");
+    const insigniaRival = filaRival.querySelector('[data-insignia-premade="true"]');
+    expect(insigniaRival).toHaveTextContent("Dúo rival");
+    expect(insigniaRival).toHaveAttribute(
+      "title",
+      "Premade rival detectada (Dúo · 3 partidas juntos)",
+    );
+  });
 });

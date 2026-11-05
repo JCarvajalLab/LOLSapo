@@ -156,39 +156,83 @@ function infoPremade(jugador, equipoJugadores, conAmigos) {
   const miembros = (equipoJugadores || []).filter((p) => p.premade === jugador.premade);
   if (miembros.length < 2) return null;
 
-  const esGrupoAmigos = miembros.some((p) => Boolean(p.amigo));
+  const amigosEnGrupo = miembros.filter((p) => Boolean(p.amigo));
+  const esGrupoAmigos = amigosEnGrupo.length >= 1;
   const tamano = miembros.length;
   const tipo = tamano === 2 ? "Dúo" : tamano === 3 ? "Trío" : tamano === 4 ? "Cuarteto" : "Equipo";
+  const partidas = jugador.premade_partidas ?? null;
+  const esReciente = partidas === 1;
 
   if (esGrupoAmigos) {
+    const textoInsignia = esReciente ? "Repite partida" : tipo;
+    const descTooltip = esReciente
+      ? `Jugaron juntos la partida anterior (${tipo})`
+      : partidas
+        ? `Premade del grupo (${tipo} · ${partidas} partidas juntos)`
+        : `Premade del grupo (${tipo})`;
+
     return {
-      texto: tipo,
-      claseBorde: "border-l-4 border-sapo",
-      claseFondo: "bg-sapo-fondo",
-      claseInsignia: "bg-sapo/20 text-sapo border border-sapo/40",
-      tooltip: `Premade del grupo (${tipo})`,
+      texto: textoInsignia,
+      claseBorde: esReciente ? "border-l-4 border-sapo/60" : "border-l-4 border-sapo",
+      claseFondo: esReciente ? "bg-sapo-fondo/50" : "bg-sapo-fondo",
+      claseInsignia: esReciente
+        ? "bg-sapo/15 text-sapo/90 border border-sapo/30"
+        : "bg-sapo/20 text-sapo border border-sapo/40",
+      tooltip: descTooltip,
     };
   }
 
   if (conAmigos) {
+    const textoInsignia = esReciente ? "Repite aliado" : `${tipo} aliado`;
+    const descTooltip = esReciente
+      ? `Coincidieron en la partida anterior (${tipo} aliado)`
+      : partidas
+        ? `Premade aliada detectada (${tipo} · ${partidas} partidas juntos)`
+        : `Premade aliada detectada (${tipo})`;
+
     return {
-      texto: `${tipo} aliado`,
-      claseBorde: "border-l-4 border-sky-400",
-      claseFondo: "bg-sky-950/25",
-      claseInsignia: "bg-sky-900/60 text-sky-300 border border-sky-600/50",
-      tooltip: `Premade aliada detectada (${tipo})`,
+      texto: textoInsignia,
+      claseBorde: esReciente ? "border-l-4 border-sky-400/60" : "border-l-4 border-sky-400",
+      claseFondo: esReciente ? "bg-sky-950/15" : "bg-sky-950/25",
+      claseInsignia: esReciente
+        ? "bg-sky-900/40 text-sky-200 border border-sky-500/40"
+        : "bg-sky-900/60 text-sky-300 border border-sky-600/50",
+      tooltip: descTooltip,
     };
   }
 
   const esGrupoPar = jugador.premade % 2 === 0;
+  const textoInsignia = esReciente ? "Repite rival" : `${tipo} rival`;
+  const descTooltip = esReciente
+    ? `Coincidieron en la partida anterior (${tipo} rival)`
+    : partidas
+      ? `Premade rival detectada (${tipo} · ${partidas} partidas juntos)`
+      : `Premade rival detectada (${tipo})`;
+
   return {
-    texto: `${tipo} rival`,
-    claseBorde: esGrupoPar ? "border-l-4 border-amber-400" : "border-l-4 border-purple-400",
-    claseFondo: esGrupoPar ? "bg-amber-950/25" : "bg-purple-950/25",
+    texto: textoInsignia,
+    claseBorde: esGrupoPar
+      ? esReciente
+        ? "border-l-4 border-amber-400/60"
+        : "border-l-4 border-amber-400"
+      : esReciente
+        ? "border-l-4 border-purple-400/60"
+        : "border-l-4 border-purple-400",
+    claseFondo: esGrupoPar
+      ? esReciente
+        ? "bg-amber-950/15"
+        : "bg-amber-950/25"
+      : esReciente
+        ? "bg-purple-950/15"
+        : "bg-purple-950/25",
     claseInsignia: esGrupoPar
-      ? "bg-amber-900/60 text-amber-300 border border-amber-600/50"
-      : "bg-purple-900/60 text-purple-300 border border-purple-600/50",
-    tooltip: `Premade rival detectada (${tipo})`,
+      ? esReciente
+        ? "bg-amber-900/40 text-amber-200 border border-amber-500/40"
+        : "bg-amber-900/60 text-amber-300 border border-amber-600/50"
+      : esReciente
+        ? "bg-purple-900/40 text-purple-200 border border-purple-500/40"
+        : "bg-purple-900/60 text-purple-300 border border-purple-600/50",
+    tooltip: descTooltip,
   };
 }
 
