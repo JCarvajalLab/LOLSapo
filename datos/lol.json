@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-11-05T20:06:11Z",
+  "actualizado": "2026-11-05T20:11:12Z",
   "amigos": [
     {
       "actividad": {
@@ -22304,7 +22304,15 @@
         }
       },
       "estado": "ok",
-      "jugando": null,
+      "jugando": {
+        "campeon_id": 77,
+        "categoria": "aram",
+        "duracion": 114,
+        "inicio": 1793909300388,
+        "modo": "ARAM Caos",
+        "partida_id": 1635520632,
+        "queue_id": 2400
+      },
       "nombre": "Big Gato",
       "partidas": [
         {
@@ -98585,6 +98593,10 @@
         "id": "Nasus",
         "nombre": "Nasus"
       },
+      "77": {
+        "id": "Udyr",
+        "nombre": "Udyr"
+      },
       "777": {
         "id": "Yone",
         "nombre": "Yone"
@@ -98738,6 +98750,10 @@
       "3": {
         "id": "SummonerExhaust",
         "nombre": "Extenuación"
+      },
+      "32": {
+        "id": "SummonerSnowball",
+        "nombre": "Marca"
       },
       "4": {
         "id": "SummonerFlash",
@@ -101480,7 +101496,273 @@
       ]
     }
   },
-  "en_vivo": [],
+  "en_vivo": [
+    {
+      "amigos": [
+        "big-gato-las"
+      ],
+      "categoria": "aram",
+      "duracion": 114,
+      "equipos": [
+        {
+          "bloqueos": [],
+          "equipo": 100,
+          "jugadores": [
+            {
+              "amigo": null,
+              "campeon_id": 238,
+              "equipo": 100,
+              "hechizos": [
+                4,
+                32
+              ],
+              "maestria": {
+                "nivel": 8,
+                "puntos": 57533
+              },
+              "nombre": "ORFEO#LAS",
+              "premade": null,
+              "rango": {
+                "derrotas": 122,
+                "division": "III",
+                "lp": 24,
+                "racha": false,
+                "tier": "GOLD",
+                "victorias": 114,
+                "winrate": 48.3
+              },
+              "runas": {
+                "principal": 8369,
+                "secundaria": 8200
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 21,
+              "equipo": 100,
+              "hechizos": [
+                14,
+                4
+              ],
+              "maestria": {
+                "nivel": 4,
+                "puntos": 20503
+              },
+              "nombre": "InuPark #LAS",
+              "premade": null,
+              "rango": null,
+              "runas": {
+                "principal": 8010,
+                "secundaria": 8100
+              }
+            },
+            {
+              "amigo": "big-gato-las",
+              "campeon_id": 77,
+              "equipo": 100,
+              "hechizos": [
+                32,
+                4
+              ],
+              "maestria": {
+                "nivel": 7,
+                "puntos": 49532
+              },
+              "nombre": "Big Gato#LAS",
+              "premade": null,
+              "rango": null,
+              "runas": {
+                "principal": 8112,
+                "secundaria": 8300
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 9,
+              "equipo": 100,
+              "hechizos": [
+                4,
+                32
+              ],
+              "maestria": {
+                "nivel": 4,
+                "puntos": 18325
+              },
+              "nombre": "Arroz Con Azucar#NF1VE",
+              "premade": 1,
+              "rango": {
+                "derrotas": 27,
+                "division": "I",
+                "lp": 20,
+                "racha": false,
+                "tier": "PLATINUM",
+                "victorias": 19,
+                "winrate": 41.3
+              },
+              "runas": {
+                "principal": 8010,
+                "secundaria": 8400
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 134,
+              "equipo": 100,
+              "hechizos": [
+                4,
+                32
+              ],
+              "maestria": {
+                "nivel": 3,
+                "puntos": 11740
+              },
+              "nombre": "Toxic#Nf1ve",
+              "premade": 1,
+              "rango": null,
+              "runas": {
+                "principal": 8010,
+                "secundaria": 8200
+              }
+            }
+          ]
+        },
+        {
+          "bloqueos": [],
+          "equipo": 200,
+          "jugadores": [
+            {
+              "amigo": null,
+              "campeon_id": 27,
+              "equipo": 200,
+              "hechizos": [
+                6,
+                32
+              ],
+              "maestria": {
+                "nivel": 10,
+                "puntos": 80656
+              },
+              "nombre": "Ben0#LAS",
+              "premade": null,
+              "rango": null,
+              "runas": {
+                "principal": 8010,
+                "secundaria": 8200
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 223,
+              "equipo": 200,
+              "hechizos": [
+                4,
+                32
+              ],
+              "maestria": {
+                "nivel": 9,
+                "puntos": 66604
+              },
+              "nombre": "Burro#LAS",
+              "premade": null,
+              "rango": null,
+              "runas": {
+                "principal": 8369,
+                "secundaria": 8100
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 79,
+              "equipo": 200,
+              "hechizos": [
+                32,
+                4
+              ],
+              "maestria": {
+                "nivel": 14,
+                "puntos": 121859
+              },
+              "nombre": "ViciousBoi#0314",
+              "premade": null,
+              "rango": {
+                "derrotas": 9,
+                "division": "IV",
+                "lp": 67,
+                "racha": true,
+                "tier": "PLATINUM",
+                "victorias": 7,
+                "winrate": 43.8
+              },
+              "runas": {
+                "principal": 8360,
+                "secundaria": 8100
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 22,
+              "equipo": 200,
+              "hechizos": [
+                6,
+                4
+              ],
+              "maestria": {
+                "nivel": 18,
+                "puntos": 170685
+              },
+              "nombre": "무료 유방조영술#90210",
+              "premade": null,
+              "rango": {
+                "derrotas": 40,
+                "division": "I",
+                "lp": 75,
+                "racha": true,
+                "tier": "EMERALD",
+                "victorias": 39,
+                "winrate": 49.4
+              },
+              "runas": {
+                "principal": 8008,
+                "secundaria": 8300
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 136,
+              "equipo": 200,
+              "hechizos": [
+                32,
+                4
+              ],
+              "maestria": {
+                "nivel": 9,
+                "puntos": 72310
+              },
+              "nombre": "TetoPear#Zaddy",
+              "premade": null,
+              "rango": {
+                "derrotas": 49,
+                "division": "II",
+                "lp": 6,
+                "racha": false,
+                "tier": "PLATINUM",
+                "victorias": 51,
+                "winrate": 51.0
+              },
+              "runas": {
+                "principal": 8369,
+                "secundaria": 8000
+              }
+            }
+          ]
+        }
+      ],
+      "id": 1635520632,
+      "inicio": 1793909300388,
+      "modo": "ARAM Caos",
+      "queue_id": 2400
+    }
+  ],
   "ranking": [
     {
       "criterio": "rango",
