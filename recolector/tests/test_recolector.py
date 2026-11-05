@@ -324,6 +324,124 @@ def test_partida_en_vivo_detecta_premade_mixta_amigo_y_externo(cliente, mapa, tm
     assert p_ext["premade_partidas"] == 2
 
 
+@responses.activate
+def test_partida_en_vivo_premade_por_recientes_sin_match_v5(cliente, mapa, tmp_path):
+    from lolsapo.recolector import _huella
+
+    # Simular una partida activa (id=101) donde Johnadis y un externo juegan juntos
+    en_vivo = partida_activa(P_JOHN, 2400, 103, id_partida=101)  # queue 2400 (ARAM Caos)
+    externo = "externo_caos".ljust(78, "c")
+    en_vivo["participants"].append(
+        {
+            "puuid": externo,
+            "championId": 222,
+            "teamId": 100,
+            "riotId": "InuPark#LAS",
+            "spell1Id": 4,
+            "spell2Id": 7,
+            "perks": {"perkIds": [8000], "perkStyle": 8000, "perkSubStyle": 8100},
+        }
+    )
+    simular_amigo("Johnadis", P_JOHN, ["LA2_10"], jugando=en_vivo)
+    simular_partida("LA2_10", P_JOHN)
+
+    # Match-v5 no devuelve ninguna partida compartida (típico de ARAM Caos)
+    responses.get(
+        f"{URL_REGION}/lol/match/v5/matches/by-puuid/{externo}/ids",
+        json=["LA2_88", "LA2_77"],
+    )
+
+    # En recientes_en_vivo.json dejamos una partida previa (id=100) donde ambos fueron equipo 100
+    ruta_recientes = tmp_path / "recientes_en_vivo.json"
+    ruta_recientes.write_text(
+        json.dumps(
+            [
+                {
+                    "id": 100,
+                    "inicio": 1000,
+                    "equipos": {
+                        "100": [_huella(P_JOHN), _huella(externo)],
+                        "200": ["a" * 32],
+                    },
+                }
+            ]
+        ),
+        encoding="utf-8",
+    )
+
+    salida = ejecutar(
+        cliente, KEY_FALSA, [JOHN], mapa, tmp_path, tmp_path / "lol.json", ahora=AHORA
+    )
+    azul = salida["en_vivo"][0]["equipos"][0]
+    p_john = next(j for j in azul["jugadores"] if j["amigo"] == "johnadis-las")
+    p_ext = next(j for j in azul["jugadores"] if j["nombre"] == "InuPark#LAS")
+
+    assert p_john["premade"] is not None
+    assert p_john["premade"] == p_ext["premade"]
+    assert p_john["premade_partidas"] == 1
+    assert p_ext["premade_partidas"] == 1
+
+    # Verificar que recientes_en_vivo.json conserva ambas partidas
+    recientes_actualizados = json.loads(ruta_recientes.read_text(encoding="utf-8"))
+    ids_recientes = [r["id"] for r in recientes_actualizados]
+    assert 101 in ids_recientes
+    assert 100 in ids_recientes
+
+
+@responses.activate
+def test_partida_en_vivo_rivales_en_partida_previa_no_son_premade(cliente, mapa, tmp_path):
+    from lolsapo.recolector import _huella
+
+    en_vivo = partida_activa(P_JOHN, 450, 103, id_partida=102)
+    externo = "rival_previo".ljust(78, "r")
+    en_vivo["participants"].append(
+        {
+            "puuid": externo,
+            "championId": 222,
+            "teamId": 100,
+            "riotId": "ExRival#LAS",
+            "spell1Id": 4,
+            "spell2Id": 7,
+            "perks": {"perkIds": [8000], "perkStyle": 8000, "perkSubStyle": 8100},
+        }
+    )
+    simular_amigo("Johnadis", P_JOHN, ["LA2_10"], jugando=en_vivo)
+    simular_partida("LA2_10", P_JOHN)
+    responses.get(
+        f"{URL_REGION}/lol/match/v5/matches/by-puuid/{externo}/ids",
+        json=["LA2_88"],
+    )
+
+    # En la partida previa estaban en equipos DISTINTOS (Johnadis en 100, ExRival en 200)
+    ruta_recientes = tmp_path / "recientes_en_vivo.json"
+    ruta_recientes.write_text(
+        json.dumps(
+            [
+                {
+                    "id": 99,
+                    "inicio": 900,
+                    "equipos": {
+                        "100": [_huella(P_JOHN)],
+                        "200": [_huella(externo)],
+                    },
+                }
+            ]
+        ),
+        encoding="utf-8",
+    )
+
+    salida = ejecutar(
+        cliente, KEY_FALSA, [JOHN], mapa, tmp_path, tmp_path / "lol.json", ahora=AHORA
+    )
+    azul = salida["en_vivo"][0]["equipos"][0]
+    p_john = next(j for j in azul["jugadores"] if j["amigo"] == "johnadis-las")
+    p_ext = next(j for j in azul["jugadores"] if j["nombre"] == "ExRival#LAS")
+
+    # Al haber sido rivales en la partida previa, no son premade
+    assert p_john["premade"] is None
+    assert p_ext["premade"] is None
+
+
 def test_cache_en_vivo_con_contenido_danado_se_descarta(tmp_path):
     from lolsapo.recolector import _leer_cache_en_vivo
 
