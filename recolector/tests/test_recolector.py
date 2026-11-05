@@ -282,6 +282,46 @@ def test_partida_en_vivo_detecta_premades_enemigas(cliente, mapa, tmp_path):
     # R1 (índice 0) y R2 (índice 2) tienen asignado el mismo identificador de grupo premade
     assert rojo["jugadores"][0]["premade"] is not None
     assert rojo["jugadores"][0]["premade"] == rojo["jugadores"][2]["premade"]
+    assert rojo["jugadores"][0]["premade_partidas"] == 1
+
+
+@responses.activate
+def test_partida_en_vivo_detecta_premade_mixta_amigo_y_externo(cliente, mapa, tmp_path):
+    en_vivo = partida_activa(P_JOHN, 450, 103, id_partida=90)
+    # Aliado externo en el equipo azul (100) junto a Johnadis
+    externo = "externo1".ljust(78, "e")
+    en_vivo["participants"].append(
+        {
+            "puuid": externo,
+            "championId": 222,
+            "teamId": 100,
+            "riotId": "InuPark#LAS",
+            "spell1Id": 4,
+            "spell2Id": 7,
+            "perks": {"perkIds": [8000], "perkStyle": 8000, "perkSubStyle": 8100},
+        }
+    )
+    simular_amigo("Johnadis", P_JOHN, ["LA2_10", "LA2_9", "LA2_8"], jugando=en_vivo)
+    simular_partida("LA2_10", P_JOHN)
+    simular_partida("LA2_9", P_JOHN)
+    simular_partida("LA2_8", P_JOHN)
+    # Johnadis y el externo comparten 2 partidas de las últimas 3
+    responses.get(
+        f"{URL_REGION}/lol/match/v5/matches/by-puuid/{externo}/ids",
+        json=["LA2_10", "LA2_9", "LA2_99"],
+    )
+
+    salida = ejecutar(
+        cliente, KEY_FALSA, [JOHN], mapa, tmp_path, tmp_path / "lol.json", ahora=AHORA
+    )
+    azul = salida["en_vivo"][0]["equipos"][0]
+    p_john = next(j for j in azul["jugadores"] if j["amigo"] == "johnadis-las")
+    p_ext = next(j for j in azul["jugadores"] if j["nombre"] == "InuPark#LAS")
+
+    assert p_john["premade"] is not None
+    assert p_john["premade"] == p_ext["premade"]
+    assert p_john["premade_partidas"] == 2
+    assert p_ext["premade_partidas"] == 2
 
 
 def test_cache_en_vivo_con_contenido_danado_se_descarta(tmp_path):

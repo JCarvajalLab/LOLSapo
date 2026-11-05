@@ -397,11 +397,21 @@ def _leer_cache_en_vivo(ruta: Path) -> dict:
             },
         }
         if "premades" in valor and isinstance(valor["premades"], dict):
-            entrada["premades"] = {
-                huella: int(grupo)
-                for huella, grupo in valor["premades"].items()
-                if _PATRON_HUELLA.fullmatch(huella) and isinstance(grupo, int) and grupo > 0
-            }
+            entrada["premades"] = {}
+            for huella, dato in valor["premades"].items():
+                if not _PATRON_HUELLA.fullmatch(huella):
+                    continue
+                if isinstance(dato, int) and dato > 0:
+                    entrada["premades"][huella] = {"grupo": dato, "partidas": 2}
+                elif (
+                    isinstance(dato, dict)
+                    and isinstance(dato.get("grupo"), int)
+                    and dato["grupo"] > 0
+                ):
+                    entrada["premades"][huella] = {
+                        "grupo": dato["grupo"],
+                        "partidas": int(dato.get("partidas") or 2),
+                    }
         cache[clave] = entrada
     return cache
 
@@ -410,23 +420,25 @@ def _detectar_premades(
     cliente: ClienteRiot,
     participantes: list[dict],
     slug_por_puuid: dict,
-    guardado_premades: dict[str, int] | None = None,
-) -> tuple[dict[str, int], dict[str, int]]:
-    """Detecta grupos premade (amigos o desconocidos) en la partida activa.
+    guardado_premades: dict[str, dict] | None = None,
+) -> tuple[dict[str, dict], dict[str, dict]]:
+    """Detecta grupos premade en la partida activa.
 
-    Devuelve (premades_por_puuid, premades_por_huella) donde cada valor es un entero
-    id_grupo (1, 2, ...) para cada jugador que forma parte de un grupo de >= 2 personas.
+    Evalúa a todos los jugadores del mismo equipo (amigos y desconocidos).
+    Devuelve (premades_por_puuid, premades_por_huella) donde cada valor es un dict:
+    {"grupo": int, "partidas": int} (indicando cuántas partidas recientes compartieron).
     """
     if guardado_premades:
-        por_puuid: dict[str, int] = {}
+        por_puuid: dict[str, dict] = {}
         for p in participantes:
             puuid = p.get("puuid")
             if puuid and _huella(puuid) in guardado_premades:
-                por_puuid[puuid] = guardado_premades[_huella(puuid)]
+                dato = guardado_premades[_huella(puuid)]
+                por_puuid[puuid] = dict(dato)
         return por_puuid, dict(guardado_premades)
 
-    premades_puuid: dict[str, int] = {}
-    premades_huella: dict[str, int] = {}
+    premades_puuid: dict[str, dict] = {}
+    premades_huella: dict[str, dict] = {}
     siguiente_grupo = 1
 
     equipos: dict[int, list[dict]] = {}
@@ -435,57 +447,68 @@ def _detectar_premades(
         equipos.setdefault(eq, []).append(p)
 
     for jugadores in equipos.values():
-        # 1. Amigos en este equipo
-        amigos = [p for p in jugadores if p.get("puuid") and p["puuid"] in slug_por_puuid]
-        if len(amigos) >= 2:
-            for p in amigos:
-                puuid = p["puuid"]
-                premades_puuid[puuid] = siguiente_grupo
-                premades_huella[_huella(puuid)] = siguiente_grupo
-            siguiente_grupo += 1
+        con_puuid = [p for p in jugadores if p.get("puuid")]
+        if len(con_puuid) < 2:
+            continue
 
-        # 2. Desconocidos en este equipo
-        desconocidos = [p for p in jugadores if p.get("puuid") and p["puuid"] not in slug_por_puuid]
-        if len(desconocidos) >= 2:
-            ids_por_puuid: dict[str, set[str]] = {}
-            for p in desconocidos:
-                puuid = p["puuid"]
-                try:
-                    lista_ids = cliente.ids_partidas(puuid, 2)
-                    ids_por_puuid[puuid] = set(lista_ids) if isinstance(lista_ids, list) else set()
-                except (ErrorRiot, DatoInvalido, Exception):
-                    ids_por_puuid[puuid] = set()
+        ids_por_puuid: dict[str, set[str]] = {}
+        for p in con_puuid:
+            puuid = p["puuid"]
+            try:
+                lista_ids = cliente.ids_partidas(puuid, 3)
+                ids_por_puuid[puuid] = set(lista_ids) if isinstance(lista_ids, list) else set()
+            except (ErrorRiot, DatoInvalido, Exception):
+                ids_por_puuid[puuid] = set()
 
-            grupos: list[set[str]] = []
-            for i, p1 in enumerate(desconocidos):
-                puuid1 = p1["puuid"]
-                ids1 = ids_por_puuid.get(puuid1, set())
-                if not ids1:
+        # Grupos de jugadores conectados: mapa de puuid -> {puuid: set(ids_compartidos)}
+        conexiones: dict[str, dict[str, int]] = {p["puuid"]: {} for p in con_puuid}
+        for i, p1 in enumerate(con_puuid):
+            puuid1 = p1["puuid"]
+            ids1 = ids_por_puuid.get(puuid1, set())
+            if not ids1:
+                continue
+            for p2 in con_puuid[i + 1 :]:
+                puuid2 = p2["puuid"]
+                ids2 = ids_por_puuid.get(puuid2, set())
+                if not ids2:
                     continue
-                for p2 in desconocidos[i + 1 :]:
-                    puuid2 = p2["puuid"]
-                    ids2 = ids_por_puuid.get(puuid2, set())
-                    if not ids2:
-                        continue
-                    if ids1 & ids2:
-                        encontrados = [g for g in grupos if puuid1 in g or puuid2 in g]
-                        if not encontrados:
-                            grupos.append({puuid1, puuid2})
-                        elif len(encontrados) == 1:
-                            encontrados[0].update([puuid1, puuid2])
-                        else:
-                            primer_g = encontrados[0]
-                            for otro in encontrados[1:]:
-                                primer_g.update(otro)
-                                grupos.remove(otro)
-                            primer_g.update([puuid1, puuid2])
+                coincidentes = len(ids1 & ids2)
+                if coincidentes > 0:
+                    conexiones[puuid1][puuid2] = coincidentes
+                    conexiones[puuid2][puuid1] = coincidentes
 
-            for g in grupos:
-                if len(g) >= 2:
-                    for puuid in g:
-                        premades_puuid[puuid] = siguiente_grupo
-                        premades_huella[_huella(puuid)] = siguiente_grupo
-                    siguiente_grupo += 1
+        # Componentes conexas
+        visitados = set()
+        grupos: list[list[str]] = []
+        for p in con_puuid:
+            puuid = p["puuid"]
+            if puuid not in visitados and conexiones[puuid]:
+                componente = []
+                cola = [puuid]
+                visitados.add(puuid)
+                while cola:
+                    actual = cola.pop(0)
+                    componente.append(actual)
+                    for vecino in conexiones[actual]:
+                        if vecino not in visitados:
+                            visitados.add(vecino)
+                            cola.append(vecino)
+                if len(componente) >= 2:
+                    grupos.append(componente)
+
+        for g in grupos:
+            # Calcular el máximo de partidas compartidas dentro de este grupo
+            max_partidas = 1
+            for i, puuid1 in enumerate(g):
+                for puuid2 in g[i + 1 :]:
+                    if puuid2 in conexiones[puuid1]:
+                        max_partidas = max(max_partidas, conexiones[puuid1][puuid2])
+
+            for puuid in g:
+                info_grupo = {"grupo": siguiente_grupo, "partidas": max_partidas}
+                premades_puuid[puuid] = info_grupo
+                premades_huella[_huella(puuid)] = info_grupo
+            siguiente_grupo += 1
 
     return premades_puuid, premades_huella
 
@@ -585,7 +608,16 @@ def _partidas_en_vivo(
                 "runas": original["runas"],
                 "rango": _rango_en_vivo(rangos.get(original["puuid"])),
                 "maestria": (maestrias or {}).get((original["puuid"], original["campeon_id"])),
-                "premade": (premades or {}).get(original["puuid"]),
+                "premade": (
+                    premades.get(original["puuid"])["grupo"]
+                    if (premades or {}).get(original["puuid"])
+                    else None
+                ),
+                "premade_partidas": (
+                    premades.get(original["puuid"])["partidas"]
+                    if (premades or {}).get(original["puuid"])
+                    else None
+                ),
             }
             for publico, original in zip(
                 _publicar_participantes(activa["participantes"], slug_por_puuid),
