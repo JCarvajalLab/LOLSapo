@@ -120,14 +120,16 @@ jobs:
             echo "Había $previos registros y ahora hay $actuales: no se sube nada."
             exit 1
           fi
-          # Barrera: la rama datos es pública y nunca debe llevar PUUID.
-          if grep -rEq '"puuid"|(^|[^A-Za-z0-9_-])[A-Za-z0-9_-]{78}([^A-Za-z0-9_-]|$)' datos; then
-            echo "Hay algo con forma de PUUID en datos/: no se sube nada."
-            exit 1
-          fi
           rm -rf rama-datos/datos
           mkdir -p rama-datos/datos
           cp -r datos/. rama-datos/datos/
+          cp frontend/public/datos/lol.json rama-datos/datos/lol.json
+          cp frontend/public/datos/tft.json rama-datos/datos/tft.json
+          # Barrera: la rama datos es pública y nunca debe llevar PUUID.
+          if grep -rEq '"puuid"|(^|[^A-Za-z0-9_-])[A-Za-z0-9_-]{78}([^A-Za-z0-9_-]|$)' rama-datos/datos; then
+            echo "Hay algo con forma de PUUID en rama-datos/datos: no se sube nada."
+            exit 1
+          fi
           cd rama-datos
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -136,7 +138,17 @@ jobs:
             echo "El registro no cambió."
           else
             git commit --quiet -m "chore(datos): actualizar registro"
-            git "${AUTH[@]}" push --quiet origin HEAD:datos
+            for intento in 1 2 3; do
+              if git "${AUTH[@]}" push --quiet origin HEAD:datos; then
+                break
+              fi
+              if [ "$intento" -eq 3 ]; then
+                echo "Falló el push a la rama datos tras 3 intentos."
+                exit 1
+              fi
+              echo "Reintentando push a la rama datos (intento $intento/3)..."
+              sleep 3
+            done
           fi
 
   build:

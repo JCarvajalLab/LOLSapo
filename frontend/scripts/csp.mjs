@@ -10,8 +10,8 @@ export const DIRECTIVAS_CSP = {
   // data: cubre el favicon SVG embebido; Data Dragon, las imágenes del juego.
   "img-src": ["'self'", "data:", "https://ddragon.leagueoflegends.com"],
   "font-src": ["'self'"],
-  // Solo se pide ./datos/lol.json al mismo origen.
-  "connect-src": ["'self'"],
+  // ./datos/lol.json al mismo origen y GitHub Raw para datos en vivo de la rama datos.
+  "connect-src": ["'self'", "https://raw.githubusercontent.com"],
   "base-uri": ["'none'"],
   "form-action": ["'none'"],
   "object-src": ["'none'"],

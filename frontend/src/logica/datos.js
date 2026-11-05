@@ -4,6 +4,9 @@ import { validarSinergia } from "./sinergia.js";
 
 /** Ruta del JSON relativa a la página (funciona en localhost y en GitHub Pages). */
 export const RUTA_DATOS = "./datos/lol.json";
+/** URL directa a la rama datos en GitHub Raw (actualizada cada 5 min sin depender del deploy de Pages). */
+export const RUTA_DATOS_RAW = "https://raw.githubusercontent.com/JCarvajalLab/LOLSapo/datos/datos/lol.json";
+export const RUTA_DATOS_TFT_RAW = "https://raw.githubusercontent.com/JCarvajalLab/LOLSapo/datos/datos/tft.json";
 
 /**
  * Error al leer los datos. `tipo` permite mostrar un mensaje accionable:
@@ -55,7 +58,28 @@ export function cargarDatos(fetchFn = fetch) {
  */
 export async function cargarJson(ruta, validar, fetchFn = fetch) {
   let respuesta;
-  const usarAntiCache = typeof window !== "undefined" && typeof window.fetch === "function" && fetchFn === window.fetch;
+  const esGitHubPages =
+    typeof window !== "undefined" && typeof window.location === "object" && window.location.hostname.includes("github.io");
+  const esFetchNativo = typeof window !== "undefined" && typeof window.fetch === "function" && fetchFn === window.fetch;
+
+  // En producción (GitHub Pages), se pide directo a la rama datos en GitHub Raw para
+  // tener los datos frescos de hace 5 minutos sin depender del desempaquetado de Pages.
+  if (esGitHubPages && esFetchNativo) {
+    const urlRemota = ruta === RUTA_DATOS ? RUTA_DATOS_RAW : ruta.includes("tft.json") ? RUTA_DATOS_TFT_RAW : null;
+    if (urlRemota) {
+      try {
+        const resRemota = await fetchFn(`${urlRemota}?_t=${Date.now()}`, { cache: "no-store" });
+        if (resRemota.ok) {
+          const json = await resRemota.json();
+          return validar(json);
+        }
+      } catch {
+        // Fallback al archivo empaquetado si GitHub Raw falla.
+      }
+    }
+  }
+
+  const usarAntiCache = esFetchNativo;
   const urlFinal = usarAntiCache ? `${ruta}${ruta.includes("?") ? "&" : "?"}_t=${Date.now()}` : ruta;
   try {
     respuesta = await fetchFn(urlFinal, { cache: "no-store" });

@@ -9,11 +9,11 @@ describe("Content Security Policy", () => {
   it("solo permite lo que la web usa", () => {
     expect(CSP).toBe(
       "default-src 'none'; script-src 'self'; style-src 'self'; " +
-        "img-src 'self' data: https://ddragon.leagueoflegends.com; font-src 'self'; connect-src 'self'; " +
+        "img-src 'self' data: https://ddragon.leagueoflegends.com; font-src 'self'; connect-src 'self' https://raw.githubusercontent.com; " +
         "base-uri 'none'; form-action 'none'; object-src 'none'",
     );
     expect(DIRECTIVAS_CSP["img-src"]).toContain("https://ddragon.leagueoflegends.com");
-    expect(DIRECTIVAS_CSP["connect-src"]).toEqual(["'self'"]);
+    expect(DIRECTIVAS_CSP["connect-src"]).toEqual(["'self'", "https://raw.githubusercontent.com"]);
   });
 
   it("se aplica solo al construir", () => {
