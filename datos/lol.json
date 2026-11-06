@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-11-06T19:51:10Z",
+  "actualizado": "2026-11-06T19:56:10Z",
   "amigos": [
     {
       "actividad": {
@@ -22304,7 +22304,15 @@
         }
       },
       "estado": "ok",
-      "jugando": null,
+      "jugando": {
+        "campeon_id": 41,
+        "categoria": "aram",
+        "duracion": 142,
+        "inicio": 1793994771016,
+        "modo": "ARAM Caos",
+        "partida_id": 1635724508,
+        "queue_id": 2400
+      },
       "nombre": "Big Gato",
       "partidas": [
         {
@@ -98727,6 +98735,10 @@
         "id": "SummonerTeleport",
         "nombre": "Teleportación"
       },
+      "13": {
+        "id": "SummonerMana",
+        "nombre": "Claridad"
+      },
       "14": {
         "id": "SummonerDot",
         "nombre": "Ignición"
@@ -98738,6 +98750,10 @@
       "3": {
         "id": "SummonerExhaust",
         "nombre": "Extenuación"
+      },
+      "32": {
+        "id": "SummonerSnowball",
+        "nombre": "Marca"
       },
       "4": {
         "id": "SummonerFlash",
@@ -101480,7 +101496,291 @@
       ]
     }
   },
-  "en_vivo": [],
+  "en_vivo": [
+    {
+      "amigos": [
+        "big-gato-las"
+      ],
+      "categoria": "aram",
+      "duracion": 142,
+      "equipos": [
+        {
+          "bloqueos": [],
+          "equipo": 100,
+          "jugadores": [
+            {
+              "amigo": null,
+              "campeon_id": 147,
+              "equipo": 100,
+              "hechizos": [
+                32,
+                4
+              ],
+              "maestria": {
+                "nivel": 2,
+                "puntos": 3583
+              },
+              "nombre": "SisterHong#Romi",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": {
+                "derrotas": 31,
+                "division": "IV",
+                "lp": 1,
+                "racha": false,
+                "tier": "PLATINUM",
+                "victorias": 50,
+                "winrate": 61.7
+              },
+              "runas": {
+                "principal": 8229,
+                "secundaria": 8100
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 11,
+              "equipo": 100,
+              "hechizos": [
+                4,
+                6
+              ],
+              "maestria": {
+                "nivel": 5,
+                "puntos": 28840
+              },
+              "nombre": "Rz Ivan#RZoro",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": {
+                "derrotas": 88,
+                "division": "III",
+                "lp": 74,
+                "racha": true,
+                "tier": "PLATINUM",
+                "victorias": 88,
+                "winrate": 50.0
+              },
+              "runas": {
+                "principal": 8992,
+                "secundaria": 8000
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 29,
+              "equipo": 100,
+              "hechizos": [
+                13,
+                4
+              ],
+              "maestria": {
+                "nivel": 20,
+                "puntos": 192537
+              },
+              "nombre": "iErrør404#error",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": {
+                "derrotas": 7,
+                "division": "I",
+                "lp": 50,
+                "racha": true,
+                "tier": "GOLD",
+                "victorias": 8,
+                "winrate": 53.3
+              },
+              "runas": {
+                "principal": 8439,
+                "secundaria": 8200
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 72,
+              "equipo": 100,
+              "hechizos": [
+                4,
+                6
+              ],
+              "maestria": {
+                "nivel": 0,
+                "puntos": 0
+              },
+              "nombre": "Kitty#Eve01",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": null,
+              "runas": {
+                "principal": 8437,
+                "secundaria": 8000
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 360,
+              "equipo": 100,
+              "hechizos": [
+                32,
+                4
+              ],
+              "maestria": {
+                "nivel": 7,
+                "puntos": 48055
+              },
+              "nombre": "F4LL#4746",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": {
+                "derrotas": 7,
+                "division": "I",
+                "lp": 41,
+                "racha": false,
+                "tier": "SILVER",
+                "victorias": 11,
+                "winrate": 61.1
+              },
+              "runas": {
+                "principal": 9923,
+                "secundaria": 8000
+              }
+            }
+          ]
+        },
+        {
+          "bloqueos": [],
+          "equipo": 200,
+          "jugadores": [
+            {
+              "amigo": null,
+              "campeon_id": 21,
+              "equipo": 200,
+              "hechizos": [
+                4,
+                6
+              ],
+              "maestria": {
+                "nivel": 8,
+                "puntos": 56901
+              },
+              "nombre": "NOPREGUNTIWEASS#LAS",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": {
+                "derrotas": 9,
+                "division": "IV",
+                "lp": 52,
+                "racha": true,
+                "tier": "GOLD",
+                "victorias": 22,
+                "winrate": 71.0
+              },
+              "runas": {
+                "principal": 8005,
+                "secundaria": 8100
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 31,
+              "equipo": 200,
+              "hechizos": [
+                4,
+                32
+              ],
+              "maestria": {
+                "nivel": 5,
+                "puntos": 30829
+              },
+              "nombre": "º MBRP º#LAS",
+              "premade": 1,
+              "premade_partidas": 4,
+              "rango": {
+                "derrotas": 67,
+                "division": "III",
+                "lp": 42,
+                "racha": false,
+                "tier": "SILVER",
+                "victorias": 46,
+                "winrate": 40.7
+              },
+              "runas": {
+                "principal": 8437,
+                "secundaria": 8100
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 222,
+              "equipo": 200,
+              "hechizos": [
+                4,
+                6
+              ],
+              "maestria": {
+                "nivel": 5,
+                "puntos": 21789
+              },
+              "nombre": "D Chin#LAS",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": null,
+              "runas": {
+                "principal": 8214,
+                "secundaria": 8400
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 35,
+              "equipo": 200,
+              "hechizos": [
+                14,
+                4
+              ],
+              "maestria": {
+                "nivel": 4,
+                "puntos": 15267
+              },
+              "nombre": "InuPark #LAS",
+              "premade": 1,
+              "premade_partidas": 4,
+              "rango": null,
+              "runas": {
+                "principal": 8010,
+                "secundaria": 8100
+              }
+            },
+            {
+              "amigo": "big-gato-las",
+              "campeon_id": 41,
+              "equipo": 200,
+              "hechizos": [
+                32,
+                4
+              ],
+              "maestria": {
+                "nivel": 11,
+                "puntos": 97463
+              },
+              "nombre": "Big Gato#LAS",
+              "premade": 1,
+              "premade_partidas": 4,
+              "rango": null,
+              "runas": {
+                "principal": 8112,
+                "secundaria": 8300
+              }
+            }
+          ]
+        }
+      ],
+      "id": 1635724508,
+      "inicio": 1793994771016,
+      "modo": "ARAM Caos",
+      "queue_id": 2400
+    }
+  ],
   "ranking": [
     {
       "criterio": "rango",
