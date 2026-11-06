@@ -1,123 +1,57 @@
 {
-  "1635624739": {
+  "1635628909": {
     "maestrias": {
-      "050850cee232b85de13d8d21f8606037:235": {
-        "nivel": 6,
-        "puntos": 35171
-      },
-      "0ecbad21fc05512308d90dce92d2b0b9:234": {
-        "nivel": 18,
-        "puntos": 166387
-      },
-      "19a479b88ca314e434666a11506a990b:126": {
-        "nivel": 6,
-        "puntos": 39808
-      },
-      "1f51d651f74156ef0744496d7f8b902e:200": {
-        "nivel": 2,
-        "puntos": 4262
-      },
-      "4c2441fafc530f0dd35fa2f29641ca43:32": {
-        "nivel": 4,
-        "puntos": 19850
-      },
-      "4e3f5c46cdd9ab32f27e225dcee5ee78:127": {
-        "nivel": 4,
-        "puntos": 17903
-      },
-      "50c2e6a4f1a98ddd92889f37bc7023a2:17": {
-        "nivel": 8,
-        "puntos": 63103
-      },
-      "8ab754300d72451104bdd36a2dbe21ea:3": {
+      "076074b009b907fe367ce89ec830dd9b:157": {
         "nivel": 3,
-        "puntos": 10743
+        "puntos": 9276
       },
-      "eb090409a93d8ae969f22ba409a7628c:143": {
-        "nivel": 19,
-        "puntos": 209767
+      "165d92d08b529676272165d2c0ecb9cf:13": {
+        "nivel": 5,
+        "puntos": 28364
       },
-      "fa8558b3fc12aca9c4778ab69cbbfe07:142": {
+      "18997c063ccf5513a7e78e8c0e86e97b:254": {
+        "nivel": 4,
+        "puntos": 15744
+      },
+      "19a479b88ca314e434666a11506a990b:31": {
+        "nivel": 12,
+        "puntos": 100679
+      },
+      "4e3f5c46cdd9ab32f27e225dcee5ee78:59": {
+        "nivel": 4,
+        "puntos": 16952
+      },
+      "4e79580145ce1c6ff9fd354f884a7b21:111": {
+        "nivel": 5,
+        "puntos": 21649
+      },
+      "529684144cfb49362198549ee9472d3a:27": {
+        "nivel": 3,
+        "puntos": 7154
+      },
+      "79c55c4dc118d61ff9feccc97737827d:44": {
+        "nivel": 4,
+        "puntos": 21211
+      },
+      "dd83bd173fb7f3f5224ee84fba2d28c0:26": {
         "nivel": 6,
-        "puntos": 38314
+        "puntos": 42322
+      },
+      "e00d6c291183f562ec9ae5b3956b0575:112": {
+        "nivel": 1,
+        "puntos": 894
       }
     },
     "premades": {
-      "050850cee232b85de13d8d21f8606037": {
-        "grupo": 1,
-        "partidas": 2
-      },
       "19a479b88ca314e434666a11506a990b": {
-        "grupo": 2,
-        "partidas": 8
+        "grupo": 1,
+        "partidas": 9
       },
       "4e3f5c46cdd9ab32f27e225dcee5ee78": {
-        "grupo": 2,
-        "partidas": 8
-      },
-      "eb090409a93d8ae969f22ba409a7628c": {
         "grupo": 1,
-        "partidas": 2
+        "partidas": 9
       }
     },
-    "rangos": {
-      "050850cee232b85de13d8d21f8606037": {
-        "derrotas": 55,
-        "division": "I",
-        "lp": 2,
-        "racha": false,
-        "tier": "EMERALD",
-        "victorias": 43
-      },
-      "0ecbad21fc05512308d90dce92d2b0b9": {
-        "derrotas": 24,
-        "division": "II",
-        "lp": 17,
-        "racha": false,
-        "tier": "EMERALD",
-        "victorias": 27
-      },
-      "1f51d651f74156ef0744496d7f8b902e": null,
-      "4c2441fafc530f0dd35fa2f29641ca43": {
-        "derrotas": 39,
-        "division": "III",
-        "lp": 1,
-        "racha": true,
-        "tier": "EMERALD",
-        "victorias": 44
-      },
-      "50c2e6a4f1a98ddd92889f37bc7023a2": {
-        "derrotas": 32,
-        "division": "I",
-        "lp": 75,
-        "racha": false,
-        "tier": "BRONZE",
-        "victorias": 20
-      },
-      "8ab754300d72451104bdd36a2dbe21ea": {
-        "derrotas": 68,
-        "division": "II",
-        "lp": 48,
-        "racha": true,
-        "tier": "PLATINUM",
-        "victorias": 78
-      },
-      "eb090409a93d8ae969f22ba409a7628c": {
-        "derrotas": 63,
-        "division": "III",
-        "lp": 72,
-        "racha": false,
-        "tier": "EMERALD",
-        "victorias": 61
-      },
-      "fa8558b3fc12aca9c4778ab69cbbfe07": {
-        "derrotas": 4,
-        "division": "II",
-        "lp": 82,
-        "racha": false,
-        "tier": "PLATINUM",
-        "victorias": 2
-      }
-    }
+    "rangos": {}
   }
 }
