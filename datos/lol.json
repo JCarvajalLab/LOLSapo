@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-11-06T03:06:09Z",
+  "actualizado": "2026-11-06T03:11:16Z",
   "amigos": [
     {
       "actividad": {
@@ -451,7 +451,15 @@
         }
       },
       "estado": "ok",
-      "jugando": null,
+      "jugando": {
+        "campeon_id": 127,
+        "categoria": "aram",
+        "duracion": 250,
+        "inicio": 1793934365791,
+        "modo": "ARAM Caos",
+        "partida_id": 1635624739,
+        "queue_id": 2400
+      },
       "nombre": "Johnadis",
       "partidas": [
         {
@@ -22307,8 +22315,8 @@
       "jugando": {
         "campeon_id": 126,
         "categoria": "aram",
-        "duracion": 0,
-        "inicio": 1793934369304,
+        "duracion": 252,
+        "inicio": 1793934365791,
         "modo": "ARAM Caos",
         "partida_id": 1635624739,
         "queue_id": 2400
@@ -101503,7 +101511,7 @@
         "johnadis-las"
       ],
       "categoria": "aram",
-      "duracion": 0,
+      "duracion": 250,
       "equipos": [
         {
           "bloqueos": [],
@@ -101793,7 +101801,7 @@
         }
       ],
       "id": 1635624739,
-      "inicio": 1793934369304,
+      "inicio": 1793934365791,
       "modo": "ARAM Caos",
       "queue_id": 2400
     }
