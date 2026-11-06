@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-11-06T02:41:09Z",
+  "actualizado": "2026-11-06T02:46:14Z",
   "amigos": [
     {
       "actividad": {
@@ -452,12 +452,12 @@
       },
       "estado": "ok",
       "jugando": {
-        "campeon_id": 6,
+        "campeon_id": 897,
         "categoria": "aram",
-        "duracion": 743,
-        "inicio": 1793932066772,
+        "duracion": 0,
+        "inicio": 1793933166428,
         "modo": "ARAM Caos",
-        "partida_id": 1635611640,
+        "partida_id": 1635621014,
         "queue_id": 2400
       },
       "nombre": "Johnadis",
@@ -22313,12 +22313,12 @@
       },
       "estado": "ok",
       "jugando": {
-        "campeon_id": 35,
+        "campeon_id": 233,
         "categoria": "aram",
-        "duracion": 746,
-        "inicio": 1793932066772,
+        "duracion": 0,
+        "inicio": 1793933166428,
         "modo": "ARAM Caos",
-        "partida_id": 1635611640,
+        "partida_id": 1635621014,
         "queue_id": 2400
       },
       "nombre": "Big Gato",
@@ -101507,7 +101507,7 @@
         "johnadis-las"
       ],
       "categoria": "aram",
-      "duracion": 743,
+      "duracion": 0,
       "equipos": [
         {
           "bloqueos": [],
@@ -101515,139 +101515,123 @@
           "jugadores": [
             {
               "amigo": null,
-              "campeon_id": 117,
-              "equipo": 100,
-              "hechizos": [
-                14,
-                4
-              ],
-              "maestria": {
-                "nivel": 16,
-                "puntos": 164455
-              },
-              "nombre": "Joker Egoist#LAS",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": {
-                "derrotas": 7,
-                "division": "III",
-                "lp": 19,
-                "racha": false,
-                "tier": "BRONZE",
-                "victorias": 7,
-                "winrate": 50.0
-              },
-              "runas": {
-                "principal": 8214,
-                "secundaria": 8000
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 26,
-              "equipo": 100,
-              "hechizos": [
-                4,
-                21
-              ],
-              "maestria": {
-                "nivel": 0,
-                "puntos": 0
-              },
-              "nombre": "SixSevenaldoJrrr#Silva",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": {
-                "derrotas": 55,
-                "division": "III",
-                "lp": 1,
-                "racha": false,
-                "tier": "PLATINUM",
-                "victorias": 53,
-                "winrate": 49.1
-              },
-              "runas": {
-                "principal": 9923,
-                "secundaria": 8000
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 147,
-              "equipo": 100,
-              "hechizos": [
-                7,
-                4
-              ],
-              "maestria": {
-                "nivel": 8,
-                "puntos": 61229
-              },
-              "nombre": "Blossom#wisp",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": {
-                "derrotas": 66,
-                "division": null,
-                "lp": 30,
-                "racha": false,
-                "tier": "MASTER",
-                "victorias": 90,
-                "winrate": 57.7
-              },
-              "runas": {
-                "principal": 8214,
-                "secundaria": 8300
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 99,
-              "equipo": 100,
-              "hechizos": [
-                4,
-                6
-              ],
-              "maestria": {
-                "nivel": 28,
-                "puntos": 307181
-              },
-              "nombre": "Mantecol ツ#armin",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": {
-                "derrotas": 13,
-                "division": "IV",
-                "lp": 54,
-                "racha": false,
-                "tier": "SILVER",
-                "victorias": 6,
-                "winrate": 31.6
-              },
-              "runas": {
-                "principal": 8112,
-                "secundaria": 8200
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 164,
+              "campeon_id": 106,
               "equipo": 100,
               "hechizos": [
                 4,
                 32
               ],
               "maestria": {
-                "nivel": 4,
-                "puntos": 15429
+                "nivel": 6,
+                "puntos": 33791
               },
-              "nombre": "La Pyñoneta#LAS",
+              "nombre": "gucci morty#misa",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": {
+                "derrotas": 89,
+                "division": "IV",
+                "lp": 14,
+                "racha": false,
+                "tier": "PLATINUM",
+                "victorias": 96,
+                "winrate": 51.9
+              },
+              "runas": {
+                "principal": 8008,
+                "secundaria": 8300
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 102,
+              "equipo": 100,
+              "hechizos": [
+                32,
+                4
+              ],
+              "maestria": {
+                "nivel": 4,
+                "puntos": 23588
+              },
+              "nombre": "Oh Hae won#25021",
               "premade": null,
               "premade_partidas": null,
               "rango": null,
               "runas": {
                 "principal": 8128,
+                "secundaria": 8200
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 875,
+              "equipo": 100,
+              "hechizos": [
+                4,
+                32
+              ],
+              "maestria": {
+                "nivel": 7,
+                "puntos": 44012
+              },
+              "nombre": "Morusama#MORU",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": null,
+              "runas": {
+                "principal": 8439,
                 "secundaria": 8000
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 51,
+              "equipo": 100,
+              "hechizos": [
+                6,
+                4
+              ],
+              "maestria": {
+                "nivel": 7,
+                "puntos": 48326
+              },
+              "nombre": "Cat Haerin#THV",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": null,
+              "runas": {
+                "principal": 8214,
+                "secundaria": 8400
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 53,
+              "equipo": 100,
+              "hechizos": [
+                32,
+                4
+              ],
+              "maestria": {
+                "nivel": 4,
+                "puntos": 17855
+              },
+              "nombre": "Mo Dani#tokki",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": {
+                "derrotas": 140,
+                "division": "III",
+                "lp": 97,
+                "racha": false,
+                "tier": "EMERALD",
+                "victorias": 142,
+                "winrate": 50.4
+              },
+              "runas": {
+                "principal": 8369,
+                "secundaria": 8100
               }
             }
           ]
@@ -101658,98 +101642,77 @@
           "jugadores": [
             {
               "amigo": null,
-              "campeon_id": 777,
-              "equipo": 200,
-              "hechizos": [
-                32,
-                4
-              ],
-              "maestria": {
-                "nivel": 11,
-                "puntos": 108463
-              },
-              "nombre": "Mergo#004",
-              "premade": 1,
-              "premade_partidas": 6,
-              "rango": {
-                "derrotas": 118,
-                "division": "IV",
-                "lp": 3,
-                "racha": false,
-                "tier": "DIAMOND",
-                "victorias": 117,
-                "winrate": 49.8
-              },
-              "runas": {
-                "principal": 8010,
-                "secundaria": 8400
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 59,
-              "equipo": 200,
-              "hechizos": [
-                32,
-                4
-              ],
-              "maestria": {
-                "nivel": 4,
-                "puntos": 14740
-              },
-              "nombre": "이유 없이 살아#Moi",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": {
-                "derrotas": 4,
-                "division": "III",
-                "lp": 60,
-                "racha": false,
-                "tier": "PLATINUM",
-                "victorias": 1,
-                "winrate": 20.0
-              },
-              "runas": {
-                "principal": 8128,
-                "secundaria": 8200
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 37,
-              "equipo": 200,
-              "hechizos": [
-                4,
-                6
-              ],
-              "maestria": {
-                "nivel": 7,
-                "puntos": 43905
-              },
-              "nombre": "Braann#LAS",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": null,
-              "runas": {
-                "principal": 8439,
-                "secundaria": 8200
-              }
-            },
-            {
-              "amigo": "johnadis-las",
-              "campeon_id": 6,
+              "campeon_id": 142,
               "equipo": 200,
               "hechizos": [
                 4,
                 32
               ],
               "maestria": {
-                "nivel": 7,
-                "puntos": 50928
+                "nivel": 21,
+                "puntos": 197773
+              },
+              "nombre": "Yunki#jinx",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": {
+                "derrotas": 24,
+                "division": "II",
+                "lp": 7,
+                "racha": true,
+                "tier": "PLATINUM",
+                "victorias": 35,
+                "winrate": 59.3
+              },
+              "runas": {
+                "principal": 8128,
+                "secundaria": 8000
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 202,
+              "equipo": 200,
+              "hechizos": [
+                4,
+                6
+              ],
+              "maestria": {
+                "nivel": 13,
+                "puntos": 123438
+              },
+              "nombre": "Inzzaghi#wiwi",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": {
+                "derrotas": 56,
+                "division": null,
+                "lp": 0,
+                "racha": false,
+                "tier": "MASTER",
+                "victorias": 60,
+                "winrate": 51.7
+              },
+              "runas": {
+                "principal": 8010,
+                "secundaria": 8300
+              }
+            },
+            {
+              "amigo": "johnadis-las",
+              "campeon_id": 897,
+              "equipo": 200,
+              "hechizos": [
+                4,
+                32
+              ],
+              "maestria": {
+                "nivel": 9,
+                "puntos": 66630
               },
               "nombre": "Johnadis#LAS",
               "premade": 1,
-              "premade_partidas": 6,
+              "premade_partidas": 7,
               "rango": {
                 "derrotas": 11,
                 "division": "II",
@@ -101766,30 +101729,59 @@
             },
             {
               "amigo": "big-gato-las",
-              "campeon_id": 35,
+              "campeon_id": 233,
               "equipo": 200,
               "hechizos": [
                 32,
                 4
               ],
               "maestria": {
-                "nivel": 8,
-                "puntos": 56685
+                "nivel": 3,
+                "puntos": 10942
               },
               "nombre": "Big Gato#LAS",
               "premade": 1,
-              "premade_partidas": 6,
+              "premade_partidas": 7,
               "rango": null,
               "runas": {
                 "principal": 8112,
                 "secundaria": 8300
               }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 523,
+              "equipo": 200,
+              "hechizos": [
+                4,
+                32
+              ],
+              "maestria": {
+                "nivel": 78,
+                "puntos": 845429
+              },
+              "nombre": "Mochilin#TxM",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": {
+                "derrotas": 25,
+                "division": "II",
+                "lp": 36,
+                "racha": false,
+                "tier": "GOLD",
+                "victorias": 23,
+                "winrate": 47.9
+              },
+              "runas": {
+                "principal": 8112,
+                "secundaria": 8200
+              }
             }
           ]
         }
       ],
-      "id": 1635611640,
-      "inicio": 1793932066772,
+      "id": 1635621014,
+      "inicio": 1793933166428,
       "modo": "ARAM Caos",
       "queue_id": 2400
     }
