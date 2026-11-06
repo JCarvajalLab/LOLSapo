@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-11-06T19:46:09Z",
+  "actualizado": "2026-11-06T19:51:10Z",
   "amigos": [
     {
       "actividad": {
@@ -22304,15 +22304,7 @@
         }
       },
       "estado": "ok",
-      "jugando": {
-        "campeon_id": 76,
-        "categoria": "aram",
-        "duracion": 684,
-        "inicio": 1793993628249,
-        "modo": "ARAM Caos",
-        "partida_id": 1635720786,
-        "queue_id": 2400
-      },
+      "jugando": null,
       "nombre": "Big Gato",
       "partidas": [
         {
@@ -98281,10 +98273,6 @@
         "id": "Warwick",
         "nombre": "Warwick"
       },
-      "200": {
-        "id": "Belveth",
-        "nombre": "Bel'Veth"
-      },
       "201": {
         "id": "Braum",
         "nombre": "Braum"
@@ -98597,10 +98585,6 @@
         "id": "Nasus",
         "nombre": "Nasus"
       },
-      "76": {
-        "id": "Nidalee",
-        "nombre": "Nidalee"
-      },
       "777": {
         "id": "Yone",
         "nombre": "Yone"
@@ -98644,10 +98628,6 @@
       "82": {
         "id": "Mordekaiser",
         "nombre": "Mordekaiser"
-      },
-      "83": {
-        "id": "Yorick",
-        "nombre": "Yorick"
       },
       "84": {
         "id": "Akali",
@@ -98758,10 +98738,6 @@
       "3": {
         "id": "SummonerExhaust",
         "nombre": "Extenuación"
-      },
-      "32": {
-        "id": "SummonerSnowball",
-        "nombre": "Marca"
       },
       "4": {
         "id": "SummonerFlash",
@@ -101504,299 +101480,7 @@
       ]
     }
   },
-  "en_vivo": [
-    {
-      "amigos": [
-        "big-gato-las"
-      ],
-      "categoria": "aram",
-      "duracion": 684,
-      "equipos": [
-        {
-          "bloqueos": [],
-          "equipo": 100,
-          "jugadores": [
-            {
-              "amigo": null,
-              "campeon_id": 895,
-              "equipo": 100,
-              "hechizos": [
-                4,
-                32
-              ],
-              "maestria": {
-                "nivel": 6,
-                "puntos": 32087
-              },
-              "nombre": "nic0im#LAS",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": {
-                "derrotas": 4,
-                "division": "IV",
-                "lp": 60,
-                "racha": false,
-                "tier": "SILVER",
-                "victorias": 1,
-                "winrate": 20.0
-              },
-              "runas": {
-                "principal": 8008,
-                "secundaria": 8200
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 35,
-              "equipo": 100,
-              "hechizos": [
-                4,
-                32
-              ],
-              "maestria": {
-                "nivel": 10,
-                "puntos": 78202
-              },
-              "nombre": "EXTREMS#LAS",
-              "premade": 1,
-              "premade_partidas": 1,
-              "rango": {
-                "derrotas": 61,
-                "division": "II",
-                "lp": 75,
-                "racha": false,
-                "tier": "DIAMOND",
-                "victorias": 83,
-                "winrate": 57.6
-              },
-              "runas": {
-                "principal": 8021,
-                "secundaria": 8400
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 83,
-              "equipo": 100,
-              "hechizos": [
-                4,
-                32
-              ],
-              "maestria": {
-                "nivel": 4,
-                "puntos": 20812
-              },
-              "nombre": "Pabl0 Ecarry#LAS",
-              "premade": 1,
-              "premade_partidas": 1,
-              "rango": {
-                "derrotas": 17,
-                "division": "IV",
-                "lp": 43,
-                "racha": false,
-                "tier": "SILVER",
-                "victorias": 5,
-                "winrate": 22.7
-              },
-              "runas": {
-                "principal": 8437,
-                "secundaria": 8300
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 80,
-              "equipo": 100,
-              "hechizos": [
-                4,
-                32
-              ],
-              "maestria": {
-                "nivel": 4,
-                "puntos": 16017
-              },
-              "nombre": "LaRabaConPeluca#ZAPE",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": {
-                "derrotas": 15,
-                "division": "IV",
-                "lp": 2,
-                "racha": false,
-                "tier": "EMERALD",
-                "victorias": 12,
-                "winrate": 44.4
-              },
-              "runas": {
-                "principal": 8229,
-                "secundaria": 8100
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 32,
-              "equipo": 100,
-              "hechizos": [
-                4,
-                32
-              ],
-              "maestria": {
-                "nivel": 3,
-                "puntos": 10152
-              },
-              "nombre": "XPadriX#LAS",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": null,
-              "runas": {
-                "principal": 8214,
-                "secundaria": 8400
-              }
-            }
-          ]
-        },
-        {
-          "bloqueos": [],
-          "equipo": 200,
-          "jugadores": [
-            {
-              "amigo": null,
-              "campeon_id": 200,
-              "equipo": 200,
-              "hechizos": [
-                32,
-                4
-              ],
-              "maestria": {
-                "nivel": 3,
-                "puntos": 7383
-              },
-              "nombre": "Miyamura#PYKO",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": {
-                "derrotas": 173,
-                "division": "I",
-                "lp": 80,
-                "racha": true,
-                "tier": "EMERALD",
-                "victorias": 201,
-                "winrate": 53.7
-              },
-              "runas": {
-                "principal": 8008,
-                "secundaria": 8100
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 126,
-              "equipo": 200,
-              "hechizos": [
-                32,
-                4
-              ],
-              "maestria": {
-                "nivel": 4,
-                "puntos": 15083
-              },
-              "nombre": "InuPark #LAS",
-              "premade": 2,
-              "premade_partidas": 3,
-              "rango": null,
-              "runas": {
-                "principal": 8010,
-                "secundaria": 8100
-              }
-            },
-            {
-              "amigo": "big-gato-las",
-              "campeon_id": 76,
-              "equipo": 200,
-              "hechizos": [
-                32,
-                4
-              ],
-              "maestria": {
-                "nivel": 10,
-                "puntos": 86169
-              },
-              "nombre": "Big Gato#LAS",
-              "premade": 2,
-              "premade_partidas": 3,
-              "rango": null,
-              "runas": {
-                "principal": 8112,
-                "secundaria": 8300
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 22,
-              "equipo": 200,
-              "hechizos": [
-                6,
-                4
-              ],
-              "maestria": {
-                "nivel": 7,
-                "puntos": 53260
-              },
-              "nombre": "LS Extasis#PARIS",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": {
-                "derrotas": 36,
-                "division": "IV",
-                "lp": 31,
-                "racha": false,
-                "tier": "DIAMOND",
-                "victorias": 28,
-                "winrate": 43.8
-              },
-              "runas": {
-                "principal": 8214,
-                "secundaria": 8300
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 72,
-              "equipo": 200,
-              "hechizos": [
-                4,
-                32
-              ],
-              "maestria": {
-                "nivel": 4,
-                "puntos": 17618
-              },
-              "nombre": "º MBRP º#LAS",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": {
-                "derrotas": 67,
-                "division": "III",
-                "lp": 42,
-                "racha": false,
-                "tier": "SILVER",
-                "victorias": 46,
-                "winrate": 40.7
-              },
-              "runas": {
-                "principal": 8437,
-                "secundaria": 8000
-              }
-            }
-          ]
-        }
-      ],
-      "id": 1635720786,
-      "inicio": 1793993628249,
-      "modo": "ARAM Caos",
-      "queue_id": 2400
-    }
-  ],
+  "en_vivo": [],
   "ranking": [
     {
       "criterio": "rango",
