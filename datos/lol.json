@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-11-06T03:42:11Z",
+  "actualizado": "2026-11-06T03:46:09Z",
   "amigos": [
     {
       "actividad": {
@@ -451,15 +451,7 @@
         }
       },
       "estado": "ok",
-      "jugando": {
-        "campeon_id": 59,
-        "categoria": "aram",
-        "duracion": 980,
-        "inicio": 1793935491946,
-        "modo": "ARAM Caos",
-        "partida_id": 1635628909,
-        "queue_id": 2400
-      },
+      "jugando": null,
       "nombre": "Johnadis",
       "partidas": [
         {
@@ -22312,15 +22304,7 @@
         }
       },
       "estado": "ok",
-      "jugando": {
-        "campeon_id": 31,
-        "categoria": "aram",
-        "duracion": 982,
-        "inicio": 1793935491946,
-        "modo": "ARAM Caos",
-        "partida_id": 1635628909,
-        "queue_id": 2400
-      },
+      "jugando": null,
       "nombre": "Big Gato",
       "partidas": [
         {
@@ -98755,10 +98739,6 @@
         "id": "SummonerExhaust",
         "nombre": "Extenuación"
       },
-      "32": {
-        "id": "SummonerSnowball",
-        "nombre": "Marca"
-      },
       "4": {
         "id": "SummonerFlash",
         "nombre": "Destello"
@@ -101500,292 +101480,7 @@
       ]
     }
   },
-  "en_vivo": [
-    {
-      "amigos": [
-        "big-gato-las",
-        "johnadis-las"
-      ],
-      "categoria": "aram",
-      "duracion": 980,
-      "equipos": [
-        {
-          "bloqueos": [],
-          "equipo": 100,
-          "jugadores": [
-            {
-              "amigo": null,
-              "campeon_id": 27,
-              "equipo": 100,
-              "hechizos": [
-                4,
-                32
-              ],
-              "maestria": {
-                "nivel": 3,
-                "puntos": 7154
-              },
-              "nombre": "Alfajor Tatin#8756",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": null,
-              "runas": {
-                "principal": 8992,
-                "secundaria": 8000
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 157,
-              "equipo": 100,
-              "hechizos": [
-                4,
-                6
-              ],
-              "maestria": {
-                "nivel": 3,
-                "puntos": 9276
-              },
-              "nombre": "Lyon#9710",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": null,
-              "runas": {
-                "principal": 8992,
-                "secundaria": 8400
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 44,
-              "equipo": 100,
-              "hechizos": [
-                4,
-                32
-              ],
-              "maestria": {
-                "nivel": 4,
-                "puntos": 21211
-              },
-              "nombre": "Kimita#666",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": null,
-              "runas": {
-                "principal": 8128,
-                "secundaria": 8200
-              }
-            },
-            {
-              "amigo": "johnadis-las",
-              "campeon_id": 59,
-              "equipo": 100,
-              "hechizos": [
-                4,
-                32
-              ],
-              "maestria": {
-                "nivel": 4,
-                "puntos": 16952
-              },
-              "nombre": "Johnadis#LAS",
-              "premade": 1,
-              "premade_partidas": 9,
-              "rango": {
-                "derrotas": 11,
-                "division": "II",
-                "lp": 85,
-                "racha": false,
-                "tier": "PLATINUM",
-                "victorias": 13,
-                "winrate": 54.2
-              },
-              "runas": {
-                "principal": 8360,
-                "secundaria": 8400
-              }
-            },
-            {
-              "amigo": "big-gato-las",
-              "campeon_id": 31,
-              "equipo": 100,
-              "hechizos": [
-                32,
-                4
-              ],
-              "maestria": {
-                "nivel": 12,
-                "puntos": 100679
-              },
-              "nombre": "Big Gato#LAS",
-              "premade": 1,
-              "premade_partidas": 9,
-              "rango": null,
-              "runas": {
-                "principal": 8112,
-                "secundaria": 8300
-              }
-            }
-          ]
-        },
-        {
-          "bloqueos": [],
-          "equipo": 200,
-          "jugadores": [
-            {
-              "amigo": null,
-              "campeon_id": 111,
-              "equipo": 200,
-              "hechizos": [
-                4,
-                32
-              ],
-              "maestria": {
-                "nivel": 5,
-                "puntos": 21649
-              },
-              "nombre": "Mary Kohnazo#000",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": {
-                "derrotas": 468,
-                "division": "III",
-                "lp": 59,
-                "racha": false,
-                "tier": "EMERALD",
-                "victorias": 488,
-                "winrate": 51.0
-              },
-              "runas": {
-                "principal": 8230,
-                "secundaria": 8300
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 26,
-              "equipo": 200,
-              "hechizos": [
-                4,
-                21
-              ],
-              "maestria": {
-                "nivel": 6,
-                "puntos": 42322
-              },
-              "nombre": "lutmiii#LAS",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": {
-                "derrotas": 11,
-                "division": "IV",
-                "lp": 81,
-                "racha": false,
-                "tier": "SILVER",
-                "victorias": 7,
-                "winrate": 38.9
-              },
-              "runas": {
-                "principal": 8112,
-                "secundaria": 8200
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 112,
-              "equipo": 200,
-              "hechizos": [
-                4,
-                7
-              ],
-              "maestria": {
-                "nivel": 1,
-                "puntos": 894
-              },
-              "nombre": "Distopia#Tuki",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": {
-                "derrotas": 205,
-                "division": "III",
-                "lp": 45,
-                "racha": false,
-                "tier": "GOLD",
-                "victorias": 205,
-                "winrate": 50.0
-              },
-              "runas": {
-                "principal": 8369,
-                "secundaria": 8200
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 254,
-              "equipo": 200,
-              "hechizos": [
-                32,
-                4
-              ],
-              "maestria": {
-                "nivel": 4,
-                "puntos": 15744
-              },
-              "nombre": "Tyrano#LAS",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": {
-                "derrotas": 6,
-                "division": "III",
-                "lp": 25,
-                "racha": false,
-                "tier": "PLATINUM",
-                "victorias": 5,
-                "winrate": 45.5
-              },
-              "runas": {
-                "principal": 8992,
-                "secundaria": 8000
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 13,
-              "equipo": 200,
-              "hechizos": [
-                32,
-                4
-              ],
-              "maestria": {
-                "nivel": 5,
-                "puntos": 28364
-              },
-              "nombre": "Truklis#Disto",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": {
-                "derrotas": 49,
-                "division": "III",
-                "lp": 5,
-                "racha": false,
-                "tier": "EMERALD",
-                "victorias": 45,
-                "winrate": 47.9
-              },
-              "runas": {
-                "principal": 8230,
-                "secundaria": 8100
-              }
-            }
-          ]
-        }
-      ],
-      "id": 1635628909,
-      "inicio": 1793935491946,
-      "modo": "ARAM Caos",
-      "queue_id": 2400
-    }
-  ],
+  "en_vivo": [],
   "ranking": [
     {
       "criterio": "rango",
