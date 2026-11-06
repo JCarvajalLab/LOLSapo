@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-11-06T01:46:07Z",
+  "actualizado": "2026-11-06T01:51:10Z",
   "amigos": [
     {
       "actividad": {
@@ -451,7 +451,15 @@
         }
       },
       "estado": "ok",
-      "jugando": null,
+      "jugando": {
+        "campeon_id": 122,
+        "categoria": "aram",
+        "duracion": 51,
+        "inicio": 1793929760168,
+        "modo": "ARAM Caos",
+        "partida_id": 1635599456,
+        "queue_id": 2400
+      },
       "nombre": "Johnadis",
       "partidas": [
         {
@@ -22304,7 +22312,15 @@
         }
       },
       "estado": "ok",
-      "jugando": null,
+      "jugando": {
+        "campeon_id": 142,
+        "categoria": "aram",
+        "duracion": 53,
+        "inicio": 1793929760168,
+        "modo": "ARAM Caos",
+        "partida_id": 1635599456,
+        "queue_id": 2400
+      },
       "nombre": "Big Gato",
       "partidas": [
         {
@@ -98739,6 +98755,10 @@
         "id": "SummonerExhaust",
         "nombre": "Extenuación"
       },
+      "32": {
+        "id": "SummonerSnowball",
+        "nombre": "Marca"
+      },
       "4": {
         "id": "SummonerFlash",
         "nombre": "Destello"
@@ -101480,7 +101500,273 @@
       ]
     }
   },
-  "en_vivo": [],
+  "en_vivo": [
+    {
+      "amigos": [
+        "big-gato-las",
+        "johnadis-las"
+      ],
+      "categoria": "aram",
+      "duracion": 51,
+      "equipos": [
+        {
+          "bloqueos": [],
+          "equipo": 100,
+          "jugadores": [
+            {
+              "amigo": "johnadis-las",
+              "campeon_id": 122,
+              "equipo": 100,
+              "hechizos": [
+                4,
+                32
+              ],
+              "maestria": {
+                "nivel": 4,
+                "puntos": 13696
+              },
+              "nombre": "Johnadis#LAS",
+              "premade": 1,
+              "premade_partidas": 4,
+              "rango": {
+                "derrotas": 11,
+                "division": "II",
+                "lp": 85,
+                "racha": false,
+                "tier": "PLATINUM",
+                "victorias": 13,
+                "winrate": 54.2
+              },
+              "runas": {
+                "principal": 8360,
+                "secundaria": 8400
+              }
+            },
+            {
+              "amigo": "big-gato-las",
+              "campeon_id": 142,
+              "equipo": 100,
+              "hechizos": [
+                32,
+                4
+              ],
+              "maestria": {
+                "nivel": 6,
+                "puntos": 35520
+              },
+              "nombre": "Big Gato#LAS",
+              "premade": 1,
+              "premade_partidas": 4,
+              "rango": null,
+              "runas": {
+                "principal": 8112,
+                "secundaria": 8300
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 236,
+              "equipo": 100,
+              "hechizos": [
+                4,
+                7
+              ],
+              "maestria": {
+                "nivel": 7,
+                "puntos": 44247
+              },
+              "nombre": "Syine#열성가",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": {
+                "derrotas": 139,
+                "division": "II",
+                "lp": 13,
+                "racha": false,
+                "tier": "EMERALD",
+                "victorias": 142,
+                "winrate": 50.5
+              },
+              "runas": {
+                "principal": 8437,
+                "secundaria": 8000
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 28,
+              "equipo": 100,
+              "hechizos": [
+                32,
+                4
+              ],
+              "maestria": {
+                "nivel": 3,
+                "puntos": 10934
+              },
+              "nombre": "Furuk4i#LAS",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": null,
+              "runas": {
+                "principal": 8010,
+                "secundaria": 8400
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 111,
+              "equipo": 100,
+              "hechizos": [
+                32,
+                4
+              ],
+              "maestria": {
+                "nivel": 4,
+                "puntos": 14206
+              },
+              "nombre": "rawnowo#LAS",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": null,
+              "runas": {
+                "principal": 8128,
+                "secundaria": 8000
+              }
+            }
+          ]
+        },
+        {
+          "bloqueos": [],
+          "equipo": 200,
+          "jugadores": [
+            {
+              "amigo": null,
+              "campeon_id": 63,
+              "equipo": 200,
+              "hechizos": [
+                4,
+                32
+              ],
+              "maestria": {
+                "nivel": 26,
+                "puntos": 252545
+              },
+              "nombre": "Mr Tony 0#LAS",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": null,
+              "runas": {
+                "principal": 8128,
+                "secundaria": 8000
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 875,
+              "equipo": 200,
+              "hechizos": [
+                4,
+                32
+              ],
+              "maestria": {
+                "nivel": 32,
+                "puntos": 325171
+              },
+              "nombre": "Darkseer965#LAS",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": {
+                "derrotas": 3,
+                "division": "IV",
+                "lp": 45,
+                "racha": false,
+                "tier": "PLATINUM",
+                "victorias": 3,
+                "winrate": 50.0
+              },
+              "runas": {
+                "principal": 8437,
+                "secundaria": 8000
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 30,
+              "equipo": 200,
+              "hechizos": [
+                4,
+                14
+              ],
+              "maestria": {
+                "nivel": 1,
+                "puntos": 459
+              },
+              "nombre": "mathodds#00001",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": null,
+              "runas": {
+                "principal": 8128,
+                "secundaria": 8200
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 85,
+              "equipo": 200,
+              "hechizos": [
+                4,
+                32
+              ],
+              "maestria": {
+                "nivel": 3,
+                "puntos": 6327
+              },
+              "nombre": "tenista quemado#LACON",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": {
+                "derrotas": 7,
+                "division": "IV",
+                "lp": 11,
+                "racha": false,
+                "tier": "DIAMOND",
+                "victorias": 2,
+                "winrate": 22.2
+              },
+              "runas": {
+                "principal": 8010,
+                "secundaria": 8300
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 106,
+              "equipo": 200,
+              "hechizos": [
+                4,
+                32
+              ],
+              "maestria": null,
+              "nombre": "Volibear",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": null,
+              "runas": {
+                "principal": 8992,
+                "secundaria": 8400
+              }
+            }
+          ]
+        }
+      ],
+      "id": 1635599456,
+      "inicio": 1793929760168,
+      "modo": "ARAM Caos",
+      "queue_id": 2400
+    }
+  ],
   "ranking": [
     {
       "criterio": "rango",
