@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-11-07T00:21:07Z",
+  "actualizado": "2026-11-07T00:26:07Z",
   "amigos": [
     {
       "actividad": {
@@ -36280,35 +36280,6 @@
             "amigo_principal": "iskrat-las",
             "amigos": [
               {
-                "partidas": 5,
-                "slug": "iskrat-las"
-              },
-              {
-                "partidas": 1,
-                "slug": "big-gato-las"
-              }
-            ],
-            "campeon": "Caitlyn",
-            "campeon_id": 51,
-            "cs": 1403,
-            "cs_minuto": 6.4,
-            "cs_promedio": 233.8,
-            "danio_promedio": 42333,
-            "derrotas": 4,
-            "kda": 3.14,
-            "partidas": 6,
-            "promedio_kda": {
-              "asesinatos": 9.0,
-              "asistencias": 14.0,
-              "muertes": 7.3
-            },
-            "victorias": 2,
-            "winrate": 33.3
-          },
-          {
-            "amigo_principal": "iskrat-las",
-            "amigos": [
-              {
                 "partidas": 3,
                 "slug": "iskrat-las"
               },
@@ -36395,6 +36366,35 @@
             },
             "victorias": 3,
             "winrate": 60.0
+          },
+          {
+            "amigo_principal": "iskrat-las",
+            "amigos": [
+              {
+                "partidas": 4,
+                "slug": "iskrat-las"
+              },
+              {
+                "partidas": 1,
+                "slug": "big-gato-las"
+              }
+            ],
+            "campeon": "Caitlyn",
+            "campeon_id": 51,
+            "cs": 1212,
+            "cs_minuto": 6.5,
+            "cs_promedio": 242.4,
+            "danio_promedio": 44634,
+            "derrotas": 3,
+            "kda": 3.7,
+            "partidas": 5,
+            "promedio_kda": {
+              "asesinatos": 9.4,
+              "asistencias": 15.0,
+              "muertes": 6.6
+            },
+            "victorias": 2,
+            "winrate": 40.0
           },
           {
             "amigo_principal": "iskrat-las",
@@ -36866,31 +36866,6 @@
             "winrate": 66.7
           },
           {
-            "amigo_principal": "johnadis-las",
-            "amigos": [
-              {
-                "partidas": 3,
-                "slug": "johnadis-las"
-              }
-            ],
-            "campeon": "Vex",
-            "campeon_id": 711,
-            "cs": 820,
-            "cs_minuto": 6.2,
-            "cs_promedio": 273.3,
-            "danio_promedio": 51822,
-            "derrotas": 1,
-            "kda": 4.94,
-            "partidas": 3,
-            "promedio_kda": {
-              "asesinatos": 13.7,
-              "asistencias": 14.3,
-              "muertes": 5.7
-            },
-            "victorias": 2,
-            "winrate": 66.7
-          },
-          {
             "amigo_principal": "big-gato-las",
             "amigos": [
               {
@@ -37127,6 +37102,31 @@
               "asesinatos": 8.0,
               "asistencias": 5.0,
               "muertes": 4.0
+            },
+            "victorias": 2,
+            "winrate": 100.0
+          },
+          {
+            "amigo_principal": "johnadis-las",
+            "amigos": [
+              {
+                "partidas": 2,
+                "slug": "johnadis-las"
+              }
+            ],
+            "campeon": "Vex",
+            "campeon_id": 711,
+            "cs": 580,
+            "cs_minuto": 6.0,
+            "cs_promedio": 290.0,
+            "danio_promedio": 50562,
+            "derrotas": 0,
+            "kda": 4.91,
+            "partidas": 2,
+            "promedio_kda": {
+              "asesinatos": 12.0,
+              "asistencias": 15.0,
+              "muertes": 5.5
             },
             "victorias": 2,
             "winrate": 100.0
@@ -38584,35 +38584,6 @@
                 {
                   "partidas": 5,
                   "slug": "iskrat-las"
-                },
-                {
-                  "partidas": 1,
-                  "slug": "big-gato-las"
-                }
-              ],
-              "campeon": "Caitlyn",
-              "campeon_id": 51,
-              "cs": 1403,
-              "cs_minuto": 6.4,
-              "cs_promedio": 233.8,
-              "danio_promedio": 42333,
-              "derrotas": 4,
-              "kda": 3.14,
-              "partidas": 6,
-              "promedio_kda": {
-                "asesinatos": 9.0,
-                "asistencias": 14.0,
-                "muertes": 7.3
-              },
-              "victorias": 2,
-              "winrate": 33.3
-            },
-            {
-              "amigo_principal": "iskrat-las",
-              "amigos": [
-                {
-                  "partidas": 5,
-                  "slug": "iskrat-las"
                 }
               ],
               "campeon": "Ziggs",
@@ -38631,6 +38602,35 @@
               },
               "victorias": 3,
               "winrate": 60.0
+            },
+            {
+              "amigo_principal": "iskrat-las",
+              "amigos": [
+                {
+                  "partidas": 4,
+                  "slug": "iskrat-las"
+                },
+                {
+                  "partidas": 1,
+                  "slug": "big-gato-las"
+                }
+              ],
+              "campeon": "Caitlyn",
+              "campeon_id": 51,
+              "cs": 1212,
+              "cs_minuto": 6.5,
+              "cs_promedio": 242.4,
+              "danio_promedio": 44634,
+              "derrotas": 3,
+              "kda": 3.7,
+              "partidas": 5,
+              "promedio_kda": {
+                "asesinatos": 9.4,
+                "asistencias": 15.0,
+                "muertes": 6.6
+              },
+              "victorias": 2,
+              "winrate": 40.0
             },
             {
               "amigo_principal": "iskrat-las",
@@ -39703,31 +39703,6 @@
               "winrate": 20.0
             },
             {
-              "amigo_principal": "johnadis-las",
-              "amigos": [
-                {
-                  "partidas": 3,
-                  "slug": "johnadis-las"
-                }
-              ],
-              "campeon": "Vex",
-              "campeon_id": 711,
-              "cs": 820,
-              "cs_minuto": 6.2,
-              "cs_promedio": 273.3,
-              "danio_promedio": 51822,
-              "derrotas": 1,
-              "kda": 4.94,
-              "partidas": 3,
-              "promedio_kda": {
-                "asesinatos": 13.7,
-                "asistencias": 14.3,
-                "muertes": 5.7
-              },
-              "victorias": 2,
-              "winrate": 66.7
-            },
-            {
               "amigo_principal": "nic-las",
               "amigos": [
                 {
@@ -39777,6 +39752,31 @@
                 "asesinatos": 8.0,
                 "asistencias": 5.0,
                 "muertes": 4.0
+              },
+              "victorias": 2,
+              "winrate": 100.0
+            },
+            {
+              "amigo_principal": "johnadis-las",
+              "amigos": [
+                {
+                  "partidas": 2,
+                  "slug": "johnadis-las"
+                }
+              ],
+              "campeon": "Vex",
+              "campeon_id": 711,
+              "cs": 580,
+              "cs_minuto": 6.0,
+              "cs_promedio": 290.0,
+              "danio_promedio": 50562,
+              "derrotas": 0,
+              "kda": 4.91,
+              "partidas": 2,
+              "promedio_kda": {
+                "asesinatos": 12.0,
+                "asistencias": 15.0,
+                "muertes": 5.5
               },
               "victorias": 2,
               "winrate": 100.0
@@ -41369,33 +41369,33 @@
         },
         "resumen_lineas": {
           "BOTTOM": {
-            "derrotas": 26,
-            "partidas": 52,
-            "porcentaje": 22.3,
+            "derrotas": 25,
+            "partidas": 51,
+            "porcentaje": 22.1,
             "posicion": "BOTTOM",
             "victorias": 26,
-            "winrate": 50.0
+            "winrate": 51.0
           },
           "JUNGLE": {
             "derrotas": 21,
             "partidas": 42,
-            "porcentaje": 18.0,
+            "porcentaje": 18.2,
             "posicion": "JUNGLE",
             "victorias": 21,
             "winrate": 50.0
           },
           "MIDDLE": {
-            "derrotas": 26,
-            "partidas": 52,
-            "porcentaje": 22.3,
+            "derrotas": 25,
+            "partidas": 51,
+            "porcentaje": 22.1,
             "posicion": "MIDDLE",
             "victorias": 26,
-            "winrate": 50.0
+            "winrate": 51.0
           },
           "TOP": {
             "derrotas": 20,
             "partidas": 43,
-            "porcentaje": 18.5,
+            "porcentaje": 18.6,
             "posicion": "TOP",
             "victorias": 23,
             "winrate": 53.5
@@ -41403,16 +41403,16 @@
           "UTILITY": {
             "derrotas": 21,
             "partidas": 44,
-            "porcentaje": 18.9,
+            "porcentaje": 19.0,
             "posicion": "UTILITY",
             "victorias": 23,
             "winrate": 52.3
           }
         },
-        "total_derrotas": 114,
-        "total_partidas": 233,
+        "total_derrotas": 112,
+        "total_partidas": 231,
         "total_victorias": 119,
-        "winrate": 51.1
+        "winrate": 51.5
       },
       "dias_90": {
         "campeones": [
@@ -75290,31 +75290,6 @@
                   "slug": "iskrat-las"
                 }
               ],
-              "campeon": "Caitlyn",
-              "campeon_id": 51,
-              "cs": 1204,
-              "cs_minuto": 6.2,
-              "cs_promedio": 240.8,
-              "danio_promedio": 44612,
-              "derrotas": 3,
-              "kda": 3.22,
-              "partidas": 5,
-              "promedio_kda": {
-                "asesinatos": 8.8,
-                "asistencias": 15.0,
-                "muertes": 7.4
-              },
-              "victorias": 2,
-              "winrate": 40.0
-            },
-            {
-              "amigo_principal": "iskrat-las",
-              "amigos": [
-                {
-                  "partidas": 5,
-                  "slug": "iskrat-las"
-                }
-              ],
               "campeon": "Ezreal",
               "campeon_id": 81,
               "cs": 856,
@@ -75331,6 +75306,31 @@
               },
               "victorias": 1,
               "winrate": 20.0
+            },
+            {
+              "amigo_principal": "iskrat-las",
+              "amigos": [
+                {
+                  "partidas": 4,
+                  "slug": "iskrat-las"
+                }
+              ],
+              "campeon": "Caitlyn",
+              "campeon_id": 51,
+              "cs": 1013,
+              "cs_minuto": 6.4,
+              "cs_promedio": 253.2,
+              "danio_promedio": 48058,
+              "derrotas": 2,
+              "kda": 3.96,
+              "partidas": 4,
+              "promedio_kda": {
+                "asesinatos": 9.2,
+                "asistencias": 16.5,
+                "muertes": 6.5
+              },
+              "victorias": 2,
+              "winrate": 50.0
             },
             {
               "amigo_principal": "iskrat-las",
@@ -75818,31 +75818,6 @@
                     "slug": "iskrat-las"
                   }
                 ],
-                "campeon": "Caitlyn",
-                "campeon_id": 51,
-                "cs": 1204,
-                "cs_minuto": 6.2,
-                "cs_promedio": 240.8,
-                "danio_promedio": 44612,
-                "derrotas": 3,
-                "kda": 3.22,
-                "partidas": 5,
-                "promedio_kda": {
-                  "asesinatos": 8.8,
-                  "asistencias": 15.0,
-                  "muertes": 7.4
-                },
-                "victorias": 2,
-                "winrate": 40.0
-              },
-              {
-                "amigo_principal": "iskrat-las",
-                "amigos": [
-                  {
-                    "partidas": 5,
-                    "slug": "iskrat-las"
-                  }
-                ],
                 "campeon": "Ezreal",
                 "campeon_id": 81,
                 "cs": 856,
@@ -75859,6 +75834,31 @@
                 },
                 "victorias": 1,
                 "winrate": 20.0
+              },
+              {
+                "amigo_principal": "iskrat-las",
+                "amigos": [
+                  {
+                    "partidas": 4,
+                    "slug": "iskrat-las"
+                  }
+                ],
+                "campeon": "Caitlyn",
+                "campeon_id": 51,
+                "cs": 1013,
+                "cs_minuto": 6.4,
+                "cs_promedio": 253.2,
+                "danio_promedio": 48058,
+                "derrotas": 2,
+                "kda": 3.96,
+                "partidas": 4,
+                "promedio_kda": {
+                  "asesinatos": 9.2,
+                  "asistencias": 16.5,
+                  "muertes": 6.5
+                },
+                "victorias": 2,
+                "winrate": 50.0
               },
               {
                 "amigo_principal": "iskrat-las",
@@ -76372,17 +76372,17 @@
           },
           "resumen_lineas": {
             "BOTTOM": {
-              "derrotas": 12,
-              "partidas": 23,
-              "porcentaje": 43.4,
+              "derrotas": 11,
+              "partidas": 22,
+              "porcentaje": 42.3,
               "posicion": "BOTTOM",
               "victorias": 11,
-              "winrate": 47.8
+              "winrate": 50.0
             },
             "JUNGLE": {
               "derrotas": 6,
               "partidas": 9,
-              "porcentaje": 17.0,
+              "porcentaje": 17.3,
               "posicion": "JUNGLE",
               "victorias": 3,
               "winrate": 33.3
@@ -76390,7 +76390,7 @@
             "MIDDLE": {
               "derrotas": 3,
               "partidas": 8,
-              "porcentaje": 15.1,
+              "porcentaje": 15.4,
               "posicion": "MIDDLE",
               "victorias": 5,
               "winrate": 62.5
@@ -76398,7 +76398,7 @@
             "TOP": {
               "derrotas": 3,
               "partidas": 7,
-              "porcentaje": 13.2,
+              "porcentaje": 13.5,
               "posicion": "TOP",
               "victorias": 4,
               "winrate": 57.1
@@ -76406,16 +76406,16 @@
             "UTILITY": {
               "derrotas": 3,
               "partidas": 6,
-              "porcentaje": 11.3,
+              "porcentaje": 11.5,
               "posicion": "UTILITY",
               "victorias": 3,
               "winrate": 50.0
             }
           },
-          "total_derrotas": 27,
-          "total_partidas": 53,
+          "total_derrotas": 26,
+          "total_partidas": 52,
           "total_victorias": 26,
-          "winrate": 49.1
+          "winrate": 50.0
         },
         "dias_90": {
           "campeones": [
@@ -82024,31 +82024,6 @@
               "amigo_principal": "johnadis-las",
               "amigos": [
                 {
-                  "partidas": 3,
-                  "slug": "johnadis-las"
-                }
-              ],
-              "campeon": "Vex",
-              "campeon_id": 711,
-              "cs": 820,
-              "cs_minuto": 6.2,
-              "cs_promedio": 273.3,
-              "danio_promedio": 51822,
-              "derrotas": 1,
-              "kda": 4.94,
-              "partidas": 3,
-              "promedio_kda": {
-                "asesinatos": 13.7,
-                "asistencias": 14.3,
-                "muertes": 5.7
-              },
-              "victorias": 2,
-              "winrate": 66.7
-            },
-            {
-              "amigo_principal": "johnadis-las",
-              "amigos": [
-                {
                   "partidas": 2,
                   "slug": "johnadis-las"
                 }
@@ -82066,6 +82041,31 @@
                 "asesinatos": 3.5,
                 "asistencias": 4.5,
                 "muertes": 3.0
+              },
+              "victorias": 2,
+              "winrate": 100.0
+            },
+            {
+              "amigo_principal": "johnadis-las",
+              "amigos": [
+                {
+                  "partidas": 2,
+                  "slug": "johnadis-las"
+                }
+              ],
+              "campeon": "Vex",
+              "campeon_id": 711,
+              "cs": 580,
+              "cs_minuto": 6.0,
+              "cs_promedio": 290.0,
+              "danio_promedio": 50562,
+              "derrotas": 0,
+              "kda": 4.91,
+              "partidas": 2,
+              "promedio_kda": {
+                "asesinatos": 12.0,
+                "asistencias": 15.0,
+                "muertes": 5.5
               },
               "victorias": 2,
               "winrate": 100.0
@@ -82656,26 +82656,26 @@
                 "amigo_principal": "johnadis-las",
                 "amigos": [
                   {
-                    "partidas": 3,
+                    "partidas": 2,
                     "slug": "johnadis-las"
                   }
                 ],
                 "campeon": "Vex",
                 "campeon_id": 711,
-                "cs": 820,
-                "cs_minuto": 6.2,
-                "cs_promedio": 273.3,
-                "danio_promedio": 51822,
-                "derrotas": 1,
-                "kda": 4.94,
-                "partidas": 3,
+                "cs": 580,
+                "cs_minuto": 6.0,
+                "cs_promedio": 290.0,
+                "danio_promedio": 50562,
+                "derrotas": 0,
+                "kda": 4.91,
+                "partidas": 2,
                 "promedio_kda": {
-                  "asesinatos": 13.7,
-                  "asistencias": 14.3,
-                  "muertes": 5.7
+                  "asesinatos": 12.0,
+                  "asistencias": 15.0,
+                  "muertes": 5.5
                 },
                 "victorias": 2,
-                "winrate": 66.7
+                "winrate": 100.0
               },
               {
                 "amigo_principal": "johnadis-las",
@@ -83012,7 +83012,7 @@
             "BOTTOM": {
               "derrotas": 4,
               "partidas": 7,
-              "porcentaje": 13.2,
+              "porcentaje": 13.5,
               "posicion": "BOTTOM",
               "victorias": 3,
               "winrate": 42.9
@@ -83020,23 +83020,23 @@
             "JUNGLE": {
               "derrotas": 3,
               "partidas": 8,
-              "porcentaje": 15.1,
+              "porcentaje": 15.4,
               "posicion": "JUNGLE",
               "victorias": 5,
               "winrate": 62.5
             },
             "MIDDLE": {
-              "derrotas": 12,
-              "partidas": 24,
-              "porcentaje": 45.3,
+              "derrotas": 11,
+              "partidas": 23,
+              "porcentaje": 44.2,
               "posicion": "MIDDLE",
               "victorias": 12,
-              "winrate": 50.0
+              "winrate": 52.2
             },
             "TOP": {
               "derrotas": 4,
               "partidas": 7,
-              "porcentaje": 13.2,
+              "porcentaje": 13.5,
               "posicion": "TOP",
               "victorias": 3,
               "winrate": 42.9
@@ -83044,16 +83044,16 @@
             "UTILITY": {
               "derrotas": 4,
               "partidas": 7,
-              "porcentaje": 13.2,
+              "porcentaje": 13.5,
               "posicion": "UTILITY",
               "victorias": 3,
               "winrate": 42.9
             }
           },
-          "total_derrotas": 27,
-          "total_partidas": 53,
+          "total_derrotas": 26,
+          "total_partidas": 52,
           "total_victorias": 26,
-          "winrate": 49.1
+          "winrate": 50.0
         },
         "dias_90": {
           "campeones": [
