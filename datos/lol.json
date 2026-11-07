@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-11-07T23:31:14Z",
+  "actualizado": "2026-11-07T23:36:09Z",
   "amigos": [
     {
       "actividad": {
@@ -451,15 +451,7 @@
         }
       },
       "estado": "ok",
-      "jugando": {
-        "campeon_id": 805,
-        "categoria": "aram",
-        "duracion": 943,
-        "inicio": 1794093271343,
-        "modo": "ARAM Caos",
-        "partida_id": 1635994491,
-        "queue_id": 2400
-      },
+      "jugando": null,
       "nombre": "Johnadis",
       "partidas": [
         {
@@ -97951,10 +97943,6 @@
         "id": "TahmKench",
         "nombre": "Tahm Kench"
       },
-      "23": {
-        "id": "Tryndamere",
-        "nombre": "Tryndamere"
-      },
       "233": {
         "id": "Briar",
         "nombre": "Briar"
@@ -98090,10 +98078,6 @@
       "420": {
         "id": "Illaoi",
         "nombre": "Illaoi"
-      },
-      "421": {
-        "id": "RekSai",
-        "nombre": "Rek'Sai"
       },
       "427": {
         "id": "Ivern",
@@ -98242,10 +98226,6 @@
       "75": {
         "id": "Nasus",
         "nombre": "Nasus"
-      },
-      "76": {
-        "id": "Nidalee",
-        "nombre": "Nidalee"
       },
       "777": {
         "id": "Yone",
@@ -98400,10 +98380,6 @@
       "3": {
         "id": "SummonerExhaust",
         "nombre": "Extenuación"
-      },
-      "32": {
-        "id": "SummonerSnowball",
-        "nombre": "Marca"
       },
       "4": {
         "id": "SummonerFlash",
@@ -101146,307 +101122,7 @@
       ]
     }
   },
-  "en_vivo": [
-    {
-      "amigos": [
-        "johnadis-las"
-      ],
-      "categoria": "aram",
-      "duracion": 943,
-      "equipos": [
-        {
-          "bloqueos": [],
-          "equipo": 100,
-          "jugadores": [
-            {
-              "amigo": null,
-              "campeon_id": 79,
-              "equipo": 100,
-              "hechizos": [
-                32,
-                4
-              ],
-              "maestria": {
-                "nivel": 7,
-                "puntos": 50442
-              },
-              "nombre": "Rob Crowley#LAS",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": null,
-              "runas": {
-                "principal": 8008,
-                "secundaria": 8100
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 31,
-              "equipo": 100,
-              "hechizos": [
-                32,
-                4
-              ],
-              "maestria": {
-                "nivel": 9,
-                "puntos": 68257
-              },
-              "nombre": "hostyyyyyyyyyyyy#hosty",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": null,
-              "runas": {
-                "principal": 8010,
-                "secundaria": 8400
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 421,
-              "equipo": 100,
-              "hechizos": [
-                32,
-                6
-              ],
-              "maestria": {
-                "nivel": 14,
-                "puntos": 125651
-              },
-              "nombre": "Slashdas#LAS",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": {
-                "derrotas": 6,
-                "division": "I",
-                "lp": 2,
-                "racha": false,
-                "tier": "GOLD",
-                "victorias": 6,
-                "winrate": 50.0
-              },
-              "runas": {
-                "principal": 8112,
-                "secundaria": 8400
-              }
-            },
-            {
-              "amigo": "johnadis-las",
-              "campeon_id": 805,
-              "equipo": 100,
-              "hechizos": [
-                4,
-                32
-              ],
-              "maestria": {
-                "nivel": 5,
-                "puntos": 27504
-              },
-              "nombre": "Johnadis#LAS",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": {
-                "derrotas": 11,
-                "division": "II",
-                "lp": 85,
-                "racha": false,
-                "tier": "PLATINUM",
-                "victorias": 13,
-                "winrate": 54.2
-              },
-              "runas": {
-                "principal": 8360,
-                "secundaria": 8400
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 23,
-              "equipo": 100,
-              "hechizos": [
-                4,
-                32
-              ],
-              "maestria": {
-                "nivel": 5,
-                "puntos": 23588
-              },
-              "nombre": "ULTEA WN QLO#LAS",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": {
-                "derrotas": 3,
-                "division": "IV",
-                "lp": 40,
-                "racha": false,
-                "tier": "GOLD",
-                "victorias": 3,
-                "winrate": 50.0
-              },
-              "runas": {
-                "principal": 8128,
-                "secundaria": 8200
-              }
-            }
-          ]
-        },
-        {
-          "bloqueos": [],
-          "equipo": 200,
-          "jugadores": [
-            {
-              "amigo": null,
-              "campeon_id": 76,
-              "equipo": 200,
-              "hechizos": [
-                7,
-                4
-              ],
-              "maestria": {
-                "nivel": 6,
-                "puntos": 40014
-              },
-              "nombre": "leandritus#LAS",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": {
-                "derrotas": 7,
-                "division": "I",
-                "lp": 67,
-                "racha": false,
-                "tier": "EMERALD",
-                "victorias": 6,
-                "winrate": 46.2
-              },
-              "runas": {
-                "principal": 8112,
-                "secundaria": 8000
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 897,
-              "equipo": 200,
-              "hechizos": [
-                4,
-                32
-              ],
-              "maestria": {
-                "nivel": 2,
-                "puntos": 2879
-              },
-              "nombre": "Empagliflozina#R4R",
-              "premade": 1,
-              "premade_partidas": 3,
-              "rango": {
-                "derrotas": 33,
-                "division": "IV",
-                "lp": 56,
-                "racha": false,
-                "tier": "EMERALD",
-                "victorias": 31,
-                "winrate": 48.4
-              },
-              "runas": {
-                "principal": 8437,
-                "secundaria": 8000
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 90,
-              "equipo": 200,
-              "hechizos": [
-                21,
-                4
-              ],
-              "maestria": {
-                "nivel": 4,
-                "puntos": 19622
-              },
-              "nombre": "EsteNoEsGodyr#LAS",
-              "premade": 1,
-              "premade_partidas": 3,
-              "rango": {
-                "derrotas": 4,
-                "division": "I",
-                "lp": 57,
-                "racha": false,
-                "tier": "GOLD",
-                "victorias": 7,
-                "winrate": 63.6
-              },
-              "runas": {
-                "principal": 8128,
-                "secundaria": 8200
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 103,
-              "equipo": 200,
-              "hechizos": [
-                32,
-                4
-              ],
-              "maestria": {
-                "nivel": 17,
-                "puntos": 188540
-              },
-              "nombre": "Rigoz#Celes",
-              "premade": 1,
-              "premade_partidas": 3,
-              "rango": {
-                "derrotas": 4,
-                "division": "I",
-                "lp": 50,
-                "racha": true,
-                "tier": "GOLD",
-                "victorias": 4,
-                "winrate": 50.0
-              },
-              "runas": {
-                "principal": 8229,
-                "secundaria": 8100
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 21,
-              "equipo": 200,
-              "hechizos": [
-                21,
-                4
-              ],
-              "maestria": {
-                "nivel": 8,
-                "puntos": 54113
-              },
-              "nombre": "Elinfunable1314#LAS",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": {
-                "derrotas": 19,
-                "division": "IV",
-                "lp": 96,
-                "racha": false,
-                "tier": "SILVER",
-                "victorias": 8,
-                "winrate": 29.6
-              },
-              "runas": {
-                "principal": 8437,
-                "secundaria": 8100
-              }
-            }
-          ]
-        }
-      ],
-      "id": 1635994491,
-      "inicio": 1794093271343,
-      "modo": "ARAM Caos",
-      "queue_id": 2400
-    }
-  ],
+  "en_vivo": [],
   "ranking": [
     {
       "criterio": "rango",
