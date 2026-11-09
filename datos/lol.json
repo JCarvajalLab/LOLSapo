@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-11-09T03:56:07Z",
+  "actualizado": "2026-11-09T04:01:09Z",
   "amigos": [
     {
       "actividad": {
@@ -99094,16 +99094,7 @@
       "winrate": 40.0
     },
     "hoy_desde": 1794150000000,
-    "mas_partidas": {
-      "amigos": [
-        "big-gato-las",
-        "gralmogeko-las",
-        "iskrat-las",
-        "johnadis-las",
-        "nic-las"
-      ],
-      "partidas": 3
-    },
+    "mas_partidas": null,
     "mejor_jugador_hoy": null,
     "mejor_jugador_mes": {
       "amigos": [
@@ -99121,35 +99112,8 @@
       "partida_id": "LA2_1635180985",
       "resultado": "victoria"
     },
-    "mejor_jugador_semana": {
-      "amigos": [
-        "iskrat-las"
-      ],
-      "asesinatos": 2,
-      "asistencias": 20,
-      "campeon": "JarvanIV",
-      "campeon_id": 59,
-      "danio": 20174,
-      "fecha": 1793757224066,
-      "kda": 7.33,
-      "modo": "Normal (Reclutamiento)",
-      "muertes": 3,
-      "partida_id": "LA2_1635180985",
-      "resultado": "victoria"
-    },
-    "mejor_winrate": {
-      "amigos": [
-        "big-gato-las",
-        "gralmogeko-las",
-        "iskrat-las",
-        "johnadis-las",
-        "nic-las"
-      ],
-      "derrotas": 1,
-      "partidas": 3,
-      "victorias": 2,
-      "winrate": 66.7
-    },
+    "mejor_jugador_semana": null,
+    "mejor_winrate": null,
     "mes": {
       "anio": 2026,
       "cerrado": false,
@@ -99175,43 +99139,10 @@
       "partida_id": "LA2_1634571682",
       "resultado": "derrota"
     },
-    "peor_jugador_semana": {
-      "amigos": [
-        "big-gato-las"
-      ],
-      "asesinatos": 0,
-      "asistencias": 4,
-      "campeon": "Sion",
-      "campeon_id": 14,
-      "danio": 13645,
-      "fecha": 1793754744678,
-      "kda": 0.67,
-      "modo": "Normal (Reclutamiento)",
-      "muertes": 6,
-      "partida_id": "LA2_1635173585",
-      "resultado": "derrota"
-    },
+    "peor_jugador_semana": null,
     "racha_derrotas_grupo": null,
-    "racha_victorias_grupo": {
-      "amigos": [
-        "big-gato-las",
-        "gralmogeko-las",
-        "iskrat-las",
-        "johnadis-las",
-        "nic-las"
-      ],
-      "desde": 1793757224066,
-      "hasta": 1793761330141,
-      "partidas": {
-        "big-gato-las": 2,
-        "gralmogeko-las": 2,
-        "iskrat-las": 2,
-        "johnadis-las": 2,
-        "nic-las": 2
-      },
-      "racha": 2
-    },
-    "semana_desde": 1793592000000,
+    "racha_victorias_grupo": null,
+    "semana_desde": 1794196800000,
     "tops": {
       "balance_hoy": [],
       "balance_mes": [
@@ -99261,53 +99192,7 @@
           "winrate": 40.0
         }
       ],
-      "mas_partidas": [
-        {
-          "amigos": [
-            "big-gato-las"
-          ],
-          "derrotas": 1,
-          "partidas": 3,
-          "victorias": 2,
-          "winrate": 66.7
-        },
-        {
-          "amigos": [
-            "gralmogeko-las"
-          ],
-          "derrotas": 1,
-          "partidas": 3,
-          "victorias": 2,
-          "winrate": 66.7
-        },
-        {
-          "amigos": [
-            "iskrat-las"
-          ],
-          "derrotas": 1,
-          "partidas": 3,
-          "victorias": 2,
-          "winrate": 66.7
-        },
-        {
-          "amigos": [
-            "johnadis-las"
-          ],
-          "derrotas": 1,
-          "partidas": 3,
-          "victorias": 2,
-          "winrate": 66.7
-        },
-        {
-          "amigos": [
-            "nic-las"
-          ],
-          "derrotas": 1,
-          "partidas": 3,
-          "victorias": 2,
-          "winrate": 66.7
-        }
-      ],
+      "mas_partidas": [],
       "mejor_jugador_hoy": [],
       "mejor_jugador_mes": [
         {
@@ -99391,135 +99276,8 @@
           "resultado": "victoria"
         }
       ],
-      "mejor_jugador_semana": [
-        {
-          "amigos": [
-            "iskrat-las"
-          ],
-          "asesinatos": 2,
-          "asistencias": 20,
-          "campeon": "JarvanIV",
-          "campeon_id": 59,
-          "danio": 20174,
-          "fecha": 1793757224066,
-          "kda": 7.33,
-          "modo": "Normal (Reclutamiento)",
-          "muertes": 3,
-          "partida_id": "LA2_1635180985",
-          "resultado": "victoria"
-        },
-        {
-          "amigos": [
-            "gralmogeko-las"
-          ],
-          "asesinatos": 26,
-          "asistencias": 5,
-          "campeon": "Locke",
-          "campeon_id": 805,
-          "danio": 48197,
-          "fecha": 1793757224066,
-          "kda": 6.2,
-          "modo": "Normal (Reclutamiento)",
-          "muertes": 5,
-          "partida_id": "LA2_1635180985",
-          "resultado": "victoria"
-        },
-        {
-          "amigos": [
-            "johnadis-las"
-          ],
-          "asesinatos": 18,
-          "asistencias": 17,
-          "campeon": "Vex",
-          "campeon_id": 711,
-          "danio": 74497,
-          "fecha": 1793761330141,
-          "kda": 5.0,
-          "modo": "Normal (Reclutamiento)",
-          "muertes": 7,
-          "partida_id": "LA2_1635197800",
-          "resultado": "victoria"
-        },
-        {
-          "amigos": [
-            "nic-las"
-          ],
-          "asesinatos": 7,
-          "asistencias": 10,
-          "campeon": "Jax",
-          "campeon_id": 24,
-          "danio": 25000,
-          "fecha": 1793757224066,
-          "kda": 4.25,
-          "modo": "Normal (Reclutamiento)",
-          "muertes": 4,
-          "partida_id": "LA2_1635180985",
-          "resultado": "victoria"
-        },
-        {
-          "amigos": [
-            "big-gato-las"
-          ],
-          "asesinatos": 0,
-          "asistencias": 16,
-          "campeon": "Nautilus",
-          "campeon_id": 111,
-          "danio": 8946,
-          "fecha": 1793757224066,
-          "kda": 4.0,
-          "modo": "Normal (Reclutamiento)",
-          "muertes": 4,
-          "partida_id": "LA2_1635180985",
-          "resultado": "victoria"
-        }
-      ],
-      "mejor_winrate": [
-        {
-          "amigos": [
-            "big-gato-las"
-          ],
-          "derrotas": 1,
-          "partidas": 3,
-          "victorias": 2,
-          "winrate": 66.7
-        },
-        {
-          "amigos": [
-            "gralmogeko-las"
-          ],
-          "derrotas": 1,
-          "partidas": 3,
-          "victorias": 2,
-          "winrate": 66.7
-        },
-        {
-          "amigos": [
-            "iskrat-las"
-          ],
-          "derrotas": 1,
-          "partidas": 3,
-          "victorias": 2,
-          "winrate": 66.7
-        },
-        {
-          "amigos": [
-            "johnadis-las"
-          ],
-          "derrotas": 1,
-          "partidas": 3,
-          "victorias": 2,
-          "winrate": 66.7
-        },
-        {
-          "amigos": [
-            "nic-las"
-          ],
-          "derrotas": 1,
-          "partidas": 3,
-          "victorias": 2,
-          "winrate": 66.7
-        }
-      ],
+      "mejor_jugador_semana": [],
+      "mejor_winrate": [],
       "peor_jugador_hoy": [],
       "peor_jugador_mes": [
         {
@@ -99603,88 +99361,7 @@
           "resultado": "derrota"
         }
       ],
-      "peor_jugador_semana": [
-        {
-          "amigos": [
-            "big-gato-las"
-          ],
-          "asesinatos": 0,
-          "asistencias": 4,
-          "campeon": "Sion",
-          "campeon_id": 14,
-          "danio": 13645,
-          "fecha": 1793754744678,
-          "kda": 0.67,
-          "modo": "Normal (Reclutamiento)",
-          "muertes": 6,
-          "partida_id": "LA2_1635173585",
-          "resultado": "derrota"
-        },
-        {
-          "amigos": [
-            "gralmogeko-las"
-          ],
-          "asesinatos": 7,
-          "asistencias": 6,
-          "campeon": "Draven",
-          "campeon_id": 119,
-          "danio": 14886,
-          "fecha": 1793754744678,
-          "kda": 1.44,
-          "modo": "Normal (Reclutamiento)",
-          "muertes": 9,
-          "partida_id": "LA2_1635173585",
-          "resultado": "derrota"
-        },
-        {
-          "amigos": [
-            "iskrat-las"
-          ],
-          "asesinatos": 5,
-          "asistencias": 3,
-          "campeon": "Ziggs",
-          "campeon_id": 115,
-          "danio": 14883,
-          "fecha": 1793754744678,
-          "kda": 1.6,
-          "modo": "Normal (Reclutamiento)",
-          "muertes": 5,
-          "partida_id": "LA2_1635173585",
-          "resultado": "derrota"
-        },
-        {
-          "amigos": [
-            "nic-las"
-          ],
-          "asesinatos": 3,
-          "asistencias": 3,
-          "campeon": "Shaco",
-          "campeon_id": 35,
-          "danio": 5697,
-          "fecha": 1793754744678,
-          "kda": 2.0,
-          "modo": "Normal (Reclutamiento)",
-          "muertes": 3,
-          "partida_id": "LA2_1635173585",
-          "resultado": "derrota"
-        },
-        {
-          "amigos": [
-            "johnadis-las"
-          ],
-          "asesinatos": 2,
-          "asistencias": 12,
-          "campeon": "Rell",
-          "campeon_id": 526,
-          "danio": 6697,
-          "fecha": 1793754744678,
-          "kda": 2.33,
-          "modo": "Normal (Reclutamiento)",
-          "muertes": 6,
-          "partida_id": "LA2_1635173585",
-          "resultado": "derrota"
-        }
-      ]
+      "peor_jugador_semana": []
     },
     "tops_global": {
       "mejor_jugador_hoy": [],
@@ -99770,88 +99447,7 @@
           "resultado": "victoria"
         }
       ],
-      "mejor_jugador_semana": [
-        {
-          "amigos": [
-            "iskrat-las"
-          ],
-          "asesinatos": 2,
-          "asistencias": 20,
-          "campeon": "JarvanIV",
-          "campeon_id": 59,
-          "danio": 20174,
-          "fecha": 1793757224066,
-          "kda": 7.33,
-          "modo": "Normal (Reclutamiento)",
-          "muertes": 3,
-          "partida_id": "LA2_1635180985",
-          "resultado": "victoria"
-        },
-        {
-          "amigos": [
-            "gralmogeko-las"
-          ],
-          "asesinatos": 26,
-          "asistencias": 5,
-          "campeon": "Locke",
-          "campeon_id": 805,
-          "danio": 48197,
-          "fecha": 1793757224066,
-          "kda": 6.2,
-          "modo": "Normal (Reclutamiento)",
-          "muertes": 5,
-          "partida_id": "LA2_1635180985",
-          "resultado": "victoria"
-        },
-        {
-          "amigos": [
-            "johnadis-las"
-          ],
-          "asesinatos": 18,
-          "asistencias": 17,
-          "campeon": "Vex",
-          "campeon_id": 711,
-          "danio": 74497,
-          "fecha": 1793761330141,
-          "kda": 5.0,
-          "modo": "Normal (Reclutamiento)",
-          "muertes": 7,
-          "partida_id": "LA2_1635197800",
-          "resultado": "victoria"
-        },
-        {
-          "amigos": [
-            "nic-las"
-          ],
-          "asesinatos": 7,
-          "asistencias": 10,
-          "campeon": "Jax",
-          "campeon_id": 24,
-          "danio": 25000,
-          "fecha": 1793757224066,
-          "kda": 4.25,
-          "modo": "Normal (Reclutamiento)",
-          "muertes": 4,
-          "partida_id": "LA2_1635180985",
-          "resultado": "victoria"
-        },
-        {
-          "amigos": [
-            "big-gato-las"
-          ],
-          "asesinatos": 0,
-          "asistencias": 16,
-          "campeon": "Nautilus",
-          "campeon_id": 111,
-          "danio": 8946,
-          "fecha": 1793757224066,
-          "kda": 4.0,
-          "modo": "Normal (Reclutamiento)",
-          "muertes": 4,
-          "partida_id": "LA2_1635180985",
-          "resultado": "victoria"
-        }
-      ],
+      "mejor_jugador_semana": [],
       "peor_jugador_hoy": [],
       "peor_jugador_mes": [
         {
@@ -99935,88 +99531,7 @@
           "resultado": "derrota"
         }
       ],
-      "peor_jugador_semana": [
-        {
-          "amigos": [
-            "big-gato-las"
-          ],
-          "asesinatos": 0,
-          "asistencias": 4,
-          "campeon": "Sion",
-          "campeon_id": 14,
-          "danio": 13645,
-          "fecha": 1793754744678,
-          "kda": 0.67,
-          "modo": "Normal (Reclutamiento)",
-          "muertes": 6,
-          "partida_id": "LA2_1635173585",
-          "resultado": "derrota"
-        },
-        {
-          "amigos": [
-            "gralmogeko-las"
-          ],
-          "asesinatos": 7,
-          "asistencias": 6,
-          "campeon": "Draven",
-          "campeon_id": 119,
-          "danio": 14886,
-          "fecha": 1793754744678,
-          "kda": 1.44,
-          "modo": "Normal (Reclutamiento)",
-          "muertes": 9,
-          "partida_id": "LA2_1635173585",
-          "resultado": "derrota"
-        },
-        {
-          "amigos": [
-            "iskrat-las"
-          ],
-          "asesinatos": 5,
-          "asistencias": 3,
-          "campeon": "Ziggs",
-          "campeon_id": 115,
-          "danio": 14883,
-          "fecha": 1793754744678,
-          "kda": 1.6,
-          "modo": "Normal (Reclutamiento)",
-          "muertes": 5,
-          "partida_id": "LA2_1635173585",
-          "resultado": "derrota"
-        },
-        {
-          "amigos": [
-            "gralmogeko-las"
-          ],
-          "asesinatos": 13,
-          "asistencias": 17,
-          "campeon": "Rengar",
-          "campeon_id": 107,
-          "danio": 46257,
-          "fecha": 1793761330141,
-          "kda": 1.67,
-          "modo": "Normal (Reclutamiento)",
-          "muertes": 18,
-          "partida_id": "LA2_1635197800",
-          "resultado": "victoria"
-        },
-        {
-          "amigos": [
-            "nic-las"
-          ],
-          "asesinatos": 3,
-          "asistencias": 3,
-          "campeon": "Shaco",
-          "campeon_id": 35,
-          "danio": 5697,
-          "fecha": 1793754744678,
-          "kda": 2.0,
-          "modo": "Normal (Reclutamiento)",
-          "muertes": 3,
-          "partida_id": "LA2_1635173585",
-          "resultado": "derrota"
-        }
-      ]
+      "peor_jugador_semana": []
     }
   },
   "en_vivo": [],
