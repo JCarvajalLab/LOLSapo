@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-11-09T23:06:11Z",
+  "actualizado": "2026-11-09T23:11:12Z",
   "amigos": [
     {
       "actividad": {
@@ -451,7 +451,15 @@
         }
       },
       "estado": "ok",
-      "jugando": null,
+      "jugando": {
+        "campeon_id": 805,
+        "categoria": "aram",
+        "duracion": 161,
+        "inicio": 1794265651480,
+        "modo": "ARAM Caos",
+        "partida_id": 1636460136,
+        "queue_id": 2400
+      },
       "nombre": "Johnadis",
       "partidas": [
         {
@@ -96792,6 +96800,10 @@
         "id": "SummonerTeleport",
         "nombre": "Teleportación"
       },
+      "13": {
+        "id": "SummonerMana",
+        "nombre": "Claridad"
+      },
       "14": {
         "id": "SummonerDot",
         "nombre": "Ignición"
@@ -96803,6 +96815,10 @@
       "3": {
         "id": "SummonerExhaust",
         "nombre": "Extenuación"
+      },
+      "32": {
+        "id": "SummonerSnowball",
+        "nombre": "Marca"
       },
       "4": {
         "id": "SummonerFlash",
@@ -99060,7 +99076,315 @@
       "peor_jugador_semana": []
     }
   },
-  "en_vivo": [],
+  "en_vivo": [
+    {
+      "amigos": [
+        "johnadis-las"
+      ],
+      "categoria": "aram",
+      "duracion": 161,
+      "equipos": [
+        {
+          "bloqueos": [],
+          "equipo": 100,
+          "jugadores": [
+            {
+              "amigo": "johnadis-las",
+              "campeon_id": 805,
+              "equipo": 100,
+              "hechizos": [
+                4,
+                32
+              ],
+              "maestria": {
+                "nivel": 5,
+                "puntos": 28473
+              },
+              "nombre": "Johnadis#LAS",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": {
+                "derrotas": 11,
+                "division": "II",
+                "lp": 85,
+                "racha": false,
+                "tier": "PLATINUM",
+                "victorias": 13,
+                "winrate": 54.2
+              },
+              "runas": {
+                "principal": 8360,
+                "secundaria": 8400
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 107,
+              "equipo": 100,
+              "hechizos": [
+                4,
+                6
+              ],
+              "maestria": {
+                "nivel": 14,
+                "puntos": 124840
+              },
+              "nombre": "Zakram#LAS",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": {
+                "derrotas": 6,
+                "division": "IV",
+                "lp": 35,
+                "racha": false,
+                "tier": "PLATINUM",
+                "victorias": 10,
+                "winrate": 62.5
+              },
+              "runas": {
+                "principal": 8439,
+                "secundaria": 8000
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 412,
+              "equipo": 100,
+              "hechizos": [
+                4,
+                32
+              ],
+              "maestria": {
+                "nivel": 15,
+                "puntos": 134424
+              },
+              "nombre": "Zköl#LAS",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": {
+                "derrotas": 10,
+                "division": "III",
+                "lp": 46,
+                "racha": false,
+                "tier": "SILVER",
+                "victorias": 6,
+                "winrate": 37.5
+              },
+              "runas": {
+                "principal": 8128,
+                "secundaria": 8200
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 13,
+              "equipo": 100,
+              "hechizos": [
+                4,
+                6
+              ],
+              "maestria": {
+                "nivel": 5,
+                "puntos": 24544
+              },
+              "nombre": "WinterFlinFlex#LAS",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": {
+                "derrotas": 9,
+                "division": "I",
+                "lp": 75,
+                "racha": false,
+                "tier": "PLATINUM",
+                "victorias": 6,
+                "winrate": 40.0
+              },
+              "runas": {
+                "principal": 8439,
+                "secundaria": 8300
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 876,
+              "equipo": 100,
+              "hechizos": [
+                32,
+                4
+              ],
+              "maestria": {
+                "nivel": 3,
+                "puntos": 11974
+              },
+              "nombre": "MAAIAMEEEE#LAS",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": {
+                "derrotas": 38,
+                "division": "I",
+                "lp": 48,
+                "racha": false,
+                "tier": "PLATINUM",
+                "victorias": 31,
+                "winrate": 44.9
+              },
+              "runas": {
+                "principal": 8010,
+                "secundaria": 8200
+              }
+            }
+          ]
+        },
+        {
+          "bloqueos": [],
+          "equipo": 200,
+          "jugadores": [
+            {
+              "amigo": null,
+              "campeon_id": 25,
+              "equipo": 200,
+              "hechizos": [
+                4,
+                13
+              ],
+              "maestria": {
+                "nivel": 6,
+                "puntos": 32419
+              },
+              "nombre": "Bardo Sensei#LAS",
+              "premade": 1,
+              "premade_partidas": 3,
+              "rango": {
+                "derrotas": 58,
+                "division": "IV",
+                "lp": 11,
+                "racha": false,
+                "tier": "EMERALD",
+                "victorias": 71,
+                "winrate": 55.0
+              },
+              "runas": {
+                "principal": 8351,
+                "secundaria": 8200
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 98,
+              "equipo": 200,
+              "hechizos": [
+                32,
+                4
+              ],
+              "maestria": {
+                "nivel": 15,
+                "puntos": 151916
+              },
+              "nombre": "Unforgiven Wölf#Bunny",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": {
+                "derrotas": 20,
+                "division": "IV",
+                "lp": 5,
+                "racha": false,
+                "tier": "PLATINUM",
+                "victorias": 11,
+                "winrate": 35.5
+              },
+              "runas": {
+                "principal": 8439,
+                "secundaria": 8000
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 27,
+              "equipo": 200,
+              "hechizos": [
+                32,
+                6
+              ],
+              "maestria": {
+                "nivel": 6,
+                "puntos": 39157
+              },
+              "nombre": "Chubby D Shaco#LAS",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": {
+                "derrotas": 4,
+                "division": "IV",
+                "lp": 20,
+                "racha": true,
+                "tier": "EMERALD",
+                "victorias": 6,
+                "winrate": 60.0
+              },
+              "runas": {
+                "principal": 9923,
+                "secundaria": 8000
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 110,
+              "equipo": 200,
+              "hechizos": [
+                21,
+                4
+              ],
+              "maestria": {
+                "nivel": 4,
+                "puntos": 21024
+              },
+              "nombre": "Elfo Cósmico#LAS",
+              "premade": 1,
+              "premade_partidas": 3,
+              "rango": {
+                "derrotas": 48,
+                "division": "III",
+                "lp": 89,
+                "racha": false,
+                "tier": "PLATINUM",
+                "victorias": 58,
+                "winrate": 54.7
+              },
+              "runas": {
+                "principal": 8112,
+                "secundaria": 8200
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 115,
+              "equipo": 200,
+              "hechizos": [
+                6,
+                21
+              ],
+              "maestria": {
+                "nivel": 3,
+                "puntos": 10818
+              },
+              "nombre": "Barosh#LAS",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": null,
+              "runas": {
+                "principal": 8128,
+                "secundaria": 8000
+              }
+            }
+          ]
+        }
+      ],
+      "id": 1636460136,
+      "inicio": 1794265651480,
+      "modo": "ARAM Caos",
+      "queue_id": 2400
+    }
+  ],
   "ranking": [
     {
       "criterio": "rango",
