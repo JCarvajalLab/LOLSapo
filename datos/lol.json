@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-11-09T02:41:11Z",
+  "actualizado": "2026-11-09T02:46:09Z",
   "amigos": [
     {
       "actividad": {
@@ -451,7 +451,15 @@
         }
       },
       "estado": "ok",
-      "jugando": null,
+      "jugando": {
+        "campeon_id": 112,
+        "categoria": "aram",
+        "duracion": 0,
+        "inicio": 1794192330754,
+        "modo": "ARAM Caos",
+        "partida_id": 1636297147,
+        "queue_id": 2400
+      },
       "nombre": "Johnadis",
       "partidas": [
         {
@@ -97624,6 +97632,10 @@
         "id": "SummonerTeleport",
         "nombre": "Teleportación"
       },
+      "13": {
+        "id": "SummonerMana",
+        "nombre": "Claridad"
+      },
       "14": {
         "id": "SummonerDot",
         "nombre": "Ignición"
@@ -97635,6 +97647,10 @@
       "3": {
         "id": "SummonerExhaust",
         "nombre": "Extenuación"
+      },
+      "32": {
+        "id": "SummonerSnowball",
+        "nombre": "Marca"
       },
       "4": {
         "id": "SummonerFlash",
@@ -100377,7 +100393,296 @@
       ]
     }
   },
-  "en_vivo": [],
+  "en_vivo": [
+    {
+      "amigos": [
+        "johnadis-las"
+      ],
+      "categoria": "aram",
+      "duracion": 0,
+      "equipos": [
+        {
+          "bloqueos": [],
+          "equipo": 100,
+          "jugadores": [
+            {
+              "amigo": null,
+              "campeon_id": 99,
+              "equipo": 100,
+              "hechizos": [
+                4,
+                21
+              ],
+              "maestria": {
+                "nivel": 3,
+                "puntos": 8567
+              },
+              "nombre": "caphard#498",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": {
+                "derrotas": 26,
+                "division": "III",
+                "lp": 67,
+                "racha": false,
+                "tier": "PLATINUM",
+                "victorias": 34,
+                "winrate": 56.7
+              },
+              "runas": {
+                "principal": 8214,
+                "secundaria": 8400
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 45,
+              "equipo": 100,
+              "hechizos": [
+                6,
+                4
+              ],
+              "maestria": {
+                "nivel": 9,
+                "puntos": 67424
+              },
+              "nombre": "MNTK#555",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": {
+                "derrotas": 13,
+                "division": "I",
+                "lp": 31,
+                "racha": false,
+                "tier": "PLATINUM",
+                "victorias": 12,
+                "winrate": 48.0
+              },
+              "runas": {
+                "principal": 8465,
+                "secundaria": 8300
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 14,
+              "equipo": 100,
+              "hechizos": [
+                4,
+                32
+              ],
+              "maestria": {
+                "nivel": 94,
+                "puntos": 1006390
+              },
+              "nombre": "Get Squirty#3313",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": {
+                "derrotas": 215,
+                "division": null,
+                "lp": 470,
+                "racha": false,
+                "tier": "MASTER",
+                "victorias": 247,
+                "winrate": 53.5
+              },
+              "runas": {
+                "principal": 8369,
+                "secundaria": 8000
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 222,
+              "equipo": 100,
+              "hechizos": [
+                6,
+                4
+              ],
+              "maestria": {
+                "nivel": 6,
+                "puntos": 40591
+              },
+              "nombre": "Nacho#Naxx",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": {
+                "derrotas": 4,
+                "division": "III",
+                "lp": 30,
+                "racha": false,
+                "tier": "SILVER",
+                "victorias": 3,
+                "winrate": 42.9
+              },
+              "runas": {
+                "principal": 8465,
+                "secundaria": 8300
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 74,
+              "equipo": 100,
+              "hechizos": [
+                4,
+                13
+              ],
+              "maestria": null,
+              "nombre": "Heimerdinger",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": null,
+              "runas": {
+                "principal": 8128,
+                "secundaria": 8000
+              }
+            }
+          ]
+        },
+        {
+          "bloqueos": [],
+          "equipo": 200,
+          "jugadores": [
+            {
+              "amigo": "johnadis-las",
+              "campeon_id": 112,
+              "equipo": 200,
+              "hechizos": [
+                4,
+                32
+              ],
+              "maestria": {
+                "nivel": 10,
+                "puntos": 78655
+              },
+              "nombre": "Johnadis#LAS",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": {
+                "derrotas": 11,
+                "division": "II",
+                "lp": 85,
+                "racha": false,
+                "tier": "PLATINUM",
+                "victorias": 13,
+                "winrate": 54.2
+              },
+              "runas": {
+                "principal": 8360,
+                "secundaria": 8400
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 51,
+              "equipo": 200,
+              "hechizos": [
+                6,
+                4
+              ],
+              "maestria": {
+                "nivel": 3,
+                "puntos": 6218
+              },
+              "nombre": "Garlopa#069",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": {
+                "derrotas": 65,
+                "division": "IV",
+                "lp": 2,
+                "racha": false,
+                "tier": "EMERALD",
+                "victorias": 69,
+                "winrate": 51.5
+              },
+              "runas": {
+                "principal": 8229,
+                "secundaria": 8400
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 7,
+              "equipo": 200,
+              "hechizos": [
+                4,
+                14
+              ],
+              "maestria": {
+                "nivel": 44,
+                "puntos": 455361
+              },
+              "nombre": "JugoDeTamarindo#LAS",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": null,
+              "runas": {
+                "principal": 8010,
+                "secundaria": 8100
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 21,
+              "equipo": 200,
+              "hechizos": [
+                32,
+                4
+              ],
+              "maestria": {
+                "nivel": 45,
+                "puntos": 463831
+              },
+              "nombre": "laketoda#LAS",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": null,
+              "runas": {
+                "principal": 8229,
+                "secundaria": 8000
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 42,
+              "equipo": 200,
+              "hechizos": [
+                4,
+                32
+              ],
+              "maestria": {
+                "nivel": 3,
+                "puntos": 12325
+              },
+              "nombre": "Deliox#LAS",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": {
+                "derrotas": 24,
+                "division": "IV",
+                "lp": 15,
+                "racha": true,
+                "tier": "PLATINUM",
+                "victorias": 29,
+                "winrate": 54.7
+              },
+              "runas": {
+                "principal": 8128,
+                "secundaria": 8200
+              }
+            }
+          ]
+        }
+      ],
+      "id": 1636297147,
+      "inicio": 1794192330754,
+      "modo": "ARAM Caos",
+      "queue_id": 2400
+    }
+  ],
   "ranking": [
     {
       "criterio": "rango",
