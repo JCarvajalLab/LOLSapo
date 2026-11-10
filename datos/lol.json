@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-11-10T01:26:12Z",
+  "actualizado": "2026-11-10T01:31:13Z",
   "amigos": [
     {
       "actividad": {
@@ -41290,39 +41290,6 @@
             "winrate": 62.5
           },
           {
-            "amigo_principal": "nic-las",
-            "amigos": [
-              {
-                "partidas": 4,
-                "slug": "nic-las"
-              },
-              {
-                "partidas": 3,
-                "slug": "iskrat-las"
-              },
-              {
-                "partidas": 1,
-                "slug": "gralmogeko-las"
-              }
-            ],
-            "campeon": "Blitzcrank",
-            "campeon_id": 53,
-            "cs": 234,
-            "cs_minuto": 1.1,
-            "cs_promedio": 29.2,
-            "danio_promedio": 8182,
-            "derrotas": 5,
-            "kda": 2.56,
-            "partidas": 8,
-            "promedio_kda": {
-              "asesinatos": 2.0,
-              "asistencias": 10.5,
-              "muertes": 4.9
-            },
-            "victorias": 3,
-            "winrate": 37.5
-          },
-          {
             "amigo_principal": "iskrat-las",
             "amigos": [
               {
@@ -41430,6 +41397,39 @@
               "asesinatos": 5.6,
               "asistencias": 6.7,
               "muertes": 3.4
+            },
+            "victorias": 3,
+            "winrate": 42.9
+          },
+          {
+            "amigo_principal": "nic-las",
+            "amigos": [
+              {
+                "partidas": 4,
+                "slug": "nic-las"
+              },
+              {
+                "partidas": 2,
+                "slug": "iskrat-las"
+              },
+              {
+                "partidas": 1,
+                "slug": "gralmogeko-las"
+              }
+            ],
+            "campeon": "Blitzcrank",
+            "campeon_id": 53,
+            "cs": 207,
+            "cs_minuto": 1.1,
+            "cs_promedio": 29.6,
+            "danio_promedio": 8308,
+            "derrotas": 4,
+            "kda": 2.67,
+            "partidas": 7,
+            "promedio_kda": {
+              "asesinatos": 2.0,
+              "asistencias": 10.6,
+              "muertes": 4.7
             },
             "victorias": 3,
             "winrate": 42.9
@@ -48059,39 +48059,6 @@
           ],
           "UTILITY": [
             {
-              "amigo_principal": "nic-las",
-              "amigos": [
-                {
-                  "partidas": 4,
-                  "slug": "nic-las"
-                },
-                {
-                  "partidas": 3,
-                  "slug": "iskrat-las"
-                },
-                {
-                  "partidas": 1,
-                  "slug": "gralmogeko-las"
-                }
-              ],
-              "campeon": "Blitzcrank",
-              "campeon_id": 53,
-              "cs": 234,
-              "cs_minuto": 1.1,
-              "cs_promedio": 29.2,
-              "danio_promedio": 8182,
-              "derrotas": 5,
-              "kda": 2.56,
-              "partidas": 8,
-              "promedio_kda": {
-                "asesinatos": 2.0,
-                "asistencias": 10.5,
-                "muertes": 4.9
-              },
-              "victorias": 3,
-              "winrate": 37.5
-            },
-            {
               "amigo_principal": "johnadis-las",
               "amigos": [
                 {
@@ -48115,6 +48082,39 @@
               },
               "victorias": 4,
               "winrate": 57.1
+            },
+            {
+              "amigo_principal": "nic-las",
+              "amigos": [
+                {
+                  "partidas": 4,
+                  "slug": "nic-las"
+                },
+                {
+                  "partidas": 2,
+                  "slug": "iskrat-las"
+                },
+                {
+                  "partidas": 1,
+                  "slug": "gralmogeko-las"
+                }
+              ],
+              "campeon": "Blitzcrank",
+              "campeon_id": 53,
+              "cs": 207,
+              "cs_minuto": 1.1,
+              "cs_promedio": 29.6,
+              "danio_promedio": 8308,
+              "derrotas": 4,
+              "kda": 2.67,
+              "partidas": 7,
+              "promedio_kda": {
+                "asesinatos": 2.0,
+                "asistencias": 10.6,
+                "muertes": 4.7
+              },
+              "victorias": 3,
+              "winrate": 42.9
             },
             {
               "amigo_principal": "iskrat-las",
@@ -48956,7 +48956,7 @@
           "BOTTOM": {
             "derrotas": 74,
             "partidas": 153,
-            "porcentaje": 21.1,
+            "porcentaje": 21.2,
             "posicion": "BOTTOM",
             "victorias": 79,
             "winrate": 51.6
@@ -48980,24 +48980,24 @@
           "TOP": {
             "derrotas": 81,
             "partidas": 169,
-            "porcentaje": 23.3,
+            "porcentaje": 23.4,
             "posicion": "TOP",
             "victorias": 88,
             "winrate": 52.1
           },
           "UTILITY": {
-            "derrotas": 46,
-            "partidas": 88,
-            "porcentaje": 12.2,
+            "derrotas": 45,
+            "partidas": 87,
+            "porcentaje": 12.0,
             "posicion": "UTILITY",
             "victorias": 42,
-            "winrate": 47.7
+            "winrate": 48.3
           }
         },
-        "total_derrotas": 364,
-        "total_partidas": 724,
+        "total_derrotas": 363,
+        "total_partidas": 723,
         "total_victorias": 360,
-        "winrate": 49.7
+        "winrate": 49.8
       },
       "todo": {
         "campeones": [
@@ -75492,31 +75492,6 @@
                   "slug": "iskrat-las"
                 }
               ],
-              "campeon": "Blitzcrank",
-              "campeon_id": 53,
-              "cs": 83,
-              "cs_minuto": 1.0,
-              "cs_promedio": 27.7,
-              "danio_promedio": 9404,
-              "derrotas": 2,
-              "kda": 3.0,
-              "partidas": 3,
-              "promedio_kda": {
-                "asesinatos": 4.0,
-                "asistencias": 12.0,
-                "muertes": 5.3
-              },
-              "victorias": 1,
-              "winrate": 33.3
-            },
-            {
-              "amigo_principal": "iskrat-las",
-              "amigos": [
-                {
-                  "partidas": 3,
-                  "slug": "iskrat-las"
-                }
-              ],
               "campeon": "Tristana",
               "campeon_id": 18,
               "cs": 719,
@@ -75558,6 +75533,31 @@
               },
               "victorias": 2,
               "winrate": 100.0
+            },
+            {
+              "amigo_principal": "iskrat-las",
+              "amigos": [
+                {
+                  "partidas": 2,
+                  "slug": "iskrat-las"
+                }
+              ],
+              "campeon": "Blitzcrank",
+              "campeon_id": 53,
+              "cs": 56,
+              "cs_minuto": 1.0,
+              "cs_promedio": 28.0,
+              "danio_promedio": 10454,
+              "derrotas": 1,
+              "kda": 3.6,
+              "partidas": 2,
+              "promedio_kda": {
+                "asesinatos": 5.0,
+                "asistencias": 13.0,
+                "muertes": 5.0
+              },
+              "victorias": 1,
+              "winrate": 50.0
             },
             {
               "amigo_principal": "iskrat-las",
@@ -77049,26 +77049,26 @@
                 "amigo_principal": "iskrat-las",
                 "amigos": [
                   {
-                    "partidas": 3,
+                    "partidas": 2,
                     "slug": "iskrat-las"
                   }
                 ],
                 "campeon": "Blitzcrank",
                 "campeon_id": 53,
-                "cs": 83,
+                "cs": 56,
                 "cs_minuto": 1.0,
-                "cs_promedio": 27.7,
-                "danio_promedio": 9404,
-                "derrotas": 2,
-                "kda": 3.0,
-                "partidas": 3,
+                "cs_promedio": 28.0,
+                "danio_promedio": 10454,
+                "derrotas": 1,
+                "kda": 3.6,
+                "partidas": 2,
                 "promedio_kda": {
-                  "asesinatos": 4.0,
-                  "asistencias": 12.0,
-                  "muertes": 5.3
+                  "asesinatos": 5.0,
+                  "asistencias": 13.0,
+                  "muertes": 5.0
                 },
                 "victorias": 1,
-                "winrate": 33.3
+                "winrate": 50.0
               },
               {
                 "amigo_principal": "iskrat-las",
@@ -77201,7 +77201,7 @@
             "BOTTOM": {
               "derrotas": 29,
               "partidas": 61,
-              "porcentaje": 27.6,
+              "porcentaje": 27.7,
               "posicion": "BOTTOM",
               "victorias": 32,
               "winrate": 52.5
@@ -77209,7 +77209,7 @@
             "JUNGLE": {
               "derrotas": 7,
               "partidas": 12,
-              "porcentaje": 5.4,
+              "porcentaje": 5.5,
               "posicion": "JUNGLE",
               "victorias": 5,
               "winrate": 41.7
@@ -77225,24 +77225,24 @@
             "TOP": {
               "derrotas": 52,
               "partidas": 108,
-              "porcentaje": 48.9,
+              "porcentaje": 49.1,
               "posicion": "TOP",
               "victorias": 56,
               "winrate": 51.9
             },
             "UTILITY": {
-              "derrotas": 7,
-              "partidas": 12,
-              "porcentaje": 5.4,
+              "derrotas": 6,
+              "partidas": 11,
+              "porcentaje": 5.0,
               "posicion": "UTILITY",
               "victorias": 5,
-              "winrate": 41.7
+              "winrate": 45.5
             }
           },
-          "total_derrotas": 110,
-          "total_partidas": 221,
+          "total_derrotas": 109,
+          "total_partidas": 220,
           "total_victorias": 111,
-          "winrate": 50.2
+          "winrate": 50.5
         },
         "todo": {
           "campeones": [
