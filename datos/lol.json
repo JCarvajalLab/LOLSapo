@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-11-11T00:06:10Z",
+  "actualizado": "2026-11-11T00:11:08Z",
   "amigos": [
     {
       "actividad": {
@@ -451,15 +451,7 @@
         }
       },
       "estado": "ok",
-      "jugando": {
-        "campeon_id": 26,
-        "categoria": "aram",
-        "duracion": 972,
-        "inicio": 1794354538682,
-        "modo": "ARAM Caos",
-        "partida_id": 1636697258,
-        "queue_id": 2400
-      },
+      "jugando": null,
       "nombre": "Johnadis",
       "partidas": [
         {
@@ -95239,10 +95231,6 @@
         "id": "SummonerTeleport",
         "nombre": "Teleportación"
       },
-      "13": {
-        "id": "SummonerMana",
-        "nombre": "Claridad"
-      },
       "14": {
         "id": "SummonerDot",
         "nombre": "Ignición"
@@ -95254,10 +95242,6 @@
       "3": {
         "id": "SummonerExhaust",
         "nombre": "Extenuación"
-      },
-      "32": {
-        "id": "SummonerSnowball",
-        "nombre": "Marca"
       },
       "4": {
         "id": "SummonerFlash",
@@ -97515,299 +97499,7 @@
       "peor_jugador_semana": []
     }
   },
-  "en_vivo": [
-    {
-      "amigos": [
-        "johnadis-las"
-      ],
-      "categoria": "aram",
-      "duracion": 972,
-      "equipos": [
-        {
-          "bloqueos": [],
-          "equipo": 100,
-          "jugadores": [
-            {
-              "amigo": null,
-              "campeon_id": 51,
-              "equipo": 100,
-              "hechizos": [
-                6,
-                4
-              ],
-              "maestria": {
-                "nivel": 14,
-                "puntos": 126773
-              },
-              "nombre": "Jayce Arcane#LAS",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": {
-                "derrotas": 106,
-                "division": "IV",
-                "lp": 0,
-                "racha": false,
-                "tier": "DIAMOND",
-                "victorias": 124,
-                "winrate": 53.9
-              },
-              "runas": {
-                "principal": 8008,
-                "secundaria": 8300
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 236,
-              "equipo": 100,
-              "hechizos": [
-                4,
-                32
-              ],
-              "maestria": {
-                "nivel": 2,
-                "puntos": 5799
-              },
-              "nombre": "masterbill#LAS",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": {
-                "derrotas": 44,
-                "division": "II",
-                "lp": 30,
-                "racha": false,
-                "tier": "SILVER",
-                "victorias": 32,
-                "winrate": 42.1
-              },
-              "runas": {
-                "principal": 8437,
-                "secundaria": 8200
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 154,
-              "equipo": 100,
-              "hechizos": [
-                4,
-                7
-              ],
-              "maestria": {
-                "nivel": 2,
-                "puntos": 2630
-              },
-              "nombre": "AuMutie#3000",
-              "premade": 1,
-              "premade_partidas": 1,
-              "rango": null,
-              "runas": {
-                "principal": 8010,
-                "secundaria": 8400
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 7,
-              "equipo": 100,
-              "hechizos": [
-                14,
-                4
-              ],
-              "maestria": {
-                "nivel": 15,
-                "puntos": 146853
-              },
-              "nombre": "Saki Kurokoma#WBaWC",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": {
-                "derrotas": 207,
-                "division": "II",
-                "lp": 95,
-                "racha": false,
-                "tier": "EMERALD",
-                "victorias": 210,
-                "winrate": 50.4
-              },
-              "runas": {
-                "principal": 8005,
-                "secundaria": 8400
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 235,
-              "equipo": 100,
-              "hechizos": [
-                4,
-                13
-              ],
-              "maestria": {
-                "nivel": 12,
-                "puntos": 101353
-              },
-              "nombre": "Kriz cold#Cold",
-              "premade": 1,
-              "premade_partidas": 1,
-              "rango": {
-                "derrotas": 11,
-                "division": "IV",
-                "lp": 35,
-                "racha": false,
-                "tier": "EMERALD",
-                "victorias": 16,
-                "winrate": 59.3
-              },
-              "runas": {
-                "principal": 8128,
-                "secundaria": 8200
-              }
-            }
-          ]
-        },
-        {
-          "bloqueos": [],
-          "equipo": 200,
-          "jugadores": [
-            {
-              "amigo": null,
-              "campeon_id": 81,
-              "equipo": 200,
-              "hechizos": [
-                4,
-                21
-              ],
-              "maestria": {
-                "nivel": 9,
-                "puntos": 74252
-              },
-              "nombre": "RoKou TsK#LAS",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": {
-                "derrotas": 15,
-                "division": "IV",
-                "lp": 3,
-                "racha": false,
-                "tier": "EMERALD",
-                "victorias": 15,
-                "winrate": 50.0
-              },
-              "runas": {
-                "principal": 8008,
-                "secundaria": 8300
-              }
-            },
-            {
-              "amigo": "johnadis-las",
-              "campeon_id": 26,
-              "equipo": 200,
-              "hechizos": [
-                4,
-                32
-              ],
-              "maestria": {
-                "nivel": 12,
-                "puntos": 104575
-              },
-              "nombre": "Johnadis#LAS",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": {
-                "derrotas": 11,
-                "division": "II",
-                "lp": 85,
-                "racha": false,
-                "tier": "PLATINUM",
-                "victorias": 13,
-                "winrate": 54.2
-              },
-              "runas": {
-                "principal": 8360,
-                "secundaria": 8400
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 498,
-              "equipo": 200,
-              "hechizos": [
-                4,
-                7
-              ],
-              "maestria": {
-                "nivel": 7,
-                "puntos": 45834
-              },
-              "nombre": "Faby Pastelito#Bear",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": null,
-              "runas": {
-                "principal": 8021,
-                "secundaria": 8100
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 901,
-              "equipo": 200,
-              "hechizos": [
-                4,
-                6
-              ],
-              "maestria": {
-                "nivel": 7,
-                "puntos": 47056
-              },
-              "nombre": "ScnD361#LAS",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": null,
-              "runas": {
-                "principal": 8010,
-                "secundaria": 8400
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 115,
-              "equipo": 200,
-              "hechizos": [
-                4,
-                21
-              ],
-              "maestria": {
-                "nivel": 7,
-                "puntos": 52672
-              },
-              "nombre": "SnotClaus#SnotC",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": {
-                "derrotas": 68,
-                "division": "III",
-                "lp": 52,
-                "racha": false,
-                "tier": "EMERALD",
-                "victorias": 81,
-                "winrate": 54.4
-              },
-              "runas": {
-                "principal": 8439,
-                "secundaria": 8000
-              }
-            }
-          ]
-        }
-      ],
-      "id": 1636697258,
-      "inicio": 1794354538682,
-      "modo": "ARAM Caos",
-      "queue_id": 2400
-    }
-  ],
+  "en_vivo": [],
   "ranking": [
     {
       "criterio": "rango",
