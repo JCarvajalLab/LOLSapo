@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-11-11T00:11:08Z",
+  "actualizado": "2026-11-11T00:15:41Z",
   "amigos": [
     {
       "actividad": {
@@ -451,7 +451,15 @@
         }
       },
       "estado": "ok",
-      "jugando": null,
+      "jugando": {
+        "campeon_id": 904,
+        "categoria": "aram",
+        "duracion": 55,
+        "inicio": 1794356027796,
+        "modo": "ARAM Caos",
+        "partida_id": 1636703399,
+        "queue_id": 2400
+      },
       "nombre": "Johnadis",
       "partidas": [
         {
@@ -95243,6 +95251,10 @@
         "id": "SummonerExhaust",
         "nombre": "Extenuación"
       },
+      "32": {
+        "id": "SummonerSnowball",
+        "nombre": "Marca"
+      },
       "4": {
         "id": "SummonerFlash",
         "nombre": "Destello"
@@ -97499,7 +97511,283 @@
       "peor_jugador_semana": []
     }
   },
-  "en_vivo": [],
+  "en_vivo": [
+    {
+      "amigos": [
+        "johnadis-las"
+      ],
+      "categoria": "aram",
+      "duracion": 55,
+      "equipos": [
+        {
+          "bloqueos": [],
+          "equipo": 100,
+          "jugadores": [
+            {
+              "amigo": null,
+              "campeon_id": 104,
+              "equipo": 100,
+              "hechizos": [
+                6,
+                4
+              ],
+              "maestria": {
+                "nivel": 7,
+                "puntos": 45062
+              },
+              "nombre": "XsMister#LAS",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": null,
+              "runas": {
+                "principal": 8010,
+                "secundaria": 8100
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 103,
+              "equipo": 100,
+              "hechizos": [
+                4,
+                32
+              ],
+              "maestria": {
+                "nivel": 5,
+                "puntos": 22573
+              },
+              "nombre": "BlueBerry IDK#UwU",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": {
+                "derrotas": 10,
+                "division": "II",
+                "lp": 7,
+                "racha": false,
+                "tier": "BRONZE",
+                "victorias": 8,
+                "winrate": 44.4
+              },
+              "runas": {
+                "principal": 8112,
+                "secundaria": 8200
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 236,
+              "equipo": 100,
+              "hechizos": [
+                32,
+                4
+              ],
+              "maestria": {
+                "nivel": 5,
+                "puntos": 30600
+              },
+              "nombre": "PersonaCon2ojos#LAS",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": null,
+              "runas": {
+                "principal": 8128,
+                "secundaria": 8000
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 518,
+              "equipo": 100,
+              "hechizos": [
+                4,
+                21
+              ],
+              "maestria": {
+                "nivel": 5,
+                "puntos": 31196
+              },
+              "nombre": "SweetPea#6969",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": {
+                "derrotas": 116,
+                "division": "I",
+                "lp": 85,
+                "racha": false,
+                "tier": "PLATINUM",
+                "victorias": 126,
+                "winrate": 52.1
+              },
+              "runas": {
+                "principal": 8214,
+                "secundaria": 8400
+              }
+            },
+            {
+              "amigo": "johnadis-las",
+              "campeon_id": 904,
+              "equipo": 100,
+              "hechizos": [
+                4,
+                32
+              ],
+              "maestria": {
+                "nivel": 2,
+                "puntos": 5902
+              },
+              "nombre": "Johnadis#LAS",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": {
+                "derrotas": 11,
+                "division": "II",
+                "lp": 85,
+                "racha": false,
+                "tier": "PLATINUM",
+                "victorias": 13,
+                "winrate": 54.2
+              },
+              "runas": {
+                "principal": 8360,
+                "secundaria": 8400
+              }
+            }
+          ]
+        },
+        {
+          "bloqueos": [],
+          "equipo": 200,
+          "jugadores": [
+            {
+              "amigo": null,
+              "campeon_id": 121,
+              "equipo": 200,
+              "hechizos": [
+                4,
+                32
+              ],
+              "maestria": {
+                "nivel": 6,
+                "puntos": 49319
+              },
+              "nombre": "JO5EXÖ#1904",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": null,
+              "runas": {
+                "principal": 8128,
+                "secundaria": 8000
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 127,
+              "equipo": 200,
+              "hechizos": [
+                4,
+                32
+              ],
+              "maestria": {
+                "nivel": 2,
+                "puntos": 3528
+              },
+              "nombre": "Alfa Yisus#LAS",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": {
+                "derrotas": 45,
+                "division": "IV",
+                "lp": 39,
+                "racha": false,
+                "tier": "GOLD",
+                "victorias": 28,
+                "winrate": 38.4
+              },
+              "runas": {
+                "principal": 8010,
+                "secundaria": 8100
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 238,
+              "equipo": 200,
+              "hechizos": [
+                4,
+                32
+              ],
+              "maestria": {
+                "nivel": 8,
+                "puntos": 57865
+              },
+              "nombre": "Hayakawa Akı#LAS",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": null,
+              "runas": {
+                "principal": 8229,
+                "secundaria": 8300
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 145,
+              "equipo": 200,
+              "hechizos": [
+                4,
+                32
+              ],
+              "maestria": {
+                "nivel": 11,
+                "puntos": 86995
+              },
+              "nombre": "hachibi87#LAS",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": null,
+              "runas": {
+                "principal": 8128,
+                "secundaria": 8000
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 910,
+              "equipo": 200,
+              "hechizos": [
+                32,
+                4
+              ],
+              "maestria": {
+                "nivel": 20,
+                "puntos": 194681
+              },
+              "nombre": "FACHOSANTIKOÑITO#RAPPA",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": {
+                "derrotas": 14,
+                "division": "III",
+                "lp": 41,
+                "racha": false,
+                "tier": "PLATINUM",
+                "victorias": 13,
+                "winrate": 48.1
+              },
+              "runas": {
+                "principal": 8229,
+                "secundaria": 8300
+              }
+            }
+          ]
+        }
+      ],
+      "id": 1636703399,
+      "inicio": 1794356027796,
+      "modo": "ARAM Caos",
+      "queue_id": 2400
+    }
+  ],
   "ranking": [
     {
       "criterio": "rango",
