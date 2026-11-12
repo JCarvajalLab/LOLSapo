@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-11-12T15:26:12Z",
+  "actualizado": "2026-11-12T15:31:22Z",
   "amigos": [
     {
       "actividad": {
@@ -22297,7 +22297,15 @@
         }
       },
       "estado": "ok",
-      "jugando": null,
+      "jugando": {
+        "campeon_id": 22,
+        "categoria": "aram",
+        "duracion": 196,
+        "inicio": 1794497229269,
+        "modo": "ARAM Caos",
+        "partida_id": 1637042375,
+        "queue_id": 2400
+      },
       "nombre": "Big Gato",
       "partidas": [
         {
@@ -29088,7 +29096,7 @@
       ],
       "perfil": {
         "icono": 691,
-        "nivel": 670
+        "nivel": 671
       },
       "rangos": {
         "flex": null,
@@ -94382,6 +94390,10 @@
         "id": "TahmKench",
         "nombre": "Tahm Kench"
       },
+      "23": {
+        "id": "Tryndamere",
+        "nombre": "Tryndamere"
+      },
       "233": {
         "id": "Briar",
         "nombre": "Briar"
@@ -94819,6 +94831,10 @@
       "3": {
         "id": "SummonerExhaust",
         "nombre": "Extenuación"
+      },
+      "32": {
+        "id": "SummonerSnowball",
+        "nombre": "Marca"
       },
       "4": {
         "id": "SummonerFlash",
@@ -97076,7 +97092,283 @@
       "peor_jugador_semana": []
     }
   },
-  "en_vivo": [],
+  "en_vivo": [
+    {
+      "amigos": [
+        "big-gato-las"
+      ],
+      "categoria": "aram",
+      "duracion": 196,
+      "equipos": [
+        {
+          "bloqueos": [],
+          "equipo": 100,
+          "jugadores": [
+            {
+              "amigo": null,
+              "campeon_id": 516,
+              "equipo": 100,
+              "hechizos": [
+                4,
+                32
+              ],
+              "maestria": {
+                "nivel": 2,
+                "puntos": 4199
+              },
+              "nombre": "ElRikoo#8686",
+              "premade": 1,
+              "premade_partidas": 3,
+              "rango": {
+                "derrotas": 71,
+                "division": "IV",
+                "lp": 0,
+                "racha": false,
+                "tier": "GOLD",
+                "victorias": 57,
+                "winrate": 44.5
+              },
+              "runas": {
+                "principal": 8010,
+                "secundaria": 8100
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 26,
+              "equipo": 100,
+              "hechizos": [
+                4,
+                21
+              ],
+              "maestria": {
+                "nivel": 2,
+                "puntos": 4050
+              },
+              "nombre": "KukardoAtomico#VLLC",
+              "premade": 1,
+              "premade_partidas": 3,
+              "rango": {
+                "derrotas": 47,
+                "division": "IV",
+                "lp": 0,
+                "racha": false,
+                "tier": "EMERALD",
+                "victorias": 43,
+                "winrate": 47.8
+              },
+              "runas": {
+                "principal": 8128,
+                "secundaria": 8000
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 904,
+              "equipo": 100,
+              "hechizos": [
+                32,
+                4
+              ],
+              "maestria": {
+                "nivel": 2,
+                "puntos": 3312
+              },
+              "nombre": "Antharezx#LAS",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": {
+                "derrotas": 33,
+                "division": "III",
+                "lp": 65,
+                "racha": false,
+                "tier": "PLATINUM",
+                "victorias": 35,
+                "winrate": 51.5
+              },
+              "runas": {
+                "principal": 8008,
+                "secundaria": 8100
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 43,
+              "equipo": 100,
+              "hechizos": [
+                32,
+                4
+              ],
+              "maestria": {
+                "nivel": 10,
+                "puntos": 96172
+              },
+              "nombre": "InuPark #LAS",
+              "premade": 2,
+              "premade_partidas": 4,
+              "rango": null,
+              "runas": {
+                "principal": 8010,
+                "secundaria": 8100
+              }
+            },
+            {
+              "amigo": "big-gato-las",
+              "campeon_id": 22,
+              "equipo": 100,
+              "hechizos": [
+                32,
+                4
+              ],
+              "maestria": {
+                "nivel": 10,
+                "puntos": 84722
+              },
+              "nombre": "Big Gato#LAS",
+              "premade": 2,
+              "premade_partidas": 4,
+              "rango": null,
+              "runas": {
+                "principal": 8112,
+                "secundaria": 8300
+              }
+            }
+          ]
+        },
+        {
+          "bloqueos": [],
+          "equipo": 200,
+          "jugadores": [
+            {
+              "amigo": null,
+              "campeon_id": 111,
+              "equipo": 200,
+              "hechizos": [
+                4,
+                32
+              ],
+              "maestria": {
+                "nivel": 0,
+                "puntos": 0
+              },
+              "nombre": "Queen Bubba#LAS",
+              "premade": 3,
+              "premade_partidas": 1,
+              "rango": null,
+              "runas": {
+                "principal": 8437,
+                "secundaria": 8000
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 23,
+              "equipo": 200,
+              "hechizos": [
+                4,
+                32
+              ],
+              "maestria": {
+                "nivel": 4,
+                "puntos": 19425
+              },
+              "nombre": "Green Ravine#077",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": null,
+              "runas": {
+                "principal": 8005,
+                "secundaria": 8400
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 888,
+              "equipo": 200,
+              "hechizos": [
+                4,
+                32
+              ],
+              "maestria": {
+                "nivel": 2,
+                "puntos": 2830
+              },
+              "nombre": "elSHIFF#LAS",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": null,
+              "runas": {
+                "principal": 8005,
+                "secundaria": 8400
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 18,
+              "equipo": 200,
+              "hechizos": [
+                4,
+                21
+              ],
+              "maestria": {
+                "nivel": 3,
+                "puntos": 8554
+              },
+              "nombre": "Auli#3PLES",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": {
+                "derrotas": 5,
+                "division": "I",
+                "lp": 10,
+                "racha": false,
+                "tier": "PLATINUM",
+                "victorias": 6,
+                "winrate": 54.5
+              },
+              "runas": {
+                "principal": 8008,
+                "secundaria": 8100
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 62,
+              "equipo": 200,
+              "hechizos": [
+                6,
+                4
+              ],
+              "maestria": {
+                "nivel": 4,
+                "puntos": 12938
+              },
+              "nombre": "Cävs#1420",
+              "premade": 3,
+              "premade_partidas": 1,
+              "rango": {
+                "derrotas": 115,
+                "division": "I",
+                "lp": 59,
+                "racha": false,
+                "tier": "EMERALD",
+                "victorias": 111,
+                "winrate": 49.1
+              },
+              "runas": {
+                "principal": 8010,
+                "secundaria": 8100
+              }
+            }
+          ]
+        }
+      ],
+      "id": 1637042375,
+      "inicio": 1794497229269,
+      "modo": "ARAM Caos",
+      "queue_id": 2400
+    }
+  ],
   "ranking": [
     {
       "criterio": "rango",
