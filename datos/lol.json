@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-11-12T15:06:14Z",
+  "actualizado": "2026-11-12T15:11:13Z",
   "amigos": [
     {
       "actividad": {
@@ -22297,7 +22297,15 @@
         }
       },
       "estado": "ok",
-      "jugando": null,
+      "jugando": {
+        "campeon_id": 360,
+        "categoria": "aram",
+        "duracion": 57,
+        "inicio": 1794496158800,
+        "modo": "ARAM Caos",
+        "partida_id": 1637037988,
+        "queue_id": 2400
+      },
       "nombre": "Big Gato",
       "partidas": [
         {
@@ -94820,6 +94828,10 @@
         "id": "SummonerExhaust",
         "nombre": "Extenuación"
       },
+      "32": {
+        "id": "SummonerSnowball",
+        "nombre": "Marca"
+      },
       "4": {
         "id": "SummonerFlash",
         "nombre": "Destello"
@@ -97076,7 +97088,283 @@
       "peor_jugador_semana": []
     }
   },
-  "en_vivo": [],
+  "en_vivo": [
+    {
+      "amigos": [
+        "big-gato-las"
+      ],
+      "categoria": "aram",
+      "duracion": 57,
+      "equipos": [
+        {
+          "bloqueos": [],
+          "equipo": 100,
+          "jugadores": [
+            {
+              "amigo": null,
+              "campeon_id": 235,
+              "equipo": 100,
+              "hechizos": [
+                4,
+                7
+              ],
+              "maestria": {
+                "nivel": 8,
+                "puntos": 59764
+              },
+              "nombre": "Volt Prime#0001",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": null,
+              "runas": {
+                "principal": 8229,
+                "secundaria": 8100
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 44,
+              "equipo": 100,
+              "hechizos": [
+                4,
+                32
+              ],
+              "maestria": {
+                "nivel": 4,
+                "puntos": 13670
+              },
+              "nombre": "Keeghan#Cocoi",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": {
+                "derrotas": 10,
+                "division": "IV",
+                "lp": 30,
+                "racha": false,
+                "tier": "PLATINUM",
+                "victorias": 11,
+                "winrate": 52.4
+              },
+              "runas": {
+                "principal": 8008,
+                "secundaria": 8400
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 55,
+              "equipo": 100,
+              "hechizos": [
+                32,
+                4
+              ],
+              "maestria": {
+                "nivel": 7,
+                "puntos": 45957
+              },
+              "nombre": "InuPark #LAS",
+              "premade": 1,
+              "premade_partidas": 3,
+              "rango": null,
+              "runas": {
+                "principal": 8010,
+                "secundaria": 8100
+              }
+            },
+            {
+              "amigo": "big-gato-las",
+              "campeon_id": 360,
+              "equipo": 100,
+              "hechizos": [
+                32,
+                4
+              ],
+              "maestria": {
+                "nivel": 6,
+                "puntos": 32086
+              },
+              "nombre": "Big Gato#LAS",
+              "premade": 1,
+              "premade_partidas": 3,
+              "rango": null,
+              "runas": {
+                "principal": 8112,
+                "secundaria": 8300
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 101,
+              "equipo": 100,
+              "hechizos": [
+                6,
+                4
+              ],
+              "maestria": {
+                "nivel": 1,
+                "puntos": 1229
+              },
+              "nombre": "Bafanas0#3640",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": {
+                "derrotas": 7,
+                "division": "II",
+                "lp": 39,
+                "racha": false,
+                "tier": "GOLD",
+                "victorias": 9,
+                "winrate": 56.2
+              },
+              "runas": {
+                "principal": 8128,
+                "secundaria": 8000
+              }
+            }
+          ]
+        },
+        {
+          "bloqueos": [],
+          "equipo": 200,
+          "jugadores": [
+            {
+              "amigo": null,
+              "campeon_id": 99,
+              "equipo": 200,
+              "hechizos": [
+                6,
+                4
+              ],
+              "maestria": {
+                "nivel": 5,
+                "puntos": 27786
+              },
+              "nombre": "Cävs#1420",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": {
+                "derrotas": 115,
+                "division": "I",
+                "lp": 59,
+                "racha": false,
+                "tier": "EMERALD",
+                "victorias": 111,
+                "winrate": 49.1
+              },
+              "runas": {
+                "principal": 8128,
+                "secundaria": 8000
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 145,
+              "equipo": 200,
+              "hechizos": [
+                4,
+                32
+              ],
+              "maestria": {
+                "nivel": 8,
+                "puntos": 59004
+              },
+              "nombre": "CARLITOOOO TEVEZ#666",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": {
+                "derrotas": 33,
+                "division": "III",
+                "lp": 3,
+                "racha": false,
+                "tier": "EMERALD",
+                "victorias": 40,
+                "winrate": 54.8
+              },
+              "runas": {
+                "principal": 8230,
+                "secundaria": 8100
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 25,
+              "equipo": 200,
+              "hechizos": [
+                32,
+                4
+              ],
+              "maestria": {
+                "nivel": 12,
+                "puntos": 107335
+              },
+              "nombre": "ÐemaGogo#Chuli",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": {
+                "derrotas": 467,
+                "division": "I",
+                "lp": 6,
+                "racha": false,
+                "tier": "EMERALD",
+                "victorias": 457,
+                "winrate": 49.5
+              },
+              "runas": {
+                "principal": 8229,
+                "secundaria": 8000
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 221,
+              "equipo": 200,
+              "hechizos": [
+                4,
+                6
+              ],
+              "maestria": {
+                "nivel": 0,
+                "puntos": 0
+              },
+              "nombre": "Queen Bubba#LAS",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": null,
+              "runas": {
+                "principal": 8005,
+                "secundaria": 8100
+              }
+            },
+            {
+              "amigo": null,
+              "campeon_id": 517,
+              "equipo": 200,
+              "hechizos": [
+                4,
+                32
+              ],
+              "maestria": {
+                "nivel": 8,
+                "puntos": 63715
+              },
+              "nombre": "Martinex#LAS1",
+              "premade": null,
+              "premade_partidas": null,
+              "rango": null,
+              "runas": {
+                "principal": 8010,
+                "secundaria": 8100
+              }
+            }
+          ]
+        }
+      ],
+      "id": 1637037988,
+      "inicio": 1794496158800,
+      "modo": "ARAM Caos",
+      "queue_id": 2400
+    }
+  ],
   "ranking": [
     {
       "criterio": "rango",
