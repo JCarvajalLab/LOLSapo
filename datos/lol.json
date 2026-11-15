@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-11-15T03:26:12Z",
+  "actualizado": "2026-11-15T03:31:08Z",
   "amigos": [
     {
       "actividad": {
@@ -39831,7 +39831,7 @@
             "amigo_principal": "johnadis-las",
             "amigos": [
               {
-                "partidas": 35,
+                "partidas": 34,
                 "slug": "johnadis-las"
               },
               {
@@ -39841,20 +39841,20 @@
             ],
             "campeon": "Hwei",
             "campeon_id": 910,
-            "cs": 7705,
+            "cs": 7463,
             "cs_minuto": 6.7,
-            "cs_promedio": 214.0,
-            "danio_promedio": 32588,
-            "derrotas": 18,
-            "kda": 2.81,
-            "partidas": 36,
+            "cs_promedio": 213.2,
+            "danio_promedio": 32142,
+            "derrotas": 17,
+            "kda": 2.79,
+            "partidas": 35,
             "promedio_kda": {
-              "asesinatos": 6.9,
-              "asistencias": 8.4,
-              "muertes": 5.5
+              "asesinatos": 6.6,
+              "asistencias": 8.3,
+              "muertes": 5.3
             },
             "victorias": 18,
-            "winrate": 50.0
+            "winrate": 51.4
           },
           {
             "amigo_principal": "iskrat-las",
@@ -41667,35 +41667,6 @@
             "winrate": 33.3
           },
           {
-            "amigo_principal": "gralmogeko-las",
-            "amigos": [
-              {
-                "partidas": 2,
-                "slug": "gralmogeko-las"
-              },
-              {
-                "partidas": 1,
-                "slug": "big-gato-las"
-              }
-            ],
-            "campeon": "FiddleSticks",
-            "campeon_id": 9,
-            "cs": 663,
-            "cs_minuto": 6.2,
-            "cs_promedio": 221.0,
-            "danio_promedio": 30141,
-            "derrotas": 2,
-            "kda": 2.24,
-            "partidas": 3,
-            "promedio_kda": {
-              "asesinatos": 5.7,
-              "asistencias": 13.0,
-              "muertes": 8.3
-            },
-            "victorias": 1,
-            "winrate": 33.3
-          },
-          {
             "amigo_principal": "big-gato-las",
             "amigos": [
               {
@@ -41741,35 +41712,6 @@
               "asesinatos": 11.3,
               "asistencias": 10.7,
               "muertes": 3.7
-            },
-            "victorias": 1,
-            "winrate": 33.3
-          },
-          {
-            "amigo_principal": "iskrat-las",
-            "amigos": [
-              {
-                "partidas": 2,
-                "slug": "iskrat-las"
-              },
-              {
-                "partidas": 1,
-                "slug": "big-gato-las"
-              }
-            ],
-            "campeon": "Ornn",
-            "campeon_id": 516,
-            "cs": 771,
-            "cs_minuto": 6.4,
-            "cs_promedio": 257.0,
-            "danio_promedio": 29526,
-            "derrotas": 2,
-            "kda": 2.57,
-            "partidas": 3,
-            "promedio_kda": {
-              "asesinatos": 3.3,
-              "asistencias": 14.7,
-              "muertes": 7.0
             },
             "victorias": 1,
             "winrate": 33.3
@@ -42227,6 +42169,31 @@
             "winrate": 50.0
           },
           {
+            "amigo_principal": "gralmogeko-las",
+            "amigos": [
+              {
+                "partidas": 2,
+                "slug": "gralmogeko-las"
+              }
+            ],
+            "campeon": "FiddleSticks",
+            "campeon_id": 9,
+            "cs": 390,
+            "cs_minuto": 6.0,
+            "cs_promedio": 195.0,
+            "danio_promedio": 29088,
+            "derrotas": 1,
+            "kda": 1.94,
+            "partidas": 2,
+            "promedio_kda": {
+              "asesinatos": 3.5,
+              "asistencias": 12.0,
+              "muertes": 8.0
+            },
+            "victorias": 1,
+            "winrate": 50.0
+          },
+          {
             "amigo_principal": "nic-las",
             "amigos": [
               {
@@ -42280,6 +42247,35 @@
               "asesinatos": 3.0,
               "asistencias": 11.5,
               "muertes": 5.0
+            },
+            "victorias": 1,
+            "winrate": 50.0
+          },
+          {
+            "amigo_principal": "iskrat-las",
+            "amigos": [
+              {
+                "partidas": 1,
+                "slug": "iskrat-las"
+              },
+              {
+                "partidas": 1,
+                "slug": "big-gato-las"
+              }
+            ],
+            "campeon": "Ornn",
+            "campeon_id": 516,
+            "cs": 529,
+            "cs_minuto": 6.8,
+            "cs_promedio": 264.5,
+            "danio_promedio": 31958,
+            "derrotas": 1,
+            "kda": 2.07,
+            "partidas": 2,
+            "promedio_kda": {
+              "asesinatos": 2.0,
+              "asistencias": 12.5,
+              "muertes": 7.0
             },
             "victorias": 1,
             "winrate": 50.0
@@ -45034,31 +45030,6 @@
               "winrate": 0.0
             },
             {
-              "amigo_principal": "big-gato-las",
-              "amigos": [
-                {
-                  "partidas": 1,
-                  "slug": "big-gato-las"
-                }
-              ],
-              "campeon": "FiddleSticks",
-              "campeon_id": 9,
-              "cs": 273,
-              "cs_minuto": 6.4,
-              "cs_promedio": 273.0,
-              "danio_promedio": 32248,
-              "derrotas": 1,
-              "kda": 2.78,
-              "partidas": 1,
-              "promedio_kda": {
-                "asesinatos": 10.0,
-                "asistencias": 15.0,
-                "muertes": 9.0
-              },
-              "victorias": 0,
-              "winrate": 0.0
-            },
-            {
               "amigo_principal": "nic-las",
               "amigos": [
                 {
@@ -45214,7 +45185,7 @@
               "amigo_principal": "johnadis-las",
               "amigos": [
                 {
-                  "partidas": 28,
+                  "partidas": 27,
                   "slug": "johnadis-las"
                 },
                 {
@@ -45224,20 +45195,20 @@
               ],
               "campeon": "Hwei",
               "campeon_id": 910,
-              "cs": 6527,
-              "cs_minuto": 6.8,
-              "cs_promedio": 225.1,
-              "danio_promedio": 34882,
-              "derrotas": 14,
-              "kda": 2.79,
-              "partidas": 29,
+              "cs": 6285,
+              "cs_minuto": 6.9,
+              "cs_promedio": 224.5,
+              "danio_promedio": 34407,
+              "derrotas": 13,
+              "kda": 2.76,
+              "partidas": 28,
               "promedio_kda": {
-                "asesinatos": 7.8,
-                "asistencias": 8.6,
-                "muertes": 5.9
+                "asesinatos": 7.4,
+                "asistencias": 8.4,
+                "muertes": 5.7
               },
               "victorias": 15,
-              "winrate": 51.7
+              "winrate": 53.6
             },
             {
               "amigo_principal": "johnadis-las",
@@ -46467,35 +46438,6 @@
               "winrate": 66.7
             },
             {
-              "amigo_principal": "iskrat-las",
-              "amigos": [
-                {
-                  "partidas": 2,
-                  "slug": "iskrat-las"
-                },
-                {
-                  "partidas": 1,
-                  "slug": "big-gato-las"
-                }
-              ],
-              "campeon": "Ornn",
-              "campeon_id": 516,
-              "cs": 771,
-              "cs_minuto": 6.4,
-              "cs_promedio": 257.0,
-              "danio_promedio": 29526,
-              "derrotas": 2,
-              "kda": 2.57,
-              "partidas": 3,
-              "promedio_kda": {
-                "asesinatos": 3.3,
-                "asistencias": 14.7,
-                "muertes": 7.0
-              },
-              "victorias": 1,
-              "winrate": 33.3
-            },
-            {
               "amigo_principal": "gralmogeko-las",
               "amigos": [
                 {
@@ -46573,6 +46515,35 @@
               },
               "victorias": 2,
               "winrate": 100.0
+            },
+            {
+              "amigo_principal": "iskrat-las",
+              "amigos": [
+                {
+                  "partidas": 1,
+                  "slug": "iskrat-las"
+                },
+                {
+                  "partidas": 1,
+                  "slug": "big-gato-las"
+                }
+              ],
+              "campeon": "Ornn",
+              "campeon_id": 516,
+              "cs": 529,
+              "cs_minuto": 6.8,
+              "cs_promedio": 264.5,
+              "danio_promedio": 31958,
+              "derrotas": 1,
+              "kda": 2.07,
+              "partidas": 2,
+              "promedio_kda": {
+                "asesinatos": 2.0,
+                "asistencias": 12.5,
+                "muertes": 7.0
+              },
+              "victorias": 1,
+              "winrate": 50.0
             },
             {
               "amigo_principal": "johnadis-las",
@@ -48007,48 +47978,48 @@
           "BOTTOM": {
             "derrotas": 70,
             "partidas": 144,
-            "porcentaje": 20.6,
+            "porcentaje": 20.7,
             "posicion": "BOTTOM",
             "victorias": 74,
             "winrate": 51.4
           },
           "JUNGLE": {
-            "derrotas": 68,
-            "partidas": 123,
-            "porcentaje": 17.6,
+            "derrotas": 67,
+            "partidas": 122,
+            "porcentaje": 17.5,
             "posicion": "JUNGLE",
             "victorias": 55,
-            "winrate": 44.7
+            "winrate": 45.1
           },
           "MIDDLE": {
-            "derrotas": 88,
-            "partidas": 177,
+            "derrotas": 87,
+            "partidas": 176,
             "porcentaje": 25.3,
             "posicion": "MIDDLE",
             "victorias": 89,
-            "winrate": 50.3
+            "winrate": 50.6
           },
           "TOP": {
-            "derrotas": 81,
-            "partidas": 168,
+            "derrotas": 80,
+            "partidas": 167,
             "porcentaje": 24.0,
             "posicion": "TOP",
             "victorias": 87,
-            "winrate": 51.8
+            "winrate": 52.1
           },
           "UTILITY": {
             "derrotas": 45,
             "partidas": 87,
-            "porcentaje": 12.4,
+            "porcentaje": 12.5,
             "posicion": "UTILITY",
             "victorias": 42,
             "winrate": 48.3
           }
         },
-        "total_derrotas": 352,
-        "total_partidas": 699,
+        "total_derrotas": 349,
+        "total_partidas": 696,
         "total_victorias": 347,
-        "winrate": 49.6
+        "winrate": 49.9
       },
       "todo": {
         "campeones": [
@@ -61192,31 +61163,6 @@
                   "slug": "big-gato-las"
                 }
               ],
-              "campeon": "FiddleSticks",
-              "campeon_id": 9,
-              "cs": 273,
-              "cs_minuto": 6.4,
-              "cs_promedio": 273.0,
-              "danio_promedio": 32248,
-              "derrotas": 1,
-              "kda": 2.78,
-              "partidas": 1,
-              "promedio_kda": {
-                "asesinatos": 10.0,
-                "asistencias": 15.0,
-                "muertes": 9.0
-              },
-              "victorias": 0,
-              "winrate": 0.0
-            },
-            {
-              "amigo_principal": "big-gato-las",
-              "amigos": [
-                {
-                  "partidas": 1,
-                  "slug": "big-gato-las"
-                }
-              ],
               "campeon": "Fizz",
               "campeon_id": 105,
               "cs": 221,
@@ -62113,31 +62059,6 @@
                 },
                 "victorias": 1,
                 "winrate": 100.0
-              },
-              {
-                "amigo_principal": "big-gato-las",
-                "amigos": [
-                  {
-                    "partidas": 1,
-                    "slug": "big-gato-las"
-                  }
-                ],
-                "campeon": "FiddleSticks",
-                "campeon_id": 9,
-                "cs": 273,
-                "cs_minuto": 6.4,
-                "cs_promedio": 273.0,
-                "danio_promedio": 32248,
-                "derrotas": 1,
-                "kda": 2.78,
-                "partidas": 1,
-                "promedio_kda": {
-                  "asesinatos": 10.0,
-                  "asistencias": 15.0,
-                  "muertes": 9.0
-                },
-                "victorias": 0,
-                "winrate": 0.0
               },
               {
                 "amigo_principal": "big-gato-las",
@@ -63326,23 +63247,23 @@
             "BOTTOM": {
               "derrotas": 10,
               "partidas": 20,
-              "porcentaje": 19.4,
+              "porcentaje": 19.6,
               "posicion": "BOTTOM",
               "victorias": 10,
               "winrate": 50.0
             },
             "JUNGLE": {
-              "derrotas": 14,
-              "partidas": 23,
-              "porcentaje": 22.3,
+              "derrotas": 13,
+              "partidas": 22,
+              "porcentaje": 21.6,
               "posicion": "JUNGLE",
               "victorias": 9,
-              "winrate": 39.1
+              "winrate": 40.9
             },
             "MIDDLE": {
               "derrotas": 14,
               "partidas": 20,
-              "porcentaje": 19.4,
+              "porcentaje": 19.6,
               "posicion": "MIDDLE",
               "victorias": 6,
               "winrate": 30.0
@@ -63350,7 +63271,7 @@
             "TOP": {
               "derrotas": 9,
               "partidas": 20,
-              "porcentaje": 19.4,
+              "porcentaje": 19.6,
               "posicion": "TOP",
               "victorias": 11,
               "winrate": 55.0
@@ -63358,16 +63279,16 @@
             "UTILITY": {
               "derrotas": 7,
               "partidas": 20,
-              "porcentaje": 19.4,
+              "porcentaje": 19.6,
               "posicion": "UTILITY",
               "victorias": 13,
               "winrate": 65.0
             }
           },
-          "total_derrotas": 54,
-          "total_partidas": 103,
+          "total_derrotas": 53,
+          "total_partidas": 102,
           "total_victorias": 49,
-          "winrate": 47.6
+          "winrate": 48.0
         },
         "todo": {
           "campeones": [
@@ -73918,31 +73839,6 @@
                   "slug": "iskrat-las"
                 }
               ],
-              "campeon": "Ornn",
-              "campeon_id": 516,
-              "cs": 473,
-              "cs_minuto": 5.9,
-              "cs_promedio": 236.5,
-              "danio_promedio": 23232,
-              "derrotas": 2,
-              "kda": 2.5,
-              "partidas": 2,
-              "promedio_kda": {
-                "asesinatos": 3.5,
-                "asistencias": 14.0,
-                "muertes": 7.0
-              },
-              "victorias": 0,
-              "winrate": 0.0
-            },
-            {
-              "amigo_principal": "iskrat-las",
-              "amigos": [
-                {
-                  "partidas": 2,
-                  "slug": "iskrat-las"
-                }
-              ],
               "campeon": "Sylas",
               "campeon_id": 517,
               "cs": 287,
@@ -74255,6 +74151,31 @@
               "promedio_kda": {
                 "asesinatos": 0.0,
                 "asistencias": 8.0,
+                "muertes": 7.0
+              },
+              "victorias": 0,
+              "winrate": 0.0
+            },
+            {
+              "amigo_principal": "iskrat-las",
+              "amigos": [
+                {
+                  "partidas": 1,
+                  "slug": "iskrat-las"
+                }
+              ],
+              "campeon": "Ornn",
+              "campeon_id": 516,
+              "cs": 231,
+              "cs_minuto": 6.2,
+              "cs_promedio": 231.0,
+              "danio_promedio": 21801,
+              "derrotas": 1,
+              "kda": 1.43,
+              "partidas": 1,
+              "promedio_kda": {
+                "asesinatos": 1.0,
+                "asistencias": 9.0,
                 "muertes": 7.0
               },
               "victorias": 0,
@@ -75048,31 +74969,6 @@
                 "amigo_principal": "iskrat-las",
                 "amigos": [
                   {
-                    "partidas": 2,
-                    "slug": "iskrat-las"
-                  }
-                ],
-                "campeon": "Ornn",
-                "campeon_id": 516,
-                "cs": 473,
-                "cs_minuto": 5.9,
-                "cs_promedio": 236.5,
-                "danio_promedio": 23232,
-                "derrotas": 2,
-                "kda": 2.5,
-                "partidas": 2,
-                "promedio_kda": {
-                  "asesinatos": 3.5,
-                  "asistencias": 14.0,
-                  "muertes": 7.0
-                },
-                "victorias": 0,
-                "winrate": 0.0
-              },
-              {
-                "amigo_principal": "iskrat-las",
-                "amigos": [
-                  {
                     "partidas": 1,
                     "slug": "iskrat-las"
                   }
@@ -75190,6 +75086,31 @@
                   "asesinatos": 0.0,
                   "asistencias": 2.0,
                   "muertes": 5.0
+                },
+                "victorias": 0,
+                "winrate": 0.0
+              },
+              {
+                "amigo_principal": "iskrat-las",
+                "amigos": [
+                  {
+                    "partidas": 1,
+                    "slug": "iskrat-las"
+                  }
+                ],
+                "campeon": "Ornn",
+                "campeon_id": 516,
+                "cs": 231,
+                "cs_minuto": 6.2,
+                "cs_promedio": 231.0,
+                "danio_promedio": 21801,
+                "derrotas": 1,
+                "kda": 1.43,
+                "partidas": 1,
+                "promedio_kda": {
+                  "asesinatos": 1.0,
+                  "asistencias": 9.0,
+                  "muertes": 7.0
                 },
                 "victorias": 0,
                 "winrate": 0.0
@@ -75452,7 +75373,7 @@
             "BOTTOM": {
               "derrotas": 25,
               "partidas": 52,
-              "porcentaje": 26.0,
+              "porcentaje": 26.1,
               "posicion": "BOTTOM",
               "victorias": 27,
               "winrate": 51.9
@@ -75474,12 +75395,12 @@
               "winrate": 50.0
             },
             "TOP": {
-              "derrotas": 52,
-              "partidas": 107,
-              "porcentaje": 53.5,
+              "derrotas": 51,
+              "partidas": 106,
+              "porcentaje": 53.3,
               "posicion": "TOP",
               "victorias": 55,
-              "winrate": 51.4
+              "winrate": 51.9
             },
             "UTILITY": {
               "derrotas": 6,
@@ -75490,10 +75411,10 @@
               "winrate": 45.5
             }
           },
-          "total_derrotas": 99,
-          "total_partidas": 200,
+          "total_derrotas": 98,
+          "total_partidas": 199,
           "total_victorias": 101,
-          "winrate": 50.5
+          "winrate": 50.8
         },
         "todo": {
           "campeones": [
@@ -79627,26 +79548,26 @@
               "amigo_principal": "johnadis-las",
               "amigos": [
                 {
-                  "partidas": 35,
+                  "partidas": 34,
                   "slug": "johnadis-las"
                 }
               ],
               "campeon": "Hwei",
               "campeon_id": 910,
-              "cs": 7384,
+              "cs": 7142,
               "cs_minuto": 6.7,
-              "cs_promedio": 211.0,
-              "danio_promedio": 32309,
-              "derrotas": 17,
-              "kda": 2.82,
-              "partidas": 35,
+              "cs_promedio": 210.1,
+              "danio_promedio": 31842,
+              "derrotas": 16,
+              "kda": 2.79,
+              "partidas": 34,
               "promedio_kda": {
-                "asesinatos": 7.0,
-                "asistencias": 8.2,
-                "muertes": 5.4
+                "asesinatos": 6.6,
+                "asistencias": 8.0,
+                "muertes": 5.2
               },
               "victorias": 18,
-              "winrate": 51.4
+              "winrate": 52.9
             },
             {
               "amigo_principal": "johnadis-las",
@@ -80734,26 +80655,26 @@
                 "amigo_principal": "johnadis-las",
                 "amigos": [
                   {
-                    "partidas": 28,
+                    "partidas": 27,
                     "slug": "johnadis-las"
                   }
                 ],
                 "campeon": "Hwei",
                 "campeon_id": 910,
-                "cs": 6206,
+                "cs": 5964,
                 "cs_minuto": 6.8,
-                "cs_promedio": 221.6,
-                "danio_promedio": 34615,
-                "derrotas": 13,
-                "kda": 2.8,
-                "partidas": 28,
+                "cs_promedio": 220.9,
+                "danio_promedio": 34113,
+                "derrotas": 12,
+                "kda": 2.76,
+                "partidas": 27,
                 "promedio_kda": {
-                  "asesinatos": 7.9,
-                  "asistencias": 8.2,
-                  "muertes": 5.8
+                  "asesinatos": 7.4,
+                  "asistencias": 8.0,
+                  "muertes": 5.6
                 },
                 "victorias": 15,
-                "winrate": 53.6
+                "winrate": 55.6
               },
               {
                 "amigo_principal": "johnadis-las",
@@ -81415,7 +81336,7 @@
             "BOTTOM": {
               "derrotas": 14,
               "partidas": 27,
-              "porcentaje": 14.6,
+              "porcentaje": 14.7,
               "posicion": "BOTTOM",
               "victorias": 13,
               "winrate": 48.1
@@ -81429,12 +81350,12 @@
               "winrate": 55.6
             },
             "MIDDLE": {
-              "derrotas": 56,
-              "partidas": 123,
-              "porcentaje": 66.5,
+              "derrotas": 55,
+              "partidas": 122,
+              "porcentaje": 66.3,
               "posicion": "MIDDLE",
               "victorias": 67,
-              "winrate": 54.5
+              "winrate": 54.9
             },
             "TOP": {
               "derrotas": 5,
@@ -81447,16 +81368,16 @@
             "UTILITY": {
               "derrotas": 12,
               "partidas": 18,
-              "porcentaje": 9.7,
+              "porcentaje": 9.8,
               "posicion": "UTILITY",
               "victorias": 6,
               "winrate": 33.3
             }
           },
-          "total_derrotas": 91,
-          "total_partidas": 185,
+          "total_derrotas": 90,
+          "total_partidas": 184,
           "total_victorias": 94,
-          "winrate": 50.8
+          "winrate": 51.1
         },
         "todo": {
           "campeones": [
@@ -98670,12 +98591,12 @@
             "triplekills": {
               "amigo_nombre": "Big Gato",
               "amigo_slug": "big-gato-las",
-              "campeon": "FiddleSticks",
-              "campeon_id": 9,
-              "duracion": 2567,
-              "fecha": 1786937208440,
+              "campeon": "Tristana",
+              "campeon_id": 18,
+              "duracion": 2787,
+              "fecha": 1787109693711,
               "modo": "Normal (Reclutamiento)",
-              "partida_id": "LA2_1617572621",
+              "partida_id": "LA2_1618049676",
               "resultado": "derrota",
               "valor": 1,
               "valor_raw": 1
@@ -103140,10 +103061,10 @@
       "big-gato-las": [
         {
           "amigo": "iskrat-las",
-          "derrotas": 51,
-          "partidas": 99,
+          "derrotas": 50,
+          "partidas": 98,
           "victorias": 48,
-          "winrate": 48.5
+          "winrate": 49.0
         },
         {
           "amigo": "nic-las",
@@ -103154,10 +103075,10 @@
         },
         {
           "amigo": "johnadis-las",
-          "derrotas": 47,
-          "partidas": 94,
+          "derrotas": 46,
+          "partidas": 93,
           "victorias": 47,
-          "winrate": 50.0
+          "winrate": 50.5
         },
         {
           "amigo": "gralmogeko-las",
@@ -103200,10 +103121,10 @@
       "iskrat-las": [
         {
           "amigo": "johnadis-las",
-          "derrotas": 88,
-          "partidas": 181,
+          "derrotas": 87,
+          "partidas": 180,
           "victorias": 93,
-          "winrate": 51.4
+          "winrate": 51.7
         },
         {
           "amigo": "nic-las",
@@ -103214,10 +103135,10 @@
         },
         {
           "amigo": "big-gato-las",
-          "derrotas": 51,
-          "partidas": 99,
+          "derrotas": 50,
+          "partidas": 98,
           "victorias": 48,
-          "winrate": 48.5
+          "winrate": 49.0
         },
         {
           "amigo": "gralmogeko-las",
@@ -103230,10 +103151,10 @@
       "johnadis-las": [
         {
           "amigo": "iskrat-las",
-          "derrotas": 88,
-          "partidas": 181,
+          "derrotas": 87,
+          "partidas": 180,
           "victorias": 93,
-          "winrate": 51.4
+          "winrate": 51.7
         },
         {
           "amigo": "nic-las",
@@ -103244,10 +103165,10 @@
         },
         {
           "amigo": "big-gato-las",
-          "derrotas": 47,
-          "partidas": 94,
+          "derrotas": 46,
+          "partidas": 93,
           "victorias": 47,
-          "winrate": 50.0
+          "winrate": 50.5
         },
         {
           "amigo": "gralmogeko-las",
