@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-11-16T02:36:09Z",
+  "actualizado": "2026-11-16T02:41:09Z",
   "amigos": [
     {
       "actividad": {
@@ -451,15 +451,7 @@
         }
       },
       "estado": "ok",
-      "jugando": {
-        "campeon_id": 910,
-        "categoria": "aram",
-        "duracion": 772,
-        "inicio": 1794795738495,
-        "modo": "ARAM Caos",
-        "partida_id": 1637862426,
-        "queue_id": 2400
-      },
+      "jugando": null,
       "nombre": "Johnadis",
       "partidas": [
         {
@@ -94134,10 +94126,6 @@
         "id": "Shaco",
         "nombre": "Shaco"
       },
-      "350": {
-        "id": "Yuumi",
-        "nombre": "Yuumi"
-      },
       "36": {
         "id": "DrMundo",
         "nombre": "Dr. Mundo"
@@ -94305,10 +94293,6 @@
       "68": {
         "id": "Rumble",
         "nombre": "Rumble"
-      },
-      "69": {
-        "id": "Cassiopeia",
-        "nombre": "Cassiopeia"
       },
       "7": {
         "id": "Leblanc",
@@ -94483,10 +94467,6 @@
       "3": {
         "id": "SummonerExhaust",
         "nombre": "Extenuación"
-      },
-      "32": {
-        "id": "SummonerSnowball",
-        "nombre": "Marca"
       },
       "4": {
         "id": "SummonerFlash",
@@ -96744,315 +96724,7 @@
       "peor_jugador_semana": []
     }
   },
-  "en_vivo": [
-    {
-      "amigos": [
-        "johnadis-las"
-      ],
-      "categoria": "aram",
-      "duracion": 772,
-      "equipos": [
-        {
-          "bloqueos": [],
-          "equipo": 100,
-          "jugadores": [
-            {
-              "amigo": null,
-              "campeon_id": 234,
-              "equipo": 100,
-              "hechizos": [
-                4,
-                32
-              ],
-              "maestria": {
-                "nivel": 4,
-                "puntos": 19875
-              },
-              "nombre": "Shamash#LAS",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": {
-                "derrotas": 19,
-                "division": "IV",
-                "lp": 46,
-                "racha": false,
-                "tier": "PLATINUM",
-                "victorias": 16,
-                "winrate": 45.7
-              },
-              "runas": {
-                "principal": 8229,
-                "secundaria": 8300
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 350,
-              "equipo": 100,
-              "hechizos": [
-                7,
-                14
-              ],
-              "maestria": {
-                "nivel": 5,
-                "puntos": 24555
-              },
-              "nombre": "Zericienta#Zeri",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": {
-                "derrotas": 48,
-                "division": "IV",
-                "lp": 28,
-                "racha": false,
-                "tier": "PLATINUM",
-                "victorias": 43,
-                "winrate": 47.3
-              },
-              "runas": {
-                "principal": 8008,
-                "secundaria": 8300
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 69,
-              "equipo": 100,
-              "hechizos": [
-                6,
-                4
-              ],
-              "maestria": {
-                "nivel": 5,
-                "puntos": 28045
-              },
-              "nombre": "MiniCataShiet#LAS",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": null,
-              "runas": {
-                "principal": 8008,
-                "secundaria": 8200
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 14,
-              "equipo": 100,
-              "hechizos": [
-                4,
-                32
-              ],
-              "maestria": {
-                "nivel": 4,
-                "puntos": 20803
-              },
-              "nombre": "5r Kush#jija",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": {
-                "derrotas": 199,
-                "division": "III",
-                "lp": 95,
-                "racha": true,
-                "tier": "EMERALD",
-                "victorias": 197,
-                "winrate": 49.7
-              },
-              "runas": {
-                "principal": 8437,
-                "secundaria": 8100
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 75,
-              "equipo": 100,
-              "hechizos": [
-                4,
-                32
-              ],
-              "maestria": {
-                "nivel": 3,
-                "puntos": 6564
-              },
-              "nombre": "Grexxxt#LAS",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": {
-                "derrotas": 137,
-                "division": "I",
-                "lp": 75,
-                "racha": false,
-                "tier": "PLATINUM",
-                "victorias": 140,
-                "winrate": 50.5
-              },
-              "runas": {
-                "principal": 8437,
-                "secundaria": 8000
-              }
-            }
-          ]
-        },
-        {
-          "bloqueos": [],
-          "equipo": 200,
-          "jugadores": [
-            {
-              "amigo": "johnadis-las",
-              "campeon_id": 910,
-              "equipo": 200,
-              "hechizos": [
-                4,
-                6
-              ],
-              "maestria": {
-                "nivel": 16,
-                "puntos": 141816
-              },
-              "nombre": "Johnadis#LAS",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": {
-                "derrotas": 11,
-                "division": "II",
-                "lp": 85,
-                "racha": false,
-                "tier": "PLATINUM",
-                "victorias": 13,
-                "winrate": 54.2
-              },
-              "runas": {
-                "principal": 8360,
-                "secundaria": 8400
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 223,
-              "equipo": 200,
-              "hechizos": [
-                4,
-                32
-              ],
-              "maestria": {
-                "nivel": 4,
-                "puntos": 14364
-              },
-              "nombre": "Darkness boy#LAS",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": {
-                "derrotas": 41,
-                "division": "IV",
-                "lp": 54,
-                "racha": false,
-                "tier": "DIAMOND",
-                "victorias": 42,
-                "winrate": 50.6
-              },
-              "runas": {
-                "principal": 8128,
-                "secundaria": 8000
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 360,
-              "equipo": 200,
-              "hechizos": [
-                21,
-                4
-              ],
-              "maestria": {
-                "nivel": 11,
-                "puntos": 87240
-              },
-              "nombre": "DER DUNKLE JÄGER#LAS",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": {
-                "derrotas": 366,
-                "division": "III",
-                "lp": 46,
-                "racha": false,
-                "tier": "EMERALD",
-                "victorias": 365,
-                "winrate": 49.9
-              },
-              "runas": {
-                "principal": 8010,
-                "secundaria": 8100
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 902,
-              "equipo": 200,
-              "hechizos": [
-                14,
-                4
-              ],
-              "maestria": {
-                "nivel": 9,
-                "puntos": 71163
-              },
-              "nombre": "RicaVainilla#MIAU",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": {
-                "derrotas": 11,
-                "division": "II",
-                "lp": 83,
-                "racha": true,
-                "tier": "SILVER",
-                "victorias": 17,
-                "winrate": 60.7
-              },
-              "runas": {
-                "principal": 8112,
-                "secundaria": 8200
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 126,
-              "equipo": 200,
-              "hechizos": [
-                4,
-                32
-              ],
-              "maestria": {
-                "nivel": 7,
-                "puntos": 50016
-              },
-              "nombre": "Navian#fabcv",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": {
-                "derrotas": 3,
-                "division": "III",
-                "lp": 10,
-                "racha": false,
-                "tier": "GOLD",
-                "victorias": 2,
-                "winrate": 40.0
-              },
-              "runas": {
-                "principal": 8229,
-                "secundaria": 8300
-              }
-            }
-          ]
-        }
-      ],
-      "id": 1637862426,
-      "inicio": 1794795738495,
-      "modo": "ARAM Caos",
-      "queue_id": 2400
-    }
-  ],
+  "en_vivo": [],
   "ranking": [
     {
       "criterio": "rango",
