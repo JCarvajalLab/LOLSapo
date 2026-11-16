@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-11-16T03:26:18Z",
+  "actualizado": "2026-11-16T03:31:10Z",
   "amigos": [
     {
       "actividad": {
@@ -451,15 +451,7 @@
         }
       },
       "estado": "ok",
-      "jugando": {
-        "campeon_id": 875,
-        "categoria": "aram",
-        "duracion": 1225,
-        "inicio": 1794798292756,
-        "modo": "ARAM Caos",
-        "partida_id": 1637876314,
-        "queue_id": 2400
-      },
+      "jugando": null,
       "nombre": "Johnadis",
       "partidas": [
         {
@@ -94185,10 +94177,6 @@
         "id": "Nasus",
         "nombre": "Nasus"
       },
-      "76": {
-        "id": "Nidalee",
-        "nombre": "Nidalee"
-      },
       "777": {
         "id": "Yone",
         "nombre": "Yone"
@@ -94331,10 +94319,6 @@
         "id": "SummonerTeleport",
         "nombre": "Teleportación"
       },
-      "13": {
-        "id": "SummonerMana",
-        "nombre": "Claridad"
-      },
       "14": {
         "id": "SummonerDot",
         "nombre": "Ignición"
@@ -94346,10 +94330,6 @@
       "3": {
         "id": "SummonerExhaust",
         "nombre": "Extenuación"
-      },
-      "32": {
-        "id": "SummonerSnowball",
-        "nombre": "Marca"
       },
       "4": {
         "id": "SummonerFlash",
@@ -96607,291 +96587,7 @@
       "peor_jugador_semana": []
     }
   },
-  "en_vivo": [
-    {
-      "amigos": [
-        "johnadis-las"
-      ],
-      "categoria": "aram",
-      "duracion": 1225,
-      "equipos": [
-        {
-          "bloqueos": [],
-          "equipo": 100,
-          "jugadores": [
-            {
-              "amigo": "johnadis-las",
-              "campeon_id": 875,
-              "equipo": 100,
-              "hechizos": [
-                4,
-                32
-              ],
-              "maestria": {
-                "nivel": 7,
-                "puntos": 53438
-              },
-              "nombre": "Johnadis#LAS",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": {
-                "derrotas": 11,
-                "division": "II",
-                "lp": 85,
-                "racha": false,
-                "tier": "PLATINUM",
-                "victorias": 13,
-                "winrate": 54.2
-              },
-              "runas": {
-                "principal": 8360,
-                "secundaria": 8400
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 48,
-              "equipo": 100,
-              "hechizos": [
-                32,
-                4
-              ],
-              "maestria": {
-                "nivel": 9,
-                "puntos": 73502
-              },
-              "nombre": "T4RS#LAS",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": null,
-              "runas": {
-                "principal": 8214,
-                "secundaria": 8400
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 143,
-              "equipo": 100,
-              "hechizos": [
-                4,
-                32
-              ],
-              "maestria": {
-                "nivel": 8,
-                "puntos": 59565
-              },
-              "nombre": "PITIPIWPIW#7668",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": null,
-              "runas": {
-                "principal": 8128,
-                "secundaria": 8200
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 82,
-              "equipo": 100,
-              "hechizos": [
-                4,
-                32
-              ],
-              "maestria": {
-                "nivel": 2,
-                "puntos": 4034
-              },
-              "nombre": "MazDaPeek#808",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": null,
-              "runas": {
-                "principal": 8229,
-                "secundaria": 8000
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 99,
-              "equipo": 100,
-              "hechizos": [
-                4,
-                13
-              ],
-              "maestria": {
-                "nivel": 12,
-                "puntos": 98176
-              },
-              "nombre": "laceration#LAS",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": {
-                "derrotas": 131,
-                "division": "II",
-                "lp": 31,
-                "racha": false,
-                "tier": "DIAMOND",
-                "victorias": 159,
-                "winrate": 54.8
-              },
-              "runas": {
-                "principal": 8128,
-                "secundaria": 8000
-              }
-            }
-          ]
-        },
-        {
-          "bloqueos": [],
-          "equipo": 200,
-          "jugadores": [
-            {
-              "amigo": null,
-              "campeon_id": 517,
-              "equipo": 200,
-              "hechizos": [
-                4,
-                21
-              ],
-              "maestria": {
-                "nivel": 8,
-                "puntos": 57337
-              },
-              "nombre": "GreedKris#PAM",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": {
-                "derrotas": 15,
-                "division": "III",
-                "lp": 49,
-                "racha": false,
-                "tier": "GOLD",
-                "victorias": 8,
-                "winrate": 34.8
-              },
-              "runas": {
-                "principal": 8010,
-                "secundaria": 8400
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 76,
-              "equipo": 200,
-              "hechizos": [
-                32,
-                4
-              ],
-              "maestria": {
-                "nivel": 11,
-                "puntos": 88295
-              },
-              "nombre": "byPiPe#LAS",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": null,
-              "runas": {
-                "principal": 8229,
-                "secundaria": 8000
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 910,
-              "equipo": 200,
-              "hechizos": [
-                4,
-                21
-              ],
-              "maestria": {
-                "nivel": 10,
-                "puntos": 84834
-              },
-              "nombre": "chucky kruger#LAS",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": {
-                "derrotas": 186,
-                "division": "IV",
-                "lp": 89,
-                "racha": true,
-                "tier": "EMERALD",
-                "victorias": 185,
-                "winrate": 49.9
-              },
-              "runas": {
-                "principal": 8229,
-                "secundaria": 8300
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 222,
-              "equipo": 200,
-              "hechizos": [
-                4,
-                7
-              ],
-              "maestria": {
-                "nivel": 4,
-                "puntos": 17928
-              },
-              "nombre": "T1 Guaymallen#kru",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": {
-                "derrotas": 8,
-                "division": "III",
-                "lp": 49,
-                "racha": false,
-                "tier": "BRONZE",
-                "victorias": 5,
-                "winrate": 38.5
-              },
-              "runas": {
-                "principal": 8010,
-                "secundaria": 8300
-              }
-            },
-            {
-              "amigo": null,
-              "campeon_id": 79,
-              "equipo": 200,
-              "hechizos": [
-                4,
-                13
-              ],
-              "maestria": {
-                "nivel": 6,
-                "puntos": 37021
-              },
-              "nombre": "T1 Minji#KIMNJ",
-              "premade": null,
-              "premade_partidas": null,
-              "rango": {
-                "derrotas": 6,
-                "division": "II",
-                "lp": 57,
-                "racha": false,
-                "tier": "BRONZE",
-                "victorias": 11,
-                "winrate": 64.7
-              },
-              "runas": {
-                "principal": 8229,
-                "secundaria": 8300
-              }
-            }
-          ]
-        }
-      ],
-      "id": 1637876314,
-      "inicio": 1794798292756,
-      "modo": "ARAM Caos",
-      "queue_id": 2400
-    }
-  ],
+  "en_vivo": [],
   "ranking": [
     {
       "criterio": "rango",
