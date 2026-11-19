@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-11-19T00:31:17Z",
+  "actualizado": "2026-11-19T00:36:08Z",
   "amigos": [
     {
       "actividad": {
@@ -14614,10 +14614,10 @@
       "actividad": {
         "2026-07-21": {
           "derrotas": 1,
-          "duracion": 3369,
-          "partidas": 2,
+          "duracion": 1438,
+          "partidas": 1,
           "remakes": 0,
-          "victorias": 1
+          "victorias": 0
         },
         "2026-07-22": {
           "derrotas": 1,
@@ -39346,7 +39346,7 @@
             "amigo_principal": "iskrat-las",
             "amigos": [
               {
-                "partidas": 31,
+                "partidas": 30,
                 "slug": "iskrat-las"
               },
               {
@@ -39356,20 +39356,20 @@
             ],
             "campeon": "Ziggs",
             "campeon_id": 115,
-            "cs": 6253,
+            "cs": 6040,
             "cs_minuto": 6.5,
-            "cs_promedio": 195.4,
-            "danio_promedio": 28407,
+            "cs_promedio": 194.8,
+            "danio_promedio": 28339,
             "derrotas": 11,
-            "kda": 3.41,
-            "partidas": 32,
+            "kda": 3.46,
+            "partidas": 31,
             "promedio_kda": {
-              "asesinatos": 6.1,
+              "asesinatos": 6.0,
               "asistencias": 9.4,
-              "muertes": 4.6
+              "muertes": 4.5
             },
-            "victorias": 21,
-            "winrate": 65.6
+            "victorias": 20,
+            "winrate": 64.5
           },
           {
             "amigo_principal": "johnadis-las",
@@ -44736,31 +44736,6 @@
               "winrate": 42.9
             },
             {
-              "amigo_principal": "iskrat-las",
-              "amigos": [
-                {
-                  "partidas": 12,
-                  "slug": "iskrat-las"
-                }
-              ],
-              "campeon": "Ziggs",
-              "campeon_id": 115,
-              "cs": 2294,
-              "cs_minuto": 6.7,
-              "cs_promedio": 191.2,
-              "danio_promedio": 25304,
-              "derrotas": 4,
-              "kda": 2.89,
-              "partidas": 12,
-              "promedio_kda": {
-                "asesinatos": 5.9,
-                "asistencias": 7.6,
-                "muertes": 4.7
-              },
-              "victorias": 8,
-              "winrate": 66.7
-            },
-            {
               "amigo_principal": "johnadis-las",
               "amigos": [
                 {
@@ -44788,6 +44763,31 @@
               },
               "victorias": 9,
               "winrate": 81.8
+            },
+            {
+              "amigo_principal": "iskrat-las",
+              "amigos": [
+                {
+                  "partidas": 11,
+                  "slug": "iskrat-las"
+                }
+              ],
+              "campeon": "Ziggs",
+              "campeon_id": 115,
+              "cs": 2081,
+              "cs_minuto": 6.8,
+              "cs_promedio": 189.2,
+              "danio_promedio": 24832,
+              "derrotas": 4,
+              "kda": 2.96,
+              "partidas": 11,
+              "promedio_kda": {
+                "asesinatos": 5.5,
+                "asistencias": 7.4,
+                "muertes": 4.4
+              },
+              "victorias": 7,
+              "winrate": 63.6
             },
             {
               "amigo_principal": "johnadis-las",
@@ -47420,18 +47420,18 @@
           "JUNGLE": {
             "derrotas": 63,
             "partidas": 114,
-            "porcentaje": 17.5,
+            "porcentaje": 17.6,
             "posicion": "JUNGLE",
             "victorias": 51,
             "winrate": 44.7
           },
           "MIDDLE": {
             "derrotas": 80,
-            "partidas": 162,
-            "porcentaje": 24.9,
+            "partidas": 161,
+            "porcentaje": 24.8,
             "posicion": "MIDDLE",
-            "victorias": 82,
-            "winrate": 50.6
+            "victorias": 81,
+            "winrate": 50.3
           },
           "TOP": {
             "derrotas": 75,
@@ -47451,8 +47451,8 @@
           }
         },
         "total_derrotas": 326,
-        "total_partidas": 650,
-        "total_victorias": 324,
+        "total_partidas": 649,
+        "total_victorias": 323,
         "winrate": 49.8
       },
       "todo": {
@@ -72144,26 +72144,26 @@
               "amigo_principal": "iskrat-las",
               "amigos": [
                 {
-                  "partidas": 31,
+                  "partidas": 30,
                   "slug": "iskrat-las"
                 }
               ],
               "campeon": "Ziggs",
               "campeon_id": 115,
-              "cs": 6166,
+              "cs": 5953,
               "cs_minuto": 6.6,
-              "cs_promedio": 198.9,
-              "danio_promedio": 27927,
+              "cs_promedio": 198.4,
+              "danio_promedio": 27841,
               "derrotas": 11,
-              "kda": 3.53,
-              "partidas": 31,
+              "kda": 3.59,
+              "partidas": 30,
               "promedio_kda": {
-                "asesinatos": 6.1,
-                "asistencias": 9.3,
-                "muertes": 4.4
+                "asesinatos": 6.0,
+                "asistencias": 9.2,
+                "muertes": 4.2
               },
-              "victorias": 20,
-              "winrate": 64.5
+              "victorias": 19,
+              "winrate": 63.3
             },
             {
               "amigo_principal": "iskrat-las",
@@ -73426,26 +73426,26 @@
                 "amigo_principal": "iskrat-las",
                 "amigos": [
                   {
-                    "partidas": 12,
+                    "partidas": 11,
                     "slug": "iskrat-las"
                   }
                 ],
                 "campeon": "Ziggs",
                 "campeon_id": 115,
-                "cs": 2294,
-                "cs_minuto": 6.7,
-                "cs_promedio": 191.2,
-                "danio_promedio": 25304,
+                "cs": 2081,
+                "cs_minuto": 6.8,
+                "cs_promedio": 189.2,
+                "danio_promedio": 24832,
                 "derrotas": 4,
-                "kda": 2.89,
-                "partidas": 12,
+                "kda": 2.96,
+                "partidas": 11,
                 "promedio_kda": {
-                  "asesinatos": 5.9,
-                  "asistencias": 7.6,
-                  "muertes": 4.7
+                  "asesinatos": 5.5,
+                  "asistencias": 7.4,
+                  "muertes": 4.4
                 },
-                "victorias": 8,
-                "winrate": 66.7
+                "victorias": 7,
+                "winrate": 63.6
               },
               {
                 "amigo_principal": "iskrat-las",
@@ -74157,7 +74157,7 @@
             "BOTTOM": {
               "derrotas": 23,
               "partidas": 47,
-              "porcentaje": 25.5,
+              "porcentaje": 25.7,
               "posicion": "BOTTOM",
               "victorias": 24,
               "winrate": 51.1
@@ -74165,23 +74165,23 @@
             "JUNGLE": {
               "derrotas": 7,
               "partidas": 12,
-              "porcentaje": 6.5,
+              "porcentaje": 6.6,
               "posicion": "JUNGLE",
               "victorias": 5,
               "winrate": 41.7
             },
             "MIDDLE": {
               "derrotas": 9,
-              "partidas": 17,
-              "porcentaje": 9.2,
+              "partidas": 16,
+              "porcentaje": 8.7,
               "posicion": "MIDDLE",
-              "victorias": 8,
-              "winrate": 47.1
+              "victorias": 7,
+              "winrate": 43.8
             },
             "TOP": {
               "derrotas": 46,
               "partidas": 97,
-              "porcentaje": 52.7,
+              "porcentaje": 53.0,
               "posicion": "TOP",
               "victorias": 51,
               "winrate": 52.6
@@ -74196,9 +74196,9 @@
             }
           },
           "total_derrotas": 91,
-          "total_partidas": 184,
-          "total_victorias": 93,
-          "winrate": 50.5
+          "total_partidas": 183,
+          "total_victorias": 92,
+          "winrate": 50.3
         },
         "todo": {
           "campeones": [
