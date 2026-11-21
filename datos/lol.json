@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-11-21T03:51:14Z",
+  "actualizado": "2026-11-21T03:56:09Z",
   "amigos": [
     {
       "actividad": {
@@ -39650,35 +39650,6 @@
             "amigo_principal": "nic-las",
             "amigos": [
               {
-                "partidas": 3,
-                "slug": "nic-las"
-              },
-              {
-                "partidas": 1,
-                "slug": "iskrat-las"
-              }
-            ],
-            "campeon": "Lucian",
-            "campeon_id": 236,
-            "cs": 1056,
-            "cs_minuto": 7.2,
-            "cs_promedio": 264.0,
-            "danio_promedio": 30827,
-            "derrotas": 3,
-            "kda": 2.29,
-            "partidas": 4,
-            "promedio_kda": {
-              "asesinatos": 9.2,
-              "asistencias": 6.8,
-              "muertes": 7.0
-            },
-            "victorias": 1,
-            "winrate": 25.0
-          },
-          {
-            "amigo_principal": "nic-las",
-            "amigos": [
-              {
                 "partidas": 4,
                 "slug": "nic-las"
               }
@@ -39946,6 +39917,35 @@
             "winrate": 33.3
           },
           {
+            "amigo_principal": "nic-las",
+            "amigos": [
+              {
+                "partidas": 2,
+                "slug": "nic-las"
+              },
+              {
+                "partidas": 1,
+                "slug": "iskrat-las"
+              }
+            ],
+            "campeon": "Lucian",
+            "campeon_id": 236,
+            "cs": 674,
+            "cs_minuto": 6.6,
+            "cs_promedio": 224.7,
+            "danio_promedio": 31245,
+            "derrotas": 2,
+            "kda": 2.3,
+            "partidas": 3,
+            "promedio_kda": {
+              "asesinatos": 10.3,
+              "asistencias": 7.3,
+              "muertes": 7.7
+            },
+            "victorias": 1,
+            "winrate": 33.3
+          },
+          {
             "amigo_principal": "johnadis-las",
             "amigos": [
               {
@@ -40114,39 +40114,6 @@
             },
             "victorias": 1,
             "winrate": 33.3
-          },
-          {
-            "amigo_principal": "iskrat-las",
-            "amigos": [
-              {
-                "partidas": 1,
-                "slug": "iskrat-las"
-              },
-              {
-                "partidas": 1,
-                "slug": "nic-las"
-              },
-              {
-                "partidas": 1,
-                "slug": "big-gato-las"
-              }
-            ],
-            "campeon": "Graves",
-            "campeon_id": 104,
-            "cs": 585,
-            "cs_minuto": 6.4,
-            "cs_promedio": 195.0,
-            "danio_promedio": 15585,
-            "derrotas": 3,
-            "kda": 0.76,
-            "partidas": 3,
-            "promedio_kda": {
-              "asesinatos": 2.0,
-              "asistencias": 3.3,
-              "muertes": 7.0
-            },
-            "victorias": 0,
-            "winrate": 0.0
           },
           {
             "amigo_principal": "big-gato-las",
@@ -40833,6 +40800,35 @@
               "asesinatos": 2.5,
               "asistencias": 11.0,
               "muertes": 6.5
+            },
+            "victorias": 0,
+            "winrate": 0.0
+          },
+          {
+            "amigo_principal": "nic-las",
+            "amigos": [
+              {
+                "partidas": 1,
+                "slug": "nic-las"
+              },
+              {
+                "partidas": 1,
+                "slug": "big-gato-las"
+              }
+            ],
+            "campeon": "Graves",
+            "campeon_id": 104,
+            "cs": 341,
+            "cs_minuto": 7.4,
+            "cs_promedio": 170.5,
+            "danio_promedio": 12886,
+            "derrotas": 2,
+            "kda": 0.7,
+            "partidas": 2,
+            "promedio_kda": {
+              "asesinatos": 3.0,
+              "asistencias": 0.5,
+              "muertes": 5.0
             },
             "victorias": 0,
             "winrate": 0.0
@@ -42151,35 +42147,6 @@
               "winrate": 50.0
             },
             {
-              "amigo_principal": "nic-las",
-              "amigos": [
-                {
-                  "partidas": 3,
-                  "slug": "nic-las"
-                },
-                {
-                  "partidas": 1,
-                  "slug": "iskrat-las"
-                }
-              ],
-              "campeon": "Lucian",
-              "campeon_id": 236,
-              "cs": 1056,
-              "cs_minuto": 7.2,
-              "cs_promedio": 264.0,
-              "danio_promedio": 30827,
-              "derrotas": 3,
-              "kda": 2.29,
-              "partidas": 4,
-              "promedio_kda": {
-                "asesinatos": 9.2,
-                "asistencias": 6.8,
-                "muertes": 7.0
-              },
-              "victorias": 1,
-              "winrate": 25.0
-            },
-            {
               "amigo_principal": "big-gato-las",
               "amigos": [
                 {
@@ -42232,6 +42199,35 @@
               },
               "victorias": 2,
               "winrate": 66.7
+            },
+            {
+              "amigo_principal": "nic-las",
+              "amigos": [
+                {
+                  "partidas": 2,
+                  "slug": "nic-las"
+                },
+                {
+                  "partidas": 1,
+                  "slug": "iskrat-las"
+                }
+              ],
+              "campeon": "Lucian",
+              "campeon_id": 236,
+              "cs": 674,
+              "cs_minuto": 6.6,
+              "cs_promedio": 224.7,
+              "danio_promedio": 31245,
+              "derrotas": 2,
+              "kda": 2.3,
+              "partidas": 3,
+              "promedio_kda": {
+                "asesinatos": 10.3,
+                "asistencias": 7.3,
+                "muertes": 7.7
+              },
+              "victorias": 1,
+              "winrate": 33.3
             },
             {
               "amigo_principal": "nic-las",
@@ -44264,31 +44260,6 @@
               "winrate": 0.0
             },
             {
-              "amigo_principal": "iskrat-las",
-              "amigos": [
-                {
-                  "partidas": 1,
-                  "slug": "iskrat-las"
-                }
-              ],
-              "campeon": "Graves",
-              "campeon_id": 104,
-              "cs": 244,
-              "cs_minuto": 5.4,
-              "cs_promedio": 244.0,
-              "danio_promedio": 20982,
-              "derrotas": 1,
-              "kda": 0.82,
-              "partidas": 1,
-              "promedio_kda": {
-                "asesinatos": 0.0,
-                "asistencias": 9.0,
-                "muertes": 11.0
-              },
-              "victorias": 0,
-              "winrate": 0.0
-            },
-            {
               "amigo_principal": "johnadis-las",
               "amigos": [
                 {
@@ -46285,33 +46256,33 @@
         },
         "resumen_lineas": {
           "BOTTOM": {
-            "derrotas": 63,
-            "partidas": 129,
-            "porcentaje": 20.8,
+            "derrotas": 62,
+            "partidas": 128,
+            "porcentaje": 20.7,
             "posicion": "BOTTOM",
             "victorias": 66,
-            "winrate": 51.2
+            "winrate": 51.6
           },
           "JUNGLE": {
             "derrotas": 59,
             "partidas": 109,
-            "porcentaje": 17.6,
+            "porcentaje": 17.7,
             "posicion": "JUNGLE",
             "victorias": 50,
             "winrate": 45.9
           },
           "MIDDLE": {
-            "derrotas": 75,
-            "partidas": 152,
-            "porcentaje": 24.6,
+            "derrotas": 74,
+            "partidas": 151,
+            "porcentaje": 24.5,
             "posicion": "MIDDLE",
             "victorias": 77,
-            "winrate": 50.7
+            "winrate": 51.0
           },
           "TOP": {
             "derrotas": 70,
             "partidas": 148,
-            "porcentaje": 23.9,
+            "porcentaje": 24.0,
             "posicion": "TOP",
             "victorias": 78,
             "winrate": 52.7
@@ -46325,10 +46296,10 @@
             "winrate": 49.4
           }
         },
-        "total_derrotas": 308,
-        "total_partidas": 619,
+        "total_derrotas": 306,
+        "total_partidas": 617,
         "total_victorias": 311,
-        "winrate": 50.2
+        "winrate": 50.4
       },
       "todo": {
         "campeones": [
@@ -70998,31 +70969,6 @@
                   "slug": "iskrat-las"
                 }
               ],
-              "campeon": "Graves",
-              "campeon_id": 104,
-              "cs": 244,
-              "cs_minuto": 5.4,
-              "cs_promedio": 244.0,
-              "danio_promedio": 20982,
-              "derrotas": 1,
-              "kda": 0.82,
-              "partidas": 1,
-              "promedio_kda": {
-                "asesinatos": 0.0,
-                "asistencias": 9.0,
-                "muertes": 11.0
-              },
-              "victorias": 0,
-              "winrate": 0.0
-            },
-            {
-              "amigo_principal": "iskrat-las",
-              "amigos": [
-                {
-                  "partidas": 1,
-                  "slug": "iskrat-las"
-                }
-              ],
               "campeon": "KSante",
               "campeon_id": 897,
               "cs": 177,
@@ -71655,31 +71601,6 @@
                     "slug": "iskrat-las"
                   }
                 ],
-                "campeon": "Graves",
-                "campeon_id": 104,
-                "cs": 244,
-                "cs_minuto": 5.4,
-                "cs_promedio": 244.0,
-                "danio_promedio": 20982,
-                "derrotas": 1,
-                "kda": 0.82,
-                "partidas": 1,
-                "promedio_kda": {
-                  "asesinatos": 0.0,
-                  "asistencias": 9.0,
-                  "muertes": 11.0
-                },
-                "victorias": 0,
-                "winrate": 0.0
-              },
-              {
-                "amigo_principal": "iskrat-las",
-                "amigos": [
-                  {
-                    "partidas": 1,
-                    "slug": "iskrat-las"
-                  }
-                ],
                 "campeon": "Sylas",
                 "campeon_id": 517,
                 "cs": 54,
@@ -72282,7 +72203,7 @@
             "BOTTOM": {
               "derrotas": 22,
               "partidas": 46,
-              "porcentaje": 26.9,
+              "porcentaje": 27.1,
               "posicion": "BOTTOM",
               "victorias": 24,
               "winrate": 52.2
@@ -72290,23 +72211,23 @@
             "JUNGLE": {
               "derrotas": 7,
               "partidas": 12,
-              "porcentaje": 7.0,
+              "porcentaje": 7.1,
               "posicion": "JUNGLE",
               "victorias": 5,
               "winrate": 41.7
             },
             "MIDDLE": {
-              "derrotas": 8,
-              "partidas": 14,
-              "porcentaje": 8.2,
+              "derrotas": 7,
+              "partidas": 13,
+              "porcentaje": 7.6,
               "posicion": "MIDDLE",
               "victorias": 6,
-              "winrate": 42.9
+              "winrate": 46.2
             },
             "TOP": {
               "derrotas": 41,
               "partidas": 88,
-              "porcentaje": 51.5,
+              "porcentaje": 51.8,
               "posicion": "TOP",
               "victorias": 47,
               "winrate": 53.4
@@ -72314,16 +72235,16 @@
             "UTILITY": {
               "derrotas": 6,
               "partidas": 11,
-              "porcentaje": 6.4,
+              "porcentaje": 6.5,
               "posicion": "UTILITY",
               "victorias": 5,
               "winrate": 45.5
             }
           },
-          "total_derrotas": 84,
-          "total_partidas": 171,
+          "total_derrotas": 83,
+          "total_partidas": 170,
           "total_victorias": 87,
-          "winrate": 50.9
+          "winrate": 51.2
         },
         "todo": {
           "campeones": [
@@ -82874,31 +82795,6 @@
                   "slug": "nic-las"
                 }
               ],
-              "campeon": "Lucian",
-              "campeon_id": 236,
-              "cs": 725,
-              "cs_minuto": 7.3,
-              "cs_promedio": 241.7,
-              "danio_promedio": 18893,
-              "derrotas": 2,
-              "kda": 1.6,
-              "partidas": 3,
-              "promedio_kda": {
-                "asesinatos": 5.7,
-                "asistencias": 5.0,
-                "muertes": 6.7
-              },
-              "victorias": 1,
-              "winrate": 33.3
-            },
-            {
-              "amigo_principal": "nic-las",
-              "amigos": [
-                {
-                  "partidas": 3,
-                  "slug": "nic-las"
-                }
-              ],
               "campeon": "Shyvana",
               "campeon_id": 102,
               "cs": 664,
@@ -83087,6 +82983,31 @@
                 "asesinatos": 3.0,
                 "asistencias": 3.0,
                 "muertes": 3.0
+              },
+              "victorias": 1,
+              "winrate": 50.0
+            },
+            {
+              "amigo_principal": "nic-las",
+              "amigos": [
+                {
+                  "partidas": 2,
+                  "slug": "nic-las"
+                }
+              ],
+              "campeon": "Lucian",
+              "campeon_id": 236,
+              "cs": 343,
+              "cs_minuto": 6.4,
+              "cs_promedio": 171.5,
+              "danio_promedio": 13552,
+              "derrotas": 1,
+              "kda": 1.4,
+              "partidas": 2,
+              "promedio_kda": {
+                "asesinatos": 5.5,
+                "asistencias": 5.0,
+                "muertes": 7.5
               },
               "victorias": 1,
               "winrate": 50.0
@@ -84148,31 +84069,6 @@
                 "amigo_principal": "nic-las",
                 "amigos": [
                   {
-                    "partidas": 3,
-                    "slug": "nic-las"
-                  }
-                ],
-                "campeon": "Lucian",
-                "campeon_id": 236,
-                "cs": 725,
-                "cs_minuto": 7.3,
-                "cs_promedio": 241.7,
-                "danio_promedio": 18893,
-                "derrotas": 2,
-                "kda": 1.6,
-                "partidas": 3,
-                "promedio_kda": {
-                  "asesinatos": 5.7,
-                  "asistencias": 5.0,
-                  "muertes": 6.7
-                },
-                "victorias": 1,
-                "winrate": 33.3
-              },
-              {
-                "amigo_principal": "nic-las",
-                "amigos": [
-                  {
                     "partidas": 2,
                     "slug": "nic-las"
                   }
@@ -84193,6 +84089,31 @@
                 },
                 "victorias": 2,
                 "winrate": 100.0
+              },
+              {
+                "amigo_principal": "nic-las",
+                "amigos": [
+                  {
+                    "partidas": 2,
+                    "slug": "nic-las"
+                  }
+                ],
+                "campeon": "Lucian",
+                "campeon_id": 236,
+                "cs": 343,
+                "cs_minuto": 6.4,
+                "cs_promedio": 171.5,
+                "danio_promedio": 13552,
+                "derrotas": 1,
+                "kda": 1.4,
+                "partidas": 2,
+                "promedio_kda": {
+                  "asesinatos": 5.5,
+                  "asistencias": 5.0,
+                  "muertes": 7.5
+                },
+                "victorias": 1,
+                "winrate": 50.0
               },
               {
                 "amigo_principal": "nic-las",
@@ -85631,17 +85552,17 @@
           },
           "resumen_lineas": {
             "BOTTOM": {
-              "derrotas": 14,
-              "partidas": 31,
-              "porcentaje": 22.3,
+              "derrotas": 13,
+              "partidas": 30,
+              "porcentaje": 21.7,
               "posicion": "BOTTOM",
               "victorias": 17,
-              "winrate": 54.8
+              "winrate": 56.7
             },
             "JUNGLE": {
               "derrotas": 33,
               "partidas": 59,
-              "porcentaje": 42.4,
+              "porcentaje": 42.8,
               "posicion": "JUNGLE",
               "victorias": 26,
               "winrate": 44.1
@@ -85649,7 +85570,7 @@
             "MIDDLE": {
               "derrotas": 4,
               "partidas": 7,
-              "porcentaje": 5.0,
+              "porcentaje": 5.1,
               "posicion": "MIDDLE",
               "victorias": 3,
               "winrate": 42.9
@@ -85657,7 +85578,7 @@
             "TOP": {
               "derrotas": 11,
               "partidas": 17,
-              "porcentaje": 12.2,
+              "porcentaje": 12.3,
               "posicion": "TOP",
               "victorias": 6,
               "winrate": 35.3
@@ -85665,16 +85586,16 @@
             "UTILITY": {
               "derrotas": 11,
               "partidas": 25,
-              "porcentaje": 18.0,
+              "porcentaje": 18.1,
               "posicion": "UTILITY",
               "victorias": 14,
               "winrate": 56.0
             }
           },
-          "total_derrotas": 73,
-          "total_partidas": 139,
+          "total_derrotas": 72,
+          "total_partidas": 138,
           "total_victorias": 66,
-          "winrate": 47.5
+          "winrate": 47.8
         },
         "todo": {
           "campeones": [
@@ -98413,15 +98334,15 @@
             "cs": {
               "amigo_nombre": "Nicø",
               "amigo_slug": "nic-las",
-              "campeon": "Lucian",
-              "campeon_id": 236,
-              "duracion": 2715,
-              "fecha": 1787457321647,
+              "campeon": "Warwick",
+              "campeon_id": 19,
+              "duracion": 3546,
+              "fecha": 1789439836145,
               "modo": "Normal (Reclutamiento)",
-              "partida_id": "LA2_1618972258",
+              "partida_id": "LA2_1624215582",
               "resultado": "derrota",
-              "valor": 382,
-              "valor_raw": 382
+              "valor": 343,
+              "valor_raw": 343
             },
             "cs_minuto": {
               "amigo_nombre": "Nicø",
@@ -99125,10 +99046,10 @@
         },
         {
           "amigo": "nic-las",
-          "derrotas": 70,
-          "partidas": 135,
+          "derrotas": 69,
+          "partidas": 134,
           "victorias": 65,
-          "winrate": 48.1
+          "winrate": 48.5
         },
         {
           "amigo": "big-gato-las",
@@ -99178,10 +99099,10 @@
       "nic-las": [
         {
           "amigo": "iskrat-las",
-          "derrotas": 70,
-          "partidas": 135,
+          "derrotas": 69,
+          "partidas": 134,
           "victorias": 65,
-          "winrate": 48.1
+          "winrate": 48.5
         },
         {
           "amigo": "johnadis-las",
