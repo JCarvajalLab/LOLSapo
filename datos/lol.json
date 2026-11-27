@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-11-27T02:36:11Z",
+  "actualizado": "2026-11-27T02:41:09Z",
   "amigos": [
     {
       "actividad": {
@@ -38217,7 +38217,7 @@
             "amigo_principal": "iskrat-las",
             "amigos": [
               {
-                "partidas": 37,
+                "partidas": 36,
                 "slug": "iskrat-las"
               },
               {
@@ -38231,20 +38231,20 @@
             ],
             "campeon": "Gragas",
             "campeon_id": 79,
-            "cs": 6452,
+            "cs": 6240,
             "cs_minuto": 5.8,
-            "cs_promedio": 161.3,
-            "danio_promedio": 18707,
-            "derrotas": 19,
-            "kda": 2.39,
-            "partidas": 40,
+            "cs_promedio": 160.0,
+            "danio_promedio": 18795,
+            "derrotas": 18,
+            "kda": 2.38,
+            "partidas": 39,
             "promedio_kda": {
               "asesinatos": 4.2,
               "asistencias": 6.5,
               "muertes": 4.5
             },
             "victorias": 21,
-            "winrate": 52.5
+            "winrate": 53.8
           },
           {
             "amigo_principal": "iskrat-las",
@@ -41377,31 +41377,6 @@
             "winrate": 0.0
           },
           {
-            "amigo_principal": "johnadis-las",
-            "amigos": [
-              {
-                "partidas": 1,
-                "slug": "johnadis-las"
-              }
-            ],
-            "campeon": "Orianna",
-            "campeon_id": 61,
-            "cs": 199,
-            "cs_minuto": 6.3,
-            "cs_promedio": 199.0,
-            "danio_promedio": 29941,
-            "derrotas": 1,
-            "kda": 3.75,
-            "partidas": 1,
-            "promedio_kda": {
-              "asesinatos": 5.0,
-              "asistencias": 10.0,
-              "muertes": 4.0
-            },
-            "victorias": 0,
-            "winrate": 0.0
-          },
-          {
             "amigo_principal": "iskrat-las",
             "amigos": [
               {
@@ -43859,31 +43834,6 @@
               "winrate": 0.0
             },
             {
-              "amigo_principal": "johnadis-las",
-              "amigos": [
-                {
-                  "partidas": 1,
-                  "slug": "johnadis-las"
-                }
-              ],
-              "campeon": "Orianna",
-              "campeon_id": 61,
-              "cs": 199,
-              "cs_minuto": 6.3,
-              "cs_promedio": 199.0,
-              "danio_promedio": 29941,
-              "derrotas": 1,
-              "kda": 3.75,
-              "partidas": 1,
-              "promedio_kda": {
-                "asesinatos": 5.0,
-                "asistencias": 10.0,
-                "muertes": 4.0
-              },
-              "victorias": 0,
-              "winrate": 0.0
-            },
-            {
               "amigo_principal": "iskrat-las",
               "amigos": [
                 {
@@ -43989,7 +43939,7 @@
               "amigo_principal": "iskrat-las",
               "amigos": [
                 {
-                  "partidas": 35,
+                  "partidas": 34,
                   "slug": "iskrat-las"
                 },
                 {
@@ -43999,20 +43949,20 @@
               ],
               "campeon": "Gragas",
               "campeon_id": 79,
-              "cs": 5951,
+              "cs": 5739,
               "cs_minuto": 5.9,
-              "cs_promedio": 160.8,
-              "danio_promedio": 18061,
-              "derrotas": 18,
-              "kda": 2.37,
-              "partidas": 37,
+              "cs_promedio": 159.4,
+              "danio_promedio": 18138,
+              "derrotas": 17,
+              "kda": 2.35,
+              "partidas": 36,
               "promedio_kda": {
                 "asesinatos": 4.2,
                 "asistencias": 5.9,
                 "muertes": 4.3
               },
               "victorias": 19,
-              "winrate": 51.4
+              "winrate": 52.8
             },
             {
               "amigo_principal": "iskrat-las",
@@ -45770,7 +45720,7 @@
           "BOTTOM": {
             "derrotas": 53,
             "partidas": 113,
-            "porcentaje": 20.9,
+            "porcentaje": 21.0,
             "posicion": "BOTTOM",
             "victorias": 60,
             "winrate": 53.1
@@ -45778,40 +45728,40 @@
           "JUNGLE": {
             "derrotas": 51,
             "partidas": 98,
-            "porcentaje": 18.1,
+            "porcentaje": 18.2,
             "posicion": "JUNGLE",
             "victorias": 47,
             "winrate": 48.0
           },
           "MIDDLE": {
-            "derrotas": 65,
-            "partidas": 131,
-            "porcentaje": 24.3,
+            "derrotas": 64,
+            "partidas": 130,
+            "porcentaje": 24.2,
             "posicion": "MIDDLE",
             "victorias": 66,
-            "winrate": 50.4
+            "winrate": 50.8
           },
           "TOP": {
-            "derrotas": 58,
-            "partidas": 125,
-            "porcentaje": 23.1,
+            "derrotas": 57,
+            "partidas": 124,
+            "porcentaje": 23.0,
             "posicion": "TOP",
             "victorias": 67,
-            "winrate": 53.6
+            "winrate": 54.0
           },
           "UTILITY": {
             "derrotas": 36,
             "partidas": 73,
-            "porcentaje": 13.5,
+            "porcentaje": 13.6,
             "posicion": "UTILITY",
             "victorias": 37,
             "winrate": 50.7
           }
         },
-        "total_derrotas": 263,
-        "total_partidas": 540,
+        "total_derrotas": 261,
+        "total_partidas": 538,
         "total_victorias": 277,
-        "winrate": 51.3
+        "winrate": 51.5
       },
       "todo": {
         "campeones": [
@@ -69402,26 +69352,26 @@
               "amigo_principal": "iskrat-las",
               "amigos": [
                 {
-                  "partidas": 37,
+                  "partidas": 36,
                   "slug": "iskrat-las"
                 }
               ],
               "campeon": "Gragas",
               "campeon_id": 79,
-              "cs": 5941,
-              "cs_minuto": 5.8,
-              "cs_promedio": 160.6,
-              "danio_promedio": 18850,
-              "derrotas": 17,
-              "kda": 2.38,
-              "partidas": 37,
+              "cs": 5729,
+              "cs_minuto": 5.7,
+              "cs_promedio": 159.1,
+              "danio_promedio": 18950,
+              "derrotas": 16,
+              "kda": 2.36,
+              "partidas": 36,
               "promedio_kda": {
                 "asesinatos": 4.2,
-                "asistencias": 6.5,
-                "muertes": 4.5
+                "asistencias": 6.6,
+                "muertes": 4.6
               },
               "victorias": 20,
-              "winrate": 54.1
+              "winrate": 55.6
             },
             {
               "amigo_principal": "iskrat-las",
@@ -70661,26 +70611,26 @@
                 "amigo_principal": "iskrat-las",
                 "amigos": [
                   {
-                    "partidas": 35,
+                    "partidas": 34,
                     "slug": "iskrat-las"
                   }
                 ],
                 "campeon": "Gragas",
                 "campeon_id": 79,
-                "cs": 5616,
+                "cs": 5404,
                 "cs_minuto": 5.9,
-                "cs_promedio": 160.5,
-                "danio_promedio": 18140,
-                "derrotas": 16,
-                "kda": 2.37,
-                "partidas": 35,
+                "cs_promedio": 158.9,
+                "danio_promedio": 18225,
+                "derrotas": 15,
+                "kda": 2.35,
+                "partidas": 34,
                 "promedio_kda": {
-                  "asesinatos": 4.2,
+                  "asesinatos": 4.1,
                   "asistencias": 6.0,
                   "muertes": 4.3
                 },
                 "victorias": 19,
-                "winrate": 54.3
+                "winrate": 55.9
               },
               {
                 "amigo_principal": "iskrat-las",
@@ -71165,7 +71115,7 @@
             "BOTTOM": {
               "derrotas": 22,
               "partidas": 46,
-              "porcentaje": 31.1,
+              "porcentaje": 31.3,
               "posicion": "BOTTOM",
               "victorias": 24,
               "winrate": 52.2
@@ -71173,7 +71123,7 @@
             "JUNGLE": {
               "derrotas": 6,
               "partidas": 11,
-              "porcentaje": 7.4,
+              "porcentaje": 7.5,
               "posicion": "JUNGLE",
               "victorias": 5,
               "winrate": 45.5
@@ -71181,18 +71131,18 @@
             "MIDDLE": {
               "derrotas": 7,
               "partidas": 12,
-              "porcentaje": 8.1,
+              "porcentaje": 8.2,
               "posicion": "MIDDLE",
               "victorias": 5,
               "winrate": 41.7
             },
             "TOP": {
-              "derrotas": 32,
-              "partidas": 69,
-              "porcentaje": 46.6,
+              "derrotas": 31,
+              "partidas": 68,
+              "porcentaje": 46.3,
               "posicion": "TOP",
               "victorias": 37,
-              "winrate": 53.6
+              "winrate": 54.4
             },
             "UTILITY": {
               "derrotas": 5,
@@ -71203,10 +71153,10 @@
               "winrate": 50.0
             }
           },
-          "total_derrotas": 72,
-          "total_partidas": 148,
+          "total_derrotas": 71,
+          "total_partidas": 147,
           "total_victorias": 76,
-          "winrate": 51.4
+          "winrate": 51.7
         },
         "todo": {
           "campeones": [
@@ -75744,31 +75694,6 @@
                   "slug": "johnadis-las"
                 }
               ],
-              "campeon": "Orianna",
-              "campeon_id": 61,
-              "cs": 199,
-              "cs_minuto": 6.3,
-              "cs_promedio": 199.0,
-              "danio_promedio": 29941,
-              "derrotas": 1,
-              "kda": 3.75,
-              "partidas": 1,
-              "promedio_kda": {
-                "asesinatos": 5.0,
-                "asistencias": 10.0,
-                "muertes": 4.0
-              },
-              "victorias": 0,
-              "winrate": 0.0
-            },
-            {
-              "amigo_principal": "johnadis-las",
-              "amigos": [
-                {
-                  "partidas": 1,
-                  "slug": "johnadis-las"
-                }
-              ],
               "campeon": "Rell",
               "campeon_id": 526,
               "cs": 20,
@@ -76401,31 +76326,6 @@
                     "slug": "johnadis-las"
                   }
                 ],
-                "campeon": "Orianna",
-                "campeon_id": 61,
-                "cs": 199,
-                "cs_minuto": 6.3,
-                "cs_promedio": 199.0,
-                "danio_promedio": 29941,
-                "derrotas": 1,
-                "kda": 3.75,
-                "partidas": 1,
-                "promedio_kda": {
-                  "asesinatos": 5.0,
-                  "asistencias": 10.0,
-                  "muertes": 4.0
-                },
-                "victorias": 0,
-                "winrate": 0.0
-              },
-              {
-                "amigo_principal": "johnadis-las",
-                "amigos": [
-                  {
-                    "partidas": 1,
-                    "slug": "johnadis-las"
-                  }
-                ],
                 "campeon": "Taliyah",
                 "campeon_id": 163,
                 "cs": 241,
@@ -76753,7 +76653,7 @@
             "BOTTOM": {
               "derrotas": 11,
               "partidas": 23,
-              "porcentaje": 15.9,
+              "porcentaje": 16.0,
               "posicion": "BOTTOM",
               "victorias": 12,
               "winrate": 52.2
@@ -76767,17 +76667,17 @@
               "winrate": 55.6
             },
             "MIDDLE": {
-              "derrotas": 41,
-              "partidas": 91,
-              "porcentaje": 62.8,
+              "derrotas": 40,
+              "partidas": 90,
+              "porcentaje": 62.5,
               "posicion": "MIDDLE",
               "victorias": 50,
-              "winrate": 54.9
+              "winrate": 55.6
             },
             "TOP": {
               "derrotas": 5,
               "partidas": 8,
-              "porcentaje": 5.5,
+              "porcentaje": 5.6,
               "posicion": "TOP",
               "victorias": 3,
               "winrate": 37.5
@@ -76791,10 +76691,10 @@
               "winrate": 35.7
             }
           },
-          "total_derrotas": 70,
-          "total_partidas": 145,
+          "total_derrotas": 69,
+          "total_partidas": 144,
           "total_victorias": 75,
-          "winrate": 51.7
+          "winrate": 52.1
         },
         "todo": {
           "campeones": [
@@ -97577,10 +97477,10 @@
       "iskrat-las": [
         {
           "amigo": "johnadis-las",
-          "derrotas": 70,
-          "partidas": 145,
+          "derrotas": 69,
+          "partidas": 144,
           "victorias": 75,
-          "winrate": 51.7
+          "winrate": 52.1
         },
         {
           "amigo": "nic-las",
@@ -97607,10 +97507,10 @@
       "johnadis-las": [
         {
           "amigo": "iskrat-las",
-          "derrotas": 70,
-          "partidas": 145,
+          "derrotas": 69,
+          "partidas": 144,
           "victorias": 75,
-          "winrate": 51.7
+          "winrate": 52.1
         },
         {
           "amigo": "nic-las",
